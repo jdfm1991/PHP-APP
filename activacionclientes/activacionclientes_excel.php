@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     //INSTANCIAMOS EL MODELO
     $actclientes = new Activacionclientes();
 
-    $fechaf = $_POST['fecha_final'];
+    $fechaf = $_GET['fecha_final'];
 
     require '../vendor/autoload.php';
 

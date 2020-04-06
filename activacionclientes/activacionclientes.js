@@ -75,22 +75,8 @@ $(document).on("click", "#btn_activacionclientes", function () {
 $(document).on("click","#btn_excel", function(){
 
 	var fecha_final= $("#fechaf").val();
-
 	if(fecha_final !== ""){
-		$.ajax({
-			url: "activacionclientes_excel.php",
-			method: "POST",
-			data: {fecha_final: fecha_final},
-			beforeSend: function(){
-				//
-			},
-			error: function(e){
-				console.log(e.responseText);
-			},
-			success: function (data) {
-				//$('#vehiculo_data').DataTable().ajax.reload();
-			}
-		});
+        window.location = "activacionclientes_excel.php?fecha_final="+fecha_final;
 	}
 });
 
