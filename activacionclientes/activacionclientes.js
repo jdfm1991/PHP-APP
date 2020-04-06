@@ -1,5 +1,6 @@
 var tabla_activacionclientes;
 
+
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
@@ -15,6 +16,7 @@ $(document).on("click", "#btn_activacionclientes", function () {
     $("#tabla").hide();
     $("#minimizar").slideToggle(); //MINIMIZAMOS LA TARJETA.
     var fecha_final = $("#fechaf").val();
+    sessionStorage.setItem("fechaf", fecha_final);
     if (fecha_final != "") {
 		//CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
         tabla_activacionclientes = $('#activacionclientes_data').DataTable({
@@ -34,7 +36,7 @@ $(document).on("click", "#btn_activacionclientes", function () {
 
                     $("#tabla").show('');//MOSTRAMOS LA TABLA.
                     $("#loader").hide();//OCULTAMOS EL LOADER.
-                    //limpiar();//LIMPIAMOS EL SELECTOR.
+                    limpiar();//LIMPIAMOS EL SELECTOR.
                 }
             },//TRADUCCION DEL DATATABLE.
             "bDestroy": true,
@@ -70,14 +72,14 @@ $(document).on("click", "#btn_activacionclientes", function () {
     }
 });
 
-
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click","#btn_excel", function(){
 
-	var fecha_final= $("#fechaf").val();
-	if(fecha_final !== ""){
-        window.location = "activacionclientes_excel.php?fecha_final="+fecha_final;
-	}
+  var fecha_final = sessionStorage.getItem("fechaf");
+  /*var fecha_final= $("#fechaf").val();*/
+  if(fecha_final !== ""){
+    window.location = "activacionclientes_excel.php?fecha_final="+fecha_final;
+}
 });
 
 init();

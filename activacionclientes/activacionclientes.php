@@ -97,10 +97,9 @@ require_once("../acceso/const.php");
 						<button type="button" class="btn btn-info" onclick="window.open('estadisticas_tope_pdf.php?&fechaf=<?php echo $_POST['fechaf']; ?>', '_blank');">Exportar a PDF</button>
 					</div>
 				</div>
-			</div>
-		</section>
-	</div>
-	<?php require_once("../footer.php");?>
-	<script type="text/javascript" src="activacionclientes.js"></script>
-</body>
-</html>
+			</section>
+		</div>
+		<?php require_once("../footer.php");?>
+		<script type="text/javascript" src="activacionclientes.js"></script>
+	</body>
+	</html>
