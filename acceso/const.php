@@ -1,2 +1,2 @@
 <?php
-const SERVERURL="http://localhost/confisur/";
+const SERVERURL="http://localhost/appweb/";

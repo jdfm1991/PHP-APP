@@ -1,12 +1,19 @@
 <?php
-require_once '../acceso/conexion.php';
+//LLAMAMOS A LA CONEXION BASE DE DATOS.
+require_once("../acceso/conexion.php");
 
-//public/phpspreadsheet
+//LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
+require_once("activacionclientes_modelo.php");
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-    $fechaf = $_POST['fechaf'];
+    //INSTANCIAMOS EL MODELO
+    $actclientes = new Activacionclientes();
 
+    $fechaf = $_POST['fecha_final'];
+
+    require '../vendor/autoload.php';
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -19,7 +26,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
     $sheet->setCellValue('A1', 'Ultima Venta')->setCellValue('B1', 'Codigo Cliente')->setCellValue('C1', 'Descripcion')->setCellValue('D1', 'Rif')->setCellValue('E1', 'CodVend')->setCellValue('F1', 'Pendiente');
 
-    $query = $bd1->getClientesNoActivadosfechaTope($fechaf);
+    $query = $actclientes->lista_busca_activacionclientes($fechaf);
     $row = 2;
     foreach ($query as $i) {
         $sheet = $spreadsheet->getActiveSheet();
@@ -38,3 +45,5 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
     $writer->save('php://output');
+
+
