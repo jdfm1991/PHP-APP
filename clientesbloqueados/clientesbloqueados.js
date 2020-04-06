@@ -15,6 +15,7 @@ $(document).on("click","#btn_clientesbloqueados", function(){
 	$("#tabla").hide();
 	$("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
 	var vendedor= $("#vendedor").val();
+	 sessionStorage.setItem("vendedor", vendedor);
 	if(vendedor!=""){
 //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
 tabla_clientesbloqueados= $('#clientesbloqueados_data').DataTable({
@@ -67,6 +68,16 @@ limpiar();//LIMPIAMOS EL SELECTOR.
 	}
 },
 });
+}
+});
+
+//ACCION AL PRECIONAR EL BOTON.
+$(document).on("click","#btn_excel", function(){
+
+  var vendedor = sessionStorage.getItem("vendedor");
+  /*var fecha_final= $("#fechaf").val();*/
+  if(vendedor !== ""){
+    window.location = "clientesbloqueados_excel.php?vendedor="+vendedor;
 }
 });
 init();

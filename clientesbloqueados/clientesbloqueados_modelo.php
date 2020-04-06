@@ -41,4 +41,23 @@ class Clientesbloqueados extends Conectar{
 
 		return $resultado=$sql->fetchAll();
 	}
+
+	public function getTotalClientesPorCodigo($codvend){
+
+//LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+//CUANDO ES APPWEB ES CONEXION.
+		$conectar= parent::conexion2();
+
+//QUERY
+		$sql= "SELECT codclie FROM saclie WHERE codvend = ? AND activo = 1";
+
+//PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+		$sql = $conectar->prepare($sql);
+		$sql->bindValue(1,$codvend);
+		$sql->execute();
+		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+
 }

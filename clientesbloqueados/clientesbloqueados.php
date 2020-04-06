@@ -100,7 +100,7 @@ $cat = $edv->get_vendedores();
 						</table>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
-							<button type="button" class="btn btn-info" onclick="window.open('estadisticas_tope_excel.php?&fechaf=<?php echo $_POST['fechaf']; ?>', '_blank');">Exportar a Excel</button>
+							<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
 							<button type="button" class="btn btn-info" onclick="window.open('estadisticas_tope_pdf.php?&fechaf=<?php echo $_POST['fechaf']; ?>', '_blank');">Exportar a PDF</button>
 						</div>
 					</div>
