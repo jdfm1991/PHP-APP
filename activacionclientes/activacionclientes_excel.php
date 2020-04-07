@@ -1,7 +1,8 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
-require '../vendor/autoload.php';
+
+require ('../vendor/autoload.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("activacionclientes_modelo.php");
@@ -9,7 +10,7 @@ require_once("activacionclientes_modelo.php");
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-    //INSTANCIAMOS EL MODELO
+//INSTANCIAMOS EL MODELO
 $actclientes = new Activacionclientes();
 
 $fechaf = $_GET['fecha_final'];

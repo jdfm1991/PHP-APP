@@ -1,6 +1,5 @@
 var tabla_activacionclientes;
 
-
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
@@ -13,11 +12,14 @@ function limpiar() {
 
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click", "#btn_activacionclientes", function () {
-    $("#tabla").hide();
-    $("#minimizar").slideToggle(); //MINIMIZAMOS LA TARJETA.
     var fecha_final = $("#fechaf").val();
-    sessionStorage.setItem("fechaf", fecha_final);
-    if (fecha_final != "") {
+    if (fecha_final === "") {
+        Swal.fire('Atención!', 'Debe Ingresar una Fecha Tope!', 'error');
+        return (false);
+    } else {
+        $("#tabla").hide();
+        $("#minimizar").slideToggle(); //MINIMIZAMOS LA TARJETA.
+        sessionStorage.setItem("fechaf", fecha_final);
 		//CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
         tabla_activacionclientes = $('#activacionclientes_data').DataTable({
             "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
@@ -72,14 +74,22 @@ $(document).on("click", "#btn_activacionclientes", function () {
     }
 });
 
-//ACCION AL PRECIONAR EL BOTON.
+//ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
+    var fecha_final = sessionStorage.getItem("fechaf");
+    if(fecha_final !== ""){
+        // window.open('activacionclientes_excel.php?&fechaf='+fecha_final, '_blank');
+        window.location = "activacionclientes_excel.php?fecha_final="+fecha_final;
+    }
+});
 
-  var fecha_final = sessionStorage.getItem("fechaf");
-  /*var fecha_final= $("#fechaf").val();*/
-  if(fecha_final !== ""){
-    window.location = "activacionclientes_excel.php?fecha_final="+fecha_final;
-}
+//ACCION AL PRECIONAR EL BOTON PDF.
+$(document).on("click","#btn_pdf", function(){
+    var fecha_final = sessionStorage.getItem("fechaf");
+    if(fecha_final !== ""){
+        window.open('activacionclientes_pdf.php?&fecha_final='+fecha_final, '_blank');
+        // window.location = "activacionclientes_pdf.php?fecha_final="+fecha_final;
+    }
 });
 
 init();

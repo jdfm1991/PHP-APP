@@ -1,7 +1,8 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
-require '../vendor/autoload.php';
+
+require ('../vendor/autoload.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("clientesbloqueados_modelo.php");
@@ -9,8 +10,8 @@ require_once("clientesbloqueados_modelo.php");
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+//INSTANCIAMOS EL MODELO
 $bloclientes = new Clientesbloqueados();
-
 
 $codvend = $_GET['vendedor'];
 
@@ -44,7 +45,7 @@ foreach ($query as $i) {
     $sheet->setCellValue('F' . $row, $i['diasvisita']);
     $row++;
 }
-$sheet->setCellValue('B' . ($row+3), 'Total de Clientes Bloqueados:  '.$num.'  de  '.count($total).' Clientes.');
+$sheet->setCellValue('B' . ($row+3), 'Total de Clientes Bloqueados:  '.$num.'  de  '.$total[0]['cuenta'].' Clientes.');
 
 
 header('Content-Type: application/vnd.ms-excel');
