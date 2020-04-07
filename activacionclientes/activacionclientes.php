@@ -43,7 +43,7 @@ require_once("../acceso/const.php");
 					<form class="form-horizontal" >
 						<div class="form-check form-check-inline">
 							<label for="fecha" class="col-sm-7 col-form-label">Indique una Fecha</label>
-							<input type="date" class="form-control col-sm-8"  id="fechaf" name="fechaf" required="">
+							<input type="date" class="form-control col-sm-8"  id="fechaf" name="fechaf" required="required">
 						</div>
 					</form>
 				</div>
