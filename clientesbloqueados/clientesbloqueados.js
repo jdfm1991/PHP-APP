@@ -15,7 +15,7 @@ $(document).on("click","#btn_clientesbloqueados", function(){
 	$("#tabla").hide();
 	$("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
 	var vendedor= $("#vendedor").val();
-	 sessionStorage.setItem("vendedor", vendedor);
+	sessionStorage.setItem("vendedor", vendedor);
 	if(vendedor!=""){
 //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
 tabla_clientesbloqueados= $('#clientesbloqueados_data').DataTable({
@@ -35,7 +35,9 @@ complete: function(){
 
 $("#tabla").show('');//MOSTRAMOS LA TABLA.
 $("#loader").hide();//OCULTAMOS EL LOADER.
+mostrar()
 limpiar();//LIMPIAMOS EL SELECTOR.
+
 }
 },//TRADUCCION DEL DATATABLE.
 "bDestroy": true,
@@ -74,10 +76,24 @@ limpiar();//LIMPIAMOS EL SELECTOR.
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click","#btn_excel", function(){
 
-  var vendedor = sessionStorage.getItem("vendedor");
-  /*var fecha_final= $("#fechaf").val();*/
-  if(vendedor !== ""){
-    window.location = "clientesbloqueados_excel.php?vendedor="+vendedor;
-}
+	var vendedor = sessionStorage.getItem("vendedor");
+	/*var fecha_final= $("#fechaf").val();*/
+	if(vendedor !== ""){
+		window.location = "clientesbloqueados_excel.php?vendedor="+vendedor;
+	}
 });
+
+function mostrar(){
+	var vendedor= $("#vendedor").val();
+
+	$.post("clientesbloqueados_controlador.php?op=mostrar",{vendedor : vendedor}, function(data, status)
+
+	{
+		data = JSON.parse(data);
+
+		$("#cuenta").html(data.cuenta);
+
+	});
+}
+
 init();

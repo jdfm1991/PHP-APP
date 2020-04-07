@@ -53,4 +53,17 @@ switch($_GET["op"]){
   echo json_encode($results);
 
   break;
+
+  case "mostrar":
+  $datos = $clientesbloqueados->CuentaClientesBloqueadosPorVendedor($_POST["vendedor"]);
+
+  foreach($datos as $row){
+
+    $output["cuenta"] = "Clientes Bloqueados: ".$row["cuenta"];
+
+  }
+
+  echo json_encode($output);
+  break;
+
 }
