@@ -91,7 +91,6 @@ $(document).on("click", "#btn_activacionclientes", function () {
 $(document).on("click","#btn_excel", function(){
     var fecha_final = sessionStorage.getItem("fechaf");
     if(fecha_final !== ""){
-        // window.open('activacionclientes_excel.php?&fechaf='+fecha_final, '_blank');
         window.location = "activacionclientes_excel.php?fecha_final="+fecha_final;
     }
 });
@@ -101,7 +100,6 @@ $(document).on("click","#btn_pdf", function(){
     var fecha_final = sessionStorage.getItem("fechaf");
     if(fecha_final !== ""){
         window.open('activacionclientes_pdf.php?&fecha_final='+fecha_final, '_blank');
-        // window.location = "activacionclientes_pdf.php?fecha_final="+fecha_final;
     }
 });
 
