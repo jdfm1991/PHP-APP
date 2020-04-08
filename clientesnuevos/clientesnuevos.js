@@ -14,8 +14,14 @@ function limpiar() {
     $("#fechaf").val("");
 }
 
+var no_puede_estar_vacio = function()
+{
+    ($("#fechai").val() !== "" && $("#fechaf").val() !== "") ? estado_minimizado = true : estado_minimizado = false ;
+};
+
 $(document).ready(function(){
-    $("#fechai").change( () => estado_minimizado = true )
+    $("#fechai").change( () => no_puede_estar_vacio() );
+    $("#fechaf").change( () => no_puede_estar_vacio() );
 });
 
 //ACCION AL PRECIONAR EL BOTON.
@@ -28,7 +34,7 @@ $(document).on("click", "#btn_clientesnuevos", function () {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if (fechai != "" && fechaf != "") {
+        if (fechai !== "" && fechaf !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
