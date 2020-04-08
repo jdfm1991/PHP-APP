@@ -4,17 +4,17 @@
 require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("activacionclientes_modelo.php");
+require_once("clientesnuevos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$actclientes = new Activacionclientes();
+$clientesnuevos = new ClientesNuevos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "buscar_activacionclientes":
+    case "buscar_clientesnuevos":
 
-    $datos = $actclientes->lista_busca_activacionclientes($_POST["fecha_final"]);
+    $datos = $clientesnuevos->getClientesNuevos($_POST["fechai"], $_POST["fechaf"]);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();
@@ -23,12 +23,17 @@ switch ($_GET["op"]) {
     foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
         $sub_array = array();
-        $sub_array[] = date("d-m-Y", strtotime($row["fechauv"]));
+        /*$sub_array[] = date("d-m-Y",strtotime($row["fechauv"]));*/
+
+
+
         $sub_array[] = $row["codclie"];
         $sub_array[] = $row["descrip"];
         $sub_array[] = $row["id3"];
+        $sub_array[] = date("d-m-Y", strtotime($row["fechae"]));
         $sub_array[] = $row["codvend"];
-        $sub_array[] = number_format($row["total"], 2, ",", ".");
+
+        /*$sub_array[] = number_format($row["total"], 2, ",", ".");*/
 
 
         $data[] = $sub_array;
@@ -44,4 +49,17 @@ switch ($_GET["op"]) {
     echo json_encode($results);
 
     break;
+
+    case "mostrar":
+    $datos = $clientesnuevos->getTotalClientesnuevos($_POST["fechai"], $_POST["fechaf"]);
+
+    foreach ($datos as $row) {
+
+        $output["cuenta"] = "Clientes Nuevos: " . $row["cuenta"];
+
+    }
+
+    echo json_encode($output);
+    break;
+
 }

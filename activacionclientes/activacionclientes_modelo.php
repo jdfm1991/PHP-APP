@@ -1,4 +1,3 @@
-
 <?php
  //LLAMAMOS A LA CONEXION.
 require_once("../acceso/conexion.php");

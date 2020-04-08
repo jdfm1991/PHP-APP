@@ -114,14 +114,14 @@
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Clientes Sin Realizar Tr</p>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
-                                <a href="estadisticas_clientes.php" class="nav-link">
+                                <a href="<?php echo SERVERURL; ?>clientesnuevos/clientesnuevos.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Clientes Nuevos</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                           <!--  <li class="nav-item">
                                 <a href="estadisticas_bloqueados.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Clientes Bloqueados</p>

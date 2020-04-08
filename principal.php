@@ -1,11 +1,13 @@
 <?php
 require_once("acceso/conexion.php");
 require_once("acceso/const.php");
-require_once("header.php");
 ?>
+<!DOCTYPE html>
+<html>
+<?php require_once("header.php");?>
 <body class="hold-transition sidebar-mini">
+  <?php require_once("menu_lateral.php");?>
   <div class="wrapper">
-    <?php require_once("menu_lateral.php");?>
     <div class="content-wrapper">
       <div class="content-header">
         <div class="container-fluid">
@@ -79,3 +81,6 @@ require_once("header.php");
     </div>
   </div>
   <?php require_once("footer.php");?>
+</body>
+</html>
+
