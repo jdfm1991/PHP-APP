@@ -13,6 +13,13 @@ function limpiar() {
     $("#vendedor").val("");
 }
 
+function validarCantidadRegistrosTabla() {
+    (tabla_clientesbloqueados.rows().count() === 0)
+        ? estado = true  : estado = false ;
+    $('#btn_excel').attr("disabled", estado);
+    $('#btn_pdf').attr("disabled", estado);
+}
+
 $(document).ready(function(){
     $("#vendedor").change( () => estado_minimizado = true )
 });
@@ -46,7 +53,8 @@ $(document).on("click", "#btn_clientesbloqueados", function () {
 
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
-                        mostrar()
+                        validarCantidadRegistrosTabla();
+                        mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
                     }

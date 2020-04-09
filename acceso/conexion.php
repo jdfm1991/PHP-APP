@@ -13,7 +13,7 @@ class Conectar {
 
 		try {
 
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=appwebaj","sa","merumbd4z");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.1.250;Database=appwebaj","sa","");
 
 			return $conectar;
 
@@ -28,7 +28,7 @@ class Conectar {
 
 		try {
 
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.1.250;Database=aj","sa","");
 
 			return $conectar;
 
