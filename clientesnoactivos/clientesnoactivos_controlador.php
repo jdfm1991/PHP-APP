@@ -4,17 +4,17 @@
 require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("clientesbloqueados_modelo.php");
+require_once("clientesnoactivos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$clientesbloqueados = new Clientesbloqueados();
+$clientesnoactivos = new ClientesNoActivos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "buscar_clientesbloqueados":
+    case "buscar_clientesnoactivos":
 
-    $datos = $clientesbloqueados->ClientesBloqueadosPorVendedor($_POST["vendedor"]);
+    $datos = $clientesnoactivos->getClientesNoactivos($_POST["fechai"], $_POST["fechaf"], $_POST["vendedor"]);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();
@@ -37,8 +37,6 @@ switch ($_GET["op"]) {
         $sub_array[] = $row["direc1"];
         $sub_array[] = $estado;
         $sub_array[] = $row["diasvisita"];
-        /*$sub_array[] = number_format($row["total"], 2, ",", ".");*/
-
 
         $data[] = $sub_array;
 
@@ -55,11 +53,11 @@ switch ($_GET["op"]) {
     break;
 
     case "mostrar":
-    $datos = $clientesbloqueados->CuentaClientesBloqueadosPorVendedor($_POST["vendedor"]);
+    $datos = $clientesnoactivos->getTotalClientesnoActivos($_POST["fechai"], $_POST["fechaf"],$_POST["vendedor"]);
 
     foreach ($datos as $row) {
 
-        $output["cuenta"] = "Clientes Bloqueados: " . $row["cuenta"];
+        $output["cuenta"] = "Clientes NO Activados: " . $row["cuenta"];
 
     }
 

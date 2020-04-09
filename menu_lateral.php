@@ -91,12 +91,12 @@
                                 <p>Activaciones<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <!-- <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item">
+                                    <a href="<?php echo SERVERURL; ?>clientescodnestle/clientescodnestle.php" class="nav-link">
                                      <i class="far fa-dot-circle nav-icon"></i>
-                                     <p>Clientes Cod Nestle</p>
+                                     <p>Clientes COD Nestle</p>
                                  </a>
-                             </li> -->
+                             </li>
                              <li class="nav-item">
                                 <a href="<?php echo SERVERURL; ?>activacionclientes/activacionclientes.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
@@ -121,12 +121,12 @@
                                     <p>Clientes Nuevos</p>
                                 </a>
                             </li>
-                           <!--  <li class="nav-item">
-                                <a href="estadisticas_bloqueados.php" class="nav-link">
+                            <li class="nav-item">
+                                <a href="<?php echo SERVERURL; ?>clientesnoactivos/clientesnoactivos.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Clientes Bloqueados</p>
+                                    <p>Clientes no Activos</p>
                                 </a>
-                            </li> -->
+                            </li>
                         </ul>
                     </li>
                     <!-- ALMACEN -->
