@@ -15,9 +15,17 @@ function limpiar() {
     $("#vendedor").val("");
 }
 
+function validarCantidadRegistrosTabla() {
+    (tabla_clientesnoactivos.rows().count() === 0)
+        ? estado = true  : estado = false ;
+    $('#btn_excel').attr("disabled", estado);
+    $('#btn_pdf').attr("disabled", estado);
+}
+
 var no_puede_estar_vacio = function()
 {
-    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#vendedor").val() !== "") ? estado_minimizado = true : estado_minimizado = false ;
+    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#vendedor").val() !== "")
+        ? estado_minimizado = true : estado_minimizado = false ;
 };
 
 $(document).ready(function(){
@@ -59,7 +67,8 @@ $(document).on("click", "#btn_clientesnoactivos", function () {
 
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
-                         mostrar()
+                        validarCantidadRegistrosTabla();
+                        mostrar()
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
                     }
@@ -105,19 +114,21 @@ $(document).on("click", "#btn_clientesnoactivos", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-
-   var fechai = sessionStorage.setItem("fechai", fechai);
-   var fechaf = sessionStorage.setItem("fechaf", fechaf);
-   if (vendedor !== "") {
-    window.location = "clientesnoactivos_excel.php?vendedor="+vendedor;
+   var fechai = sessionStorage.getItem("fechai", fechai);
+   var fechaf = sessionStorage.getItem("fechaf", fechaf);
+   var vendedor = sessionStorage.getItem("vendedor", vendedor);
+   if (fechai !== "" && fechaf !== "" && vendedor !== "") {
+    window.location = "clientesnoactivos_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor;
 }
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (vendedor !== "") {
-        window.open('clientesnoactivos_pdf.php?&vendedor='+vendedor, '_blank');
+    var fechai = sessionStorage.getItem("fechai", fechai);
+    var fechaf = sessionStorage.getItem("fechaf", fechaf);
+    var vendedor = sessionStorage.getItem("vendedor", vendedor);
+    if (fechai !== "" && fechaf !== "" && vendedor !== "") {
+        window.open('clientesnoactivos_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
     }
 });
 
