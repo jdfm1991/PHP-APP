@@ -4,17 +4,17 @@
 require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("clientesbloqueados_modelo.php");
+require_once("clientescodnestle_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$clientesbloqueados = new Clientesbloqueados();
+$clientescodnestle  = new ClientesCodNestle();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "buscar_clientesbloqueados":
+    case "buscar_clientescodnestle":
 
-    $datos = $clientesbloqueados->ClientesBloqueadosPorVendedor($_POST["vendedor"]);
+    $datos = $clientescodnestle ->getClientes_cnestle($_POST["opc"], $_POST["vendedor"]);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();
@@ -25,20 +25,14 @@ switch ($_GET["op"]) {
         $sub_array = array();
         /*$sub_array[] = date("d-m-Y",strtotime($row["fechauv"]));*/
 
-        if ($row['escredito'] == 1) {
-            $estado = "SOLVENTE";
-        } else {
-            $estado = "BLOQUEADO: " . utf8_encode($row['observa']);
-        }
 
+        $sub_array[] = $row["codvend"];
         $sub_array[] = $row["codclie"];
         $sub_array[] = $row["descrip"];
-        $sub_array[] = $row["id3"];
-        $sub_array[] = $row["direc1"];
-        $sub_array[] = $estado;
-        $sub_array[] = $row["diasvisita"];
-        /*$sub_array[] = number_format($row["total"], 2, ",", ".");*/
-
+        $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
+        $sub_array[] = $row["rif"];
+        $sub_array[] = $row["dvisita"];
+        $sub_array[] = $row["codnestle"];
 
         $data[] = $sub_array;
 
@@ -54,16 +48,5 @@ switch ($_GET["op"]) {
 
     break;
 
-    case "mostrar":
-    $datos = $clientesbloqueados->CuentaClientesBloqueadosPorVendedor($_POST["vendedor"]);
-
-    foreach ($datos as $row) {
-
-        $output["cuenta"] = "Clientes Bloqueados: " . $row["cuenta"];
-
-    }
-
-    echo json_encode($output);
-    break;
 
 }
