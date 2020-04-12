@@ -10,7 +10,9 @@ class Roles extends Conectar {
   public function get_filas_roles(){
 
     $conectar= parent::conexion();
-    $sql="select * from roles";
+
+    $sql="SELECT * FROM roles";
+
     $sql=$conectar->prepare($sql);
     $sql->execute();
     $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +26,9 @@ class Roles extends Conectar {
 
     $conectar=parent::conexion();
     parent::set_names();
-    $sql="select * from roles";
+
+    $sql="SELECT * FROM roles";
+
     $sql=$conectar->prepare($sql);
     $sql->execute();
 
@@ -37,44 +41,14 @@ class Roles extends Conectar {
     $conectar=parent::conexion();
     parent::set_names();
 
+    $rol =strtoupper($_POST["rol"]);
+
     $sql="INSERT INTO roles VALUES(?);";
 
     $sql=$conectar->prepare($sql);
 
-    $sql->bindValue(1, $_POST["rol"]);
+    $sql->bindValue(1, $rol);
     $sql->execute();
-
-
-//obtenemos el valor del id del usuario
-    /*$id_usuario = $conectar->lastInsertId();*/
-
-
-//insertamos los permisos
-
-//almacena todos los checkbox que han sido marcados
-//este es un array tiene un name=permiso[]
-    /*$permisos= $_POST["permiso"];*/
-
-
-// print_r($_POST);
-
-/*
-$num_elementos=0;
-
-while($num_elementos<count($permisos)){
-
-$sql_detalle= "insert into usuario_permiso
-values(null,?,?)";
-
-$sql_detalle=$conectar->prepare($sql_detalle);
-$sql_detalle->bindValue(1, $id_usuario);
-$sql_detalle->bindValue(2, $permisos[$num_elementos]);
-$sql_detalle->execute();
-
-
-//recorremos los permisos con este contador
-$num_elementos=$num_elementos+1;
-}*/
 
 
 }
@@ -103,7 +77,9 @@ public function get_rol_por_id($id){
 
   $conectar=parent::conexion();
   parent::set_names();
+
   $sql="SELECT * FROM roles WHERE ID=?";
+
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1, $id);
   $sql->execute();
@@ -112,6 +88,21 @@ public function get_rol_por_id($id){
 
 }
 
+public function get_nombre_rol($rol){
+
+  $conectar=parent::conexion();
+  parent::set_names();
+
+  $sql="SELECT * FROM Roles WHERE Descripcion = ?";
+
+  $sql=$conectar->prepare($sql);
+
+  $sql->bindValue(1, $rol);
+  $sql->execute();
+
+  return $resultado=$sql->fetchAll();
+
+}
 
 
 }

@@ -2,15 +2,15 @@
 
 //llamar a la conexion de la base de datos
 require_once("../acceso/conexion.php");
-//llamar a el modelo Usuarios
+//llamar a el modelo vehiculo
 require_once("vehiculos_modelo.php");
 $vehiculo = new Vehiculos();
 
 $id_vehiculo = isset($_POST["id_vehiculo"]);
-$placa=isset($_POST["cedula"]);
-$modelo=isset($_POST["login"]);
-$capacidad=isset($_POST["nomper"]);
-$volumen=isset($_POST["email"]);
+$placa=isset($_POST["placa"]);
+$modelo=isset($_POST["modelo"]);
+$capacidad=isset($_POST["capacidad"]);
+$volumen=isset($_POST["volumen"]);
 $estado=isset($_POST["estado"]);
 /*$fecha_registro = date("Y-m-d h:i:s");
 $fecha_ult_ingreso = date("Y-m-d h:i:s");*/
@@ -18,83 +18,77 @@ $fecha_ult_ingreso = date("Y-m-d h:i:s");*/
 
 switch($_GET["op"]){
 
-
-
   case "guardaryeditar":
-
 
 /*si el id no existe entonces lo registra
 importante: se debe poner el $_POST sino no funciona*/
 
 if(empty($_POST["id_vehiculo"])){
 
-  /*verificamos si existe la cedula y correo en la base de datos, si ya existe un registro con la cedula o correo entonces no se registra el usuario*/
+  /*verificamos si existe la placa y correo en la base de datos, si ya existe un registro con la placa o correo entonces no se registra el usuario*/
 
-  /*$datos = $usuarios->get_cedula_correo_del_usuario($_POST["cedula"],$_POST["email"]);*/
+  $datos = $vehiculo->get_placa_del_vehiculo($_POST["placa"]);
 
-  /*if(is_array($datos)==true and count($datos)==0){*/
+  if(is_array($datos)==true and count($datos)==0){
 
 //no existe el usuario por lo tanto hacemos el registros
 
     $vehiculo->registrar_vehiculo($placa,$modelo,$capacidad,$volumen,$estado,$id_vehiculo);
 
-    /*      $messages[]="El usuario se registró correctamente";*/
+    /*si ya exista el correo y la placa entonces aparece el mensaje*/
 
-    /*si ya exista el correo y la cedula entonces aparece el mensaje*/
-
-    /*} else {*/
-
-      /*   $errors[]="La cédula o el correo ya existe";*/
-
-      /*}*/
-
-    } /*cierre de la validacion empty  */ else {
-
-      /*si ya existe entonces editamos el usuario*/
-
-      $vehiculo->editar_vehiculo($modelo,$capacidad,$volumen,$estado,$id_vehiculo);
-
-      /*$messages[]="El usuario se editó correctamente";*/
-    }
+  } else {
 
 
 
-    break;
+  }
 
-    case "mostrar":
+} /*cierre de la validacion empty  */ else {
+
+  /*si ya existe entonces editamos el usuario*/
+
+  $vehiculo->editar_vehiculo($modelo,$capacidad,$volumen,$estado,$id_vehiculo);
+
+
+}
+
+
+break;
+
+case "mostrar":
 
 //selecciona el id del usuario
 
 //el parametro id_vehiculo se envia por AJAX cuando se edita el usuario
 
-    $datos = $vehiculo->get_vehiculo_por_id($_POST["id_vehiculo"]);
+$datos = $vehiculo->get_vehiculo_por_id($_POST["id_vehiculo"]);
 
 //verifica si el id_vehiculo tiene registro asociado a compras
-    /*$usuario_compras=$usuarios->get_usuario_por_id_compras($_POST["id_vehiculo"]);*/
+/*$usuario_compras=$vehiculo->get_usuario_por_id_compras($_POST["id_vehiculo"]);*/
 
 //verifica si el id_vehiculo tiene registro asociado a ventas
-    /*  $usuario_ventas=$usuarios->get_usuario_por_id_ventas($_POST["id_vehiculo"]);*/
+/*  $usuario_ventas=$vehiculo->get_usuario_por_id_ventas($_POST["id_vehiculo"]);*/
 
 
-//si el id_vehiculo NO tiene registros asociados en las tablas compras y ventas entonces se puede editar todos los campos de la tabla usuarios
-    /*  if(is_array($usuario_compras)==true and count($usuario_compras)==0 and is_array($usuario_ventas)==true and count($usuario_ventas)==0){*/
+//si el id_vehiculo NO tiene registros asociados en las tablas compras y ventas entonces se puede editar todos los campos de la tabla vehiculo
+/*  if(is_array($usuario_compras)==true and count($usuario_compras)==0 and is_array($usuario_ventas)==true and count($usuario_ventas)==0){*/
 
 
-      foreach($datos as $row){
+  foreach($datos as $row){
 
-        $output["id_vehiculo"] = $row["ID"];
-        $output["placa"] = $row["Placa"];
-        $output["modelo"] = $row["Modelo"];
-        $output["capacidad"] = $row["Capacidad"];
-        $output["volumen"] = $row["Volumen"];
-        $output["estado"] = $row["Estado"];
+    $output["id_vehiculo"] = $row["ID"];
+    $output["placa"] = $row["Placa"];
+    $output["modelo"] = $row["Modelo"];
+    $output["capacidad"] = $row["Capacidad"];
+    $output["volumen"] = $row["Volumen"];
+    $output["estado"] = $row["Estado"];
 
-      }
+  }
 /*} else {
-//si el id_vehiculo tiene relacion con la tabla compras y tabla ventas entonces se deshabilita el nombre, apellido y cedula
+//si el id_vehiculo tiene relacion con la tabla compras y tabla ventas entonces se deshabilita el nombre, apellido y placa
 foreach($datos as $row){
 
-$output["cedula_relacion"] = $row["cedula"];
+$output["placa_relacion"] = $row["placa"];
 $output["nombre"] = $row["nombres"];
 $output["apellido"] = $row["apellidos"];
 $output["cargo"] = $row["cargo"];

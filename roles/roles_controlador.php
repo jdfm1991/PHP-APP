@@ -27,62 +27,62 @@ if(empty($_POST["id_rol"])){
 
   /*verificamos si existe la cedula y correo en la base de datos, si ya existe un registro con la cedula o correo entonces no se registra el usuario*/
 
-  /*$datos = $roles->get_cedula_del_chofer($_POST["cedula"]);*/
+  $datos = $roles->get_nombre_rol($_POST["rol"]);
 
-  /*if(is_array($datos)==true and count($datos)==0){*/
+  if(is_array($datos)==true and count($datos)==0){
 
 //no existe el usuario por lo tanto hacemos el registros
 
     $roles->registrar_rol($rol);
 
-    /*      $messages[]="El usuario se registró correctamente";*/
+
 
     /*si ya exista el correo y la cedula entonces aparece el mensaje*/
 
-    /*} else {*/
-
-      /*   $errors[]="La cédula o el correo ya existe";*/
-
-      /*}*/
-
-    } /*cierre de la validacion empty  */ else {
-
-      /*si ya existe entonces editamos el usuario*/
-
-      $roles->editar_rol($rol,$id_rol);
-
-      /*$messages[]="El usuario se editó correctamente";*/
-    }
+  } else {
 
 
 
-    break;
+  }
 
-    case "mostrar":
+} /*cierre de la validacion empty  */ else {
+
+  /*si ya existe entonces editamos el usuario*/
+
+  $roles->editar_rol($rol,$id_rol);
+
+
+}
+
+
+
+break;
+
+case "mostrar":
 
 //selecciona el id del usuario
 
 //el parametro id_chofer se envia por AJAX cuando se edita el usuario
 
-    $datos = $roles->get_rol_por_id($_POST["id_rol"]);
+$datos = $roles->get_rol_por_id($_POST["id_rol"]);
 
 //verifica si el id_chofer tiene registro asociado a compras
-    /*$usuario_compras=$roles->get_usuario_por_id_compras($_POST["id_chofer"]);*/
+/*$usuario_compras=$roles->get_usuario_por_id_compras($_POST["id_chofer"]);*/
 
 //verifica si el id_chofer tiene registro asociado a ventas
-    /*  $usuario_ventas=$roles->get_usuario_por_id_ventas($_POST["id_chofer"]);*/
+/*  $usuario_ventas=$roles->get_usuario_por_id_ventas($_POST["id_chofer"]);*/
 
 
 //si el id_chofer NO tiene registros asociados en las tablas compras y ventas entonces se puede editar todos los campos de la tabla usuarios
-    /*  if(is_array($usuario_compras)==true and count($usuario_compras)==0 and is_array($usuario_ventas)==true and count($usuario_ventas)==0){*/
+/*  if(is_array($usuario_compras)==true and count($usuario_compras)==0 and is_array($usuario_ventas)==true and count($usuario_ventas)==0){*/
 
 
-      foreach($datos as $row){
+  foreach($datos as $row){
 
 
-        $output["descripcion"] = $row["Descripcion"];
+    $output["descripcion"] = $row["Descripcion"];
 
-      }
+  }
 /*} else {
 //si el id_chofer tiene relacion con la tabla compras y tabla ventas entonces se deshabilita el nombre, apellido y cedula
 foreach($datos as $row){

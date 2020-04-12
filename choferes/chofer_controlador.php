@@ -28,23 +28,23 @@ if(empty($_POST["id_chofer"])){
 
   /*verificamos si existe la cedula y correo en la base de datos, si ya existe un registro con la cedula o correo entonces no se registra el usuario*/
 
-  /*$datos = $choferes->get_cedula_del_chofer($_POST["cedula"]);*/
+  $datos = $choferes->get_cedula_del_chofer($_POST["id_chofer"]);
 
-  /*if(is_array($datos)==true and count($datos)==0){*/
+  if(is_array($datos)==true and count($datos)==0){
 
 //no existe el usuario por lo tanto hacemos el registros
 
     $choferes->registrar_chofer($cedula,$nomper,$estado);
 
-    /*      $messages[]="El usuario se registró correctamente";*/
+
 
     /*si ya exista el correo y la cedula entonces aparece el mensaje*/
 
-    /*} else {*/
+    } else {
 
-      /*   $errors[]="La cédula o el correo ya existe";*/
 
-      /*}*/
+
+      }
 
     } /*cierre de la validacion empty  */ else {
 
@@ -52,7 +52,7 @@ if(empty($_POST["id_chofer"])){
 
       $choferes->editar_chofer($nomper,$estado,$id_chofer);
 
-      /*$messages[]="El usuario se editó correctamente";*/
+
     }
 
 

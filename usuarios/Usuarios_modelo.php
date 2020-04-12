@@ -4,7 +4,6 @@
 
 //require_once("../config/conexion.php");
 
-
 class Usuarios extends Conectar {
 
   public function get_filas_usuario(){
@@ -77,7 +76,10 @@ public function registrar_usuario($cedula,$login,$nomper,$email,$clave,$rol,$est
 
   $conectar=parent::conexion();
   parent::set_names();
+
   $clave=md5($_POST["clave"]);
+  $nomper=ucwords($_POST["nomper"]);
+  $email=strtolower($_POST["email"]);
 
   $sql="INSERT INTO usuarios VALUES(?,?,?,?,?,?,getdate(),getdate(),?);";
 
@@ -85,44 +87,12 @@ public function registrar_usuario($cedula,$login,$nomper,$email,$clave,$rol,$est
 
   $sql->bindValue(1, $_POST["cedula"]);
   $sql->bindValue(2, $_POST["login"]);
-  $sql->bindValue(3, $_POST["nomper"]);
-  $sql->bindValue(4, $_POST["email"]);
+  $sql->bindValue(3, $nomper);
+  $sql->bindValue(4, $email);
   $sql->bindValue(5, $clave);
   $sql->bindValue(6, $_POST["rol"]);
   $sql->bindValue(7, $_POST["estado"]);
   $sql->execute();
-
-
-//obtenemos el valor del id del usuario
-  /*$id_usuario = $conectar->lastInsertId();*/
-
-
-//insertamos los permisos
-
-//almacena todos los checkbox que han sido marcados
-//este es un array tiene un name=permiso[]
-  /*$permisos= $_POST["permiso"];*/
-
-
-// print_r($_POST);
-
-/*
-$num_elementos=0;
-
-while($num_elementos<count($permisos)){
-
-$sql_detalle= "insert into usuario_permiso
-values(null,?,?)";
-
-$sql_detalle=$conectar->prepare($sql_detalle);
-$sql_detalle->bindValue(1, $id_usuario);
-$sql_detalle->bindValue(2, $permisos[$num_elementos]);
-$sql_detalle->execute();
-
-
-//recorremos los permisos con este contador
-$num_elementos=$num_elementos+1;
-}*/
 
 
 }
@@ -132,19 +102,21 @@ public function editar_usuario($login,$nomper,$email,$clave,$rol,$estado,$id_usu
   $conectar=parent::conexion();
   parent::set_names();
 
-  $sql="UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
+  $clave=$_POST["clave"];
+  $nomper=ucwords($_POST["nomper"]);
+  $email=strtolower($_POST["email"]);
 
-//echo $sql; exit();
+  $sql="UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
 
   $sql=$conectar->prepare($sql);
 
-  $sql->bindValue(1,$_POST["login"]);
-  $sql->bindValue(2,$_POST["nomper"]);
-  $sql->bindValue(3,$_POST["email"]);
-  $sql->bindValue(4,$_POST["clave"]);
-  $sql->bindValue(5,$_POST["rol"]);
-  $sql->bindValue(6,$_POST["estado"]);
-  $sql->bindValue(7,$_POST["id_usuario"]);
+  $sql->bindValue(1, $_POST["login"]);
+  $sql->bindValue(2, $nomper);
+  $sql->bindValue(3, $email);
+  $sql->bindValue(4, $clave);
+  $sql->bindValue(5, $_POST["rol"]);
+  $sql->bindValue(6, $_POST["estado"]);
+  $sql->bindValue(7, $_POST["id_usuario"]);
   $sql->execute();
 
 }
@@ -156,8 +128,11 @@ public function get_usuario_por_id($id){
 
   $conectar=parent::conexion();
   parent::set_names();
+
   $sql="SELECT * FROM usuarios WHERE cedula=?";
+
   $sql=$conectar->prepare($sql);
+
   $sql->bindValue(1, $id);
   $sql->execute();
 
@@ -177,7 +152,9 @@ public function editar_estado($id,$estado){
   }
 
   $sql="update usuarios set estado=? where cedula=?";
+
   $sql=$conectar->prepare($sql);
+
   $sql->bindValue(1,$estado);
   $sql->bindValue(2,$id);
   $sql->execute();

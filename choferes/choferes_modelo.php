@@ -10,9 +10,12 @@ class Choferes extends Conectar {
   public function get_filas_choferes(){
 
     $conectar= parent::conexion();
+
     $sql="select * from choferes";
+
     $sql=$conectar->prepare($sql);
     $sql->execute();
+
     $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $sql->rowCount();
@@ -20,134 +23,114 @@ class Choferes extends Conectar {
 
 
 //listar los usuarios
-public function get_choferes(){
+  public function get_choferes(){
 
-  $conectar=parent::conexion();
-  parent::set_names();
-  $sql="select * from choferes";
-  $sql=$conectar->prepare($sql);
-  $sql->execute();
+    $conectar=parent::conexion();
+    parent::set_names();
 
-  return $resultado=$sql->fetchAll();
-}
+    $sql="select * from choferes";
 
+    $sql=$conectar->prepare($sql);
+    $sql->execute();
 
-public function registrar_chofer($cedula,$nomper,$estado){
-
-  $conectar=parent::conexion();
-  parent::set_names();
-
-  $sql="INSERT INTO choferes VALUES(?,?,getdate(),?);";
-
-  $sql=$conectar->prepare($sql);
-
-  $sql->bindValue(1, $_POST["cedula"]);
-  $sql->bindValue(2, $_POST["nomper"]);
-  $sql->bindValue(3, $_POST["estado"]);
-  $sql->execute();
+    return $resultado=$sql->fetchAll();
+  }
 
 
-//obtenemos el valor del id del usuario
-  /*$id_usuario = $conectar->lastInsertId();*/
+  public function registrar_chofer($cedula,$nomper,$estado){
+
+    $conectar=parent::conexion();
+    parent::set_names();
+
+    $nomper=ucwords($_POST["nomper"]);
 
 
-//insertamos los permisos
+    $sql="INSERT INTO choferes VALUES(?,?,getdate(),?);";
 
-//almacena todos los checkbox que han sido marcados
-//este es un array tiene un name=permiso[]
-  /*$permisos= $_POST["permiso"];*/
+    $sql=$conectar->prepare($sql);
 
-
-// print_r($_POST);
-
-/*
-$num_elementos=0;
-
-while($num_elementos<count($permisos)){
-
-$sql_detalle= "insert into usuario_permiso
-values(null,?,?)";
-
-$sql_detalle=$conectar->prepare($sql_detalle);
-$sql_detalle->bindValue(1, $id_usuario);
-$sql_detalle->bindValue(2, $permisos[$num_elementos]);
-$sql_detalle->execute();
+    $sql->bindValue(1, $_POST["cedula"]);
+    $sql->bindValue(2, $nomper);
+    $sql->bindValue(3, $_POST["estado"]);
+    $sql->execute();
 
 
-//recorremos los permisos con este contador
-$num_elementos=$num_elementos+1;
-}*/
+  }
 
+  public function editar_chofer($nomper,$estado,$id_chofer){
 
-}
+    $conectar=parent::conexion();
+    parent::set_names();
 
-public function editar_chofer($nomper,$estado,$id_chofer){
+    $nomper=ucwords($_POST["nomper"]);
 
-  $conectar=parent::conexion();
-  parent::set_names();
-
-  $sql="UPDATE choferes SET  Nomper=?,  Estado=?  WHERE   Cedula=?";
+    $sql="UPDATE choferes SET  Nomper=?,  Estado=?  WHERE   Cedula=?";
 
 //echo $sql; exit();
 
-  $sql=$conectar->prepare($sql);
+    $sql=$conectar->prepare($sql);
 
-    $sql->bindValue(1,$_POST["nomper"]);
-  $sql->bindValue(2,$_POST["estado"]);
-  $sql->bindValue(3,$_POST["id_chofer"]);
-  $sql->execute();
+    $sql->bindValue(1, $nomper);
+    $sql->bindValue(2, $_POST["estado"]);
+    $sql->bindValue(3, $_POST["id_chofer"]);
+    $sql->execute();
 
-}
+  }
 
 //fin editar usuario
 
 //mostrar los datos del usuario por el id
-public function get_chofer_por_id($id){
+  public function get_chofer_por_id($id){
 
-  $conectar=parent::conexion();
-  parent::set_names();
-  $sql="SELECT * FROM choferes WHERE cedula=?";
-  $sql=$conectar->prepare($sql);
-  $sql->bindValue(1, $id);
-  $sql->execute();
+    $conectar=parent::conexion();
+    parent::set_names();
 
-  return $resultado=$sql->fetchAll();
+    $sql="SELECT * FROM choferes WHERE cedula=?";
 
-}
+    $sql=$conectar->prepare($sql);
 
-public function editar_estado($id,$estado){
+    $sql->bindValue(1, $id);
+    $sql->execute();
 
-  $conectar=parent::conexion();
-  parent::set_names();
-//el parametro est se envia por via ajax
-  if($_POST["est"]=="0"){
-    $estado=1;
-  } else {
-    $estado=0;
+    return $resultado=$sql->fetchAll();
+
   }
 
-  $sql="update choferes set estado=? where cedula=?";
-  $sql=$conectar->prepare($sql);
-  $sql->bindValue(1,$estado);
-  $sql->bindValue(2,$id);
-  $sql->execute();
-}
+  public function editar_estado($id,$estado){
 
-public function get_cedula_del_chofer($cedula,$email){
+    $conectar=parent::conexion();
+    parent::set_names();
+//el parametro est se envia por via ajax
+    if($_POST["est"]=="0"){
+      $estado=1;
+    } else {
+      $estado=0;
+    }
 
-  $conectar=parent::conexion();
-  parent::set_names();
+    $sql="UPDATE choferes SET estado=? WHERE cedula=?";
 
-  $sql="select * from choferes where cedula=? ";
+    $sql=$conectar->prepare($sql);
 
-  $sql=$conectar->prepare($sql);
+    $sql->bindValue(1,$estado);
+    $sql->bindValue(2,$id);
+    $sql->execute();
+  }
 
-  $sql->bindValue(1, $cedula);
-  $sql->execute();
+  public function get_cedula_del_chofer($cedula){
 
-  return $resultado=$sql->fetchAll();
+    $conectar=parent::conexion();
+    parent::set_names();
 
-}
+    $sql="SELECT * FROM Choferes WHERE cedula=? ";
+
+    $sql=$conectar->prepare($sql);
+
+    $sql->bindValue(1, $cedula);
+    $sql->execute();
+
+    return $resultado=$sql->fetchAll();
+
+  }
 
 
 }
