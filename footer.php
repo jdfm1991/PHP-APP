@@ -24,6 +24,9 @@
 <script src="<?php echo SERVERURL; ?>public/plugins/bootbox/bootbox.min.js"></script>
 <!-- sweetalert2 -->
 <script src="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- dashboard3 -->
+<script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
+<script src="<?php echo SERVERURL; ?>public/dist/js/pages/dashboard3.js"></script>
 
 
 </body>
