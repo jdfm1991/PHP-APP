@@ -133,7 +133,7 @@ $(document).on("click","#btn_pdf", function(){
 });
 
 function mostrar() {
-    var fechai = $("#fechai").val();
+   /* var fechai = $("#fechai").val();
     var fechaf = $("#fechaf").val();
     var vendedor = $("#vendedor").val();
     $.post("clientesnoactivos_controlador.php?op=mostrar", {fechai: fechai, fechaf: fechaf, vendedor: vendedor}, function (data, status) {
@@ -141,7 +141,11 @@ function mostrar() {
 
         $("#cuenta").html(data.cuenta);
 
-    });
+    });*/
+
+    var texto= 'Clientes No Activados: ';
+    var cuenta =(tabla_clientesnoactivos.rows().count());
+    $("#cuenta").html(texto + cuenta);
 }
 
 init();

@@ -15,7 +15,7 @@ function limpiar() {
 
 function validarCantidadRegistrosTabla() {
     (tabla_clientesbloqueados.rows().count() === 0)
-        ? estado = true  : estado = false ;
+    ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
 }
@@ -114,13 +114,17 @@ $(document).on("click","#btn_pdf", function(){
 });
 
 function mostrar() {
-    var vendedor = $("#vendedor").val();
+/*    var vendedor = $("#vendedor").val();
     $.post("clientesbloqueados_controlador.php?op=mostrar", {vendedor: vendedor}, function (data, status) {
         data = JSON.parse(data);
 
         $("#cuenta").html(data.cuenta);
 
-    });
+    });*/
+
+    var texto= 'Clientes Bloqueados: ';
+    var cuenta =(tabla_clientesbloqueados.rows().count());
+    $("#cuenta").html(texto + cuenta);
 }
 
 init();

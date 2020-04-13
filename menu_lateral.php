@@ -109,12 +109,12 @@
                                     <p>Clientes Bloqueados</p>
                                 </a>
                             </li>
-                            <!-- <li class="nav-item">
-                                <a href="estadisticas_sinfactura.php" class="nav-link">
+                            <li class="nav-item">
+                                <a href="<?php echo SERVERURL; ?>clientessintr/clientessintr.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Clientes Sin Realizar Tr</p>
+                                    <p>Clientes Sin TR</p>
                                 </a>
-                            </li> -->
+                            </li>
                             <li class="nav-item">
                                 <a href="<?php echo SERVERURL; ?>clientesnuevos/clientesnuevos.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>

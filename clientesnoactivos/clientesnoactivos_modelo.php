@@ -34,7 +34,7 @@ class ClientesNoActivos extends Conectar{
 
 	}
 
-	public function getTotalClientesnoActivos($fechai,$fechaf,$vendedor){
+	/*public function getTotalClientesnoActivos($fechai,$fechaf,$vendedor){
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
@@ -61,6 +61,6 @@ class ClientesNoActivos extends Conectar{
 		$sql->execute();
 		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-	}
+	}*/
 }
 

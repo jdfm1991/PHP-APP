@@ -1,4 +1,4 @@
-var tabla_clientesnuevos;
+var tabla_clientessintr;
 
 var estado_minimizado;
 
@@ -12,10 +12,11 @@ function init() {
 function limpiar() {
     $("#fechai").val("");
     $("#fechaf").val("");
+    $("#vendedor").val("");
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_clientesnuevos.rows().count() === 0)
+    (tabla_clientessintr.rows().count() === 0)
         ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
@@ -23,46 +24,51 @@ function validarCantidadRegistrosTabla() {
 
 var no_puede_estar_vacio = function()
 {
-    ($("#fechai").val() !== "" && $("#fechaf").val() !== "") ? estado_minimizado = true : estado_minimizado = false ;
+    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#vendedor").val() !== "")
+        ? estado_minimizado = true : estado_minimizado = false ;
 };
 
 $(document).ready(function(){
     $("#fechai").change( () => no_puede_estar_vacio() );
     $("#fechaf").change( () => no_puede_estar_vacio() );
+    $("#vendedor").change( () => no_puede_estar_vacio() );
 });
 
 //ACCION AL PRECIONAR EL BOTON.
-$(document).on("click", "#btn_clientesnuevos", function () {
+$(document).on("click", "#btn_clientessintr", function () {
 
     var fechai = $("#fechai").val();
     var fechaf = $("#fechaf").val();
+    var vendedor = $("#vendedor").val();
+
     if (estado_minimizado) {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if (fechai !== "" && fechaf !== "") {
+        if (fechai !== "" && fechaf !== "" && vendedor !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
+            sessionStorage.setItem("vendedor", vendedor);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_clientesnuevos = $('#clientesnuevos_data').DataTable({
+            tabla_clientessintr = $('#clientessintr_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
                     beforeSend: function () {
                         $("#loader").show(''); //MOSTRAMOS EL LOADER.
                     },
-                    url: "clientesnuevos_controlador.php?op=buscar_clientesnuevos",
+                    url: "clientessintr_controlador.php?op=buscar_clientessintr",
                     type: "post",
-                    data: {fechai: fechai, fechaf: fechaf},
+                    data: {fechai: fechai, fechaf: fechaf, vendedor: vendedor},
                     error: function (e) {
                         console.log(e.responseText);
                     },
                     complete: function () {
 
-                        validarCantidadRegistrosTabla();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
-                        mostrar();
+                        validarCantidadRegistrosTabla();
+                        mostrar()
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
                     }
@@ -100,7 +106,7 @@ $(document).on("click", "#btn_clientesnuevos", function () {
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar un rango de Fecha!', 'error');
+        Swal.fire('Atención!', 'Debe seleccionar un rango de fecha y un vendedor.', 'error');
         return (false);
 
     }
@@ -110,31 +116,34 @@ $(document).on("click", "#btn_clientesnuevos", function () {
 $(document).on("click","#btn_excel", function(){
    var fechai = sessionStorage.getItem("fechai", fechai);
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
-   if (fechai !== "" && fechaf !== "") {
-       window.location = "clientesnuevos_excel.php?&fechai="+fechai+"&fechaf="+fechaf;
-   }
+   var vendedor = sessionStorage.getItem("vendedor", vendedor);
+   if (fechai !== "" && fechaf !== "" && vendedor !== "") {
+    window.location = "clientessintr_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor;
+}
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
     var fechai = sessionStorage.getItem("fechai", fechai);
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
-    if (fechai !== "" && fechaf !== "") {
-        window.open('clientesnuevos_pdf.php?&fechai='+fechai+'&fechaf='+fechaf, '_blank');
+    var vendedor = sessionStorage.getItem("vendedor", vendedor);
+    if (fechai !== "" && fechaf !== "" && vendedor !== "") {
+        window.open('clientessintr_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
     }
 });
 
 function mostrar() {
-/*    var fechai = $("#fechai").val();
+   /* var fechai = $("#fechai").val();
     var fechaf = $("#fechaf").val();
-    $.post("clientesnuevos_controlador.php?op=mostrar", {fechai: fechai, fechaf: fechaf}, function (data, status) {
+    var vendedor = $("#vendedor").val();
+    $.post("clientes_controlador.php?op=mostrar", {fechai: fechai, fechaf: fechaf, vendedor: vendedor}, function (data, status) {
         data = JSON.parse(data);
 
         $("#cuenta").html(data.cuenta);
 
     });*/
-    var texto= 'Clientes Nuevos: ';
-    var cuenta =(tabla_clientesnuevos.rows().count());
+    var texto= 'Clientes Sin Transacción:  ';
+    var cuenta =(tabla_clientessintr.rows().count());
     $("#cuenta").html(texto + cuenta);
 }
 

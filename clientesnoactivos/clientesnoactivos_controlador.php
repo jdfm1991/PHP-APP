@@ -52,7 +52,7 @@ switch ($_GET["op"]) {
 
     break;
 
-    case "mostrar":
+  /*  case "mostrar":
     $datos = $clientesnoactivos->getTotalClientesnoActivos($_POST["fechai"], $_POST["fechaf"],$_POST["vendedor"]);
 
     foreach ($datos as $row) {
@@ -62,6 +62,6 @@ switch ($_GET["op"]) {
     }
 
     echo json_encode($output);
-    break;
+    break;*/
 
 }

@@ -25,7 +25,7 @@ class ClientesNuevos extends Conectar{
 
 	}
 
-	public function getTotalClientesnuevos($fechai,$fechaf){
+	/*public function getTotalClientesnuevos($fechai,$fechaf){
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
@@ -41,6 +41,6 @@ class ClientesNuevos extends Conectar{
 		$sql->execute();
 		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-	}
+	}*/
 }
 

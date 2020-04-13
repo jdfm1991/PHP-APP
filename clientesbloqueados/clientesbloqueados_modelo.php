@@ -59,7 +59,7 @@ class Clientesbloqueados extends Conectar{
 
 	}
 
-	public function CuentaClientesBloqueadosPorVendedor($vendedor){
+	/*public function CuentaClientesBloqueadosPorVendedor($vendedor){
 
 	    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
@@ -83,5 +83,5 @@ class Clientesbloqueados extends Conectar{
 		$sql->execute();
 		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-	}
+	}*/
 }
