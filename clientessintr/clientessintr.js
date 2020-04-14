@@ -22,6 +22,16 @@ function validarCantidadRegistrosTabla() {
     $('#btn_pdf').attr("disabled", estado);
 }
 
+function f() {
+    var date = new Date();
+
+    $("#fechaf").datepicker({
+        todayBtn: "linked",
+        minDate: date,
+        maxDate: +7
+    });
+}
+
 var no_puede_estar_vacio = function()
 {
     ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#vendedor").val() !== "")
@@ -32,6 +42,12 @@ $(document).ready(function(){
     $("#fechai").change( () => no_puede_estar_vacio() );
     $("#fechaf").change( () => no_puede_estar_vacio() );
     $("#vendedor").change( () => no_puede_estar_vacio() );
+
+    $("#fechaf").datepicker({
+        todayBtn: "linked",
+        minDate: date,
+        maxDate: +7
+    });
 });
 
 //ACCION AL PRECIONAR EL BOTON.
@@ -68,7 +84,7 @@ $(document).on("click", "#btn_clientessintr", function () {
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
-                        mostrar()
+                        mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
                     }
