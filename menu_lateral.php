@@ -160,9 +160,9 @@
                         <!-- SUB MENU COMPRAS -->
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="<?php echo SERVERURL; ?>sellin/sellin.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Sell In Compras Confisur</p>
+                                    <p>Sell In</p>
                                 </a>
                             </li>
                             <!-- <li class="nav-item">
