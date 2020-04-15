@@ -5,13 +5,14 @@ require_once("../acceso/conexion.php");
 require('../public/fpdf/fpdf.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("clientesnuevos_modelo.php");
+require_once("sellin_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$clientesnuevos = new ClientesNuevos();
+$sellin = new sellin();
 
 $fechai = $_GET['fechai'];
 $fechaf = $_GET['fechaf'];
+$marca = $_GET['marca'];
 
 class PDF extends FPDF
 {
@@ -28,18 +29,17 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(80);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE CLIENTES NUEVOS DE ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 1, 'C');
-
+        $this->Cell(40, 10, 'REPORTE DE SELL IN COMPRAS DE ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         // titulo de columnas
 
-        $this->Cell(25, 6, 'Cod CLiente', 1, 0, 'C', 0);
-        $this->Cell(80, 6, 'Cliente', 1, 0, 'C', 0);
-        $this->Cell(30, 6, 'Rif', 1, 0, 'C', 0);
-        $this->Cell(20, 6, 'Fecha', 1, 0, 'C', 0);
-        $this->Cell(30, 6, 'Ruta', 1, 1, 'C', 0);
-
+        $this->Cell(20, 6, 'CODPROD', 1, 0, 'C', 0);
+        $this->Cell(60, 6, 'PRODUCTO', 1, 0, 'C', 0);
+        $this->Cell(20, 6, 'COMPRA', 1, 0, 'C', 0);
+        $this->Cell(30, 6, 'DEVOLCOMP', 1, 0, 'C', 0);
+        $this->Cell(30, 6, 'TOTAL', 1, 0, 'C', 0);
+        $this->Cell(30, 6, 'MARCA', 1, 1, 'C', 0);
     }
 
     // Pie de página
@@ -150,25 +150,23 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 7);
 
-$pdf->SetWidths(array(25, 80, 30, 20, 30));
+$pdf->SetWidths(array(20, 60, 20, 30, 30, 30));
 
-$query = $clientesnuevos->getClientesNuevos($fechai, $fechaf);
-$num = count($query);
+$query =  $sellin->getsellin($fechai, $fechaf, $marca);
 
 foreach ($query as $i) {
 
     $pdf->Row(
         array(
-            $i['codclie'],
-            $i['descrip'],
-            $i['id3'],
-            date("d/m/Y", strtotime($i['fechae'])),
-            $i['codvend']
+            $i['coditem'],
+            utf8_encode($i['producto']),
+            number_format($i['compras'], 1, ",", "."),
+            number_format($i['devol'], 1, ",", "."),
+            number_format($i['total'],1, ",", "."),
+            $i['marca']
         )
     );
 }
-$pdf->Ln(10);
-$pdf->Cell(190, 10, 'Total de Clientes Nuevos:  '.$num, 0, 1, 'C');
 $pdf->Output();
 
 

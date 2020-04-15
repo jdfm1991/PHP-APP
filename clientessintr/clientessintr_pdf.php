@@ -22,8 +22,6 @@ class PDF extends FPDF
     // Cabecera de página
     function Header()
     {
-        $fechai = $_GET['fechai'];
-        $fechaf = $_GET['fechaf'];
         // Logo
         $this->Image('../public/build/images/logo.png', 10, 8, 33);
         // Arial bold 15
@@ -33,7 +31,7 @@ class PDF extends FPDF
         // Título
         $this->Cell(40, 10, 'REPORTE DE CLIENTES SIN REALIZAR TRASACCIONES', 0, 1, 'C');
         $this->Cell(80);
-        $this->Cell(50, 10, 'DEL ' . date("d/m/Y", strtotime($fechai)) . ' AL ' . date("d/m/Y", strtotime($fechaf)), 0, 0, 'C');
+        $this->Cell(50, 10, 'DEL ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
 
         // Salto de línea
         $this->Ln(20);

@@ -44,7 +44,8 @@ class sellin extends Conectar{
 		$sql = $conectar->prepare($sql);
 		$sql->bindValue(1,$fechai);
 		$sql->bindValue(2,$fechaf);
-		$sql->bindValue(3,$marca);
+        if(!hash_equals("-", $marca))
+            $sql->bindValue(3,$marca);
 
 		$sql->execute();
 		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
