@@ -63,7 +63,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?php echo SERVERURL; ?>despacho/despacho.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Crear Despacho</p>
                             </a>

@@ -4,191 +4,203 @@
 
 //require_once("../config/conexion.php");
 
-class Usuarios extends Conectar {
+class Usuarios extends Conectar
+{
 
-  public function get_filas_usuario(){
+    public function get_filas_usuario()
+    {
 
-    $conectar= parent::conexion();
-    $sql="select * from Usuarios";
-    $sql=$conectar->prepare($sql);
-    $sql->execute();
-    $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+        $conectar = parent::conexion();
+        $sql = "select * from Usuarios";
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-    return $sql->rowCount();
-  }
+        return $sql->rowCount();
+    }
 
-  public function login(){
+    public function login()
+    {
 
-    $conectar=parent::conexion();
-    parent::set_names();
-    if(isset($_POST["enviar"])){
+        $conectar = parent::conexion();
+        parent::set_names();
+        if (isset($_POST["enviar"])) {
 
-//INICIO DE VALIDACIONES
-      $clave = md5($_POST["clave"]);
-      $login = $_POST["login"];
+            //INICIO DE VALIDACIONES
+            $clave = md5($_POST["clave"]);
+            $login = $_POST["login"];
 
-      if(empty($login) and empty($clave)){
-        header("Location:".Conectar::ruta()."index.php?m=2");
-        exit();
-      } else {
+            if (empty($login) and empty($clave)) {
+                header("Location:" . Conectar::ruta() . "index.php?m=2");
+                exit();
+            } else {
 
-        $sql= "SELECT * FROM Usuarios WHERE Login=? AND Clave =?";
-        $sql=$conectar->prepare($sql);
-        $sql->bindValue(1, $login);
-        $sql->bindValue(2, $clave);
+                $sql = "SELECT * FROM Usuarios WHERE Login=? AND Clave =?";
+                $sql = $conectar->prepare($sql);
+                $sql->bindValue(1, $login);
+                $sql->bindValue(2, $clave);
+                $sql->execute();
+
+                $resultado = $sql->fetch();
+
+                //si existe el registro entonces se conecta en session
+                if (is_array($resultado) and count($resultado) > 0) {
+                    /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
+                    $_SESSION["cedula"] = $resultado['Cedula'];
+                    $_SESSION["login"] = $resultado['Login'];
+                    $_SESSION["nomper"] = $resultado['Nomper'];
+                    $_SESSION["email"] = $resultado['Email'];
+                    $_SESSION["rol"] = $resultado['ID_Rol'];
+
+                    header("Location:" . Conectar::ruta() . "principal.php");
+                    exit();
+                } else {
+                    //si no existe el registro entonces le aparece un mensaje
+                    header("Location:" . Conectar::ruta() . "index.php?m=1");
+                    exit();
+                }
+            }//cierre del else
+        }//condicion enviar
+    }
+
+    //listar los usuarios
+    public function get_usuarios()
+    {
+
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "select * from usuarios";
+        $sql = $conectar->prepare($sql);
         $sql->execute();
 
-        $resultado = $sql->fetch();
+        return $resultado = $sql->fetchAll();
+    }
 
-//si existe el registro entonces se conecta en session
-        if(is_array($resultado) and count($resultado)>0) {
-          /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
-          $_SESSION["cedula"] = $resultado['Cedula'];
-          $_SESSION["login"] = $resultado['Login'];
-          $_SESSION["nomper"] = $resultado['Nomper'];
-          $_SESSION["email"] = $resultado['Email'];
-          $_SESSION["rol"] = $resultado['ID_Rol'];
 
-          header("Location:".Conectar::ruta()."principal.php");
-          exit();
+    public function registrar_usuario($cedula, $login, $nomper, $email, $clave, $rol, $estado)
+    {
+
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $clave = md5($_POST["clave"]);
+        $nomper = ucwords($_POST["nomper"]);
+        $email = strtolower($_POST["email"]);
+
+        $sql = "INSERT INTO usuarios VALUES(?,?,?,?,?,?,getdate(),getdate(),?);";
+
+        $sql = $conectar->prepare($sql);
+
+        $sql->bindValue(1, $_POST["cedula"]);
+        $sql->bindValue(2, $_POST["login"]);
+        $sql->bindValue(3, $nomper);
+        $sql->bindValue(4, $email);
+        $sql->bindValue(5, $clave);
+        $sql->bindValue(6, $_POST["rol"]);
+        $sql->bindValue(7, $_POST["estado"]);
+        $sql->execute();
+
+
+    }
+
+    public function editar_usuario($login, $nomper, $email, $clave, $rol, $estado, $id_usuario)
+    {
+
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $clave = $_POST["clave"];
+        $nomper = ucwords($_POST["nomper"]);
+        $email = strtolower($_POST["email"]);
+
+        $sql = "UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
+
+        $sql = $conectar->prepare($sql);
+
+        $sql->bindValue(1, $_POST["login"]);
+        $sql->bindValue(2, $nomper);
+        $sql->bindValue(3, $email);
+        $sql->bindValue(4, $clave);
+        $sql->bindValue(5, $_POST["rol"]);
+        $sql->bindValue(6, $_POST["estado"]);
+        $sql->bindValue(7, $_POST["id_usuario"]);
+        $sql->execute();
+
+    }
+
+    //fin editar usuario
+
+    //mostrar los datos del usuario por el id
+    public function get_usuario_por_id($id)
+    {
+
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $sql = "SELECT * FROM usuarios WHERE cedula=?";
+
+        $sql = $conectar->prepare($sql);
+
+        $sql->bindValue(1, $id);
+        $sql->execute();
+
+        return $resultado = $sql->fetchAll();
+
+    }
+
+    public function editar_estado($id, $estado)
+    {
+
+        $conectar = parent::conexion();
+        parent::set_names();
+        //el parametro est se envia por via ajax
+        if ($_POST["est"] == "0") {
+            $estado = 1;
         } else {
-//si no existe el registro entonces le aparece un mensaje
-          header("Location:".Conectar::ruta()."index.php?m=1");
-          exit();
+            $estado = 0;
         }
-}//cierre del else
-}//condicion enviar
-}
-//listar los usuarios
-public function get_usuarios(){
 
-  $conectar=parent::conexion();
-  parent::set_names();
-  $sql="select * from usuarios";
-  $sql=$conectar->prepare($sql);
-  $sql->execute();
+        $sql = "update usuarios set estado=? where cedula=?";
 
-  return $resultado=$sql->fetchAll();
-}
+        $sql = $conectar->prepare($sql);
 
+        $sql->bindValue(1, $estado);
+        $sql->bindValue(2, $id);
+        $sql->execute();
+    }
 
-public function registrar_usuario($cedula,$login,$nomper,$email,$clave,$rol,$estado){
+    public function get_cedula_correo_del_usuario($cedula, $email)
+    {
 
-  $conectar=parent::conexion();
-  parent::set_names();
+        $conectar = parent::conexion();
+        parent::set_names();
 
-  $clave=md5($_POST["clave"]);
-  $nomper=ucwords($_POST["nomper"]);
-  $email=strtolower($_POST["email"]);
+        $sql = "select * from usuarios where cedula=? or email=?";
 
-  $sql="INSERT INTO usuarios VALUES(?,?,?,?,?,?,getdate(),getdate(),?);";
+        $sql = $conectar->prepare($sql);
 
-  $sql=$conectar->prepare($sql);
+        $sql->bindValue(1, $cedula);
+        $sql->bindValue(2, $email);
+        $sql->execute();
 
-  $sql->bindValue(1, $_POST["cedula"]);
-  $sql->bindValue(2, $_POST["login"]);
-  $sql->bindValue(3, $nomper);
-  $sql->bindValue(4, $email);
-  $sql->bindValue(5, $clave);
-  $sql->bindValue(6, $_POST["rol"]);
-  $sql->bindValue(7, $_POST["estado"]);
-  $sql->execute();
+        return $resultado = $sql->fetchAll();
 
+    }
 
-}
+    public function get_roles()
+    {
 
-public function editar_usuario($login,$nomper,$email,$clave,$rol,$estado,$id_usuario){
+        $conectar = parent::conexion();
+        parent::set_names();
 
-  $conectar=parent::conexion();
-  parent::set_names();
+        $sql = "SELECT * FROM roles";
 
-  $clave=$_POST["clave"];
-  $nomper=ucwords($_POST["nomper"]);
-  $email=strtolower($_POST["email"]);
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
 
-  $sql="UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
-
-  $sql=$conectar->prepare($sql);
-
-  $sql->bindValue(1, $_POST["login"]);
-  $sql->bindValue(2, $nomper);
-  $sql->bindValue(3, $email);
-  $sql->bindValue(4, $clave);
-  $sql->bindValue(5, $_POST["rol"]);
-  $sql->bindValue(6, $_POST["estado"]);
-  $sql->bindValue(7, $_POST["id_usuario"]);
-  $sql->execute();
+        return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 
-//fin editar usuario
-
-//mostrar los datos del usuario por el id
-public function get_usuario_por_id($id){
-
-  $conectar=parent::conexion();
-  parent::set_names();
-
-  $sql="SELECT * FROM usuarios WHERE cedula=?";
-
-  $sql=$conectar->prepare($sql);
-
-  $sql->bindValue(1, $id);
-  $sql->execute();
-
-  return $resultado=$sql->fetchAll();
-
-}
-
-public function editar_estado($id,$estado){
-
-  $conectar=parent::conexion();
-  parent::set_names();
-//el parametro est se envia por via ajax
-  if($_POST["est"]=="0"){
-    $estado=1;
-  } else {
-    $estado=0;
-  }
-
-  $sql="update usuarios set estado=? where cedula=?";
-
-  $sql=$conectar->prepare($sql);
-
-  $sql->bindValue(1,$estado);
-  $sql->bindValue(2,$id);
-  $sql->execute();
-}
-
-public function get_cedula_correo_del_usuario($cedula,$email){
-
-  $conectar=parent::conexion();
-  parent::set_names();
-
-  $sql="select * from usuarios where cedula=? or email=?";
-
-  $sql=$conectar->prepare($sql);
-
-  $sql->bindValue(1, $cedula);
-  $sql->bindValue(2, $email);
-  $sql->execute();
-
-  return $resultado=$sql->fetchAll();
-
-}
-
-public function get_roles(){
-
-  $conectar=parent::conexion();
-  parent::set_names();
-
-  $sql="SELECT * FROM roles";
-
-  $sql=$conectar->prepare($sql);
-  $sql->execute();
-
-  return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-}
-
-}
 ?>
