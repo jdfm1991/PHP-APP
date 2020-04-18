@@ -24,7 +24,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/style_loader.css">
-
+  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/build/css/form_despacho.css">
 
 </head>
 
