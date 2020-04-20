@@ -146,9 +146,7 @@ $(document).on("click", "#btn_pdf", function () {
 */
 
 ///////////////////////////////////////////
-///
-///
-///
+
 $(document).ready(function () {
 
     var navListItems = $('div.setup-panel div a'),
