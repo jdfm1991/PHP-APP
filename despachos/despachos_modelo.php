@@ -3,7 +3,7 @@
  //LLAMAMOS A LA CONEXION.
 require_once("../acceso/conexion.php");
 
-class ClientesCodNestle extends Conectar{
+class Despachos extends Conectar{
 
 	public function getClientes_cnestle($opc,$vendedor){
 

@@ -72,7 +72,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 									<option value="">Seleccione</option>
 									<?php
 									foreach ($lista_choferes as $query) {
-										echo '<option value="' . $query['id'] . '">' . $query['Nomper'] . '</option>';
+										echo '<option value="' . $query['Cedula'] . '">' . $query['Nomper'] . '</option>';
 									} ?>
 								</select>
 								<label>Vehiculo</label>
@@ -86,8 +86,8 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<label>Destino</label>
 								<input type="text" class="form-control input-sm" maxlength="120" id="destino" name="destino" >
 								<br />
-								<button class="btn btn-primary pull-left" type="button">Ver Factura</button>
-								<button class="btn btn-primary" type="button">Por Despachar</button>
+								<button class="btn btn-primary pull-left verFactura" type="button">Ver Factura</button>
+								<button class="btn btn-primary porDespachar" type="button">Por Despachar</button>
 								<button class="btn btn-success nextBtn  float-right" type="button">Siguiente</button>
 							</div>
 
@@ -98,11 +98,11 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<h3> Inclusión de Facturas</h3>
 								<div class="form-group">
 									<label class="control-label">Ingrese Número de Factura a Despachar</label>
-									<input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura"  />
+									<input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" />
 								</div>
-								<button class="btn btn-primary pull-left" type="button">Añadir</button>
+								<button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
 								<!-- <button class="btn btn-success nextBtn float-right" type="button">Siguiente</button> -->
-								<button class="btn btn-success float-right" type="submit">Generar!</button>
+								<button class="btn btn-success float-right generar" type="submit">Generar!</button>
 							</div>
 
 						</div>
@@ -110,20 +110,20 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 					</form>
 				</div>
 				<!-- BOX  LOADER -->
-				<!-- <figure id="loader">
-					<div class="dot white"></div>
-					<div class="dot"></div>
-					<div class="dot"></div>
-					<div class="dot"></div>
-					<div class="dot"></div>
-				</figure> -->
+                <figure id="loader1">
+                    <div class="dot white"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </figure>
 			</div>
-			<div class="card card-info" id="tabla">
+			<div class="card card-info" id="tabla_facturas_por_despachar">
 				<div class="card-header">
 					<h3 class="card-title">Relación de Facturas a Despachar</h3>
 				</div>
 				<div class="card-body" style="width:auto;">
-					<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="despacho_data">
+					<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="fact_por_despachar_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Factura">Factura</th>
@@ -159,7 +159,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 					</div> -->
 				</div>
 			</div>
-			<div class="card card-info" id="tabla">
+			<div class="card card-info" id="tabla_detalle_despacho">
 				<div class="card-header">
 					<h3 class="card-title">Detalle del Despacho</h3>
 				</div>

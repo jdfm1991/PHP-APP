@@ -4,10 +4,10 @@
 require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("clientescodnestle_modelo.php");
+require_once("despachos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$clientescodnestle  = new ClientesCodNestle();
+$despachos  = new Despachos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
