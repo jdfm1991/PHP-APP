@@ -8,9 +8,6 @@
 </footer>
 </div>
 <!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
 <!-- jQuery -->
 <script src="<?php echo SERVERURL; ?>public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -27,7 +24,18 @@
 <!-- dashboard3 -->
 <script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
 <script src="<?php echo SERVERURL; ?>public/dist/js/pages/dashboard3.js"></script>
+<script src="<?php echo SERVERURL; ?>public/plugins/select2/js/select2.full.min.js"></script>
+<!-- Page script -->
+<script>
+	$(function () {
+//Initialize Select2 Elements
+$('.select2').select2()
 
-
+//Initialize Select2 Elements
+$('.select2bs4').select2({
+	theme: 'bootstrap4'
+})
+})
+</script>
 </body>
 </html>

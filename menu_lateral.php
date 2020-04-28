@@ -32,7 +32,6 @@
                 <!-- CLIENTES -->
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>Clientes<i class="fas fa-angle-left right"></i></p>
                     </a>
@@ -226,18 +225,19 @@
                             <!-- SUB MENU INVENTARIO -->
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="<?php echo SERVERURL; ?>listadeprecio/listadeprecio.php" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Lista de Precios e Inventario</p>
+                                        <p>Lista de Precios</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo SERVERURL; ?>costodeinventario/costodeinventario.php" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Costos de Inventario</p>
+                                    </a>
+                                </li>
+
                                 <!--  <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Costos e Inventario</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Inventario Global</p>

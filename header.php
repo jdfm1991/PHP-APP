@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
   <title>Logistica y Despacho</title>
-
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
@@ -21,11 +15,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- sweetalert2 -->
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.css">
-
-
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/style_loader.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/build/css/form_despacho.css">
-
+  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 </head>
 
 

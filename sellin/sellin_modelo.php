@@ -57,7 +57,7 @@ class sellin extends Conectar{
 		$conectar=parent::conexion2();
 		parent::set_names();
 
-		$sql="SELECT DISTINCT(marca) FROM saprod WHERE activo = '1'";
+		$sql="SELECT DISTINCT(marca) FROM saprod WHERE activo = '1'  order by marca asc";
 
 		$sql=$conectar->prepare($sql);
 		$sql->execute();
