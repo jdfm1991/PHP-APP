@@ -237,13 +237,13 @@
                                     </a>
                                 </li>
 
-                                <!--  <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                 <li class="nav-item">
+                                <a href="<?php echo SERVERURL; ?>inventarioglobal/inventarioglobal.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Inventario Global</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Sku Pendientes por Facturar</p>

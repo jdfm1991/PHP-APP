@@ -60,7 +60,7 @@ $almacenes = $costo->get_Almacenes();
 								</select>
 							</div>
 							<div class="form-group col-sm-4 select2-blue">
-								<label>Deposito</label>
+								<label>Almacen</label>
 								<select class="select2" name="depo[]" id="depo[]" multiple="multiple" data-placeholder="Seleccione Deposito" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
 									<?php
 									foreach ($almacenes as $query) {
