@@ -3,9 +3,9 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../listadeprecio/listadeprecio_modelo.php");
+require_once("../costodeinventario/costodeinventario_modelo.php");
 require_once("../sellin/sellin_modelo.php");
-$almacenes = new Listadeprecio();
+$almacenes = new CostodeInventario();
 $marcas = new sellin();
 $cat = $almacenes->get_Almacenes();
 $marcas = $marcas->get_marcas();
@@ -22,12 +22,12 @@ $marcas = $marcas->get_marcas();
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Lista de Precio e Inventario</h2>
+						<h2>Lista de Precio</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-							<li class="breadcrumb-item active">Lista de Precio e Inventario</li>
+							<li class="breadcrumb-item active">Lista de Precio</li>
 						</ol>
 					</div>
 				</div>
@@ -119,56 +119,13 @@ $marcas = $marcas->get_marcas();
 						<div class="dot"></div>
 					</figure>
 					<!-- BOX TABLA -->
-					<div class="card card-info" id="tabla">
-						<div class="card-header">
-							<h3 class="card-title">Lista de Precio e Inventario</h3>
-						</div>
-						<div class="card-body" style="width:auto;">
-							<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="listadeprecio_data">
-								<thead style="background-color: #17A2B8;color: white;">
-									<tr>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Ruta">Codigo</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Codigo del Cliente">Decripción del Producto</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Razón Social">Marca</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Rif">Cantidad Bultos</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fecha de Apertura">Precio 1 Bulto</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Dia de Visita">Precio 2 Bulto</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Codificación Nestle">Precio 3 Bulto</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Rif">Cantidad Paquetes</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fecha de Apertura">Precio 1 Paquete</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Dia de Visita">Precio 2 Paquete</th>
-										<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Codificación Nestle">Precio 3 Paquete</th>
+					<div class="card card-info" id="listadeprecio">
 
-									</tr>
-								</thead>
-								<tfoot style="background-color: #ccc;color: white;">
-									<tr>
-										<th style="text-align: center;">Codigo</th>
-										<th style="text-align: center;">Decripción del Producto</th>
-										<th style="text-align: center;">Marca</th>
-										<th style="text-align: center;">Cantidad Bultos</th>
-										<th style="text-align: center;">Precio 1 Bulto</th>
-										<th style="text-align: center;">Precio 2 Bulto</th>
-										<th style="text-align: center;">Precio 3 Bulto</th>
-										<th style="text-align: center;">Cantidad Paquetes</th>
-										<th style="text-align: center;">Precio 1 Paquete</th>
-										<th style="text-align: center;">Precio 2 Paquete</th>
-										<th style="text-align: center;">Precio 3 Paquete</th>
-									</tr>
-								</tfoot>
-								<tbody>
-									<!-- TD TABLA LLEGAN POR AJAX -->
-								</tbody>
-							</table>
-							<!-- BOX BOTONES DE REPORTES-->
-							<div align="center">
-								<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-								<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-							</div>
-						</div>
-					</section>
-				</div>
-				<?php require_once("../footer.php");?>
-				<script type="text/javascript" src="listadeprecio.js"></script>
-			</body>
-			</html>
+
+					</div>
+				</section>
+			</div>
+			<?php require_once("../footer.php");?>
+			<script type="text/javascript" src="listadeprecio.js"></script>
+		</body>
+		</html>

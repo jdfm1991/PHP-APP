@@ -1,12 +1,7 @@
-var estado_minimizado;
-
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#loader").hide();
-}
 
-function limpiar() {
-    $("#marca").val("");
 }
 
 //ACCION AL PRECIONAR EL BOTON.
@@ -17,10 +12,10 @@ $(document).on("click", "#btn_costodeinventario", function () {
     if (marcas == "") {
         Swal.fire('Atención!','Seleccione una Marca!','error');
         return (false);
-    } else {
+    }else {
         var datos=$('#frmCostos').serialize();
         $.ajax({
-         beforeSend: function () {
+           beforeSend: function () {
             $("#loader").show();
         },
         type: "POST",
@@ -33,11 +28,9 @@ $(document).on("click", "#btn_costodeinventario", function () {
             $("#minimizar").slideToggle();
             $("#loader").hide();
             $("#costos_inv_ver").html(response);
-      /*      limpiar();*/
         }
+    });}
     });
-    }
-});
 
 /*//ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
