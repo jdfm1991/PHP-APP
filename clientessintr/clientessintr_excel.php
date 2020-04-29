@@ -2,7 +2,7 @@
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
 
-require ('../vendor/autoload.php');
+require('../vendor/autoload.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("clientessintr_modelo.php");
@@ -36,18 +36,17 @@ foreach ($query as $i) {
     $sheet->setCellValue('A' . $row, $i['codvend']);
     $sheet->setCellValue('B' . $row, $i['codclie']);
     $sheet->setCellValue('C' . $row, $i['descrip']);
-    $sheet->setCellValue('D' . $row, number_format($i['debe'],2, ",", "."));
+    $sheet->setCellValue('D' . $row, number_format($i['debe'], 2, ",", "."));
     $row++;
 }
-$sheet->setCellValue('B' . ($row+3), 'Total de Clientes:  '.$num);
+$sheet->setCellValue('B' . ($row + 3), 'Total de Clientes:  ' . $num);
 
 
 header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="Clientes_sinfactura_de_'.$fechai.'_al_'.$fechaf.'.xls"');
+header('Content-Disposition: attachment;filename="Clientes_sinfactura_de_' . $fechai . '_al_' . $fechaf . '.xls"');
 header('Cache-Control: max-age=0');
 
 $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
 ob_end_clean();
 ob_start();
 $writer->save('php://output');
-

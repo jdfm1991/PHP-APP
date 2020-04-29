@@ -4,19 +4,20 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Launch index.html",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "file": "${workspaceFolder}/index.html"
+            "file": "${workspaceFolder}/appweb"
         },
         {
             "name": "Launch localhost",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "url": "http://localhost/index.html",
+            "url": "http://localhost/appweb",
             "webRoot": "${workspaceFolder}"
         },
         {

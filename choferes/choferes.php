@@ -5,9 +5,10 @@ require_once("../acceso/const.php");
 <!DOCTYPE html>
 <html>
 <!-- head -->
-<?php require_once("../header.php");?>
+<?php require_once("../header.php"); ?>
+
 <body class="hold-transition sidebar-mini layout-fixed">
-	<?php require_once("../menu_lateral.php");?>
+	<?php require_once("../menu_lateral.php"); ?>
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
@@ -50,7 +51,7 @@ require_once("../acceso/const.php");
 			</div>
 		</section>
 		<!-- Modal crear -->
-		<div class="modal fade"  id="choferModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="choferModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -62,7 +63,7 @@ require_once("../acceso/const.php");
 					<div class="modal-body">
 						<form method="post" id="chofer_form">
 							<label>Cedula de Identidad</label>
-							<input type="text" class="form-control input-sm" maxlength="20" id="cedula" name="cedula" placeholder="Ingrese Cedula de Identidad" required >
+							<input type="text" class="form-control input-sm" maxlength="20" id="cedula" name="cedula" placeholder="Ingrese Cedula de Identidad" required>
 							<br />
 							<label>Nombre y Apellido</label>
 							<input type="text" class="form-control input-sm" maxlength="100" id="nomper" name="nomper" placeholder="Ingrese nombre y apellido">
@@ -75,7 +76,7 @@ require_once("../acceso/const.php");
 							</select>
 							<br />
 							<div class="modal-footer">
-								<input type="hidden" name="id_chofer" id="id_chofer"/>
+								<input type="hidden" name="id_chofer" id="id_chofer" />
 								<button type="submit" name="action" id="btnGuardar" class="btn btn-success pull-left" value="Add">Guardar</button>
 								<button type="button" onclick="limpiar()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
 							</div>
@@ -87,7 +88,8 @@ require_once("../acceso/const.php");
 		</div>
 	</div>
 	<!-- /.content-wrapper -->
-	<?php require_once("../footer.php");?>
+	<?php require_once("../footer.php"); ?>
 	<script type="text/javascript" src="choferes.js"></script>
 </body>
+
 </html>

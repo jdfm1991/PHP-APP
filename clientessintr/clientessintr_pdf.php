@@ -170,5 +170,3 @@ foreach ($query as $i) {
 $pdf->Ln(10);
 $pdf->Cell(190, 10, 'Total de Clientes:  '.$num, 0, 1, 'C');
 $pdf->Output();
-
-?>
