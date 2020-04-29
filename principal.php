@@ -4,9 +4,10 @@ require_once("acceso/const.php");
 ?>
 <!DOCTYPE html>
 <html>
-<?php require_once("header.php");?>
+<?php require_once("header.php"); ?>
+
 <body class="hold-transition sidebar-mini">
-  <?php require_once("menu_lateral.php");?>
+  <?php require_once("menu_lateral.php"); ?>
   <div class="wrapper">
     <div class="content-wrapper">
       <div class="content-header">
@@ -211,7 +212,7 @@ require_once("acceso/const.php");
       </section>
     </div>
   </div>
-  <?php require_once("footer.php");?>
+  <?php require_once("footer.php"); ?>
 </body>
-</html>
 
+</html>

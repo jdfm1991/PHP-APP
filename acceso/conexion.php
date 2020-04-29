@@ -79,5 +79,3 @@ class Conectar {
 		return $cadena;
 	}
 }
-
-?>

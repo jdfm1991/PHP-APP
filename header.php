@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +21,3 @@
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 </head>
-
-
-

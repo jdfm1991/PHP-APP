@@ -1,15 +1,14 @@
 <?php
-
 require_once("./acceso/conexion.php");
-if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
- require_once("usuarios/Usuarios_modelo.php");
- $usuario = new Usuarios();
- $usuario->login();
+if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
+  require_once("usuarios/Usuarios_modelo.php");
+  $usuario = new Usuarios();
+  $usuario->login();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es-VE">
+
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
@@ -30,6 +29,7 @@ if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
     }
   </script>
 </head>
+
 <body class="text-center">
   <form class="form-signin" method="post">
     <img class="mb-4" src="./public/build/images/logo.png" alt="" width="300" height="90">
@@ -37,14 +37,14 @@ if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
     <label for="inputEmail" class="sr-only">Dirección de Correo</label>
     <input id="login" name="login" class="form-control" placeholder="nombre de usuario" required="" autofocus="" type="text">
     <label for="inputPassword" class="sr-only">Contraseña</label>
-    <input id="clave" class="form-control"  name="clave" placeholder="Contraseña" required="" type="password">
+    <input id="clave" class="form-control" name="clave" placeholder="Contraseña" required="" type="password">
     <div class="form-group">
       <input type="hidden" name="enviar" class="form-control" value="si">
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit" onClick="return verificar(this.form)">Acceder</button>
     <p class="mt-5 mb-3 text-muted">Desarrollaro por <a href="https://www.intecca.com.ve">INTEC C.A </a> <br />
       © <?php echo date("Y"); ?></p>
-    </form>
-  </body>
+  </form>
+</body>
 
-  </html>
+</html>
