@@ -6,16 +6,20 @@ var estado_minimizado;
 
 var registros_por_despachar;
 
+var peso_max_vehiculo;
+
+var peso_acum_facturas;
+
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla_facturas_por_despachar").hide();
     $("#tabla_detalle_despacho").hide();
     $("#loader1").hide();
-    $('.verFactura').attr("disabled", true);
-    $('.porDespachar').attr("disabled", true);
     $('.nextBtn').attr("disabled", true);
     $('.generar').attr("disabled", true);
     registros_por_despachar = [];
+    peso_max_vehiculo = 0;
+    peso_acum_facturas = 0;
     estado_minimizado = false;
 }
 
@@ -24,6 +28,12 @@ function limpiar() {
     $("#chofer").val("");
     $("#vehiculo").val("");
     $("#destino").val("");
+    $("#factura").val("");
+    peso_max_vehiculo = 0;
+    peso_acum_facturas = 0;
+}
+
+function limpiar_campo_factura() {
     $("#factura").val("");
 }
 
@@ -35,14 +45,14 @@ function validarCantidadRegistrosTabla() {
 }
 
 var no_puede_estar_vacio = function () {
-    //VALIDA PARA AÑADIR EN LA TABLA FACTURAS POR DESPACHAR DICHO REGISTRO
-    estado = !($("#fecha").val().length > 0 && $("#chofer").val().length > 0 && $("#vehiculo").val().length > 0 && $("#destino").val().length > 0 && $("#factura").val().length > 0);
-    $('.anadir').attr("disabled", estado); //boton añadir
-    estado_minimizado = estado;
-
     //VALIDA PARA HABILITAR EL BOTON SIGUIENTE
-    estado1 = !($("#fecha").val().length > 0 && $("#chofer").val().length > 0 && $("#vehiculo").val().length > 0 && $("#destino").val().length > 0);
-    $('.nextBtn').attr("disabled", estado1); //boton siguiente
+    estado = !($("#fecha").val().length > 0 && $("#chofer").val().length > 0 && $("#vehiculo").val().length > 0 && $("#destino").val().length > 0);
+    $('.nextBtn').attr("disabled", estado); //boton siguiente
+    
+    //VALIDA PARA AÑADIR EN LA TABLA FACTURAS POR DESPACHAR DICHO REGISTRO
+    estado1 = !($("#fecha").val().length > 0 && $("#chofer").val().length > 0 && $("#vehiculo").val().length > 0 && $("#destino").val().length > 0 && $("#factura").val().length > 0);
+    $('.anadir').attr("disabled", estado1); //boton añadir
+    estado_minimizado = estado1;
 };
 
 $(document).ready(function () {
@@ -99,23 +109,72 @@ $(document).ready(function () {
 
     $("#fecha").change(() => no_puede_estar_vacio());
     $("#chofer").change(() => no_puede_estar_vacio());
-    $("#vehiculo").change(() => no_puede_estar_vacio());
+    $("#vehiculo").change(() => { no_puede_estar_vacio();
+        cargarCapacidadVehiculo($("#vehiculo").val());
+    });
     $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
     $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();
 
 });
 
-function validarPeso(){
-    //
+function agregarCeros(fact){
+    var cad_cero="";
+    for(var i=0;i<(6-fact.length);i++)
+        cad_cero+=0;
+    return cad_cero+fact;
 }
 
-function validarFacturaEnDespacho(){
-    //
+function cargarCapacidadVehiculo(id) {
+    $.post("despachos_controlador.php?op=obtener_pesomaxvehiculo", {id: id}, function (data, status) {
+        data = JSON.parse(data);
+        peso_max_vehiculo = data.capacidad;
+    });
 }
 
-function validarExistenciaFactura(){
-    //
+function validarPesoporFactura(numero_fact){
+    if(numero_fact !== "") {
+        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: numero_fact}, function (data, status) {
+            data = JSON.parse(data);
+            if( (data.peso + peso_acum_facturas) > peso_max_vehiculo ){
+                Swal.fire('Atención!', 'El Vehiculo esta al maximo de Capacidad!', 'error');
+                return (false);
+            }
+            return (true);
+        });
+    }
+    return (true);
+
 }
+
+function validarFacturaEnDespachos(numero_fact){
+    if(numero_fact !== "") {
+        $.post("despachos_controlador.php?op=buscar_facturaendespacho", {numero_fact: numero_fact}, function (data, status) {
+            data = JSON.parse(data);
+            if( data.mensaje !== "" ){
+                Swal.fire('Atención!', data.mensaje, 'error');
+                return (false);
+            }
+            return (true);
+        });
+    }
+    return (true);
+}
+
+function validarExistenciaFactura(numero_fact){
+    if(numero_fact !== "") {
+        $.post("despachos_controlador.php?op=buscar_existefactura", {numero_fact: numero_fact, registros_por_despachar: registros_por_despachar}, function (data, status) {
+            data = JSON.parse(data);
+            if( data.mensaje !== "" ){
+                Swal.fire('Atención!', data.mensaje, 'error');
+                return (false);
+            }
+            return (true);
+        });
+    }
+    return (true);
+}
+
+
 
 //ACCION AL PRECIONAR EL BOTON AÑADIR.
 $(document).on("click", ".anadir", function () {
@@ -124,9 +183,83 @@ $(document).on("click", ".anadir", function () {
     var chofer = $("#chofer").val();
     var vehiculo = $("#vehiculo").val();
     var destino = $("#destino").val();
-    var factura = $("#factura").val();
+    var factura = agregarCeros($("#factura").val());
 
-    if (estado_minimizado) {
+    validacion1 = validarFacturaEnDespachos(factura);
+    validacion2 = validarPesoporFactura(factura);
+    validacion3 = validarExistenciaFactura(factura);
+
+    validaciones = validacion1 && validacion2 && validacion3;
+
+    if(validaciones) {//VERIFICAR PORQUE NO ESTA VALIDANDO BIEN
+
+        //cargar factura por despachar
+        registros_por_despachar += (factura + ";");
+
+        //cargar peso de la factura
+        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura}, function (data, status) {
+            data = JSON.parse(data);
+            peso_acum_facturas += data.peso;
+        });
+
+        //cargar tabla de facturas por despachar
+        tabla_por_despachar = $('#fact_por_despachar_data').DataTable({
+            "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
+            "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
+            "ajax": {
+                beforeSend: function () {
+                    $("#loader1").show(''); //MOSTRAMOS EL LOADER.
+                },
+                url: "despachos_controlador.php?op=obtener_facturasporcargardespacho",
+                type: "post",
+                data: {registros_por_despachar: registros_por_despachar},
+                error: function (e) {
+                    console.log(e.responseText);
+                },
+                complete: function () {
+
+                    $("#tabla_facturas_por_despachar").show('');//MOSTRAMOS LA TABLA.
+                    $("#loader1").hide();//OCULTAMOS EL LOADER.
+                    // validarCantidadRegistrosTabla();
+                    limpiar_campo_factura();//LIMPIAMOS EL SELECTOR.
+                }
+            },//TRADUCCION DEL DATATABLE.
+            "bDestroy": true,
+            "responsive": true,
+            "bInfo": true,
+            "iDisplayLength": 10,
+            "order": [[0, "desc"]],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+        });
+    }
+    
+    /////////////////////////////////////////////
+    
+    
+    /*if (estado_minimizado) {
         $("#tabla_facturas_por_despachar").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
@@ -192,8 +325,8 @@ $(document).on("click", ".anadir", function () {
             });
             estado_minimizado = true;
         }
-    } else {
-        Swal.fire('Atención!', 'Debe seleccionar un rango de fecha y un vendedor.', 'error');
+    }*/ else {
+        Swal.fire('Atención!', 'Error al evaluar validaciones.', 'error');
         return (false);
 
     }

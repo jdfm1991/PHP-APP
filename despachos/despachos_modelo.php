@@ -5,53 +5,59 @@ require_once("../acceso/conexion.php");
 
 class Despachos extends Conectar{
 
-	public function getClientes_cnestle($opc,$vendedor){
+    public function getPesoTotalporFactura($numero_fact) {
 
-		 //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-		 //CUANDO ES APPWEB ES CONEXION.
-		$conectar= parent::conexion2();
-		parent::set_names();
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
 
- 		//QUERY
-		$sql = "";
+        //QUERY
+        $sql = "SELECT saitemfac.coditem AS cod_prod, saprod.tara AS peso, saitemfac.esunid AS unidad, saprod.cantempaq AS paquetes, saitemfac.cantidad AS cantidad, tipofac AS tipofac
+                FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod 
+                WHERE numerod = ? AND TIPOFAC = 'A' ORDER BY saitemfac.coditem";
 
-		if(hash_equals("-", $vendedor)){
-			switch ($opc){
-				case "1":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie ORDER BY a.codvend, a.codclie";
-				break;
-				case "2":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) > 3) AND codnestle IS NOT NULL ORDER BY a.codvend, a.codclie";
-				break;
-				case "3":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) <= 3) ORDER BY a.codvend, a.codclie";
-				break;
-				default:
-				echo "error";
-			}
-		} else {
-			switch ($opc){
-				case "1":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE a.codvend = ? ORDER BY a.codvend, a.codclie";
-				break;
-				case "2":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) > 3) AND b.codnestle IS NOT NULL AND a.codvend = ? ORDER BY a.codvend, a.codclie";
-				break;
-				case "3":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) <= 3)  AND a.codvend = ? ORDER BY a.codvend, a.codclie";
-				break;
-				default:
-				echo "error";
-			}
-		}
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$numero_fact);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-		 //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-		$sql = $conectar->prepare($sql);
-		$sql->bindValue(1,$vendedor);
-		$sql->execute();
-		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    public function getExisteFacturaEnDespachos($numero_fact) {
 
-	}
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT numeros FROM appfacturas_det WHERE numeros = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$numero_fact);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getFactura($numero_fact) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT NumeroD AS numerod, FechaE AS fechae, Descrip AS descrip, Direc2 AS direc2, CodVend AS codvend, MtoTotal AS mtototal 
+                FROM SAFACT WHERE NumeroD = ? AND TipoFac = 'A'";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$numero_fact);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 
