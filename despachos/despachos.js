@@ -125,56 +125,84 @@ function agregarCeros(fact){
 }
 
 function cargarCapacidadVehiculo(id) {
-    $.post("despachos_controlador.php?op=obtener_pesomaxvehiculo", {id: id}, function (data, status) {
-        data = JSON.parse(data);
-        peso_max_vehiculo = data.capacidad;
+    $.ajax({
+        url: "despachos_controlador.php?op=obtener_pesomaxvehiculo",
+        method: "POST", data: {id: id},
+        success: function (data) {
+            data = JSON.parse(data);
+            peso_max_vehiculo = data.capacidad;
+        }
     });
 }
 
 function validarPesoporFactura(numero_fact){
+    var resultado = false;
     if(numero_fact !== "") {
-        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: numero_fact}, function (data, status) {
-            data = JSON.parse(data);
-            if( (data.peso + peso_acum_facturas) > peso_max_vehiculo ){
-                Swal.fire('Atención!', 'El Vehiculo esta al maximo de Capacidad!', 'error');
-                return (false);
+        $.ajax({
+            async: false,
+            url: "despachos_controlador.php?op=obtener_pesoporfactura",
+            method: "POST",
+            data: {numero_fact: numero_fact},
+            success: function (data) {
+                data = JSON.parse(data);
+                if( (data.peso + peso_acum_facturas) > peso_max_vehiculo ){
+                    Swal.fire('Atención!', 'El Vehiculo esta al maximo de Capacidad!', 'error');
+                    resultado = false;
+                } else {
+                    // console.log("Peso Por Factura: True (post)");
+                    resultado = true;
+                }
             }
-            return (true);
         });
+        return resultado;
     }
-    return (true);
-
 }
 
 function validarFacturaEnDespachos(numero_fact){
+    var resultado = false;
     if(numero_fact !== "") {
-        $.post("despachos_controlador.php?op=buscar_facturaendespacho", {numero_fact: numero_fact}, function (data, status) {
-            data = JSON.parse(data);
-            if( data.mensaje !== "" ){
-                Swal.fire('Atención!', data.mensaje, 'error');
-                return (false);
+        $.ajax({
+            async: false,
+            url: "despachos_controlador.php?op=buscar_facturaendespacho",
+            method: "POST",
+            data: {numero_fact: numero_fact},
+            success: function (data) {
+                data = JSON.parse(data);
+                if( data.mensaje.toString().length > 0 ){
+                    Swal.fire('Atención!', data.mensaje, 'error');
+                    resultado = false;
+                } else {
+                    // console.log("Factura en Despachos: True (post)");
+                    resultado = true;
+                }
             }
-            return (true);
         });
+        return resultado;
     }
-    return (true);
 }
 
 function validarExistenciaFactura(numero_fact){
+    var resultado = false;
     if(numero_fact !== "") {
-        $.post("despachos_controlador.php?op=buscar_existefactura", {numero_fact: numero_fact, registros_por_despachar: registros_por_despachar}, function (data, status) {
-            data = JSON.parse(data);
-            if( data.mensaje !== "" ){
-                Swal.fire('Atención!', data.mensaje, 'error');
-                return (false);
+        $.ajax({
+            async: false,
+            url: "despachos_controlador.php?op=buscar_existefactura",
+            method: "POST",
+            data: {numero_fact: numero_fact, registros_por_despachar: registros_por_despachar},
+            success: function (data) {
+                data = JSON.parse(data);
+                if( data.mensaje.toString().length > 0 ){
+                    Swal.fire('Atención!', data.mensaje, 'error');
+                    resultado = false;
+                } else {
+                    // console.log("Existencia Factura: True (post)");
+                    resultado = true;
+                }
             }
-            return (true);
         });
+        return resultado;
     }
-    return (true);
 }
-
-
 
 //ACCION AL PRECIONAR EL BOTON AÑADIR.
 $(document).on("click", ".anadir", function () {
@@ -185,13 +213,9 @@ $(document).on("click", ".anadir", function () {
     var destino = $("#destino").val();
     var factura = agregarCeros($("#factura").val());
 
-    validacion1 = validarFacturaEnDespachos(factura);
-    validacion2 = validarPesoporFactura(factura);
-    validacion3 = validarExistenciaFactura(factura);
+    validaciones = validarFacturaEnDespachos(factura) && validarPesoporFactura(factura) && validarExistenciaFactura(factura);
 
-    validaciones = validacion1 && validacion2 && validacion3;
-
-    if(validaciones) {//VERIFICAR PORQUE NO ESTA VALIDANDO BIEN
+    if(validaciones) {
 
         //cargar factura por despachar
         registros_por_despachar += (factura + ";");
@@ -325,11 +349,13 @@ $(document).on("click", ".anadir", function () {
             });
             estado_minimizado = true;
         }
-    }*/ else {
+    }*/
+
+    /*else {
         Swal.fire('Atención!', 'Error al evaluar validaciones.', 'error');
         return (false);
 
-    }
+    }*/
 });
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
