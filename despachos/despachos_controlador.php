@@ -52,6 +52,8 @@ switch ($_GET["op"]) {
 
         $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
 
+        $eliminar = "eliminar";
+
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
@@ -78,7 +80,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $datos[0]["codvend"];
             $sub_array[] = number_format($datos[0]["mtototal"], 2, ",", ".");
             $sub_array[] = number_format($peso, 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar('.$datos[0]["numerod"].');"  id="'.$datos[0]["numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center"><button type="button" onClick="gestionDeDocumentos('.$datos[0]["numerod"].', '.$eliminar.');"  id="'.$datos[0]["numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
             $data[] = $sub_array;
         }
