@@ -116,7 +116,8 @@ switch ($_GET["op"]) {
 
         //consultamos si la factura existe en el despacho por crear
         if(isset($_POST["registros_por_despachar"])){
-            $array = explode(";", $_POST["registros_por_despachar"]);
+            $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
+//            $array = explode(";", $_POST["registros_por_despachar"]);
             for ($x = 0; $x < count($array); $x++) {
                 if ($array[$x] === $_POST["numero_fact"]) {
                     $aux++;
@@ -136,6 +137,74 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
+
+        break;
+
+
+    case "obtener_correlativo_despachos":
+
+        $datos = $despachos->getNuevoCorrelativo();
+
+        (count($datos) == 0) ? $output["correlativo"] = 1 : $output["correlativo"] = $datos['correl'];
+
+        echo json_encode($output);
+
+        break;
+
+
+    case "registrar_despacho":
+
+        if(isset($_POST["documentos"])) {
+            $array = explode(";", substr($_POST["documentos"], 0, -1));
+        }
+
+        $creacionDespacho = $despachos->insertarDespacho($_POST["correlativo"], $_POST["fechad"], $_POST["chofer"], $_POST["vehiculo"], $_POST["destino"], $_POST["usuario"]);
+
+        if($creacionDespacho){
+            foreach ($array AS $item)
+                $despachos->insertarDetalleDespacho($_POST["correlativo"], $item, 'A');
+            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . $_POST["correlativo"];
+            $output["icono"] = "success";
+        } else {
+            $output["mensaje"] = "ERROR AL CREAR ESTE DESPACHO";
+            $output["icono"] = "error";
+        }
+
+        echo json_encode($output);
+
+        break;
+
+
+    case "listar_despacho": //no esta listo
+
+        $datos = $despachos->lista_busca_activacionclientes($_POST["fecha_final"]);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+
+
+        foreach ($datos as $row) {
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            $sub_array = array();
+            $sub_array[] = date("d-m-Y", strtotime($row["fechauv"]));
+            $sub_array[] = $row["codclie"];
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = $row["id3"];
+            $sub_array[] = $row["codvend"];
+            $sub_array[] = number_format($row["total"], 2, ",", ".");
+
+
+            $data[] = $sub_array;
+
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
 
         break;
 }

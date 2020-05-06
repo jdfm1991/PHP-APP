@@ -59,5 +59,59 @@ class Despachos extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getNuevoCorrelativo() {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT TOP(1) Correlativo+1 AS correl FROM Despachos";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function insertarDespacho($correlativo, $fechad, $chofer, $vehiculo, $destino, $usuario, $documentos) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "INSERT INTO Despachos (Correlativo, fechae, fechad, ID_Chofer, ID_Vehiculo, Destino, ID_Usuario) VALUES (?, GETDATE(), ?, ?, ?, ?, ?)";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$correlativo);
+        $sql->bindValue(2,$fechad);
+        $sql->bindValue(3,$chofer);
+        $sql->bindValue(4,$vehiculo);
+        $sql->bindValue(5,$destino);
+        $sql->bindValue(6,$usuario);
+        $sql->execute();
+    }
+
+    public function insertarDetalleDespacho($correlativo, $numero_documento, $tipo_documento) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "INSERT INTO Despachos_Det (ID_Correlativo, Numerod, Tipofac) VALUES (?, ?, ?)";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$correlativo);
+        $sql->bindValue(2,$numero_documento);
+        $sql->bindValue(3,$tipo_documento);
+        $sql->execute();
+    }
 }
 

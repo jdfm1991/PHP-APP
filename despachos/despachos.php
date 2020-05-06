@@ -159,6 +159,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 					</div> -->
 				</div>
 			</div>
+            <input name="ci_usuario" id="ci_usuario" value="<?php echo $_SESSION["cedula"]?>" type="hidden" />
 			<div class="card card-info" id="tabla_detalle_despacho">
 				<div class="card-header">
 					<h3 class="card-title">Detalle del Despacho</h3>
