@@ -210,20 +210,6 @@ function validarExistenciaFactura(numero_fact){
     }
 }
 
-function cargarNuevoCorrelativo(){
-    var correlativo = 0;
-    $.ajax({
-        async: false,
-        url: "despachos_controlador.php?op=obtener_correlativo_despachos",
-        method: "POST",
-        success: function (data) {
-            data = JSON.parse(data);
-            correlativo = data.correlativo;
-        }
-    });
-    return correlativo;
-}
-
 //ACCION AL PRECIONAR EL BOTON AÑADIR.
 $(document).on("click", ".anadir", function () {
 
@@ -243,6 +229,9 @@ $(document).on("click", ".anadir", function () {
 
         //cargar tabla de facturas por despachar
         cargarTabladeFacturasporDespachar();
+
+        //inabilita el boton añadir
+        $('.anadir').attr("disabled", true);
     }
 });
 
@@ -253,17 +242,14 @@ $(document).on("click", ".generar", function () {
     var chofer = $("#chofer").val();
     var vehiculo = $("#vehiculo").val();
     var destino = $("#destino").val().toUpperCase();
-    usuario = $("#ci_usuario").val();
+    var usuario = $("#ci_usuario").val();
+    var correlativo = 0;
 
     if( peso_acum_facturas <= peso_max_vehiculo ){
 
-        //OBTENER EL NUEVO NUMERO DE CORRELATIVO
-        //ANTES DE INSERTAR EL DESPACHO
-        correlativo = cargarNuevoCorrelativo();
-
         if (estado_minimizado) {
             $("#tabla_facturas_por_despachar").hide();
-            //$("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
+            $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
             // estado_minimizado = false;
             if (fecha !== "" && chofer !== "" && vehiculo !== "" && destino !== "" && registros_por_despachar.length > 0) {
 
@@ -279,11 +265,11 @@ $(document).on("click", ".generar", function () {
                     async: false,
                     url: "despachos_controlador.php?op=registrar_despacho",
                     method: "POST",
-                    data: {correlativo: correlativo, fechad: fecha, chofer: chofer, vehiculo: vehiculo, destino: destino, usuario: usuario, documentos: registros_por_despachar},
+                    data: {fechad: fecha, chofer: chofer, vehiculo: vehiculo, destino: destino, usuario: usuario, documentos: registros_por_despachar},
                     success: function (data) {
                         data = JSON.parse(data);
                         mensaje = data.mensaje;
-                        // console.log(data);
+                        correlativo = data.correl;
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -293,7 +279,7 @@ $(document).on("click", ".generar", function () {
                         });
                         Toast.fire({
                             icon: data.icono,
-                            title: data.mensaje
+                            title: mensaje
                         });
                     }
                 });
@@ -316,6 +302,24 @@ $(document).on("click", ".generar", function () {
         Swal.fire('Atención!', 'EL PESO DE LA MERCANCIA SOBREPASA LA CAPACIDAD QUE SOPORTA ESTE CAMION.', 'error');
         return (false);
 
+    }
+});
+
+//ACCION AL PRECIONAR EL BOTON EXCEL.
+/*$(document).on("click", "#btn_excel", function () {
+    var opc = sessionStorage.getItem("opc", opc);
+    var vendedor = sessionStorage.getItem("vendedor");
+    if (opc !== "" && vendedor !== "") {
+        window.location = "clientescodnestle_excel.php?&opc=" + opc + "&vendedor=" + vendedor;
+    }
+});*/
+
+//ACCION AL PRECIONAR EL BOTON PDF.
+$(document).on("click", "#btn_pdf", function () {
+    var opc = sessionStorage.getItem("opc", opc);
+    var vendedor = sessionStorage.getItem("vendedor");
+    if (opc !== "" && vendedor !== "") {
+        window.open('clientescodnestle_pdf.php?&opc=' + opc + '&vendedor=' + vendedor, '_blank');
     }
 });
 
@@ -400,10 +404,9 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
             },
             complete: function () {
 
-                $("#tabla").show('');//MOSTRAMOS LA TABLA.
+                $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
                 $("#loader").hide();//OCULTAMOS EL LOADER.
                 validarCantidadRegistrosTabla();
-                //mostrar();
                 limpiar();//LIMPIAMOS EL SELECTOR.
 
             }
@@ -439,27 +442,5 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
         },
     });
 }
-
-//ACCION AL PRECIONAR EL BOTON EXCEL.
-/*$(document).on("click", "#btn_excel", function () {
-    var opc = sessionStorage.getItem("opc", opc);
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (opc !== "" && vendedor !== "") {
-        window.location = "clientescodnestle_excel.php?&opc=" + opc + "&vendedor=" + vendedor;
-    }
-});*/
-
-//ACCION AL PRECIONAR EL BOTON PDF.
-$(document).on("click", "#btn_pdf", function () {
-    var opc = sessionStorage.getItem("opc", opc);
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (opc !== "" && vendedor !== "") {
-        window.open('clientescodnestle_pdf.php?&opc=' + opc + '&vendedor=' + vendedor, '_blank');
-    }
-});
-
-
-
-
 
 init();

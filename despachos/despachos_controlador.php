@@ -100,7 +100,7 @@ switch ($_GET["op"]) {
 
         $datos = $despachos->getExisteFacturaEnDespachos($_POST["numero_fact"]);
 
-        (count($datos) > 0) ? ($output["mensaje"] = "El Numero de Factura: ". $datos[0]['numeros'] . " Ya Fue Agregado en Otro Despacho") : ($output["mensaje"] = "");
+        (count($datos) > 0) ? ($output["mensaje"] = "El Numero de Factura: ". $datos[0]['Numerod'] . " Ya Fue Agregado en Otro Despacho") : ($output["mensaje"] = "");
 
         echo json_encode($output);
 
@@ -116,8 +116,9 @@ switch ($_GET["op"]) {
 
         //consultamos si la factura existe en el despacho por crear
         if(isset($_POST["registros_por_despachar"])){
+
             $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
-//            $array = explode(";", $_POST["registros_por_despachar"]);
+
             for ($x = 0; $x < count($array); $x++) {
                 if ($array[$x] === $_POST["numero_fact"]) {
                     $aux++;
@@ -141,33 +142,29 @@ switch ($_GET["op"]) {
         break;
 
 
-    case "obtener_correlativo_despachos":
-
-        $datos = $despachos->getNuevoCorrelativo();
-
-        (count($datos) == 0) ? $output["correlativo"] = 1 : $output["correlativo"] = $datos['correl'];
-
-        echo json_encode($output);
-
-        break;
-
-
     case "registrar_despacho":
 
         if(isset($_POST["documentos"])) {
             $array = explode(";", substr($_POST["documentos"], 0, -1));
         }
 
-        $creacionDespacho = $despachos->insertarDespacho($_POST["correlativo"], $_POST["fechad"], $_POST["chofer"], $_POST["vehiculo"], $_POST["destino"], $_POST["usuario"]);
+        $creacionDespacho = $despachos->insertarDespacho($_POST["fechad"], $_POST["chofer"], $_POST["vehiculo"], $_POST["destino"], $_POST["usuario"]);
 
         if($creacionDespacho){
+
+            $correlativo = $despachos->getNuevoCorrelativo();
+
+            (count($correlativo) > 0) ? $correl = $correlativo[0]["correl"] : $correl = 1;
+
             foreach ($array AS $item)
-                $despachos->insertarDetalleDespacho($_POST["correlativo"], $item, 'A');
-            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . $_POST["correlativo"];
+                $despachos->insertarDetalleDespacho($correl, $item, 'A');
+            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . $correl;
             $output["icono"] = "success";
+            $output["correl"] = $correl;
         } else {
             $output["mensaje"] = "ERROR AL CREAR ESTE DESPACHO";
             $output["icono"] = "error";
+            $output["correl"] = 0;
         }
 
         echo json_encode($output);
@@ -176,6 +173,8 @@ switch ($_GET["op"]) {
 
 
     case "listar_despacho": //no esta listo
+
+        $_POST["correlativo"];
 
         $datos = $despachos->lista_busca_activacionclientes($_POST["fecha_final"]);
 

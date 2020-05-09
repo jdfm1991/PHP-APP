@@ -102,7 +102,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								</div>
 								<button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
 								<!-- <button class="btn btn-success nextBtn float-right" type="button">Siguiente</button> -->
-								<button class="btn btn-success float-right generar" type="submit">Generar!</button>
+								<button class="btn btn-success float-right generar" type="button">Generar!</button>
 							</div>
 
 						</div>

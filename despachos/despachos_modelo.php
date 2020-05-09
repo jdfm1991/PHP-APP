@@ -28,11 +28,12 @@ class Despachos extends Conectar{
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
+        $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT numeros FROM appfacturas_det WHERE numeros = ?";
+//        $sql = "SELECT numeros FROM appfacturas_det WHERE numeros = ?";
+        $sql = "SELECT Numerod FROM Despachos_Det WHERE Numerod = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -63,11 +64,11 @@ class Despachos extends Conectar{
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
+        $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT TOP(1) Correlativo+1 AS correl FROM Despachos";
+        $sql = "SELECT TOP(1) Correlativo AS correl FROM Despachos ORDER BY Correlativo DESC";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -75,7 +76,7 @@ class Despachos extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insertarDespacho($correlativo, $fechad, $chofer, $vehiculo, $destino, $usuario, $documentos) {
+    public function insertarDespacho($fechad, $chofer, $vehiculo, $destino, $usuario) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
@@ -83,17 +84,16 @@ class Despachos extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "INSERT INTO Despachos (Correlativo, fechae, fechad, ID_Chofer, ID_Vehiculo, Destino, ID_Usuario) VALUES (?, GETDATE(), ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Despachos (fechae, fechad, ID_Chofer, ID_Vehiculo, Destino, ID_Usuario) VALUES (GETDATE(), ?, ?, ?, ?, ?)";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo);
-        $sql->bindValue(2,$fechad);
-        $sql->bindValue(3,$chofer);
-        $sql->bindValue(4,$vehiculo);
-        $sql->bindValue(5,$destino);
-        $sql->bindValue(6,$usuario);
-        $sql->execute();
+        $sql->bindValue(1,$fechad);
+        $sql->bindValue(2,$chofer);
+        $sql->bindValue(3,$vehiculo);
+        $sql->bindValue(4,$destino);
+        $sql->bindValue(5,$usuario);
+        return $sql->execute();
     }
 
     public function insertarDetalleDespacho($correlativo, $numero_documento, $tipo_documento) {
