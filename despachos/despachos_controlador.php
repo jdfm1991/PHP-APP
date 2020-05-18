@@ -48,8 +48,6 @@ switch ($_GET["op"]) {
 
         $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
 
-        $eliminar = "eliminar";
-
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
@@ -76,7 +74,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $datos[0]["codvend"];
             $sub_array[] = number_format($datos[0]["mtototal"], 2, ",", ".");
             $sub_array[] = number_format($peso, 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="gestionDeDocumentos('.$datos[0]["numerod"].', '.$eliminar.');"  id="'.$datos[0]["numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar('.$datos[0]["numerod"].');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
             $data[] = $sub_array;
         }
@@ -199,7 +197,7 @@ switch ($_GET["op"]) {
             $total_bultos = 0;
             $total_paq = 0;
 
-            for($i=0;$i<mssql_num_rows($genera);$i++){
+            /*for($i=0;$i<mssql_num_rows($genera);$i++){
 
                 $bultos = 0;
                 $paq = 0;
@@ -228,18 +226,18 @@ switch ($_GET["op"]) {
                 $total_bultos = $total_bultos + $bultos;
                 $total_paq = $total_paq + $paq;
 
-                ?>
-                <tr <?php if (($i % 2) != 0){ ?>
+                */?><!--
+                <tr <?php /*if (($i % 2) != 0){ */?>
                     bgcolor="#CCCCCC"
-                <?php } ?>>
-                    <td><div align="center"><?php echo mssql_result($genera,$i,"CodItem"); ?></div></td>
-                    <td><div align="left"><?php echo mssql_result($genera,$i,"descrip"); ?></td>
-                    <td><div align="center"><?php echo round($bultos); ?></div></td>
-                    <td><div align="center"><?php echo round($paq); ?></td>
+                <?php /*} */?>>
+                    <td><div align="center"><?php /*echo mssql_result($genera,$i,"CodItem"); */?></div></td>
+                    <td><div align="left"><?php /*echo mssql_result($genera,$i,"descrip"); */?></td>
+                    <td><div align="center"><?php /*echo round($bultos); */?></div></td>
+                    <td><div align="center"><?php /*echo round($paq); */?></td>
                 </tr>
 
 
-            <?php }
+            <?php /* } */
 
 
 
