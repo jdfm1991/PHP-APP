@@ -12,10 +12,6 @@ $despachos  = new Despachos();
 $vehiculo = new Vehiculos();
 
 
-//ARRAY PARA CARGAR EN MEMORIA LISTA DE FACTURAS ANTES DE INSERTAR EN DB
-$registros_por_despachar = Array();
-
-
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
@@ -175,15 +171,79 @@ switch ($_GET["op"]) {
     case "listar_despacho": //no esta listo
 
         $_POST["correlativo"];
+        $_POST["documentos"];
 
-        $datos = $despachos->lista_busca_activacionclientes($_POST["fecha_final"]);
+        //creamos el array con los numero de documento
+        if(isset($_POST["documentos"])) {
+            $array = explode(";", substr($_POST["documentos"], 0, -1));
+        }
+
+        //generamos un string para utilizar en el query
+        $nros_documentos = "";
+        foreach ($array AS $item)
+            $nros_documentos .= "'".$item."',";
+        //le quitamos 1 caracter para quitarle la ultima coma
+        $nros_documentos = substr($nros_documentos, 0, -1);
+
+        //obtenemos los registros de los productos en dichos documentos
+        $datos = $despachos->getProductosDespachoCreado($nros_documentos);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
-
         foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+
+
+
+            $total_bultos = 0;
+            $total_paq = 0;
+
+            for($i=0;$i<mssql_num_rows($genera);$i++){
+
+                $bultos = 0;
+                $paq = 0;
+
+                if (mssql_result($genera,$i,"bultos")){
+                    $bultos = mssql_result($genera,$i,"bultos");
+                }
+                if (mssql_result($genera,$i,"paquetes")){
+                    $paq = mssql_result($genera,$i,"paquetes");
+                }
+
+                if (mssql_result($genera,$i,"EsEmpaque")!= 0){
+                    if (mssql_result($genera,$i,"paquetes") > mssql_result($genera,$i,"CantEmpaq")){
+
+                        if (mssql_result($genera,$i,"CantEmpaq")!=0) {
+                            $bultos_total = mssql_result($genera,$i,"paquetes")/mssql_result($genera,$i,"CantEmpaq");
+                        }else{
+                            $bultos_total = 0;
+                        }
+                        $decimales = explode(".",$bultos_total);
+                        $bultos_deci = $bultos_total - $decimales[0];
+                        $paq = $bultos_deci * mssql_result($genera,$i,"CantEmpaq");
+                        $bultos = $decimales[0] + $bultos;
+                    }
+                }
+                $total_bultos = $total_bultos + $bultos;
+                $total_paq = $total_paq + $paq;
+
+                ?>
+                <tr <?php if (($i % 2) != 0){ ?>
+                    bgcolor="#CCCCCC"
+                <?php } ?>>
+                    <td><div align="center"><?php echo mssql_result($genera,$i,"CodItem"); ?></div></td>
+                    <td><div align="left"><?php echo mssql_result($genera,$i,"descrip"); ?></td>
+                    <td><div align="center"><?php echo round($bultos); ?></div></td>
+                    <td><div align="center"><?php echo round($paq); ?></td>
+                </tr>
+
+
+            <?php }
+
+
+
+
             $sub_array = array();
             $sub_array[] = date("d-m-Y", strtotime($row["fechauv"]));
             $sub_array[] = $row["codclie"];

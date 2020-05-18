@@ -38,6 +38,19 @@ function limpiar_campo_factura() {
     $("#factura").val("");
 }
 
+function agregarCeros(fact){
+    var cad_cero="";
+    for(var i=0;i<(6-fact.length);i++)
+        cad_cero+=0;
+    return cad_cero+fact;
+}
+
+
+/*************************************************************************************************************/
+/*                                             VALIDACIONES                                                  */
+/*************************************************************************************************************/
+
+
 function validarCantidadRegistrosTabla() {
     (tabla_despachos.rows().count() === 0)
         ? estado = true : estado = false;
@@ -56,82 +69,11 @@ var no_puede_estar_vacio = function () {
     // estado_minimizado = estado1;
 };
 
-$(document).ready(function () {
-    var navListItems = $('div.setup-panel div a'), //botones steps
-        allWells = $('.setup-content'), //step-2
-        allNextBtn = $('.nextBtn'); //boton siguiente
 
-    allWells.hide();
+/*************************************************************************************************************/
+/*                                         VALIDACIONES CON AJAX                                             */
+/*************************************************************************************************************/
 
-    navListItems.click(function (e) {
-        e.preventDefault();
-        var $target = $($(this).attr('href')),
-            $item = $(this);
-
-        if (!$item.hasClass('disabled')) {
-            navListItems.removeClass('btn-primary').addClass('btn-default');
-            $item.addClass('btn-primary');
-            allWells.hide();
-            $target.show();
-            $target.find('input:eq(0)').focus();
-        }
-    });
-
-    allNextBtn.click(function(){
-        var curStep = $(this).closest(".setup-content"),
-            curStepBtn = curStep.attr("id"),
-            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-            curInputs = curStep.find("input[type='text'],input[type='url']"),
-            isValid = true;
-
-        $(".form-group").removeClass("has-error");
-        for(var i=0; i<curInputs.length; i++){
-            if (!curInputs[i].validity.valid){
-                isValid = false;
-                $(curInputs[i]).closest(".form-group").addClass("has-error");
-            }
-        }
-
-        if (isValid)
-            nextStepWizard.removeAttr('disabled').trigger('click');
-    });
-
-    $('div.setup-panel div a.btn-primary').trigger('click');
-
-    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
-    $("#fecha").change(() => no_puede_estar_vacio());
-    $("#chofer").change(() => no_puede_estar_vacio());
-    $("#vehiculo").change(() => { no_puede_estar_vacio();
-        cargarCapacidadVehiculo($("#vehiculo").val());
-    });
-    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
-    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();
-
-});
-
-function agregarCeros(fact){
-    var cad_cero="";
-    for(var i=0;i<(6-fact.length);i++)
-        cad_cero+=0;
-    return cad_cero+fact;
-}
-
-function gestionDeDocumentos(documento, operacion) {
-    if(documento.length > 0) {
-        switch (operacion) {
-            case "agregar":
-                registros_por_despachar += (documento + ";");
-                break;
-            case "eliminar":
-                console.log(registros_por_despachar); // prueba
-                console.log((documento + ";")); // prueba
-                registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
-                console.log(registros_por_despachar); // prueba
-                cargarTabladeFacturasporDespachar();
-                break;
-        }
-    }
-}
 
 function cargarCapacidadVehiculo(id) {
     $.ajax({
@@ -210,6 +152,94 @@ function validarExistenciaFactura(numero_fact){
     }
 }
 
+
+/*************************************************************************************************************/
+/*                                                  EVENTOS                                                  */
+/*************************************************************************************************************/
+
+
+$(document).ready(function () {
+    var navListItems = $('div.setup-panel div a'), //botones steps
+        allWells = $('.setup-content'), //step-2
+        allNextBtn = $('.nextBtn'); //boton siguiente
+
+    allWells.hide();
+
+    navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+            $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.removeClass('btn-primary').addClass('btn-default');
+            $item.addClass('btn-primary');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+        }
+    });
+
+    allNextBtn.click(function(){
+        var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            curInputs = curStep.find("input[type='text'],input[type='url']"),
+            isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for(var i=0; i<curInputs.length; i++){
+            if (!curInputs[i].validity.valid){
+                isValid = false;
+                $(curInputs[i]).closest(".form-group").addClass("has-error");
+            }
+        }
+
+        if (isValid)
+            nextStepWizard.removeAttr('disabled').trigger('click');
+    });
+
+    $('div.setup-panel div a.btn-primary').trigger('click');
+
+    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
+    $("#fecha").change(() => no_puede_estar_vacio());
+    $("#chofer").change(() => no_puede_estar_vacio());
+    $("#vehiculo").change(() => { no_puede_estar_vacio();
+        cargarCapacidadVehiculo($("#vehiculo").val());
+    });
+    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
+    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();
+
+});
+
+
+/*************************************************************************************************************/
+/*                                          GESTION DE DOCUMENTOS                                            */
+/*************************************************************************************************************/
+
+
+function gestionDeDocumentos(documento, operacion) {
+    if(documento.length > 0) {
+        switch (operacion) {
+            case "agregar":
+                registros_por_despachar += (documento + ";");
+                break;
+            case "eliminar":
+                console.log(registros_por_despachar); // prueba
+                console.log((documento + ";")); // prueba
+                registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
+                console.log(registros_por_despachar); // prueba
+                cargarTabladeFacturasporDespachar();
+                break;
+        }
+    }
+}
+
+
+/*************************************************************************************************************/
+/*                                          EVENTOS DE CLICK A BOTONES                                       */
+/*************************************************************************************************************/
+
+
 //ACCION AL PRECIONAR EL BOTON AÑADIR.
 $(document).on("click", ".anadir", function () {
 
@@ -243,7 +273,6 @@ $(document).on("click", ".generar", function () {
     var vehiculo = $("#vehiculo").val();
     var destino = $("#destino").val().toUpperCase();
     var usuario = $("#ci_usuario").val();
-    var correlativo = 0;
 
     if( peso_acum_facturas <= peso_max_vehiculo ){
 
@@ -252,12 +281,6 @@ $(document).on("click", ".generar", function () {
             $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
             // estado_minimizado = false;
             if (fecha !== "" && chofer !== "" && vehiculo !== "" && destino !== "" && registros_por_despachar.length > 0) {
-
-                sessionStorage.setItem("fecha", fecha);
-                sessionStorage.setItem("chofer", chofer);
-                sessionStorage.setItem("vehiculo", vehiculo);
-                sessionStorage.setItem("destino", destino);
-                sessionStorage.setItem("documentos", registros_por_despachar);
 
                 var mensaje = "";
                 //INSERTAR EL NUEVO DESPACHO
@@ -269,7 +292,7 @@ $(document).on("click", ".generar", function () {
                     success: function (data) {
                         data = JSON.parse(data);
                         mensaje = data.mensaje;
-                        correlativo = data.correl;
+                        sessionStorage.setItem("correl", data.correl);
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -289,7 +312,7 @@ $(document).on("click", ".generar", function () {
                     return (false);
                 } else {
                     //en caso de no contener error, muestra la tabla
-                    cargarTabladeProductosEnDespachoCreado(correlativo);
+                    cargarTabladeProductosEnDespachoCreado(sessionStorage.getItem("correl"));
                 }
 
                 estado_minimizado = true;
@@ -306,22 +329,23 @@ $(document).on("click", ".generar", function () {
 });
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
-/*$(document).on("click", "#btn_excel", function () {
-    var opc = sessionStorage.getItem("opc", opc);
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (opc !== "" && vendedor !== "") {
-        window.location = "clientescodnestle_excel.php?&opc=" + opc + "&vendedor=" + vendedor;
-    }
-});*/
+$(document).on("click", "#btn_newdespacho", function () {
+    init();
+});
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click", "#btn_pdf", function () {
-    var opc = sessionStorage.getItem("opc", opc);
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (opc !== "" && vendedor !== "") {
-        window.open('clientescodnestle_pdf.php?&opc=' + opc + '&vendedor=' + vendedor, '_blank');
+    var correl = sessionStorage.getItem("correl");
+    if (correl !== "") {
+        window.open('despachos_pdf.php?&correlativo=' + correl, '_blank');
     }
 });
+
+
+/*************************************************************************************************************/
+/*                                                TABLAS                                                     */
+/*************************************************************************************************************/
+
 
 function cargarTabladeFacturasporDespachar() {
     tabla_por_despachar = $('#fact_por_despachar_data').DataTable({
@@ -398,7 +422,7 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
             },
             url: "despachos_controlador.php?op=listar_despacho",
             type: "post",
-            data: {correlativo: correlativo},
+            data: {correlativo: correlativo, documentos: registros_por_despachar},
             error: function (e) {
                 console.log(e.responseText);
             },
@@ -407,7 +431,7 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
                 $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
                 $("#loader").hide();//OCULTAMOS EL LOADER.
                 validarCantidadRegistrosTabla();
-                limpiar();//LIMPIAMOS EL SELECTOR.
+                // limpiar();//LIMPIAMOS EL SELECTOR.
 
             }
         },//TRADUCCION DEL DATATABLE.
@@ -442,5 +466,11 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
         },
     });
 }
+
+
+/*************************************************************************************************************/
+/*                                            INICIALIZAR                                                    */
+/*************************************************************************************************************/
+
 
 init();

@@ -113,5 +113,36 @@ class Despachos extends Conectar{
         $sql->bindValue(3,$tipo_documento);
         $sql->execute();
     }
+
+    public function getProductosDespachoCreado($documentos) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT DISTINCT CodItem, Descrip, 
+
+                COALESCE((SELECT SUM(Cantidad) FROM SAITEMFAC WHERE CodItem = SAPROD.CodProd 
+                AND TipoFac = 'A' AND EsUnid = '0' AND (numerod in (?))), 0)
+                AS BULTOS,
+                 
+                COALESCE((SELECT SUM(Cantidad) FROM SAITEMFAC WHERE CodItem = SAPROD.CodProd 
+                AND TipoFac = 'A' AND EsUnid = '1' AND (numerod in (?))), 0)
+                AS PAQUETES,
+                
+                CantEmpaq,
+                EsEmpaque
+                FROM SAITEMFAC INNER JOIN SAPROD ON SAITEMFAC.CodItem = SAPROD.CodProd WHERE 
+                TipoFac = 'A' AND (numerod in (?)) order by SAITEMFAC.CodItem";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$documentos);
+        $sql->bindValue(2,$documentos);
+        $sql->bindValue(3,$documentos);
+        $sql->execute();
+    }
 }
 
