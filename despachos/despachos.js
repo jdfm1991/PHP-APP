@@ -216,22 +216,49 @@ $(document).ready(function () {
 /*                                          GESTION DE DOCUMENTOS                                            */
 /*************************************************************************************************************/
 
+function anadir(documento) {
+    if(documento.length > 0) {
+        registros_por_despachar += (documento + ";");
+    }
+}
+
+function eliminar(documento) {
+
+    console.log(documento+"     "+documento.length );
+
+    if(documento.length > 0) {
+        //console.log(registros_por_despachar); // prueba
+        //console.log((doc + ";")); // prueba
+
+        // registros_por_despachar = registros_por_despachar.replace((doc + ";"), '');
+        registros_por_despachar = registros_por_despachar.split(documento + ";").join("");
+
+        console.log(registros_por_despachar); // prueba
+        cargarTabladeFacturasporDespachar();
+    }
+}
 
 function gestionDeDocumentos(documento, operacion) {
-    if(documento.length > 0) {
-        switch (operacion) {
-            case "agregar":
-                registros_por_despachar += (documento + ";");
+    var ope = operacion;
+    var doc = documento;
+    console.log(doc+"   "+ope);
+    // if(documento.length > 0) {
+        switch (ope) {
+            case 0:
+                registros_por_despachar += (doc + ";");
                 break;
-            case "eliminar":
-                console.log(registros_por_despachar); // prueba
-                console.log((documento + ";")); // prueba
-                registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
-                console.log(registros_por_despachar); // prueba
+            case 1:
+                //console.log(registros_por_despachar); // prueba
+                //console.log((doc + ";")); // prueba
+
+                // registros_por_despachar = registros_por_despachar.replace((doc + ";"), '');
+                registros_por_despachar = registros_por_despachar.split(doc + ";").join("");
+
+                // console.log(registros_por_despachar); // prueba
                 cargarTabladeFacturasporDespachar();
                 break;
         }
-    }
+    // }
 }
 
 
@@ -249,7 +276,7 @@ $(document).on("click", ".anadir", function () {
 
     if(validaciones) {
         //agregar factura por despachar
-        gestionDeDocumentos(factura, "agregar");
+        gestionDeDocumentos(factura, 0);
 
         //cargar peso de la factura
         $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura}, function (data, status) {
@@ -348,7 +375,7 @@ $(document).on("click", "#btn_pdf", function () {
 
 
 function cargarTabladeFacturasporDespachar() {
-    tabla_por_despachar = $('#fact_por_despachar_data').DataTable({
+    tabla_por_despachar = $('#fact_por_despachar_data').dataTable({
         "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
         "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
         "ajax": {
@@ -357,6 +384,7 @@ function cargarTabladeFacturasporDespachar() {
             },
             url: "despachos_controlador.php?op=obtener_facturasporcargardespacho",
             type: "post",
+            dataType: "json",
             data: {registros_por_despachar: registros_por_despachar},
             error: function (e) {
                 console.log(e.responseText);
