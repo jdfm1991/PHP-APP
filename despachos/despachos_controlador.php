@@ -74,6 +74,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $datos[0]["codvend"];
             $sub_array[] = number_format($datos[0]["mtototal"], 2, ",", ".");
             $sub_array[] = number_format($peso, 2, ",", ".");
+
             $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["numerod"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
             $data[] = $sub_array;

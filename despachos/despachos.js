@@ -230,7 +230,6 @@ function eliminar(documento) {
         registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
         cargarTabladeFacturasporDespachar();
     }
-
 }
 
 /*************************************************************************************************************/
