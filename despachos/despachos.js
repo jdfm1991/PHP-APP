@@ -91,6 +91,7 @@ function validarPesoporFactura(numero_fact){
     if(numero_fact !== "") {
         $.ajax({
             async: false,
+            cache: true,
             url: "despachos_controlador.php?op=obtener_pesoporfactura",
             method: "POST",
             data: {numero_fact: numero_fact},
@@ -113,6 +114,7 @@ function validarFacturaEnDespachos(numero_fact){
     if(numero_fact !== "") {
         $.ajax({
             async: false,
+            cache: true,
             url: "despachos_controlador.php?op=buscar_facturaendespacho",
             method: "POST",
             data: {numero_fact: numero_fact},
@@ -135,6 +137,7 @@ function validarExistenciaFactura(numero_fact){
     if(numero_fact !== "") {
         $.ajax({
             async: false,
+            cache: true,
             url: "despachos_controlador.php?op=buscar_existefactura",
             method: "POST",
             data: {numero_fact: numero_fact, registros_por_despachar: registros_por_despachar},
@@ -223,44 +226,12 @@ function anadir(documento) {
 }
 
 function eliminar(documento) {
-
-    console.log(documento+"     "+documento.length );
-
     if(documento.length > 0) {
-        //console.log(registros_por_despachar); // prueba
-        //console.log((doc + ";")); // prueba
-
-        // registros_por_despachar = registros_por_despachar.replace((doc + ";"), '');
-        registros_por_despachar = registros_por_despachar.split(documento + ";").join("");
-
-        console.log(registros_por_despachar); // prueba
+        registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
         cargarTabladeFacturasporDespachar();
     }
+
 }
-
-function gestionDeDocumentos(documento, operacion) {
-    var ope = operacion;
-    var doc = documento;
-    console.log(doc+"   "+ope);
-    // if(documento.length > 0) {
-        switch (ope) {
-            case 0:
-                registros_por_despachar += (doc + ";");
-                break;
-            case 1:
-                //console.log(registros_por_despachar); // prueba
-                //console.log((doc + ";")); // prueba
-
-                // registros_por_despachar = registros_por_despachar.replace((doc + ";"), '');
-                registros_por_despachar = registros_por_despachar.split(doc + ";").join("");
-
-                // console.log(registros_por_despachar); // prueba
-                cargarTabladeFacturasporDespachar();
-                break;
-        }
-    // }
-}
-
 
 /*************************************************************************************************************/
 /*                                          EVENTOS DE CLICK A BOTONES                                       */
@@ -276,7 +247,7 @@ $(document).on("click", ".anadir", function () {
 
     if(validaciones) {
         //agregar factura por despachar
-        gestionDeDocumentos(factura, 0);
+        anadir(factura);
 
         //cargar peso de la factura
         $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura}, function (data, status) {
@@ -375,68 +346,72 @@ $(document).on("click", "#btn_pdf", function () {
 
 
 function cargarTabladeFacturasporDespachar() {
-    tabla_por_despachar = $('#fact_por_despachar_data').dataTable({
-        "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
-        "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
-        "ajax": {
-            beforeSend: function () {
-                $("#loader1").show(''); //MOSTRAMOS EL LOADER.
-            },
-            url: "despachos_controlador.php?op=obtener_facturasporcargardespacho",
-            type: "post",
-            dataType: "json",
-            data: {registros_por_despachar: registros_por_despachar},
-            error: function (e) {
-                console.log(e.responseText);
-            },
-            complete: function () {
-                //MUESTRA LA TABLA SI TIENE AL MENOS UN DESPACHO CARGADO EN MEMORIA POR REGISTRAR
-                //Y HABILITA EL BOTON GENERAR DESPACHO
-                if(registros_por_despachar.length > 0){
-                    $('.generar').attr("disabled", false);//boton generar habilitado
-                    $("#tabla_facturas_por_despachar").show();
-                    estado_minimizado = true;
-                } else {
-                    $('.generar').attr("disabled", true);//boton generar inabilitado
-                    $("#tabla_facturas_por_despachar").hide();
-                    estado_minimizado = false;
-                }
+    if(registros_por_despachar.toString().length > 0){
+        tabla_por_despachar = $('#fact_por_despachar_data').dataTable({
+            "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
+            "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
+            "ajax": {
+                beforeSend: function () {
+                    $("#loader1").show(''); //MOSTRAMOS EL LOADER.
+                },
+                url: "despachos_controlador.php?op=obtener_facturasporcargardespacho",
+                type: "post",
+                dataType: "json",
+                data: {registros_por_despachar: registros_por_despachar},
+                error: function (e) {
+                    console.log(e.responseText);
+                },
+                complete: function () {
+                    //MUESTRA LA TABLA SI TIENE AL MENOS UN DESPACHO CARGADO EN MEMORIA POR REGISTRAR
+                    //Y HABILITA EL BOTON GENERAR DESPACHO
+                    if(registros_por_despachar.length > 0){
+                        $('.generar').attr("disabled", false);//boton generar habilitado
+                        $("#tabla_facturas_por_despachar").show();
+                        estado_minimizado = true;
+                    } else {
+                        $('.generar').attr("disabled", true);//boton generar inabilitado
+                        $("#tabla_facturas_por_despachar").hide();
+                        estado_minimizado = false;
+                    }
 
-                $("#loader1").hide();//OCULTAMOS EL LOADER.
-                // validarCantidadRegistrosTabla();
-                limpiar_campo_factura();//LIMPIAMOS EL INPUT.
-            }
-        },//TRADUCCION DEL DATATABLE.
-        "bDestroy": true,
-        "responsive": true,
-        "bInfo": true,
-        "iDisplayLength": 10,
-        "order": [[0, "desc"]],
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
+                    $("#loader1").hide();//OCULTAMOS EL LOADER.
+                    // validarCantidadRegistrosTabla();
+                    limpiar_campo_factura();//LIMPIAMOS EL INPUT.
+                }
+            },//TRADUCCION DEL DATATABLE.
+            "bDestroy": true,
+            "responsive": true,
+            "bInfo": true,
+            "iDisplayLength": 10,
+            "order": [[0, "desc"]],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
             },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        },
-    });
+        });
+    } else {
+        $("#tabla_facturas_por_despachar").hide();
+    }
 }
 
 function cargarTabladeProductosEnDespachoCreado(correlativo) {
