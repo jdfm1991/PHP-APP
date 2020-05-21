@@ -97,7 +97,11 @@ function validarPesoporFactura(numero_fact){
             data: {numero_fact: numero_fact},
             success: function (data) {
                 data = JSON.parse(data);
-                if( (data.peso + peso_acum_facturas) > peso_max_vehiculo ){
+                var peso_nuevo = parseFloat(data.peso.toString().replace(/,/g , '.') );
+                var peso_acumulado = parseFloat(peso_acum_facturas.toString().replace(/,/g , '.') );
+                var peso_max_vehi = parseFloat(peso_max_vehiculo.toString().replace(/,/g , '.') );
+
+                if( (peso_nuevo + peso_acumulado) > peso_max_vehi ){
                     Swal.fire('Atención!', 'El Vehiculo esta al maximo de Capacidad!', 'error');
                     resultado = false;
                 } else {
@@ -251,7 +255,11 @@ $(document).on("click", ".anadir", function () {
         //cargar peso de la factura
         $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura}, function (data, status) {
             data = JSON.parse(data);
-            peso_acum_facturas += data.peso;
+
+            var peso_nuevo = parseFloat(data.peso.toString().replace(/,/g , '.') );
+            var peso_acumulado = parseFloat(peso_acum_facturas.toString().replace(/,/g , '.') );
+
+            peso_acum_facturas = peso_nuevo + peso_acumulado;
         });
 
         //cargar tabla de facturas por despachar
