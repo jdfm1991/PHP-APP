@@ -143,6 +143,7 @@ class Despachos extends Conectar{
         $sql->bindValue(2,$documentos);
         $sql->bindValue(3,$documentos);
         $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

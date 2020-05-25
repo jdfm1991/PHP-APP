@@ -48,7 +48,7 @@ class Conectar {
 
 	public function ruta(){
 
-		return "http://localhost/appweb/";
+		return "http://appweb.test/";
 	}
 
 	public static function convertir($string){

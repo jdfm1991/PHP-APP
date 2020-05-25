@@ -11,6 +11,10 @@ require_once("despachos_modelo.php");
 $despachos  = new Despachos();
 $vehiculo = new Vehiculos();
 
+//variables para listar productos
+//al crear un despacho
+$total_bultos = 0;
+$total_paq = 0;
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -183,77 +187,55 @@ switch ($_GET["op"]) {
             $nros_documentos .= "'".$item."',";
         //le quitamos 1 caracter para quitarle la ultima coma
         $nros_documentos = substr($nros_documentos, 0, -1);
-
+var_dump($nros_documentos);
         //obtenemos los registros de los productos en dichos documentos
         $datos = $despachos->getProductosDespachoCreado($nros_documentos);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
+        $total_bultos = 0;
+        $total_paq = 0;
         foreach ($datos as $row) {
+
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
-
-
-
-            $total_bultos = 0;
-            $total_paq = 0;
-
-            /*for($i=0;$i<mssql_num_rows($genera);$i++){
-
-                $bultos = 0;
-                $paq = 0;
-
-                if (mssql_result($genera,$i,"bultos")){
-                    $bultos = mssql_result($genera,$i,"bultos");
-                }
-                if (mssql_result($genera,$i,"paquetes")){
-                    $paq = mssql_result($genera,$i,"paquetes");
-                }
-
-                if (mssql_result($genera,$i,"EsEmpaque")!= 0){
-                    if (mssql_result($genera,$i,"paquetes") > mssql_result($genera,$i,"CantEmpaq")){
-
-                        if (mssql_result($genera,$i,"CantEmpaq")!=0) {
-                            $bultos_total = mssql_result($genera,$i,"paquetes")/mssql_result($genera,$i,"CantEmpaq");
-                        }else{
-                            $bultos_total = 0;
-                        }
-                        $decimales = explode(".",$bultos_total);
-                        $bultos_deci = $bultos_total - $decimales[0];
-                        $paq = $bultos_deci * mssql_result($genera,$i,"CantEmpaq");
-                        $bultos = $decimales[0] + $bultos;
-                    }
-                }
-                $total_bultos = $total_bultos + $bultos;
-                $total_paq = $total_paq + $paq;
-
-                */?><!--
-                <tr <?php /*if (($i % 2) != 0){ */?>
-                    bgcolor="#CCCCCC"
-                <?php /*} */?>>
-                    <td><div align="center"><?php /*echo mssql_result($genera,$i,"CodItem"); */?></div></td>
-                    <td><div align="left"><?php /*echo mssql_result($genera,$i,"descrip"); */?></td>
-                    <td><div align="center"><?php /*echo round($bultos); */?></div></td>
-                    <td><div align="center"><?php /*echo round($paq); */?></td>
-                </tr>
-
-
-            <?php /* } */
-
-
-
-
             $sub_array = array();
-            $sub_array[] = date("d-m-Y", strtotime($row["fechauv"]));
-            $sub_array[] = $row["codclie"];
-            $sub_array[] = $row["descrip"];
-            $sub_array[] = $row["id3"];
-            $sub_array[] = $row["codvend"];
-            $sub_array[] = number_format($row["total"], 2, ",", ".");
 
+            //REALIZAMOS PROCESOS DE CALCULO
+            $bultos = 0;
+            $paq = 0;
+            if ($row["BULTOS"] > 0){
+                $bultos = $row["BULTOS"];
+            }
+            if ($row["PAQUETES"] > 0){
+                $paq = $row["PAQUETES"];
+            }
 
+            if ($row["EsEmpaque"] != 0){
+                if ($row["PAQUETES"] > $row["CantEmpaq"]){
+
+                    if ($row["CantEmpaq"] != 0) {
+                        $bultos_total = $row["PAQUETES"] / $row["CantEmpaq"];
+                    }else{
+                        $bultos_total = 0;
+                    }
+                    $decimales = explode(".",$bultos_total);
+                    $bultos_deci = $bultos_total - $decimales[0];
+                    $paq = $bultos_deci * $row["CantEmpaq"];
+                    $bultos = $decimales[0] + $bultos;
+                }
+            }
+            $total_bultos += $bultos;
+            $total_paq += $paq;
+
+            //agregamos al sub array
+            $sub_array[] = $row["CodItem"];
+            $sub_array[] = $row["Descrip"];
+            $sub_array[] = round($bultos);
+            $sub_array[] = round($paq);
+
+            //agregamos un registro al array principal
             $data[] = $sub_array;
-
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -263,6 +245,17 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
         echo json_encode($results);
+
+        break;
+
+    case "listar_totales_paq_bul_despacho":
+
+        if( isset($total_bultos) && isset($total_paq) ) {
+            $output["total_bultos"] = $total_bultos;
+            $output["total_paq"] = $total_paq;
+        }
+
+        echo json_encode($output);
 
         break;
 }

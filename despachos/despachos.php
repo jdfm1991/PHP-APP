@@ -187,7 +187,11 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 						</tbody>
 					</table>
 					<!-- BOX BOTONES DE REPORTES-->
-					<br>
+                    <div align="center">
+                        <br>
+                        <p id="cuenta"></p>
+                        <br>
+                    </div>
 					<div align="center">
 						<!-- <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button> -->
 						<button type="button" class="btn btn-info" id="btn_newdespacho">Crear Otro Despacho</button>

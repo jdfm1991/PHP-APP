@@ -159,6 +159,19 @@ function validarExistenciaFactura(numero_fact){
     }
 }
 
+function totales() {
+    $.ajax({
+        async: true,
+        cache: true,
+        url: "despachos_controlador.php?op=listar_totales_paq_bul_despacho",
+        method: "get",
+        success: function (data) {
+            data = JSON.parse(data);
+            var texto= "Total Bultos: "+data.total_bultos+"  Total Pag: "+data.total_paq;
+            $("#cuenta").html(texto);
+        }
+    });
+}
 
 /*************************************************************************************************************/
 /*                                                  EVENTOS                                                  */
@@ -335,7 +348,8 @@ $(document).on("click", ".generar", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click", "#btn_newdespacho", function () {
-    init();
+    // init();
+    cargarTabladeProductosEnDespachoCreado(sessionStorage.getItem("correl"));
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
@@ -423,7 +437,7 @@ function cargarTabladeFacturasporDespachar() {
 
 function cargarTabladeProductosEnDespachoCreado(correlativo) {
     //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-    tabla_despachos = $('#despacho_general_data').DataTable({
+    tabla_despachos = $('#despacho_general_data').dataTable({
         "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
         "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
         "ajax": {
@@ -440,8 +454,8 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
 
                 $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
                 $("#loader").hide();//OCULTAMOS EL LOADER.
-                validarCantidadRegistrosTabla();
-                // limpiar();//LIMPIAMOS EL SELECTOR.
+                totales();
+                // validarCantidadRegistrosTabla();
 
             }
         },//TRADUCCION DEL DATATABLE.
