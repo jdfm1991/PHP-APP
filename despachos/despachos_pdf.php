@@ -31,19 +31,19 @@ class PDF extends FPDF
         // Logo
         $this->Image('../public/build/images/logo.png', 10, 8, 33);
         // Arial bold 15
-        $this->SetFont('Arial', '', 11);
+        $this->SetFont('Arial', 'B', 11);
         // Movernos a la derecha
         $this->Cell(80);
         // Título
         $this->Cell(30, 10, $empresa[0]['Descrip'], 0, 0, 'C');
         $this->Ln();
 
-
+        $this->SetFont('Arial', 'B', 8);
         $this->Cell(90,7,'Nro de Despacho: '.str_pad($GLOBALS["correlativo"], 8, 0, STR_PAD_LEFT),0,0,'C');
         $this->Ln();
         $this->SetFont ('Arial','',7);
         $this->Cell(90,7,'Fecha Despacho: '.$cabeceraDespacho[0]['fechad'],0,0,'L');
-        $this->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['Placa'].' '.$vehiculo[0]['Modelo'].' '.$vehiculo[0]['Capacidad'].'Kg',0,0,'L');
+        $this->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['Placa'].'  '.$vehiculo[0]['Modelo'].'  '.$vehiculo[0]['Capacidad'].'Kg',0,0,'L');
         $this->Ln();
 
         $this->Cell(150,7,'Destino : '.$cabeceraDespacho[0]['Destino']." - ".$chofer[0]['Nomper'],0,0,'L');
@@ -181,10 +181,6 @@ $total_peso = 0;
 $total_peso_azucar = 0;
 $total_peso_galleta = 0;
 $total_peso_chocolote = 0;
-
-$total_bultos = 0;
-$total_paq = 0;
-$total_peso = 0;
 
 
 /*foreach ($query as $i) {

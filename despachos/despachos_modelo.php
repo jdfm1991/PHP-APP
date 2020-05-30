@@ -25,7 +25,7 @@ class Despachos extends Conectar{
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
+        $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
