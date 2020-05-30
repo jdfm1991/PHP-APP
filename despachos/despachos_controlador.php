@@ -11,11 +11,6 @@ require_once("despachos_modelo.php");
 $despachos  = new Despachos();
 $vehiculo = new Vehiculos();
 
-//variables para listar productos
-//al crear un despacho
-$total_bultos = 0;
-$total_paq = 0;
-
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
@@ -32,6 +27,10 @@ switch ($_GET["op"]) {
 
     case "obtener_pesoporfactura":
 
+        $peso_acum = $_POST["peso_acum_facturas"]; number_format($_POST["peso_acum_facturas"], 2, ",", ".");
+        $peso_max  = $_POST["peso_max_vehiculo"]; number_format($_POST["peso_max_vehiculo"], 2, ",", ".");
+        isset($_POST["eliminarPeso"]) ? $eliminarPeso = true : $eliminarPeso = false;
+
         $datos = $despachos->getPesoTotalporFactura($_POST["numero_fact"]);
 
         $peso = 0;
@@ -42,7 +41,26 @@ switch ($_GET["op"]) {
                 }
             }
         }
-        $output["peso"] = number_format($peso, 2, ",", ".");
+        //asigno el peso nuevo
+        $peso = number_format($peso, 2, ",", ".");
+
+        //consulta si deseamos eliminar el peso de la factura actual
+        if($eliminarPeso){
+            $output["pesoNuevoAcum"] = (float)$peso_acum - (float)$peso;
+        }
+        //sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
+        else if( ((float)$peso + (float)$peso_acum ) < (float)$peso_max ){
+           //asigna el peso nuevo + el acumulado
+            $output["pesoNuevoAcum"] = (float)$peso + (float)$peso_acum;
+            $output["pesoDeFactura"] = (float)$peso;
+            $output["cond"] = "true";
+        }
+        //sino, solo devuelve el acumulado anterior y avisa que el acumulado supera al maximo de carga con la cond
+        else {
+            $output["pesoNuevoAcum"] = (float)$peso_acum;
+            $output["cond"] = "false";
+        }
+
         echo json_encode($output);
 
         break;
@@ -171,10 +189,7 @@ switch ($_GET["op"]) {
         break;
 
 
-    case "listar_despacho": //no esta listo
-
-        $_POST["correlativo"];
-        $_POST["documentos"];
+    case "listar_despacho":
 
         //creamos el array con los numero de documento
         if(isset($_POST["documentos"])) {
@@ -183,11 +198,15 @@ switch ($_GET["op"]) {
 
         //generamos un string para utilizar en el query
         $nros_documentos = "";
-        foreach ($array AS $item)
-            $nros_documentos .= "'".$item."',";
-        //le quitamos 1 caracter para quitarle la ultima coma
-        $nros_documentos = substr($nros_documentos, 0, -1);
-var_dump($nros_documentos);
+        if($array > 1) {
+            foreach ($array AS $item)
+                $nros_documentos .= "'".$item."',";
+        } else {
+            $nros_documentos .= "'".$array[0]."',";
+        }
+        //le quitamos 2 caracter para quitarle la ultima coma
+        $nros_documentos = substr($nros_documentos, 1, -2);
+
         //obtenemos los registros de los productos en dichos documentos
         $datos = $despachos->getProductosDespachoCreado($nros_documentos);
 
@@ -238,6 +257,9 @@ var_dump($nros_documentos);
             $data[] = $sub_array;
         }
 
+        $_SESSION["total_bultos"] = $total_bultos;
+        $_SESSION["total_paq"] = $total_paq;
+
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $results = array(
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
@@ -250,9 +272,12 @@ var_dump($nros_documentos);
 
     case "listar_totales_paq_bul_despacho":
 
-        if( isset($total_bultos) && isset($total_paq) ) {
-            $output["total_bultos"] = $total_bultos;
-            $output["total_paq"] = $total_paq;
+        if( isset($_SESSION["total_bultos"]) && isset($_SESSION["total_paq"]) ) {
+            $output["total_bultos"] = $_SESSION["total_bultos"];
+            $output["total_paq"] = $_SESSION["total_paq"];
+
+            unset($_SESSION['total_bultos']);
+            unset($_SESSION['total_paq']);
         }
 
         echo json_encode($output);

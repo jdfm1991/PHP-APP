@@ -5,6 +5,39 @@ require_once("../acceso/conexion.php");
 
 class Despachos extends Conectar{
 
+    public function getDatosEmpresa() {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT Descrip, Direc1, telef, rif FROM SACONF";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCabeceraDespacho($correlativo) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT Correlativo, fechae, fechad, ID_Chofer, ID_Vehiculo, Destino, ID_Usuario FROM Despachos where Correlativo = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $correlativo);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getPesoTotalporFactura($numero_fact) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -125,23 +158,21 @@ class Despachos extends Conectar{
         $sql = "SELECT DISTINCT CodItem, Descrip, 
 
                 COALESCE((SELECT SUM(Cantidad) FROM SAITEMFAC WHERE CodItem = SAPROD.CodProd 
-                AND TipoFac = 'A' AND EsUnid = '0' AND (numerod in (?))), 0)
+                AND TipoFac = 'A' AND EsUnid = '0' AND (numerod in ( ? ))), 0)
                 AS BULTOS,
-                 
                 COALESCE((SELECT SUM(Cantidad) FROM SAITEMFAC WHERE CodItem = SAPROD.CodProd 
-                AND TipoFac = 'A' AND EsUnid = '1' AND (numerod in (?))), 0)
+                AND TipoFac = 'A' AND EsUnid = '1' AND (numerod in ( ? ))), 0)
                 AS PAQUETES,
-                
                 CantEmpaq,
-                EsEmpaque
+                EsEmpaque 
                 FROM SAITEMFAC INNER JOIN SAPROD ON SAITEMFAC.CodItem = SAPROD.CodProd WHERE 
-                TipoFac = 'A' AND (numerod in (?)) order by SAITEMFAC.CodItem";
+                TipoFac = 'A' AND (numerod in ( ? )) order by SAITEMFAC.CodItem";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$documentos);
-        $sql->bindValue(2,$documentos);
-        $sql->bindValue(3,$documentos);
+        $sql->bindValue(1,$documentos, PDO::PARAM_STR);
+        $sql->bindValue(2,$documentos, PDO::PARAM_STR);
+        $sql->bindValue(3,$documentos, PDO::PARAM_STR);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
