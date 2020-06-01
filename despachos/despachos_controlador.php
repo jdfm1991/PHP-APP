@@ -27,8 +27,9 @@ switch ($_GET["op"]) {
 
     case "obtener_pesoporfactura":
 
-        $peso_acum = $_POST["peso_acum_facturas"]; number_format($_POST["peso_acum_facturas"], 2, ",", ".");
-        $peso_max  = $_POST["peso_max_vehiculo"]; number_format($_POST["peso_max_vehiculo"], 2, ",", ".");
+        $peso_acum = str_replace(",", ".", $_POST["peso_acum_facturas"]);
+        $peso_max  = str_replace(",", ".", $_POST["peso_max_vehiculo"]);
+
         isset($_POST["eliminarPeso"]) ? $eliminarPeso = true : $eliminarPeso = false;
 
         $datos = $despachos->getPesoTotalporFactura($_POST["numero_fact"]);
@@ -42,22 +43,22 @@ switch ($_GET["op"]) {
             }
         }
         //asigno el peso nuevo
-        $peso = number_format($peso, 2, ",", ".");
+        $peso = number_format($peso, 2, ".", "");
 
         //consulta si deseamos eliminar el peso de la factura actual
         if($eliminarPeso){
-            $output["pesoNuevoAcum"] = (float)$peso_acum - (float)$peso;
+            $output["pesoNuevoAcum"] = strval(floatval($peso_acum) - floatval($peso));
         }
         //sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
-        else if( ((float)$peso + (float)$peso_acum ) < (float)$peso_max ){
+        else if( (floatval($peso) + floatval($peso_acum) ) < floatval($peso_max) ){
            //asigna el peso nuevo + el acumulado
-            $output["pesoNuevoAcum"] = (float)$peso + (float)$peso_acum;
-            $output["pesoDeFactura"] = (float)$peso;
+            $output["pesoNuevoAcum"] = strval(floatval($peso) + floatval($peso_acum));
+            $output["pesoDeFactura"] = floatval($peso);
             $output["cond"] = "true";
         }
         //sino, solo devuelve el acumulado anterior y avisa que el acumulado supera al maximo de carga con la cond
         else {
-            $output["pesoNuevoAcum"] = (float)$peso_acum;
+            $output["pesoNuevoAcum"] = $peso_acum;
             $output["cond"] = "false";
         }
 
@@ -82,7 +83,7 @@ switch ($_GET["op"]) {
             if (count($pesodefact) != 0){
                 foreach ($pesodefact as $dato) {
                     if($dato['tipofac'] == "A") {
-                        ($dato['unidad'] == 0) ? ($peso += ($dato['peso'] * $dato['cantidad'])) : ($peso += (($dato['peso'] / $dato['paquetes']) * $dato['cantidad'])) ;
+                        ($dato['unidad'] == 0) ? ($peso += ($dato['peso'] * $dato['cantidad'])) : ($peso += (($dato['peso'] / $dato['paquetes']) * $dato['cantidad']));
                     }
                 }
             }

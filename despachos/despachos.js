@@ -273,11 +273,8 @@ $(document).on("click", ".anadir", function () {
         $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo},
             function (data, status) {
                 data = JSON.parse(data);
-
-                // var peso_nuevo = parseFloat(data.peso.toString().replace(/,/g , '.') );
-                // var peso_acumulado = parseFloat(peso_acum_facturas.toString().replace(/,/g , '.') );
-
-                peso_acum_facturas = parseFloat(data.pesoNuevoAcum.toString().replace(/,/g , '.') );
+                // peso_acum_facturas = data.pesoNuevoAcum.toString().replace(/,/g , '.');
+                peso_acum_facturas = data.pesoNuevoAcum.toString();
             }
         );
 
@@ -298,7 +295,11 @@ $(document).on("click", ".generar", function () {
     var destino = $("#destino").val().toUpperCase();
     var usuario = $("#ci_usuario").val();
 
-    if( peso_acum_facturas <= peso_max_vehiculo ){
+    /*console.log(parseFloat(peso_acum_facturas));
+    console.log(parseFloat(peso_max_vehiculo));
+    console.log("  resul: "+(parseFloat(peso_acum_facturas) <= parseFloat(peso_max_vehiculo)));
+    return false;*/
+    if( parseFloat(peso_acum_facturas) <= parseFloat(peso_max_vehiculo) ){
 
         if (estado_minimizado) {
             $("#tabla_facturas_por_despachar").hide();
