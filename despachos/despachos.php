@@ -98,10 +98,17 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<h3> Inclusión de Facturas</h3>
 								<div class="form-group">
 									<label class="control-label">Ingrese Número de Factura a Despachar</label>
-									<input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" />
+									<input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" onkeypress="onPressKey(event)" />
 								</div>
 								<button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
-								<!-- <button class="btn btn-success nextBtn float-right" type="button">Siguiente</button> -->
+
+                                <div class="form-check form-check-inline container text-center  justify-content-center align-items-center">
+                                    <div class="progress progress-xs" style="width: 200px">
+                                        <div class="progress-bar bg-success barraProgreso" style="width: 1%"></div>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <h5><span class="badge bg-success textoBarraProgreso">Kg: 020 / 200</span></h5>
+                                </div>
+
 								<button class="btn btn-success float-right generar" type="button">Generar!</button>
 							</div>
 

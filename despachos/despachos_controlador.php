@@ -47,10 +47,16 @@ switch ($_GET["op"]) {
 
         //consulta si deseamos eliminar el peso de la factura actual
         if($eliminarPeso){
+            $porcentajePeso = strval(((floatval($peso) - floatval($peso_acum)) * 100) / floatval($peso_max) );
+
+            //asigna el peso acumulado eliminandole el peso de una factura especifica
             $output["pesoNuevoAcum"] = strval(floatval($peso_acum) - floatval($peso));
         }
         //sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
         else if( (floatval($peso) + floatval($peso_acum) ) < floatval($peso_max) ){
+
+            $porcentajePeso = strval(((floatval($peso) + floatval($peso_acum)) * 100) / floatval($peso_max) );
+
            //asigna el peso nuevo + el acumulado
             $output["pesoNuevoAcum"] = strval(floatval($peso) + floatval($peso_acum));
             $output["pesoDeFactura"] = floatval($peso);
@@ -58,9 +64,21 @@ switch ($_GET["op"]) {
         }
         //sino, solo devuelve el acumulado anterior y avisa que el acumulado supera al maximo de carga con la cond
         else {
+            $porcentajePeso = strval((floatval($peso_acum) * 100) / floatval($peso_max) );
             $output["pesoNuevoAcum"] = $peso_acum;
             $output["cond"] = "false";
         }
+
+        //evaluacion del color de la barra de progreso del peso acumulado
+        if(floatval($porcentajePeso) > 0 && floatval($porcentajePeso) <=69){
+            $bgProgress = "bg-success";
+        } elseif(floatval($porcentajePeso) > 70 && floatval($porcentajePeso) <=89){
+            $bgProgress = "bg-warning";
+        }elseif (floatval($porcentajePeso) > 90 && floatval($porcentajePeso) <=100){
+            $bgProgress = "bg-danger";
+        }
+        $output["porcentajePeso"] = $porcentajePeso;
+        $output["bgProgreso"] = $bgProgress;
 
         echo json_encode($output);
 

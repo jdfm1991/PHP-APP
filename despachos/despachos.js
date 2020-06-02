@@ -68,6 +68,11 @@ var no_puede_estar_vacio = function () {
     // estado_minimizado = estado1;
 };
 
+function onPressKey(e) {
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla===13) anadirFactPorDespachar();
+}
+
 
 /*************************************************************************************************************/
 /*                                         VALIDACIONES CON AJAX                                             */
@@ -260,7 +265,10 @@ function eliminar(documento) {
 
 //ACCION AL PRECIONAR EL BOTON AÑADIR.
 $(document).on("click", ".anadir", function () {
+    anadirFactPorDespachar();
+});
 
+function anadirFactPorDespachar() {
     var factura = agregarCeros($("#factura").val());
 
     validaciones = validarFacturaEnDespachos(factura) && validarPesoporFactura(factura) && validarExistenciaFactura(factura);
@@ -275,6 +283,8 @@ $(document).on("click", ".anadir", function () {
                 data = JSON.parse(data);
                 // peso_acum_facturas = data.pesoNuevoAcum.toString().replace(/,/g , '.');
                 peso_acum_facturas = data.pesoNuevoAcum.toString();
+
+
             }
         );
 
@@ -284,7 +294,7 @@ $(document).on("click", ".anadir", function () {
         //inabilita el boton añadir
         $('.anadir').attr("disabled", true);
     }
-});
+}
 
 //ACCION AL PRECIONAR EL BOTON GENERAR.
 $(document).on("click", ".generar", function () {
@@ -354,8 +364,7 @@ $(document).on("click", ".generar", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click", "#btn_newdespacho", function () {
-    // init();
-    cargarTabladeProductosEnDespachoCreado();
+    init();
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
