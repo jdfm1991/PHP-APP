@@ -10,17 +10,21 @@ var peso_max_vehiculo;
 
 var peso_acum_facturas;
 
+var valor_bg_progreso;
+
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla_facturas_por_despachar").hide();
     $("#tabla_detalle_despacho").hide();
     $("#loader1").hide();
+    $( "#containerProgress" ).hide();
     $('.nextBtn').attr("disabled", true);
     $('.generar').attr("disabled", true);
     registros_por_despachar = "";
     peso_max_vehiculo = 0;
     peso_acum_facturas = 0;
     estado_minimizado = false;
+    valor_bg_progreso = "bg-success";
 }
 
 function limpiar() {
@@ -251,11 +255,32 @@ function eliminar(documento) {
                 //eliminamos la factura del string
                 registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
 
+                //seteamos la barra de progreso
+                barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso);
+
                 //recargar la tabla
                 cargarTabladeFacturasporDespachar();
             }
         );
     }
+}
+
+function barraDeProgreso(colorFondo, pesoAcumulado, porcentajePeso){
+    //modifica el texto de los kilos acumulados vs el maximo de carga
+    $( "#textoBarraProgreso" )
+        .removeClass(valor_bg_progreso)
+        .addClass(colorFondo)
+        .text(pesoAcumulado+"kg  /  "+peso_max_vehiculo+"kg");
+
+    //modifica la bara de progreso
+    $("#barraProgreso")
+        .removeClass(valor_bg_progreso)
+        .addClass(colorFondo)
+        .css('width', porcentajePeso+'%')
+        .attr("aria-valuenow", porcentajePeso);
+
+    //guardamos el valor del background
+    valor_bg_progreso = colorFondo;
 }
 
 /*************************************************************************************************************/
@@ -284,7 +309,8 @@ function anadirFactPorDespachar() {
                 // peso_acum_facturas = data.pesoNuevoAcum.toString().replace(/,/g , '.');
                 peso_acum_facturas = data.pesoNuevoAcum.toString();
 
-
+                //seteamos la barra de progreso
+                barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso);
             }
         );
 
@@ -403,10 +429,12 @@ function cargarTabladeFacturasporDespachar() {
                     if(registros_por_despachar.length > 0){
                         $('.generar').attr("disabled", false);//boton generar habilitado
                         $("#tabla_facturas_por_despachar").show();
+                        $( "#containerProgress" ).show();
                         estado_minimizado = true;
                     } else {
                         $('.generar').attr("disabled", true);//boton generar inabilitado
                         $("#tabla_facturas_por_despachar").hide();
+                        $( "#containerProgress" ).hide();
                         estado_minimizado = false;
                     }
 
@@ -447,6 +475,7 @@ function cargarTabladeFacturasporDespachar() {
         });
     } else {
         $("#tabla_facturas_por_despachar").hide();
+        $( "#containerProgress" ).hide();
     }
 }
 

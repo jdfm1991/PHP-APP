@@ -44,10 +44,10 @@ switch ($_GET["op"]) {
         }
         //asigno el peso nuevo
         $peso = number_format($peso, 2, ".", "");
-
+        $porcentajePeso = "1";
         //consulta si deseamos eliminar el peso de la factura actual
         if($eliminarPeso){
-            $porcentajePeso = strval(((floatval($peso) - floatval($peso_acum)) * 100) / floatval($peso_max) );
+            $porcentajePeso = strval(( (floatval($peso_acum) - floatval($peso)) * 100) / floatval($peso_max) );
 
             //asigna el peso acumulado eliminandole el peso de una factura especifica
             $output["pesoNuevoAcum"] = strval(floatval($peso_acum) - floatval($peso));
@@ -70,6 +70,7 @@ switch ($_GET["op"]) {
         }
 
         //evaluacion del color de la barra de progreso del peso acumulado
+        $bgProgress = "";
         if(floatval($porcentajePeso) > 0 && floatval($porcentajePeso) <=69){
             $bgProgress = "bg-success";
         } elseif(floatval($porcentajePeso) > 70 && floatval($porcentajePeso) <=89){
