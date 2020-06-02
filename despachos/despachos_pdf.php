@@ -177,6 +177,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', '', 8);
 
 $pdf->SetWidths(array(20,75,30,30,30));
+$lote = "";
 
 //obtener los productos por despacho creado
 $query = $despachos->getProductosDespachoCreado($correlativo);
@@ -184,6 +185,13 @@ $query = $despachos->getProductosDespachoCreado($correlativo);
 //facturas por correlativo
 $documentos = $despachos->getFacturasPorCorrelativo($correlativo);
 $num = count($documentos);
+foreach ($documentos AS $item)
+    $lote .= " ".$item['Numerod'].",";
+//le quitamos 1 caracter para quitarle la ultima coma
+$lote = substr($lote, 0, -1);
+
+
+
 
 $total_bultos = 0;
 $total_paq = 0;
@@ -192,13 +200,6 @@ $total_peso = 0;
 $total_peso_azucar = 0;
 $total_peso_galleta = 0;
 $total_peso_chocolote = 0;
-
-$lote = "";
-foreach ($documentos AS $item)
-    $lote .= " ".$item['Numerod'].",";
-//le quitamos 1 caracter para quitarle la ultima coma
-$lote = substr($lote, 0, -1);
-
 
 foreach ($query as $i) {
 
