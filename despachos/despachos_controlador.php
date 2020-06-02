@@ -192,6 +192,10 @@ switch ($_GET["op"]) {
 
     case "listar_despacho":
 
+        //correlativo
+        $correlativo = $_POST["correlativo"];
+
+        /**
         //creamos el array con los numero de documento
         if(isset($_POST["documentos"])) {
             $array = explode(";", substr($_POST["documentos"], 0, -1));
@@ -207,9 +211,10 @@ switch ($_GET["op"]) {
         }
         //le quitamos 2 caracter para quitarle la ultima coma
         $nros_documentos = substr($nros_documentos, 1, -2);
+         **/
 
         //obtenemos los registros de los productos en dichos documentos
-        $datos = $despachos->getProductosDespachoCreado($nros_documentos);
+        $datos = $despachos->getProductosDespachoCreado($correlativo);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();

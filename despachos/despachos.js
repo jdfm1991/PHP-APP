@@ -362,7 +362,7 @@ $(document).on("click", "#btn_newdespacho", function () {
 $(document).on("click", "#btn_pdf", function () {
     var correl = sessionStorage.getItem("correl");
     if (correl !== "") {
-        window.open('despachos_pdf.php?&documentos=' + registros_por_despachar + "&correlativo=" + correl, '_blank');
+        window.open('despachos_pdf.php?&correlativo=' + correl, '_blank');
     }
 });
 
@@ -442,6 +442,9 @@ function cargarTabladeFacturasporDespachar() {
 }
 
 function cargarTabladeProductosEnDespachoCreado() {
+    //obtenemos el nuevo correlativo
+    var correlativo = sessionStorage.getItem("correl");
+
     //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
     tabla_despachos = $('#despacho_general_data').dataTable({
         "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
@@ -452,7 +455,7 @@ function cargarTabladeProductosEnDespachoCreado() {
             },
             url: "despachos_controlador.php?op=listar_despacho",
             type: "post",
-            data: {documentos: registros_por_despachar},
+            data: {correlativo: correlativo},
             error: function (e) {
                 console.log(e.responseText);
             },
