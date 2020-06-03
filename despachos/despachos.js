@@ -14,6 +14,9 @@ var valor_bg_progreso;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
+    $("#step1").trigger("click");
+    VistasDeFormulario();
+    $("#minimizar").slideDown();
     $("#tabla_facturas_por_despachar").hide();
     $("#tabla_detalle_despacho").hide();
     $("#loader1").hide();
@@ -36,6 +39,7 @@ function limpiar() {
     registros_por_despachar = "";
     peso_max_vehiculo = 0;
     peso_acum_facturas = 0;
+    valor_bg_progreso = "bg-success";
 }
 
 function limpiar_campo_factura() {
@@ -181,6 +185,20 @@ function totales() {
 
 
 $(document).ready(function () {
+    VistasDeFormulario();
+
+    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
+    $("#fecha").change(() => no_puede_estar_vacio());
+    $("#chofer").change(() => no_puede_estar_vacio());
+    $("#vehiculo").change(() => { no_puede_estar_vacio();
+        cargarCapacidadVehiculo($("#vehiculo").val());
+    });
+    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
+    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();
+
+});
+
+function VistasDeFormulario() {
     var navListItems = $('div.setup-panel div a'), //botones steps
         allWells = $('.setup-content'), //step-2
         allNextBtn = $('.nextBtn'); //boton siguiente
@@ -221,17 +239,7 @@ $(document).ready(function () {
     });
 
     $('div.setup-panel div a.btn-primary').trigger('click');
-
-    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
-    $("#fecha").change(() => no_puede_estar_vacio());
-    $("#chofer").change(() => no_puede_estar_vacio());
-    $("#vehiculo").change(() => { no_puede_estar_vacio();
-        cargarCapacidadVehiculo($("#vehiculo").val());
-    });
-    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
-    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();
-
-});
+}
 
 
 /*************************************************************************************************************/
@@ -390,6 +398,7 @@ $(document).on("click", ".generar", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click", "#btn_newdespacho", function () {
+    limpiar();
     init();
 });
 
