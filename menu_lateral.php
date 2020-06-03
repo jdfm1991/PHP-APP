@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Relación de Despachos</p>
                             </a>
