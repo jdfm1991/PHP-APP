@@ -57,12 +57,24 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["Nomper"];
             $sub_array[] = $row["cantFact"];
             $sub_array[] = $row["Destino"] . " - " . $row["NomperChofer"];
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["Correlativo"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["Correlativo"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["Correlativo"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["Correlativo"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["Correlativo"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["Correlativo"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+                                <i class="far fa-edit fa-2x" style="color:green"></i>
+                            </a></div>';
+            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+                                <i class="fas fa-minus-circle fa-2x" style="color:darkred"></i>
+                            </a></div>';
+            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+                                <i class="fas fa-map-pin fa-2x" style="color:cornflowerblue"></i>
+                            </a></div>';
+            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+                                <img src="../public/build/images/bs.png" width="25" height="25" border="0" />
+                            </a></div>';
+            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+                                <i class="far fa-file-pdf fa-2x" style="color:red"></i>
+                            </a></div>';
+            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+                                <i class="fas fa-info-circle fa-2x" style="color:darkgrey"></i>
+                            </a></div>';
 
 	  /**</div></td>
 	  <td width="55"><div align="center"><div align="center"><a href="index.php?&page=despachos_edita&mod=1&correl=<?php echo mssql_result($consul_planillas,$i,"correl"); ?>"> <img src="images/edt.png" width="19" height="18" border="0" /></a></div></div></td>

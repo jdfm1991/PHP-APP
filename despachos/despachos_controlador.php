@@ -19,6 +19,7 @@ switch ($_GET["op"]) {
         $peso_max_vehiculo = $vehiculo->get_vehiculo_por_id($_POST["id"]);
 
         $output["capacidad"] = $peso_max_vehiculo[0]["Capacidad"];
+        $output["cubicajeMax"] = $peso_max_vehiculo[0]["Volumen"];
 
         echo json_encode($output);
 
@@ -29,43 +30,62 @@ switch ($_GET["op"]) {
 
         $peso_acum = str_replace(",", ".", $_POST["peso_acum_facturas"]);
         $peso_max  = str_replace(",", ".", $_POST["peso_max_vehiculo"]);
+        $cubicaje_acum  = str_replace(",", ".", $_POST["cubicaje_acum_facturas"]);
+        $cubicaje_max  = str_replace(",", ".", $_POST["cubicaje_max_vehiculo"]);
 
         isset($_POST["eliminarPeso"]) ? $eliminarPeso = true : $eliminarPeso = false;
 
         $datos = $despachos->getPesoTotalporFactura($_POST["numero_fact"]);
 
         $peso = 0;
+        $cubicaje = 0;
         if (count($datos) != 0){
             foreach ($datos as $dato) {
                 if($dato['tipofac'] == "A") {
                     ($dato['unidad'] == 0) ? ($peso += ($dato['peso'] * $dato['cantidad'])) : ($peso += (($dato['peso'] / $dato['paquetes']) * $dato['cantidad'])) ;
                 }
+                $cubicaje += $dato['cubicaje'];
             }
         }
-        //asigno el peso nuevo
+        //agrega formato a el peso y al cubicaje
         $peso = number_format($peso, 2, ".", "");
+        $cubicaje = number_format($cubicaje, 2, ".", "");
         $porcentajePeso = "1";
+
         //consulta si deseamos eliminar el peso de la factura actual
         if($eliminarPeso){
+            //calcula el porcenaje del peso tras eliminar
             $porcentajePeso = strval(( (floatval($peso_acum) - floatval($peso)) * 100) / floatval($peso_max) );
 
-            //asigna el peso acumulado eliminandole el peso de una factura especifica
+            //calcula el porcentaje del cubicaje tras eliminar
+            $porcentajeCubicaje = strval(( (floatval($cubicaje_acum) - floatval($cubicaje)) * 100) / floatval($cubicaje_max) );
+
+            //asigna el peso y cubicaje acumulado eliminandole el peso y volumen de una factura especifica
             $output["pesoNuevoAcum"] = strval(floatval($peso_acum) - floatval($peso));
+            $output["cubicajeNuevoAcum"] = strval(floatval($cubicaje_acum) - floatval($cubicaje));
+
         }
         //sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
         else if( (floatval($peso) + floatval($peso_acum) ) < floatval($peso_max) ){
 
+            //calcula el porcentaje del peso a agregar
             $porcentajePeso = strval(((floatval($peso) + floatval($peso_acum)) * 100) / floatval($peso_max) );
 
-           //asigna el peso nuevo + el acumulado
+            //calcula el porcentaje de cubicaje a agregar
+            $porcentajeCubicaje = strval(( (floatval($cubicaje_acum) + floatval($cubicaje)) * 100) / floatval($cubicaje_max) );
+
+           //asigna el peso y cubicaje nuevo + el acumulado
             $output["pesoNuevoAcum"] = strval(floatval($peso) + floatval($peso_acum));
+            $output["cubicajeNuevoAcum"] = strval(floatval($cubicaje_acum) + floatval($cubicaje));
             $output["pesoDeFactura"] = floatval($peso);
             $output["cond"] = "true";
         }
         //sino, solo devuelve el acumulado anterior y avisa que el acumulado supera al maximo de carga con la cond
         else {
             $porcentajePeso = strval((floatval($peso_acum) * 100) / floatval($peso_max) );
+            $porcentajeCubicaje = strval((floatval($cubicaje_acum) * 100) / floatval($cubicaje_max) );
             $output["pesoNuevoAcum"] = $peso_acum;
+            $output["cubicajeNuevoAcum"] = $cubicaje_acum;
             $output["cond"] = "false";
         }
 
@@ -79,6 +99,7 @@ switch ($_GET["op"]) {
             $bgProgress = "bg-danger";
         }
         $output["porcentajePeso"] = $porcentajePeso;
+        $output["porcentajeCubicaje"] = $porcentajeCubicaje;
         $output["bgProgreso"] = $bgProgress;
 
         echo json_encode($output);
@@ -99,11 +120,13 @@ switch ($_GET["op"]) {
             $pesodefact = $despachos->getPesoTotalporFactura($row);
 
             $peso = 0;
+            $cubicaje = 0;
             if (count($pesodefact) != 0){
                 foreach ($pesodefact as $dato) {
                     if($dato['tipofac'] == "A") {
                         ($dato['unidad'] == 0) ? ($peso += ($dato['peso'] * $dato['cantidad'])) : ($peso += (($dato['peso'] / $dato['paquetes']) * $dato['cantidad']));
                     }
+                    $cubicaje += $dato['cubicaje'];
                 }
             }
 
@@ -116,6 +139,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $datos[0]["codvend"];
             $sub_array[] = number_format($datos[0]["mtototal"], 2, ",", ".");
             $sub_array[] = number_format($peso, 2, ",", ".");
+            $sub_array[] = number_format($cubicaje, 2, ",", ".");
 
             $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["numerod"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 

@@ -46,8 +46,8 @@ class Despachos extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT saitemfac.coditem AS cod_prod, saprod.tara AS peso, saitemfac.esunid AS unidad, saprod.cantempaq AS paquetes, saitemfac.cantidad AS cantidad, tipofac AS tipofac
-                FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod 
+        $sql = "SELECT saitemfac.coditem AS cod_prod, saprod.tara AS peso, saitemfac.esunid AS unidad, saprod.cantempaq AS paquetes, saitemfac.cantidad AS cantidad, tipofac AS tipofac, Cubicaje AS cubicaje
+                FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod INNER JOIN SAPROD_01 ON SAPROD.CodProd = SAPROD_01.CodProd
                 WHERE numerod = ? AND TIPOFAC = 'A' ORDER BY saitemfac.coditem";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

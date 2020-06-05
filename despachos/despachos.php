@@ -104,9 +104,14 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 
                                 <div class="form-check form-check-inline container text-center  justify-content-center align-items-center" id="containerProgress">
                                     <div class="progress progress-xs" style="width: 200px">
-                                        <div class="progress-bar bg-success" id="barraProgreso" style="width: 1%"></div>
+                                        <div class="progress-bar bg-success" id="barraProgreso" style="width: 0%"></div>
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <h5><span class="badge bg-success" id="textoBarraProgreso">Kg: 020 / 200</span></h5>
+                                    <h5><span class="badge bg-success" id="textoBarraProgreso">0 / 0</span></h5>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="progress progress-xs" style="width: 200px">
+                                        <div class="progress-bar bg-info" id="barraProgresoCubicaje" style="width: 0%"></div>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <h5><span class="badge bg-info" id="textoBarraProgresoCubicaje">0 / 0</span></h5>
                                 </div>
 
 								<button class="btn btn-success float-right generar" type="button">Generar!</button>
@@ -140,6 +145,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Ruta O EDV">Ruta</th>
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Monto">Monto</th>
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Peso (Kg)">Peso (Kg)</th>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Volumen (cm3)">Volumen (cm3)</th>
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Acción">Acción</th>
 							</tr>
 						</thead>
@@ -152,6 +158,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<th style="text-align: center;">Ruta</th>
 								<th style="text-align: center;">Monto</th>
 								<th style="text-align: center;">Peso (Kg)</th>
+                                <th style="text-align: center;">Volulem (cm3)</th>
 								<th style="text-align: center;">Acción</th>
 							</tr>
 						</tfoot>
@@ -167,7 +174,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 				</div>
 			</div>
             <input name="ci_usuario" id="ci_usuario" value="<?php echo $_SESSION["cedula"]?>" type="hidden" />
-			<div class="card card-info" id="tabla_detalle_despacho">
+			<div class="card card-info" id="tabla_detalle_despacho" style="display:none;">
 				<div class="card-header">
 					<h3 class="card-title">Detalle del Despacho</h3>
 				</div>

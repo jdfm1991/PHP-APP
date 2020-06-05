@@ -8,6 +8,10 @@ var registros_por_despachar;
 
 var peso_max_vehiculo;
 
+var cubicaje_max_vehiculo;
+
+var cubicaje_acum_facturas;
+
 var peso_acum_facturas;
 
 var valor_bg_progreso;
@@ -25,6 +29,8 @@ function init() {
     $('.generar').attr("disabled", true);
     registros_por_despachar = "";
     peso_max_vehiculo = 0;
+    cubicaje_max_vehiculo = 0;
+    cubicaje_acum_facturas = 0;
     peso_acum_facturas = 0;
     estado_minimizado = false;
     valor_bg_progreso = "bg-success";
@@ -38,6 +44,8 @@ function limpiar() {
     $("#factura").val("");
     registros_por_despachar = "";
     peso_max_vehiculo = 0;
+    cubicaje_max_vehiculo = 0;
+    cubicaje_acum_facturas = 0;
     peso_acum_facturas = 0;
     valor_bg_progreso = "bg-success";
 }
@@ -94,6 +102,8 @@ function cargarCapacidadVehiculo(id) {
         success: function (data) {
             data = JSON.parse(data);
             peso_max_vehiculo = data.capacidad;
+            cubicaje_max_vehiculo = data.cubicajeMax;
+            console.log(data.cubicajeMax);
         }
     });
 }
@@ -106,7 +116,7 @@ function validarPesoporFactura(numero_fact){
             cache: true,
             url: "despachos_controlador.php?op=obtener_pesoporfactura",
             method: "POST",
-            data: {numero_fact: numero_fact, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo},
+            data: {numero_fact: numero_fact, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
             success: function (data) {
                 data = JSON.parse(data);
                 if( data.cond === 'false' ){
@@ -254,17 +264,18 @@ function anadir(documento) {
 
 function eliminar(documento) {
     if(documento.length > 0) {
-        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: documento, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo: peso_max_vehiculo, eliminarPeso: "si"},
+        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: documento, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo: peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo, eliminarPeso: "si"},
             function (data, status) {
                 data = JSON.parse(data);
                 //asignamos el peso acumulado restandole la factura a eliminar
-                peso_acum_facturas = data.pesoNuevoAcum;
+                peso_acum_facturas = data.pesoNuevoAcum.toString();
+                cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
 
                 //eliminamos la factura del string
                 registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
 
                 //seteamos la barra de progreso
-                barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso);
+                barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso, data.cubicajeNuevoAcum, data.porcentajeCubicaje);
 
                 //recargar la tabla
                 cargarTabladeFacturasporDespachar();
@@ -273,21 +284,30 @@ function eliminar(documento) {
     }
 }
 
-function barraDeProgreso(colorFondo, pesoAcumulado, porcentajePeso){
+function barraDeProgreso(colorFondo, pesoAcumulado, porcentajePeso, cubicajeAcumlulado, porcentajeCubicaje){
     //modifica el texto de los kilos acumulados vs el maximo de carga
     $( "#textoBarraProgreso" )
         .removeClass(valor_bg_progreso)
         .addClass(colorFondo)
-        .text(pesoAcumulado+"kg  /  "+peso_max_vehiculo+"kg");
+        .text(pesoAcumulado+" kg  /  "+peso_max_vehiculo+" kg"+"   ("+parseInt(porcentajePeso)+"%)");
 
-    //modifica la bara de progreso
+    //modifica la bara de progreso del peso acumulado
     $("#barraProgreso")
         .removeClass(valor_bg_progreso)
         .addClass(colorFondo)
         .css('width', porcentajePeso+'%')
         .attr("aria-valuenow", porcentajePeso);
 
-    //guardamos el valor del background
+    //modifica el texto del cubicaje acumulado vs el maximo de volumen
+    $( "#textoBarraProgresoCubicaje" )
+        .text(cubicajeAcumlulado+" cm3  /  "+cubicaje_max_vehiculo+" cm3"+"   ("+parseInt(porcentajeCubicaje)+"%)");
+
+    //modifica la bara de progreso del cubicaje acumulado
+    $("#barraProgresoCubicaje")
+        .css('width', porcentajeCubicaje+'%')
+        .attr("aria-valuenow", porcentajeCubicaje);
+
+    //guardamos el valor del background del peso acumulado
     valor_bg_progreso = colorFondo;
 }
 
@@ -311,14 +331,15 @@ function anadirFactPorDespachar() {
         anadir(factura);
 
         //cargar peso de la factura
-        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo},
+        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
             function (data, status) {
                 data = JSON.parse(data);
                 // peso_acum_facturas = data.pesoNuevoAcum.toString().replace(/,/g , '.');
                 peso_acum_facturas = data.pesoNuevoAcum.toString();
+                cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
 
                 //seteamos la barra de progreso
-                barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso);
+                barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso, data.cubicajeNuevoAcum, data.porcentajeCubicaje);
             }
         );
 
@@ -457,6 +478,10 @@ function cargarTabladeFacturasporDespachar() {
             "bInfo": true,
             "iDisplayLength": 10,
             "order": [[0, "desc"]],
+            'columnDefs':[{
+                "targets": [0,1,2,3,4,5,6,7],
+                "className": "text-center",
+            }],
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",

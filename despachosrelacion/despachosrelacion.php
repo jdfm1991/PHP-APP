@@ -32,12 +32,12 @@ $relacion = new DespachosRelacion();
                                     <th class="text-center" data-toggle="tooltip" data-placement="top" title="Usuario">Usuario</th>
                                     <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cant Fact">Cant Fact</th>
                                     <th class="text-center" data-toggle="tooltip" data-placement="top" title="Destino">Destino</th>
-                                    <th class="text-center" data-toggle="tooltip" data-placement="top" title="Edit">Edit</th>
-                                    <th class="text-center" data-toggle="tooltip" data-placement="top" title="Borra">Borra</th>
+                                    <th class="text-center" data-toggle="tooltip" data-placement="top" title="Editar">Editar</th>
+                                    <th class="text-center" data-toggle="tooltip" data-placement="top" title="Borrar">Borrar</th>
                                     <th class="text-center" data-toggle="tooltip" data-placement="top" title="Ver">Ver</th>
                                     <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cobros">Cobros</th>
                                     <th class="text-center" data-toggle="tooltip" data-placement="top" title="Pdf">Pdf</th>
-                                    <th class="text-center" data-toggle="tooltip" data-placement="top" title="Det">Det</th>
+                                    <th class="text-center" data-toggle="tooltip" data-placement="top" title="Detalle">Detalle</th>
                                 </tr>
                                 </thead>
                                 <tfoot style="background-color: #ccc;color: white;">
@@ -47,12 +47,12 @@ $relacion = new DespachosRelacion();
                                     <th class="text-center">Usuario</th>
                                     <th class="text-center">Cant Fact</th>
                                     <th class="text-center">Destino</th>
-                                    <th class="text-center">Edit</th>
-                                    <th class="text-center">Borra</th>
+                                    <th class="text-center">Editar</th>
+                                    <th class="text-center">Borrar</th>
                                     <th class="text-center">Ver</th>
                                     <th class="text-center">Cobros</th>
                                     <th class="text-center">Pdf</th>
-                                    <th class="text-center">Det</th>
+                                    <th class="text-center">Detalle</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
