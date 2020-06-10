@@ -5,9 +5,11 @@ require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("despachosrelacion_modelo.php");
+require_once("../despachos/despachos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $relacion = new DespachosRelacion();
+$despachos = new Despachos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -16,12 +18,40 @@ switch ($_GET["op"]) {
 
         $numero = $_POST['nrfactb'];
 
-        $datos = $relacion->getFacturaEnDespachos($_POST["nrfactb"]);
+        $datos = $despachos->getFacturaEnDespachos($_POST["nrfactb"]);
 
         $output["mensaje"] = '<div class="col text-center">';
-        if(count($datos) > 0) {
+        if(is_array($datos) == true AND count($datos) > 0) {
 
             $output["mensaje"] .= "<strong>Nro de Documento: </strong>".$_POST['nrfactb'].", <strong>Despacho Nro: </strong> ".str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT).",</br> ";
+            $output["mensaje"] .= "<strong>Fecha Emision: </strong>".date("d/m/Y h:i A", strtotime($datos[0]['fechae'])).",<strong> Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>";
+
+            if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])){
+
+                $output["mensaje"] .= "</br><strong>PAGO:</strong> ".date("d/m/Y", strtotime($datos[0]['fecha_liqui'])).", <strong>POR UN MONTO DE:</strong> ".number_format($datos[0]['monto_cancelado'], 1, ",", ".")." BsS";
+            }else{
+                $output["mensaje"] .= "</br>DOCUMENTO NO LIQUIDADO";
+            }
+        } else {
+            $output["mensaje"] .= "EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>";
+        }
+        $output["mensaje"] .= '</div>';
+
+        echo json_encode($output);
+
+        break;
+
+
+    case "buscar_cabeceraDespacho":
+
+        $correlativo = $_POST['correlativo'];
+
+        $datos = $despachos->getCabeceraDespacho($correlativo);
+
+        $output["mensaje"] = '<div class="col text-center">';
+        if(is_array($datos) == true AND count($datos) > 0) {
+
+            $output["mensaje"] .= "<strong>Despacho nro: </strong>".str_pad($row["correlativo"], 8, 0, STR_PAD_LEFT).", <strong>Despacho Nro: </strong> ".str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT).",</br> ";
             $output["mensaje"] .= "<strong>Fecha Emision: </strong>".date("d/m/Y h:i A", strtotime($datos[0]['fechae'])).",<strong> Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>";
 
             if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])){
@@ -57,22 +87,22 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["Nomper"];
             $sub_array[] = $row["cantFact"];
             $sub_array[] = $row["Destino"] . " - " . $row["NomperChofer"];
-            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalEditarDespachos(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="far fa-edit fa-2x" style="color:green"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <i class="fas fa-minus-circle fa-2x" style="color:darkred"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
-                                <i class="fas fa-map-pin fa-2x" style="color:cornflowerblue"></i>
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
+                                <i class="fas fa-search fa-2x" style="color:cornflowerblue"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <img src="../public/build/images/bs.png" width="25" height="25" border="0" />
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <i class="far fa-file-pdf fa-2x" style="color:red"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="<?php echo SERVERURL; ?>despachosrelacion/despachosrelacion.php" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <i class="fas fa-info-circle fa-2x" style="color:darkgrey"></i>
                             </a></div>';
 

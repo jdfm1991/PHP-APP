@@ -86,8 +86,8 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<label>Destino</label>
 								<input type="text" class="form-control input-sm" maxlength="120" id="destino" name="destino" >
 								<br />
-								<button class="btn btn-primary pull-left verFactura" type="button">Ver Factura</button>
-								<button class="btn btn-primary porDespachar" type="button">Por Despachar</button>
+								<button class="btn btn-primary pull-left verFactura" id="buscarxfact_button"  onclick="limpiar_campo_factura_modal()" data-toggle="modal" data-target="#buscarxfacturaModal" type="button">Ver Factura</button>
+                                <button class="btn btn-primary porDespachar" type="button">Por Despachar</button>
 								<button class="btn btn-success nextBtn  float-right" type="button">Siguiente</button>
 							</div>
 
@@ -213,8 +213,32 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 					</div>
 				</div>
 			</section>
-		</div>
-		<?php require_once("../footer.php"); ?>
-		<script type="text/javascript" src="despachos.js"></script>
-	</body>
-	</html>
+        <!-- Modal bucar factura -->
+        <div class="modal fade"  id="buscarxfacturaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Buscar por Factura</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Nro de documento</label>
+                        <input type="text" class="form-control input-sm" maxlength="20" id="nrodocumento" name="nrodocumento" placeholder="Ingrese numero de documento" required >
+                        <br />
+                        <div id="detalle_despacho"></div>
+                        <div class="modal-footer">
+                            <button type="button" onclick="limpiar_campo_factura()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
+                            <button type="button" name="action" id="btnBuscarFactModal" class="btn btn-success pull-right" value="Add">Buscar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php require_once("../footer.php"); ?>
+    <script type="text/javascript" src="despachos.js"></script>
+</body>
+</html>

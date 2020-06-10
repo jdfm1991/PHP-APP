@@ -195,5 +195,25 @@ class Despachos extends Conectar{
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getFacturaEnDespachos($documento){
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql= "SELECT Correlativo, fechae, Destino, fecha_liqui, monto_cancelado,    
+                    (SELECT Nomper from Choferes where Choferes.Cedula = Despachos.ID_Chofer) AS NomperChofer 
+                    FROM Despachos INNER JOIN Despachos_Det ON Despachos.Correlativo = Despachos_Det.ID_Correlativo WHERE Despachos_Det.Numerod = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $documento);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }
 

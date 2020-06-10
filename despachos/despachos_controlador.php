@@ -157,6 +157,34 @@ switch ($_GET["op"]) {
         break;
 
 
+    case "buscar_facturaEnDespachos_modal":
+
+        $numero = $_POST['nrfactb'];
+
+        $datos = $despachos->getFacturaEnDespachos($_POST["nrfactb"]);
+
+        $output["mensaje"] = '<div class="col text-center">';
+        if(count($datos) > 0) {
+
+            $output["mensaje"] .= "<strong>Nro de Documento: </strong>".$_POST['nrfactb'].", <strong>Despacho Nro: </strong> ".str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT).",</br> ";
+            $output["mensaje"] .= "<strong>Fecha Emision: </strong>".date("d/m/Y h:i A", strtotime($datos[0]['fechae'])).",<strong> Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>";
+
+            if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])){
+
+                $output["mensaje"] .= "</br><strong>PAGO:</strong> ".date("d/m/Y", strtotime($datos[0]['fecha_liqui'])).", <strong>POR UN MONTO DE:</strong> ".number_format($datos[0]['monto_cancelado'], 1, ",", ".")." BsS";
+            }else{
+                $output["mensaje"] .= "</br>DOCUMENTO NO LIQUIDADO";
+            }
+        } else {
+            $output["mensaje"] .= "EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>";
+        }
+        $output["mensaje"] .= '</div>';
+
+        echo json_encode($output);
+
+        break;
+
+
     case "buscar_facturaendespacho":
 
         $datos = $despachos->getExisteFacturaEnDespachos($_POST["numero_fact"]);

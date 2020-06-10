@@ -54,6 +54,11 @@ function limpiar_campo_factura() {
     $("#factura").val("");
 }
 
+function limpiar_campo_factura_modal() {
+    $("#nrodocumento").val("");
+    $("#detalle_despacho").html("");
+}
+
 function agregarCeros(fact){
     var cad_cero="";
     for(var i=0;i<(6-fact.length);i++)
@@ -187,6 +192,19 @@ function totales() {
             $("#cuenta").html(texto);
         }
     });
+}
+
+function buscarFacturaEnDespachos(nrofact){
+    if (nrofact !== "") {
+        nrofact = agregarCeros(nrofact);
+        $("#detalle_despacho").html("");
+        $.post("despachos_controlador.php?op=buscar_facturaEnDespachos_modal", {nrfactb: nrofact}, function(data, status){
+            data = JSON.parse(data);
+            $("#detalle_despacho").html(data.mensaje);
+        });
+    } else {
+        $("#detalle_despacho").html("");
+    }
 }
 
 /*************************************************************************************************************/
@@ -431,6 +449,11 @@ $(document).on("click", "#btn_pdf", function () {
     }
 });
 
+//ACCION AL PRECIONAR EL BOTON BUSCAR.
+$(document).on("click", "#btnBuscarFactModal", function () {
+    var fact = $("#nrodocumento").val();
+    buscarFacturaEnDespachos(fact);
+});
 
 /*************************************************************************************************************/
 /*                                                TABLAS                                                     */

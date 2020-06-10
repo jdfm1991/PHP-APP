@@ -34,6 +34,20 @@ function agregarCeros(fact){
     return cad_cero+fact;
 }
 
+function modalEditarDespachos(correlativo) {
+    $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho",{correlativo : correlativo}, function(data, status)
+    {
+        data = JSON.parse(data);
+
+        console.log(data);
+
+        $('#editarDespachoModal').modal('show');
+
+        $("#detalle_despacho").html(data.mensaje);
+
+    });
+}
+
 function listarRelacionDespachos() {
     tabla_relacion_despachos = $('#relacion_data').dataTable({
 
