@@ -46,26 +46,56 @@ switch ($_GET["op"]) {
 
         $correlativo = $_POST['correlativo'];
 
-        $datos = $despachos->getCabeceraDespacho($correlativo);
+        $datos = $relacion->get_despacho_por_correlativo($correlativo);
 
-        $output["mensaje"] = '<div class="col text-center">';
-        if(is_array($datos) == true AND count($datos) > 0) {
+        $output["mensaje"] = '<div class="col">&nbsp;&nbsp;&nbsp;';
+        if(count($datos) > 0) {
 
-            $output["mensaje"] .= "<strong>Despacho nro: </strong>".str_pad($row["correlativo"], 8, 0, STR_PAD_LEFT).", <strong>Despacho Nro: </strong> ".str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT).",</br> ";
-            $output["mensaje"] .= "<strong>Fecha Emision: </strong>".date("d/m/Y h:i A", strtotime($datos[0]['fechae'])).",<strong> Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>";
+            $output["mensaje"] .= "<strong>Despacho nro: </strong>".str_pad($correlativo, 8, 0, STR_PAD_LEFT)."</br>&nbsp;&nbsp;&nbsp;";
+            $output["mensaje"] .= "<strong>Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>&nbsp;&nbsp;&nbsp;";
+            $output["mensaje"] .= "<strong>Fecha Despacho: </strong>".date("d/m/Y", strtotime($datos[0]['fechad']))."</br></br>&nbsp;&nbsp;&nbsp;";
+            $output["mensaje"] .= "<strong>Vehiculo: </strong>{$datos[0]['Placa']} {$datos[0]['Modelo']} {$datos[0]['Capacidad']} Kg".'&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-xs">Editar</button>'."</br></br>&nbsp;&nbsp;&nbsp;";
+            $output["mensaje"] .= "<strong>Facturas: </strong>{$datos[0]['cantFacturas']}";
 
-            if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])){
-
-                $output["mensaje"] .= "</br><strong>PAGO:</strong> ".date("d/m/Y", strtotime($datos[0]['fecha_liqui'])).", <strong>POR UN MONTO DE:</strong> ".number_format($datos[0]['monto_cancelado'], 1, ",", ".")." BsS";
-            }else{
-                $output["mensaje"] .= "</br>DOCUMENTO NO LIQUIDADO";
-            }
-        } else {
-            $output["mensaje"] .= "EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>";
         }
         $output["mensaje"] .= '</div>';
 
         echo json_encode($output);
+
+        break;
+
+
+    case "listar_despacho_por_correlativo":
+
+        $correlativo = $_POST['correlativo'];
+
+        $datos = $relacion->get_detalle_despacho_por_correlativo($correlativo);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+
+        foreach ($datos as $row) {
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            $sub_array = array();
+
+            $sub_array[] = $row["Numerod"];
+            $sub_array[] = $row["codclie"];
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = date("d/m/Y h:i A",strtotime($row["fechae"]));
+            $sub_array[] = number_format($row["monto"], 2, ",", ".");
+            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalEditarDespachos(\''.$row["Numerod"].'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEditarDespachos(\''.$row["Numerod"].'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
 
         break;
 

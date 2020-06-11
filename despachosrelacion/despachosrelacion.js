@@ -35,17 +35,79 @@ function agregarCeros(fact){
 }
 
 function modalEditarDespachos(correlativo) {
-    $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho",{correlativo : correlativo}, function(data, status)
-    {
-        data = JSON.parse(data);
+    if (correlativo !== "") {
 
-        console.log(data);
+        //CABECERA DEL DESPACHO
+        $("#detalle_en_editar_despacho").html("");
+        $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho", {correlativo: correlativo}, function (data, status) {
+            data = JSON.parse(data);
+            $('#editarDespachoModal').modal('show');
+            $("#detalle_en_editar_despacho").html(data.mensaje);
+        });
 
-        $('#editarDespachoModal').modal('show');
+        //TABLA DE LAS FACTURAS DENTRO DE ESE DESPACHO
+        $('#tabla_editar_despacho').dataTable({
 
-        $("#detalle_despacho").html(data.mensaje);
+            "aProcessing": true,//Activamos el procesamiento del datatables
+            "aServerSide": true,//Paginación y filtrado realizados por el servidor
+            "ajax":
+                {
+                    beforeSend: function () {
+                        $("#loader_editar_despacho").show(''); //MOSTRAMOS EL LOADER.
+                    },
+                    url: 'despachosrelacion_controlador.php?op=listar_despacho_por_correlativo',
+                    type: "post",
+                    data: {correlativo: correlativo},
+                    dataType: "json",
+                    error: function (e) {
+                        console.log(e.responseText);
+                    },
+                    complete: function () {
 
-    });
+                        // $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
+                        $("#loader_editar_despacho").hide();//OCULTAMOS EL LOADER.
+
+                    }
+                },//TRADUCCION DEL DATATABLE.
+            "bDestroy": true,
+            "responsive": true,
+            "bInfo": true,
+            "iDisplayLength": 5,//Por cada 5 registros hace una paginación
+            "order": [[0, "desc"]],//Ordenar (columna,orden)
+            'columnDefs':[{
+                "targets": 3, // your case first column
+                "className": "text-center",
+                // "width": "4%"
+            }],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }//cerrando language
+
+        }).DataTable();
+    } else {
+        $("#detalle_en_editar_despacho").html("");
+    }
 }
 
 function listarRelacionDespachos() {

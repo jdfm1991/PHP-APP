@@ -1,5 +1,5 @@
 <div class="modal fade"  id="editarDespachoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar Despachos</h5>
@@ -7,18 +7,38 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div id="detalle_despacho"></div>
-
-
-                <!--<label>Nro de documento</label>
-                <input type="text" class="form-control input-sm" maxlength="20" id="nrodocumento" name="nrodocumento" placeholder="Ingrese numero de documento" required >
-                <br />
-                <div id="detalle_despacho"></div>
+            <br class="modal-body">
+                <div id="detalle_en_editar_despacho"></div>
+                <div class="card-body" style="width:auto;">
+                    <table class="table table-bordered table-striped table-sm  text-center" style="width:100%;" id="tabla_editar_despacho">
+                        <thead>
+                            <tr>
+                                <th>Nro Factura</th>
+                                <th>Cod Cliente</th>
+                                <th>Cliente</th>
+                                <th>Fecha Emisión</th>
+                                <th>Monto Bs</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- BOX  LOADER -->
+                <figure id="loader_editar_despacho">
+                    <div class="dot white"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </figure>
+                </br>
                 <div class="modal-footer">
-                    <button type="button" onclick="limpiar_campo_factura()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
-                    <button type="button" name="action" id="btnBuscarFactModal" class="btn btn-success pull-right" value="Add">Buscar</button>
-                </div>-->
+                    <div class="col-md-12">
+                    <button class="btn btn-primary pull-left" id="buscarxfact_button"  onclick="" type="button">Agregar Factura</button>
+                    <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
+<!--                    <button type="button" name="action" id="btnBuscarFactModal" class="btn btn-success pull-right" value="Add">Buscar</button>-->
+                    </div>
+                </div>
             </div>
 
         </div>
