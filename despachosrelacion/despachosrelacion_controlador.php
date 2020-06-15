@@ -6,10 +6,14 @@ require_once("../acceso/conexion.php");
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("despachosrelacion_modelo.php");
 require_once("../despachos/despachos_modelo.php");
+require_once("../choferes/choferes_modelo.php");
+require_once("../vehiculos/vehiculos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $relacion = new DespachosRelacion();
 $despachos = new Despachos();
+$choferes = new Choferes();
+$vehiculos = new Vehiculos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -48,17 +52,67 @@ switch ($_GET["op"]) {
 
         $datos = $relacion->get_despacho_por_correlativo($correlativo);
 
-        $output["mensaje"] = '<div class="col">&nbsp;&nbsp;&nbsp;';
+        $output["mensaje"] = '<div class="col ml-2">';
         if(count($datos) > 0) {
 
-            $output["mensaje"] .= "<strong>Despacho nro: </strong>".str_pad($correlativo, 8, 0, STR_PAD_LEFT)."</br>&nbsp;&nbsp;&nbsp;";
-            $output["mensaje"] .= "<strong>Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>&nbsp;&nbsp;&nbsp;";
-            $output["mensaje"] .= "<strong>Fecha Despacho: </strong>".date("d/m/Y", strtotime($datos[0]['fechad']))."</br></br>&nbsp;&nbsp;&nbsp;";
-            $output["mensaje"] .= "<strong>Vehiculo: </strong>{$datos[0]['Placa']} {$datos[0]['Modelo']} {$datos[0]['Capacidad']} Kg".'&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-xs">Editar</button>'."</br></br>&nbsp;&nbsp;&nbsp;";
+            $output["mensaje"] .= "<strong>Despacho nro: </strong>".str_pad($correlativo, 8, 0, STR_PAD_LEFT)."</br>";
+            $output["mensaje"] .= "<strong>Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>";
+            $output["mensaje"] .= "<strong>Fecha Despacho: </strong>".date("d/m/Y", strtotime($datos[0]['fechad']))."</br></br>";
+            $output["mensaje"] .= "<strong>Vehiculo: </strong>{$datos[0]['Placa']} {$datos[0]['Modelo']} {$datos[0]['Capacidad']} Kg".'&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onClick="modalMostrarEditarDespacho(\''.$correlativo.'\');" class="btn btn-outline-primary btn-xs">Editar</button>'."</br></br>";
             $output["mensaje"] .= "<strong>Facturas: </strong>{$datos[0]['cantFacturas']}";
 
         }
         $output["mensaje"] .= '</div>';
+
+        echo json_encode($output);
+
+        break;
+
+    case "buscar_cabeceraDespacho_para_editar":
+
+        $correlativo = $_POST['correlativo'];
+
+        $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+        $lista_choferes = $choferes->get_choferes();
+        $lista_vehiculos = $vehiculos->get_vehiculos();
+
+        $output["destino"] = $despacho[0]["Destino"];
+        $output["fecha"] = $despacho[0]['fechad'];
+
+        $output["chofer"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_choferes) > 0) {
+            foreach ($lista_choferes as $chofer)
+            {
+               if($despacho[0]["ID_Chofer"] == $chofer['Cedula']) {
+                   $output["chofer"] .= '<option value="' . $chofer['Cedula'] . '" selected>' . $chofer['Nomper'] . '</option>';
+               } else {
+                   $output["chofer"] .= '<option value="' . $chofer['Cedula'] . '">' . $chofer['Nomper'] . '</option>';
+               }
+            }
+
+        }
+
+        $output["vehiculo"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_vehiculos) > 0) {
+            foreach ($lista_vehiculos as $vehiculo)
+            {
+                if($despacho[0]["ID_Vehiculo"] == $vehiculo['ID']) {
+                    $output["vehiculo"] .= '<option value="' . $vehiculo['ID'] . '" selected>' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                } else {
+                    $output["vehiculo"] .= '<option value="' . $vehiculo['ID'] . '">' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                }
+            }
+        }
+
+        echo json_encode($output);
+
+        break;
+
+    case "actualizar_cabeceraDespacho_para_editar":
+
+        $actualizar_despacho = $despachos->updateDespacho($_POST["correlativo"], $_POST["destino"], $_POST["chofer"], $_POST["vehiculo"], $_POST["fechad"]);
+
+        ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR") ;
 
         echo json_encode($output);
 

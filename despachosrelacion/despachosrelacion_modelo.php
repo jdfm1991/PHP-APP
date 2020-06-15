@@ -32,7 +32,7 @@ class DespachosRelacion extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT Correlativo, fechae, fechad, Destino,
+        $sql= "SELECT Correlativo, fechae, fechad, Destino, ID_Chofer, ID_Vehiculo,
                     (SELECT Nomper FROM Choferes WHERE Choferes.Cedula = Despachos.ID_Chofer) AS NomperChofer, 
                     (SELECT COUNT(ID_Correlativo) FROM Despachos_Det WHERE Despachos_Det.ID_Correlativo = Despachos.Correlativo) AS cantFacturas,
                     Vehiculos.Placa, Vehiculos.Modelo, Vehiculos.Capacidad

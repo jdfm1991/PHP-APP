@@ -110,6 +110,45 @@ function modalEditarDespachos(correlativo) {
     }
 }
 
+function modalMostrarEditarDespacho(correlativo) {
+    $('#alert_editar_despacho').hide();
+    $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho_para_editar", {correlativo: correlativo}, function (data, status) {
+        data = JSON.parse(data);
+        $("#destino_editar").val(data.destino);
+        $("#fecha_editar").val(data.fecha);
+        $("#chofer_editar").html(data.chofer);
+        $("#vehiculo_editar").html(data.vehiculo);
+        $("#correlativo_editar").val(correlativo);
+
+        $('#editarChoferDestinoDespachoModal').modal('show');
+    });
+}
+
+function modalGuardarEditarDespacho() {
+
+    var destino = $("#destino_editar").val();
+    var fechad = $("#fecha_editar").val();
+    var chofer = $("#chofer_editar").val();
+    var vehiculo = $("#vehiculo_editar").val();
+    var correlativo = $("#correlativo_editar").val();
+
+    if(destino.length > 0 && fechad.length > 0 && chofer.length > 0 && vehiculo.length >0){
+        $('#editarChoferDestinoDespachoModal').modal('hide');
+        $.post("despachosrelacion_controlador.php?op=actualizar_cabeceraDespacho_para_editar", {correlativo: correlativo, destino: destino, fechad: fechad, chofer: chofer, vehiculo: vehiculo}, function (data, status) {
+            data = JSON.parse(data);
+            if(!data.mensaje.includes('ERROR')){
+                modalEditarDespachos(correlativo);
+                $('#editarChoferDestinoDespachoModal').modal('hide');
+                $('#relacion_data').DataTable().ajax.reload();
+            } else {
+                $('#alert_editar_despacho').show();
+            }
+        });
+    } else {
+        $('#alert_editar_despacho').show();
+    }
+}
+
 function listarRelacionDespachos() {
     tabla_relacion_despachos = $('#relacion_data').dataTable({
 

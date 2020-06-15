@@ -147,6 +147,43 @@ class Despachos extends Conectar{
         $sql->execute();
     }
 
+    public function updateDespacho($correlativo, $destino, $chofer, $vehiculo, $fechad) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "UPDATE Despachos SET Destino = ?,  ID_Chofer = ?,  ID_Vehiculo = ?,  fechad = ? WHERE Correlativo = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$destino);
+        $sql->bindValue(2,$chofer);
+        $sql->bindValue(3,$vehiculo);
+        $sql->bindValue(4,$fechad);
+        $sql->bindValue(5,$correlativo);
+        return $sql->execute();
+    }
+
+    public function get_despacho_por_id($correlativo) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT * FROM Despachos WHERE Correlativo = $";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getProductosDespachoCreado($correlativo) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
