@@ -137,7 +137,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip"];
             $sub_array[] = date("d/m/Y h:i A",strtotime($row["fechae"]));
             $sub_array[] = number_format($row["monto"], 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalEditarDespachos(\''.$row["Numerod"].'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEditarDespachos(\''.$row["Numerod"].'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEditarDespachos(\''.$row["Numerod"].'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
 
             $data[] = $sub_array;

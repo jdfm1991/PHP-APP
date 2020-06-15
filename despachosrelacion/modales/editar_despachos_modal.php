@@ -92,7 +92,38 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<!-- MODAL DE EDITAR UNA FACTURA EN DESPACHO -->
+<div class="modal fade"  id="editarFacturaEnDespachoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edicion de Facturas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-warning alert-dismissible" id="alert_editar_documento">
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> ATENCION! faltan campos por rellenar</h5>
+                </div>
+
+                <label>Numero de Documento</label>
+                <input type="text" class="form-control input-sm" maxlength="20" id="documento_editar" name="documento_editar" placeholder="Ingrese numero de documento">
+
+                <input  type="hidden" id="viejo_documento_editar" name="viejo_documento_editar"  />
+                <input  type="hidden" id="correlativo_del_documento_editar" name="correlativo_del_documento_editar"  />
+                <br />
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <button type="button" name="action" id="btnGuardar" class="btn btn-success pull-left" value="" onclick="modalGuardarDocumentoEnDespacho()">Guardar</button>
+                    <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
