@@ -103,12 +103,12 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
 
                                 <div class="form-check form-check-inline container text-center  justify-content-center align-items-center" id="containerProgress">
-                                    <div class="progress progress-xs" style="width: 200px">
+                                    <div class="progress progress-xs" style="width: 10em">
                                         <div class="progress-bar bg-success" id="barraProgreso" style="width: 0%"></div>
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <h5><span class="badge bg-success" id="textoBarraProgreso">0 / 0</span></h5>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div class="progress progress-xs" style="width: 200px">
+                                    <div class="progress progress-xs" style="width: 10em">
                                         <div class="progress-bar bg-info" id="barraProgresoCubicaje" style="width: 0%"></div>
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <h5><span class="badge bg-info" id="textoBarraProgresoCubicaje">0 / 0</span></h5>

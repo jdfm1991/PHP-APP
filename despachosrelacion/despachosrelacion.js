@@ -157,6 +157,7 @@ function modalGuardarEditarDespacho() {
 function modalMostrarDocumentoEnDespacho(nro_documento, correlativo) {
     $('#alert_editar_documento').hide();
     $("#documento_editar").val(agregarCeros(nro_documento));
+    $("#viejo_documento_editar").val(agregarCeros(nro_documento));
     $("#correlativo_del_documento_editar").val(correlativo);
     $('#editarFacturaEnDespachoModal').modal('show');
 }
@@ -167,21 +168,21 @@ function modalGuardarDocumentoEnDespacho() {
     var documento_viejo = $("#viejo_documento_editar").val();
     var correlativo = $("#correlativo_del_documento_editar").val();
 
-    /*if(destino.length > 0 && fechad.length > 0 && chofer.length > 0 && vehiculo.length >0){
-        $('#editarChoferDestinoDespachoModal').modal('hide');
-        $.post("despachosrelacion_controlador.php?op=actualizar_cabeceraDespacho_para_editar", {correlativo: correlativo, destino: destino, fechad: fechad, chofer: chofer, vehiculo: vehiculo}, function (data, status) {
+    if(documento_nuevo.length > 0 && documento_viejo.length > 0 && correlativo.length > 0){
+        $.post("despachosrelacion_controlador.php?op=actualizar_factura_en_despacho", {correlativo: correlativo, documento_nuevo: documento_nuevo, documento_viejo: documento_viejo}, function (data, status) {
             data = JSON.parse(data);
-            if(!data.mensaje.includes('ERROR')){
-                modalEditarDespachos(correlativo);
-                $('#editarChoferDestinoDespachoModal').modal('hide');
-                $('#relacion_data').DataTable().ajax.reload();
+            if(!data.mensaje.includes('ERROR') || !data.mensaje.includes('ATENCION')){
+                // modalEditarDespachos(correlativo);
+                $('#editarFacturaEnDespachoModal').modal('hide');
+                $('#tabla_editar_despacho').DataTable().ajax.reload();
             } else {
-                $('#alert_editar_despacho').show();
+                $('#alert_editar_documento').show();
+                $('#text_alert_editar_documento').val(data.mensaje);
             }
         });
     } else {
-        $('#alert_editar_despacho').show();
-    }*/
+        $('#alert_editar_documento').show();
+    }
 }
 
 

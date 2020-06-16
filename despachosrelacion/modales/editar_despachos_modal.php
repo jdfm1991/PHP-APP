@@ -108,7 +108,7 @@
             <div class="modal-body">
 
                 <div class="alert alert-warning alert-dismissible" id="alert_editar_documento">
-                    <h5><i class="icon fas fa-exclamation-triangle"></i> ATENCION! faltan campos por rellenar</h5>
+                    <h5 id="text_alert_editar_documento"><i class="icon fas fa-exclamation-triangle"></i> ATENCION! faltan campos por rellenar</h5>
                 </div>
 
                 <label>Numero de Documento</label>

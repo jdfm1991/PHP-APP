@@ -118,6 +118,50 @@ switch ($_GET["op"]) {
 
         break;
 
+    case "actualizar_factura_en_despacho":
+
+        $correlativo = $_POST["correlativo"];
+        $documento_nuevo = $_POST["documento_nuevo"];
+        $documento_viejo = $_POST["documento_viejo"];
+
+        //si no son iguales el documento ingresado al original
+        if( !hash_equals($documento_nuevo, $documento_viejo))
+        {
+            //consultamos si la factura existe en la bd
+            $existe_factura = $despachos->getFactura($_POST["numero_fact"]);
+
+            //consultamos si la factura existe en un despacho
+            $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($_POST["numero_fact"]);
+
+            //validamos si la factura existe
+            if(is_array($existe_factura) && count($existe_factura) > 0)
+            {
+                //validamos si el documento ingresado no exista en otro despacho
+                if(!is_array($existe_en_despacho) && count($existe_en_despacho) == 0)
+                {
+
+                    //si cumple con todas las condiciones ACTUALIZA la factura en un despacho en especifico
+                    $actualizar_documento = $despachos->updateDetalleDespacho($correlativo, $documento_nuevo, $documento_viejo);
+
+                    //verificamos que se haya realizado la actualizacion correctamente y devolvemos el mensaje
+                    ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL ACTUALIZAR") ;
+
+                } else {
+                    ($output["mensaje"] = "ATENCION! EL NUMERO DE DOCUMENTO: $documento_nuevo, YA FUE DESPACHADA");
+                }
+
+            } else {
+                ($output["mensaje"] = "ATENCION! EL NUMERO DE DOCUMENTO: $documento_nuevo, NO EXISTE EN SISTEMA");
+            }
+
+        } else {
+            ($output["mensaje"] = "ATENCION! POR FAVOR INGRESE UN DOCUMENTO DIFERENTE");
+        }
+
+        echo json_encode($output);
+
+        break;
+
 
     case "listar_despacho_por_correlativo":
 
