@@ -128,34 +128,105 @@ switch ($_GET["op"]) {
         if( !hash_equals($documento_nuevo, $documento_viejo))
         {
             //consultamos si la factura existe en la bd
-            $existe_factura = $despachos->getFactura($_POST["numero_fact"]);
-
-            //consultamos si la factura existe en un despacho
-            $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($_POST["numero_fact"]);
+            $existe_factura = $despachos->getFactura($documento_nuevo);
 
             //validamos si la factura existe
-            if(is_array($existe_factura) && count($existe_factura) > 0)
+            if(count($existe_factura) > 0)
             {
+                //consultamos si la factura existe en un despacho
+                $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($documento_nuevo);
+
                 //validamos si el documento ingresado no exista en otro despacho
-                if(!is_array($existe_en_despacho) && count($existe_en_despacho) == 0)
+                if(count($existe_en_despacho) == 0)
                 {
+                    $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
+
+                    if(count($factura_estado_1) != 0)
+                    {
+                        /**  enviar correo: despachos_edita_3 **/
+                    }
 
                     //si cumple con todas las condiciones ACTUALIZA la factura en un despacho en especifico
                     $actualizar_documento = $despachos->updateDetalleDespacho($correlativo, $documento_nuevo, $documento_viejo);
 
                     //verificamos que se haya realizado la actualizacion correctamente y devolvemos el mensaje
-                    ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL ACTUALIZAR") ;
+                    ($actualizar_documento) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL ACTUALIZAR") ;
 
                 } else {
-                    ($output["mensaje"] = "ATENCION! EL NUMERO DE DOCUMENTO: $documento_nuevo, YA FUE DESPACHADA");
+                    ($output["mensaje"] = 'ATENCION! el numero de documento: '.$documento_nuevo.', ya fue despachado');
                 }
 
             } else {
-                ($output["mensaje"] = "ATENCION! EL NUMERO DE DOCUMENTO: $documento_nuevo, NO EXISTE EN SISTEMA");
+                ($output["mensaje"] = 'ATENCION! EL numero de documento: '.$documento_nuevo.', no existe en el sistema');
             }
 
         } else {
-            ($output["mensaje"] = "ATENCION! POR FAVOR INGRESE UN DOCUMENTO DIFERENTE");
+            ($output["mensaje"] = 'ATENCION! Por favor ingrese un documento diferente');
+        }
+
+        echo json_encode($output);
+
+        break;
+
+    case "eliminar_factura_en_despacho":
+
+        $correlativo = $_POST["correlativo"];
+        $nro_documento = $_POST["nro_documento"];
+
+        $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
+
+        if(count($factura_estado_1) != 0)
+        {
+            /**  enviar correo: despachos_elimina_fact **/
+        }
+
+        //eliminamos de un despacho en especifico
+        $eliminar_documento = $despachos->deleteDetalleDespacho($correlativo, $nro_documento);
+
+        //verificamos que se haya realizado la eliminacion del documento correctamente y devolvemos el mensaje
+        ($eliminar_documento) ? $output["mensaje"] = 'ELIMINADO EXITOSAMENTE' : $output["mensaje"] = 'ERROR AL ELIMINAR';
+
+        echo json_encode($output);
+
+        break;
+
+
+    case "agregar_factura_en_despacho":
+
+        $correlativo = $_POST["correlativo"];
+        $nro_documento = $_POST["documento_agregar"];
+
+        //consultamos si la factura existe en la bd
+        $existe_factura = $despachos->getFactura($nro_documento);
+
+        //validamos si la factura existe
+        if(count($existe_factura) > 0)
+        {
+            //consultamos si la factura existe en un despacho
+            $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
+
+            //validamos si el documento ingresado no exista en otro despacho
+            if(count($existe_en_despacho) == 0)
+            {
+                $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
+
+                if(count($factura_estado_1) != 0)
+                {
+                    /**  enviar correo: despachos_edita_4 **/
+                }
+
+                //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
+                $insertar_documento = $despachos->insertarDetalleDespacho($correlativo, $nro_documento, 'A');
+
+                //verificamos que se haya realizado la insercion correctamente y devolvemos el mensaje
+                ($insertar_documento) ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL INSERTAR") ;
+
+            } else {
+                ($output["mensaje"] = 'ATENCION! el numero de documento: '.$documento_nuevo.', ya fue despachado');
+            }
+
+        } else {
+            ($output["mensaje"] = 'ATENCION! EL numero de documento: '.$documento_nuevo.', no existe en el sistema');
         }
 
         echo json_encode($output);
@@ -181,7 +252,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip"];
             $sub_array[] = date("d/m/Y h:i A",strtotime($row["fechae"]));
             $sub_array[] = number_format($row["monto"], 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEditarDespachos(\''.$row["Numerod"].'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
 
             $data[] = $sub_array;

@@ -11,6 +11,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="correlativo" name="correlativo" value="">
+
                 <!-- cabecera del despacho -->
                 <div id="detalle_en_editar_despacho"></div>
 
@@ -40,7 +42,7 @@
                 </br>
                 <div class="modal-footer">
                     <div class="col-md-12">
-                    <button class="btn btn-primary pull-left" id="buscarxfact_button"  onclick="" type="button">Agregar Factura</button>
+                    <button class="btn btn-primary pull-left" id="buscarxfact_button"  onclick="modalAgregarDocumentoEnDespacho()" type="button">Agregar Factura</button>
                     <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                     </div>
                 </div>
@@ -121,6 +123,37 @@
             <div class="modal-footer">
                 <div class="col-md-12">
                     <button type="button" name="action" id="btnGuardar" class="btn btn-success pull-left" value="" onclick="modalGuardarDocumentoEnDespacho()">Guardar</button>
+                    <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE AGREGAR UNA FACTURA EN DESPACHO -->
+<div class="modal fade"  id="agregarFacturaEnDespachoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Factura</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-warning alert-dismissible" id="alert_agregar_documento">
+                    <h5 id="text_alert_agregar_documento"><i class="icon fas fa-exclamation-triangle"></i> ATENCION! faltan campos por rellenar</h5>
+                </div>
+
+                <label>Numero de Documento</label>
+                <input type="text" class="form-control input-sm" maxlength="20" id="documento_agregar" name="documento_agregar" placeholder="Ingrese numero de documento">
+
+                <br />
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <button type="button" name="action" id="btnGuardar" class="btn btn-success pull-left" value="" onclick="modalGuardarNuevoDocumentoEnDespacho()">Guardar</button>
                     <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                 </div>
             </div>

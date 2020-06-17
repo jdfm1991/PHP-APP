@@ -42,6 +42,7 @@ function modalEditarDespachos(correlativo) {
         $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho", {correlativo: correlativo}, function (data, status) {
             data = JSON.parse(data);
             $('#editarDespachoModal').modal('show');
+            $("#correlativo").val(correlativo);
             $("#detalle_en_editar_despacho").html(data.mensaje);
         });
 
@@ -149,11 +150,6 @@ function modalGuardarEditarDespacho() {
     }
 }
 
-
-
-
-
-
 function modalMostrarDocumentoEnDespacho(nro_documento, correlativo) {
     $('#alert_editar_documento').hide();
     $("#documento_editar").val(agregarCeros(nro_documento));
@@ -171,13 +167,12 @@ function modalGuardarDocumentoEnDespacho() {
     if(documento_nuevo.length > 0 && documento_viejo.length > 0 && correlativo.length > 0){
         $.post("despachosrelacion_controlador.php?op=actualizar_factura_en_despacho", {correlativo: correlativo, documento_nuevo: documento_nuevo, documento_viejo: documento_viejo}, function (data, status) {
             data = JSON.parse(data);
-            if(!data.mensaje.includes('ERROR') || !data.mensaje.includes('ATENCION')){
-                // modalEditarDespachos(correlativo);
+            if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
                 $('#editarFacturaEnDespachoModal').modal('hide');
                 $('#tabla_editar_despacho').DataTable().ajax.reload();
             } else {
                 $('#alert_editar_documento').show();
-                $('#text_alert_editar_documento').val(data.mensaje);
+                $('#text_alert_editar_documento').text(data.mensaje);
             }
         });
     } else {
@@ -185,6 +180,57 @@ function modalGuardarDocumentoEnDespacho() {
     }
 }
 
+function modalEliminarDocumentoEnDespacho(nro_documento, correlativo) {
+
+    Swal.fire({
+        // title: '¿Estas Seguro?',
+        text: "¿Estas Seguro de Eliminar el documento "+nro_documento+" ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "despachosrelacion_controlador.php?op=eliminar_factura_en_despacho",
+                method: "POST",
+                data: {correlativo: correlativo, nro_documento: nro_documento},
+                success: function (data) {
+                    $('#tabla_editar_despacho').DataTable().ajax.reload();
+                }
+            });
+        }
+    })
+}
+
+function modalAgregarDocumentoEnDespacho() {
+    $('#alert_agregar_documento').hide();
+    $('#agregarFacturaEnDespachoModal').modal('show');
+}
+
+function modalGuardarNuevoDocumentoEnDespacho() {
+
+    var correlativo = $("#correlativo").val();
+    var documento_agregar = agregarCeros($("#documento_agregar").val());
+
+    if(correlativo.length > 0 && documento_agregar.length > 0){
+        $.post("despachosrelacion_controlador.php?op=agregar_factura_en_despacho", {correlativo: correlativo, documento_agregar: documento_agregar}, function (data, status) {
+            data = JSON.parse(data);
+            if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
+                $('#agregarFacturaEnDespachoModal').modal('hide');
+                $('#tabla_editar_despacho').DataTable().ajax.reload();
+                $('#relacion_data').DataTable().ajax.reload();
+            } else {
+                $('#alert_agregar_documento').show();
+                $('#text_alert_agregar_documento').text(data.mensaje);
+            }
+        });
+    } else {
+        $('#alert_agregar_documento').show();
+    }
+}
 
 function listarRelacionDespachos() {
     tabla_relacion_despachos = $('#relacion_data').dataTable({
