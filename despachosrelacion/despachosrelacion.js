@@ -27,9 +27,9 @@ function limpiar_campo_factura() {
     $("#detalle_despacho").html("");
 }
 
-function agregarCeros(fact){
+function agregarCeros(fact, cantidad_ceros = 6){
     var cad_cero="";
-    for(var i=0;i<(6-fact.length);i++)
+    for(var i=0;i<(cantidad_ceros-fact.length);i++)
         cad_cero+=0;
     return cad_cero+fact;
 }
@@ -230,6 +230,48 @@ function modalGuardarNuevoDocumentoEnDespacho() {
     } else {
         $('#alert_agregar_documento').show();
     }
+}
+
+
+function EliminarUnDespacho(correlativo) {
+
+    Swal.fire({
+        // title: '¿Estas Seguro?',
+        text: "¿Estas Seguro de Eliminar el despacho "+agregarCeros(correlativo, 8)+" ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "despachosrelacion_controlador.php?op=eliminar_un_despacho",
+                method: "POST",
+                data: {correlativo: correlativo},
+                success: function (data) {
+                    data = JSON.parse(data);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: data.icono,
+                        title: data.mensaje
+                    });
+
+                    //verifica si el mensaje de insercion no contiene error
+                    if(!data.mensaje.includes('ERROR')) {
+                        $('#relacion_data').DataTable().ajax.reload();
+                    }
+                }
+            });
+        }
+    })
 }
 
 function listarRelacionDespachos() {

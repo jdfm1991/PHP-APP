@@ -129,6 +129,33 @@ class Despachos extends Conectar{
         return $sql->execute();
     }
 
+    public function deleteDespacho($correlativo) {
+
+        $delete1 = false;
+        $delete2 = false;
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql_1 = "DELETE FROM Despachos WHERE Correlativo = ?";
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql_1 = $conectar->prepare($sql_1);
+        $sql_1->bindValue(1,$correlativo);
+        $delete1 = $sql_1->execute();
+
+        //QUERY
+        $sql_2 = "DELETE FROM Despachos_Det WHERE ID_Correlativo = ?";
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql_2 = $conectar->prepare($sql_2);
+        $sql_2->bindValue(1,$correlativo);
+        $delete2 = $sql_2->execute();
+
+
+        return ($delete1 && $delete2);
+    }
+
     public function insertarDetalleDespacho($correlativo, $numero_documento, $tipo_documento) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2

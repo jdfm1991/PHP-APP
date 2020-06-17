@@ -234,6 +234,34 @@ switch ($_GET["op"]) {
         break;
 
 
+    case "eliminar_un_despacho":
+
+        $correlativo = $_POST["correlativo"];
+
+        $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
+
+        if(count($factura_estado_1) != 0)
+        {
+            /**  enviar correo: despachos_elimina **/
+        }
+
+        //eliminamos de un despacho en especifico
+        $eliminar_despacho = $despachos->deleteDespacho($correlativo);
+
+        //verificamos que se haya realizado la eliminacion del documento correctamente y devolvemos el mensaje
+        if($eliminar_despacho) {
+            $output["mensaje"] = 'ELIMINADO EXITOSAMENTE';
+            $output["icono"] = "success";
+        } else {
+            $output["mensaje"] = 'ERROR AL ELIMINAR';
+            $output["icono"] = "error";
+        }
+
+        echo json_encode($output);
+
+        break;
+
+
     case "listar_despacho_por_correlativo":
 
         $correlativo = $_POST['correlativo'];
@@ -289,7 +317,7 @@ switch ($_GET["op"]) {
             $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalEditarDespachos(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="far fa-edit fa-2x" style="color:green"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="EliminarUnDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="fas fa-minus-circle fa-2x" style="color:darkred"></i>
                             </a></div>';
             $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
