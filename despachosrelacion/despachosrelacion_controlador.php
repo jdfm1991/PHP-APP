@@ -297,6 +297,89 @@ switch ($_GET["op"]) {
         break;
 
 
+    case "listar_productos_de_un_despacho":
+
+        //correlativo
+        $correlativo = $_POST["correlativo"];
+
+        //obtenemos los registros de los productos en dichos documentos
+        $datos = $despachos->getProductosDespachoCreado($correlativo);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+
+        $total_bultos = 0;
+        $total_paq = 0;
+        foreach ($datos as $row) {
+
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            $sub_array = array();
+
+            //REALIZAMOS PROCESOS DE CALCULO
+            $bultos = 0;
+            $paq = 0;
+            if ($row["BULTOS"] > 0){
+                $bultos = $row["BULTOS"];
+            }
+            if ($row["PAQUETES"] > 0){
+                $paq = $row["PAQUETES"];
+            }
+
+            if ($row["EsEmpaque"] != 0){
+                if ($row["PAQUETES"] > $row["CantEmpaq"]){
+
+                    if ($row["CantEmpaq"] != 0) {
+                        $bultos_total = $row["PAQUETES"] / $row["CantEmpaq"];
+                    }else{
+                        $bultos_total = 0;
+                    }
+                    $decimales = explode(".",$bultos_total);
+                    $bultos_deci = $bultos_total - $decimales[0];
+                    $paq = $bultos_deci * $row["CantEmpaq"];
+                    $bultos = $decimales[0] + $bultos;
+                }
+            }
+            $total_bultos += $bultos;
+            $total_paq += $paq;
+
+            //agregamos al sub array
+            $sub_array[] = $row["CodItem"];
+            $sub_array[] = $row["Descrip"];
+            $sub_array[] = round($bultos);
+            $sub_array[] = round($paq);
+
+            //agregamos un registro al array principal
+            $data[] = $sub_array;
+        }
+
+        $_SESSION["total_bultos"] = $total_bultos;
+        $_SESSION["total_paq"] = $total_paq;
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
+
+        break;
+
+    case "listar_totales_paq_bul_despacho":
+
+        if( isset($_SESSION["total_bultos"]) && isset($_SESSION["total_paq"]) ) {
+            $output["total_bultos"] = $_SESSION["total_bultos"];
+            $output["total_paq"] = $_SESSION["total_paq"];
+
+            unset($_SESSION['total_bultos']);
+            unset($_SESSION['total_paq']);
+        }
+
+        echo json_encode($output);
+
+        break;
+
+
     case "listar_RelacionDespachos":
 
         $datos = $relacion->getRelacionDespachos();
@@ -320,16 +403,16 @@ switch ($_GET["op"]) {
             $sub_array[] = '<div class="col text-center"><a href="#" onclick="EliminarUnDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="fas fa-minus-circle fa-2x" style="color:darkred"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalVerDetalleDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="fas fa-search fa-2x" style="color:cornflowerblue"></i>
                             </a></div>';
             $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <img src="../public/build/images/bs.png" width="25" height="25" border="0" />
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteProductosDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="far fa-file-pdf fa-2x" style="color:red"></i>
                             </a></div>';
-            $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
+            $sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteDetalleCompletoDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="fas fa-info-circle fa-2x" style="color:darkgrey"></i>
                             </a></div>';
 

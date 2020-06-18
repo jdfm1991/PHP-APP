@@ -72,6 +72,9 @@ $relacion = new DespachosRelacion();
     <!-- Modal editar despachos -->
     <?php include 'modales/editar_despachos_modal.php' ?>
 
+    <!-- Modal ver productos de un despcho -->
+    <?php include 'modales/ver_productos_factura_modal.php' ?>
+
 </div>
 <!-- /.content-wrapper -->
 <?php require_once("../footer.php");?>

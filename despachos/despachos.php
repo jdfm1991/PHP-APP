@@ -188,12 +188,12 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Cantidad de Paquetes">Cantidad de Paquetes</th>
 							</tr>
 						</thead>
-						<tfoot style="background-color: #ccc;color: white;">
+						<tfoot style="background-color: #aaa;color: white;">
 							<tr>
-								<th style="text-align: center;">Codigo del Producto</th>
-								<th style="text-align: center;">Descripción</th>
-								<th style="text-align: center;">Cantidad de Bultos</th>
-								<th style="text-align: center;">Cantidad de Paquetes</th>
+								<th style="text-align: center;"></th>
+								<th style="text-align: center;">TOTAL = </th>
+								<th id="cantBul_tfoot" style="text-align: center;">Cantidad de Bultos</th>
+								<th id="cantPaq_tfoot" style="text-align: center;">Cantidad de Paquetes</th>
 							</tr>
 						</tfoot>
 						<tbody>

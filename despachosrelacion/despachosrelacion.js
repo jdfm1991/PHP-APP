@@ -274,6 +274,96 @@ function EliminarUnDespacho(correlativo) {
     })
 }
 
+function modalVerDetalleDespacho(correlativo) {
+    if (correlativo !== "") {
+
+        $("#correlativo_ver_productos_despacho").val(correlativo);
+        $('#verDetalleDeUnDespachoModal').modal('show');
+
+        //TABLA DE LAS FACTURAS DENTRO DE ESE DESPACHO
+        $('#tabla_detalle_productos_del_despacho').dataTable({
+
+            "aProcessing": true,//Activamos el procesamiento del datatables
+            "aServerSide": true,//Paginación y filtrado realizados por el servidor
+            "ajax":
+                {
+                    beforeSend: function () {
+                        $("#loader_detalle_productos_despacho").show(''); //MOSTRAMOS EL LOADER.
+                    },
+                    url: 'despachosrelacion_controlador.php?op=listar_productos_de_un_despacho',
+                    type: "post",
+                    data: {correlativo: correlativo},
+                    dataType: "json",
+                    error: function (e) {
+                        console.log(e.responseText);
+                    },
+                    complete: function () {
+
+                        $.ajax({
+                            url: "despachosrelacion_controlador.php?op=listar_totales_paq_bul_despacho",
+                            method: "post",
+                            success: function (data) {
+                                data = JSON.parse(data);
+                                $("#cantBul_tfoot").text(data.total_bultos);
+                                $("#cantPaq_tfoot").text(data.total_paq);
+                            }
+                        });
+
+                        $("#loader_detalle_productos_despacho").hide();//OCULTAMOS EL LOADER.
+
+                    }
+                },//TRADUCCION DEL DATATABLE.
+            "bDestroy": true,
+            "responsive": true,
+            "bInfo": true,
+            "iDisplayLength": 8,//Por cada 8 registros hace una paginación
+            "order": [[0, "desc"]],//Ordenar (columna,orden)
+            'columnDefs':[{
+                "targets": 3, // your case first column
+                "className": "text-center",
+                // "width": "4%"
+            }],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }//cerrando language
+
+        }).DataTable();
+    }
+}
+
+function abrirReporteProductosDeUnDepacho(correlativo) {
+    if (correlativo !== "") {
+        window.open('../despachos/despachos_pdf.php?&correlativo=' + correlativo, '_blank');
+    }
+}
+
+function abrirReporteDetalleCompletoDeUnDepacho(correlativo) {
+    if (correlativo !== "") {
+        window.open('despachosrelacion_detalle_pdf.php?&correlativo=' + correlativo, '_blank');
+    }
+}
+
 function listarRelacionDespachos() {
     tabla_relacion_despachos = $('#relacion_data').dataTable({
 
@@ -344,6 +434,13 @@ function buscarFacturaEnDespachos(nrofact){
 $(document).on("click", "#btnBuscarFactModal", function () {
     var fact = $("#nrodocumento").val();
     buscarFacturaEnDespachos(fact);
+});
+
+//ACCION AL PRECIONAR EL BOTON EXPORTAR A PDF DE DETALLE PRODUCTOS EN UN DESPACHO.
+$(document).on("click", "#exportarDetalleDespacho_pdf", function () {
+    abrirReporteProductosDeUnDepacho(
+        $("#correlativo_ver_productos_despacho").val()
+    );
 });
 
 init();

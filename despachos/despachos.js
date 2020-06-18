@@ -190,6 +190,9 @@ function totales() {
             data = JSON.parse(data);
             var texto= "Total Bultos: "+data.total_bultos+"  Total Pag: "+data.total_paq;
             $("#cuenta").html(texto);
+
+            $("#cantBul_tfoot").text(data.total_bultos);
+            $("#cantPaq_tfoot").text(data.total_paq);
         }
     });
 }
