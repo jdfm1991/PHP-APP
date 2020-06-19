@@ -37,13 +37,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?php echo SERVERURL; ?>crearcliente/crearcliente.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Crear</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?php echo SERVERURL; ?>relacionclientes/relacionclientes.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Relación</p>
                             </a>
