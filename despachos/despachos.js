@@ -59,9 +59,9 @@ function limpiar_campo_factura_modal() {
     $("#detalle_despacho").html("");
 }
 
-function agregarCeros(fact){
+function agregarCeros(fact, cant_numbers = 6){
     var cad_cero="";
-    for(var i=0;i<(6-fact.length);i++)
+    for(var i=0;i<(cant_numbers-fact.length);i++)
         cad_cero+=0;
     return cad_cero+fact;
 }

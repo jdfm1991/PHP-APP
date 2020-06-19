@@ -340,7 +340,7 @@ if (count($devoluciones) != 0){
     $pdf->SetTextColor(255,255,255);
     $pdf->SetFillColor(255,0,0);
     $pdf->Cell(20,7,'Cod Prod',1,0,'C',true);
-    $pdf->Cell(70,7,'Descripcion',1,0,'C',true);
+    $pdf->Cell(75,7,'Descripcion',1,0,'C',true);
     $pdf->Cell(30,7,'Cant Bultos',1,0,'C',true);
     $pdf->Cell(30,7,'Cant Paquetes',1,0,'C',true);
     $pdf->Cell(30,7,'Peso',1,0,'C',true);
@@ -350,7 +350,7 @@ if (count($devoluciones) != 0){
     $total_paq = 0;
     $total_peso = 0;
 
-    $pdf->SetWidths(array(20,70,30,30,30));
+    $pdf->SetWidths(array(20,75,30,30,30));
     foreach ($devoluciones AS $i){
 
         $bultos = 0;
@@ -391,7 +391,7 @@ if (count($devoluciones) != 0){
     }
 
     $pdf->SetFont ('Arial','B',8);
-    $pdf->Cell(90,7,'Total Devuelto = ',1,0,'C');
+    $pdf->Cell(95,7,'Total Devuelto = ',1,0,'C');
     $pdf->SetTextColor(255,255,255);
     $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
     $pdf->Cell(30,7,$total_paq.' Paq',1,0,'C',true);

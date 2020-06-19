@@ -247,7 +247,12 @@ switch ($_GET["op"]) {
 
             foreach ($array AS $item)
                 $despachos->insertarDetalleDespacho($correl, $item, 'A');
-            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . $correl;
+
+            $cad_cero = "";
+            for($i=0; $i<(8-$num); $i++)
+                $cad_cero+=0;
+
+            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . ($cad_cero+$num);
             $output["icono"] = "success";
             $output["correl"] = $correl;
         } else {

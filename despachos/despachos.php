@@ -88,6 +88,19 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<br />
 								<button class="btn btn-primary pull-left verFactura" id="buscarxfact_button"  onclick="limpiar_campo_factura_modal()" data-toggle="modal" data-target="#buscarxfacturaModal" type="button">Ver Factura</button>
                                 <button class="btn btn-primary porDespachar" type="button">Por Despachar</button>
+
+                                <!--<div class="form-check form-check-inline container text-center  justify-content-center align-items-center" id="containerProgress">
+                                    <div class="progress progress-xs" style="width: 10em">
+                                        <div class="progress-bar bg-success" id="barraProgreso" style="width: 0%"></div>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <h5><span class="badge bg-success" id="textoBarraProgreso">0 / 0</span></h5>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="progress progress-xs" style="width: 10em">
+                                        <div class="progress-bar bg-info" id="barraProgresoCubicaje" style="width: 0%"></div>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <h5><span class="badge bg-info" id="textoBarraProgresoCubicaje">0 / 0</span></h5>
+                                </div>-->
+
 								<button class="btn btn-success nextBtn  float-right" type="button">Siguiente</button>
 							</div>
 
@@ -179,7 +192,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 					<h3 class="card-title">Detalle del Despacho</h3>
 				</div>
 				<div class="card-body" style="width:auto;">
-					<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="despacho_general_data">
+					<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="despacho_general_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
 								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Codigo del Producto">Codigo del Producto</th>
