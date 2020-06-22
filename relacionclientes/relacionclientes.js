@@ -84,48 +84,84 @@ function listar() {
     }).DataTable();
 }
 
-function mostrar(id_usuario) {
-
-    $.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
-        data = JSON.parse(data);
-
-        if (data.cedula_relacion) {
-
-            $('#usuarioModal').modal('show');
-
-            $('#cedula').val(data.cedula_relacion);
-
-
-            $('#cedula').val(data.cedula);
-            $("#cedula").prop("disabled", true);
-            $('#login').val(data.login);
-            $("#login").prop("disabled", false);
-            $('#nomper').val(data.nomper);
-            $("#nomper").prop("disabled", false);
-            $('#email').val(data.email);
-            $('#clave').val(data.clave);
-            $('#rol').val(data.rol);
-            $('#estado').val(data.estado);
-            $('.modal-title').text("Editar Usuario");
-            $('#id_usuario').val(id_usuario);
-
+$(document).ready(function () {
+    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
+    $("#tipoid3").change(function(){
+        if($("#tipoid3").val() === '0') // si es 0 es cliente juridico
+        {
+            // $('#cliente_juridico_form')[0].reset();
+            $('#cliente_juridico_form').show();
+            $('#cliente_natural_form').hide();
+        } else if($("#tipoid3").val() === '1'){ //sino si es 1 es cliente natural
+            // $('#cliente_natural_form')[0].reset();
+            $('#cliente_juridico_form').hide();
+            $('#cliente_natural_form').show();
         } else {
-
-            $('#usuarioModal').modal('show');
-            $('#cedula').val(data.cedula);
-            $("#cedula").prop("disabled", true);
-            $('#login').val(data.login);
-            $("#login").prop("disabled", false);
-            $('#nomper').val(data.nomper);
-            $("#nomper").prop("disabled", false);
-            $('#email').val(data.email);
-            $('#clave').val(data.clave);
-            $('#rol').val(data.rol);
-            $('#estado').val(data.estado);
-            $('.modal-title').text("Editar Usuario");
-            $('#id_usuario').val(id_usuario);
+            $('#cliente_juridico_form').hide();
+            $('#cliente_natural_form').hide();
         }
     });
+
+    /*$("#chofer").change(() => no_puede_estar_vacio());
+    $("#vehiculo").change(() => { no_puede_estar_vacio();
+        cargarCapacidadVehiculo($("#vehiculo").val());
+    });
+    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
+    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();*/
+
+});
+
+function mostrar(id_usuario = -1) {
+
+    //si es -1 el modal es crear usuario nuevo
+    if(id_usuario === -1)
+    {
+        $('#cliente_juridico_form').hide();
+        $('#cliente_natural_form').hide();
+        $('#clienteModal').modal('show');
+    } // si no es -1, el modal muestra los datos de un usuario por su id
+    else if(id_usuario !== -1) {
+        $.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
+            data = JSON.parse(data);
+
+            if (data.cedula_relacion) {
+
+                $('#clienteNuevoModal').modal('show');
+
+                $('#cedula').val(data.cedula_relacion);
+
+
+                $('#cedula').val(data.cedula);
+                $("#cedula").prop("disabled", true);
+                $('#login').val(data.login);
+                $("#login").prop("disabled", false);
+                $('#nomper').val(data.nomper);
+                $("#nomper").prop("disabled", false);
+                $('#email').val(data.email);
+                $('#clave').val(data.clave);
+                $('#rol').val(data.rol);
+                $('#estado').val(data.estado);
+                $('.modal-title').text("Editar Usuario");
+                $('#id_usuario').val(id_usuario);
+
+            } else {
+
+                $('#usuarioModal').modal('show');
+                $('#cedula').val(data.cedula);
+                $("#cedula").prop("disabled", true);
+                $('#login').val(data.login);
+                $("#login").prop("disabled", false);
+                $('#nomper').val(data.nomper);
+                $("#nomper").prop("disabled", false);
+                $('#email').val(data.email);
+                $('#clave').val(data.clave);
+                $('#rol').val(data.rol);
+                $('#estado').val(data.estado);
+                $('.modal-title').text("Editar Usuario");
+                $('#id_usuario').val(id_usuario);
+            }
+        });
+    }
 }
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
@@ -162,5 +198,29 @@ function guardaryeditar(e) {
     });
 }
 
-//Mostrar datos del usuario en la ventana modal del formularioS
+function cambiarEstado(id, est) {
+
+    Swal.fire({
+        title: '¿Estas Seguro?',
+        text: "¿De realizar el cambio de estado?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, cambiar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "usuario_controlador.php?op=activarydesactivar",
+                method: "POST",
+                data: {id: id, est: est},
+                success: function (data) {
+                    $('#usuario_data').DataTable().ajax.reload();
+                }
+            });
+        }
+    })
+}
+
 init();
