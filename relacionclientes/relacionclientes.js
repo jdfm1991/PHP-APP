@@ -89,16 +89,19 @@ $(document).ready(function () {
     $("#tipoid3").change(function(){
         if($("#tipoid3").val() === '0') // si es 0 es cliente juridico
         {
-            // $('#cliente_juridico_form')[0].reset();
+            $('#cliente_juridico_form')[0].reset();
             $('#cliente_juridico_form').show();
             $('#cliente_natural_form').hide();
+            $("#btnGuardarUsuario").prop("disabled", false);
         } else if($("#tipoid3").val() === '1'){ //sino si es 1 es cliente natural
-            // $('#cliente_natural_form')[0].reset();
+            $('#cliente_natural_form')[0].reset();
             $('#cliente_juridico_form').hide();
             $('#cliente_natural_form').show();
+            $("#btnGuardarUsuario").prop("disabled", false);
         } else {
             $('#cliente_juridico_form').hide();
             $('#cliente_natural_form').hide();
+            $("#btnGuardarUsuario").prop("disabled", true);
         }
     });
 
@@ -116,6 +119,7 @@ function mostrar(id_usuario = -1) {
     //si es -1 el modal es crear usuario nuevo
     if(id_usuario === -1)
     {
+        $("#btnGuardarUsuario").prop("disabled", true);
         $('#cliente_juridico_form').hide();
         $('#cliente_natural_form').hide();
         $('#clienteModal').modal('show');

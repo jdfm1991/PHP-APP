@@ -233,7 +233,7 @@ require_once("../acceso/const.php");
 
                     <div class="modal-footer">
                         <input type="hidden" name="id_usuario" id="id_usuario"/>
-                        <button type="submit" name="action" id="btnGuardar" class="btn btn-success pull-left" value="Add">Guardar</button>
+                        <button type="submit" name="action" id="btnGuardarUsuario" class="btn btn-success pull-left" value="Add">Guardar</button>
                         <button type="button" onclick="limpiar()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                     </div>
                 </div>
