@@ -65,10 +65,12 @@ require_once("../acceso/const.php");
                     <!-- seleccionamos el activo a registrar -->
                     <label>Seleccione el tipo de cliente</label>
                     <select class="form-control custom-select" id="tipoid3" name="tipoid3" style="width: 100%;" required>
-                        <option value="">Seleccione</option>
+                        <option value="" selected>Seleccione</option>
                         <option value="0">Jurídico</option>
                         <option value="1">Natural</option>
                     </select>
+
+                    <!--FORM DE JURIDICO-->
                     <form method="post" id="cliente_juridico_form">
                         <br><hr />
                         <h2 class="card-title">Datos Principales</h2> <br><br>
@@ -211,24 +213,53 @@ require_once("../acceso/const.php");
                         <br />
 
                     </form>
+
+                    <!--FORM DE CLIENTE-->
                     <form method="post" id="cliente_natural_form">
                         <br><hr />
                         <h2 class="card-title">Datos Principales</h2> <br><br>
 
                         <label>Codigo del Cliente *</label>
-                        <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo J311768773" required >
+                        <input type="text" class="form-control input-sm" minlength="3" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo V175528004" required >
                         <br />
-                        <label>Razón Social *</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="descrip" name="descrip" placeholder="razón social" required>
+                        <label>Cedula o RIF *</label>
+                        <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo V17552800" required>
                         <br />
-                        <label>RIF *</label>
-                        <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo J311768773" required>
+                        <label>Nombres y Apellidos *</label>
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="name1" name="name1" minlength="3" maxlength="15" placeholder="Primer Nombre" required="">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="name2" name="name2" minlength="3" maxlength="15" placeholder="Segundo Nombre">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="ape1" name="ape1" minlength="3" maxlength="15" placeholder="Primer Apellido" required="">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="ape2" name="ape2" minlength="3" maxlength="15" placeholder="Segundo Apellido">
+                            </div>
+                        </div>
+                        <label>Clase *</label>
+                        <input type="text" class="form-control input-sm" minlength="2" maxlength="10" id="clase" name="clase" placeholder="tipo de canal" required>
                         <br />
+                        <label>Representante *</label>
+                        <input type="text" class="form-control input-sm" minlength="3" maxlength="40" id="represent" name="represent" placeholder="representante" required>
+                        <br />
+
                         <label>Estado</label>
                         <select class="form-control custom-select" id="estado" name="estado" required>
                             <!--los estados se llenan por ajax-->
                         </select>
                         <br /><br />
+
+                        <hr />
+                        <h2 class="card-title">Datos Adicionales</h2> <br><br>
+
+
+                        <hr />
+                        <h2 class="card-title">Datos Financieros</h2> <br><br>
+
                     </form>
 
                     <div class="modal-footer">
