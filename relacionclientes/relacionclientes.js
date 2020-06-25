@@ -5,9 +5,9 @@ function init() {
     listar();
 
     //cuando se da click al boton submit entonces se ejecuta la funcion guardaryeditar(e);
-    /*$("#usuario_form").on("submit", function (e) {
+    $("#btnGuardarUsuario").on("click", function (e) {
         guardaryeditar(e);
-    });*/
+    });
 
     //cambia el titulo de la ventana modal cuando se da click al boton
     /*$("#add_button").click(function () {
@@ -24,14 +24,9 @@ function init() {
 
 /*funcion para limpiar formulario de modal*/
 function limpiar() {
-    $("#cedula").val("");
-    $('#login').val("");
-    $('#nomper').val("");
-    $('#email').val("");
-    $('#clave').val("");
-    $('#rol').val("");
-    $('#estado').val("");
-    $('#id_usuario').val("");
+    $('#tipoid3').val("").change();
+    $('#cliente_juridico_form')[0].reset();
+    $('#cliente_natural_form')[0].reset();
 }
 
 //function listar
@@ -116,6 +111,7 @@ $(document).ready(function () {
 
 function mostrar(id_usuario = -1) {
 
+    $('#tipoid3').val("").change();
     //si es -1 el modal es crear usuario nuevo
     if(id_usuario === -1)
     {
@@ -168,9 +164,24 @@ function mostrar(id_usuario = -1) {
     }
 }
 
-//la funcion guardaryeditar(e); se llama cuando se da click al boton submit
 
+
+//la funcion guardaryeditar(e); se llama cuando se da click al boton submit
 function guardaryeditar(e) {
+    var tipo_cliente = parseInt($('#tipoid3').val());
+    console.log("guardar y editar");
+
+    switch (tipo_cliente) {
+        case 0: // juridico
+            console.log("juridico");
+            form = new FormData($("#cliente_juridico_form")[0]);
+            break;
+        case 1: // natural
+            console.log("natural");
+            form = new FormData($("#cliente_natural_form")[0]);
+            break;
+    }
+    return;
 
     e.preventDefault(); //No se activará la acción predeterminada del evento
     var formData = new FormData($("#usuario_form")[0]);
