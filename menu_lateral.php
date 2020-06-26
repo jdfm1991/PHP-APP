@@ -30,14 +30,20 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- CLIENTES -->
-                <li class="nav-item has-treeview">
+                <li class="nav-item">
+                    <a href="<?php echo SERVERURL; ?>relacionclientes/relacionclientes.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Clientes</p>
+                    </a>
+                </li>
+                <!--<li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>Clientes<i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo SERVERURL; ?>crearcliente/crearcliente.php" class="nav-link">
+                            <a href="<?php /*echo SERVERURL; */?>crearcliente/crearcliente.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Crear</p>
                             </a>
@@ -49,7 +55,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li>-->
                 <!-- DESPACHOS -->
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">

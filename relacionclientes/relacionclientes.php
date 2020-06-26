@@ -63,61 +63,61 @@ require_once("../acceso/const.php");
                 </div>
                 <div class="modal-body">
                     <!-- seleccionamos el activo a registrar -->
-                    <label>Seleccione el tipo de cliente</label>
+                    <label for="tipoid3">Seleccione el tipo de cliente</label>
                     <select class="form-control custom-select" id="tipoid3" name="tipoid3" style="width: 100%;" required>
                         <option value="">Seleccione</option>
                         <option value="0">Jurídico</option>
                         <option value="1">Natural</option>
                     </select>
 
-                    <!--FORM DE JURIDICO-->
-                    <form method="post" id="cliente_juridico_form">
+
+                    <form method="post" id="cliente_form">
+                        <input type="hidden" name="tipo_cliente" id="tipo_cliente"/>
                         <br><hr />
                         <h2 class="card-title">Datos Principales</h2> <br><br>
 
-                        <label>Codigo del Cliente *</label>
+                        <label for="codclie">Codigo del Cliente *</label>
                         <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo J311768773" required >
                         <br />
-                        <label>Razón Social *</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="descrip" name="descrip" placeholder="razón social" required>
-                        <br />
-                        <label>RIF *</label>
+                        <div id="descrip"></div>
+
+                        <label for="id3">RIF *</label>
                         <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo J311768773" required>
                         <br />
-                        <label>Clase *</label>
+                        <label for="clase">Clase *</label>
                         <input type="text" class="form-control input-sm" minlength="2" maxlength="10" id="clase" name="clase" placeholder="tipo de canal" required>
                         <br />
-                        <label>Representante *</label>
+                        <label for="represent">Representante *</label>
                         <input type="text" class="form-control input-sm" minlength="3" maxlength="40" id="represent" name="represent" placeholder="representante" required>
                         <br />
-                        <label>Dirección 1 *</label>
+                        <label for="direc1">Dirección 1 *</label>
                         <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="direc1" name="direc1" placeholder="dirección 1" required>
                         <br />
-                        <label>Dirección 2</label>
+                        <label for="direc2">Dirección 2</label>
                         <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="direc2" name="direc2" placeholder="dirección 2">
                         <br />
-                        <label>Estado</label>
-                        <select class="form-control custom-select" id="estado_j" name="estado_j" required>
+                        <label for="estado">Estado</label>
+                        <select class="form-control custom-select" id="estado" name="estado" required>
                             <!--los estados se llenan por ajax-->
                         </select>
                         <br /><br />
-                        <label>Ciudad *</label>
+                        <label for="ciudad">Ciudad *</label>
                         <select class="form-control custom-select" id="ciudad" name="ciudad" style="width: 100%;" required>
                             <option value="">Seleccione</option>
                         </select><br /><br />
-                        <label>Municipio</label>
+                        <label for="municipio">Municipio</label>
                         <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="municipio" name="municipio" placeholder="municipio" required>
                         <br />
-                        <label>Email</label>
+                        <label for="email">Email</label>
                         <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="email" name="email" placeholder="correo electrónico" required>
                         <br />
-                        <label>Teléfono *</label>
+                        <label for="telef">Teléfono *</label>
                         <input type="tel" class="form-control input-sm" minlength="5" maxlength="30" id="telef" name="telef" placeholder="teléfono fijo">
                         <br />
-                        <label>Movil</label>
+                        <label for="movil">Movil</label>
                         <input type="tel" class="form-control input-sm" minlength="5" maxlength="15" id="movil" name="movil" placeholder="teléfono movil">
                         <br />
-                        <label>Estatus *</label>
+                        <label for="activo">Estatus *</label>
                         <select class="form-control custom-select" id="activo" name="activo" style="width: 100%;" required>
                             <option value="">Seleccione</option>
                             <option value="0">Inactivo</option>
@@ -127,18 +127,18 @@ require_once("../acceso/const.php");
                         <hr />
                         <h2 class="card-title">Datos Adicionales</h2> <br><br>
 
-                        <label>Zona</label>
-                        <select class="form-control custom-select" id="codzona_j" name="codzona_j" style="width: 100%;">
+                        <label for="codzona">Zona</label>
+                        <select class="form-control custom-select" id="codzona" name="codzona" style="width: 100%;">
                             <!--las zonas se cargan por ajax-->
                         </select>
                         <br /><br />
-                        <label>Vendedor</label>
-                        <select class="form-control custom-select" id="codvend_j" name="codvend_j" style="width: 100%;">
+                        <label for="codvend">Vendedor</label>
+                        <select class="form-control custom-select" id="codvend" name="codvend" style="width: 100%;">
                             <!--los vendedores se cargan por ajax-->
                         </select>
                         <br /><br />
-                        <label>Tipo Contribuyente *</label>
-                        <select class="form-control custom-select" id="f" name="tipocli" style="width: 100%;" required>
+                        <label for="tipocli">Tipo Contribuyente *</label>
+                        <select class="form-control custom-select" id="tipocli" name="tipocli" style="width: 100%;" required>
                             <option value="">Seleccione</option>
                             <option value="0">Contribuyente</option>
                             <option value="1">No contribuyente</option>
@@ -147,7 +147,7 @@ require_once("../acceso/const.php");
                             <option value="4">Contribuyente especial</option>
                         </select>
                         <br /><br />
-                        <label>Tipo Precio *</label>
+                        <label for="tipopvp">Tipo Precio *</label>
                         <select class="form-control custom-select" id="tipopvp" name="tipopvp" style="width: 100%;" required>
                             <option value="">Seleccione</option>
                             <option value="1">Precio 1</option>
@@ -155,7 +155,7 @@ require_once("../acceso/const.php");
                             <option value="3">Precio 3</option>
                         </select>
                         <br /><br />
-                        <label>Dia de Visita</label>
+                        <label for="diasvisita">Dia de Visita</label>
                         <select class="form-control custom-select" id="diasvisita" name="diasvisita" style="width: 100%;">
                             <option value="">Seleccione</option>
                             <option value="lunes">LUNES</option>
@@ -165,210 +165,55 @@ require_once("../acceso/const.php");
                             <option value="viernes">VIERNES</option>
                         </select>
                         <br /><br />
-                        <label>Ruc</label>
-                        <input type="text" class="form-control input-sm" maxlength="40" id="ruc" name="ruc" placeholder="ruc">
-                        <br />
-                        <label>Latitud</label>
+                        <div id="ruc"></div>
+
+                        <label for="latitud">Latitud</label>
                         <input type="text" class="form-control input-sm" maxlength="20" id="latitud" name="latitud" placeholder="latitud">
                         <br />
-                        <label>Longintud</label>
+                        <label for="longitud">Longintud</label>
                         <input type="text" class="form-control input-sm" maxlength="20" id="longitud" name="longitud" placeholder="longitud">
                         <br />
-                        <label>Codigo Nestle *</label>
-                        <select class="form-control custom-select" id="codnestle_j" name="codnestle_j" style="width: 100%;" required>
+                        <label for="codnestle">Codigo Nestle *</label>
+                        <select class="form-control custom-select" id="codnestle" name="codnestle" style="width: 100%;" required>
                             <!--los codigo nestle se cargan por AJAX-->
                         </select>
                         <br /><br />
                         <hr />
                         <h2 class="card-title">Datos Financieros</h2> <br><br>
 
-                        <label>Tiene Crédito</label>
+                        <label for="escredito">Tiene Crédito</label>
                         <select class="form-control custom-select" id="escredito" name="escredito" style="width: 100%;">
                             <option value="">Seleccione</option>
                             <option value="0">NO</option>
                             <option value="1">SI</option>
                         </select>
                         <br /><br />
-                        <label>Limite de Crédito</label>
+                        <label for="LimiteCred">Limite de Crédito</label>
                         <input type="text" class="form-control input-sm" value="0" maxlength="10" id="LimiteCred" name="LimiteCred" placeholder="limite de credito">
                         <br />
-                        <label>Dias de Credito</label>
+                        <label for="diascred">Dias de Credito</label>
                         <input type="text" class="form-control input-sm" value="0" maxlength="3" id="diascred" name="diascred" placeholder="dias de credito">
                         <br />
-                        <label>Tiene Tolerancia</label>
+                        <label for="estoleran">Tiene Tolerancia</label>
                         <select class="form-control custom-select" id="estoleran" name="estoleran" style="width: 100%;">
                             <option value="">Seleccione</option>
                             <option value="0">NO</option>
                             <option value="1">SI</option>
                         </select>
                         <br /><br />
-                        <label>Dias de Tolerancia</label>
+                        <label for="diasTole">Dias de Tolerancia</label>
                         <input type="text" class="form-control input-sm" value="0" maxlength="3" id="diasTole" name="diasTole" placeholder="dias de tolerancia">
                         <br />
-                        <label>Descuento %</label>
+                        <label for="descto">Descuento %</label>
                         <input type="text" class="form-control input-sm" value="0" maxlength="3" id="descto" name="descto" placeholder="porcentaje de descuento">
                         <br />
-                        <label>Observación</label>
-                        <input type="text" class="form-control input-sm" maxlength="40" id="observa" name="observa" placeholder="observación">
-                        <br />
-
-                    </form>
-
-                    <!--FORM DE CLIENTE-->
-                    <form method="post" id="cliente_natural_form">
-                        <br><hr />
-                        <h2 class="card-title">Datos Principales</h2> <br><br>
-
-                        <label>Codigo del Cliente *</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo V175528004" required >
-                        <br />
-                        <label>Cedula o RIF *</label>
-                        <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo V17552800" required>
-                        <br />
-                        <label>Nombres y Apellidos *</label>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="name1" name="name1" minlength="3" maxlength="15" placeholder="Primer Nombre" required="">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="name2" name="name2" minlength="3" maxlength="15" placeholder="Segundo Nombre">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="ape1" name="ape1" minlength="3" maxlength="15" placeholder="Primer Apellido" required="">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="ape2" name="ape2" minlength="3" maxlength="15" placeholder="Segundo Apellido">
-                            </div>
-                        </div>
-                        <label>Clase *</label>
-                        <input type="text" class="form-control input-sm" minlength="2" maxlength="10" id="clase" name="clase" placeholder="tipo de canal" required>
-                        <br />
-                        <label>Representante *</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="40" id="represent" name="represent" placeholder="representante" required>
-                        <br />
-                        <label>Dirección 1 *</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="direc1" name="direc1" placeholder="dirección 1" required>
-                        <br />
-                        <label>Dirección 2</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="direc2" name="direc2" placeholder="dirección 1">
-                        <br />
-                        <label>Estado</label>
-                        <select class="form-control custom-select" id="estado_n" name="estado_n" required>
-                            <!--los estados se llenan por ajax-->
-                        </select>
-                        <br /><br />
-                        <label>Ciudad *</label>
-                        <select class="form-control custom-select" id="ciudad" name="ciudad" style="width: 100%;" required>
-                            <option value="">Seleccione</option>
-                        </select><br /><br />
-                        <label>Municipio</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="municipio" name="municipio" placeholder="municipio" required>
-                        <br />
-                        <label>Email</label>
-                        <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="email" name="email" placeholder="correo electrónico" required>
-                        <br />
-                        <label>Teléfono *</label>
-                        <input type="tel" class="form-control input-sm" minlength="5" maxlength="30" id="telef" name="telef" placeholder="teléfono fijo">
-                        <br />
-                        <label>Movil</label>
-                        <input type="tel" class="form-control input-sm" minlength="5" maxlength="15" id="movil" name="movil" placeholder="teléfono movil">
-                        <br />
-                        <label>Estatus *</label>
-                        <select class="form-control custom-select" id="activo" name="activo" style="width: 100%;" required>
-                            <option value="">Seleccione</option>
-                            <option value="0">Inactivo</option>
-                            <option value="1">Activo</option>
-                        </select>
-                        <br /><br />
-                        <hr />
-                        <h2 class="card-title">Datos Adicionales</h2> <br><br>
-                        <label>Zona</label>
-                        <select class="form-control custom-select" id="codzona_n" name="codzona_n" style="width: 100%;">
-                            <!--las zonas se cargan por ajax-->
-                        </select>
-                        <br /><br />
-                        <label>Vendedor</label>
-                        <select class="form-control custom-select" id="codvend_n" name="codvend_n" style="width: 100%;">
-                            <!--los vendedores se cargan por ajax-->
-                        </select>
-                        <br /><br />
-                        <label>Tipo Contribuyente *</label>
-                        <select class="form-control custom-select" id="f" name="tipocli" style="width: 100%;" required>
-                            <option value="">Seleccione</option>
-                            <option value="0">Contribuyente</option>
-                            <option value="1">No contribuyente</option>
-                            <option value="2">Exportacion</option>
-                            <option value="3">Interno no gravable</option>
-                            <option value="4">Contribuyente especial</option>
-                        </select>
-                        <br /><br />
-                        <label>Tipo Precio *</label>
-                        <select class="form-control custom-select" id="tipopvp" name="tipopvp" style="width: 100%;" required>
-                            <option value="">Seleccione</option>
-                            <option value="1">Precio 1</option>
-                            <option value="2">Precio 2</option>
-                            <option value="3">Precio 3</option>
-                        </select>
-                        <br /><br />
-                        <label>Dia de Visita</label>
-                        <select class="form-control custom-select" id="diasvisita" name="diasvisita" style="width: 100%;">
-                            <option value="">Seleccione</option>
-                            <option value="lunes">LUNES</option>
-                            <option value="martes">MARTES</option>
-                            <option value="miercoles">MIERCOLES</option>
-                            <option value="jueves">JUEVES</option>
-                            <option value="viernes">VIERNES</option>
-                        </select>
-                        <br /><br />
-                        <label>Latitud</label>
-                        <input type="text" class="form-control input-sm" maxlength="20" id="latitud" name="latitud" placeholder="latitud">
-                        <br />
-                        <label>Longintud</label>
-                        <input type="text" class="form-control input-sm" maxlength="20" id="longitud" name="longitud" placeholder="longitud">
-                        <br />
-                        <label>Codigo Nestle *</label>
-                        <select class="form-control custom-select" id="codnestle_n" name="codnestle_n" style="width: 100%;" required>
-                            <!--los codigo nestle se cargan por AJAX-->
-                        </select>
-                        <br /><br />
-
-                        <hr />
-                        <h2 class="card-title">Datos Financieros</h2> <br><br>
-                        <label>Tiene Crédito</label>
-                        <select class="form-control custom-select" id="escredito" name="escredito" style="width: 100%;">
-                            <option value="">Seleccione</option>
-                            <option value="0">NO</option>
-                            <option value="1">SI</option>
-                        </select>
-                        <br /><br />
-                        <label>Limite de Crédito</label>
-                        <input type="text" class="form-control input-sm" value="0" maxlength="10" id="LimiteCred" name="LimiteCred" placeholder="limite de credito">
-                        <br />
-                        <label>Dias de Credito</label>
-                        <input type="text" class="form-control input-sm" value="0" maxlength="3" id="diascred" name="diascred" placeholder="dias de credito">
-                        <br />
-                        <label>Tiene Tolerancia</label>
-                        <select class="form-control custom-select" id="estoleran" name="estoleran" style="width: 100%;">
-                            <option value="">Seleccione</option>
-                            <option value="0">NO</option>
-                            <option value="1">SI</option>
-                        </select>
-                        <br /><br />
-                        <label>Dias de Tolerancia</label>
-                        <input type="text" class="form-control input-sm" value="0" maxlength="3" id="diasTole" name="diasTole" placeholder="dias de tolerancia">
-                        <br />
-                        <label>Descuento %</label>
-                        <input type="text" class="form-control input-sm" value="0" maxlength="3" id="descto" name="descto" placeholder="porcentaje de descuento">
-                        <br />
-                        <label>Observación</label>
+                        <label for="observa">Observación</label>
                         <input type="text" class="form-control input-sm" maxlength="40" id="observa" name="observa" placeholder="observación">
                         <br />
                     </form>
 
                     <div class="modal-footer">
-                        <input type="hidden" name="id_usuario" id="id_usuario"/>
+                        <input type="hidden" name="id_usuario" id="id_cliente"/>
                         <button type="submit" name="action" id="btnGuardarUsuario" class="btn btn-success pull-left" value="Add">Guardar</button>
                         <button type="button" onclick="limpiar()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                     </div>

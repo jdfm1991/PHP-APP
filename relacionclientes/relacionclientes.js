@@ -25,12 +25,10 @@ function init() {
 /*funcion para limpiar formulario de modal*/
 function limpiar() {
     $('#tipoid3').val("").change();
-    $('#cliente_juridico_form')[0].reset();
-    $('#cliente_natural_form')[0].reset();
+    $('#cliente_form')[0].reset();
 }
 
 //function listar
-
 function listar() {
     tabla = $('#cliente_data').dataTable({
 
@@ -82,20 +80,22 @@ function listar() {
 $(document).ready(function () {
     //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
     $("#tipoid3").change(function(){
-        if($("#tipoid3").val() === '0') // si es 0 es cliente juridico
+        $('#cliente_form')[0].reset();
+        $('#tipo_cliente').val($("#tipoid3").val());
+
+        if($("#tipoid3").val() !== '')
         {
-            $('#cliente_juridico_form')[0].reset();
-            $('#cliente_juridico_form').show();
-            $('#cliente_natural_form').hide();
-            $("#btnGuardarUsuario").prop("disabled", false);
-        } else if($("#tipoid3").val() === '1'){ //sino si es 1 es cliente natural
-            $('#cliente_natural_form')[0].reset();
-            $('#cliente_juridico_form').hide();
-            $('#cliente_natural_form').show();
+            $('#cliente_form').show();
+            $.post("relacionclientes_controlador.php?op=obtener_opcion_para_juridico_o_natural", { tipo: $("#tipoid3").val() }, function(data){
+                data = JSON.parse(data);
+                $("#descrip").html(data.descrip);
+                $("#ruc").html(data.ruc);
+                $("#codclie").attr("placeholder", data.codclie);
+                $("#id3").attr("placeholder", data.rif);
+            });
             $("#btnGuardarUsuario").prop("disabled", false);
         } else {
-            $('#cliente_juridico_form').hide();
-            $('#cliente_natural_form').hide();
+            $('#cliente_form').hide();
             $("#btnGuardarUsuario").prop("disabled", true);
         }
     });
@@ -111,13 +111,12 @@ $(document).ready(function () {
 
 function mostrar(id_usuario = -1) {
 
-    $('#tipoid3').val("").change();
+    // $('#tipoid3').val("").change();
+
     //si es -1 el modal es crear usuario nuevo
     if(id_usuario === -1)
     {
-        $("#btnGuardarUsuario").prop("disabled", true);
-        $('#cliente_juridico_form').hide();
-        $('#cliente_natural_form').hide();
+        $('#tipoid3').val("").change();
         $('#clienteModal').modal('show');
     } // si no es -1, el modal muestra los datos de un usuario por su id
     else if(id_usuario !== -1) {
@@ -126,6 +125,7 @@ function mostrar(id_usuario = -1) {
 
             if (data.cedula_relacion) {
 
+                $('#tipoid3').val("").change();
                 $('#clienteNuevoModal').modal('show');
 
                 $('#cedula').val(data.cedula_relacion);
@@ -170,24 +170,13 @@ function mostrar(id_usuario = -1) {
 function guardaryeditar(e) {
     var tipo_cliente = parseInt($('#tipoid3').val());
     console.log("guardar y editar");
-
-    switch (tipo_cliente) {
-        case 0: // juridico
-            console.log("juridico");
-            form = new FormData($("#cliente_juridico_form")[0]);
-            break;
-        case 1: // natural
-            console.log("natural");
-            form = new FormData($("#cliente_natural_form")[0]);
-            break;
-    }
     return;
 
     e.preventDefault(); //No se activará la acción predeterminada del evento
-    var formData = new FormData($("#usuario_form")[0]);
+    var formData = new FormData($("#cliente_form")[0]);
 
     $.ajax({
-        url: "usuario_controlador.php?op=guardaryeditar",
+        url: "relacionclientes_controlador.php?op=guardaryeditar",
         type: "POST",
         data: formData,
         contentType: false,
