@@ -118,6 +118,13 @@ function mostrar(id_usuario = -1) {
     {
         $('#tipoid3').val("").change();
         $('#clienteModal').modal('show');
+        /*$.post("relacionclientes_controlador.php?op=listar_estado_codzona_codvend_codnestle", {estado: estado, zona: zona, edv: edv, codnestle: codnestle}, function(data){
+            data = JSON.parse(data);
+            $("#descrip").html(data.descrip);
+            $("#ruc").html(data.ruc);
+            $("#codclie").attr("placeholder", data.codclie);
+            $("#id3").attr("placeholder", data.rif);
+        });*/
     } // si no es -1, el modal muestra los datos de un usuario por su id
     else if(id_usuario !== -1) {
         $.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {

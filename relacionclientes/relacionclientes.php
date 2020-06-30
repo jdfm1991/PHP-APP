@@ -103,7 +103,7 @@ require_once("../acceso/const.php");
                         <br /><br />
                         <label for="ciudad">Ciudad *</label>
                         <select class="form-control custom-select" id="ciudad" name="ciudad" style="width: 100%;" required>
-                            <option value="">Seleccione</option>
+                            <!--los ciudad se llenan por ajax-->
                         </select><br /><br />
                         <label for="municipio">Municipio</label>
                         <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="municipio" name="municipio" placeholder="municipio" required>

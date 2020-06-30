@@ -14,61 +14,50 @@ switch ($_GET["op"]) {
 
     case "guardaryeditar":
 
-        $id_usuario = isset($_POST["id_usuario"]);
-        $cedula = isset($_POST["cedula"]);
-        $login = isset($_POST["login"]);
-        $nomper = isset($_POST["nomper"]);
-        $email = isset($_POST["email"]);
-        $clave = isset($_POST["clave"]);
-        $rol = isset($_POST["rol"]);
-        $estado = isset($_POST["estado"]);
-
-
-        /*DATOS CLIENTE 1*/
-        /*INSERT EN SACLIE SAINT*/
-        $codclie = $_POST["codclie"];
-        $descrip = $_POST["descrip"];
-        $id3 = $_POST["id3"];
-        $tipoid3 = $_POST["tipoid3"];
-        $activo = $_POST["activo"];
-        $clase = $_POST["clase"];
-        $represent = $_POST["represent"];
-        $direc1 = $_POST["direc1"];
-        $direc2 = $_POST["direc2"];
-        $telef = $_POST["telef"];
-        $movil = $_POST["movil"];
-        $email = $_POST["email"];
-        $codzona = $_POST["codzona"];
-        $codvend = $_POST["codvend"];
-        $tipocli = $_POST["tipocli"];
-        $observa = $_POST["observa"];
-        $tipopvp = $_POST["tipopvp"];
-        $fechae = date("Y-m-d h:i:s");
-        $descto = $_POST["descto"];
-        $escredito = $_POST["escredito"];
-        $limitecred = $_POST["limitecred"];
-        $diascred = $_POST["diascred"];
-        $estoleran = $_POST["estoleran"];
-        $diastole = $_POST["diastole"];
+        //datos principales
+        $tipo_cliente = isset($_POST["tipo_cliente"]); //tipo cliente
+        $codclie = isset($_POST["codclie"]);
+        $descrip = isset($_POST["descrip"]);
+        $nomb1 = $_POST['nomb1'];
+        $nomb2 = $_POST['nomb2'];
+        $ape1 = $_POST['ape1'];
+        $ape2 = $_POST['ape2'];
+        $id3 = isset($_POST["id3"]);
+        $clase = isset($_POST["clase"]);
+        $represent = isset($_POST["represent"]);
+        $direc1 = isset($_POST["direc1"]);
+        $direc2 = isset($_POST["direc2"]);
         $pais = '1';
-        $estado = $_POST["estado"];
-        $ciudad = $_POST["ciudad"];
-        /*$descorder=1234;*/
+        $estado = isset($_POST["estado"]);
+        $ciudad = isset($_POST["ciudad"]);
+        $municipio = isset($_POST["municipio"]);
+        $email = isset($_POST["email"]);
+        $telef = isset($_POST["telef"]);
+        $movil = isset($_POST["movil"]);
+        $activo = isset($_POST["activo"]);
+
+        //datos adicionales
+        $codzona = isset($_POST["codzona"]);
+        $codvend = isset($_POST["codvend"]);
+        $tipocli = isset($_POST["tipocli"]);
+        $tipopvp = isset($_POST["tipopvp"]);
+        $diasvisita = isset($_POST["diasvisita"]);
+        $ruc = isset($_POST["ruc"]);
+        $latitud = isset($_POST["latitud"]);
+        $longitud = isset($_POST["longitud"]);
+        $codnestle = isset($_POST["codnestle"]);
+
+        //datos financieros
+        $escredito = isset($_POST["escredito"]);
+        $limitecred = isset($_POST["LimiteCred"]);
+        $diascred = isset($_POST["diascred"]);
+        $estoleran = isset($_POST["estoleran"]);
+        $diastole = isset($_POST["diasTole"]);
+        $descto = isset($_POST["descto"]);
+        $observa = isset($_POST["observa"]);
 
 
-
-        /*DATOS CLIENTE 2*/
-        /*INSERT SACLIE_01 "CASO AJ"*/
-        $codclie = $_POST["codclie"];
-        $clasificacion = $_POST["clasificacion"];
-        $diasvisita = $_POST["diasvisita"];
-        $municipio = $_POST["municipio"];
-        $codnestle = $_POST["codnestle"];
-        $ruc = $_POST["ruc"];
-        $ruta_alternativa_2 = $_POST["ruta_alternativa_2"];
-        $latitud = $_POST["latitud"];
-        $longitud = $_POST["longitud"];
-
+        $fechae = date("Y-m-d h:i:s");
 
         /*$peso_max_vehiculo = $vehiculo->get_vehiculo_por_id($_POST["id"]);
 
@@ -146,6 +135,73 @@ switch ($_GET["op"]) {
                 $output["ruc"] = '';
                 $output["codclie"] = 'indique el RIF Ejemplo V175528004';
                 $output["rif"] = 'Cedula o RIF Ejemplo V175528004';
+            }
+        }
+
+        echo json_encode($output);
+
+        break;
+
+    case "listar_estado_codzona_codvend_codnestle":
+
+//        $correlativo = $_POST['correlativo'];
+
+        $lista_estados = $relacion->get_estados();
+        $lista_zonas = $relacion->get_zona();
+        $lista_vendedores = $relacion->get_Edv();
+        $lista_codnestle = $relacion->get_Cnestle();
+
+        //ESTADOS
+        $output["estado"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_estados) > 0) {
+            foreach ($lista_estados as $chofer)
+            {
+                if($despacho[0]["ID_Chofer"] == $chofer['Cedula']) {
+                    $output["estado"] .= '<option value="' . $chofer['Cedula'] . '" selected>' . $chofer['Nomper'] . '</option>';
+                } else {
+                    $output["estado"] .= '<option value="' . $chofer['Cedula'] . '">' . $chofer['Nomper'] . '</option>';
+                }
+            }
+
+        }
+
+        //ZONAS
+        $output["zona"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_zonas) > 0) {
+            foreach ($lista_zonas as $vehiculo)
+            {
+                if($despacho[0]["ID_Vehiculo"] == $vehiculo['ID']) {
+                    $output["zona"] .= '<option value="' . $vehiculo['ID'] . '" selected>' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                } else {
+                    $output["zona"] .= '<option value="' . $vehiculo['ID'] . '">' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                }
+            }
+        }
+
+        //VENDEDORES
+        $output["edv"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_vendedores) > 0) {
+            foreach ($lista_vendedores as $chofer)
+            {
+                if($despacho[0]["ID_Chofer"] == $chofer['Cedula']) {
+                    $output["edv"] .= '<option value="' . $chofer['Cedula'] . '" selected>' . $chofer['Nomper'] . '</option>';
+                } else {
+                    $output["edv"] .= '<option value="' . $chofer['Cedula'] . '">' . $chofer['Nomper'] . '</option>';
+                }
+            }
+
+        }
+
+        //CODIGOS NESTLE
+        $output["codnestle"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_codnestle) > 0) {
+            foreach ($lista_codnestle as $vehiculo)
+            {
+                if($despacho[0]["ID_Vehiculo"] == $vehiculo['ID']) {
+                    $output["codnestle"] .= '<option value="' . $vehiculo['ID'] . '" selected>' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                } else {
+                    $output["codnestle"] .= '<option value="' . $vehiculo['ID'] . '">' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                }
             }
         }
 

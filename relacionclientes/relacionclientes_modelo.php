@@ -29,4 +29,84 @@ class RelacionClientes extends Conectar
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function get_estados()
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT estado, descrip FROM saestado WHERE pais =1 ORDER BY descrip ASC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_ciudad($estado)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT ciudad, descrip FROM saciudad WHERE estado = ? AND pais = '1' ORDER BY descrip ASC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $estado, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_zona()
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT codzona, descrip FROM sazona WHERE codzona != 'codzona'  ORDER BY descrip ASC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_Edv()
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT codvend, descrip FROM savend ORDER BY descrip ASC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_Cnestle()
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT codnestle, descripcion FROM sanestle where codnestle != 'codnestle'";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
