@@ -117,17 +117,28 @@ function mostrar(id_usuario = -1) {
     if(id_usuario === -1)
     {
         $('#tipoid3').val("").change();
-        $('#clienteModal').modal('show');
-        /*$.post("relacionclientes_controlador.php?op=listar_estado_codzona_codvend_codnestle", {estado: estado, zona: zona, edv: edv, codnestle: codnestle}, function(data){
+        var codclie = "";
+        $.post("relacionclientes_controlador.php?op=listar_estado_codzona_codvend_codnestle", {codclie: codclie}, function(data){
             data = JSON.parse(data);
-            $("#descrip").html(data.descrip);
-            $("#ruc").html(data.ruc);
-            $("#codclie").attr("placeholder", data.codclie);
-            $("#id3").attr("placeholder", data.rif);
-        });*/
+            $('#clienteModal').modal('show');
+            $("#estado").html(data.estado);
+            $("#codzona").html(data.zona);
+            $("#codvend").html(data.edv);
+            $("#codnestle").html(data.codnestle);
+        });
     } // si no es -1, el modal muestra los datos de un usuario por su id
     else if(id_usuario !== -1) {
-        $.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
+        console.log(id_usuario);
+        $.post("relacionclientes_controlador.php?op=listar_estado_codzona_codvend_codnestle", {codclie: id_usuario}, function(data){
+            data = JSON.parse(data);
+            $('#clienteModal').modal('show');
+            $("#estado").html(data.estado);
+            $("#codzona").html(data.zona);
+            $("#codvend").html(data.edv);
+            $("#codnestle").html(data.codnestle);
+
+        });
+        /*$.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
             data = JSON.parse(data);
 
             if (data.cedula_relacion) {
@@ -167,7 +178,7 @@ function mostrar(id_usuario = -1) {
                 $('.modal-title').text("Editar Usuario");
                 $('#id_usuario').val(id_usuario);
             }
-        });
+        });*/
     }
 }
 

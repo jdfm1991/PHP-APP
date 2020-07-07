@@ -84,7 +84,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip"];
             $sub_array[] = $row["id3"];
             $sub_array[] = number_format($row['saldo'], 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
+            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="mostrar(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
 
             $data[] = $sub_array;
         }
@@ -144,7 +144,10 @@ switch ($_GET["op"]) {
 
     case "listar_estado_codzona_codvend_codnestle":
 
-//        $correlativo = $_POST['correlativo'];
+        $codclie = $_POST["codclie"];
+
+        if($codclie != "")
+            $cliente = $relacion->get_cliente_por_id($codclie);
 
         $lista_estados = $relacion->get_estados();
         $lista_zonas = $relacion->get_zona();
@@ -154,12 +157,12 @@ switch ($_GET["op"]) {
         //ESTADOS
         $output["estado"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_estados) > 0) {
-            foreach ($lista_estados as $chofer)
+            foreach ($lista_estados as $estado)
             {
-                if($despacho[0]["ID_Chofer"] == $chofer['Cedula']) {
-                    $output["estado"] .= '<option value="' . $chofer['Cedula'] . '" selected>' . $chofer['Nomper'] . '</option>';
+                if($codclie != "" && $estado["estado"] == $cliente[0]['idestado']) {
+                    $output["estado"] .= '<option value="' . $estado['estado'] . '" selected>' . $estado['descrip'] . '</option>';
                 } else {
-                    $output["estado"] .= '<option value="' . $chofer['Cedula'] . '">' . $chofer['Nomper'] . '</option>';
+                    $output["estado"] .= '<option value="' . $estado['estado'] . '">' . $estado['descrip'] . '</option>';
                 }
             }
 
@@ -168,12 +171,12 @@ switch ($_GET["op"]) {
         //ZONAS
         $output["zona"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_zonas) > 0) {
-            foreach ($lista_zonas as $vehiculo)
+            foreach ($lista_zonas as $zona)
             {
-                if($despacho[0]["ID_Vehiculo"] == $vehiculo['ID']) {
-                    $output["zona"] .= '<option value="' . $vehiculo['ID'] . '" selected>' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                if($codclie != "" && $zona["codzona"] == $cliente[0]['idzona']) {
+                    $output["zona"] .= '<option value="' . $zona['codzona'] . '" selected>' . $zona['descrip'] . '</option>';
                 } else {
-                    $output["zona"] .= '<option value="' . $vehiculo['ID'] . '">' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                    $output["zona"] .= '<option value="' . $zona['codzona'] . '">' . $zona['descrip'] . '</option>';
                 }
             }
         }
@@ -181,12 +184,12 @@ switch ($_GET["op"]) {
         //VENDEDORES
         $output["edv"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_vendedores) > 0) {
-            foreach ($lista_vendedores as $chofer)
+            foreach ($lista_vendedores as $vendedor)
             {
-                if($despacho[0]["ID_Chofer"] == $chofer['Cedula']) {
-                    $output["edv"] .= '<option value="' . $chofer['Cedula'] . '" selected>' . $chofer['Nomper'] . '</option>';
+                if($codclie != "" && $vendedor["codvend"] == $cliente[0]['idvend']) {
+                    $output["edv"] .= '<option value="' . $vendedor['codvend'] . '" selected>' . $vendedor['descrip'] . '</option>';
                 } else {
-                    $output["edv"] .= '<option value="' . $chofer['Cedula'] . '">' . $chofer['Nomper'] . '</option>';
+                    $output["edv"] .= '<option value="' . $vendedor['codvend'] . '">' . $vendedor['descrip'] . '</option>';
                 }
             }
 
@@ -195,14 +198,40 @@ switch ($_GET["op"]) {
         //CODIGOS NESTLE
         $output["codnestle"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_codnestle) > 0) {
-            foreach ($lista_codnestle as $vehiculo)
+            foreach ($lista_codnestle as $codnestle)
             {
-                if($despacho[0]["ID_Vehiculo"] == $vehiculo['ID']) {
-                    $output["codnestle"] .= '<option value="' . $vehiculo['ID'] . '" selected>' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                if($codclie != "" &&   isset($cliente[0]['idnestle']) && $codnestle["codnestle"] == $cliente[0]['idnestle']) {
+                    $output["codnestle"] .= '<option value="' . $codnestle['codnestle'] . '" selected>' . $codnestle['descrip'] . '</option>';
                 } else {
-                    $output["codnestle"] .= '<option value="' . $vehiculo['ID'] . '">' . $vehiculo['Modelo'] . "&nbsp;&nbsp;" . $vehiculo['Capacidad'] . " Kg" . '</option>';
+                    $output["codnestle"] .= '<option value="' . $codnestle['codnestle'] . '">' . $codnestle['descrip'] . '</option>';
                 }
             }
+        }
+
+        echo json_encode($output);
+
+        break;
+
+
+    case "listar_ciudad":
+
+        $codclie = $_POST["codclie"];
+        $estado_selected = $_POST["idestado"];
+
+        $lista_ciudades = $relacion->get_ciudades_por_estado($estado_selected);
+
+        //CIUDADES
+        $output["ciudad"] = '<option name="" value="">Seleccione</option>';
+        if(count($lista_ciudades) > 0) {
+            foreach ($lista_ciudades as $ciudad)
+            {
+                if($codclie != "" && $ciudad["ciudad"] == $cliente[0]['idestado']) {
+                    $output["ciudad"] .= '<option value="' . $ciudad['ciudad'] . '" selected>' . $ciudad['descrip'] . '</option>';
+                } else {
+                    $output["ciudad"] .= '<option value="' . $ciudad['ciudad'] . '">' . $ciudad['descrip'] . '</option>';
+                }
+            }
+
         }
 
         echo json_encode($output);
