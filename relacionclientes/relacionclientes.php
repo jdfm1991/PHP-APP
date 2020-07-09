@@ -17,10 +17,11 @@ require_once("../acceso/const.php");
                 <div class="card-body">
                     <button class="btn btn-primary" id="add_cliente_button" onclick="mostrar()" data-toggle="modal" data-target="#clienteModal"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo Cliente</button>
                     <hr>
-                    <div class="card card-info">
+                    <div class="card card-info"  id="tabla">
                         <div class="card-header">
                             <h3 class="card-title">Relación de Clientes</h3><!-- overflow:scroll; -->
                         </div>
+
                         <div class="card-body" style="width:auto;">
                             <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="cliente_data">
                                 <thead style="background-color: #17A2B8;color: white;">
@@ -47,6 +48,14 @@ require_once("../acceso/const.php");
                             </table>
                         </div>
                     </div>
+                    <!-- BOX  LOADER -->
+                    <figure id="loader">
+                        <div class="dot white"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -72,6 +81,7 @@ require_once("../acceso/const.php");
 
 
                     <form method="post" id="cliente_form">
+                        <input type="hidden" name="id_cliente" id="id_cliente"/>
                         <input type="hidden" name="tipo_cliente" id="tipo_cliente"/>
                         <br><hr />
                         <h2 class="card-title">Datos Principales</h2> <br><br>
@@ -79,7 +89,7 @@ require_once("../acceso/const.php");
                         <label for="codclie">Codigo del Cliente *</label>
                         <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo J311768773" required >
                         <br />
-                        <div id="descrip"></div>
+                        <div id="div_descrip"></div>
 
                         <label for="id3">RIF *</label>
                         <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo J311768773" required>
@@ -165,7 +175,7 @@ require_once("../acceso/const.php");
                             <option value="viernes">VIERNES</option>
                         </select>
                         <br /><br />
-                        <div id="ruc"></div>
+                        <div id="div_ruc"></div>
 
                         <label for="latitud">Latitud</label>
                         <input type="text" class="form-control input-sm" maxlength="20" id="latitud" name="latitud" placeholder="latitud">
@@ -213,11 +223,19 @@ require_once("../acceso/const.php");
                     </form>
 
                     <div class="modal-footer">
-                        <input type="hidden" name="id_usuario" id="id_cliente"/>
                         <button type="submit" name="action" id="btnGuardarUsuario" class="btn btn-success pull-left" value="Add">Guardar</button>
                         <button type="button" onclick="limpiar()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                     </div>
                 </div>
+
+                <!-- BOX  LOADER -->
+                <figure id="loader1">
+                    <div class="dot white"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </figure>
 
             </div>
         </div>

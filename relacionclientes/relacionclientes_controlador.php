@@ -15,54 +15,73 @@ switch ($_GET["op"]) {
     case "guardaryeditar":
 
         //datos principales
-        $tipo_cliente = isset($_POST["tipo_cliente"]); //tipo cliente
-        $codclie = isset($_POST["codclie"]);
-        $descrip = isset($_POST["descrip"]);
-        $nomb1 = $_POST['nomb1'];
-        $nomb2 = $_POST['nomb2'];
-        $ape1 = $_POST['ape1'];
-        $ape2 = $_POST['ape2'];
-        $id3 = isset($_POST["id3"]);
-        $clase = isset($_POST["clase"]);
-        $represent = isset($_POST["represent"]);
-        $direc1 = isset($_POST["direc1"]);
-        $direc2 = isset($_POST["direc2"]);
+        $tipo_cliente = $_POST["tipo_cliente"]; //tipo cliente
+        $codclie = $_POST["codclie"];
+        if($tipo_cliente == "0") { //juridico
+            $descrip = $_POST["descrip"];
+            $ruc = $_POST["ruc"];
+        }
+        elseif($tipo_cliente == "1")
+        { //natural
+            $nomb1 = $_POST['nomb1'];
+            $nomb2 = $_POST['nomb2'];
+            $ape1 = $_POST['ape1'];
+            $ape2 = $_POST['ape2'];
+            $descrip = "$nomb1 $nomb2 $ape1 $ape2";
+        }
+        $id3 = $_POST["id3"];
+        $clase = $_POST["clase"];
+        $represent = $_POST["represent"];
+        $direc1 = $_POST["direc1"];
+        $direc2 = $_POST["direc2"];
         $pais = '1';
-        $estado = isset($_POST["estado"]);
-        $ciudad = isset($_POST["ciudad"]);
-        $municipio = isset($_POST["municipio"]);
-        $email = isset($_POST["email"]);
-        $telef = isset($_POST["telef"]);
-        $movil = isset($_POST["movil"]);
-        $activo = isset($_POST["activo"]);
+        $estado = $_POST["estado"];
+        $ciudad = $_POST["ciudad"];
+        $municipio = $_POST["municipio"];
+        $email = $_POST["email"];
+        $telef = $_POST["telef"];
+        $movil = $_POST["movil"];
+        $activo = $_POST["activo"];
 
         //datos adicionales
-        $codzona = isset($_POST["codzona"]);
-        $codvend = isset($_POST["codvend"]);
-        $tipocli = isset($_POST["tipocli"]);
-        $tipopvp = isset($_POST["tipopvp"]);
-        $diasvisita = isset($_POST["diasvisita"]);
-        $ruc = isset($_POST["ruc"]);
-        $latitud = isset($_POST["latitud"]);
-        $longitud = isset($_POST["longitud"]);
-        $codnestle = isset($_POST["codnestle"]);
+        $codzona = $_POST["codzona"];
+        $codvend = $_POST["codvend"];
+        $tipocli = $_POST["tipocli"];
+        $tipopvp = $_POST["tipopvp"];
+        $diasvisita = $_POST["diasvisita"];
+//        $ruc = isset($_POST["ruc"]);
+        $latitud = $_POST["latitud"];
+        $longitud = $_POST["longitud"];
+        $codnestle = $_POST["codnestle"];
 
         //datos financieros
-        $escredito = isset($_POST["escredito"]);
-        $limitecred = isset($_POST["LimiteCred"]);
-        $diascred = isset($_POST["diascred"]);
-        $estoleran = isset($_POST["estoleran"]);
-        $diastole = isset($_POST["diasTole"]);
-        $descto = isset($_POST["descto"]);
-        $observa = isset($_POST["observa"]);
-
+        $escredito = $_POST["escredito"];
+        $limitecred = $_POST["LimiteCred"];
+        $diascred = $_POST["diascred"];
+        $estoleran = $_POST["estoleran"];
+        $diastole = $_POST["diasTole"];
+        $descto = $_POST["descto"];
+        $observa = $_POST["observa"];
 
         $fechae = date("Y-m-d h:i:s");
 
-        /*$peso_max_vehiculo = $vehiculo->get_vehiculo_por_id($_POST["id"]);
+        if (empty($_POST["id_cliente"])) {
 
-        $output["capacidad"] = $peso_max_vehiculo[0]["Capacidad"];*/
-        $output["cubicajeMax"] = $peso_max_vehiculo[0]["Volumen"];
+            /*verificamos si existe la codigo de cliente o rif en la base de datos, si ya existe un registro entonces no se registra el cliente*/
+            $datos = $relacion->get_cliente_por_codigo_o_rif($codclie, $id3);
+
+            if (is_array($datos) == true and count($datos) == 0) {
+
+                //no existe el cliente por lo tanto hacemos el registro
+                $relacion->registrar_cliente($cedula, $login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
+
+            } else {
+                $output["mensaje"] = "La cédula o el correo ya existe";
+            }
+        } else {
+            /*si ya existe entonces editamos el usuario*/
+            $relacion->editar_cliente($login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
+        }
 
         echo json_encode($output);
 
@@ -84,7 +103,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip"];
             $sub_array[] = $row["id3"];
             $sub_array[] = number_format($row['saldo'], 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="mostrar(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
+            $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="mostrar(\''.$row["codclie"].'\',\''.$row["idtid3"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
 
             $data[] = $sub_array;
         }
@@ -142,70 +161,94 @@ switch ($_GET["op"]) {
 
         break;
 
-    case "listar_estado_codzona_codvend_codnestle":
+    case "listar_detalle_cliente":
 
         $codclie = $_POST["codclie"];
-
-        if($codclie != "")
-            $cliente = $relacion->get_cliente_por_id($codclie);
 
         $lista_estados = $relacion->get_estados();
         $lista_zonas = $relacion->get_zona();
         $lista_vendedores = $relacion->get_Edv();
         $lista_codnestle = $relacion->get_Cnestle();
 
+        if($codclie != "") {
+            $cliente = $relacion->get_cliente_por_id($codclie);
+
+            $output["tipoid3"] = $cliente[0]['idtid3'];
+            $output["codclie"] = $cliente[0]['codigo'];
+            if($cliente[0]['idtid3'] == "0")
+            { //juridico
+                $output["descrip"] = $cliente[0]['descrip'];
+                //si existe ruc en saclie_ext, llenar, sino vacio
+                (isset($cliente[0]['ruc'])) ? $output["ruc"] = $cliente[0]['ruc'] : $output["ruc"] = "";
+            }
+            elseif($cliente[0]['idtid3'] == "1")
+            { //natural
+                $descrip = explode(" ", $cliente[0]['descrip']);
+                (isset($descrip[0])) ? $output["name1"] = $descrip[0] : $output["name1"] = "";
+                (isset($descrip[1])) ? $output["name2"] = $descrip[1] : $output["name2"] = "";
+                (isset($descrip[2])) ? $output["ape1"]  = $descrip[2] : $output["ape1"] = "";
+                (isset($descrip[3])) ? $output["ape2"]  = $descrip[3] : $output["ape2"] = "";
+            }
+            $output["id3"] = $cliente[0]['id3'];
+            $output["clase"] = $cliente[0]['clase'];
+            $output["represent"] = $cliente[0]['represent'];
+            $output["direc1"] = $cliente[0]['direc1'];
+            $output["direc2"] = $cliente[0]['direc2'];
+            $output["idestado"] = $cliente[0]['idestado'];
+            $output["idciudad"] = $cliente[0]['idciudad'];
+            //si existe minicipio en saclie_ext, llenar, sino vacio
+            (isset($cliente[0]['municipio'])) ? $output["municipio"] = $cliente[0]['municipio'] : $output["municipio"] = "";
+            $output["email"] = $cliente[0]['email'];
+            $output["telef"] = $cliente[0]['telef'];
+            $output["movil"] = $cliente[0]['movil'];
+            $output["idactivo"] = $cliente[0]['idactivo'];
+            $output["codzona"] = $cliente[0]['idzona'];
+            $output["codvend"] = $cliente[0]['idvend'];
+            $output["tipocli"] = $cliente[0]['idtcli'];
+            $output["idtpvp"] = $cliente[0]['idtpvp'];
+            //si existe dvisitas en saclie_ext, llenar, sino vacio
+            (isset($cliente[0]['dvisitas'])) ? $output["diasvisita"] = $cliente[0]['dvisitas'] : $output["diasvisita"] = "";
+            //si existe latitud en saclie_ext, llenar, sino vacio
+            (isset($cliente[0]['latitud'])) ? $output["latitud"] = $cliente[0]['latitud'] : $output["latitud"] = "";
+            //si existe longitud en saclie_ext, llenar, sino vacio
+            (isset($cliente[0]['longitud'])) ? $output["longitud"] = $cliente[0]['longitud'] : $output["longitud"] = "";
+            //si existe idnestle en saclie_ext, llenar, sino vacio
+            (isset($cliente[0]['idnestle'])) ? $output["idnestle"] = $cliente[0]['idnestle'] : $output["idnestle"] = "";
+            $output["escredito"] = $cliente[0]['credito'];
+            $output["LimiteCred"] = number_format($cliente[0]['lcred'], 2, ",", ".");
+            $output["diascred"] = $cliente[0]['dcred'];
+            $output["estoleran"] = $cliente[0]['toleran'];
+            $output["diasTole"] = $cliente[0]['dtoleran'];
+            $output["descto"] = number_format($cliente[0]['descto'], 2, ",", ".");
+            $output["observa"] = $cliente[0]['observa'];
+        }
+
         //ESTADOS
         $output["estado"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_estados) > 0) {
             foreach ($lista_estados as $estado)
-            {
-                if($codclie != "" && $estado["estado"] == $cliente[0]['idestado']) {
-                    $output["estado"] .= '<option value="' . $estado['estado'] . '" selected>' . $estado['descrip'] . '</option>';
-                } else {
-                    $output["estado"] .= '<option value="' . $estado['estado'] . '">' . $estado['descrip'] . '</option>';
-                }
-            }
-
+                $output["estado"] .= '<option value="' . $estado['estado'] . '">' . $estado['descrip'] . '</option>';
         }
 
         //ZONAS
         $output["zona"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_zonas) > 0) {
             foreach ($lista_zonas as $zona)
-            {
-                if($codclie != "" && $zona["codzona"] == $cliente[0]['idzona']) {
-                    $output["zona"] .= '<option value="' . $zona['codzona'] . '" selected>' . $zona['descrip'] . '</option>';
-                } else {
-                    $output["zona"] .= '<option value="' . $zona['codzona'] . '">' . $zona['descrip'] . '</option>';
-                }
-            }
+                $output["zona"] .= '<option value="' . $zona['codzona'] . '">' . $zona['descrip'] . '</option>';
         }
 
         //VENDEDORES
         $output["edv"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_vendedores) > 0) {
             foreach ($lista_vendedores as $vendedor)
-            {
-                if($codclie != "" && $vendedor["codvend"] == $cliente[0]['idvend']) {
-                    $output["edv"] .= '<option value="' . $vendedor['codvend'] . '" selected>' . $vendedor['descrip'] . '</option>';
-                } else {
-                    $output["edv"] .= '<option value="' . $vendedor['codvend'] . '">' . $vendedor['descrip'] . '</option>';
-                }
-            }
-
+                $output["edv"] .= '<option value="' . $vendedor['codvend'] . '">' . $vendedor['descrip'] . '</option>';
         }
 
         //CODIGOS NESTLE
         $output["codnestle"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_codnestle) > 0) {
             foreach ($lista_codnestle as $codnestle)
-            {
-                if($codclie != "" &&   isset($cliente[0]['idnestle']) && $codnestle["codnestle"] == $cliente[0]['idnestle']) {
-                    $output["codnestle"] .= '<option value="' . $codnestle['codnestle'] . '" selected>' . $codnestle['descrip'] . '</option>';
-                } else {
-                    $output["codnestle"] .= '<option value="' . $codnestle['codnestle'] . '">' . $codnestle['descrip'] . '</option>';
-                }
-            }
+                $output["codnestle"] .= '<option value="' . $codnestle['codnestle'] . '">' . $codnestle['descrip'] . '</option>';
         }
 
         echo json_encode($output);
@@ -213,25 +256,17 @@ switch ($_GET["op"]) {
         break;
 
 
-    case "listar_ciudad":
+    case "listar_ciudades_por_idestado":
 
-        $codclie = $_POST["codclie"];
         $estado_selected = $_POST["idestado"];
 
         $lista_ciudades = $relacion->get_ciudades_por_estado($estado_selected);
 
         //CIUDADES
-        $output["ciudad"] = '<option name="" value="">Seleccione</option>';
+        $output["ciudades"] = '<option name="" value="">Seleccione</option>';
         if(count($lista_ciudades) > 0) {
             foreach ($lista_ciudades as $ciudad)
-            {
-                if($codclie != "" && $ciudad["ciudad"] == $cliente[0]['idestado']) {
-                    $output["ciudad"] .= '<option value="' . $ciudad['ciudad'] . '" selected>' . $ciudad['descrip'] . '</option>';
-                } else {
-                    $output["ciudad"] .= '<option value="' . $ciudad['ciudad'] . '">' . $ciudad['descrip'] . '</option>';
-                }
-            }
-
+                $output["ciudades"] .= '<option value="' . $ciudad['ciudad'] . '">' . $ciudad['descrip'] . '</option>';
         }
 
         echo json_encode($output);

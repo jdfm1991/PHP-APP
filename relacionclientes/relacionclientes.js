@@ -2,8 +2,10 @@ var tabla;
 
 //Función que se ejecuta al inicio
 function init() {
-    listar();
 
+    $("#loader").hide();
+    $("#loader1").hide();
+    listar();
     //cuando se da click al boton submit entonces se ejecuta la funcion guardaryeditar(e);
     $("#btnGuardarUsuario").on("click", function (e) {
         guardaryeditar(e);
@@ -22,6 +24,56 @@ function init() {
     });*/
 }
 
+$(document).ready(function () {
+    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
+    $("#tipoid3").change(function(){
+        $('#cliente_form')[0].reset();
+        $('#tipo_cliente').val($("#tipoid3").val());
+
+        if($("#tipoid3").val() !== '')
+        {
+            $('#cliente_form').show();
+            $.ajax({
+                url: "relacionclientes_controlador.php?op=obtener_opcion_para_juridico_o_natural",
+                method: "POST",
+                data: { tipo: $("#tipoid3").val() },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    $("#div_descrip").html(data.descrip);
+                    $("#div_ruc").html(data.ruc);
+                    $("#codclie").attr("placeholder", data.codclie);
+                    $("#id3").attr("placeholder", data.rif);
+                }
+            });
+            $("#btnGuardarUsuario").prop("disabled", false);
+        } else {
+            $('#cliente_form').hide();
+            $("#btnGuardarUsuario").prop("disabled", true);
+        }
+    });
+
+    $("#estado").change(function(){
+        $.ajax({
+            async: false,
+            cache: true,
+            url: "relacionclientes_controlador.php?op=listar_ciudades_por_idestado",
+            method: "POST",
+            data: { idestado: $("#estado").val() },
+            success: function (data) {
+                data = JSON.parse(data);
+                $("#ciudad").html(data.ciudades);
+            }
+        });
+    });
+    /*$("#chofer").change(() => no_puede_estar_vacio());
+    $("#vehiculo").change(() => { no_puede_estar_vacio();
+        cargarCapacidadVehiculo($("#vehiculo").val());
+    });
+    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
+    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();*/
+
+});
+
 /*funcion para limpiar formulario de modal*/
 function limpiar() {
     $('#tipoid3').val("").change();
@@ -34,15 +86,21 @@ function listar() {
 
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
-        "ajax":
-            {
-                url: 'relacionclientes_controlador.php?op=listar',
-                type: "get",
-                dataType: "json",
-                error: function (e) {
-                    console.log(e.responseText);
-                }
+        "ajax": {
+            beforeSend: function () {
+                $("#loader").show(''); //MOSTRAMOS EL LOADER.
             },
+            url: 'relacionclientes_controlador.php?op=listar',
+            type: "get",
+            dataType: "json",
+            error: function (e) {
+                console.log(e.responseText);
+            },
+            complete: function () {
+                $("#tabla").show('');//MOSTRAMOS LA TABLA.
+                $("#loader").hide();//OCULTAMOS EL LOADER.
+            }
+        },
 
         "bDestroy": true,
         "responsive": true,
@@ -77,108 +135,81 @@ function listar() {
     }).DataTable();
 }
 
-$(document).ready(function () {
-    //VALIDA CADA INPUT CUANDO ES CAMBIADO DE ESTADO
-    $("#tipoid3").change(function(){
-        $('#cliente_form')[0].reset();
-        $('#tipo_cliente').val($("#tipoid3").val());
+function mostrar(id_cliente = -1, tipoid3 = "") {
 
-        if($("#tipoid3").val() !== '')
-        {
-            $('#cliente_form').show();
-            $.post("relacionclientes_controlador.php?op=obtener_opcion_para_juridico_o_natural", { tipo: $("#tipoid3").val() }, function(data){
-                data = JSON.parse(data);
-                $("#descrip").html(data.descrip);
-                $("#ruc").html(data.ruc);
-                $("#codclie").attr("placeholder", data.codclie);
-                $("#id3").attr("placeholder", data.rif);
-            });
-            $("#btnGuardarUsuario").prop("disabled", false);
-        } else {
-            $('#cliente_form').hide();
-            $("#btnGuardarUsuario").prop("disabled", true);
-        }
-    });
-
-    /*$("#chofer").change(() => no_puede_estar_vacio());
-    $("#vehiculo").change(() => { no_puede_estar_vacio();
-        cargarCapacidadVehiculo($("#vehiculo").val());
-    });
-    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
-    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();*/
-
-});
-
-function mostrar(id_usuario = -1) {
-
-    // $('#tipoid3').val("").change();
+    limpiar();
+    $('#clienteModal').modal('show');
+    $("#loader1").show('');
 
     //si es -1 el modal es crear usuario nuevo
-    if(id_usuario === -1)
+    if(id_cliente === -1)
     {
         $('#tipoid3').val("").change();
         var codclie = "";
-        $.post("relacionclientes_controlador.php?op=listar_estado_codzona_codvend_codnestle", {codclie: codclie}, function(data){
+        $.post("relacionclientes_controlador.php?op=listar_detalle_cliente", { codclie: codclie }, function(data){
             data = JSON.parse(data);
-            $('#clienteModal').modal('show');
             $("#estado").html(data.estado);
             $("#codzona").html(data.zona);
             $("#codvend").html(data.edv);
             $("#codnestle").html(data.codnestle);
+
+            $("#loader1").hide();
         });
     } // si no es -1, el modal muestra los datos de un usuario por su id
-    else if(id_usuario !== -1) {
-        console.log(id_usuario);
-        $.post("relacionclientes_controlador.php?op=listar_estado_codzona_codvend_codnestle", {codclie: id_usuario}, function(data){
+    else if(id_cliente !== -1) {
+        $('.modal-title').text("Editar Cliente");
+        $("#tipoid3").val(tipoid3).change();
+        $("#tipoid3").prop("disabled", true);
+        $.post("relacionclientes_controlador.php?op=listar_detalle_cliente", { codclie: id_cliente }, function(data){
             data = JSON.parse(data);
-            $('#clienteModal').modal('show');
             $("#estado").html(data.estado);
             $("#codzona").html(data.zona);
             $("#codvend").html(data.edv);
             $("#codnestle").html(data.codnestle);
 
-        });
-        /*$.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
-            data = JSON.parse(data);
-
-            if (data.cedula_relacion) {
-
-                $('#tipoid3').val("").change();
-                $('#clienteNuevoModal').modal('show');
-
-                $('#cedula').val(data.cedula_relacion);
-
-
-                $('#cedula').val(data.cedula);
-                $("#cedula").prop("disabled", true);
-                $('#login').val(data.login);
-                $("#login").prop("disabled", false);
-                $('#nomper').val(data.nomper);
-                $("#nomper").prop("disabled", false);
-                $('#email').val(data.email);
-                $('#clave').val(data.clave);
-                $('#rol').val(data.rol);
-                $('#estado').val(data.estado);
-                $('.modal-title').text("Editar Usuario");
-                $('#id_usuario').val(id_usuario);
-
-            } else {
-
-                $('#usuarioModal').modal('show');
-                $('#cedula').val(data.cedula);
-                $("#cedula").prop("disabled", true);
-                $('#login').val(data.login);
-                $("#login").prop("disabled", false);
-                $('#nomper').val(data.nomper);
-                $("#nomper").prop("disabled", false);
-                $('#email').val(data.email);
-                $('#clave').val(data.clave);
-                $('#rol').val(data.rol);
-                $('#estado').val(data.estado);
-                $('.modal-title').text("Editar Usuario");
-                $('#id_usuario').val(id_usuario);
+            $("#id_cliente").val(id_cliente);
+            $("#codclie").val(data.codclie);
+            $("#codclie").prop("disabled", true);
+            if(tipoid3 === "0"){
+                $("#descrip").val(data.descrip);
+                $("#ruc").val(data.ruc);
+            } else
+                if(tipoid3 === "1"){
+                    $("#name1").val(data.name1);
+                    $("#name2").val(data.name2);
+                    $("#ape1").val(data.ape1);
+                    $("#ape2").val(data.ape2);
             }
-        });*/
+            $("#id3").val(data.id3);
+            $("#clase").val(data.clase);
+            $("#represent").val(data.represent);
+            $("#direc1").val(data.direc1);
+            $("#direc2").val(data.direc2);
+            $("#estado").val(data.idestado).change();
+            $("#ciudad").val(data.idciudad);
+            $("#municipio").val(data.municipio);
+            $("#email").val(data.email);
+            $("#telef").val(data.telef);
+            $("#movil").val(data.movil);
+            $("#activo").val(data.idactivo);
+            $("#codzona").val(data.codzona);
+            $("#codvend").val(data.codvend);
+            $("#tipocli").val(data.tipocli);
+            $("#tipopvp").val(data.idtpvp);
+            $("#diasvisita").val(data.diasvisita);
+            $("#latitud").val(data.latitud);
+            $("#longitud").val(data.longitud);
+            $("#codnestle").val(data.idnestle);
+            $("#escredito").val(data.escredito);
+            $("#LimiteCred").val(data.LimiteCred);
+            $("#diascred").val(data.diascred);
+            $("#estoleran").val(data.estoleran);
+            $("#diasTole").val(data.diasTole);
+            $("#descto").val(data.descto);
+            $("#observa").val(data.observa);
+
+            $("#loader1").hide();
+        });
     }
 }
 
@@ -186,7 +217,7 @@ function mostrar(id_usuario = -1) {
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
 function guardaryeditar(e) {
-    var tipo_cliente = parseInt($('#tipoid3').val());
+    // var tipo_cliente = parseInt($('#tipoid3').val());
     console.log("guardar y editar");
     return;
 
@@ -212,10 +243,9 @@ function guardaryeditar(e) {
                 icon: 'success',
                 title: 'Proceso Exitoso!'
             })
-            $('#usuario_form')[0].reset();
-            $('#usuarioModal').modal('hide');
-            $('#usuario_data').DataTable().ajax.reload();
             limpiar();
+            $('#clienteModal').modal('hide');
+            $('#cliente_data').DataTable().ajax.reload();
         }
     });
 }
