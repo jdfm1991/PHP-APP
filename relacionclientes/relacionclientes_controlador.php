@@ -15,11 +15,12 @@ switch ($_GET["op"]) {
     case "guardaryeditar":
 
         //datos principales
-        $tipo_cliente = $_POST["tipo_cliente"]; //tipo cliente
+        $tipo_cliente = $_POST["tipo_cliente"];
         $codclie = $_POST["codclie"];
         if($tipo_cliente == "0") { //juridico
             $descrip = $_POST["descrip"];
-            $ruc = $_POST["ruc"];
+            $ruc = $_POST["ruc"]; //saclie_ext
+            $descorder = "";
         }
         elseif($tipo_cliente == "1")
         { //natural
@@ -28,6 +29,7 @@ switch ($_GET["op"]) {
             $ape1 = $_POST['ape1'];
             $ape2 = $_POST['ape2'];
             $descrip = "$nomb1 $nomb2 $ape1 $ape2";
+            $descorder = 1234;
         }
         $id3 = $_POST["id3"];
         $clase = $_POST["clase"];
@@ -37,7 +39,7 @@ switch ($_GET["op"]) {
         $pais = '1';
         $estado = $_POST["estado"];
         $ciudad = $_POST["ciudad"];
-        $municipio = $_POST["municipio"];
+        $municipio = $_POST["municipio"]; //saclie_ext
         $email = $_POST["email"];
         $telef = $_POST["telef"];
         $movil = $_POST["movil"];
@@ -48,11 +50,11 @@ switch ($_GET["op"]) {
         $codvend = $_POST["codvend"];
         $tipocli = $_POST["tipocli"];
         $tipopvp = $_POST["tipopvp"];
-        $diasvisita = $_POST["diasvisita"];
+        $diasvisita = $_POST["diasvisita"]; //saclie_ext
 //        $ruc = isset($_POST["ruc"]);
-        $latitud = $_POST["latitud"];
-        $longitud = $_POST["longitud"];
-        $codnestle = $_POST["codnestle"];
+        $latitud = $_POST["latitud"]; //saclie_ext
+        $longitud = $_POST["longitud"]; //saclie_ext
+        $codnestle = $_POST["codnestle"]; //saclie_ext
 
         //datos financieros
         $escredito = $_POST["escredito"];
@@ -60,10 +62,11 @@ switch ($_GET["op"]) {
         $diascred = $_POST["diascred"];
         $estoleran = $_POST["estoleran"];
         $diastole = $_POST["diasTole"];
+        $fecha_creacion = date("Y-m-d h:i:s");
         $descto = $_POST["descto"];
-        $observa = $_POST["observa"];
+        $observacion = $_POST["observa"]; //saclie_ext
 
-        $fechae = date("Y-m-d h:i:s");
+
 
         if (empty($_POST["id_cliente"])) {
 
@@ -73,10 +76,17 @@ switch ($_GET["op"]) {
             if (is_array($datos) == true and count($datos) == 0) {
 
                 //no existe el cliente por lo tanto hacemos el registro
-                $relacion->registrar_cliente($cedula, $login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
-
+                $saclie = $relacion->registrar_cliente($tipo_cliente, $codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $fecha_creacion, $descto);
+                if($saclie){
+                    //si registro bien en saclie, inserta los datos en saclie_ext
+                    $saclie_ext = $relacion->registrar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion);
+                    //mensaje
+                    ($saclie_ext) ? $output["mensaje"] = "Cliente insertado con Exito" : $output["mensaje"] = "Error al insertar cliente extendido";
+                } else {
+                    $output["mensaje"] = "Error al insertar cliente";
+                }
             } else {
-                $output["mensaje"] = "La cédula o el correo ya existe";
+                $output["mensaje"] = "El codigo o el rif ya existe";
             }
         } else {
             /*si ya existe entonces editamos el usuario*/

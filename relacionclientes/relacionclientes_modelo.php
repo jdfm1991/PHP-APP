@@ -82,32 +82,75 @@ class RelacionClientes extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function registrar_cliente()
+    public function registrar_cliente($tipo_cliente, $codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $fecha_creacion, $descto)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $clave = md5($_POST["clave"]);
-        $nomper = ucwords($_POST["nomper"]);
-        $email = strtolower($_POST["email"]);
-
-        $sql = "INSERT INTO usuarios VALUES(?,?,?,?,?,?,getdate(),getdate(),?);";
+        $sql = "INSERT INTO SACLIE (tipoid3, codclie, descrip, descorder, id3, clase, represent, direc1, direc2, pais, estado, ciudad, Email, telef, movil, activo, codzona, codvend, tipocli, tipopvp, escredito, limitecred, diascred, estoleran, diastole, fechae, descto) 
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         $sql = $conectar->prepare($sql);
 
-        $sql->bindValue(1, $_POST["cedula"]);
-        $sql->bindValue(2, $_POST["login"]);
-        $sql->bindValue(3, $nomper);
-        $sql->bindValue(4, $email);
-        $sql->bindValue(5, $clave);
-        $sql->bindValue(6, $_POST["rol"]);
-        $sql->bindValue(7, $_POST["estado"]);
+        $sql->bindValue(1, $tipo_cliente);
+        $sql->bindValue(2, $codclie);
+        $sql->bindValue(3, $descrip);
+        $sql->bindValue(4, $descorder);
+        $sql->bindValue(5, $id3);
+        $sql->bindValue(6, $clase);
+        $sql->bindValue(7, $represent);
+        $sql->bindValue(8, $direc1);
+        $sql->bindValue(9, $direc2);
+        $sql->bindValue(10, $pais);
+        $sql->bindValue(11, $estado);
+        $sql->bindValue(12, $ciudad);
+        $sql->bindValue(13, $email);
+        $sql->bindValue(14, $telef);
+        $sql->bindValue(15, $movil);
+        $sql->bindValue(16, $activo);
+        $sql->bindValue(17, $codzona);
+        $sql->bindValue(18, $codvend);
+        $sql->bindValue(19, $tipocli);
+        $sql->bindValue(20, $tipopvp);
+        $sql->bindValue(21, $escredito);
+        $sql->bindValue(22, $limitecred);
+        $sql->bindValue(23, $diascred);
+        $sql->bindValue(24, $estoleran);
+        $sql->bindValue(25, $diastole);
+        $sql->bindValue(26, $fecha_creacion);
+        $sql->bindValue(27, $descto);
+
         return $sql->execute();
     }
 
-    public function editar_cliente($login, $nomper, $email, $clave, $rol, $estado, $id_usuario)
+    public function registrar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $sql = "INSERT INTO Saclie_Ext (codclie, Municipio, Dia_Visita, ruc, latitud, longitud, codnestle, Clasificacion, Observacion) 
+                VALUES (?,?,?,?,?,?,?,(SELECT descripcion FROM [AJ].dbo.SANESTLE WHERE codnestle = ?),?)";
+
+        $sql = $conectar->prepare($sql);
+
+        $sql->bindValue(1, $codclie);
+        $sql->bindValue(2, $municipio);
+        $sql->bindValue(3, $diasvisita);
+        $sql->bindValue(4, $ruc);
+        $sql->bindValue(5, $latitud);
+        $sql->bindValue(6, $longitud);
+        $sql->bindValue(7, $codnestle);
+        $sql->bindValue(8, $codnestle);
+        $sql->bindValue(9, $observacion);
+
+        return $sql->execute();
+    }
+
+    public function actualizar_cliente()
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
