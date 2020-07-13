@@ -2,7 +2,6 @@ var tabla;
 
 //Función que se ejecuta al inicio
 function init() {
-
     $("#loader").hide();
     $("#loader1").hide();
     listar();
@@ -11,17 +10,6 @@ function init() {
         guardaryeditar(e);
     });
 
-    //cambia el titulo de la ventana modal cuando se da click al boton
-    /*$("#add_button").click(function () {
-
-        //habilita los campos cuando se agrega un registro nuevo ya que cuando se editaba un registro asociado entonces aparecia deshabilitado los campos
-        $("#cedula").attr('disabled', false);
-        $("#login").attr('disabled', false);
-        $("#nomper").attr('disabled', false);
-
-        $(".modal-title").text("Agregar Usuario");
-
-    });*/
 }
 
 $(document).ready(function () {
@@ -281,11 +269,14 @@ function cambiarEstado(id, est) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "usuario_controlador.php?op=activarydesactivar",
+                url: "relacionclientes_controlador.php?op=activarydesactivar",
                 method: "POST",
-                data: {id: id, est: est},
+                data: {codclie: id, est: est},
+                error: function (e) {
+                    console.log(e.responseText);
+                },
                 success: function (data) {
-                    $('#usuario_data').DataTable().ajax.reload();
+                    $('#cliente_data').DataTable().ajax.reload();
                 }
             });
         }
