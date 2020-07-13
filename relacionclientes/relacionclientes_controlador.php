@@ -14,7 +14,10 @@ switch ($_GET["op"]) {
 
     case "guardaryeditar":
 
-        //datos principales
+        //inicializamos la variables de control principales
+        $saclie = $saclie_ext = false;
+
+        /** DATOS PRINCIPALES **/
         $tipo_cliente = $_POST["tipo_cliente"];
         $codclie = $_POST["codclie"];
         if($tipo_cliente == "0") { //juridico
@@ -45,7 +48,7 @@ switch ($_GET["op"]) {
         $movil = $_POST["movil"];
         $activo = $_POST["activo"];
 
-        //datos adicionales
+        /** DATOS ADICIONALES **/
         $codzona = $_POST["codzona"];
         $codvend = $_POST["codvend"];
         $tipocli = $_POST["tipocli"];
@@ -56,7 +59,7 @@ switch ($_GET["op"]) {
         $longitud = $_POST["longitud"]; //saclie_ext
         $codnestle = $_POST["codnestle"]; //saclie_ext
 
-        //datos financieros
+        /** DATOS FINANCIEROS **/
         $escredito = $_POST["escredito"];
         $limitecred = $_POST["LimiteCred"];
         $diascred = $_POST["diascred"];
@@ -67,30 +70,72 @@ switch ($_GET["op"]) {
         $observacion = $_POST["observa"]; //saclie_ext
 
 
-
+        /* consulta si la variable id_cliente llego vacia para realizar
+           operaciones de creacion o actualizacion de cliente */
         if (empty($_POST["id_cliente"])) {
 
-            /*verificamos si existe la codigo de cliente o rif en la base de datos, si ya existe un registro entonces no se registra el cliente*/
+            /*verificamos si existe el codigo o el rif del cliente en la base de datos, si ya existe un registro entonces no se registra el cliente*/
             $datos = $relacion->get_cliente_por_codigo_o_rif($codclie, $id3);
 
             if (is_array($datos) == true and count($datos) == 0) {
 
-                //no existe el cliente por lo tanto hacemos el registro
+                //no existe registro del cliente, por lo tanto hacemos el registro
                 $saclie = $relacion->registrar_cliente($tipo_cliente, $codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $fecha_creacion, $descto);
                 if($saclie){
                     //si registro bien en saclie, inserta los datos en saclie_ext
                     $saclie_ext = $relacion->registrar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion);
-                    //mensaje
-                    ($saclie_ext) ? $output["mensaje"] = "Cliente insertado con Exito" : $output["mensaje"] = "Error al insertar cliente extendido";
+
+                    //evalua si se inserto bien en saclie_ext.
+                    if(!$saclie_ext)
+                        $output["mensaje"] = "Error al insertar en saclie_ext $codclie";
+
                 } else {
                     $output["mensaje"] = "Error al insertar cliente";
                 }
             } else {
                 $output["mensaje"] = "El codigo o el rif ya existe";
             }
+
+            //mensaje
+            if($saclie && $saclie_ext){
+                $output["mensaje"] = "Cliente $codclie Creado con Exito";
+                $output["icono"] = "success";
+            } else {
+                //en caso de error mostrara uno de los mensajes asignados
+                $output["icono"] = "error";
+            }
         } else {
-            /*si ya existe entonces editamos el usuario*/
-            $relacion->editar_cliente($login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
+            /*si ya existe entonces actualizamos el cliente*/
+            $saclie = $relacion->actualizar_cliente($codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $descto);
+
+            //si actualizo bien los datos del cliente en saclie, continua con saclie_ext
+            if($saclie){
+                //evalua si existe un registro en la tabla saclie_ext, si existe actualizamos los datos, si no existe crea un nuevo registro.
+                $datos = $relacion->get_cliente_Ext_por_codigo($codclie);
+
+                if (is_array($datos) == true and count($datos) == 0) {
+                    //no existe registro saclie_ext del cliente, lo inserta
+                    $saclie_ext = $relacion->registrar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion);
+                } else {
+                    //como existe un registro en la base de datos, lo Actualiza
+                    $saclie_ext = $relacion->actualizar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion);
+                }
+                //evalua si se actualizo o inserto bien los datos.
+                if(!$saclie_ext)
+                    $output["mensaje"] = "Error al insertar o actualizar Saclie_ext $codclie";
+
+            } else {
+                $output["mensaje"] = "Error al actualizar cliente";
+            }
+
+            //mensaje
+            if($saclie && $saclie_ext){
+                $output["mensaje"] = "Cliente $codclie Actualizado con Exito";
+                $output["icono"] = "success";
+            } else {
+                //en caso de error mostrara uno de los mensajes asignados
+                $output["icono"] = "error";
+            }
         }
 
         echo json_encode($output);

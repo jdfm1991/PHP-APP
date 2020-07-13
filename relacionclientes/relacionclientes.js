@@ -37,6 +37,9 @@ $(document).ready(function () {
                 url: "relacionclientes_controlador.php?op=obtener_opcion_para_juridico_o_natural",
                 method: "POST",
                 data: { tipo: $("#tipoid3").val() },
+                error: function (e) {
+                    console.log(e.responseText);
+                },
                 success: function (data) {
                     data = JSON.parse(data);
                     $("#div_descrip").html(data.descrip);
@@ -59,6 +62,9 @@ $(document).ready(function () {
             url: "relacionclientes_controlador.php?op=listar_ciudades_por_idestado",
             method: "POST",
             data: { idestado: $("#estado").val() },
+            error: function (e) {
+                console.log(e.responseText);
+            },
             success: function (data) {
                 data = JSON.parse(data);
                 $("#ciudad").html(data.ciudades);
@@ -78,6 +84,8 @@ $(document).ready(function () {
 function limpiar() {
     $('#tipoid3').val("").change();
     $('#cliente_form')[0].reset();
+    $("#tipoid3").prop("disabled", false);
+    $("#codclie").prop("readonly", false);
 }
 
 //function listar
@@ -169,7 +177,7 @@ function mostrar(id_cliente = -1, tipoid3 = "") {
 
             $("#id_cliente").val(id_cliente);
             $("#codclie").val(data.codclie);
-            $("#codclie").prop("disabled", true);
+            $("#codclie").prop("readonly", true);
             if(tipoid3 === "0"){
                 $("#descrip").val(data.descrip);
                 $("#ruc").val(data.ruc);
@@ -217,9 +225,9 @@ function mostrar(id_cliente = -1, tipoid3 = "") {
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
 function guardaryeditar(e) {
-    // var tipo_cliente = parseInt($('#tipoid3').val());
-    console.log("guardar y editar");
-    return;
+    var cliente = $('#codclie').val();
+    console.log("guardar y editar "+cliente);
+    // return;
 
     e.preventDefault(); //No se activará la acción predeterminada del evento
     var formData = new FormData($("#cliente_form")[0]);
@@ -230,8 +238,12 @@ function guardaryeditar(e) {
         data: formData,
         contentType: false,
         processData: false,
-        success: function (datos) {
-            console.log(datos);
+        error: function (e) {
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            console.log(data);
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -240,12 +252,17 @@ function guardaryeditar(e) {
                 timerProgressBar: true,
             })
             Toast.fire({
-                icon: 'success',
-                title: 'Proceso Exitoso!'
+                icon: data.icono,
+                title: data.mensaje
             })
             limpiar();
             $('#clienteModal').modal('hide');
-            $('#cliente_data').DataTable().ajax.reload();
+
+            // si no hubo error, recarga la tabla
+            if(!data.icono.includes('error')){
+                $('#cliente_data').DataTable().ajax.reload();
+            }
+
         }
     });
 }

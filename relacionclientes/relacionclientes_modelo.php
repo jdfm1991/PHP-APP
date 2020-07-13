@@ -82,6 +82,23 @@ class RelacionClientes extends Conectar
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function get_cliente_Ext_por_codigo($codclie)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        $sql = "SELECT * FROM Saclie_Ext WHERE codclie= ?";
+
+        $sql = $conectar->prepare($sql);
+
+        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
+        $sql->execute();
+
+        return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function registrar_cliente($tipo_cliente, $codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $fecha_creacion, $descto)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -150,28 +167,69 @@ class RelacionClientes extends Conectar
         return $sql->execute();
     }
 
-    public function actualizar_cliente()
+    public function actualizar_cliente($codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $descto)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $clave = $_POST["clave"];
-        $nomper = ucwords($_POST["nomper"]);
-        $email = strtolower($_POST["email"]);
-
-        $sql = "UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
+        $sql = "UPDATE saclie SET descrip = ?, descorder = ?, id3 = ?, clase = ?, represent = ?, direc1 = ?, direc2 = ?, Pais = ?, estado = ?, ciudad = ?, Email = ?, telef = ?, movil = ?, activo = ?, codzona = ?, codvend = ?, tipocli = ?, tipopvp = ?, escredito = ?, limitecred = ?, diascred = ?, estoleran = ?, diastole = ?, descto = ? 
+                WHERE codclie = ?";
 
         $sql = $conectar->prepare($sql);
 
-        $sql->bindValue(1, $_POST["login"]);
-        $sql->bindValue(2, $nomper);
-        $sql->bindValue(3, $email);
-        $sql->bindValue(4, $clave);
-        $sql->bindValue(5, $_POST["rol"]);
-        $sql->bindValue(6, $_POST["estado"]);
-        $sql->bindValue(7, $_POST["id_usuario"]);
+        $sql->bindValue(1, $descrip);
+        $sql->bindValue(2, $descorder);
+        $sql->bindValue(3, $id3);
+        $sql->bindValue(4, $clase);
+        $sql->bindValue(5, $represent);
+        $sql->bindValue(6, $direc1);
+        $sql->bindValue(7, $direc2);
+        $sql->bindValue(8, $pais);
+        $sql->bindValue(9, $estado);
+        $sql->bindValue(10, $ciudad);
+        $sql->bindValue(11, $email);
+        $sql->bindValue(12, $telef);
+        $sql->bindValue(13, $movil);
+        $sql->bindValue(14, $activo);
+        $sql->bindValue(15, $codzona);
+        $sql->bindValue(16, $codvend);
+        $sql->bindValue(17, $tipocli);
+        $sql->bindValue(18, $tipopvp);
+        $sql->bindValue(19, $escredito);
+        $sql->bindValue(20, $limitecred);
+        $sql->bindValue(21, $diascred);
+        $sql->bindValue(22, $estoleran);
+        $sql->bindValue(23, $diastole);
+        $sql->bindValue(24, $descto);
+        $sql->bindValue(25, $codclie);
+
+        return $sql->execute();
+    }
+
+    public function actualizar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $sql = "UPDATE Saclie_Ext SET Municipio = ?,Dia_Visita = ?, ruc = ?, latitud = ?, longitud = ?, codnestle = ?, Clasificacion = (SELECT descripcion FROM [AJ].dbo.SANESTLE WHERE codnestle = ?), Observacion = ?
+                WHERE codclie= ?    ";
+
+        $sql = $conectar->prepare($sql);
+
+        $sql->bindValue(1, $municipio);
+        $sql->bindValue(2, $diasvisita);
+        $sql->bindValue(3, $ruc);
+        $sql->bindValue(4, $latitud);
+        $sql->bindValue(5, $longitud);
+        $sql->bindValue(6, $codnestle);
+        $sql->bindValue(7, $codnestle);
+        $sql->bindValue(8, $observacion);
+        $sql->bindValue(9, $codclie);
+
         return $sql->execute();
     }
 
