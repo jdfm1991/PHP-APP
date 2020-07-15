@@ -48,11 +48,16 @@ class RelacionClientes extends Conectar
 
         //QUERY_1
         if ($result[0]['cont'] != "0") {
-            $sql1 = "SELECT cli.codclie AS codigo, cli.descrip AS descrip, cli.id3 AS id3, cli.clase AS clase, cli.represent AS represent, cli.direc1 AS direc1, cli.direc2 AS direc2, cli.estado AS idestado, cli.ciudad AS idciudad, cli.telef AS telef, cli.codzona AS idzona, cli.codvend AS idvend, cli.tipocli AS idtcli, cli.tipopvp AS idtpvp, cli.escredito AS credito, cli.limitecred AS lcred, cli.diascred AS dcred, cli.estoleran AS toleran, cli.diastole AS dtoleran, cli.descto AS descto, cli.activo AS idactivo, cli.movil AS movil, cli.Email AS email, cli.tipoid3 AS idtid3, (SELECT descrip FROM saestado WHERE estado=cli.estado) AS estado, (SELECT descrip FROM saciudad WHERE ciudad=cli.ciudad) AS ciudad, (SELECT descrip FROM sazona WHERE codzona=cli.codzona) AS zona, (SELECT descrip FROM savend WHERE codvend=cli.codvend) AS vend, cli2.Dia_Visita AS dvisitas, cli2.codnestle AS idnestle, cli2.ruc AS ruc, cli2.Municipio AS municipio, (SELECT descripcion FROM sanestle WHERE codnestle=cli2.codnestle) AS nestle, cli2.Latitud AS latitud, cli2.Longitud AS longitud, cli2.Observacion AS observa
-                FROM saclie AS cli, [APPWEBAJ].dbo.Saclie_Ext AS cli2
-                WHERE cli.CodClie = ? AND cli.CodClie=cli2.CodClie";
+            $sql1 = "SELECT cli.codclie AS codigo, cli.descrip AS descrip, cli.id3 AS id3, cli.clase AS clase, cli.represent AS represent, cli.direc1 AS direc1, cli.direc2 AS direc2, cli.estado AS idestado, cli.ciudad AS idciudad, cli.telef AS telef, cli.codzona AS idzona, cli.codvend AS idvend, cli.tipocli AS idtcli, cli.tipopvp AS idtpvp, cli.escredito AS credito, cli.limitecred AS lcred, cli.diascred AS dcred, cli.estoleran AS toleran, cli.diastole AS dtoleran, cli.descto AS descto, cli.activo AS idactivo, cli.movil AS movil, cli.Email AS email, cli.tipoid3 AS idtid3, (SELECT descrip FROM saestado WHERE estado=cli.estado) AS estado, (SELECT descrip FROM saciudad WHERE ciudad=cli.ciudad) AS ciudad, (SELECT descrip FROM sazona WHERE codzona=cli.codzona) AS zona, (SELECT descrip FROM savend WHERE codvend=cli.codvend) AS vend, 
+                    (SELECT COALESCE(SUM(saldo), 0) FROM saacxc WHERE saacxc.codclie=cli.codclie AND tipocxc='10' and saacxc.saldo>0) 
+                    AS saldo,
+                    cli2.Dia_Visita AS dvisitas, cli2.codnestle AS idnestle, cli2.ruc AS ruc, cli2.Municipio AS municipio, (SELECT descripcion FROM sanestle WHERE codnestle=cli2.codnestle) AS nestle, cli2.Latitud AS latitud, cli2.Longitud AS longitud, cli2.Observacion AS observa
+                    FROM saclie AS cli, [APPWEBAJ].dbo.Saclie_Ext AS cli2
+                    WHERE cli.CodClie = ? AND cli.CodClie=cli2.CodClie";
         } else {
-            $sql1 = "SELECT cli.codclie AS codigo, cli.descrip AS descrip, cli.id3 AS id3, cli.clase AS clase, cli.represent AS represent, cli.direc1 AS direc1, cli.direc2 AS direc2, cli.estado AS idestado, cli.ciudad AS idciudad, cli.telef AS telef, cli.codzona AS idzona, cli.codvend AS idvend, cli.tipocli AS idtcli, cli.tipopvp AS idtpvp, cli.escredito AS credito, cli.limitecred AS lcred, cli.diascred AS dcred, cli.estoleran AS toleran, cli.diastole AS dtoleran, cli.descto AS descto, cli.activo AS idactivo, cli.movil AS movil, cli.Email AS email, cli.tipoid3 AS idtid3, (SELECT descrip FROM saestado WHERE estado=cli.estado) AS estado, (SELECT descrip FROM saciudad WHERE ciudad=cli.ciudad) AS ciudad, (SELECT descrip FROM sazona WHERE codzona=cli.codzona) AS zona, (SELECT descrip FROM savend WHERE codvend=cli.codvend) AS vend 
+            $sql1 = "SELECT cli.codclie AS codigo, cli.descrip AS descrip, cli.id3 AS id3, cli.clase AS clase, cli.represent AS represent, cli.direc1 AS direc1, cli.direc2 AS direc2, cli.estado AS idestado, cli.ciudad AS idciudad, cli.telef AS telef, cli.codzona AS idzona, cli.codvend AS idvend, cli.tipocli AS idtcli, cli.tipopvp AS idtpvp, cli.escredito AS credito, cli.limitecred AS lcred, cli.diascred AS dcred, cli.estoleran AS toleran, cli.diastole AS dtoleran, cli.descto AS descto, cli.activo AS idactivo, cli.movil AS movil, cli.Email AS email, cli.tipoid3 AS idtid3, (SELECT descrip FROM saestado WHERE estado=cli.estado) AS estado, (SELECT descrip FROM saciudad WHERE ciudad=cli.ciudad) AS ciudad, (SELECT descrip FROM sazona WHERE codzona=cli.codzona) AS zona, (SELECT descrip FROM savend WHERE codvend=cli.codvend) AS vend, 
+                    (SELECT COALESCE(SUM(saldo), 0) FROM saacxc WHERE saacxc.codclie=cli.codclie AND tipocxc='10' and saacxc.saldo>0) 
+                    AS saldo
                     FROM saclie AS cli 
                     WHERE cli.CodClie = ?";
         }
@@ -325,6 +330,75 @@ class RelacionClientes extends Conectar
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_existe_factura_pendiente($codclie)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT count(*) AS cuenta FROM saacxc WHERE codclie= ? AND tipocxc='10' AND saldo>0";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_ultima_venta($codclie)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT TOP 1 CodClie, codusua, numerod, tipofac,  fechae, MtoTotal FROM safact WHERE CodClie= ? AND TipoFac ='A' ORDER BY FechaE DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_ultimo_pago($codclie)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT TOP 1 CodClie, codusua, numerod, tipocxc,  fechae, monto  FROM SAACXC WHERE CodClie= ? AND Tipocxc ='41' ORDER BY FechaE DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_cxc_por_codclie($codclie)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT codclie, numerod, fechae, codvend, codusua, codvend,  DATEDIFF(DD, fechae, CONVERT( date ,GETDATE())) AS DiasTransHoy, saldo 
+                FROM saacxc WHERE codclie= ? AND  tipocxc='10' AND saldo>0";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

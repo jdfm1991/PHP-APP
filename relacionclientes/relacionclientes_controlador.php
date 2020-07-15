@@ -40,7 +40,8 @@ switch ($_GET["op"]) {
         /** DATOS PRINCIPALES **/
         $tipo_cliente = $_POST["tipo_cliente"];
         $codclie = $_POST["codclie"];
-        if($tipo_cliente == "0") { //juridico
+        if($tipo_cliente == "0")
+        { //juridico
             $descrip = $_POST["descrip"];
             $ruc = $_POST["ruc"]; //saclie_ext
             $descorder = "";
@@ -193,7 +194,8 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip"];
             $sub_array[] = $row["id3"];
             $sub_array[] = number_format($row['saldo'], 2, ",", ".");
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="cambiarEstado(\''.$row["codclie"].'\',\''.$row["idactivo"].'\');" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '</button>'." ".'<button type="button" onClick="mostrar(\''.$row["codclie"].'\',\''.$row["idtid3"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
+            $sub_array[] = $row['saldo'];
+            $sub_array[] = '<div class="col text-center"><button type="button" onClick="cambiarEstado(\''.$row["codclie"].'\',\''.$row["idactivo"].'\');" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '</button>'." ".'<button type="button" onClick="mostrarModalDatosCliente(\''.$row["codclie"].'\',\''.$row["idtid3"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="mostrarModalDetalleCliente(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
 
             $data[] = $sub_array;
         }
@@ -251,7 +253,7 @@ switch ($_GET["op"]) {
 
         break;
 
-    case "listar_detalle_cliente":
+    case "listar_datos_cliente":
 
         $codclie = $_POST["codclie"];
 
@@ -361,6 +363,84 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
+
+        break;
+
+
+    case "detalle_de_cliente":
+
+        $codclie = $_POST["codclie"];
+
+        $cliente = $relacion->get_cliente_por_id($codclie);
+
+        if (is_array($cliente) == true and count($cliente) > 0) {
+            $output["descrip"] = $cliente[0]['descrip'];
+            $output["codclie"] = $cliente[0]['codigo'];
+            $output["codvend"] = $cliente[0]['idvend'];
+            $output["direc1"] = $cliente[0]['direc1'];
+            $output["direc2"] = $cliente[0]['direc2'];
+            $output["saldo"] = number_format($cliente[0]['saldo'], 2, ",", ".");
+            $output["telef"] = $cliente[0]['telef'];
+            $output["movil"] = $cliente[0]['movil'];
+            $output["LimiteCred"] = number_format($cliente[0]['lcred'], 2, ",", ".");
+            $output["diascred"] = $cliente[0]['dcred'];
+            $output["descto"] = number_format($cliente[0]['descto'], 0, ",", ".");
+        }
+
+        $existe = $relacion->get_existe_factura_pendiente($codclie);
+        if ($existe[0]['cuenta'] != "0") {
+            $output["visibilidad_datos_facturas"] = 'true';
+
+            $ultimaventa = $relacion->get_ultima_venta($codclie);
+            $output["cod_documento_ultvent"] = $ultimaventa[0]['numerod'];
+            $output["MtoTotal_ultvent"]      = number_format($ultimaventa[0]['MtoTotal'], 2, ",", ".");
+            $output["codusua_ultvent"]       = $ultimaventa[0]['codusua'];
+            (date('d/m/Y', strtotime($ultimaventa[0]['fechae'])) == '31/12/1969')
+                ? $output["fechae_ultvent"] = " " : $output["fechae_ultvent"] = date('d/m/Y', strtotime($ultimaventa[0]['fechae']));
+
+            $ultimopago  = $relacion->get_ultimo_pago($codclie);
+            $output["cod_documento_ultpago"] = $ultimopago[0]['numerod'];
+            $output["monto_ultpago"]         = number_format($ultimopago[0]['monto'], 2, ",", ".");
+            $output["codusua_ultpago"]       = $ultimopago[0]['codusua'];
+            (date('d/m/Y', strtotime($ultimopago[0]['fechae'])) == '31/12/1969')
+                ? $output["fechae_ultpago"] = " " : $output["fechae_ultpago"] = date('d/m/Y', strtotime($ultimopago[0]['fechae']));
+        } else {
+            $output["visibilidad_datos_facturas"] = 'false';
+        }
+
+        echo json_encode($output);
+        break;
+
+
+    case "listar_facturas_pendientes":
+
+        $codclie = $_POST["codclie"];
+
+        $cxc = $relacion->get_cxc_por_codclie($codclie);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+
+        foreach ($cxc as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['numerod'].'\')" data-target="#detallefactura" href="#"> '.$row['numerod'].'</div>';
+            $sub_array[] = $row["codvend"];
+            $sub_array[] = date('d/m/Y', strtotime($row['fechae']));
+            $sub_array[] = number_format($row['saldo'], 2, ",", ".");
+            $sub_array[] = $row["DiasTransHoy"];
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+         echo json_encode($results);
 
         break;
 }
