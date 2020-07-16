@@ -237,11 +237,28 @@ class Despachos extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT * FROM Despachos WHERE Correlativo = $";
+        $sql = "SELECT * FROM Despachos WHERE Correlativo = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_existe_factura_despachada_por_id($numerod) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT * FROM Despachos_Det INNER JOIN Despachos ON Despachos_Det.id_correlativo = Despachos.correlativo WHERE Despachos_Det.numerod = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$numerod, PDO::PARAM_STR);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

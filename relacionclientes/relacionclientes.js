@@ -409,13 +409,24 @@ function mostrarModalDetalleCliente(codclie) {
     });
 }
 
-function mostrarModalDetalleFactura(numerod) {
+function mostrarModalDetalleFactura(numerod, codclie) {
     limpiar_modal_detalle_factura();
     $('#detallefactura').modal('show');
     $("#loader3").show('');
 
-    /*$.post("relacionclientes_controlador.php?op=detalle_de_cliente", {numerod: numerod}, function (data) {
-        data = JSON.parse(data);
-    });*/
+    $.post("relacionclientes_controlador.php?op=detalle_de_factura", {numerod: numerod, codclie: codclie}, function (data) {
+        /*data = JSON.parse(data);*/
+
+        $.each(data, function(idx, opt) {
+            $('#tabla_detalle_factura')
+                .append(
+                    '<tr>' +
+                        '<td>' + opt.nickname + '</td>' +
+                        '<td>' + opt.email + '</td>' +
+                        '<td>' + opt.nickname + '</td>' +
+                    '</tr>'
+                );
+        });
+    }, 'json');
 }
 init();

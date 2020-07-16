@@ -5,9 +5,11 @@ require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO
 require_once("relacionclientes_modelo.php");
+require_once("../despachos/despachos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $relacion = new RelacionClientes();
+$despachos = new Despachos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -409,6 +411,7 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
+
         break;
 
 
@@ -425,7 +428,7 @@ switch ($_GET["op"]) {
 
             $sub_array = array();
 
-            $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['numerod'].'\')" data-target="#detallefactura" href="#"> '.$row['numerod'].'</div>';
+            $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['numerod'].'\', \''.$row['codclie'].'\')" data-target="#detallefactura" href="#"> '.$row['numerod'].'</div>';
             $sub_array[] = $row["codvend"];
             $sub_array[] = date('d/m/Y', strtotime($row['fechae']));
             $sub_array[] = number_format($row['saldo'], 2, ",", ".");
@@ -441,6 +444,52 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
          echo json_encode($results);
+
+        break;
+
+
+    case "detalle_de_factura":
+
+        $numerod = $_POST["numerod"];
+
+        $cliente = $relacion->get_factura_cliente_por_id($codclie);
+
+        /*if (is_array($cliente) == true and count($cliente) > 0) {
+            $output["descrip"] = $cliente[0]['descrip'];
+            $output["codclie"] = $cliente[0]['codigo'];
+            $output["codvend"] = $cliente[0]['idvend'];
+            $output["direc1"] = $cliente[0]['direc1'];
+            $output["direc2"] = $cliente[0]['direc2'];
+            $output["saldo"] = number_format($cliente[0]['saldo'], 2, ",", ".");
+            $output["telef"] = $cliente[0]['telef'];
+            $output["movil"] = $cliente[0]['movil'];
+            $output["LimiteCred"] = number_format($cliente[0]['lcred'], 2, ",", ".");
+            $output["diascred"] = $cliente[0]['dcred'];
+            $output["descto"] = number_format($cliente[0]['descto'], 0, ",", ".");
+        }
+
+        $existe = $relacion->get_existe_factura_pendiente($codclie);
+        if ($existe[0]['cuenta'] != "0") {
+            $output["visibilidad_datos_facturas"] = 'true';
+
+            $ultimaventa = $relacion->get_ultima_venta($codclie);
+            $output["cod_documento_ultvent"] = $ultimaventa[0]['numerod'];
+            $output["MtoTotal_ultvent"]      = number_format($ultimaventa[0]['MtoTotal'], 2, ",", ".");
+            $output["codusua_ultvent"]       = $ultimaventa[0]['codusua'];
+            (date('d/m/Y', strtotime($ultimaventa[0]['fechae'])) == '31/12/1969')
+                ? $output["fechae_ultvent"] = " " : $output["fechae_ultvent"] = date('d/m/Y', strtotime($ultimaventa[0]['fechae']));
+
+            $ultimopago  = $relacion->get_ultimo_pago($codclie);
+            $output["cod_documento_ultpago"] = $ultimopago[0]['numerod'];
+            $output["monto_ultpago"]         = number_format($ultimopago[0]['monto'], 2, ",", ".");
+            $output["codusua_ultpago"]       = $ultimopago[0]['codusua'];
+            (date('d/m/Y', strtotime($ultimopago[0]['fechae'])) == '31/12/1969')
+                ? $output["fechae_ultpago"] = " " : $output["fechae_ultpago"] = date('d/m/Y', strtotime($ultimopago[0]['fechae']));
+        } else {
+            $output["visibilidad_datos_facturas"] = 'false';
+        }*/
+
+        echo json_encode($output);
 
         break;
 }

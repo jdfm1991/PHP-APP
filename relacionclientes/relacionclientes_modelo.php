@@ -403,4 +403,66 @@ class RelacionClientes extends Conectar
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function get_factura_cliente_por_id($codclie, $numerod)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT numerod, fechae, codusua, codvend, saldo, 
+                (SELECT Descrip FROM saclie WHERE saclie.CodClie = saacxc.CodClie) 
+                AS descrip
+                FROM saacxc WHERE codclie = ? AND  tipocxc='10' AND NumeroD = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
+        $sql->bindValue(2, $numerod, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_detalle_factura_por_id($numerod, $tipofact)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT tipofac, numerod, nrolinea, coditem, codvend, descrip1, cantidad, totalitem, esunid
+                FROM saitemfac WHERE numerod = ? AND tipofac = ? ORDER BY nrolinea";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod, PDO::PARAM_STR);
+        $sql->bindValue(2, $tipofact, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_totales_factura_por_id($numerod, $tipofact)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT safact.NumeroD, safact.TipoFac, safact.codvend AS vendedor, safact.codclie AS codcliente, safact.descrip AS cliente, safact.fechae AS fechaemi,safact.Monto AS subtotal,safact.Descto1 AS descuento, safact.texento AS exento, safact.tgravable AS base, safact.MtoTax AS impuesto, SATAXVTA.MtoTax AS iva, mtototal AS total, codusua 
+                FROM safact 
+                INNER JOIN saclie ON safact.codclie = saclie.codclie 
+                INNER JOIN sataxvta ON sataxvta.numerod = safact.NumeroD 
+                WHERE safact.numerod = ? AND safact.tipofac = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod, PDO::PARAM_STR);
+        $sql->bindValue(2, $tipofact, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

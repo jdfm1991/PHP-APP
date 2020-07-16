@@ -17,7 +17,7 @@
                     <strong>Ruta:</strong>&nbsp;&nbsp; <span id="codvend_detfactura"></span>
                 </p>
                 <div style="width:auto; overflow:scroll;">
-                    <table id="example1" class="table table-bordered table-striped table-sm text-center ">
+                    <table id="tabla_detalle_factura" class="table table-bordered table-striped table-sm text-center ">
                         <thead>
                         <tr>
                             <th class="small"><strong>Codigo</strong></th>
