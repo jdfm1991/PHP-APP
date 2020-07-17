@@ -22,7 +22,7 @@ class RelacionClientes extends Conectar
                     (SELECT count (numerod) FROM saacxc WHERE saacxc.codclie=saclie.codclie AND tipocxc='10') 
                     AS facturas
                     FROM saclie 
-                    /*WHERE saclie.activo ='1'*/ ORDER BY saclie.codclie ASC";
+                    WHERE saclie.activo ='1' ORDER BY saclie.codclie ASC";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

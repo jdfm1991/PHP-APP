@@ -25,6 +25,7 @@ $(document).ready(function () {
         {
             $('#cliente_form').show();
             $.ajax({
+                async: false,
                 url: "relacionclientes_controlador.php?op=obtener_opcion_para_juridico_o_natural",
                 method: "POST",
                 data: { tipo: $("#tipoid3").val() },
@@ -177,7 +178,13 @@ function limpiar_modal_detalle_cliente() {
 }
 
 function limpiar_modal_detalle_factura() {
-
+    $("#numero_factura").text("");
+    $("#descrip_detfactura").text("");
+    $("#codusua_detfactura").text("");
+    $("#fechae_detfactura").text("");
+    $("#codvend_detfactura").text("");
+    $('#tabla_detalle_factura tbody').empty();
+    $("#factura_despachada").html("");
 }
 
 //function listar
@@ -309,10 +316,13 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
     } // si no es -1, el modal muestra los datos de un usuario por su id
     else if(id_cliente !== -1) {
         $("#title_clienteModal").text("Editar Cliente");
-        $("#tipoid3").val(tipoid3).change();
+        $("#tipoid3").val(tipoid3);
         $("#tipoid3").prop("disabled", true);
         $.post("relacionclientes_controlador.php?op=listar_datos_cliente", { codclie: id_cliente }, function(data){
             data = JSON.parse(data);
+
+            $("#tipoid3").change();
+
             $("#estado").html(data.estado);
             $("#codzona").html(data.zona);
             $("#codvend").html(data.edv);
@@ -415,18 +425,74 @@ function mostrarModalDetalleFactura(numerod, codclie) {
     $("#loader3").show('');
 
     $.post("relacionclientes_controlador.php?op=detalle_de_factura", {numerod: numerod, codclie: codclie}, function (data) {
-        /*data = JSON.parse(data);*/
+        data = JSON.parse(data);
 
-        $.each(data, function(idx, opt) {
+        //cabecera de la factura
+        $("#numero_factura").text(numerod);
+        $("#descrip_detfactura").text(data.descrip);
+        $("#codusua_detfactura").text(data.codusua);
+        $("#fechae_detfactura").text(data.fechae);
+        $("#codvend_detfactura").text(data.codvend);
+
+        //detalle de la factura
+        $.each(data.detalle_factura, function(idx, opt) {
+            //como puede hacer varios registros de productos en una factura se itera con each
             $('#tabla_detalle_factura')
                 .append(
                     '<tr>' +
-                        '<td>' + opt.nickname + '</td>' +
-                        '<td>' + opt.email + '</td>' +
-                        '<td>' + opt.nickname + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.coditem + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.descrip1 + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.cantidad + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.tipounid + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.totalitem + '</td>' +
                     '</tr>'
                 );
         });
-    }, 'json');
+
+        $('#tabla_detalle_factura')
+            .append( //separador
+                '<tr>' +
+                    '<td colspan="5">===================================================================</td>' +
+                '</tr>'
+            )
+            .append( //totales de la factura
+                '<tr>' +
+                    '<td align="center" class="small align-middle"> Total de Bultos ' + data.bultos + '</td>' +
+                    '<td colspan="2"></td>' +
+                    '<td align="center" class="small align-middle"><div align="right">Sub Total</div></td>' +
+                    '<td align="center" class="small align-middle"><div align="center">' + data.subtotal + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td align="center" class="small align-middle"> Total de Paquetes ' + data.paquetes + '</td>' +
+                    '<td colspan="2"></td>' +
+                    '<td align="center" class="small align-middle"><div align="right">Descuento</div></td>' +
+                    '<td align="center" class="small align-middle"><div align="center">' + data.descuento + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td colspan="3"></td>' +
+                    '<td align="center" class="small align-middle"><div align="right">Excento</div></td>' +
+                    '<td align="center" class="small align-middle"><div align="center">' + data.exento + '</div></td>' +
+                '</tr>' +
+
+                '<tr>' +
+                    '<td colspan="3"></td>' +
+                    '<td align="center" class="small align-middle"><div align="right">Base Imponible</div></td>' +
+                    '<td align="center" class="small align-middle"><div align="center">' + data.base + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td colspan="3"></td>' +
+                    '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
+                    '<td align="center" class="small align-middle"><div align="center">' + data.impuesto + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td colspan="3"></td>' +
+                    '<td align="center" class="small align-middle"><div align="right">Monto Total</div></td>' +
+                    '<td align="center" class="small align-middle"><div align="center">' + data.total + '</div></td>' +
+                '</tr>'
+            );
+        $("#factura_despachada").html(data.factura_despachada);
+
+        $("#loader3").hide();
+    });
 }
 init();

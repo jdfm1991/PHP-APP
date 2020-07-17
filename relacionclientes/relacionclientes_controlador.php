@@ -451,43 +451,80 @@ switch ($_GET["op"]) {
     case "detalle_de_factura":
 
         $numerod = $_POST["numerod"];
+        $codclie = $_POST["codclie"];
+        $tipofact = 'A';
 
-        $cliente = $relacion->get_factura_cliente_por_id($codclie);
-
-        /*if (is_array($cliente) == true and count($cliente) > 0) {
-            $output["descrip"] = $cliente[0]['descrip'];
-            $output["codclie"] = $cliente[0]['codigo'];
-            $output["codvend"] = $cliente[0]['idvend'];
-            $output["direc1"] = $cliente[0]['direc1'];
-            $output["direc2"] = $cliente[0]['direc2'];
-            $output["saldo"] = number_format($cliente[0]['saldo'], 2, ",", ".");
-            $output["telef"] = $cliente[0]['telef'];
-            $output["movil"] = $cliente[0]['movil'];
-            $output["LimiteCred"] = number_format($cliente[0]['lcred'], 2, ",", ".");
-            $output["diascred"] = $cliente[0]['dcred'];
-            $output["descto"] = number_format($cliente[0]['descto'], 0, ",", ".");
+        $cabecera_factura = $relacion->get_factura_cliente_por_id($codclie, $numerod);
+        if (is_array($cabecera_factura) == true and count($cabecera_factura) > 0) {
+            $output["descrip"] = $cabecera_factura[0]['descrip'];
+            $output["codusua"] = $cabecera_factura[0]['codusua'];
+            $output["fechae"] = date('d/m/Y', strtotime($cabecera_factura[0]['fechae']));
+            $output["codvend"] = $cabecera_factura[0]['codvend'];
         }
 
-        $existe = $relacion->get_existe_factura_pendiente($codclie);
-        if ($existe[0]['cuenta'] != "0") {
-            $output["visibilidad_datos_facturas"] = 'true';
+        $detalle_factura = $relacion->get_detalle_factura_por_id($numerod, $tipofact);
+        if (is_array($detalle_factura) == true and count($detalle_factura) > 0) {
+            //debido a que el detalle de una factura es de multiples items(productos),
+            //se procede a crear un array que almacene cada registro
+            $array_detalle = Array();
 
-            $ultimaventa = $relacion->get_ultima_venta($codclie);
-            $output["cod_documento_ultvent"] = $ultimaventa[0]['numerod'];
-            $output["MtoTotal_ultvent"]      = number_format($ultimaventa[0]['MtoTotal'], 2, ",", ".");
-            $output["codusua_ultvent"]       = $ultimaventa[0]['codusua'];
-            (date('d/m/Y', strtotime($ultimaventa[0]['fechae'])) == '31/12/1969')
-                ? $output["fechae_ultvent"] = " " : $output["fechae_ultvent"] = date('d/m/Y', strtotime($ultimaventa[0]['fechae']));
+            //se itera cada items
+            $paquetes = 0;
+            $bultos = 0;
+            foreach ($detalle_factura as $detalle){
+                //se crea otro array adicional que es quien almacena las columnas para 1 registro
+                $sub_array = array();
 
-            $ultimopago  = $relacion->get_ultimo_pago($codclie);
-            $output["cod_documento_ultpago"] = $ultimopago[0]['numerod'];
-            $output["monto_ultpago"]         = number_format($ultimopago[0]['monto'], 2, ",", ".");
-            $output["codusua_ultpago"]       = $ultimopago[0]['codusua'];
-            (date('d/m/Y', strtotime($ultimopago[0]['fechae'])) == '31/12/1969')
-                ? $output["fechae_ultpago"] = " " : $output["fechae_ultpago"] = date('d/m/Y', strtotime($ultimopago[0]['fechae']));
+                $cantidad = 0;
+                $tipounid = "";
+
+                $cantidad = $detalle['cantidad'];
+
+                if ($detalle['esunid'] == 1) {
+                    $tipounid = "PAQ";
+                    $paquetes += intval($cantidad);
+                } else {
+                    $tipounid = "BUL";
+                    $bultos += intval($cantidad);
+                }
+
+                //asignamos al array adicional las columnas con arrays asociativo
+                $sub_array["coditem"] = $detalle['coditem'];
+                $sub_array["descrip1"] = $detalle['descrip1'];
+                $sub_array["cantidad"] = number_format($cantidad, 0, ".", ",");
+                $sub_array["tipounid"] = $tipounid;
+                $sub_array["totalitem"] = number_format($detalle['totalitem'], 2, ",", ".");
+
+                //asignamos el array adicional al array de registros
+                $array_detalle[] = $sub_array;
+            }
+            //una vez culminado las iteraciones, el array de registros, se asigna a una variable de salida
+            $output["detalle_factura"] = $array_detalle;
+            //y devolvemos tambien los paquetes y bultos totales
+            $output["paquetes"] = $paquetes;
+            $output["bultos"]   = $bultos;
+        }
+
+        $totales_factura = $relacion->get_totales_factura_por_id($numerod, $tipofact);
+        if (is_array($totales_factura) == true and count($totales_factura) > 0) {
+            $output["subtotal"] = number_format($totales_factura[0]['subtotal'], 2, ",", ".");
+            $output["descuento"] = number_format($totales_factura[0]['descuento'], 2, ",", ".");
+            $output["exento"] = number_format($totales_factura[0]['exento'], 2, ",", ".");
+            $output["base"] = number_format($totales_factura[0]['base'], 2, ",", ".");
+            $output["iva"] = number_format($totales_factura[0]['iva'], 0, ",", ".");
+            $output["impuesto"] = number_format($totales_factura[0]['impuesto'], 2, ",", ".");
+            $output["total"] = number_format($totales_factura[0]['total'], 2, ",", ".");
+        }
+
+        $factura_despachada = $despachos->get_existe_factura_despachada_por_id($numerod);
+        if (is_array($factura_despachada) == true and count($factura_despachada) > 0) {
+            $output["factura_despachada"] = "Factura Despachada: " . date("d/m/Y", strtotime($factura_despachada[0]['fechad'])) .
+                                            '</br> Por:'. $factura_despachada[0]['nomper'] .
+                                            '</br>En el Despacho nro: '. str_pad($factura_despachada[0]['correlativo'], 8, 0, STR_PAD_LEFT);
         } else {
-            $output["visibilidad_datos_facturas"] = 'false';
-        }*/
+            $output["factura_despachada"] = "Factura Sin Despachar";
+        }
+
 
         echo json_encode($output);
 

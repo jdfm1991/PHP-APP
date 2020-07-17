@@ -64,13 +64,13 @@ require_once("../acceso/const.php");
     </section>
 
     <!-- MODAL CREAR O EDITAR CLIENTE -->
-    <?php include 'modales/crear_o_editar_cliente.php' ?>
+    <?php include 'modales/crear_o_editar_cliente.html' ?>
 
     <!-- MODAL  DETALLE DEL CLIENTE -->
-    <?php include 'modales/detalle_cliente.php' ?>
+    <?php include 'modales/detalle_cliente.html' ?>
 
     <!-- MODAL  DETALLE DE FACTURA -->
-    <?php include 'modales/detalle_factura.php' ?>
+    <?php include 'modales/detalle_factura.html' ?>
 
 </div>
 <!-- /.content-wrapper -->

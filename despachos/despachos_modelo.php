@@ -254,7 +254,10 @@ class Despachos extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT * FROM Despachos_Det INNER JOIN Despachos ON Despachos_Det.id_correlativo = Despachos.correlativo WHERE Despachos_Det.numerod = ?";
+        $sql = "SELECT fechad, correlativo, 
+                (SELECT Nomper FROM Usuarios WHERE Cedula = Despachos.ID_Usuario) 
+                AS nomper 
+                FROM Despachos_Det INNER JOIN Despachos ON Despachos_Det.id_correlativo = Despachos.correlativo WHERE Despachos_Det.numerod = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
