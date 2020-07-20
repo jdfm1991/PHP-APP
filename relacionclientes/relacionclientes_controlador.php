@@ -259,10 +259,14 @@ switch ($_GET["op"]) {
 
         $codclie = $_POST["codclie"];
 
-        $lista_estados = $relacion->get_estados();
-        $lista_zonas = $relacion->get_zona();
-        $lista_vendedores = $relacion->get_Edv();
-        $lista_codnestle = $relacion->get_Cnestle();
+        //ESTADOS
+        $output["lista_estados"] = $relacion->get_estados();
+        //ZONAS
+        $output["lista_zonas"] = $relacion->get_zona();
+        //VENDEDORES
+        $output["lista_vendedores"] = $relacion->get_Edv();
+        //CODIGOS NESTLE
+        $output["lista_codnestle"] = $relacion->get_Cnestle();
 
         if($codclie != "") {
             $cliente = $relacion->get_cliente_por_id($codclie);
@@ -318,34 +322,6 @@ switch ($_GET["op"]) {
             (isset($cliente[0]['observa'])) ? $output["observa"] = $cliente[0]['observa'] : $output["observa"] = "";
         }
 
-        //ESTADOS
-        $output["estado"] = '<option name="" value="">Seleccione</option>';
-        if(count($lista_estados) > 0) {
-            foreach ($lista_estados as $estado)
-                $output["estado"] .= '<option value="' . $estado['estado'] . '">' . $estado['descrip'] . '</option>';
-        }
-
-        //ZONAS
-        $output["zona"] = '<option name="" value="">Seleccione</option>';
-        if(count($lista_zonas) > 0) {
-            foreach ($lista_zonas as $zona)
-                $output["zona"] .= '<option value="' . $zona['codzona'] . '">' . $zona['descrip'] . '</option>';
-        }
-
-        //VENDEDORES
-        $output["edv"] = '<option name="" value="">Seleccione</option>';
-        if(count($lista_vendedores) > 0) {
-            foreach ($lista_vendedores as $vendedor)
-                $output["edv"] .= '<option value="' . $vendedor['codvend'] . '">' . $vendedor['descrip'] . '</option>';
-        }
-
-        //CODIGOS NESTLE
-        $output["codnestle"] = '<option name="" value="">Seleccione</option>';
-        if(count($lista_codnestle) > 0) {
-            foreach ($lista_codnestle as $codnestle)
-                $output["codnestle"] .= '<option value="' . $codnestle['codnestle'] . '">' . $codnestle['descrip'] . '</option>';
-        }
-
         echo json_encode($output);
 
         break;
@@ -355,17 +331,10 @@ switch ($_GET["op"]) {
 
         $estado_selected = $_POST["idestado"];
 
-        $lista_ciudades = $relacion->get_ciudades_por_estado($estado_selected);
-
         //CIUDADES
-        $output["ciudades"] = '<option name="" value="">Seleccione</option>';
-        if(count($lista_ciudades) > 0) {
-            foreach ($lista_ciudades as $ciudad)
-                $output["ciudades"] .= '<option value="' . $ciudad['ciudad'] . '">' . $ciudad['descrip'] . '</option>';
-        }
+        $output["lista_ciudades"] = $relacion->get_ciudades_por_estado($estado_selected);
 
         echo json_encode($output);
-
         break;
 
 
@@ -401,11 +370,16 @@ switch ($_GET["op"]) {
                 ? $output["fechae_ultvent"] = " " : $output["fechae_ultvent"] = date('d/m/Y', strtotime($ultimaventa[0]['fechae']));
 
             $ultimopago  = $relacion->get_ultimo_pago($codclie);
-            $output["cod_documento_ultpago"] = $ultimopago[0]['numerod'];
-            $output["monto_ultpago"]         = number_format($ultimopago[0]['monto'], 2, ",", ".");
-            $output["codusua_ultpago"]       = $ultimopago[0]['codusua'];
-            (date('d/m/Y', strtotime($ultimopago[0]['fechae'])) == '31/12/1969')
-                ? $output["fechae_ultpago"] = " " : $output["fechae_ultpago"] = date('d/m/Y', strtotime($ultimopago[0]['fechae']));
+            if(is_array($ultimopago) == true and count($ultimopago) > 0){
+                $output["cod_documento_ultpago"] = $ultimopago[0]['numerod'];
+                $output["monto_ultpago"]         = number_format($ultimopago[0]['monto'], 2, ",", ".");
+                $output["codusua_ultpago"]       = $ultimopago[0]['codusua'];
+                (date('d/m/Y', strtotime($ultimopago[0]['fechae'])) == '31/12/1969')
+                    ? $output["fechae_ultpago"] = " " : $output["fechae_ultpago"] = date('d/m/Y', strtotime($ultimopago[0]['fechae']));
+            } else {
+                $output["cod_documento_ultpago"] = $output["monto_ultpago"] = $output["codusua_ultpago"] = $output["fechae_ultpago"] = " ";
+            }
+
         } else {
             $output["visibilidad_datos_facturas"] = 'false';
         }

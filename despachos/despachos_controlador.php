@@ -4,12 +4,14 @@
 require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO
+require_once("../choferes/choferes_modelo.php");
 require_once("../vehiculos/vehiculos_modelo.php");
 require_once("despachos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $despachos  = new Despachos();
 $vehiculo = new Vehiculos();
+$choferes = new Choferes();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -140,7 +142,6 @@ switch ($_GET["op"]) {
             $sub_array[] = number_format($datos[0]["mtototal"], 2, ",", ".");
             $sub_array[] = number_format($peso, 2, ",", ".");
             $sub_array[] = number_format($cubicaje, 2, ",", ".");
-
             $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["numerod"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
             $data[] = $sub_array;
@@ -193,6 +194,15 @@ switch ($_GET["op"]) {
 
         echo json_encode($output);
 
+        break;
+
+
+    case "listar_chofer_vehiculo":
+
+        $output["lista_choferes"] = $choferes->get_choferes();
+        $output["lista_vehiculos"] = $vehiculo->get_vehiculos();
+
+        echo json_encode($output);
         break;
 
 

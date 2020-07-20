@@ -16,13 +16,9 @@ class RelacionClientesInactivos extends Conectar
 
         //QUERY
         $sql = "SELECT saclie.codclie, saclie.descrip, saclie.id3, saclie.direc1 AS direccion, saclie.telef AS telefono, saclie.movil AS movil, saclie.diascred AS diascredito, saclie.limitecred AS limitecredito, saclie.descto AS descuento, saclie.CodVend AS edv, saclie.fechae AS fechae, limitecred, 
-                    tipoid3 AS idtid3, saclie.Activo AS idactivo,
-                    (SELECT COALESCE(SUM(saldo), 0) FROM saacxc WHERE saacxc.codclie=saclie.codclie AND tipocxc='10' and saacxc.saldo>0) 
-                    AS saldo, 
-                    (SELECT count (numerod) FROM saacxc WHERE saacxc.codclie=saclie.codclie AND tipocxc='10') 
-                    AS facturas
+                    tipoid3 AS idtid3, saclie.Activo AS idactivo
                     FROM saclie 
-                    WHERE saclie.activo <> '1' ORDER BY saclie.codclie ASC";
+                    WHERE saclie.activo <> '1'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

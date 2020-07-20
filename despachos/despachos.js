@@ -34,6 +34,7 @@ function init() {
     peso_acum_facturas = 0;
     estado_minimizado = false;
     valor_bg_progreso = "bg-success";
+    listar_chofer_vehiculo();
 }
 
 function limpiar() {
@@ -208,6 +209,27 @@ function buscarFacturaEnDespachos(nrofact){
     } else {
         $("#detalle_despacho").html("");
     }
+}
+
+function listar_chofer_vehiculo(){
+    $.post("despachos_controlador.php?op=listar_chofer_vehiculo", function(data, status){
+        data = JSON.parse(data);
+
+        //lista de seleccion de choferes
+        $('#chofer').append('<option name="" value="">Seleccione</option>');
+        $.each(data.lista_choferes, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $('#chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+        });
+
+        //lista de seleccion de vehiculos
+        $('#vehiculo').append('<option name="" value="">Seleccione</option>');
+        $.each(data.lista_vehiculos, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $('#vehiculo').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + "  " + opt.Capacidad + " Kg" + '</option>');
+        });
+
+    });
 }
 
 /*************************************************************************************************************/

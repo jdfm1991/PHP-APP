@@ -67,13 +67,13 @@ $relacion = new DespachosRelacion();
     </section>
 
     <!-- Modal bucar factura -->
-    <?php include 'modales/buscar_factura_modal.php' ?>
+    <?php include 'modales/buscar_factura_modal.html' ?>
 
     <!-- Modal editar despachos -->
-    <?php include 'modales/editar_despachos_modal.php' ?>
+    <?php include 'modales/editar_despachos_modal.html' ?>
 
     <!-- Modal ver productos de un despcho -->
-    <?php include 'modales/ver_productos_factura_modal.php' ?>
+    <?php include 'modales/ver_productos_factura_modal.html' ?>
 
 </div>
 <!-- /.content-wrapper -->

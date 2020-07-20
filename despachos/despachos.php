@@ -3,12 +3,7 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../choferes/choferes_modelo.php");
-$choferes = new Choferes();
-$lista_choferes = $choferes->get_choferes();
-require_once("../vehiculos/vehiculos_modelo.php");
-$vehiculo = new Vehiculos();
-$lista_vehiculos = $vehiculo->get_vehiculos();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -69,37 +64,17 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 								<input type="date" class="form-control" id="fecha" name="fecha" >
 								<label>Chofer</label>
 								<select class="form-control custom-select" id="chofer" name="chofer" style="width: 100%;" >
-									<option value="">Seleccione</option>
-									<?php
-									foreach ($lista_choferes as $query) {
-										echo '<option value="' . $query['Cedula'] . '">' . $query['Nomper'] . '</option>';
-									} ?>
+									<!-- los choferes se cargan por ajax -->
 								</select>
 								<label>Vehiculo</label>
 								<select class="form-control custom-select" id="vehiculo" name="vehiculo" style="width: 100%;" >
-									<option value="">Seleccione</option>
-									<?php
-									foreach ($lista_vehiculos as $query) {
-										echo '<option value="' . $query['ID'] . '">' . $query['Modelo'] . "&nbsp;&nbsp;" . $query['Capacidad'] . " Kg" . '</option>';
-									} ?>
+									<!-- los vehiculos se cargan por ajax -->
 								</select>
 								<label>Destino</label>
 								<input type="text" class="form-control input-sm" maxlength="120" id="destino" name="destino" >
 								<br />
 								<button class="btn btn-primary pull-left verFactura" id="buscarxfact_button"  onclick="limpiar_campo_factura_modal()" data-toggle="modal" data-target="#buscarxfacturaModal" type="button">Ver Factura</button>
                                 <button class="btn btn-primary porDespachar" type="button">Por Despachar</button>
-
-                                <!--<div class="form-check form-check-inline container text-center  justify-content-center align-items-center" id="containerProgress">
-                                    <div class="progress progress-xs" style="width: 10em">
-                                        <div class="progress-bar bg-success" id="barraProgreso" style="width: 0%"></div>
-                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <h5><span class="badge bg-success" id="textoBarraProgreso">0 / 0</span></h5>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div class="progress progress-xs" style="width: 10em">
-                                        <div class="progress-bar bg-info" id="barraProgresoCubicaje" style="width: 0%"></div>
-                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <h5><span class="badge bg-info" id="textoBarraProgresoCubicaje">0 / 0</span></h5>
-                                </div>-->
 
 								<button class="btn btn-success nextBtn  float-right" type="button">Siguiente</button>
 							</div>
@@ -179,11 +154,7 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
 							<!-- TD TABLA LLEGAN POR AJAX -->
 						</tbody>
 					</table>
-					<!-- BOX BOTONES DE REPORTES-->
-					<!-- <div align="center">
-						<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-						<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-					</div> -->
+
 				</div>
 			</div>
             <input name="ci_usuario" id="ci_usuario" value="<?php echo $_SESSION["cedula"]?>" type="hidden" />
@@ -220,36 +191,15 @@ $lista_vehiculos = $vehiculo->get_vehiculos();
                         <br>
                     </div>
 					<div align="center">
-						<!-- <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button> -->
 						<button type="button" class="btn btn-info" id="btn_newdespacho">Crear Otro Despacho</button>
 						<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
 					</div>
 				</div>
 			</section>
-        <!-- Modal bucar factura -->
-        <div class="modal fade"  id="buscarxfacturaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Buscar por Factura</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <label>Nro de documento</label>
-                        <input type="text" class="form-control input-sm" maxlength="20" id="nrodocumento" name="nrodocumento" placeholder="Ingrese numero de documento" required >
-                        <br />
-                        <div id="detalle_despacho"></div>
-                        <div class="modal-footer">
-                            <button type="button" onclick="limpiar_campo_factura()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
-                            <button type="button" name="action" id="btnBuscarFactModal" class="btn btn-success pull-right" value="Add">Buscar</button>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
-        </div>
+        <!-- Modal bucar factura -->
+        <?php include 'modales/buscar_factura_modal.html' ?>
+
     </div>
     <?php require_once("../footer.php"); ?>
     <script type="text/javascript" src="despachos.js"></script>

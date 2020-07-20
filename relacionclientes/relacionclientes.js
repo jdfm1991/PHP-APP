@@ -59,17 +59,17 @@ $(document).ready(function () {
             },
             success: function (data) {
                 data = JSON.parse(data);
-                $("#ciudad").html(data.ciudades);
+
+                //lista de seleccion de ciudades
+                $('#ciudad').append('<option name="" value="">Seleccione</option>');
+                $.each(data.lista_ciudades, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#ciudad').append('<option name="" value="' + opt.ciudad +'">' + opt.descrip + '</option>');
+                });
+
             }
         });
     });
-    /*$("#chofer").change(() => no_puede_estar_vacio());
-    $("#vehiculo").change(() => { no_puede_estar_vacio();
-        cargarCapacidadVehiculo($("#vehiculo").val());
-    });
-    $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
-    $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();*/
-
 });
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
@@ -306,10 +306,31 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
         var codclie = "";
         $.post("relacionclientes_controlador.php?op=listar_datos_cliente", { codclie: codclie }, function(data){
             data = JSON.parse(data);
-            $("#estado").html(data.estado);
-            $("#codzona").html(data.zona);
-            $("#codvend").html(data.edv);
-            $("#codnestle").html(data.codnestle);
+
+            //lista de seleccion de estados
+            $('#estado').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_estados, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#estado').append('<option name="" value="' + opt.estado +'">' + opt.descrip + '</option>');
+            });
+
+            //lista de seleccion de zonas
+            $('#codzona').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_zonas, function(idx, opt) {
+                $('#codzona').append('<option name="" value="' + opt.codzona +'">' + opt.descrip + '</option>');
+            });
+
+            //lista de seleccion de vendedores
+            $('#codvend').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_vendedores, function(idx, opt) {
+                $('#codvend').append('<option name="" value="' + opt.codvend +'">' + opt.descrip + '</option>');
+            });
+
+            //lista de seleccion de codigos nestle
+            $('#codnestle').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_codnestle, function(idx, opt) {
+                $('#codnestle').append('<option name="" value="' + opt.codnestle +'">' + opt.descrip + '</option>');
+            });
 
             $("#loader1").hide();
         });
@@ -323,10 +344,30 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
 
             $("#tipoid3").change();
 
-            $("#estado").html(data.estado);
-            $("#codzona").html(data.zona);
-            $("#codvend").html(data.edv);
-            $("#codnestle").html(data.codnestle);
+            //lista de seleccion de estados
+            $('#estado').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_estados, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#estado').append('<option name="" value="' + opt.estado +'">' + opt.descrip + '</option>');
+            });
+
+            //lista de seleccion de zonas
+            $('#codzona').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_zonas, function(idx, opt) {
+                $('#codzona').append('<option name="" value="' + opt.codzona +'">' + opt.descrip + '</option>');
+            });
+
+            //lista de seleccion de vendedores
+            $('#codvend').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_vendedores, function(idx, opt) {
+                $('#codvend').append('<option name="" value="' + opt.codvend +'">' + opt.descrip + '</option>');
+            });
+
+            //lista de seleccion de codigos nestle
+            $('#codnestle').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_codnestle, function(idx, opt) {
+                $('#codnestle').append('<option name="" value="' + opt.codnestle +'">' + opt.descrip + '</option>');
+            });
 
             $("#id_cliente").val(id_cliente);
             $("#codclie").val(data.codclie);
