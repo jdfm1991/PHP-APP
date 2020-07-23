@@ -160,27 +160,31 @@ switch ($_GET["op"]) {
 
     case "buscar_facturaEnDespachos_modal":
 
-        $numero = $_POST['nrfactb'];
+        $datos = $despachos->getFacturaEnDespachos($_POST['nrfactb']);
 
-        $datos = $despachos->getFacturaEnDespachos($_POST["nrfactb"]);
+        //verificamos que exista datos de la consulta
+        if(is_array($datos) == true && count($datos) > 0) {
+            //creamos un array para almacenar los datos procesados
+            $data = Array();
+            $data['nrfactb'] = $_POST['nrfactb'];
+            $data['Correlativo'] = str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT);
+            $data['fechae'] = date("d/m/Y h:i A", strtotime($datos[0]['fechae']));
+            $data['Destino'] = $datos[0]["Destino"]." - ".$datos[0]["NomperChofer"];
 
-        $output["mensaje"] = '<div class="col text-center">';
-        if(count($datos) > 0) {
+            //al terminar, se almacena en una variable de salida el array.
+            $output['factura_en_despacho'] = $data;
 
-            $output["mensaje"] .= "<strong>Nro de Documento: </strong>".$_POST['nrfactb'].", <strong>Despacho Nro: </strong> ".str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT).",</br> ";
-            $output["mensaje"] .= "<strong>Fecha Emision: </strong>".date("d/m/Y h:i A", strtotime($datos[0]['fechae'])).",<strong> Destino: </strong>".$datos[0]["Destino"]." - ".$datos[0]["NomperChofer"]."</br>";
+            //verificamos si la consulta tiene registro de pagos
+            if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])) {
+                //creamos un array para almacenar los datos procesados
+                $data1 = array();
+                $data1['fecha_liqui'] = date("d/m/Y", strtotime($datos[0]['fecha_liqui']));
+                $data1['monto_cancelado'] = number_format($datos[0]['monto_cancelado'], 1, ",", ".") . " BsS";
 
-            if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])){
-
-                $output["mensaje"] .= "</br><strong>PAGO:</strong> ".date("d/m/Y", strtotime($datos[0]['fecha_liqui'])).", <strong>POR UN MONTO DE:</strong> ".number_format($datos[0]['monto_cancelado'], 1, ",", ".")." BsS";
-            }else{
-                $output["mensaje"] .= "</br>DOCUMENTO NO LIQUIDADO";
+                //al terminar, se almacena en una variable de salida el array.
+                $output['datos_pago'] = $data1;
             }
-        } else {
-            $output["mensaje"] .= "EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>";
         }
-        $output["mensaje"] .= '</div>';
-
         echo json_encode($output);
 
         break;
@@ -190,7 +194,11 @@ switch ($_GET["op"]) {
 
         $datos = $despachos->getExisteFacturaEnDespachos($_POST["numero_fact"]);
 
-        (count($datos) > 0) ? ($output["mensaje"] = "El Numero de Factura: ". $datos[0]['Numerod'] . " Ya Fue Agregado en Otro Despacho") : ($output["mensaje"] = "");
+        if(is_array($datos) == true && count($datos) > 0) {
+            ($output["mensaje"] = "El Numero de Factura: ". $datos[0]['Numerod'] . " Ya Fue Agregado en Otro Despacho");
+        } else {
+            ($output["mensaje"] = "");
+        }
 
         echo json_encode($output);
 
@@ -280,24 +288,6 @@ switch ($_GET["op"]) {
 
         //correlativo
         $correlativo = $_POST["correlativo"];
-
-        /**
-        //creamos el array con los numero de documento
-        if(isset($_POST["documentos"])) {
-            $array = explode(";", substr($_POST["documentos"], 0, -1));
-        }
-
-        //generamos un string para utilizar en el query
-        $nros_documentos = "";
-        if($array > 1) {
-            foreach ($array AS $item)
-                $nros_documentos .= "'".$item."',";
-        } else {
-            $nros_documentos .= "'".$array[0]."',";
-        }
-        //le quitamos 2 caracter para quitarle la ultima coma
-        $nros_documentos = substr($nros_documentos, 1, -2);
-         **/
 
         //obtenemos los registros de los productos en dichos documentos
         $datos = $despachos->getProductosDespachoCreado($correlativo);

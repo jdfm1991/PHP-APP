@@ -14,10 +14,24 @@
                 <input type="hidden" id="correlativo" name="correlativo" value="">
 
                 <!-- cabecera del despacho -->
-                <div id="detalle_en_editar_despacho"></div>
+                <div id="detalle_en_editar_despacho" class="col ml-2">
+                    <p>
+                        <strong>Despacho nro: </strong>&nbsp;&nbsp; <span id="correl"></span><br>
+                        <strong>Destino: </strong>&nbsp;&nbsp; <span id="Destino"></span><br>
+                        <strong>Fecha Despacho: </strong>&nbsp;&nbsp; <span id="fechad"></span>
+                    </p>
+
+                    <p>
+                        <strong>Vehiculo: </strong>&nbsp;&nbsp; <span id="vehiculo"></span>
+                        <button id="modalMostrarEditarDespacho" type="button" class="btn btn-outline-primary btn-xs">Editar</button>
+                    </p>
+                    <p>
+                        <strong>Facturas: </strong>&nbsp;&nbsp; <span id="cantFacturas"></span>
+                    </p>
+                </div>
 
                 <!-- documentos del despacho -->
-                <div class="card-body" style="width:auto;">
+                <div id="relacion_despacho_editar" class="card-body" style="width:auto;">
                     <table class="table table-bordered table-striped table-sm  text-center" style="width:100%;" id="tabla_editar_despacho">
                         <thead>
                             <tr>
@@ -89,7 +103,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" name="action" id="btnGuardar" class="btn btn-success pull-left" value="" onclick="modalGuardarEditarDespacho()">Guardar</button>
+                    <button type="button" name="action" class="btn btn-success pull-left" value="" onclick="modalGuardarEditarDespacho()">Guardar</button>
                     <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                 </div>
             </div>
@@ -122,7 +136,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" name="action" id="btnGuardar" class="btn btn-success pull-left" value="" onclick="modalGuardarDocumentoEnDespacho()">Guardar</button>
+                    <button type="button" name="action" class="btn btn-success pull-left" value="" onclick="modalGuardarDocumentoEnDespacho()">Guardar</button>
                     <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                 </div>
             </div>
@@ -153,7 +167,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" name="action" id="btnGuardar" class="btn btn-success pull-left" value="" onclick="modalGuardarNuevoDocumentoEnDespacho()">Guardar</button>
+                    <button type="button" name="action" class="btn btn-success pull-left" value="" onclick="modalGuardarNuevoDocumentoEnDespacho()">Guardar</button>
                     <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                 </div>
             </div>

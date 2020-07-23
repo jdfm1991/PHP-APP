@@ -204,7 +204,30 @@ function buscarFacturaEnDespachos(nrofact){
         $("#detalle_despacho").html("");
         $.post("despachos_controlador.php?op=buscar_facturaEnDespachos_modal", {nrfactb: nrofact}, function(data, status){
             data = JSON.parse(data);
-            $("#detalle_despacho").html(data.mensaje);
+
+            if(!jQuery.isEmptyObject(data.factura_en_despacho)){
+                $("#detalle_despacho").append(
+                    '<p>' +
+                        '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
+                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
+                        '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
+                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
+                    '</p>'
+                );
+
+                if(!jQuery.isEmptyObject(data.datos_pago)){
+                    $("#detalle_despacho").append(
+                        '<p>' +
+                            '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
+                            '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                        '</p>'
+                    );
+                }else{
+                    $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+                }
+            } else {
+                $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
+            }
         });
     } else {
         $("#detalle_despacho").html("");
@@ -252,6 +275,13 @@ $(document).ready(function () {
 });
 
 function VistasDeFormulario() {
+
+    /*
+    ESTA FUNCION AUTOGESTIONA LA VISTA DE CREAR EL DESPACHO DE ACUERDO A LOS
+    DATOS INGRESADOS EN LA PRIMERA VISTA, EL BOTON SIGUIENTE LLEVA A LO QUE ES
+    EL INGRESO DE FACTURAS A UN DESPACHOS PARA POSTERIORMENTE GENERAR EL DESPACHO
+     */
+
     var navListItems = $('div.setup-panel div a'), //botones steps
         allWells = $('.setup-content'), //step-2
         allNextBtn = $('.nextBtn'); //boton siguiente
@@ -377,7 +407,7 @@ function anadirFactPorDespachar() {
         $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
             function (data, status) {
                 data = JSON.parse(data);
-                // peso_acum_facturas = data.pesoNuevoAcum.toString().replace(/,/g , '.');
+
                 peso_acum_facturas = data.pesoNuevoAcum.toString();
                 cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
 
@@ -403,10 +433,6 @@ $(document).on("click", ".generar", function () {
     var destino = $("#destino").val().toUpperCase();
     var usuario = $("#ci_usuario").val();
 
-    /*console.log(parseFloat(peso_acum_facturas));
-    console.log(parseFloat(peso_max_vehiculo));
-    console.log("  resul: "+(parseFloat(peso_acum_facturas) <= parseFloat(peso_max_vehiculo)));
-    return false;*/
     if( parseFloat(peso_acum_facturas) <= parseFloat(peso_max_vehiculo) ){
 
         if (estado_minimizado) {
@@ -530,30 +556,7 @@ function cargarTabladeFacturasporDespachar() {
                 "targets": [0,1,2,3,4,5,6,7],
                 "className": "text-center",
             }],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            },
+            "language": texto_español_datatables
         });
     } else {
         $("#tabla_facturas_por_despachar").hide();
@@ -593,30 +596,7 @@ function cargarTabladeProductosEnDespachoCreado() {
         "bInfo": true,
         "iDisplayLength": 10,
         "order": [[0, "desc"]],
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        },
+        "language": texto_español_datatables
     });
 }
 

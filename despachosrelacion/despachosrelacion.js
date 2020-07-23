@@ -1,30 +1,29 @@
 var tabla_relacion_despachos;
 
-var tabla_despachos;
-
-var estado_minimizado;
-
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     listarRelacionDespachos();
 
-}
+    $("#modalMostrarEditarDespacho").on("click", function (e) {
+        var correlativo = $('#correlativo').val();
+        modalMostrarEditarDespacho(correlativo);
+    });
 
-function limpiar() {
-    /*$("#fecha").val("");
-    $("#chofer").val("");
-    $("#vehiculo").val("");
-    $("#destino").val("");
-    $("#factura").val("");
-    registros_por_despachar = "";
-    peso_max_vehiculo = 0;
-    peso_acum_facturas = 0;
-    valor_bg_progreso = "bg-success";*/
 }
 
 function limpiar_campo_factura() {
     $("#nrodocumento").val("");
     $("#detalle_despacho").html("");
+}
+
+function limpiar_modal_detalle_despacho() {
+    $('#tabla_editar_despacho tbody').empty();
+    $("#correlativo").val("");
+    $("#correl").text("");
+    $("#Destino").text("");
+    $("#fechad").text("");
+    $("#vehiculo").text("");
+    $("#cantFacturas").text("");
 }
 
 function agregarCeros(fact, cantidad_ceros = 6){
@@ -34,80 +33,60 @@ function agregarCeros(fact, cantidad_ceros = 6){
     return cad_cero+fact;
 }
 
-function modalEditarDespachos(correlativo) {
+function modalEditarDespachos(correlativo) { //editar
+    limpiar_modal_detalle_despacho();
     if (correlativo !== "") {
+        $.ajax({
+            url: "despachosrelacion_controlador.php?op=buscar_despacho_por_correlativo",
+            method: "POST",
+            data: { correlativo: correlativo },
+            beforeSend: function () {
+                $('#editarDespachoModal').modal('show');
+                $('#relacion_despacho_editar').hide();
+                $('#modalMostrarEditarDespacho').hide();
+                $("#loader_editar_despacho").show(''); //MOSTRAMOS EL LOADER.
+            },
+            error: function (e) {
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                data = JSON.parse(data);
 
-        //CABECERA DEL DESPACHO
-        $("#detalle_en_editar_despacho").html("");
-        $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho", {correlativo: correlativo}, function (data, status) {
-            data = JSON.parse(data);
-            $('#editarDespachoModal').modal('show');
-            $("#correlativo").val(correlativo);
-            $("#detalle_en_editar_despacho").html(data.mensaje);
+                //CABECERA DEL DESPACHO
+                $("#correlativo").val(correlativo);
+                $("#correl").text(data.correl);
+                $("#Destino").text(data.Destino);
+                $("#fechad").text(data.fechad);
+                $("#vehiculo").text(data.vehiculo);
+                $("#cantFacturas").text(data.cantFacturas);
+                $('#modalMostrarEditarDespacho').show();
+
+                //TABLA DE DETALLE DE DESPACHO
+                $('#tabla_editar_despacho').dataTable({
+                    "aProcessing": true,//Activamos el procesamiento del datatables
+                    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+
+                    "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                    "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                    "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                    "aaData": data.tabla.aaData, // informacion por registro
+
+                    "bDestroy": true,
+                    "responsive": true,
+                    "bInfo": true,
+                    "iDisplayLength": 5,//Por cada 5 registros hace una paginación
+                    "order": [[0, "desc"]],//Ordenar (columna,orden)
+                    'columnDefs':[{
+                        "targets": 3, // your case first column
+                        "className": "text-center"
+                    }],
+                    "language": texto_español_datatables
+                }).DataTable();
+
+                $('#relacion_despacho_editar').show();
+                $("#loader_editar_despacho").hide('');
+            }
         });
-
-        //TABLA DE LAS FACTURAS DENTRO DE ESE DESPACHO
-        $('#tabla_editar_despacho').dataTable({
-
-            "aProcessing": true,//Activamos el procesamiento del datatables
-            "aServerSide": true,//Paginación y filtrado realizados por el servidor
-            "ajax":
-                {
-                    beforeSend: function () {
-                        $("#loader_editar_despacho").show(''); //MOSTRAMOS EL LOADER.
-                    },
-                    url: 'despachosrelacion_controlador.php?op=listar_despacho_por_correlativo',
-                    type: "post",
-                    data: {correlativo: correlativo},
-                    dataType: "json",
-                    error: function (e) {
-                        console.log(e.responseText);
-                    },
-                    complete: function () {
-
-                        // $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader_editar_despacho").hide();//OCULTAMOS EL LOADER.
-
-                    }
-                },//TRADUCCION DEL DATATABLE.
-            "bDestroy": true,
-            "responsive": true,
-            "bInfo": true,
-            "iDisplayLength": 5,//Por cada 5 registros hace una paginación
-            "order": [[0, "desc"]],//Ordenar (columna,orden)
-            'columnDefs':[{
-                "targets": 3, // your case first column
-                "className": "text-center",
-                // "width": "4%"
-            }],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }//cerrando language
-
-        }).DataTable();
-    } else {
-        $("#detalle_en_editar_despacho").html("");
     }
 }
 
@@ -115,12 +94,27 @@ function modalMostrarEditarDespacho(correlativo) {
     $('#alert_editar_despacho').hide();
     $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho_para_editar", {correlativo: correlativo}, function (data, status) {
         data = JSON.parse(data);
+
+        //lista de seleccion de chofer
+        $('#chofer_editar').append('<option name="" value="">Seleccione</option>');
+        $.each(data.lista_choferes, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $('#chofer_editar').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+        });
+
+        //lista de seleccion de vehiculos
+        $('#vehiculo_editar').append('<option name="" value="">Seleccione</option>');
+        $.each(data.lista_vehiculos, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $('#vehiculo_editar').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + '  ' + opt.Capacidad + ' Kg' + '</option>');
+        });
+
+
         $("#destino_editar").val(data.destino);
         $("#fecha_editar").val(data.fecha);
-        $("#chofer_editar").html(data.chofer);
-        $("#vehiculo_editar").html(data.vehiculo);
+        $("#chofer_editar").val(data.chofer);
+        $("#vehiculo_editar").val(data.vehiculo);
         $("#correlativo_editar").val(correlativo);
-
         $('#editarChoferDestinoDespachoModal').modal('show');
     });
 }
@@ -278,77 +272,46 @@ function modalVerDetalleDespacho(correlativo) {
     if (correlativo !== "") {
 
         $("#correlativo_ver_productos_despacho").val(correlativo);
+        $("#nro_despacho").text(agregarCeros(correlativo, 8));
         $('#verDetalleDeUnDespachoModal').modal('show');
 
-        //TABLA DE LAS FACTURAS DENTRO DE ESE DESPACHO
-        $('#tabla_detalle_productos_del_despacho').dataTable({
+        $.ajax({
+            url: "despachosrelacion_controlador.php?op=listar_productos_de_un_despacho",
+            method: "post",
+            data: {correlativo: correlativo},
+            beforeSend: function () {
+                $("#loader_detalle_productos_despacho").show(''); //MOSTRAMOS EL LOADER.
+            },
+            success: function (data) {
+                data = JSON.parse(data);
 
-            "aProcessing": true,//Activamos el procesamiento del datatables
-            "aServerSide": true,//Paginación y filtrado realizados por el servidor
-            "ajax":
-                {
-                    beforeSend: function () {
-                        $("#loader_detalle_productos_despacho").show(''); //MOSTRAMOS EL LOADER.
-                    },
-                    url: 'despachosrelacion_controlador.php?op=listar_productos_de_un_despacho',
-                    type: "post",
-                    data: {correlativo: correlativo},
-                    dataType: "json",
-                    error: function (e) {
-                        console.log(e.responseText);
-                    },
-                    complete: function () {
+                //TABLA DE LAS FACTURAS DENTRO DE ESE DESPACHO
+                $('#tabla_detalle_productos_del_despacho').dataTable({
+                    "aProcessing": true,//Activamos el procesamiento del datatables
+                    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 
-                        $.ajax({
-                            url: "despachosrelacion_controlador.php?op=listar_totales_paq_bul_despacho",
-                            method: "post",
-                            success: function (data) {
-                                data = JSON.parse(data);
-                                $("#cantBul_tfoot").text(data.total_bultos);
-                                $("#cantPaq_tfoot").text(data.total_paq);
-                            }
-                        });
+                    "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                    "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                    "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                    "aaData": data.tabla.aaData, // informacion por registro
 
-                        $("#loader_detalle_productos_despacho").hide();//OCULTAMOS EL LOADER.
+                    "bDestroy": true,
+                    "responsive": true,
+                    "bInfo": true,
+                    "iDisplayLength": 8,//Por cada 8 registros hace una paginación
+                    "order": [[0, "desc"]],//Ordenar (columna,orden)
+                    'columnDefs':[{
+                        "targets": 3, // your case first column
+                        "className": "text-center",
+                    }],
+                    "language": texto_español_datatables
+                }).DataTable();
 
-                    }
-                },//TRADUCCION DEL DATATABLE.
-            "bDestroy": true,
-            "responsive": true,
-            "bInfo": true,
-            "iDisplayLength": 8,//Por cada 8 registros hace una paginación
-            "order": [[0, "desc"]],//Ordenar (columna,orden)
-            'columnDefs':[{
-                "targets": 3, // your case first column
-                "className": "text-center",
-                // "width": "4%"
-            }],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }//cerrando language
-
-        }).DataTable();
+                $("#cantBul_tfoot").text(data.total_bultos);
+                $("#cantPaq_tfoot").text(data.total_paq);
+                $("#loader_detalle_productos_despacho").hide();//OCULTAMOS EL LOADER.
+            }
+        });
     }
 }
 
@@ -389,31 +352,7 @@ function listarRelacionDespachos() {
                 "className": "text-center",
                 // "width": "4%"
         }],
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        }//cerrando language
-
+        "language": texto_español_datatables
     }).DataTable();
 }
 
@@ -421,9 +360,32 @@ function buscarFacturaEnDespachos(nrofact){
     if (nrofact !== "") {
         nrofact = agregarCeros(nrofact);
         $("#detalle_despacho").html("");
-        $.post("despachosrelacion_controlador.php?op=buscar_facturaEnDespachos", {nrfactb: nrofact}, function(data, status){
+        $.post("../despachos/despachos_controlador.php?op=buscar_facturaEnDespachos_modal", {nrfactb: nrofact}, function(data, status){
             data = JSON.parse(data);
-            $("#detalle_despacho").html(data.mensaje);
+
+            if(!jQuery.isEmptyObject(data.factura_en_despacho)){
+                $("#detalle_despacho").append(
+                    '<p>' +
+                    '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
+                    '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
+                    '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
+                    '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
+                    '</p>'
+                );
+
+                if(!jQuery.isEmptyObject(data.datos_pago)){
+                    $("#detalle_despacho").append(
+                        '<p>' +
+                        '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
+                        '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                        '</p>'
+                    );
+                }else{
+                    $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+                }
+            } else {
+                $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
+            }
         });
     } else {
         $("#detalle_despacho").html("");

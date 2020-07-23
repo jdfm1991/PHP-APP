@@ -2,7 +2,6 @@
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
 require_once("despachosrelacion_modelo.php");
-$relacion = new DespachosRelacion();
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,7 +66,7 @@ $relacion = new DespachosRelacion();
     </section>
 
     <!-- Modal bucar factura -->
-    <?php include 'modales/buscar_factura_modal.html' ?>
+    <?php include '../despachos/modales/buscar_factura_modal.html' ?>
 
     <!-- Modal editar despachos -->
     <?php include 'modales/editar_despachos_modal.html' ?>
