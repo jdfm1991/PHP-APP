@@ -1,5 +1,4 @@
 <?php
-
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
 
@@ -16,15 +15,12 @@ switch ($_GET["op"]) {
 
     $datos = $clientescodnestle ->getClientes_cnestle($_POST["opc"], $_POST["vendedor"]);
 
-        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+    //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();
 
-
     foreach ($datos as $row) {
-            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+        //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
         $sub_array = array();
-        /*$sub_array[] = date("d-m-Y",strtotime($row["fechauv"]));*/
-
 
         $sub_array[] = $row["codvend"];
         $sub_array[] = $row["codclie"];
@@ -38,7 +34,7 @@ switch ($_GET["op"]) {
 
     }
 
-        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+    //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
     $results = array(
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
@@ -47,6 +43,4 @@ switch ($_GET["op"]) {
     echo json_encode($results);
 
     break;
-
-
 }

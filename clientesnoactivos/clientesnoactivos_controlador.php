@@ -51,17 +51,4 @@ switch ($_GET["op"]) {
     echo json_encode($results);
 
     break;
-
-  /*  case "mostrar":
-    $datos = $clientesnoactivos->getTotalClientesnoActivos($_POST["fechai"], $_POST["fechaf"],$_POST["vendedor"]);
-
-    foreach ($datos as $row) {
-
-        $output["cuenta"] = "Clientes NO Activados: " . $row["cuenta"];
-
-    }
-
-    echo json_encode($output);
-    break;*/
-
 }

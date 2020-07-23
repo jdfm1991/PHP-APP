@@ -222,7 +222,6 @@ function listar() {
 
 function listar_cxc(codclie) {
     tabla_cxc = $('#relacion_facturas_pendientes').dataTable({
-
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax": {

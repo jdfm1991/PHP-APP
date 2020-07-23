@@ -7,6 +7,7 @@ function init() {
     $("#tabla").hide();
     $("#loader").hide();
     estado_minimizado = false;
+    listar_vendedores();
 }
 
 function limpiar() {
@@ -24,6 +25,22 @@ function validarCantidadRegistrosTabla() {
 var no_puede_estar_vacio = function () {
     ($("#opc").val() !== "" && $("#vendedor").val() !== "") ? estado_minimizado = true : estado_minimizado = false;
 };
+
+function listar_vendedores() {
+    $.post("../clientesbloqueados/clientesbloqueados_controlador.php?op=listar_vendedores", function(data){
+        data = JSON.parse(data);
+
+        if(!jQuery.isEmptyObject(data.lista_vendedores)){
+            //lista de seleccion de vendedores
+            $('#vendedor').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_vendedores, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip + '</option>');
+                // $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + substr($query['Descrip'], 0, 35) + '</option>');
+            });
+        }
+    });
+}
 
 $(document).ready(function () {
     $("#opc").change(() => no_puede_estar_vacio());
@@ -90,30 +107,7 @@ $(document).on("click", "#btn_clientescodnestle", function () {
                 "bInfo": true,
                 "iDisplayLength": 10,
                 "order": [[0, "desc"]],
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
-                },
+                "language": texto_español_datatables
             });
             estado_minimizado = true;
         }

@@ -3,9 +3,6 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../clientesbloqueados/clientesbloqueados_modelo.php");
-$edv = new Clientesbloqueados();
-$cat = $edv->get_vendedores();
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,15 +58,11 @@ $cat = $edv->get_vendedores();
 								</div>
 								<div class="form-check form-check-inline">
 									<select class="form-control custom-select" name="vendedor" id="vendedor" style="width: 100%;" required>
-										<option value="">Seleccione un Vendedor o Ruta</option>
-										<option value="-">Todos</option>
-										<?php
-										foreach ($cat as $query) {
-											echo '<option value="' . $query['CodVend'] . '">' . $query['CodVend'] . ': ' . substr($query['Descrip'], 0, 35). '</option>';}?>
-										</select>
-									</div>
-								</div>
-							</div>
+                                        <!-- lista de vendedores se carga por ajax -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 						</form>
 					</div>
 					<!-- BOX BOTON DE PROCESO -->

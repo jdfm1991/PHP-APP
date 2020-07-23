@@ -43,17 +43,4 @@ switch ($_GET["op"]) {
         echo json_encode($results);
 
         break;
-
-        /* case "mostrar":
-    $datos = $clientessintr->getTotalClientessinTr($_POST["fechai"], $_POST["fechaf"],$_POST["vendedor"]);
-
-    foreach ($datos as $row) {
-
-        $output["cuenta"] = "Total de Clientes sin Transacción: " . $row["cuenta"];
-
-    }
-
-    echo json_encode($output);
-    break;
-*/
 }
