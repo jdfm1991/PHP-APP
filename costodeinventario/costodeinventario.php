@@ -85,10 +85,45 @@ $almacenes = $costo->get_Almacenes();
 				<div class="dot"></div>
 				<div class="dot"></div>
 			</figure>
-			<div class="card card-info" id="costos_inv_ver">
+            <!-- BOX TABLA -->
+            <div class="card card-info" id="tabla">
+                <div class="card-header">
+                    <h3 class="card-title">Costos de Inventario</h3>
+                </div>
+                <div class="card-body table-responsive p-0" style="width:100%; height:400px;">
+                    <table class="table table-hover table-condensed table-bordered table-striped table-head-fixed text-nowrap">
+                        <thead style="color: black;">
+                        <tr>
+                            <th class="text-center">Codigo</th>
+                            <th class="text-center">Producto</th>
+                            <th class="text-center">Marca</th>
+                            <th class="text-center">Costo Bultos</th>
+                            <th class="text-center">Costo Unidad</th>
+                            <th class="text-center">Precio</th>
+                            <th class="text-center">Bultos</th>
+                            <th class="text-center">Paquetes</th>
+                            <th class="text-center">Total Costo Bultos</th>
+                            <th class="text-center">Total Costo Unidades</th>
+                            <th class="text-center">Peso</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!-- TD TABLA LLEGAN POR AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div align="center">
+                    <br>
+                    <br><p>Total de Item:<code><?php echo "  $num  "; ?></code></p><br>
+                    <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
+                    <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                    <br>
+                    <br>
+                </div>
+            </div>
 
-
-			</div>
+            <!--<div class="card card-info" id="costos_inv_ver"></div>-->
 		</section>
 
 	</div>

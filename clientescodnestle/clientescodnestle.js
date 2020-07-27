@@ -35,8 +35,7 @@ function listar_vendedores() {
             $('#vendedor').append('<option name="" value="">Seleccione</option>');
             $.each(data.lista_vendedores, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
-                $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip + '</option>');
-                // $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + substr($query['Descrip'], 0, 35) + '</option>');
+                $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
             });
         }
     });

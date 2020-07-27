@@ -1,106 +1,111 @@
 <?php
+//LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
+
+//LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("costodeinventario_modelo.php");
+
+//INSTANCIAMOS EL MODELO
 $costo = new CostodeInventario();
 
-$marca = $_POST['marca'];
+//VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
+switch ($_GET["op"]) {
 
-if(isset($_POST['depo'])){
-    $numero = $_POST['depo'];
-} else {
-    $numero = array();
-}
-$edv = "";
-if(count($numero)>0) {
-    foreach ($numero AS $i) {
-        $edv .= "'" . $i . "',";
-    }
-}
+    case "buscar_costoseinventario":
 
-$costos = 0;
-$costos_p = 0;
-$precios = 0;
-$bultos = 0;
-$paquetes = 0;
-$tot_cos_bultos = 0;
-$tot_cos_paquetes = 0;
-$tot_tara = 0;
+        $marca = $_POST['marca'];
 
-?>
-<div class="card-header">
-    <h3 class="card-title">Costos de Inventario</h3>
-</div>
-<div class="card-body table-responsive p-0" style="width:100%; height:400px;">
-    <table class="table table-hover table-condensed table-bordered table-striped table-head-fixed text-nowrap">
-        <thead style="color: black;">
-            <tr>
-                <th class="text-center">Codigo</th>
-                <th class="text-center">Producto</th>
-                <th class="text-center">Marca</th>
-                <th class="text-center">Costo Bultos</th>
-                <th class="text-center">Costo Unidad</th>
-                <th class="text-center">Precio</th>
-                <th class="text-center">Bultos</th>
-                <th class="text-center">Paquetes</th>
-                <th class="text-center">Total Costo Bultos</th>
-                <th class="text-center">Total Costo Unidades</th>
-                <th class="text-center">Peso</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $costos1 = $costo->getCostosdEinventario($edv, $marca);
-            $num = count($costos1);
-            foreach ($costos1 as $i) {
-                if ($i['display'] == 0) {
+        if(isset($_POST['depo'])){
+            $numero = $_POST['depo'];
+        } else {
+            $numero = array();
+        }
+
+        $edv = "";
+        if(count($numero)>0) {
+            foreach ($numero AS $i) {
+                $edv .= "'" . $i . "',";
+            }
+        }
+
+        $datos = $costo->getCostosdEinventario($edv, $marca);
+
+        //verificamos que exista datos de la consulta
+        if(is_array($datos) == true && count($datos) > 0) {
+
+            $num = count($datos);
+            //inicializamos los acumuladores
+            $costos = 0;
+            $costos_p = 0;
+            $precios = 0;
+            $bultos = 0;
+            $paquetes = 0;
+            $tot_cos_bultos = 0;
+            $tot_cos_paquetes = 0;
+            $tot_tara = 0;
+
+            //DECLARAMOS ARRAY PARA EL RESULTADO DEL MODELO.
+            $data = Array();
+            $totales = Array();
+
+            foreach ($datos as $row) {
+
+                if ($row['display'] == 0) {
                     $cdisplay = 0;
                 } else {
-                    $cdisplay = $i['costo'] / $i['display'];
+                    $cdisplay = $row['costo'] / $row['display'];
                 }
-                ?>
-                <tr>
-                    <td><?php echo $i['codprod'] ?></td>
-                    <td><?php echo $i['descrip'] ?></td>
-                    <td><?php echo $i['marca'] ?></td>
-                    <td><?php echo number_format($i['costo'],2, ",", ".") ?></td>
-                    <td><?php echo number_format($cdisplay,2, ",", ".") ?></td>
-                    <td><?php echo number_format($i['precio'],2, ",", ".") ?></td>
-                    <td><?php echo number_format($i['bultos'],2, ",", ".") ?></td>
-                    <td><?php echo number_format($i['paquetes'],2, ",", ".") ?></td>
-                    <td><?php echo number_format($i['costo'] * $i['bultos'],2, ",", ".") ?></td>
-                    <td><?php echo number_format($cdisplay * $i['paquetes'],2, ",", ".") ?></td>
-                    <td><?php echo number_format($i['tara'],2, ",", ".") ?></td>
-                </tr>
-                <?php
-                $costos += $i['costo'];
+
+                //creamos un array para almacenar los datos procesados
+                $sub_array = array();
+                $sub_array['codprod'] = $row["codprod"];
+                $sub_array['descrip'] = $row["descrip"];
+                $sub_array['marca'] = $row["marca"];
+                $sub_array['costo'] = number_format($row['costo'],2, ",", ".");
+                $sub_array['cdisplay'] = number_format($cdisplay,2, ",", ".");
+                $sub_array['precio'] = number_format($row['precio'],2, ",", ".");
+                $sub_array['bultos'] = number_format($row['bultos'],2, ",", ".");
+                $sub_array['paquetes'] = number_format($row['paquetes'],2, ",", ".");
+                $sub_array['costoxbulto'] = number_format($row['costo'] * $row['bultos'],2, ",", ".");
+                $sub_array['cdisplayxpaquetes'] = number_format($cdisplay * $row['paquetes'],2, ",", ".");
+                $sub_array['tara'] = number_format($row['tara'],2, ",", ".");
+
+                //ACUMULAMOS LOS TOTALES
+                $costos += $row['costo'];
                 $costos_p += $cdisplay;
-                $precios += $i['precio'];
-                $bultos += $i['bultos'];
-                $paquetes += $i['paquetes'];
-                $tot_cos_bultos += ($i['costo'] * $i['bultos']);
-                $tot_cos_paquetes += ($cdisplay * $i['paquetes']);
-                $tot_tara += $i['tara'];
-            }?>
-            <tr>
-                <td colspan="3" align="right">Totales: </td>
-                <td><?php echo number_format($costos,2, ",", ".") ?></td>
-                <td><?php echo number_format($costos_p,2, ",", ".") ?></td>
-                <td><?php echo number_format($precios,2, ",", ".") ?></td>
-                <td><?php echo number_format($bultos,2, ",", ".") ?></td>
-                <td><?php echo number_format($paquetes,2, ",", ".") ?></td>
-                <td><?php echo number_format($tot_cos_bultos,2, ",", ".") ?></td>
-                <td><?php echo number_format($tot_cos_paquetes,2, ",", ".") ?></td>
-                <td><?php echo number_format($tot_tara,2, ",", ".") ?></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<br>
-<div align="center">
-    <br>
-    <br><p>Total de Item:<code><?php echo "  $num  "; ?></code></p><br>
-    <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-    <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-    <br>
-    <br>
-</div>
+                $precios += $row['precio'];
+                $bultos += $row['bultos'];
+                $paquetes += $row['paquetes'];
+                $total_costo_bultos += ($row['costo'] * $row['bultos']);
+                $total_costo_paquetes += ($cdisplay * $row['paquetes']);
+                $total_tara += $row['tara'];
+
+                //AGREGAMOS AL ARRAY DE CONTENIDO DE LA TABLA
+                $data[] = $sub_array;
+            }
+
+            //al terminar, se almacena en una variable de salida el array.
+            $output['contenido_tabla'] = $data;
+            //de igual forma, se almacena en una variable de salida el array de totales.
+//        $output['totales_tabla'] = $data;
+        }
+
+    ?>
+<!--<tr>
+    <td colspan="3" align="right">Totales: </td>
+    <td><?php /*echo number_format($costos,2, ",", ".") */?></td>
+    <td><?php /*echo number_format($costos_p,2, ",", ".") */?></td>
+    <td><?php /*echo number_format($precios,2, ",", ".") */?></td>
+    <td><?php /*echo number_format($bultos,2, ",", ".") */?></td>
+    <td><?php /*echo number_format($paquetes,2, ",", ".") */?></td>
+    <td><?php /*echo number_format($tot_cos_bultos,2, ",", ".") */?></td>
+    <td><?php /*echo number_format($tot_cos_paquetes,2, ",", ".") */?></td>
+    <td>--><?php /*echo number_format($tot_tara,2, ",", ".")*/
+
+
+        echo json_encode($output);
+
+        break;
+}
+
+?>

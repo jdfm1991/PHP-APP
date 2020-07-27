@@ -47,16 +47,11 @@ switch ($_GET["op"]) {
 
     break;
 
-   /* case "mostrar":
-    $datos = $sellin->getTotalsellin($_POST["fechai"], $_POST["fechaf"],$_POST["marca"]);
+    case "listar_marcas":
 
-    foreach ($datos as $row) {
+        $output["lista_marcas"] = $sellin->get_marcas();
 
-        $output["cuenta"] = "Total de Clientes sin Transacción: " . $row["cuenta"];
+        echo json_encode($output);
+        break;
 
-    }
-
-    echo json_encode($output);
-    break;
-*/
 }

@@ -7,6 +7,7 @@ function init() {
     $("#tabla").hide();
     $("#loader").hide();
     estado_minimizado = false;
+    listar_marcas();
 }
 
 function limpiar() {
@@ -20,6 +21,23 @@ function validarCantidadRegistrosTabla() {
         ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
+}
+
+function listar_marcas() {
+    $.post("sellin_controlador.php?op=listar_marcas", function(data){
+        data = JSON.parse(data);
+
+        if(!jQuery.isEmptyObject(data.lista_marcas)){
+            //lista de seleccion de vendedores
+            $('#marca')
+                .append('<option name="" value="">Seleccione una opción</option>')
+                .append('<option name="" value="-">TODAS</option>');
+            $.each(data.lista_marcas, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
+            });
+        }
+    });
 }
 
 var no_puede_estar_vacio = function()
@@ -78,30 +96,7 @@ $(document).on("click", "#btn_sellin", function () {
                 "bInfo": true,
                 "iDisplayLength": 10,
                 "order": [[0, "desc"]],
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
-                },
+                "language": texto_español_datatables
             });
             estado_minimizado = true;
         }

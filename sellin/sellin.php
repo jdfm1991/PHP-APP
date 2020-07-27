@@ -3,9 +3,6 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("sellin_modelo.php");
-$marcas = new sellin();
-$cat = $marcas->get_marcas();
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,17 +53,13 @@ $cat = $marcas->get_marcas();
 								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 								<div class="form-check form-check-inline">
 									<select class="form-control custom-select" name="marca" id="marca" style="width: 100%;" required>
-										<option value="">Seleccione una opción</option>
-										<option value="-">TODAS</option>
-										<?php
-										foreach ($cat as $query) {
-											echo '<option value="' . $query['marca'] . '">' . $query['marca'] . '</option>';}?>
-										</select>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
+                                        <!-- la lista de marcas se carga por ajax -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 					<!-- BOX BOTON DE PROCESO -->
 					<div class="card-footer">
 						<button type="submit" class="btn btn-success" id="btn_sellin"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>

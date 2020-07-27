@@ -34,6 +34,7 @@ switch ($_GET["op"]) {
 
         break;
 
+
     case "guardaryeditar":
 
         //inicializamos la variables de control principales
