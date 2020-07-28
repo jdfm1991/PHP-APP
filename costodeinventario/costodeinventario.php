@@ -3,12 +3,6 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../sellin/sellin_modelo.php");
-require_once("costodeinventario_modelo.php");
-$marcas = new sellin();
-$costo = new CostodeInventario();
-$marca = $marcas->get_marcas();
-$almacenes = $costo->get_Almacenes();
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,21 +45,13 @@ $almacenes = $costo->get_Almacenes();
 							<div class="form-group col-sm-3">
 								<label>Marca</label>
 								<select class="custom-select" name="marca" id="marca" style="width: 100%;" required>
-									<option value="">Seleccione una Marca</option>
-									<option value="-">TODAS</option>
-									<?php
-									foreach ($marca as $query) {
-										echo '<option value="' . $query['marca'] . '">' . $query['marca'] . '</option>';
-									}?>
+									<!-- la lista de marcas se carga por ajax -->
 								</select>
 							</div>
 							<div class="form-group col-sm-4 select2-blue">
 								<label>Almacen</label>
 								<select class="select2" name="depo[]" id="depo[]" multiple="multiple" data-placeholder="Seleccione Deposito" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
-									<?php
-									foreach ($almacenes as $query) {
-										echo '<option value="' . $query['codubi'] . '">' . $query['codubi'] . ': ' . substr($query['descrip'], 0, 35) . '</option>';
-									}?>
+                                    <!-- la lista de almacenes se carga por ajax -->
 								</select>
 							</div>
 
@@ -91,7 +77,7 @@ $almacenes = $costo->get_Almacenes();
                     <h3 class="card-title">Costos de Inventario</h3>
                 </div>
                 <div class="card-body table-responsive p-0" style="width:100%; height:400px;">
-                    <table class="table table-hover table-condensed table-bordered table-striped table-head-fixed text-nowrap">
+                    <table class="table table-hover table-condensed table-bordered table-striped table-head-fixed text-nowrap" id="costodeinventario_data">
                         <thead style="color: black;">
                         <tr>
                             <th class="text-center">Codigo</th>
@@ -115,7 +101,7 @@ $almacenes = $costo->get_Almacenes();
                 <br>
                 <div align="center">
                     <br>
-                    <br><p>Total de Item:<code><?php echo "  $num  "; ?></code></p><br>
+                    <br><p id="total_items">Total de Item:<code> <span id="total_registros"></span> </code></p><br>
                     <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
                     <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
                     <br>

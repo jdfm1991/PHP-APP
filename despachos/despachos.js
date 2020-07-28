@@ -91,6 +91,7 @@ var no_puede_estar_vacio = function () {
 };
 
 function onPressKey(e) {
+    e.preventDefault(); //No se activará la acción predeterminada del evento
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla===13) anadirFactPorDespachar();
 }
