@@ -60,53 +60,24 @@ switch ($_GET["op"]) {
 
     case "mostrar":
 
-//selecciona el id del usuario
+        $output['lista_roles'] = $usuarios->get_roles();
 
-//el parametro id_usuario se envia por AJAX cuando se edita el usuario
+        if($_POST["id_usuario"] != -1){
+            //el parametro id_usuario se envia por AJAX cuando se edita el usuario
+            $datos = $usuarios->get_usuario_por_id($_POST["id_usuario"]);
 
-        $datos = $usuarios->get_usuario_por_id($_POST["id_usuario"]);
+            foreach ($datos as $row) {
 
-//verifica si el id_usuario tiene registro asociado a compras
-        /*$usuario_compras=$usuarios->get_usuario_por_id_compras($_POST["id_usuario"]);*/
-
-//verifica si el id_usuario tiene registro asociado a ventas
-        /*  $usuario_ventas=$usuarios->get_usuario_por_id_ventas($_POST["id_usuario"]);*/
-
-
-//si el id_usuario NO tiene registros asociados en las tablas compras y ventas entonces se puede editar todos los campos de la tabla usuarios
-        /*  if(is_array($usuario_compras)==true and count($usuario_compras)==0 and is_array($usuario_ventas)==true and count($usuario_ventas)==0){*/
-
-
-        foreach ($datos as $row) {
-
-            $output["cedula"] = $row["Cedula"];
-            $output["login"] = $row["Login"];
-            $output["nomper"] = $row["Nomper"];
-            $output["email"] = $row["Email"];
-            $output["clave"] = $row["Clave"];
-            $output["estado"] = $row["Estado"];
-            $output["rol"] = $row["ID_Rol"];
-
-
+                $output["cedula"] = $row["Cedula"];
+                $output["login"] = $row["Login"];
+                $output["nomper"] = $row["Nomper"];
+                $output["email"] = $row["Email"];
+                $output["clave"] = $row["Clave"];
+                $output["estado"] = $row["Estado"];
+                $output["rol"] = $row["ID_Rol"];
+                
+            }
         }
-        /*} else {
-        //si el id_usuario tiene relacion con la tabla compras y tabla ventas entonces se deshabilita el nombre, apellido y cedula
-        foreach($datos as $row){
-
-        $output["cedula_relacion"] = $row["cedula"];
-        $output["nombre"] = $row["nombres"];
-        $output["apellido"] = $row["apellidos"];
-        $output["cargo"] = $row["cargo"];
-        $output["usuario"] = $row["usuario"];
-        $output["password1"] = $row["password"];
-        $output["password2"] = $row["password2"];
-        $output["telefono"] = $row["telefono"];
-        $output["correo"] = $row["correo"];
-        $output["direccion"] = $row["direccion"];
-        $output["estado"] = $row["estado"];
-
-        }
-        }*///cierre del else
 
         echo json_encode($output);
         break;

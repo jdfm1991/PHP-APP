@@ -29,13 +29,21 @@ function limpiar() {
     $('#nomper').val("");
     $('#email').val("");
     $('#clave').val("");
-    $('#rol').val("");
+    $('#rol').html("");
     $('#estado').val("");
     $('#id_usuario').val("");
 }
 
-//function listar
+/*funcion para limpiar formulario de modal*/
+function limpiar_modal_datos_cliente() {
+    $('#tipoid3').val("").change();
+    $('#cliente_form')[0].reset();
+    $("#tipoid3").prop("disabled", false);
+    $("#codclie").prop("readonly", false);
+    $("#title_clienteModal").text("Agregar Cliente");
+}
 
+//function listar
 function listar() {
     tabla = $('#usuario_data').dataTable({
 
@@ -43,7 +51,7 @@ function listar() {
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax":
             {
-                url: 'usuario_controlador.php?op=listar',
+                url: 'usuarios_controlador.php?op=listar',
                 type: "get",
                 dataType: "json",
                 error: function (e) {
@@ -56,31 +64,7 @@ function listar() {
         "bInfo": true,
         "iDisplayLength": 10,//Por cada 10 registros hace una paginación
         "order": [[0, "asc"]],//Ordenar (columna,orden)
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        }//cerrando language
-
+        "language": texto_español_datatables
     }).DataTable();
 }
 
@@ -98,7 +82,7 @@ function cambiarEstado(id, est) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "usuario_controlador.php?op=activarydesactivar",
+                url: "usuarios_controlador.php?op=activarydesactivar",
                 method: "POST",
                 data: {id: id, est: est},
                 success: function (data) {
@@ -109,17 +93,37 @@ function cambiarEstado(id, est) {
     })
 }
 
-function mostrar(id_usuario) {
+function mostrar(id_usuario= -1) {
 
-    $.post("usuario_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
-        data = JSON.parse(data);
+    limpiar();
+    $('#usuarioModal').modal('show');
+    // $("#loader1").show('');
 
-        if (data.cedula_relacion) {
+    //si es -1 el modal es crear usuario nuevo
+    if(id_usuario === -1)
+    {
+        $.post("usuarios_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
+            data = JSON.parse(data);
 
-            $('#usuarioModal').modal('show');
+            //lista de seleccion de roles
+            $('#rol').append('<option name="" value="">Seleccione un rol de usuario</option>');
+            $.each(data.lista_roles, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#rol').append('<option name="" value="' + opt.ID +'">' + opt.Descripcion.substr(0, 35) + '</option>');
+            });
 
-            $('#cedula').val(data.cedula_relacion);
+        });
+    }// si no es -1, el modal muestra los datos de un usuario por su id
+    else if(id_usuario !== -1) {
+        $.post("usuarios_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
+            data = JSON.parse(data);
 
+            //lista de seleccion de roles
+            $('#rol').append('<option name="" value="">Seleccione un rol de usuario</option>');
+            $.each(data.lista_roles, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#rol').append('<option name="" value="' + opt.ID +'">' + opt.Descripcion.substr(0, 35) + '</option>');
+            });
 
             $('#cedula').val(data.cedula);
             $("#cedula").prop("disabled", true);
@@ -134,23 +138,8 @@ function mostrar(id_usuario) {
             $('.modal-title').text("Editar Usuario");
             $('#id_usuario').val(id_usuario);
 
-        } else {
-
-            $('#usuarioModal').modal('show');
-            $('#cedula').val(data.cedula);
-            $("#cedula").prop("disabled", true);
-            $('#login').val(data.login);
-            $("#login").prop("disabled", false);
-            $('#nomper').val(data.nomper);
-            $("#nomper").prop("disabled", false);
-            $('#email').val(data.email);
-            $('#clave').val(data.clave);
-            $('#rol').val(data.rol);
-            $('#estado').val(data.estado);
-            $('.modal-title').text("Editar Usuario");
-            $('#id_usuario').val(id_usuario);
-        }
-    });
+        });
+    }
 }
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
@@ -161,7 +150,7 @@ function guardaryeditar(e) {
     var formData = new FormData($("#usuario_form")[0]);
 
     $.ajax({
-        url: "usuario_controlador.php?op=guardaryeditar",
+        url: "usuarios_controlador.php?op=guardaryeditar",
         type: "POST",
         data: formData,
         contentType: false,
