@@ -54,47 +54,7 @@ require_once("../acceso/const.php");
 			</div>
 		</section>
 		<!-- Modal crear -->
-		<div class="modal fade"  id="vehiculoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Agregar Vehiculo</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form method="post" id="vehiculo_form">
-							<label>Placa</label>
-							<input type="text" class="form-control input-sm" maxlength="10" id="placa" name="placa" placeholder="Ingrese placa" required >
-							<br />
-							<label>Modelo</label>
-							<input type="text" class="form-control input-sm" maxlength="50" id="modelo" name="modelo" placeholder="Ingrese modelo">
-							<br />
-							<label>Capacidad</label>
-							<input type="text" class="form-control input-sm" maxlength="4" id="capacidad" name="capacidad" placeholder="Ingrese capacidad KG">
-							<br />
-							<label>Volumen</label>
-							<input type="text" class="form-control input-sm" maxlength="10" id="volumen" name="volumen" placeholder="Ingrese volumen Cm3">
-							<br />
-							<label>Estado</label>
-							<select class="form-control select2" id="estado" name="estado">
-								<option value="">Seleccione un Estado</option>
-								<option value="0">Inactivo</option>
-								<option value="1">Activo</option>
-							</select>
-							<br />
-							<div class="modal-footer">
-								<input type="hidden" name="id_vehiculo" id="id_vehiculo"/>
-								<button type="submit" name="action" id="btnGuardar" class="btn btn-success pull-left" value="Add">Guardar</button>
-								<button type="button" onclick="limpiar()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
-							</div>
-						</form>
-					</div>
-
-				</div>
-			</div>
-		</div>
+        <?php include 'modales/crear_o_editar_vehiculo.html' ?>
 	</div>
 	<!-- /.content-wrapper -->
 	<?php require_once("../footer.php");?>

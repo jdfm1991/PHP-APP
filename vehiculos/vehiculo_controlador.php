@@ -62,17 +62,6 @@ switch ($_GET["op"]) {
 
         $datos = $vehiculo->get_vehiculo_por_id($_POST["id_vehiculo"]);
 
-        //verifica si el id_vehiculo tiene registro asociado a compras
-        /*$usuario_compras=$vehiculo->get_usuario_por_id_compras($_POST["id_vehiculo"]);*/
-
-        //verifica si el id_vehiculo tiene registro asociado a ventas
-        /*  $usuario_ventas=$vehiculo->get_usuario_por_id_ventas($_POST["id_vehiculo"]);*/
-
-
-        //si el id_vehiculo NO tiene registros asociados en las tablas compras y ventas entonces se puede editar todos los campos de la tabla vehiculo
-        /*  if(is_array($usuario_compras)==true and count($usuario_compras)==0 and is_array($usuario_ventas)==true and count($usuario_ventas)==0){*/
-
-
         foreach ($datos as $row) {
 
             $output["id_vehiculo"] = $row["ID"];
@@ -83,24 +72,6 @@ switch ($_GET["op"]) {
             $output["estado"] = $row["Estado"];
 
         }
-        /*} else {
-        //si el id_vehiculo tiene relacion con la tabla compras y tabla ventas entonces se deshabilita el nombre, apellido y placa
-        foreach($datos as $row){
-
-        $output["placa_relacion"] = $row["placa"];
-        $output["nombre"] = $row["nombres"];
-        $output["apellido"] = $row["apellidos"];
-        $output["cargo"] = $row["cargo"];
-        $output["usuario"] = $row["usuario"];
-        $output["password1"] = $row["password"];
-        $output["password2"] = $row["password2"];
-        $output["telefono"] = $row["telefono"];
-        $output["correo"] = $row["correo"];
-        $output["direccion"] = $row["direccion"];
-        $output["estado"] = $row["estado"];
-
-        }
-        }*///cierre del else
 
         echo json_encode($output);
         break;

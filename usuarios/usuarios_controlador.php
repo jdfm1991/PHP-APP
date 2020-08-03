@@ -35,7 +35,7 @@ switch ($_GET["op"]) {
 
             if (is_array($datos) == true and count($datos) == 0) {
 
-//no existe el usuario por lo tanto hacemos el registros
+                //no existe el usuario por lo tanto hacemos el registros
 
                 $usuarios->registrar_usuario($cedula, $login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
 
@@ -83,21 +83,21 @@ switch ($_GET["op"]) {
         break;
 
     case "activarydesactivar":
-//los parametros id_usuario y est vienen por via ajax
+        //los parametros id_usuario y est vienen por via ajax
         $datos = $usuarios->get_usuario_por_id($_POST["id"]);
-//valida el id del usuario
+        //valida el id del usuario
         if (is_array($datos) == true and count($datos) > 0) {
-//edita el estado del usuario
+            //edita el estado del usuario
             $usuarios->editar_estado($_POST["id"], $_POST["est"]);
         }
         break;
     case "listar":
         $datos = $usuarios->get_usuarios();
-//declaramos el array
+        //declaramos el array
         $data = array();
         foreach ($datos as $row) {
             $sub_array = array();
-//ESTADO
+            //ESTADO
             $est = '';
             $atrib = "btn btn-success btn-sm estado";
             if ($row["Estado"] == 0) {
@@ -108,7 +108,7 @@ switch ($_GET["op"]) {
                     $est = 'ACTIVO';
                 }
             }
-//nivel del rol asignado
+            //nivel del rol asignado
 
             if ($row["ID_Rol"] == 1) {
 

@@ -108,8 +108,6 @@ require_once("../acceso/const.php");
                     <br>
                 </div>
             </div>
-
-            <!--<div class="card card-info" id="costos_inv_ver"></div>-->
 		</section>
 
 	</div>

@@ -97,7 +97,7 @@ function mostrar(id_usuario= -1) {
 
     limpiar();
     $('#usuarioModal').modal('show');
-    // $("#loader1").show('');
+    $("#loader1").show('');
 
     //si es -1 el modal es crear usuario nuevo
     if(id_usuario === -1)
@@ -112,6 +112,7 @@ function mostrar(id_usuario= -1) {
                 $('#rol').append('<option name="" value="' + opt.ID +'">' + opt.Descripcion.substr(0, 35) + '</option>');
             });
 
+            $("#loader1").hide();
         });
     }// si no es -1, el modal muestra los datos de un usuario por su id
     else if(id_usuario !== -1) {
@@ -138,6 +139,7 @@ function mostrar(id_usuario= -1) {
             $('.modal-title').text("Editar Usuario");
             $('#id_usuario').val(id_usuario);
 
+            $("#loader1").hide();
         });
     }
 }
