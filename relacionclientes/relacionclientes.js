@@ -80,7 +80,7 @@ function guardaryeditar(e) {
 
     e.preventDefault(); //No se activará la acción predeterminada del evento
     var formData = new FormData($("#cliente_form")[0]);
-
+    console.log(formData);
     $.ajax({
         url: "relacionclientes_controlador.php?op=guardaryeditar",
         type: "POST",

@@ -30,7 +30,7 @@ require_once("../acceso/const.php");
 		<!-- BOX DEL CONTENIDO DE LA VISTA FORMULARIO Y TABLA -->
 		<section class="content">
 			<!-- BOX FORMULARIO -->
-			<div class="card card-info"  >
+			<div class="card card-info">
 				<div class="card-header">
 					<h3 class="card-title">Seleccione Fecha Tope</h3>
 					<div class="card-tools">
@@ -97,7 +97,9 @@ require_once("../acceso/const.php");
 						<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
 					</div>
 				</div>
-			</section>
+            </div>
+
+        </section>
 		</div>
 		<?php require_once("../footer.php");?>
 		<script type="text/javascript" src="activacionclientes.js"></script>
