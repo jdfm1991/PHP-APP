@@ -11,15 +11,16 @@ function init() {
 }
 
 function limpiar() {
-    /*$("#opc").val("");
-    $("#vendedor").val("");*/
+    $("#depo").val("");
+    $("#marca").val("");
+    $("#orden").val("");
+    $("#p1").prop("checked", false);
+    $("#p2").prop("checked", false);
+    $("#p3").prop("checked", false);
+    $("#iva").prop("checked", true);
+    $("#cubi").prop("checked", false);
+    $("#exis").prop("checked", true);
 }
-
-$(document).ready(function () {
-    $("#depo").change(() => no_puede_estar_vacio());
-    $("#marca").change(() => no_puede_estar_vacio());
-    $("#orden").change(() => no_puede_estar_vacio());
-});
 
 function validarCantidadRegistrosTabla() {
     (tabla.rows().count() === 0)
@@ -31,6 +32,13 @@ function validarCantidadRegistrosTabla() {
 var no_puede_estar_vacio = function () {
     ($("#depo").val() !== "" && $("#marca").val() !== "" && $("#orden").val() !== "") ? estado_minimizado = true : estado_minimizado = false;
 };
+
+$(document).ready(function () {
+    $("#depo").change(() => no_puede_estar_vacio());
+    $("#marca").change(() => no_puede_estar_vacio());
+    $("#orden").change(() => no_puede_estar_vacio());
+});
+
 
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click", "#btn_listadeprecio", function () {
@@ -45,18 +53,6 @@ $(document).on("click", "#btn_listadeprecio", function () {
     var cubi = 0;
     var exis = 0;
 
-    if (depos === "") {
-        Swal.fire('Atención!','Seleccione un Almacen!','error');
-        return (false);
-    }
-    if (marcas === "") {
-        Swal.fire('Atención!','Seleccione al menos una Marca!','error');
-        return (false);
-    }
-    if (orden === "") {
-        Swal.fire('Atención!',' Seleccione como desea Ordenar!','error');
-        return (false);
-    }
     if (document.getElementById('p1').checked) { p1 = 1; }
     if (document.getElementById('p2').checked) { p2 = 1; }
     if (document.getElementById('p3').checked) { p3 = 1; }
@@ -73,40 +69,65 @@ $(document).on("click", "#btn_listadeprecio", function () {
             sessionStorage.setItem("marcas", marcas);
             sessionStorage.setItem("orden", orden);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla = $('#tablaprecios').DataTable({
-                "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
-                "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
-                "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
-                    url: "listadeprecio_controlador.php?op=listar",
-                    type: "post",
-                    data: {'depo': depos,'marca': marcas,'orden': orden,'p1': p1, 'p2': p2, 'p3': p3, 'iva': iva, 'cubi': cubi, 'exis':exis,},
-                    error: function (e) {
-                        console.log(e.responseText);
-                        Swal.fire('Atención!','ha ocurrido un error!','error');
-                    },
-                    complete: function () {
-                        $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
-                        validarCantidadRegistrosTabla();
-                        //limpiar();//LIMPIAMOS EL SELECTOR.
-                    }
-                },//TRADUCCION DEL DATATABLE.
-                "bDestroy": true,
-                "responsive": true,
-                "bInfo": true,
-                "iDisplayLength": 10,
-                "order": [[0, "desc"]],
-                "language": texto_español_datatables
+            $.ajax({
+                url: "listadeprecio_controlador.php?op=listar",
+                method: "POST",
+                data: {'depo': depos,'marca': marcas,'orden': orden,'p1': p1, 'p2': p2, 'p3': p3, 'iva': iva, 'cubi': cubi, 'exis':exis,},
+                beforeSend: function () {
+                    $("#loader").show(''); //MOSTRAMOS EL LOADER.
+                    $('#tablaprecios thead').empty();
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                    Swal.fire('Atención!','ha ocurrido un error!','error');
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+
+                    //Titulos de las columnas de la tabla
+                    $('#tablaprecios thead').append('<tr>');
+                    $.each(data.tabla.columns, function(idx, opt) {
+                        $('#tablaprecios thead tr').append('<th style="text-align: center;" data-toggle="tooltip" data-placement="top">' + opt + '</th>');
+                    });
+
+                    //procesamiento con jquery de los datos
+                    tabla = $('#tablaprecios').DataTable({
+                        "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
+                        "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
+                        "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                        "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                        "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                        "aaData": data.tabla.aaData, // informacion por registro
+                        "bDestroy": true,
+                        "responsive": true,
+                        "bInfo": true,
+                        "iDisplayLength": 10,
+                        "order": [[0, "desc"]],
+                        "language": texto_español_datatables
+                    });
+
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
+                    $("#loader").hide();//OCULTAMOS EL LOADER.
+                    validarCantidadRegistrosTabla();
+                    limpiar();
+                }
             });
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar un rango de fecha y un vendedor.', 'error');
-        return (false);
 
+        if (depos === "") {
+            Swal.fire('Atención!','Seleccione un Almacen!','error');
+            return (false);
+        }
+        if (marcas === "") {
+            Swal.fire('Atención!','Seleccione al menos una Marca!','error');
+            return (false);
+        }
+        if (orden === "") {
+            Swal.fire('Atención!',' Seleccione como desea Ordenar!','error');
+            return (false);
+        }
     }
 });
 

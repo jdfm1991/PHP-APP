@@ -131,95 +131,34 @@ $marcas = $marcas->get_marcas();
                 <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="tablaprecios">
                     <thead style="background-color: #17A2B8;color: white;">
                         <tr>
-                        <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Código</th>
-                        <th class="text-center" data-toggle="tooltip" data-placement="top" title="Producto">Producto</th>
-                        <th class="text-center" data-toggle="tooltip" data-placement="top" title="Marca">Marca</th>
-                        <!--BULTOS-->
-                        <th class="text-center" data-toggle="tooltip" data-placement="top" title="Bultos">Bultos</th>
-                        <?php switch ($sumap) {
-                            case 1: ?>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio<?php echo $sumap2; ?>">Precio <?php echo $sumap2; ?> Bulto</th>
-                                <?php break;
-                            case 2: ?>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio<?php if ($p1 == 1){ echo $p1; }else{ echo $p2;} ?>">Precio <?php if ($p1 == 1){ echo $p1; }else{ echo $p2;} ?> Bulto</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio<?php if ($p3 == 3){ echo $p3; }else{ echo $p2;} ?>">Precio <?php if ($p1 == 3){ echo $p3; }else{ echo $p2;} ?> Bulto</th>
-                                <?php break;
-                            default: /** 0 || 3**/?>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Bulto</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Bulto</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Bulto</th>
-                            <?php } ?>
-                        <!--PAQUETES-->
-                        <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Paquete</th>
-                        <?php switch ($sumap) {
-                            case 1: ?>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio<?php echo $sumap2; ?>">Precio <?php echo $sumap2; ?> Paquete</th>
-                                <?php break;
-                            case 2: ?>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio<?php if ($p1 == 1){ echo $p1; }else{ echo $p2;} ?>">Precio <?php if ($p1 == 1){ echo $p1; }else{ echo $p2;} ?> Paquete</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio<?php if ($p3 == 3){ echo $p3; }else{ echo $p2;} ?>">Precio <?php if ($p3 == 3){ echo $p3; }else{ echo $p2;} ?> Paquete</th>
-                                <?php break;
-                            default: /** 0 || 3**/?>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Paquete</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Paquete</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Paquete</th>
-                            <?php }
-                        if ($cubi == 1) { ?>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Código</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Producto">Producto</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Marca">Marca</th>
+                            <!--BULTOS-->
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Bultos">Bultos</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Bulto</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Bulto</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Bulto</th>
+                            <!--PAQUETES-->
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Paquete</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Paquete</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Paquete</th>
+                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Paquete</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cubicaje">Cubicaje</th>
-                        <?php } ?>
-                    </tr>
+                        </tr>
                     </thead>
-                    <tfoot style="background-color: #ccc;color: white;">
-                        <tr>
-                        <th class="text-center">Código</th>
-                        <th class="text-center">Producto</th>
-                        <th class="text-center">Marca</th>
-                        <!--BULTOS-->
-                        <th class="text-center">Bultos</th>
-                        <?php switch ($sumap) {
-                            case 1: ?>
-                                <th class="text-center">Precio <?php echo $sumap2; ?> Bulto</th>
-                                <?php break;
-                            case 2: ?>
-                                <th class="text-center">Precio <?php if ($p1 == 1){ echo $p1; }else{ echo $p2;} ?> Bulto</th>
-                                <th class="text-center">Precio <?php if ($p3 == 3){ echo $p3; }else{ echo $p2;} ?> Bulto</th>
-                                <?php break;
-                            default: /** 0 || 3**/?>
-                                <th class="text-center">Precio 1 Bulto</th>
-                                <th class="text-center">Precio 2 Bulto</th>
-                                <th class="text-center">Precio 3 Bulto</th>
-                            <?php } ?>
-                        <!--PAQUETES-->
-                        <th class="text-center">Paquete</th>
-                        <?php switch ($sumap) {
-                            case 1: ?>
-                                <th class="text-center">Precio <?php echo $sumap2; ?> Paquete</th>
-                                <?php break;
-                            case 2: ?>
-                                <th class="text-center">Precio <?php if ($p1 == 1){ echo $p1; }else{ echo $p2;} ?> Paquete</th>
-                                <th class="text-center">Precio <?php if ($p3 == 3){ echo $p3; }else{ echo $p2;} ?> Paquete</th>
-                                <?php break;
-                            default: /** 0 || 3**/?>
-                                <th class="text-center">Precio 1 Paquete</th>
-                                <th class="text-center">Precio 2 Paquete</th>
-                                <th class="text-center">Precio 3 Paquete</th>
-                            <?php }
-                        if ($cubi == 1) { ?>
-                            <th class="text-center">Cubicaje</th>
-                        <?php } ?>
-                    </tr>
-                    </tfoot>
+
                     <tbody>
-                    <!-- TD TABLA LLEGAN POR AJAX
+                        <!-- TD TABLA LLEGAN POR AJAX -->
                     </tbody>
                 </table>
-                BOX BOTONES DE REPORTES-->
+                <!-- BOX BOTONES DE REPORTES-->
                 <div align="center">
                     <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
                     <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
                 </div>
             </div>
-        </div>-->
+        </div>
 
         </div>
     </section>

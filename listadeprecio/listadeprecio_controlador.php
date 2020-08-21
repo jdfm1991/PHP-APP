@@ -29,14 +29,54 @@ switch ($_GET["op"]) {
         $datos = $precios->getListadeprecios($marcas, $depos, $exis, $orden);
         $num = count($datos);
 
+
+        /** TITULO DE LAS COLUMNAS DE LA TABLA **/
+        $thead = Array();
+        $thead[] = "Código";
+        $thead[] = "Producto";
+        $thead[] = "Marca";
+        //<!--BULTOS-->
+        $thead[] = "Bultos";
+        switch ($sumap) {
+            case 1:
+                $thead[] = "Precio $sumap2 Bulto";
+                break;
+            case 2:
+                $thead[] = "Precio " . ($p1 == 1) ? $p1 : $p2 . " Bulto";
+                $thead[] = "Precio " . ($p1 == 3) ? $p3 : $p2 . " Bulto";
+                break;
+            default: /** 0 || 3**/
+                $thead[] = "Precio 1 Bulto";
+                $thead[] = "Precio 2 Bulto";
+                $thead[] = "Precio 3 Bulto";
+        }
+        //<!--PAQUETES-->
+        $thead[] = "Paquete";
+        switch ($sumap) {
+            case 1:
+                $thead[] = "Precio $sumap2 Paquete";
+                break;
+            case 2:
+                $thead[] = "Precio " . ($p1 == 1) ? $p1 : $p2 . " Paquete";
+                $thead[] = "Precio " . ($p1 == 3) ? $p3 : $p2 . " Paquete";
+                break;
+            default: /** 0 || 3**/
+                $thead[] = "Precio 1 Paquete";
+                $thead[] = "Precio 2 Paquete";
+                $thead[] = "Precio 3 Paquete";
+        }
+        if ($cubi == 1) {
+            $thead[] = "Cubicaje";
+        }
+
+        /** CONTENIDO DE LA TABLA **/
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
-
         foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
 
-            if ($i['esexento']) {
+            if ($row['esexento']) {
                 $precio1 = $row['precio1'] * $iva;
                 $precio2 = $row['precio2'] * $iva;
                 $precio3 = $row['precio3'] * $iva;
@@ -59,7 +99,7 @@ switch ($_GET["op"]) {
             $sub_array[] = round($row['existen']);
             switch ($sumap) {
                 case 1:
-                    if ($i['esexento'] == 0)
+                    if ($row['esexento'] == 0)
                     {
                         $sub_array[] = number_format($row['precio'. $sumap2 ] * $iva, 2, ",", ".");
                     } else {
@@ -86,14 +126,14 @@ switch ($_GET["op"]) {
                     $sub_array[] = number_format($precio3, 2, ",", ".");
             }
             // <!--PAQUETES-->
-            $sub_array[] = round($i['exunidad']);
+            $sub_array[] = round($row['exunidad']);
             switch ($sumap) {
                 case 1:
-                    if ($i['esexento'] == 0)
+                    if ($row['esexento'] == 0)
                     {
-                        $sub_array[] = number_format($i['preciou'. $sumap2 ]* $iva, 2, ",", ".");
+                        $sub_array[] = number_format($row['preciou'. $sumap2 ]* $iva, 2, ",", ".");
                     } else {
-                        $sub_array[] = number_format($i['preciou'. $sumap2 ], 2, ",", ".");
+                        $sub_array[] = number_format($row['preciou'. $sumap2 ], 2, ",", ".");
                     }
                     break;
                 case 2:
@@ -116,19 +156,20 @@ switch ($_GET["op"]) {
                     $sub_array[] = number_format($preciou3, 2, ",", ".");
                 }
             if ($cubi == 1) {
-                $sub_array[] = $i['cubicaje'];
+                $sub_array[] = $row['cubicaje'];
             }
 
             $data[] = $sub_array;
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-        $results = array(
+        $output['tabla'] = array(
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "columns" => $thead,
             "aaData" => $data);
-        echo json_encode($results);
+        echo json_encode($output);
 
         break;
 
