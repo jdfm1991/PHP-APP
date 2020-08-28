@@ -1,7 +1,6 @@
 <?php
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("despachosrelacion_modelo.php");
 ?>
 <!DOCTYPE html>
 <html>

@@ -7,7 +7,7 @@ function init() {
     $("#loader").hide();
     $("#tabla").hide();
     estado_minimizado = false;
-    // listar_vendedores();
+    listar_depositos_marcas();
 }
 
 function limpiar() {
@@ -70,11 +70,15 @@ $(document).on("click", "#btn_listadeprecio", function () {
             sessionStorage.setItem("orden", orden);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
+                async: true,
                 url: "listadeprecio_controlador.php?op=listar",
                 method: "POST",
                 data: {'depo': depos,'marca': marcas,'orden': orden,'p1': p1, 'p2': p2, 'p3': p3, 'iva': iva, 'cubi': cubi, 'exis':exis,},
                 beforeSend: function () {
                     $("#loader").show(''); //MOSTRAMOS EL LOADER.
+                    if(tabla instanceof $.fn.dataTable.Api){
+                        $('#tablaprecios').DataTable().clear().destroy();
+                    }
                     $('#tablaprecios thead').empty();
                 },
                 error: function (e) {
@@ -84,34 +88,50 @@ $(document).on("click", "#btn_listadeprecio", function () {
                 success: function (data) {
                     data = JSON.parse(data);
 
-                    //Titulos de las columnas de la tabla
-                    $('#tablaprecios thead').append('<tr>');
-                    $.each(data.tabla.columns, function(idx, opt) {
-                        $('#tablaprecios thead tr').append('<th style="text-align: center;" data-toggle="tooltip" data-placement="top">' + opt + '</th>');
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
+                    $("#loader").hide();//OCULTAMOS EL LOADER.
+
+                    //creamos una matriz JSON para aoColumnDefs
+                    var aryJSONColTable = [];
+                    /*var aryColTableChecked = data.columns;
+                    for (var i = 0; i <aryColTableChecked.length; i ++) {
+                        aryJSONColTable.push ({
+                            "sTitle": aryColTableChecked[i],
+                            "aTargets": [i]
+                        });
+                    }*/
+                    $.each(data.columns, function(i, opt) {
+                        aryJSONColTable.push({"sTitle": opt, "aTargets": [i]});
                     });
 
-                    //procesamiento con jquery de los datos
                     tabla = $('#tablaprecios').DataTable({
                         "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                         "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
-                        "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                        "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                        "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                        "aaData": data.tabla.aaData, // informacion por registro
+                        "sEcho": data.sEcho, //INFORMACION PARA EL DATATABLE
+                        "iTotalRecords": data.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                        "iTotalDisplayRecords": data.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                        "data": data.aaData, // informacion por registro
+                        //CodigoDinamico
+                        "aoColumnDefs": aryJSONColTable,
+                        "bProcessing": true,
+                        "bLengthChange": true,
+                        "bFilter": true,
+                        "bScrollCollapse": true,
+                        "bJQueryUI": true,
+                        //finCodigoDinamico
                         "bDestroy": true,
                         "responsive": true,
                         "bInfo": true,
                         "iDisplayLength": 10,
-                        "order": [[0, "desc"]],
                         "language": texto_español_datatables
                     });
 
-                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                    $("#loader").hide();//OCULTAMOS EL LOADER.
                     validarCantidadRegistrosTabla();
                     limpiar();
                 }
             });
+
+
             estado_minimizado = true;
         }
     } else {
@@ -130,6 +150,26 @@ $(document).on("click", "#btn_listadeprecio", function () {
         }
     }
 });
+
+function listar_depositos_marcas(){
+
+    $.post("listadeprecio_controlador.php?op=listar_depositos_marcas", function(data){
+        data = JSON.parse(data);
+
+        $('#depo').append('<option name="" value="">Seleccione Almacen</option>');
+        $.each(data.lista_depositos, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $('#depo').append('<option name="" value="' + opt.codubi +'">'+ opt.codubi +': '+ opt.descrip.substr(0, 35) + '</option>');
+        });
+
+        $('#marca').append('<option name="" value="">Seleccione una Marca</option>').append('<option name="" value="-">TODAS</option>');
+        $.each(data.lista_marcas, function(idx, opt) {
+            $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
+        });
+    });
+
+
+}
 
 /*//ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){

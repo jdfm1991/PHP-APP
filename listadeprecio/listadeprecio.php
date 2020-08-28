@@ -3,12 +3,6 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../costodeinventario/costodeinventario_modelo.php");
-require_once("../sellin/sellin_modelo.php");
-$almacenes = new CostodeInventario();
-$marcas = new sellin();
-$cat = $almacenes->get_Almacenes();
-$marcas = $marcas->get_marcas();
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,21 +45,12 @@ $marcas = $marcas->get_marcas();
                         <div class="col-sm-12">
                             <div class="form-check form-check-inline">
                                 <select class="custom-select" name="depo" id="depo" required>
-                                    <option value="">Seleccione Almacen</option>
-                                    <?php
-                                    foreach ($cat as $query) {
-                                        echo '<option value="' . $query['codubi'] . '">' . $query['codubi'] . ': ' . substr($query['descrip'], 0, 35) . '</option>';
-                                    } ?>
+                                    <!-- la lista de depositos se carga por ajax -->
                                 </select>
                             </div>
                             <div class="form-check form-check-inline">
                                 <select class="custom-select" name="marca" id="marca" style="width: 100%;" required>
-                                    <option value="">Seleccione una Marca</option>
-                                    <option value="-">TODAS</option>
-                                    <?php
-                                    foreach ($marcas as $query) {
-                                        echo '<option value="' . $query['marca'] . '">' . $query['marca'] . '</option>';
-                                    } ?>
+                                    <!-- la lista de marcas se carga por ajax -->
                                 </select>
                             </div>
                             <div class="form-check form-check-inline">
@@ -134,12 +119,12 @@ $marcas = $marcas->get_marcas();
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Código</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Producto">Producto</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Marca">Marca</th>
-                            <!--BULTOS-->
+
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Bultos">Bultos</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Bulto</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Bulto</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Bulto</th>
-                            <!--PAQUETES-->
+
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Paquete</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Paquete</th>
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Paquete</th>

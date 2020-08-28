@@ -5,15 +5,18 @@ require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("listadeprecio_modelo.php");
+require_once("../costodeinventario/costodeinventario_modelo.php");
+require_once("../sellin/sellin_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $precios = new Listadeprecio();
+$almacenes = new CostodeInventario();
+$marcas = new sellin();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
     case "listar":
-
         $depos = $_POST['depo'];
         $marcas = $_POST['marca'];
         $orden = $_POST['orden'];
@@ -29,10 +32,9 @@ switch ($_GET["op"]) {
         $datos = $precios->getListadeprecios($marcas, $depos, $exis, $orden);
         $num = count($datos);
 
-
         /** TITULO DE LAS COLUMNAS DE LA TABLA **/
         $thead = Array();
-        $thead[] = "Código";
+        $thead[] = "Codigos";
         $thead[] = "Producto";
         $thead[] = "Marca";
         //<!--BULTOS-->
@@ -42,8 +44,10 @@ switch ($_GET["op"]) {
                 $thead[] = "Precio $sumap2 Bulto";
                 break;
             case 2:
-                $thead[] = "Precio " . ($p1 == 1) ? $p1 : $p2 . " Bulto";
-                $thead[] = "Precio " . ($p1 == 3) ? $p3 : $p2 . " Bulto";
+                $aux1 = ($p1 == 1) ? $p1 : $p2;
+                $aux2 = ($p3 == 3) ? $p3 : $p2;
+                $thead[] = "Precio $aux1 Bulto";
+                $thead[] = "Precio $aux2 Bulto";
                 break;
             default: /** 0 || 3**/
                 $thead[] = "Precio 1 Bulto";
@@ -57,8 +61,10 @@ switch ($_GET["op"]) {
                 $thead[] = "Precio $sumap2 Paquete";
                 break;
             case 2:
-                $thead[] = "Precio " . ($p1 == 1) ? $p1 : $p2 . " Paquete";
-                $thead[] = "Precio " . ($p1 == 3) ? $p3 : $p2 . " Paquete";
+                $aux1 = ($p1 == 1) ? $p1 : $p2;
+                $aux2 = ($p3 == 3) ? $p3 : $p2;
+                $thead[] = "Precio $aux1 Paquete";
+                $thead[] = "Precio $aux2 Paquete";
                 break;
             default: /** 0 || 3**/
                 $thead[] = "Precio 1 Paquete";
@@ -163,7 +169,7 @@ switch ($_GET["op"]) {
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-        $output['tabla'] = array(
+        $output = array(
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
@@ -171,6 +177,15 @@ switch ($_GET["op"]) {
             "aaData" => $data);
         echo json_encode($output);
 
+        break;
+
+    case "listar_depositos_marcas":
+        //DEPOSITOS
+        $output["lista_depositos"] = $almacenes->get_Almacenes();
+        //MARCAS
+        $output["lista_marcas"] = $marcas->get_marcas();
+
+        echo json_encode($output);
         break;
 
 }
