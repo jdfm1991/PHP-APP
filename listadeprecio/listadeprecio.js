@@ -65,9 +65,7 @@ $(document).on("click", "#btn_listadeprecio", function () {
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
         if (depos !== "" && marcas !== "" && orden !== "") {
-            sessionStorage.setItem("depos", depos);
-            sessionStorage.setItem("marcas", marcas);
-            sessionStorage.setItem("orden", orden);
+            sesionStorageItems(depos, marcas, orden, p1, p2, p3, iva, cubi, exis);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
                 async: true,
@@ -151,6 +149,18 @@ $(document).on("click", "#btn_listadeprecio", function () {
     }
 });
 
+function sesionStorageItems(depos, marcas, orden, p1, p2, p3, iva, cubi, exis){
+    sessionStorage.setItem("depos", depos);
+    sessionStorage.setItem("marcas", marcas);
+    sessionStorage.setItem("orden", orden);
+    sessionStorage.setItem("p1", p1);
+    sessionStorage.setItem("p2", p2);
+    sessionStorage.setItem("p3", p3);
+    sessionStorage.setItem("iva", iva);
+    sessionStorage.setItem("cubi", cubi);
+    sessionStorage.setItem("exis", exis);
+}
+
 function listar_depositos_marcas(){
 
     $.post("listadeprecio_controlador.php?op=listar_depositos_marcas", function(data){
@@ -171,31 +181,32 @@ function listar_depositos_marcas(){
 
 }
 
-/*//ACCION AL PRECIONAR EL BOTON EXCEL.
+//ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-   var fechai = sessionStorage.getItem("fechai", fechai);
-   var fechaf = sessionStorage.getItem("fechaf", fechaf);
-   var marca = sessionStorage.getItem("marca", marca);
-   if (fechai !== "" && fechaf !== "" && marca !== "") {
-    window.location = "sellin_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&marca="+marca;
-}
+    var depos = sessionStorage.getItem("depos");
+    var marcas = sessionStorage.getItem("marcas");
+    var orden = sessionStorage.getItem("orden");
+    var p1 = sessionStorage.getItem("p1");
+    var p2 = sessionStorage.getItem("p2");
+    var p3 = sessionStorage.getItem("p3");
+    var iva = sessionStorage.getItem("iva");
+    var cubi = sessionStorage.getItem("cubi");
+    var exis = sessionStorage.getItem("exis");
+    window.location = "listadeprecio_excel.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis;
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    var fechai = sessionStorage.getItem("fechai", fechai);
-    var fechaf = sessionStorage.getItem("fechaf", fechaf);
-    var marca = sessionStorage.getItem("marca", marca);
-    if (fechai !== "" && fechaf !== "" && marca !== "") {
-        window.open('sellin_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&marca='+marca, '_blank');
-    }
+    var depos = sessionStorage.getItem("depos");
+    var marcas = sessionStorage.getItem("marcas");
+    var orden = sessionStorage.getItem("orden");
+    var p1 = sessionStorage.getItem("p1");
+    var p2 = sessionStorage.getItem("p2");
+    var p3 = sessionStorage.getItem("p3");
+    var iva = sessionStorage.getItem("iva");
+    var cubi = sessionStorage.getItem("cubi");
+    var exis = sessionStorage.getItem("exis");
+    window.open("listadeprecio_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
 });
-*/
-/*function mostrar() {
-
-    var texto= 'Clientes Sin Transacción:  ';
-    var cuenta =(tabla_costodeinventario.rows().count());
-    $("#cuenta").html(texto + cuenta);
-}*/
 
 init();

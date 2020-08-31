@@ -106,8 +106,6 @@ require_once("../acceso/const.php");
             <div class="dot"></div>
         </figure>
         <!-- BOX TABLA -->
-<!--        <div class="card card-info" id="listadeprecio">-->
-        <!-- BOX TABLA -->
         <div class="card card-info" id="tabla">
             <div class="card-header">
                 <h3 class="card-title">Clientes</h3>
@@ -132,7 +130,6 @@ require_once("../acceso/const.php");
                             <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cubicaje">Cubicaje</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <!-- TD TABLA LLEGAN POR AJAX -->
                     </tbody>
