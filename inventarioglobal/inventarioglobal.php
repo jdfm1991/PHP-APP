@@ -3,9 +3,6 @@
 //LLAMAMOS A LAS CONSTANTES.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../costodeinventario/costodeinventario_modelo.php");
-$almacen = new CostodeInventario();
-$almacenes = $almacen->get_Almacenes();
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,14 +44,15 @@ $almacenes = $almacen->get_Almacenes();
 					<form id="frminventario" class="form-horizontal">
 						<div class="form-group col-sm-4 select2-blue">
 							<label>Almacen</label>
-							<select class="select2" name="depo[]" id="depo[]" multiple="multiple" data-placeholder="Seleccione Almacén" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
-								<?php
-								foreach ($almacenes as $query) {
-									echo '<option value="' . $query['codubi'] . '">' . $query['codubi'] . ': ' . substr($query['descrip'], 0, 35) . '</option>';
-								} ?>
+							<select class="select2 depo" name="depo[]" id="depo[]" multiple="multiple" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
+                                <!-- la lista de almacenes se carga por ajax -->
 							</select>
 						</div>
+                        <div class="form-group col-sm-4">
+                            <input type="checkbox" id="checkbox"> Seleccionar Todos
+                        </div>
 					</form>
+
 				</div>
 				<!-- BOX BOTON DE PROCESO -->
 				<div class="card-footer">

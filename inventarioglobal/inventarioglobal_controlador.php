@@ -1,31 +1,45 @@
 <?php
+//LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
+
+//LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("inventarioglobal_modelo.php");
 require_once("../costodeinventario/costodeinventario_modelo.php");
+
+//INSTANCIAMOS EL MODELO
 $invglobal = new InventarioGlobal();
 $costo = new CostodeInventario();
 
-// TERMINAR CUANDO ESTE LISTO EL MODULO DE DESPACHOS
+//VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
+switch ($_GET["op"]) {
 
-if (isset($_POST['depo'])) {
-    $numero = $_POST['depo'];
-} else {
-    $numero = array();
-}
-$edv = "";
-if (count($numero) > 0) {
-    foreach ($numero as $i) {
-        $edv .= "'" . $i . "',";
-    }
+    case "listar_inventarioglobal":
+
+        if (isset($_POST['depo'])) {
+            $numero = $_POST['depo'];
+        } else {
+            $numero = array();
+        }
+        $edv = "";
+        if (count($numero) > 0) {
+            foreach ($numero as $i) {
+                $edv .= "'" . $i . "',";
+            }
+        }
+
+        $ffin = date('Y-m-d');
+        $dato = explode("-", $ffin); //Hasta
+        $aniod = $dato[0]; //año
+        $mesd = $dato[1]; //mes
+        $diad = "01"; //dia
+        $fini = $aniod . "-01-01";
+        $t = 0;
+
+
+        break;
 }
 
-$ffin = date('Y-m-d');
-$dato = explode("-", $ffin); //Hasta
-$aniod = $dato[0]; //año
-$mesd = $dato[1]; //mes
-$diad = "01"; //dia
-$fini = $aniod . "-01-01";
-$t = 0;
+
 
 ?>    
     <div class="card-header">

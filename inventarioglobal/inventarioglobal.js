@@ -1,16 +1,32 @@
 var tabla_inventarioglobal;
 var estado_minimizado;
-var depo
+var depo;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
     $("#loader").hide();
     estado_minimizado = false;
+
+    listar_almacenes();
+
+    $("#checkbox").on("click", function (e) {
+        if($("#checkbox").is(':checked') ) {
+            $(".depo > option").prop("selected","selected");
+        } else {
+            $(".depo > option").prop("selected","");
+        }
+        $(".depo").trigger("change");
+    });
 }
 
 function limpiar() {
-  document.getElementById('depo[]').value = "";
+    $("#depo").val("");
+  // document.getElementById('depo[]').value = "";
+    $('[name="depo[]"]').attr("disabled", false);
+    // $('#tabla tbody').empty();
+    $('#btn_excel').attr("disabled", false);
+    $('#btn_pdf').attr("disabled", false);
 }
 
 function validarCantidadRegistrosTabla() {
@@ -20,17 +36,50 @@ function validarCantidadRegistrosTabla() {
     $('#btn_pdf').attr("disabled", estado);
 }
 
+var no_puede_estar_vacio = function () {
+    ($(".depo").val().length > 0) ? estado_minimizado = true : estado_minimizado = false;
+};
+
 $(document).ready(function () {
-    $("#depo").change(() => estado_minimizado = true)
+    $(".depo").change(() => no_puede_estar_vacio());
 });
+
+function listar_almacenes() {
+    $.ajax({
+        url: "../costodeinventario/costodeinventario_controlador.php?op=listar_depositos",
+        type: "GET",
+        beforeSend: function () {
+            //mientras carga inabilitamos el select
+            $('[name="depo[]"]').attr("disabled", true);
+        },
+        error: function(X){
+            Swal.fire('Atención!','ha ocurrido un error!','error');
+        },
+        success: function(data) {
+            data = JSON.parse(data);
+            //cuando termina la consulta, activamos el boton
+            $('[name="depo[]"]').attr("disabled", false);
+            //lista de seleccion de depositos
+            $.each(data.lista_depositos, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('[name="depo[]"]').append('<option name="" value="' + opt.codubi +'">' + opt.codubi + ': '+ opt.descrip.substr(0, 35) + '</option>');
+            });
+        }
+    });
+}
+
 
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click", "#btn_inventarioglobal", function () {
-    depo = document.getElementById('depo[]').value;
-   
-        if (depo !== "") {
+
+    var depo = $('[name="depo[]"]').val();
+
+    if (estado_minimizado) {
+        $("#tabla").hide();
+        $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
+        estado_minimizado = false;
+        if (depo.length > 0) {
             var datos = $('#frminventario').serialize();
-            /*  sessionStorage.setItem("vendedor", vendedor); */
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             tabla_inventarioglobal = $('#inventarioglobal_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
@@ -46,13 +95,10 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                         console.log(e.responseText);
                     },
                     complete: function () {
-
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
-                        $("#minimizar").slideToggle();
-                        /* validarCantidadRegistrosTabla(); */
-                        /*  mostrar(); */
-                        /* limpiar(); */
+                        validarCantidadRegistrosTabla();
+                        limpiar();//LIMPIAMOS EL SELECTOR.
                     }
                 },//TRADUCCION DEL DATATABLE.
                 "bDestroy": true,
@@ -60,37 +106,15 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                 "bInfo": true,
                 "iDisplayLength": 10,
                 "order": [[0, "desc"]],
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
-                },
+                "language": texto_español_datatables
             });
-           
-        } else {
+            estado_minimizado = true;
+        }
+    } else {
         Swal.fire('Atención!', 'Debe seleccionar al menos un Almacén!', 'error');
         return (false);
-     } 
-     
+
+    }
 });
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
@@ -108,11 +132,5 @@ $(document).on("click", "#btn_pdf", function () {
         window.open('clientesbloqueados_pdf.php?&vendedor=' + vendedor, '_blank');
     }
 });
-
-/* function mostrar() {
-    var texto= 'Clientes Bloqueados: ';
-    var cuenta =(tabla_inventarioglobal.rows().count());
-    $("#cuenta").html(texto + cuenta);
-} */
 
 init();
