@@ -44,7 +44,7 @@ require_once("../acceso/const.php");
 					<form id="frminventario" class="form-horizontal">
 						<div class="form-group col-sm-4 select2-blue">
 							<label>Almacen</label>
-							<select class="select2 depo" name="depo[]" id="depo[]" multiple="multiple" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
+							<select class="select2 depo" name="depo[]" id="depo[]" multiple="multiple" data-placeholder="Seleccione Almacen" data-dropdown-css-class="select2-blue" style="width: 100%;" required>
                                 <!-- la lista de almacenes se carga por ajax -->
 							</select>
 						</div>

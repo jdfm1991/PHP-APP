@@ -34,7 +34,7 @@ class CostodeInventario extends Conectar
 		}
 		//se considera si la marca seleccionada es todos, o si es una marca en especifico
 		if ($marca != "-") {
-			$q_marca = "AND marca LIKE '$marca'";
+			$q_marca = "AND marca LIKE ?";
 		} else {
 			$q_marca = "";
 		}
@@ -47,6 +47,9 @@ class CostodeInventario extends Conectar
 
 		//PREPARACION DE LA CONSULTA PARA EJECUTARLA.
 		$sql = $conectar->prepare($sql);
+        if ($marca != "-") {
+            $sql->bindValue(1, $marca);
+        }
 		$sql->execute();
 		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 	}

@@ -21,10 +21,10 @@ function init() {
 }
 
 function limpiar() {
-    $("#depo").val("");
-  // document.getElementById('depo[]').value = "";
+    $('#checkbox').prop('checked', false);
+    // $('#depo').val("");
+    $("#depo").empty();
     $('[name="depo[]"]').attr("disabled", false);
-    // $('#tabla tbody').empty();
     $('#btn_excel').attr("disabled", false);
     $('#btn_pdf').attr("disabled", false);
 }
@@ -81,32 +81,46 @@ $(document).on("click", "#btn_inventarioglobal", function () {
         if (depo.length > 0) {
             var datos = $('#frminventario').serialize();
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_inventarioglobal = $('#inventarioglobal_data').DataTable({
-                "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
-                "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
-                "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
-                    url: "inventarioglobal_controlador.php?op=buscar_inventarioglobal",
-                    type: "post",
-                    data: datos,
-                    error: function (e) {
-                        console.log(e.responseText);
-                    },
-                    complete: function () {
-                        $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
-                        validarCantidadRegistrosTabla();
-                        limpiar();//LIMPIAMOS EL SELECTOR.
-                    }
-                },//TRADUCCION DEL DATATABLE.
-                "bDestroy": true,
-                "responsive": true,
-                "bInfo": true,
-                "iDisplayLength": 10,
-                "order": [[0, "desc"]],
-                "language": texto_español_datatables
+            $.ajax({
+                beforeSend: function () {
+                    $("#loader").show();
+                },
+                type: "POST",
+                url: "inventarioglobal_controlador.php?op=listar_inventarioglobal",
+                data: datos,
+                error: function(X){
+                    Swal.fire('Atención!','ha ocurrido un error!','error');
+                },
+                success: function(data) {
+                    data = JSON.parse(data);
+                    $("#tabla").show();
+                    $("#loader").hide();
+
+                    //TABLA
+                    tabla_inventarioglobal = $('#inventarioglobal_data').dataTable({
+                        "aProcessing": true,//Activamos el procesamiento del datatables
+                        "aServerSide": true,//Paginación y filtrado realizados por el servidor
+
+                        "sEcho": data.contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                        "iTotalRecords": data.contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                        "iTotalDisplayRecords": data.contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                        "aaData": data.contenido_tabla.aaData, // informacion por registro
+
+                        "bDestroy": true,
+                        "responsive": true,
+                        "bInfo": true,
+                        "iDisplayLength": 8,//Por cada 8 registros hace una paginación
+                        "order": [[0, "desc"]],//Ordenar (columna,orden)
+                        /*'columnDefs':[{
+                            "targets": 3, // your case first column
+                            "className": "text-center",
+                        }],*/
+                        "language": texto_español_datatables
+                    }).DataTable();
+
+                    validarCantidadRegistrosTabla();
+                    limpiar();//LIMPIAMOS EL SELECTOR.
+                }
             });
             estado_minimizado = true;
         }
