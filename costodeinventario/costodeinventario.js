@@ -11,7 +11,7 @@ function init() {
 
 function limpiar() {
     $("#marca").val("");
-    $("#depo").val("");
+    $('[name="depo[]"]').val("").trigger("change");
     $("#marca").attr("disabled", false);
     $('[name="depo[]"]').attr("disabled", false);
     $('#total_items').show();
@@ -45,7 +45,6 @@ $(document).on("click", "#btn_costodeinventario", function () {
             var datos=$('#frmCostos').serialize();
             //almacenamos en sesion una variable
             sessionStorage.setItem("datos", datos);
-            limpiar();//LIMPIAMOS EL SELECTOR.
             $.ajax({
                 beforeSend: function () {
                     $("#loader").show();
@@ -60,6 +59,7 @@ $(document).on("click", "#btn_costodeinventario", function () {
                     data = JSON.parse(data);
                     $("#tabla").show();
                     $("#loader").hide();
+                    limpiar();//LIMPIAMOS EL SELECTOR.
                     imprimir_tabla(data);
                 }
             });

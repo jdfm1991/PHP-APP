@@ -4,11 +4,9 @@ require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("inventarioglobal_modelo.php");
-require_once("../costodeinventario/costodeinventario_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $invglobal = new InventarioGlobal();
-$costo = new CostodeInventario();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -27,13 +25,10 @@ switch ($_GET["op"]) {
         //en caso que no haya ninguno, sera vacio
         $edv = "";
         if (count($numero) > 0) {
-            /*foreach ($numero as $i) {
-                $edv .= "?,";
-            }*/
             foreach ($numero as $i)
                 $edv .= " OR CodUbic = ?";
         }
-
+        $coditem = $cantidad = $tipo = array();
         $fechaf = date('Y-m-d');
         $dato = explode("-", $fechaf); //Hasta
         $aniod = $dato[0]; //año
@@ -43,11 +38,13 @@ switch ($_GET["op"]) {
         $t = 0;
 
         $devolucionesDeFactura = $invglobal->getDevolucionesDeFactura($edv, $fechai, $fechaf, $numero);
-        foreach ($devolucionesDeFactura as $devol) {
-            $coditem[] = $devol['coditem'];
-            $cantidad[] = $devol['cantidad'];
-            $tipo[] = $devol['esunid'];
-            $t += 1;
+        if(count($devolucionesDeFactura) > 0) {
+            foreach ($devolucionesDeFactura as $devol) {
+                $coditem[] = $devol['coditem'];
+                $cantidad[] = $devol['cantidad'];
+                $tipo[] = $devol['esunid'];
+                $t += 1;
+            }
         }
 
         $relacion_inventarioglobal = $invglobal->getInventarioGlobal($edv, $fechai, $fechaf, $numero);

@@ -27,24 +27,17 @@ class InventarioGlobal extends Conectar
 		parent::set_names();
 
         //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
-        /*$depo = "(" . substr($alm, 0, strlen($alm) - 1) . ")";
-        if ($depo != "()") {
-            $cond = "AND CodUbic IN " . $depo;
-        } else {
-            $cond = "";
-        }*/
         $depo = "(" . substr($alm, 4, strlen($alm)) . ")";
         if ($depo != "()") {
             $cond = "AND " . $depo;
         } else {
             $cond = "";
         }
+
 		//QUERY
-
-		$sql = "SELECT CodItem AS coditem, Cantidad AS cantidad, esunid AS esunid FROM SAITEMFAC WHERE NumeroD IN (SELECT fa.NumeroR FROM SAFACT AS fa WHERE TipoFac= ? " . $cond . " AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
-                        AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = ? AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT) < CAST(fa.Monto AS INT)))
-                        AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det))  AND NumeroD NOT IN (SELECT numerof FROM sanota) AND tipofac = ?";
-
+		$sql = "SELECT CodItem AS coditem, Cantidad AS cantidad, esunid AS esunid FROM SAITEMFAC WHERE NumeroD IN (SELECT fa.NumeroR FROM SAFACT AS fa WHERE TipoFac= ? AND NumeroR IS NOT NULL " . $cond . " AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
+                        AND (NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = ? AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT) < CAST(fa.Monto AS INT)))
+                        AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det) AND NumeroD NOT IN (SELECT numerof FROM sanota)) AND tipofac = ?";
 		//PREPARACION DE LA CONSULTA PARA EJECUTARLA.
 		$sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, 'A');
@@ -72,12 +65,6 @@ class InventarioGlobal extends Conectar
         parent::set_names();
 
         //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
-        /*$depo = "(" . substr($alm, 0, strlen($alm) - 1) . ")";
-        if ($depo != "()") {
-            $cond = "AND CodUbic IN " . $depo;
-        } else {
-            $cond = "";
-        }*/
         $depo = "(" . substr($alm, 4, strlen($alm)) . ")";
         if ($depo != "()") {
             $cond = "AND " . $depo;

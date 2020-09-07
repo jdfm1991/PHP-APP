@@ -90,14 +90,13 @@ require_once("../acceso/const.php");
 						<tfoot style="background-color: #ccc;color: white;">
 							<tr>
                                 <th class="text-center">#</th>
-								<th class="text-center">Codigo</th>
-								<th class="text-center">Producto</th>
-								<th class="text-center">Cantidad Bultos por Despachar</th>
-								<th class="text-center">Cantidad Paquetes por Despachar</th>
-								<th class="text-center">Cantidad Bultos Sistema</th>
-								<th class="text-center">Cantidad Paquetes Sistema</th>
-								<th class="text-center">Total Inventario Bultos</th>
-								<th class="text-center">Total Inventario Paquetes</th>
+								<th colspan="2" class="text-right">Total=</th>
+								<th class="text-center" id="tfoot_cantbul_x_des">Cantidad Bultos por Despachar</th>
+								<th class="text-center" id="tfoot_cantpaq_x_des">Cantidad Paquetes por Despachar</th>
+								<th class="text-center" id="tfoot_cantbul_sistema">Cantidad Bultos Sistema</th>
+								<th class="text-center" id="tfoot_cantpaq_sistema">Cantidad Paquetes Sistema</th>
+								<th class="text-center" id="tfoot_totalbul_inv">Total Inventario Bultos</th>
+								<th class="text-center" id="tfoot_totalpaq_inv">Total Inventario Paquetes</th>
 							</tr>
 						</tfoot>
 						<tbody>

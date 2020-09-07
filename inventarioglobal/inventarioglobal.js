@@ -26,6 +26,13 @@ function limpiar() {
     $('[name="depo[]"]').attr("disabled", false);
     $('#btn_excel').attr("disabled", false);
     $('#btn_pdf').attr("disabled", false);
+    $('#tfoot_cantbul_x_des').html("");
+    $('#tfoot_cantpaq_x_des').html("");
+    $('#tfoot_cantbul_sistema').html("");
+    $('#tfoot_cantpaq_sistema').html("");
+    $('#tfoot_totalbul_inv').html("");
+    $('#tfoot_totalpaq_inv').html("");
+    $('#cuenta').text("");
 }
 
 function validarCantidadRegistrosTabla() {
@@ -79,6 +86,8 @@ $(document).on("click", "#btn_inventarioglobal", function () {
         estado_minimizado = false;
         if (depo.length > 0) {
             var datos = $('#frminventario').serialize();
+            //almacenamos en sesion una variable
+            sessionStorage.setItem("datos", datos);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
                 beforeSend: function () {
@@ -109,16 +118,19 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                         "responsive": true,
                         "bInfo": true,
                         "iDisplayLength": 8,//Por cada 8 registros hace una paginación
-                        /*"order": [[0, "desc"]],//Ordenar (columna,orden)
-                        'columnDefs':[{
-                            "targets": 3, // your case first column
-                            "className": "text-center",
-                        }],*/
                         'columnDefs' : [{
                             'visible': false, 'targets': [0]
                         }],
                         "language": texto_español_datatables
                     }).DataTable();
+
+                    $('#tfoot_cantbul_x_des').html(data.totales_tabla.tbulto);
+                    $('#tfoot_cantpaq_x_des').html(data.totales_tabla.tpaq);
+                    $('#tfoot_cantbul_sistema').html(data.totales_tabla.tbultsaint);
+                    $('#tfoot_cantpaq_sistema').html(data.totales_tabla.tpaqsaint);
+                    $('#tfoot_totalbul_inv').html(data.totales_tabla.tbultoinv);
+                    $('#tfoot_totalpaq_inv').html(data.totales_tabla.tpaqinv);
+                    $('#cuenta').text("Total Facturas sin Despachar: " + data.totales_tabla.facturas_sin_despachar);
 
                     validarCantidadRegistrosTabla();
                     limpiar();//LIMPIAMOS EL SELECTOR.
@@ -135,18 +147,18 @@ $(document).on("click", "#btn_inventarioglobal", function () {
 });
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
-$(document).on("click", "#btn_excel", function () {
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (vendedor !== "") {
-        window.location = "clientesbloqueados_excel.php?vendedor=" + vendedor;
+$(document).on("click","#btn_excel", function(){
+    var datos = sessionStorage.getItem("datos");
+    if (datos !== "") {
+        window.location = 'inventarioglobal_excel.php?&'+datos;
     }
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
-$(document).on("click", "#btn_pdf", function () {
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (vendedor !== "") {
-        window.open('clientesbloqueados_pdf.php?&vendedor=' + vendedor, '_blank');
+$(document).on("click","#btn_pdf", function(){
+    var datos = sessionStorage.getItem("datos");
+    if (datos !== "") {
+        window.open('inventarioglobal_pdf.php?&'+datos, '_blank');
     }
 });
 
