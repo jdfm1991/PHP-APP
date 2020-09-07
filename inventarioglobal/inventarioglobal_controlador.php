@@ -27,9 +27,11 @@ switch ($_GET["op"]) {
         //en caso que no haya ninguno, sera vacio
         $edv = "";
         if (count($numero) > 0) {
-            foreach ($numero as $i) {
-                $edv .= "'" . $i . "',";
-            }
+            /*foreach ($numero as $i) {
+                $edv .= "?,";
+            }*/
+            foreach ($numero as $i)
+                $edv .= " OR CodUbic = ?";
         }
 
         $fechaf = date('Y-m-d');
@@ -40,24 +42,24 @@ switch ($_GET["op"]) {
         $fechai = $aniod . "-01-01";
         $t = 0;
 
-        $devolucionesDeFactura = $invglobal->getDevolucionesDeFactura($edv, $fechai, $fechaf);
+        $devolucionesDeFactura = $invglobal->getDevolucionesDeFactura($edv, $fechai, $fechaf, $numero);
         foreach ($devolucionesDeFactura as $devol) {
-            $coditem[$t] = $devol['coditem'];
-            $cantidad[$t] = $devol['cantidad'];
-            $tipo[$t] = $devol['esunid'];
+            $coditem[] = $devol['coditem'];
+            $cantidad[] = $devol['cantidad'];
+            $tipo[] = $devol['esunid'];
             $t += 1;
         }
-        $relacion_inventarioglobal = $invglobal->getInventarioGlobal($edv, $fechai, $fechaf);
+
+        $relacion_inventarioglobal = $invglobal->getInventarioGlobal($edv, $fechai, $fechaf, $numero);
         $tbulto = $tpaq = $tbultoinv = $tpaqinv = $tbultsaint = $tpaqsaint = 0;
         $cant_paq = 0;
         $cant_bul = 0;
         $i=0;
-
         //DECLARAMOS ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
         $totales = Array();
 
-        foreach ($relacion_inventarioglobal as $row) {
+        foreach ($relacion_inventarioglobal as $key=>$row) {
 
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
@@ -74,7 +76,8 @@ switch ($_GET["op"]) {
                                 $cant_paq = $row['paqxdesp'] - $cantidad[$e];
                                 break;
                         }
-                        $e = $t + 2;
+//                        $e = $t + 2;
+                        break;
                     }else{
                         $cant_bul = $row['bultosxdesp'];
                         $cant_paq = $row['paqxdesp'];
@@ -110,6 +113,7 @@ switch ($_GET["op"]) {
             }
 
             //ASIGNAMOS EN EL SUB_ARRAY LOS DATOS PROCESADOS
+            $sub_array[] = $key;
             $sub_array[] = $row["CodProd"];
             $sub_array[] = $row["Descrip"];
             $sub_array[] = number_format($cant_bul,0);

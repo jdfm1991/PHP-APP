@@ -17,7 +17,7 @@ require_once("../acceso/const.php");
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Inventario Global [A LA ESPERA QUE EL MODULO DE DESPACHOS ESTE LISTO]</h2>
+						<h2>Inventario Global</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
@@ -76,6 +76,7 @@ require_once("../acceso/const.php");
 					<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="inventarioglobal_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="#">#</th>
 								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Codigo">Codigo</th>
 								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Producto">Producto</th>
 								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Cantidad Bultos Por Despachar">Cantidad Bultos por Despachar</th>
@@ -88,6 +89,7 @@ require_once("../acceso/const.php");
 						</thead>
 						<tfoot style="background-color: #ccc;color: white;">
 							<tr>
+                                <th class="text-center">#</th>
 								<th class="text-center">Codigo</th>
 								<th class="text-center">Producto</th>
 								<th class="text-center">Cantidad Bultos por Despachar</th>

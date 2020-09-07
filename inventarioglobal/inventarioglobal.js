@@ -22,8 +22,7 @@ function init() {
 
 function limpiar() {
     $('#checkbox').prop('checked', false);
-    // $('#depo').val("");
-    $("#depo").empty();
+    $('[name="depo[]"]').val("").trigger("change");
     $('[name="depo[]"]').attr("disabled", false);
     $('#btn_excel').attr("disabled", false);
     $('#btn_pdf').attr("disabled", false);
@@ -110,19 +109,23 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                         "responsive": true,
                         "bInfo": true,
                         "iDisplayLength": 8,//Por cada 8 registros hace una paginación
-                        "order": [[0, "desc"]],//Ordenar (columna,orden)
-                        /*'columnDefs':[{
+                        /*"order": [[0, "desc"]],//Ordenar (columna,orden)
+                        'columnDefs':[{
                             "targets": 3, // your case first column
                             "className": "text-center",
                         }],*/
+                        'columnDefs' : [{
+                            'visible': false, 'targets': [0]
+                        }],
                         "language": texto_español_datatables
                     }).DataTable();
 
                     validarCantidadRegistrosTabla();
                     limpiar();//LIMPIAMOS EL SELECTOR.
+                    estado_minimizado = true;
                 }
             });
-            estado_minimizado = true;
+
         }
     } else {
         Swal.fire('Atención!', 'Debe seleccionar al menos un Almacén!', 'error');
