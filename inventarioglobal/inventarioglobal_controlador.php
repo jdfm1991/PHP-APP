@@ -25,7 +25,7 @@ switch ($_GET["op"]) {
         //en caso que no haya ninguno, sera vacio
         $edv = "";
         if (count($numero) > 0) {
-            foreach ($numero as $i)
+            foreach ($numero as $num)
                 $edv .= " OR CodUbic = ?";
         }
         $coditem = $cantidad = $tipo = array();

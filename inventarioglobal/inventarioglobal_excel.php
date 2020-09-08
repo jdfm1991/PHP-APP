@@ -49,6 +49,7 @@ $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getStyle('A1:H1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
+$sheet->getStyle('A:H')->getAlignment()->setHorizontal('center');
 $sheet->setCellValue('A1', 'Codigo')
     ->setCellValue('B1', 'Producto')
     ->setCellValue('C1', 'Cantidad Bultos por Despachar')
@@ -72,52 +73,86 @@ $relacion_inventarioglobal = $invglobal->getInventarioGlobal($edv, $fechai, $fec
 $tbulto = $tpaq = $tbultoinv = $tpaqinv = $tbultsaint = $tpaqsaint = 0;
 $cant_paq = 0;
 $cant_bul = 0;
-$i=0;
 
 $row = 2;
-foreach ($query as $i) {
-
-    if ($i['display'] == 0) {
-        $cdisplay = 0;
+foreach ($relacion_inventarioglobal as $i) {
+    if($t > 0) {
+        for($e = 0; $e < $t; $e++)
+        {
+            if($coditem[$e] == $i['CodProd']) {
+                switch ($tipo[$e]) {
+                    case '0':
+                        $cant_bul = $i['bultosxdesp'] - $cantidad[$e];
+                        break;
+                    case '1':
+                        $cant_paq = $i['paqxdesp'] - $cantidad[$e];
+                        break;
+                }
+//                        $e = $t + 2;
+                break;
+            }else{
+                $cant_bul = $i['bultosxdesp'];
+                $cant_paq = $i['paqxdesp'];
+            }
+        }
     } else {
-        $cdisplay = $i['costo'] / $i['display'];
+        $cant_bul = $i['bultosxdesp'];
+        $cant_paq = $i['paqxdesp'];
+    }
+    ////conversión de bultos a paquetes
+    $cantemp = $i['CantEmpaq'];
+    $invbut  = $i['exis'];
+    $invpaq  = $i['exunid'];
+
+    if($cant_paq >= $cantemp){
+        $conv = floor($cant_paq / $cantemp);
+        $cant_paq -= ($conv * $cantemp);
+        $cant_bul += $conv;
+    }
+    if($invpaq >= $cantemp){
+        $conv = floor($invpaq / $cantemp);
+        $invpaq -= ($conv * $cantemp);
+        $invbut += $conv;
+    }
+    $tinvbult = $invbut + $cant_bul;
+    $tinvpaq = $invpaq + $cant_paq;
+
+    if($tinvpaq >= $cantemp){
+        $conv1 = floor($tinvpaq / $cantemp);
+        $tinvpaq -= ($conv1 * $cantemp);
+        $tinvbult += $conv1;
     }
 
+    //ASIGNAMOS EN EL SUB_ARRAY LOS DATOS PROCESADOS
     $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue('A' . $row, $i['codprod']);
-    $sheet->setCellValue('B' . $row, $i['descrip']);
-    $sheet->setCellValue('C' . $row, $i['marca']);
-    $sheet->setCellValue('D' . $row, number_format($i['costo'],2, ",", "."));
-    $sheet->setCellValue('E' . $row, number_format($cdisplay,2, ",", "."));
-    $sheet->setCellValue('F' . $row, number_format($i['precio'],2, ",", "."));
-    $sheet->setCellValue('G' . $row, number_format($i['bultos'],2, ",", "."));
-    $sheet->setCellValue('H' . $row, number_format($i['paquetes'],2, ",", "."));
-    $sheet->setCellValue('I' . $row, number_format($i['costo'] * $i['bultos'],2, ",", "."));
-    $sheet->setCellValue('J' . $row, number_format($cdisplay * $i['paquetes'],2, ",", "."));
-    $sheet->setCellValue('K' . $row, number_format($i['tara'],2, ",", "."));
+    $sheet->setCellValue('A' . $row, $i['CodProd']);
+    $sheet->setCellValue('B' . $row, $i['Descrip']);
+    $sheet->setCellValue('C' . $row, number_format($cant_bul,0));
+    $sheet->setCellValue('D' . $row, number_format($cant_paq,0));
+    $sheet->setCellValue('E' . $row, number_format($invbut,0));
+    $sheet->setCellValue('F' . $row, number_format($invpaq,0));
+    $sheet->setCellValue('G' . $row, number_format($tinvbult,0));
+    $sheet->setCellValue('H' . $row, number_format($tinvpaq,0));
 
     //ACUMULAMOS LOS TOTALES
-    $costos += $i['costo'];
-    $costos_p += $cdisplay;
-    $precios += $i['precio'];
-    $bultos += $i['bultos'];
-    $paquetes += $i['paquetes'];
-    $total_costo_bultos += ($i['costo'] * $i['bultos']);
-    $total_costo_paquetes += ($cdisplay * $i['paquetes']);
-    $total_tara += $i['tara'];
+    $tbulto     += $cant_bul;
+    $tpaq       += $cant_paq;
+    $tbultoinv  += $tinvbult;
+    $tpaqinv    += $tinvpaq;
+    $tbultsaint += $invbut;
+    $tpaqsaint  += $invpaq;
     $row++;
 }
-$spreadsheet->getActiveSheet()->getStyle('A'.$row.':K'.$row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('17a2b8');
-$sheet = $spreadsheet->getActiveSheet()->mergeCells('A'.$row.':C'.$row);
+$spreadsheet->getActiveSheet()->getStyle('A'.$row.':H'.$row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('17a2b8');
+$sheet = $spreadsheet->getActiveSheet()->mergeCells('A'.$row.':B'.$row);
 $sheet->setCellValue('A' . $row, 'Totales: ');
-$sheet->setCellValue('D' . $row, number_format($costos,2, ",", "."));
-$sheet->setCellValue('E' . $row, number_format($costos_p,2, ",", "."));
-$sheet->setCellValue('F' . $row, number_format($precios,2, ",", "."));
-$sheet->setCellValue('G' . $row, number_format($bultos,2, ",", "."));
-$sheet->setCellValue('H' . $row, number_format($paquetes,2, ",", "."));
-$sheet->setCellValue('I' . $row, number_format($total_costo_bultos,2, ",", "."));
-$sheet->setCellValue('J' . $row, number_format($total_costo_paquetes,2, ",", "."));
-$sheet->setCellValue('K' . $row, number_format($total_tara,2, ",", "."));
+$sheet->setCellValue('C' . $row, number_format($tbulto,0, ",", "."));
+$sheet->setCellValue('D' . $row, number_format($tpaq,0, ",", "."));
+$sheet->setCellValue('E' . $row, number_format($tbultsaint,0, ",", "."));
+$sheet->setCellValue('F' . $row, number_format($tpaqsaint,0, ",", "."));
+$sheet->setCellValue('G' . $row, number_format($tbultoinv,0, ",", "."));
+$sheet->setCellValue('H' . $row, number_format($tpaqinv,0, ",", "."));
+$sheet->setCellValue('A' . ($row+2), 'Facturas sin despachar: '. count($devolucionesDeFactura));
 
 
 header('Content-Type: application/vnd.ms-excel');
