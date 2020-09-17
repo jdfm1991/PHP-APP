@@ -149,12 +149,12 @@
                                         <p>Indicadores Gestión Desp</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                <a href="estadisticas_fact_sin_des.php" class="nav-link">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Facturas sin Despachar</p>
-                                </a>
-                            </li> -->
+                                 <li class="nav-item">
+                                    <a href="<?php echo SERVERURL; ?>facturassindespachar/facturassindespachar.php" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Facturas sin Despachar</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <!-- COMPRAS -->
