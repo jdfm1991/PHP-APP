@@ -69,4 +69,22 @@ class FacturaSinDes extends Conectar{
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function get_cabecera_factura_por_id($numerod, $tipofac){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        $sql= "SELECT sa.numerod, sa.codvend AS vendedor, sa.codclie AS codcliente, sa.descrip AS cliente, sa.fechae AS fechaemi, sa.mtototal, sa.monto, sa.descto1, sa.mtotax, codusua, sataxvta.CodTaxs, sataxvta.MtoTax AS tax
+                FROM safact AS sa
+                    LEFT JOIN saclie ON sa.codclie = saclie.codclie
+                    LEFT JOIN sataxvta ON sa.numerod = sataxvta.numerod
+                WHERE sa.numerod = ? AND sa.tipofac = ?";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod);
+        $sql->bindValue(2, $tipofac);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

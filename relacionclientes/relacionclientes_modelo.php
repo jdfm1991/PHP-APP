@@ -432,7 +432,12 @@ class RelacionClientes extends Conectar
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT tipofac, numerod, nrolinea, coditem, codvend, descrip1, cantidad, totalitem, esunid
+        $sql = "SELECT tipofac, numerod, nrolinea, coditem, codvend, descrip1, cantidad, totalitem, esunid,
+                   (CASE WHEN saitemfac.esunid = 0 THEN
+                             COALESCE((SELECT saprod.tara FROM saprod WHERE codprod = saitemfac.coditem), 0) * saitemfac.cantidad
+                         ELSE
+                             COALESCE((SELECT (saprod.tara / saprod.cantempaq) FROM saprod WHERE codprod = saitemfac.coditem), 0) * saitemfac.cantidad
+                    END) AS peso
                 FROM saitemfac WHERE numerod = ? AND tipofac = ? ORDER BY nrolinea";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

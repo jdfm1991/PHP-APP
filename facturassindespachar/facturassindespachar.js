@@ -19,6 +19,16 @@ function limpiar() {
     $("#checkbox").prop("checked", false);
 }
 
+function limpiar_modal_detalle_factura() {
+    $("#numero_factura").text("");
+    $("#descrip_detfactura").text("");
+    $("#codusua_detfactura").text("");
+    $("#fechae_detfactura").text("");
+    $("#codvend_detfactura").text("");
+    $('#tabla_detalle_factura tbody').empty();
+    $("#factura_despachada").html("");
+}
+
 function validarCantidadRegistrosTabla() {
     (tabla.rows().count() === 0)
         ? estado = true : estado = false;
@@ -100,7 +110,7 @@ $(document).on("click", "#btn_factsindes", function () {
                         "data": data.aaData, // informacion por registro
                         //CodigoDinamico
                         "aoColumnDefs": aryJSONColTable,
-                        // "bProcessing": true,
+                        "bProcessing": true,
                         "bLengthChange": true,
                         "bFilter": true,
                         "bScrollCollapse": true,
@@ -182,6 +192,87 @@ function listar_canales(){
     });
 }
 
+function mostrarModalDetalleFactura(numerod, tipofac) {
+    limpiar_modal_detalle_factura();
+    $('#detallefactura').modal('show');
+    $("#loader2").show('');
+
+    $.post("facturassindespachar_controlador.php?op=detalle_de_factura", {numerod: numerod, tipofac: tipofac}, function (data) {
+        data = JSON.parse(data);
+
+        //cabecera de la factura
+        $("#numero_documento").text(numerod);
+        $("#tipo_documento").text(data.tipo_documento);
+        $("#descrip_detfactura").text(data.descrip);
+        $("#codusua_detfactura").text(data.codusua);
+        $("#fechae_detfactura").text(data.fechae);
+        $("#codvend_detfactura").text(data.codvend);
+
+        //detalle de la factura
+        $.each(data.detalle_factura, function(idx, opt) {
+            //como puede hacer varios registros de productos en una factura se itera con each
+            $('#tabla_detalle_factura')
+                .append(
+                    '<tr>' +
+                    '<td align="center" class="small align-middle">' + opt.coditem + '</td>' +
+                    '<td align="center" class="small align-middle">' + opt.descrip1 + '</td>' +
+                    '<td align="center" class="small align-middle">' + opt.cantidad + '</td>' +
+                    '<td align="center" class="small align-middle">' + opt.tipounid + '</td>' +
+                    '<td align="center" class="small align-middle">' + opt.peso + '</td>' +
+                    '<td align="center" class="small align-middle">' + opt.totalitem + '</td>' +
+                    '</tr>'
+                );
+        });
+
+        $('#tabla_detalle_factura')
+            .append( //separador
+                '<tr>' +
+                '<td colspan="5">===================================================================</td>' +
+                '</tr>'
+            )
+            .append( //totales de la factura
+                '<tr>' +
+                '<td align="center" class="small align-middle"> Total Productos ' + data.productos + '</td>' +
+                '<td colspan="3"></td>' +
+                '<td align="center" class="small align-middle"><div align="right">Sub Total</div></td>' +
+                '<td align="center" class="small align-middle"><div align="center">' + data.subtotal + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="center" class="small align-middle"> Total de Bultos ' + data.bultos + '</td>' +
+                '<td colspan="3"></td>' +
+                '<td align="center" class="small align-middle"><div align="right">Descuento</div></td>' +
+                '<td align="center" class="small align-middle"><div align="center">' + data.descuento + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="center" class="small align-middle"> Total de Paquetes ' + data.paquetes + '</td>' +
+                '<td colspan="3"></td>' +
+                '<td align="center" class="small align-middle"><div align="right">Excento</div></td>' +
+                '<td align="center" class="small align-middle"><div align="center">' + data.exento + '</div></td>' +
+                '</tr>' +
+
+                '<tr>' +
+                '<td align="center" class="small align-middle"> Total de Kg ' + data.kg + '</td>' +
+                '<td colspan="3"></td>' +
+                '<td align="center" class="small align-middle"><div align="right">Base Imponible</div></td>' +
+                '<td align="center" class="small align-middle"><div align="center">' + data.base + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td colspan="4"></td>' +
+                '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
+                '<td align="center" class="small align-middle"><div align="center">' + data.impuesto + '</div></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td colspan="4"></td>' +
+                '<td align="center" class="small align-middle"><div align="right">Monto Total</div></td>' +
+                '<td align="center" class="small align-middle"><div align="center">' + data.total + '</div></td>' +
+                '</tr>'
+            );
+        $("#documento_despachado").html(data.factura_despachada);
+
+        $("#loader2").hide();
+    });
+}
+
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
     var fechai = sessionStorage.getItem("fechai");
@@ -189,7 +280,7 @@ $(document).on("click","#btn_excel", function(){
     var tipo = sessionStorage.getItem("tipo");
     var vendedores = sessionStorage.getItem("vendedores");
     var check = sessionStorage.getItem("check");
-    window.location = "listadeprecio_excel.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis;
+    window.location = "facturassindespachar_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&tipo="+tipo+"&vendedores="+vendedores+"&check="+check;
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
@@ -199,7 +290,7 @@ $(document).on("click","#btn_pdf", function(){
     var tipo = sessionStorage.getItem("tipo");
     var vendedores = sessionStorage.getItem("vendedores");
     var check = sessionStorage.getItem("check");
-    window.open("listadeprecio_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
+    window.open("facturassindespachar_pdf.php?&fechai="+fechai+"&fechaf="+fechaf+"&tipo="+tipo+"&vendedores="+vendedores+"&check="+check, '_blank');
 });
 
 init();

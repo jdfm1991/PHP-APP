@@ -129,6 +129,10 @@ require_once("../acceso/const.php");
 
         </div>
     </section>
+
+    <!-- MODAL  DETALLE DE FACTURA -->
+    <?php include 'modales/detalle_factura.html' ?>
+
 </div>
 <?php require_once("../footer.php"); ?>
 <script type="text/javascript" src="facturassindespachar.js"></script>
