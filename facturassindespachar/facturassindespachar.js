@@ -117,11 +117,18 @@ $(document).on("click", "#btn_factsindes", function () {
                         "bJQueryUI": true,
                         //finCodigoDinamico
                         "bDestroy": true,
-                        "responsive": (check) ? true : false,
+                        "responsive": (check),
                         "bInfo": true,
                         "iDisplayLength": 10,
                         "language": texto_español_datatables
                     });
+
+                    var oportunidad = (data.oportunidad !== '') ? '&nbsp;&nbsp;&nbsp;&nbsp; % Oportunidad Total: <code>' + data.oportunidad + '</code>' : '';
+                    $('#total_registros').html(
+                        'Total de Documentos:     <code>' +data.totalDoc + '</code>' +
+                        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Monto Total:   <code>' + data.Mtototal + 'BsS</code>   '
+                        + oportunidad
+                    )
 
                     validarCantidadRegistrosTabla();
                     limpiar();

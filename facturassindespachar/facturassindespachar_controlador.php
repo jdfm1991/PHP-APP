@@ -103,6 +103,9 @@ switch ($_GET["op"]) {
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "columns" => $thead,
+            'totalDoc' => $num,
+            'Mtototal' => number_format($suma_monto, 2, ",", "."),
+            'oportunidad' => ($check) ? number_format(($porcent / count($datos)), 2, ",", ".") . ' %' : '',
             "aaData" => $data);
         echo json_encode($output);
 
