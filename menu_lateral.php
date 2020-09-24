@@ -171,13 +171,13 @@
                                         <p>Sell In</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Reporte de compras</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
+                                <li class="nav-item">
+                                    <a href="<?php echo SERVERURL; ?>reportecompras/reportecompras.php" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Reporte de compras</p>
+                                    </a>
+                                </li>
+                            <!-- <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Historico Costos</p>

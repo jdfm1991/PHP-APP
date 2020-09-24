@@ -7,7 +7,8 @@ class CostodeInventario extends Conectar
 {
 	public function get_Almacenes()
 	{
-
+	    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
 		$conectar = parent::conexion2();
 		parent::set_names();
 
