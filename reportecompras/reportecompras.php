@@ -76,41 +76,43 @@ require_once("../acceso/const.php");
                 <h3 class="card-title">Reporte de compras</h3>
             </div>
             <div class="card-body table-responsive p-2" style="width:auto; height: 500px;">
-                <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="reportecompras_data">
-                    <thead style="background-color: #17A2B8;color: white;">
-                    <tr>
-                        <th style="width: 10px" rowspan="2">#</th>
-                        <th rowspan="2">Codigo</th>
-                        <th rowspan="2">Descripción</th>
-                        <th rowspan="2">Display x Bulto</th>
-                        <th colspan="2">Último precio de compra</th>
-                        <th rowspan="2">% RENT</th>
-                        <th colspan="2">Fecha penúltima compra</th>
-                        <th colspan="2">Fecha última compra</th>
-                        <th colspan="4">Ventas mes anterior</th>
-                        <th rowspan="2">Venta total último mes</th>
-                        <th rowspan="2">Existencia Actual Bultos</th>
-                        <th rowspan="2">Días de Inventarios</th>
-                        <th rowspan="2">Sugerido</th>
-                        <th rowspan="2">Pedido</th>
-                    </tr>
-                    <tr>
-                        <th>Display</th>
-                        <th>Bulto</th>
-                        <th>Fecha</th>
-                        <th>Bultos</th>
-                        <th>Fecha</th>
-                        <th>Bultos</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- TD TABLA LLEGAN POR AJAX -->
-                    </tbody>
-                </table>
+                <form id="form_reportecompras" method="post">
+                    <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="reportecompras_data">
+                        <thead style="background-color: #17A2B8;color: white;">
+                        <tr>
+                            <th style="width: 10px" rowspan="2">#</th>
+                            <th rowspan="2">Codigo</th>
+                            <th rowspan="2">Descripción</th>
+                            <th rowspan="2">Display x Bulto</th>
+                            <th colspan="2">Último precio de compra</th>
+                            <th rowspan="2">% RENT</th>
+                            <th colspan="2">Fecha penúltima compra</th>
+                            <th colspan="2">Fecha última compra</th>
+                            <th colspan="4">Ventas mes anterior</th>
+                            <th rowspan="2">Venta total último mes</th>
+                            <th rowspan="2">Existencia Actual Bultos</th>
+                            <th rowspan="2">Días de Inventarios</th>
+                            <th rowspan="2">Sugerido</th>
+                            <th rowspan="2">Pedido</th>
+                        </tr>
+                        <tr>
+                            <th>Display</th>
+                            <th>Bulto</th>
+                            <th>Fecha</th>
+                            <th>Bultos</th>
+                            <th>Fecha</th>
+                            <th>Bultos</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- TD TABLA LLEGAN POR AJAX -->
+                        </tbody>
+                    </table>
+                </form>
                 <!-- BOX BOTONES DE REPORTES-->
                 <div align="center">
                     <br>

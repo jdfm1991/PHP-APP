@@ -22,43 +22,39 @@ switch ($_GET["op"]) {
         foreach ($codidos_producto as $key=>$coditem){
 
             $row = $reporte->get_reportecompra_por_codprod($coditem["codprod"], $fechai);
+            $compra = $reporte->get_ultimascompras_por_codprod($coditem["codprod"]);
 
-            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            //creamos un array para almacenar los datos procesados
             $sub_array = array();
+            $sub_array['num'] = $key;
+            $sub_array['codproducto'] = $row[0]["codproducto"];
+            $sub_array['descrip'] = $row[0]["descrip"];
+            $sub_array['displaybultos'] = number_format($row[0]["displaybultos"], 0, ",", ".");
+            $sub_array['costodisplay'] = number_format($row[0]["costodisplay"], 2, ",", ".");
+            $sub_array['costobultos'] = number_format($row[0]["costobultos"], 2, ",", ".");
+            $sub_array['rentabilidad'] = number_format($row[0]["rentabilidad"], 1, ",", ".");
+            $sub_array['fechapenultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : 0;
+            $sub_array['bultospenultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0, ",", ".") : 0;
+            $sub_array['fechaultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : 0;
+            $sub_array['bultosultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0, ",", ".") : 0;
+            $sub_array['semana1'] = number_format($row[0]["semana1"], 0, ",", ".");
+            $sub_array['semana2'] = number_format($row[0]["semana2"], 0, ",", ".");
+            $sub_array['semana3'] = number_format($row[0]["semana3"], 0, ",", ".");
+            $sub_array['semana4'] = number_format($row[0]["semana4"], 0, ",", ".");
+            $sub_array['totalventasmesanterior'] = number_format($row[0]["totalventasmesanterior"], 0, ",", ".");
+            $sub_array['bultosexistentes'] = number_format($row[0]["bultosexistentes"], 1, ",", ".");
+            $sub_array['diasdeinventario'] = number_format($row[0]["diasdeinventario"], 0, ",", ".");
+            $sub_array['sugerido'] = number_format($row[0]["sugerido"], 1, ",", ".");
+            $sub_array['pedido'] = '<input type="text" name="n[]" class="n" style="text-align: right; width: 90%;">
+                                    <input type="hidden" name="v[]" value="'. $row[0]["codproducto"] .'">';
 
-            $sub_array[] = $key;
-            $sub_array[] = $row[0]["codproducto"];
-            $sub_array[] = $row[0]["descrip"];
-            $sub_array[] = number_format($row[0]["displaybultos"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["costodisplay"], 2, ",", ".");
-            $sub_array[] = number_format($row[0]["costobultos"], 2, ",", ".");
-            $sub_array[] = number_format($row[0]["rentabilidad"], 0, ",", ".") . "  %";
-            $sub_array[] = date("d/m/Y",strtotime($row[0]["fechapenultimacompra"]));
-            $sub_array[] = number_format($row[0]["bultospenultimacompra"], 0, ",", ".");
-            $sub_array[] = date("d/m/Y",strtotime($row[0]["fechaultimacompra"]));
-            $sub_array[] = number_format($row[0]["bultosultimacompra"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["semana1"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["semana2"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["semana3"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["semana4"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["totalventasmesanterior"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["bultosexistentes"], 1, ",", ".");
-            $sub_array[] = number_format($row[0]["diasdeinventario"], 0, ",", ".");
-            $sub_array[] = number_format($row[0]["sugerido"], 1, ",", ".");
-            $sub_array[] = '<input type="text" name="n[]" class="n" style="text-align: right; width: 90%;">
-                            <input type="hidden" name="v[]" value="'. $row[0]["codproducto"] .'">';
-
+            //AGREGAMOS AL ARRAY DE CONTENIDO DE LA TABLA
             $data[] = $sub_array;
         }
+        //al terminar, se almacena en una variable de salida el array.
+        $output['contenido_tabla'] = $data;
 
-        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-        $results = array(
-            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-            "aaData" => $data
-        );
-        echo json_encode($results);
+        echo json_encode($output);
 
         break;
 

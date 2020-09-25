@@ -72,7 +72,7 @@ $(document).on("click", "#btn_reportecompra", function () {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("marca", marca);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla = $('#reportecompras_data').DataTable({
+            /*tabla = $('#reportecompras_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
@@ -97,8 +97,27 @@ $(document).on("click", "#btn_reportecompra", function () {
                 "responsive": true,
                 "bInfo": true,
                 "iDisplayLength": 10,
-                "order": [[0, "desc"]],
+                // "order": [[0, "desc"]],
                 "language": texto_español_datatables
+            });*/
+
+            $.ajax({
+                beforeSend: function () {
+                    $("#loader").show();
+                },
+                type: "POST",
+                url: "reportecompras_controlador.php?op=listar",
+                data: {fechai: fechai, marca: marca},
+                error: function(X){
+                    Swal.fire('Atención!','ha ocurrido un error!','error');
+                },
+                success: function(data) {
+                    data = JSON.parse(data);
+                    $("#tabla").show();
+                    $("#loader").hide();
+                    limpiar();//LIMPIAMOS EL SELECTOR.
+                    imprimir_tabla(data);
+                }
             });
             estado_minimizado = true;
         }
@@ -108,19 +127,72 @@ $(document).on("click", "#btn_reportecompra", function () {
     }
 });
 
+function imprimir_tabla(data) {
+    if(!jQuery.isEmptyObject(data.contenido_tabla)){
+
+        //contenido de costos e inventario se itera con el comando $.each
+        $.each(data.contenido_tabla, function(idx, opt) {
+            //se va llenando cada registo en el tbody
+            var bg_alert = (parseInt(opt.rentabilidad) > 30) ? "#ff3939" : ""
+            if(opt.rentabilidad > 30)
+                console.log(bg_alert)
+
+            $('#reportecompras_data')
+                .append(
+                    '<tr>' +
+                    '<td>' + opt.num + '</td>' +
+                    '<td>' + opt.codproducto + '</td>' +
+                    '<td>' + opt.descrip + '</td>' +
+                    '<td>' + opt.displaybultos + '</td>' +
+                    '<td>' + opt.costodisplay + '</td>' +
+                    '<td>' + opt.costobultos + '</td>' +
+                    '<td BGCOLOR="'+bg_alert+'" >' + opt.rentabilidad + ' %</td>' +
+                    '<td>' + opt.fechapenultimacompra + '</td>' +
+                    '<td>' + opt.bultospenultimacompra + '</td>' +
+                    '<td>' + opt.fechaultimacompra + '</td>' +
+                    '<td>' + opt.bultosultimacompra + '</td>' +
+                    '<td>' + opt.semana1 + '</td>' +
+                    '<td>' + opt.semana2 + '</td>' +
+                    '<td>' + opt.semana3 + '</td>' +
+                    '<td>' + opt.semana4 + '</td>' +
+                    '<td>' + opt.totalventasmesanterior + '</td>' +
+                    '<td>' + opt.bultosexistentes + '</td>' +
+                    '<td>' + opt.diasdeinventario + '</td>' +
+                    '<td>' + opt.sugerido + '</td>' +
+                    '<td>' + opt.pedido + '</td>' +
+                    '</tr>'
+                );
+        });
+
+        //se asigna la totalidad de los registros
+        //$('#total_registros').text(data.totales_tabla.cantidad_registros);
+    } else {
+        //en caso de consulta vacia, mostramos un mensaje de vacio
+        $('#reportecompras_data').append('<tr><td colspan="20" align="center">Sin registros para esta Consulta</td></tr>');
+        //inhabilitamos visualmente los botones
+        $('#btn_excel').attr("disabled", true);
+        $('#btn_pdf').attr("disabled", true);
+        $('#total_items').hide();
+    }
+}
+
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-    var vendedor = sessionStorage.getItem("vendedor");
+    var fechai = sessionStorage.getItem("fechai");
+    var marca = sessionStorage.getItem("marca");
+    var datos=$('#form_reportecompras').serialize();
     if (vendedor !== "") {
-        window.location = "reportecompras_excel.php?vendedor="+vendedor;
+        window.location = "reportecompras_excel.php?&fechai="+fechai+"&marca="+marca+"&datos="+datos;
     }
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    var vendedor = sessionStorage.getItem("vendedor");
-    if (vendedor !== "") {
-        window.open('reportecompras_pdf.php?&vendedor='+vendedor, '_blank');
+    var fechai = sessionStorage.getItem("fechai");
+    var marca = sessionStorage.getItem("marca");
+    var datos=$('#form_reportecompras').serialize();
+    if (fechai !== "" && marca !== "") {
+        window.open('reportecompras_pdf.php?&fechai='+fechai+'&marca='+marca+'&datos='+datos, '_blank');
     }
 });
 
