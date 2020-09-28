@@ -26,7 +26,7 @@ switch ($_GET["op"]) {
 
             //creamos un array para almacenar los datos procesados
             $sub_array = array();
-            $sub_array['num'] = $key;
+            $sub_array['num'] = $key+1;
             $sub_array['codproducto'] = $row[0]["codproducto"];
             $sub_array['descrip'] = $row[0]["descrip"];
             $sub_array['displaybultos'] = number_format($row[0]["displaybultos"], 0, ",", ".");
@@ -45,7 +45,7 @@ switch ($_GET["op"]) {
             $sub_array['bultosexistentes'] = number_format($row[0]["bultosexistentes"], 1, ",", ".");
             $sub_array['diasdeinventario'] = number_format($row[0]["diasdeinventario"], 0, ",", ".");
             $sub_array['sugerido'] = number_format($row[0]["sugerido"], 1, ",", ".");
-            $sub_array['pedido'] = '<input type="text" name="n[]" class="n" style="text-align: right; width: 90%;">
+            $sub_array['pedido'] = '<input type="text" name="n[]" style="text-align: right; width: 90%;">
                                     <input type="hidden" name="v[]" value="'. $row[0]["codproducto"] .'">';
 
             //AGREGAMOS AL ARRAY DE CONTENIDO DE LA TABLA
@@ -53,6 +53,9 @@ switch ($_GET["op"]) {
         }
         //al terminar, se almacena en una variable de salida el array.
         $output['contenido_tabla'] = $data;
+
+        //de igual forma, se almacena en una variable de salida el total de registros.
+        $output['cantidad_registros'] = count($codidos_producto);
 
         echo json_encode($output);
 

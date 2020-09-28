@@ -202,7 +202,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Resumen de Cobranzas por EDV</p>
+                                        <p>Resumen Cobranzas EDV</p>
                                     </a>
                                 </li>
                                 <!-- <li class="nav-item">

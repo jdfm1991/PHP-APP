@@ -13,6 +13,9 @@ function init() {
 function limpiar() {
     $("#fechai").val("");
     $("#marca").val("");
+    $('#total_items').show();
+    $('#total_registros').text("");
+    $('#tabla tbody').empty();
 }
 
 function validarCantidadRegistrosTabla() {
@@ -72,34 +75,6 @@ $(document).on("click", "#btn_reportecompra", function () {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("marca", marca);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            /*tabla = $('#reportecompras_data').DataTable({
-                "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
-                "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
-                "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
-                    url: "reportecompras_controlador.php?op=listar",
-                    type: "post",
-                    data: {fechai: fechai, marca: marca},
-                    error: function (e) {
-                        console.log(e.responseText);
-                    },
-                    complete: function () {
-                        $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
-                        validarCantidadRegistrosTabla();
-                        limpiar();//LIMPIAMOS EL SELECTOR.
-
-                    }
-                },//TRADUCCION DEL DATATABLE.
-                "bDestroy": true,
-                "responsive": true,
-                "bInfo": true,
-                "iDisplayLength": 10,
-                // "order": [[0, "desc"]],
-                "language": texto_español_datatables
-            });*/
 
             $.ajax({
                 beforeSend: function () {
@@ -165,7 +140,7 @@ function imprimir_tabla(data) {
         });
 
         //se asigna la totalidad de los registros
-        //$('#total_registros').text(data.totales_tabla.cantidad_registros);
+        $('#total_registros').text(data.cantidad_registros);
     } else {
         //en caso de consulta vacia, mostramos un mensaje de vacio
         $('#reportecompras_data').append('<tr><td colspan="20" align="center">Sin registros para esta Consulta</td></tr>');
@@ -192,7 +167,7 @@ $(document).on("click","#btn_pdf", function(){
     var marca = sessionStorage.getItem("marca");
     var datos=$('#form_reportecompras').serialize();
     if (fechai !== "" && marca !== "") {
-        window.open('reportecompras_pdf.php?&fechai='+fechai+'&marca='+marca+'&datos='+datos, '_blank');
+        window.open('reportecompras_pdf.php?&fechai='+fechai+'&marca='+marca+'&'+datos, '_blank');
     }
 });
 

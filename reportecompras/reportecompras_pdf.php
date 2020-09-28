@@ -15,11 +15,6 @@ $marca = $_GET['marca'];
 $n = $_GET['n'];
 $v = $_GET['v'];
 
-var_dump($fechai);
-var_dump($marca);
-var_dump($n);
-var_dump($v);
-
 $hoy = date("d-m-Y");
 
 $i = 0;
@@ -27,11 +22,6 @@ $j = 0;
 $documentsize = 'Legal';
 $width = array();
 $info = array();
-
-// Da igual el formato de las fechas (dd-mm-aaaa o aaaa-mm-dd),
-function diasEntreFechas($fechainicio, $fechafin){
-    return ((strtotime($fechafin)-strtotime($fechainicio))/86400);
-}
 
 function addWidthInArray($num){
     $GLOBALS['width'][$GLOBALS['i']] = $num;
@@ -44,6 +34,12 @@ function addInfoInArray($info){
     $GLOBALS['j'] = $GLOBALS['j'] + 1;
 }
 
+$separa = explode("-", $fechai);
+$ano = $separa[0];
+$mes = $separa[1];
+$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+
 class PDF extends FPDF
 {
     var $widths;
@@ -52,63 +48,61 @@ class PDF extends FPDF
     // Cabecera de página
     function Header()
     {
-        /*calculo del ancho adicional para mantener el orden de las celdas de acuerdo a su seleccion segun las siguientes premisas:
-                * para el ancho de las celdas que son dinamicas son Fecha Despacho=34, DíasTrans=21, TPromEsti=23 y %Oportunidad=28
-                * si esta el check de ver despachadas = false, se suma el ancho de las celdas mencionadas
-                * en caso contrario, si esta el check en true, no se suma
-
-         la suma de ancho adicional se distribuira de la siguiente forma:
-                * Documento = 5%
-                * Fecha Emisión = 5%
-                * Código    = 10%
-                * Cliente   = 40%
-                * DíasHastHoy = 5%
-                * Cant Bult = 5%
-                * Cant Paq  = 5%
-                * Monto Bs  = 20%
-                * EDV       = 5%
-            TOTAL 100%
-        */
-        $anchoAdicional = 0;
-        /*switch ($GLOBALS['check']) {
-            case true:
-                $titulo = 'REPORTE DE FACTURAS DESPACHADAS DEL ' . $GLOBALS['fechai'] . ' AL ' . $GLOBALS['fechaf'];
-                $anchoAdicional += (0);// +0
-                break;
-            case false:
-                $titulo = 'REPORTE DE FACTURAS SIN DESPACHAR DEL ' . $GLOBALS['fechai'] . ' AL ' . $GLOBALS['fechaf'];
-                $anchoAdicional += (106);// +34+21+23+28
-                break;
-        }*/
-
         // Logo
         $this->Image('../public/build/images/logo.png', 10, 8, 33);
         // Arial bold 15
-        $this->SetFont('Arial', '', 12);
+        $this->SetFont('Arial', 'B', 10);
         // Movernos a la derecha
         $this->Cell(140);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE FACTURAS DESPACHADAS', 0, 0, 'C');
+        $this->Cell(40, 10, 'REPORTE DE COMPRAS DE ' . strtoupper($GLOBALS['meses'][intval($GLOBALS['mes'])]) ." " . $GLOBALS['ano'], 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         // titulo de columnas
-        $this->Cell(addWidthInArray(24 + ($anchoAdicional*0.05)), 6, 'Documento', 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.05)), 6, utf8_decode('Fecha Emisión'), 1, 0, 'C', 0);
-        /*if($GLOBALS['check']) {
-            $this->Cell(addWidthInArray(34), 6, 'Fecha Despacho', 1, 0, 'C', 0);
-            $this->Cell(addWidthInArray(21), 6, utf8_decode('DíasTrans'), 1, 0, 'C', 0);
-        }*/
-        $this->Cell(addWidthInArray(24 + ($anchoAdicional*0.10)), 6, utf8_decode('Código'), 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(38 + ($anchoAdicional*0.40)), 6, 'Cliente', 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(26 + ($anchoAdicional*0.05)), 6, utf8_decode('DíasHastHoy'), 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(19 + ($anchoAdicional*0.05)), 6, 'Cant Bult', 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(19 + ($anchoAdicional*0.05)), 6, 'Cant Paq', 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, 'Monto Bs', 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(14 + ($anchoAdicional*0.05)), 6, 'EDV', 1, ($GLOBALS['check']) ? 0 : 1, 'C', 0);
-        /*if($GLOBALS['check']) {
-            $this->Cell(addWidthInArray(23), 6, 'TPromEsti', 1, 0, 'C', 0);
-            $this->Cell(addWidthInArray(28), 6, '%Oportunidad', 1, 1, 'C', 0);
-        }*/
+        $this->Cell(6, 18, '#', 1, 0, 'C', 0);
+        $this->Cell(20, 18, 'Codigo', 1, 0, 'C', 0);
+        $this->Cell(38, 18, 'Descripcion', 1, 0, 'C', 0);
+        $this->MultiCell2(20, 9, 'Display x Bulto', 1, 0, 'C', 0);
+        $this->Ln(-9);
+        $this->Cell(84);
+        $this->MultiCell2(44, 12, 'Ultimo precio de compra', 1, 0, 'C', 0);
+//        $this->Ln(-6);
+        $this->Cell(128);
+        $this->Cell(13, 18, '% Rent', 1, 0, 'C', 0);
+        $this->MultiCell2(34, 6, 'Fecha penultima compra', 1, 0, 'C', 0);
+        $this->Ln(-6);
+        $this->Cell(175);
+        $this->MultiCell2(34, 6, 'Fecha ultima compra', 1, 0, 'C', 0);
+        $this->Ln(-6);
+        $this->Cell(209);
+        $this->MultiCell2(30, 6, 'Ventas mes aterior', 1, 0, 'C', 0);
+        $this->Ln(-6);
+        $this->Cell(239);
+        $this->MultiCell2(15, 4.5, 'Venta total ultimo mes', 1, 0, 'C', 0);
+        $this->Ln(-13.5);
+        $this->Cell(254);
+        $this->MultiCell2(20, 6, 'Existencia Actual Bultos', 1, 0, 'C', 0);
+        $this->Ln(-12);
+        $this->Cell(274);
+        $this->MultiCell2(20, 9, 'Dias de Inventario', 1, 0, 'C', 0);
+        $this->Ln(-9);
+        $this->Cell(294);
+        $this->Cell(20, 18, 'Sugerido', 1, 0, 'C', 0);
+        $this->Cell(14, 18, 'Pedido', 1, 1, 'C', 0);
+
+        $this->Ln(-6);
+        $this->Cell(84);
+        $this->Cell(22, 6, 'Display', 1, 0, 'C', 0);
+        $this->Cell(22, 6, 'Bulto', 1, 0, 'C', 0);
+        $this->Cell(13);
+        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', 0);
+        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', 0);
+        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', 0);
+        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', 0);
+        $this->Cell(7.5, 6, '1', 1, 0, 'C', 0);
+        $this->Cell(7.5, 6, '2', 1, 0, 'C', 0);
+        $this->Cell(7.5, 6, '3', 1, 0, 'C', 0);
+        $this->Cell(7.5, 6, '4', 1, 1, 'C', 0);
     }
 
     // Pie de página
@@ -134,7 +128,7 @@ class PDF extends FPDF
         $this->aligns = $a;
     }
 
-    function Row($data)
+    function Row($data, $numberColumn = 0, $fill = false)
     {
         //Calculate the height of the row
         $nb = 0;
@@ -153,7 +147,12 @@ class PDF extends FPDF
             //Draw the border
             $this->Rect($x, $y, $w, $h);
             //Print the text
-            $this->MultiCell($w, 5, $data[$i], 0, $a);
+            if($i == $numberColumn){
+                $this->SetFillColor(255,57,57);
+                $this->MultiCell($w, 5, $data[$i], 0, $a, $fill);
+            } else {
+                $this->MultiCell($w, 5, $data[$i], 0, $a);
+            }
             //Put the position to the right of the cell
             $this->SetXY($x + $w, $y);
         }
@@ -219,68 +218,44 @@ $pdf->AliasNbPages();
 $pdf->AddPage('L', $documentsize);
 $pdf->SetFont('Arial', '', 8);
 
-$pdf->SetWidths($width);
-/*
-$query = $factsindes->getFacturas($tipo, $fechai, $fechaf, $convend, $check);
-$num = count($query);
-$suma_bulto = 0;
-$suma_paq = 0;
-$suma_monto = 0;
-$porcent = 0;
+$pdf->SetWidths(array(6, 20, 38, 20, 22, 22, 13, 22, 12, 22, 12, 7.5, 7.5, 7.5, 7.5, 15, 20, 20, 20, 14));
 
-foreach ($query as $x) {
-    $j = 0;
+$num=0;
+foreach ($v as $key=>$coditem)
+{
+    if(!hash_equals("", $n[$key] ))
+    {
+        $row = $reporte->get_reportecompra_por_codprod($coditem, $fechai);
+        $compra = $reporte->get_ultimascompras_por_codprod($coditem);
 
-    if($check) {
-        $calcula = 0;
-        if (round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))) != 0)
-            $calcula = (2 / round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))))*100;
-
-        if ($calcula > 100)
-            $calcula = 100;
-
-        $porcent += $calcula;
+        /** cargado de las filas **/
+        $pdf->Row(
+            array(
+                $num+1,
+                $row[0]["codproducto"],
+                $row[0]["descrip"],
+                number_format($row[0]["displaybultos"], 0, ",", "."),
+                number_format($row[0]["costodisplay"], 2, ",", "."),
+                number_format($row[0]["costobultos"], 2, ",", "."),
+                number_format($row[0]["rentabilidad"], 1, ",", ".") . "  %",
+                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : 0,
+                (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0, ",", ".") : 0,
+                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : 0,
+                (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0, ",", ".") : 0,
+                number_format($row[0]["semana1"], 0, ",", "."),
+                number_format($row[0]["semana2"], 0, ",", "."),
+                number_format($row[0]["semana3"], 0, ",", "."),
+                number_format($row[0]["semana4"], 0, ",", "."),
+                number_format($row[0]["totalventasmesanterior"], 0, ",", "."),
+                number_format($row[0]["bultosexistentes"], 1, ",", "."),
+                number_format($row[0]["diasdeinventario"], 0, ",", "."),
+                number_format($row[0]["sugerido"], 1, ",", "."),
+                $n[$key]
+            ),
+            6,
+            (intval($row[0]["rentabilidad"]) > 30) ? true : false
+        );
+        $num++;
     }
-
-    addInfoInArray($x['NumeroD']);
-    addInfoInArray(date("d/m/Y", strtotime($x["FechaE"])));
-    if ($check) {
-        addInfoInArray(date("d/m/Y", strtotime($x["fechad"])));
-        addInfoInArray(round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))));
-    }
-    addInfoInArray($x['CodClie']);
-    addInfoInArray(utf8_decode($x['Descrip']));
-    addInfoInArray(round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])), $hoy)));
-    addInfoInArray(round($x['Bult']));
-    addInfoInArray(round($x['Paq']));
-    addInfoInArray(number_format($x["Monto"], 1, ",", ".")); $suma_monto += $x["Monto"];
-    addInfoInArray($x['CodVend']);
-    if ($check) {
-        addInfoInArray(2);
-        addInfoInArray(number_format($calcula, 1, ",", ".") . "%");
-    }
-    $pdf->Row($info);
 }
-
-$j = 0;
-$pdf->SetFont('Arial', 'B', ($check) ? 9 : 10);
-addInfoInArray('');
-addInfoInArray('');
-if ($check) {
-    addInfoInArray('');
-    addInfoInArray('');
-}
-addInfoInArray('');
-addInfoInArray('Total de Documentos:  '. $num);
-addInfoInArray('');
-addInfoInArray('');
-addInfoInArray('');
-addInfoInArray('Monto Total: ' . number_format($suma_monto, 2, ",", "."));
-addInfoInArray('');
-if ($check) {
-    addInfoInArray('');
-    addInfoInArray('% Oportunidad Total: ' . number_format(($porcent / count($query)), 2, ",", ".") . ' %');
-}
-$pdf->Row($info);*/
-
 $pdf->Output();

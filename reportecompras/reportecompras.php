@@ -113,16 +113,16 @@ require_once("../acceso/const.php");
                         </tbody>
                     </table>
                 </form>
-                <!-- BOX BOTONES DE REPORTES-->
-                <div align="center">
-                    <br>
-                    <p id="cuenta"></p>
-                    <br>
-                </div>
-                <div align="center">
-                    <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                    <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-                </div>
+            </div>
+            <br>
+            <!-- BOX BOTONES DE REPORTES-->
+            <div align="center">
+                <br>
+                <br><p id="total_items">Total de Item:<code> <span id="total_registros"></span> </code></p><br>
+                <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
+                <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                <br>
+                <br>
             </div>
         </div>
     </section>
