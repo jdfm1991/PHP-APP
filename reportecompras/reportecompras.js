@@ -108,7 +108,7 @@ function imprimir_tabla(data) {
         //contenido de costos e inventario se itera con el comando $.each
         $.each(data.contenido_tabla, function(idx, opt) {
             //se va llenando cada registo en el tbody
-            var bg_alert = (parseInt(opt.rentabilidad) > 30) ? "#ff3939" : ""
+            var bg_alert = (parseInt(opt.rentabilidad) >= 30) ? "#ff3939" : ""
             if(opt.rentabilidad > 30)
                 console.log(bg_alert)
 
@@ -121,7 +121,7 @@ function imprimir_tabla(data) {
                     '<td>' + opt.displaybultos + '</td>' +
                     '<td>' + opt.costodisplay + '</td>' +
                     '<td>' + opt.costobultos + '</td>' +
-                    '<td BGCOLOR="'+bg_alert+'" >' + opt.rentabilidad + ' %</td>' +
+                    '<td BGCOLOR="'+bg_alert+'" >' + opt.rentabilidad + '%</td>' +
                     '<td>' + opt.fechapenultimacompra + '</td>' +
                     '<td>' + opt.bultospenultimacompra + '</td>' +
                     '<td>' + opt.fechaultimacompra + '</td>' +
@@ -156,8 +156,9 @@ $(document).on("click","#btn_excel", function(){
     var fechai = sessionStorage.getItem("fechai");
     var marca = sessionStorage.getItem("marca");
     var datos=$('#form_reportecompras').serialize();
-    if (vendedor !== "") {
-        window.location = "reportecompras_excel.php?&fechai="+fechai+"&marca="+marca+"&datos="+datos;
+    if (fechai !== "" && marca !== "") {
+        window.location = "reportecompras_excel.php?&fechai="+fechai+"&marca="+marca+"&"+datos;
+        // window.open('reportecompras_excel.php?&fechai='+fechai+'&marca='+marca+'&'+datos, '_blank');
     }
 });
 

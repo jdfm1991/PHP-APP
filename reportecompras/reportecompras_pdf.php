@@ -128,10 +128,11 @@ class PDF extends FPDF
         $this->aligns = $a;
     }
 
-    function Row($data, $numberColumn = 0, $fill = false)
+    function Row($data, $numberColumn = [], $fill = false)
     {
         //Calculate the height of the row
         $nb = 0;
+        $j = 0;
         for ($i = 0; $i < count($data); $i++)
             $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
         $h = 5 * $nb;
@@ -147,12 +148,14 @@ class PDF extends FPDF
             //Draw the border
             $this->Rect($x, $y, $w, $h);
             //Print the text
-            if($i == $numberColumn){
+            if($j < count($numberColumn) and $i == $numberColumn[$j]){
                 $this->SetFillColor(255,57,57);
                 $this->MultiCell($w, 5, $data[$i], 0, $a, $fill);
+                $j++;
             } else {
                 $this->MultiCell($w, 5, $data[$i], 0, $a);
             }
+
             //Put the position to the right of the cell
             $this->SetXY($x + $w, $y);
         }
@@ -252,8 +255,8 @@ foreach ($v as $key=>$coditem)
                 number_format($row[0]["sugerido"], 1, ",", "."),
                 $n[$key]
             ),
-            6,
-            (intval($row[0]["rentabilidad"]) > 30) ? true : false
+            [6],
+            ($row[0]["rentabilidad"] > 30) ? true : false
         );
         $num++;
     }
