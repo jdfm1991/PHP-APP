@@ -177,13 +177,13 @@
                                         <p>Reporte de compras</p>
                                     </a>
                                 </li>
-                            <!-- <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item">
+                                <a href="<?php echo SERVERURL; ?>historicocostos/historicocostos.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Historico Costos</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Tasa Dolar</p>

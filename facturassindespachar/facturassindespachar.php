@@ -121,7 +121,7 @@ require_once("../acceso/const.php");
                 </table>
                 <!-- BOX BOTONES DE REPORTES-->
                 <div align="center"><br>
-                    <br><span id="total_registros"></span></p><br>
+                    <br<p><span id="total_registros"></span></p><br>
                     <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
                     <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
                 </div>
