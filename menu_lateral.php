@@ -183,12 +183,12 @@
                                     <p>Historico Costos</p>
                                 </a>
                             </li>
-                            <!-- <li class="nav-item">
-                                <a href="#" class="nav-link">
+                             <li class="nav-item">
+                                <a href="<?php echo SERVERURL; ?>tasadolar/tasadolar.php" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Tasa Dolar</p>
                                 </a>
-                            </li> -->
+                            </li>
                             </ul>
                         </li>
                         <!-- CUENTAS POR COBRAR -->
