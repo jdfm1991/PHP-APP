@@ -19,7 +19,7 @@ $tasa = new TasaDolar();
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
-$spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+//$spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
 // Logo
@@ -32,14 +32,14 @@ $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
 $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
 $objDrawing->setHeight(108);
 $objDrawing->setWidth(128);
-$objDrawing->setCoordinates('E2');
+$objDrawing->setCoordinates('F1');
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
-$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
+$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(17);
 $sheet->setCellValue('A1', 'HISTORICO DE TASA DOLAR COMPRA');
 
-$spreadsheet->getActiveSheet()->mergeCells('A1:C1');
+$spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 
 /** TITULO DE LA TABLA **/
 $sheet->setCellValue('B4', '#')

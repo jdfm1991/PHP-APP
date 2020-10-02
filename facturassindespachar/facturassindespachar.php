@@ -52,16 +52,14 @@ require_once("../acceso/const.php");
                         </div>
                         <div class="form-group col-sm-2">
                             <label>Tipo</label>
-                            <select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;"
-                                    required>
+                            <select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;" required>
                                 <!-- la lista de tipo se carga por ajax -->
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-sm-6">
-                            <select class="custom-select" name="vendedores" id="vendedores" style="width: 100%;"
-                                    required>
+                            <select class="custom-select" name="vendedores" id="vendedores" style="width: 100%;" required>
                                 <!-- la lista de marcas se carga por ajax -->
                             </select>
                         </div>
