@@ -158,32 +158,19 @@ require_once("../acceso/const.php");
         <!-- BOX TABLA -->
         <div class="card card-info" id="tabla">
             <div class="card-header">
-                <h3 class="card-title">Historico Costos</h3>
+                <h3 class="card-title"><span class="title-card"></span></h3>
             </div>
             <div class="card-body" style="width:auto;">
-                <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="historicocostos_data">
+                <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
                     <thead style="background-color: #17A2B8;color: white;">
                     <tr>
                         <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="#">#</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Codigo Producto">Codigo Producto</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Descripción">Descripción</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Marca">Marca</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fecha">Fecha</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Costos">Costos</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Cantidad">Cantidad</th>
+                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">F. Entreg</th>
+                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">P. Despachados</th>
+                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>
+                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Orden(es) D">Orden(es) D</th>
                     </tr>
                     </thead>
-                    <tfoot style="background-color: #ccc;color: white;">
-                    <tr>
-                        <th style="text-align: center;">#</th>
-                        <th style="text-align: center;">Codigo Producto</th>
-                        <th style="text-align: center;">Descripción</th>
-                        <th style="text-align: center;">Marca</th>
-                        <th style="text-align: center;">Fecha</th>
-                        <th style="text-align: center;">Costos</th>
-                        <th style="text-align: center;">Cantidad</th>
-                    </tr>
-                    </tfoot>
                     <tbody>
                     <!-- TD TABLA LLEGAN POR AJAX -->
                     </tbody>

@@ -29,9 +29,15 @@ function validarCantidadRegistrosTabla() {
     $('#btn_pdf').attr("disabled", estado);
 }
 
-$(document).ready(function(){
-    ($("#fechai").val().length > 0 && $("#fechaf").val().length > 0 && $("#chofer").val().length > 0 /*&& $("#causa").val().length > 0*/)
+var no_puede_estar_vacio = function () {
+    ($("#depo").val() !== "" && $("#marca").val() !== "" && $("#orden").val() !== ""/*&& $("#causa").val() !== ""*/)
         ? estado_minimizado = true : estado_minimizado = false;
+};
+
+$(document).ready(function(){
+    $("#fechai").change(() => no_puede_estar_vacio());
+    $("#fechaf").change(() => no_puede_estar_vacio());
+    $("#chofer").change(() => no_puede_estar_vacio());
 
     $("#pills-fectivas-tab").on("click", function (e) {
         indicador_seleccionado = 1;
@@ -54,6 +60,7 @@ function listar_choferes(){
 
             //lista de seleccion de choferes
             $('#'+pill+' #chofer').append('<option name="" value="">Seleccione</option>');
+            $('#'+pill+' #chofer').append('<option name="" value="16395823">prueba</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
                 $('#'+pill+' #chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
@@ -79,15 +86,20 @@ function listar_causas_de_rechazo(){
 $(document).on("click", "#btn_consultar", function () {
 
     let formData;
+    let listar;
+
     switch (indicador_seleccionado) {
         case 1:
-            formData = new FormData($("#efectivas_form")[0]);
+            listar = "listar_entregas_efectivas";
+            formData = $("#efectivas_form").serializeArray();
             break;
         case 2:
-            formData = new FormData($("#rechazo_form")[0]);
+            listar = "";
+            formData = $("#rechazo_form").serializeArray();
             break;
         case 3:
-            formData = new FormData($("#oportunidad_form")[0]);
+            listar = "";
+            formData = $("#oportunidad_form").serializeArray();
             break;
     }
 
@@ -96,20 +108,24 @@ $(document).on("click", "#btn_consultar", function () {
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
         if ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#chofer").val() !== "" /*&& $("#causa").val() !== ""*/) {
-            sesionStorageItems($("#fechai").val() !== "", $("#fechaf").val() !== "", $("#chofer").val() !== "" /*, $("#causa").val() !== ""*/);
-            sessionStorage.setItem("fechai", fechai);
-            sessionStorage.setItem("fechaf", fechaf);
+            sesionStorageItems($("#fechai").val(), $("#fechaf").val(), $("#chofer").val() /*, $("#causa").val()*/);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla = $('#historicocostos_data').DataTable({
+            tabla = $('#indicadores_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
+                processData: false,
+                contentType: false,
                 "ajax": {
                     beforeSend: function () {
                         $("#loader").show(''); //MOSTRAMOS EL LOADER.
                     },
-                    url: "historicocostos_controlador.php?op=listar",
+                    url: "indicadoresdespacho_controlador.php?op="+listar,
                     type: "post",
-                    data: {fechai: fechai, fechaf: fechaf},
+                    data: function(d) {
+                        $.each(formData, function(key, val) {
+                            d[val.name] = val.value;
+                        });
+                    },
                     error: function (e) {
                         console.log(e.responseText);
                     },
@@ -118,7 +134,6 @@ $(document).on("click", "#btn_consultar", function () {
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
-                        // mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
                     }
@@ -127,7 +142,10 @@ $(document).on("click", "#btn_consultar", function () {
                 "responsive": true,
                 "bInfo": true,
                 "iDisplayLength": 10,
-                // "order": [[0, "desc"]],
+                "order": [[0, "desc"]],
+                /*'columnDefs' : [{
+                    'visible': false, 'targets': [0]
+                }],*/
                 "language": texto_español_datatables
             });
             estado_minimizado = true;
