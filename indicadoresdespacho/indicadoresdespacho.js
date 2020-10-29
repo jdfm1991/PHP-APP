@@ -30,7 +30,7 @@ function validarCantidadRegistrosTabla() {
 }
 
 var no_puede_estar_vacio = function () {
-    ($("#depo").val() !== "" && $("#marca").val() !== "" && $("#orden").val() !== ""/*&& $("#causa").val() !== ""*/)
+    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#chofer").val() !== "" /*&& $("#causa").val() !== ""*/)
         ? estado_minimizado = true : estado_minimizado = false;
 };
 
@@ -87,28 +87,38 @@ $(document).on("click", "#btn_consultar", function () {
 
     let formData;
     let listar;
+    let title;
 
     switch (indicador_seleccionado) {
         case 1:
             listar = "listar_entregas_efectivas";
+            title = $("#pills-fectivas-tab").text().trim();
             formData = $("#efectivas_form").serializeArray();
             break;
         case 2:
             listar = "";
+            title = $("#pills-rechazo-tab").text().trim();
             formData = $("#rechazo_form").serializeArray();
             break;
         case 3:
             listar = "";
+            title = $("#pills-oportunidad-tab").text().trim();
             formData = $("#oportunidad_form").serializeArray();
             break;
     }
+
+    console.log(title);
 
     if (estado_minimizado) {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#chofer").val() !== "" /*&& $("#causa").val() !== ""*/) {
-            sesionStorageItems($("#fechai").val(), $("#fechaf").val(), $("#chofer").val() /*, $("#causa").val()*/);
+        if ((formData[0]['name'] === "fechai" && formData[0]['value'] !== "")
+            && (formData[1]['name'] === "fechaf" && formData[1]['value'] !== "")
+            && (formData[2]['name'] === "chofer" && formData[2]['value'] !== "")
+            /*&& $("#causa").val() !== ""*/
+        ) {
+            sesionStorageItems(formData[0]['value'], formData[1]['value'], formData[2]['value'] /*, $("#causa").val()*/);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             tabla = $('#indicadores_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
@@ -133,6 +143,7 @@ $(document).on("click", "#btn_consultar", function () {
 
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         $("#loader").hide();//OCULTAMOS EL LOADER.
+                        $(".title-card").text(title);
                         validarCantidadRegistrosTabla();
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
@@ -151,12 +162,16 @@ $(document).on("click", "#btn_consultar", function () {
             estado_minimizado = true;
         }
     } else {
-        if (fechai === "") {
+        if (formData[0]['name'] === "fechai" && formData[0]['value'] === "") {
             Swal.fire('Atención!','Seleccione una fecha inicial!','error');
             return (false);
         }
-        if (fechaf === "") {
+        if (formData[1]['name'] === "fechaf" && formData[1]['value'] === "") {
             Swal.fire('Atención!','Seleccione una fecha final!','error');
+            return (false);
+        }
+        if (formData[2]['name'] === "chofer" && formData[2]['value'] === "") {
+            Swal.fire('Atención!','Seleccione un chofer!','error');
             return (false);
         }
     }

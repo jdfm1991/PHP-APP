@@ -60,7 +60,7 @@ require_once("../acceso/const.php");
                     <div class="form-group row">
                         <div class="form-group col-sm-6">
                             <select class="custom-select" name="vendedores" id="vendedores" style="width: 100%;" required>
-                                <!-- la lista de marcas se carga por ajax -->
+                                <!-- la lista de vendedores se carga por ajax -->
                             </select>
                         </div>
                     </div>
