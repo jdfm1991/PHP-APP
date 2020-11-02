@@ -155,32 +155,58 @@ require_once("../acceso/const.php");
             <div class="dot"></div>
             <div class="dot"></div>
         </figure>
-        <!-- BOX TABLA -->
-        <div class="card card-info" id="tabla">
-            <div class="card-header">
-                <h3 class="card-title"><span class="title-card"></span></h3>
-            </div>
-            <div class="card-body" style="width:auto;">
-                <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
-                    <thead style="background-color: #17A2B8;color: white;">
-                    <tr>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="#">#</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">F. Entreg</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">P. Despachados</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>
-                        <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Orden(es) D">Orden(es) D</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- TD TABLA LLEGAN POR AJAX -->
-                    </tbody>
-                </table>
-                <!-- BOX BOTONES DE REPORTES-->
-                <div align="center">
-                    <br><p><span id="total_registros"></span></p><br>
-                    <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                    <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- BOX TABLA -->
+                <div class="card card-info" id="tabla">
+                    <div class="card-header">
+                        <h3 class="card-title"><span class="title-card"></span></h3>
+                    </div>
+                    <div class="card-body" style="width:auto;">
+                        <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
+                            <thead style="background-color: #17A2B8;color: white;">
+                            <tr>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="#">#</th>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">Fecha Entrega</th>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">Pedidos Despachados</th>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Orden(es) D">Orden(es) Despacho</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- TD TABLA LLEGAN POR AJAX -->
+                            </tbody>
+                        </table>
+                        <!-- BOX BOTONES DE REPORTES-->
+                        <!--<div align="center">
+                            <br><p><span id="total_registros"></span></p><br>
+                            <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
+                            <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                        </div>-->
+                    </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <!-- BAR CHART -->
+                <div class="card card-success" id="grafico">
+                    <div class="card-header">
+                        <h3 class="card-title">Bar Chart</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
         </div>
     </section>

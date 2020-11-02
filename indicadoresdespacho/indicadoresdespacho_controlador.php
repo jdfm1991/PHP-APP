@@ -33,18 +33,18 @@ switch ($_GET["op"]) {
     case "listar_entregas_efectivas":
         $fechai = $_POST['fechai'];
         $fechaf = $_POST['fechaf'];
-        $chofer = $_POST['chofer'];
+        $chofer_id = $_POST['chofer'];
 
-        $datos = $indicadores->get_correlativos_entregasefectivas_por_chofer($fechai, $fechaf, $chofer);
+        $datos = $indicadores->get_correlativos_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
         $num = count($datos);
 
         $data = Array();
-        $cabecera = array();
-        $cabecera['chofer'] = $datos[0]['chofer'];
-        $cabecera['ordenes_despacho'] = "";
-        $cabecera['fact_sinliquidar'] = "";
-        $cabecera['totaldespacho'] = 0;
-        $cabecera['promedio'] = 0;
+        //inicializamos la variables
+        $chofer = $datos[0]['chofer'];
+        $ordenes_despacho = "";
+        $fact_sinliquidar = "";
+        $totaldespacho = 0;
+        $promedio = 0;
 
         $x = 0; //varible de control, tamaño del array principal
         $w = 0; //variable de control, numero de iteracion
@@ -52,14 +52,14 @@ switch ($_GET["op"]) {
         {
             //almacenamos el total de despachos para calcular la efectividad posteriormente
             foreach ($datos as $row)
-                $cabecera['totaldespacho'] += intval($row['totaldespacho']);
+                $totaldespacho += intval($row['totaldespacho']);
 
             //carga de la data
             foreach ($datos as $row) {
 
                 $sub_array = array();
 
-                $cabecera['ordenes_despacho'] .= ($row['correlativo'] . "(" . $row['totaldespacho'] . "),");
+                $ordenes_despacho .= ($row['correlativo'] . "(" . $row['totaldespacho'] . "),");
 
                 /** agregar dias de entrega de esta orden de despacho **/
                 $diasentrega = $indicadores->get_dias_entrega_por_orden_despacho($row['correlativo']);
@@ -78,7 +78,7 @@ switch ($_GET["op"]) {
                         */
                         for ($i = 0; $i <= $w; $i++) {
 
-                            if ($i<count($data) and $data[$i][0] == $dias['fecha_entre']) //evalua la fecha si esta coincide
+                            if ($i<count($data) and $data[$i]['fecha_entrega'] == $dias['fecha_entre']) //evalua la fecha si esta coincide
                             {
                                 /*en caso que si coincida:
                                     *se suma a la cantidad existente, las "cantidad de pedidos" de este correlativo de pedido en iteracion actual
@@ -93,15 +93,15 @@ switch ($_GET["op"]) {
                            con un correlativo anterior en el array principal, dado el caso que no, entra en esta condicion */
                         if ($i != ($w + 4)) {
 
-                            $porcentaje = number_format(($dias['entreg'] / $cabecera['totaldespacho']) * 100, 1);
+                            $porcentaje = number_format(($dias['entreg'] / $totaldespacho) * 100, 1);
 
-                            $sub_array[] = $x+1;
-                            $sub_array[] = date_format( date_create($dias['fecha_entre']), 'd-m');
-                            $sub_array[] = $dias['entreg'];
-                            $sub_array[] = $porcentaje. "%";
-                            $sub_array[] = $row['correlativo'];
+                            $sub_array['num'] = $x+1;
+                            $sub_array['fecha_entrega'] = date_format( date_create($dias['fecha_entre']), 'd-m-Y');
+                            $sub_array['ped_despachados'] = $dias['entreg'];
+                            $sub_array['porc_efectividad'] = $porcentaje. "%";
+                            $sub_array['ordenes_despacho'] = $row['correlativo'];
 
-                            $cabecera['promedio'] += floatval($porcentaje);
+                            $promedio += floatval($porcentaje);
                             $x++;
                         }
                         $w++;
@@ -112,7 +112,7 @@ switch ($_GET["op"]) {
                 $sinliquidar = $indicadores->get_facturas_sin_liquidar_por_orden_despacho($row['correlativo']);
                 if (count($sinliquidar) > 0) {
                     foreach ($sinliquidar as $item)
-                        $cabecera['fact_sinliquidar'] .= ($item['numerod'] . ",");
+                        $fact_sinliquidar .= ($item['numerod'] . ",");
                 }
 
                 if(count($sub_array)>0)
@@ -122,11 +122,13 @@ switch ($_GET["op"]) {
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
-            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-//            "cabecera" => $cabecera,
-            "aaData" => $data);
+            "chofer" => $chofer,
+            "ordenes_despacho" => $ordenes_despacho,
+            "fact_sinliquidar" => $fact_sinliquidar,
+            "totaldespacho" => $totaldespacho,
+            "promedio" => $promedio,
+            "tabla" => $data
+        );
         echo json_encode($output);
 
         break;

@@ -22,8 +22,9 @@
 <!-- sweetalert2 -->
 <script src="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <!-- dashboard3 -->
-<!--<script src="--><?php //echo SERVERURL; ?><!--public/plugins/chart.js/Chart.min.js"></script>-->
 <!--<script src="--><?php //echo SERVERURL; ?><!--public/dist/js/pages/dashboard3.js"></script>-->
+<!-- ChartJS -->
+<script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
 <script src="<?php echo SERVERURL; ?>public/plugins/select2/js/select2.full.min.js"></script>
 <!-- Page script -->
 <script>
