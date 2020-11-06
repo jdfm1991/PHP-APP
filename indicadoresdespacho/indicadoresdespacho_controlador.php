@@ -40,11 +40,13 @@ switch ($_GET["op"]) {
 
         $data = Array();
         //inicializamos la variables
-        $chofer = $datos[0]['chofer'];
-        $ordenes_despacho = "";
-        $fact_sinliquidar = "";
+        $chofer = (!empty($datos[0]['chofer'])) ? $datos[0]['chofer'] : "";
+        $ordenes_despacho_string = "";
+        $fact_sinliquidar_string = "";
         $totaldespacho = 0;
-        $promedio = 0;
+        $total_ped_entregados = 0;
+        $total_ped_porliquidar = 0;
+        $promedio_diario_despacho = 0;
 
         $x = 0; //varible de control, tamaño del array principal
         $w = 0; //variable de control, numero de iteracion
@@ -59,7 +61,7 @@ switch ($_GET["op"]) {
 
                 $sub_array = array();
 
-                $ordenes_despacho .= ($row['correlativo'] . "(" . $row['totaldespacho'] . "),");
+                $ordenes_despacho_string .= ($row['correlativo'] . "(" . $row['totaldespacho'] . "), ");
 
                 /** agregar dias de entrega de esta orden de despacho **/
                 $diasentrega = $indicadores->get_dias_entrega_por_orden_despacho($row['correlativo']);
@@ -101,32 +103,46 @@ switch ($_GET["op"]) {
                             $sub_array['porc_efectividad'] = $porcentaje. "%";
                             $sub_array['ordenes_despacho'] = $row['correlativo'];
 
-                            $promedio += floatval($porcentaje);
                             $x++;
                         }
                         $w++;
                     }
+
                 }
 
                 /** facturas sin liquidar **/
                 $sinliquidar = $indicadores->get_facturas_sin_liquidar_por_orden_despacho($row['correlativo']);
                 if (count($sinliquidar) > 0) {
                     foreach ($sinliquidar as $item)
-                        $fact_sinliquidar .= ($item['numerod'] . ",");
+                        $fact_sinliquidar_string .= ($item['numerod'] . ", ");
                 }
 
                 if(count($sub_array)>0)
                     $data[] = $sub_array;
             }
         }
+        /** calcular los pedidos entregados **/
+        foreach ($data as $arr){
+            $total_ped_entregados += intval($arr['ped_despachados']);
+        }
+
+        /** calcular los pedidos sin liquidar **/
+        $total_ped_porliquidar = $totaldespacho - $total_ped_entregados;
+
+        /** calcular el promedio diario de despachos **/
+        $promedio_diario_despacho = ($x > 0) ? $total_ped_entregados / $x : 0;
+
+
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
             "chofer" => $chofer,
-            "ordenes_despacho" => $ordenes_despacho,
-            "fact_sinliquidar" => $fact_sinliquidar,
+            "ordenes_despacho" => $ordenes_despacho_string,
+            "fact_sinliquidar" => $fact_sinliquidar_string,
             "totaldespacho" => $totaldespacho,
-            "promedio" => $promedio,
+            "total_ped_entregados" => $total_ped_entregados,
+            "total_ped_porliquidar" => $total_ped_porliquidar,
+            "promedio_diario_despacho" => number_format($promedio_diario_despacho,2, ",", "."),
             "tabla" => $data
         );
         echo json_encode($output);

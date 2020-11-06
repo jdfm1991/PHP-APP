@@ -164,20 +164,53 @@ require_once("../acceso/const.php");
                         <h3 class="card-title"><span class="title-card"></span></h3>
                     </div>
                     <div class="card-body" style="width:auto;">
-                        <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
-                            <thead style="background-color: #17A2B8;color: white;">
-                            <tr>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="#">#</th>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">Fecha Entrega</th>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">Pedidos Despachados</th>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Orden(es) D">Orden(es) Despacho</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- TD TABLA LLEGAN POR AJAX -->
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <!--<p>
+                                CHOFER: &nbsp;&nbsp;&nbsp;<label id="datos_chofer"></label>
+                            </p>-->
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <label class="pt-1">CHOFER: </label>&nbsp;&nbsp;&nbsp;
+                                    <input type="text" class="form-control" id="datos_chofer" disabled>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
+                                <thead style="background-color: #17A2B8;color: white;">
+                                <tr>
+                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="#">#</th>
+                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">Fecha Entrega</th>
+                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">Pedidos Despachados</th>
+                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>
+                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Orden(es) D">Orden(es) Despacho</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- TD TABLA LLEGAN POR AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row pt-3">
+                            <div class="col">
+                                <p>
+                                    Total de Pedidos en el camión: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_camion"></label>
+                                </p>
+                                <p>
+                                    Pedidos pendientes por liquidar: <label id="total_ped_pendiente"></label>
+                                </p>
+                            </div>
+                            <div class="col">
+                                <p>
+                                    Total de Pedidos entregados: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_entregados"></label>
+                                </p>
+                                <p>
+                                    Promedio Diario de Despachos: <label id="promedio_diario_despachos"></label>
+                                </p>
+                            </div>
+                        </div>
                         <!-- BOX BOTONES DE REPORTES-->
                         <!--<div align="center">
                             <br><p><span id="total_registros"></span></p><br>
@@ -189,19 +222,36 @@ require_once("../acceso/const.php");
             </div>
             <div class="col-md-6">
                 <!-- BAR CHART -->
-                <div class="card card-success" id="grafico">
+                <div class="card card-info" id="grafico">
                     <div class="card-header">
-                        <h3 class="card-title">Bar Chart</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                        </div>
+                        <h3 class="card-title">Grafico</h3>
                     </div>
                     <div class="card-body">
+                        <div class="form-group row" align="center">
+                            <div class="form-group col-sm-5">
+                                <input type="date" class="form-control" id="fechai_disabled" name="fechai" disabled>
+                            </div>
+                            <div class="form-group col-sm-2 pt-1" align="center">
+                                <label> AL </label>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <input type="date" class="form-control" id="fechaf_disabled" name="fechaf" disabled>
+                            </div>
+                        </div>
+
                         <div class="chart">
                             <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+
+                        <div class="pt-3">
+                            <div class="form-group">
+                                <label>ORDENES DE DESPACHO</label>
+                                <p id="ordenes_despacho"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>FACTURAS SIN LIQUIDAR</label>
+                                <p id="fact_sinliquidar"></p>
+                            </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -212,6 +262,9 @@ require_once("../acceso/const.php");
     </section>
 </div>
 <?php require_once("../footer.php");?>
+<!-- ChartJS -->
+<script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
+
 <script type="text/javascript" src="indicadoresdespacho.js"></script>
 </body>
 </html>

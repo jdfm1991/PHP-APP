@@ -20,7 +20,7 @@ class InidicadoresDespachos extends Conectar{
 
         $sql= "SELECT correl as correlativo,
                    (select COUNT(appfacturas_det.correl) from appfacturas_det where appfacturas_det.correl=appfacturas.correl) as totaldespacho,
-                   (select descripcion from appChofer where cedula=?) as chofer
+                   (select CONCAT(cedula, ' - ', descripcion) from appChofer where cedula=?) as chofer
             FROM appfacturas where DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) between ? and ? and cedula_chofer='16395823' order by correl";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
