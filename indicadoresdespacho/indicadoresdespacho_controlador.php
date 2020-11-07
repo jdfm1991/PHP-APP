@@ -85,8 +85,8 @@ switch ($_GET["op"]) {
                                 /*en caso que si coincida:
                                     *se suma a la cantidad existente, las "cantidad de pedidos" de este correlativo de pedido en iteracion actual
                                     *se concatena el correlativo de pedido a la ya existente separada por coma( , ), agrupandolas */
-                                $data[$i][1] += $dias['entreg'];
-                                $data[$i][3] .= (", " . $row['correlativo']);
+                                $data[$i]['ped_despachados'] += $dias['entreg'];
+                                $data[$i]['ordenes_despacho'] .= (", " . $row['correlativo']);
                                 $i = $w + 3; // se le agrega ($w+3) a $i para su siguiente iteracion se vuelva ($w+4) y se detenga el for.
                             }
                         }
@@ -97,7 +97,7 @@ switch ($_GET["op"]) {
 
                             $porcentaje = number_format(($dias['entreg'] / $totaldespacho) * 100, 1);
 
-                            $sub_array['num'] = $x+1;
+//                            $sub_array['num'] = $x+1;
                             $sub_array['fecha_entrega'] = date_format( date_create($dias['fecha_entre']), 'd-m-Y');
                             $sub_array['ped_despachados'] = $dias['entreg'];
                             $sub_array['porc_efectividad'] = $porcentaje. "%";

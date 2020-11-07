@@ -165,22 +165,17 @@ require_once("../acceso/const.php");
                     </div>
                     <div class="card-body" style="width:auto;">
                         <div class="row">
-                            <!--<p>
-                                CHOFER: &nbsp;&nbsp;&nbsp;<label id="datos_chofer"></label>
-                            </p>-->
                             <div class="col">
                                 <div class="form-check form-check-inline">
                                     <label class="pt-1">CHOFER: </label>&nbsp;&nbsp;&nbsp;
                                     <input type="text" class="form-control" id="datos_chofer" disabled>
                                 </div>
-
                             </div>
                         </div>
                         <div class="row pt-3">
                             <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
                                 <thead style="background-color: #17A2B8;color: white;">
                                 <tr>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="#">#</th>
                                     <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">Fecha Entrega</th>
                                     <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">Pedidos Despachados</th>
                                     <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>

@@ -22,7 +22,6 @@ function limpiar() {
     $("#fechaf").val("");
     $("#chofer").val("");
     $("#causa").val("");
-    $('#tabla tbody').empty();
 }
 
 function validarCantidadRegistrosTabla(data) {
@@ -112,6 +111,7 @@ $(document).on("click", "#btn_consultar", function () {
 
     if (estado_minimizado) {
         $("#tabla").hide();
+        $("#grafico").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
         if ((formData[0]['name'] === "fechai" && formData[0]['value'] !== "")
@@ -143,12 +143,15 @@ $(document).on("click", "#btn_consultar", function () {
                     $("#tabla").show('');//MOSTRAMOS LA TABLA.
                     $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
+                    //limpiamos la tabla
+                    $('#tabla tbody').empty();
+
                     //llenamos inputs date disabled
                     $("#fechai_disabled").val(formData[0]['value']);
                     $("#fechaf_disabled").val(formData[1]['value']);
 
                     //proceso de llenado del grafico
-                    construirGrafico(data, title);
+                    construirGrafico(data, title, indicador_seleccionado === 1);
 
                     //proceso de llenado de la tabla
                     construirTabla(data.tabla);
@@ -158,7 +161,7 @@ $(document).on("click", "#btn_consultar", function () {
 
                     $("#loader").hide();//OCULTAMOS EL LOADER.
                     validarCantidadRegistrosTabla(data.tabla);
-                    //limpiar();//LIMPIAMOS EL SELECTOR.
+                    limpiar();//LIMPIAMOS EL SELECTOR.
 
                 }
             });
@@ -188,8 +191,8 @@ function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
     sessionStorage.setItem("causa", causa);
 }
 
-function construirGrafico(data, title) {
-    let labels, values, value_max, promedio;
+function construirGrafico(data, title, includeLine = false) {
+    let labels, values, value_max, promedio, dataLine;
 
     if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
@@ -210,8 +213,9 @@ function construirGrafico(data, title) {
         promedio = 0;
     }
 
+
     //CONSTRUCCION DEL GRAFICO
-    const barChart = new Chart($('#barChart').get(0).getContext('2d'), {
+    var barChart = new Chart($('#barChart').get(0).getContext('2d'), {
         type: 'bar',
         data: jQuery.extend(true, {}, {
             labels  : labels,
@@ -226,19 +230,6 @@ function construirGrafico(data, title) {
                 pointHighlightFill  : '#fff',
                 pointHighlightStroke: 'rgba(60,141,188,1)',
                 data                : values
-            }, {
-                label               : 'Promedio',
-                type                : 'line',
-                backgroundColor     : 'rgba(255,99,71,0.9)',
-                borderColor         : 'rgba(255,99,71,0.8)',
-                pointRadius         : true,
-                pointColor          : '#FF6347',
-                pointStrokeColor    : 'rgba(255,99,71,1)',
-                pointHighlightFill  : '#fff',
-                pointHighlightStroke: 'rgba(255,99,71,1)',
-                order               : 0,
-                fill                : false,
-                data                : promedio
             }]
         }),
         options: {
@@ -258,6 +249,24 @@ function construirGrafico(data, title) {
             },
         }
     });
+
+    //si incluye linea, agrega la linea promedio
+    if(includeLine) {
+        barChart.data.datasets.push({
+            label               : 'Promedio',
+            type                : 'line',
+            backgroundColor     : 'rgba(255,99,71,0.9)',
+            borderColor         : 'rgba(255,99,71,0.8)',
+            pointRadius         : true,
+            pointColor          : '#FF6347',
+            pointStrokeColor    : 'rgba(255,99,71,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(255,99,71,1)',
+            order               : 0,
+            fill                : false,
+            data                : promedio
+        });
+    }
 }
 
 function construirTabla(data){
@@ -267,7 +276,6 @@ function construirTabla(data){
             $('#indicadores_data')
                 .append(
                     '<tr>' +
-                    '<td align="center" class="small align-middle">' + opt.num + '</td>' +
                     '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
                     '<td align="center" class="small align-middle">' + opt.ped_despachados + '</td>' +
                     '<td align="center" class="small align-middle">' + opt.porc_efectividad + '</td>' +
@@ -277,7 +285,7 @@ function construirTabla(data){
         });
     } else {
         //en caso de consulta vacia, mostramos un mensaje de vacio
-        $('#indicadores_data').append('<tr><td colspan="5" align="center">Sin registros para esta Consulta</td></tr>');
+        $('#indicadores_data').append('<tr><td colspan="4" align="center">Sin registros para esta Consulta</td></tr>');
     }
 }
 
