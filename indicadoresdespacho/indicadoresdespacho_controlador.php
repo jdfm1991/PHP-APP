@@ -73,10 +73,10 @@ switch ($_GET["op"]) {
                           con la misma fecha de entrega que el correlativo de la iteracion actual
 
                             considerando que el array principal $data:
-                                $data[$i][0] = fecha de entrega
-                                $data[$i][1] = pedidos despachados
-                                $data[$i][2] = porcentaje de efectividad
-                                $data[$i][3] = correlativo de despacho
+                                $data[$i][fecha_entrega]    = fecha de entrega
+                                $data[$i][ped_despachados]  = pedidos despachados
+                                $data[$i][porc_efectividad] = porcentaje de efectividad
+                                $data[$i][ordenes_despacho] = correlativo de despacho
                         */
                         for ($i = 0; $i <= $w; $i++) {
 

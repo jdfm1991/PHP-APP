@@ -12,6 +12,24 @@ class InidicadoresDespachos extends Conectar{
         $conectar= parent::conexion2();
         parent::set_names();
 
+        /*
+         -- fechaentrega_y_cantidaddespachados_por_chofer
+        SELECT appfacturas_det.correl as entreg, fecha_entre, count(appfacturas_det.correl) as cant_documentos,
+               (select CONCAT(cedula, ' - ', descripcion) from appChofer where cedula='16395823') as chofer
+        FROM appfacturas_det where correl in
+        (
+        SELECT correl as correlativo
+        FROM appfacturas where DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) between '2020-01-01' and '2020-11-20' and cedula_chofer='16395823'
+        )
+        and tipo_pago!='N/C' and fecha_entre is not null group by fecha_entre, correl order by fecha_entre
+
+        --total despacho
+        select sum(tmp.despachoxfecha) as totaldespacho from
+        (select count(ad.numeros) as despachoxfecha from appfacturas inner join appfacturas_det ad on appfacturas.correl = ad.correl
+         where DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) between '2020-01-01' and '2020-11-20' and cedula_chofer = '16395823' group by fecha_entre
+        ) as tmp
+         */
+
         //QUERY
        /* $sql= "SELECT Correlativo AS correlativo,
                        (SELECT COUNT(Despachos_Det.ID_Correlativo) FROM Despachos_Det WHERE Despachos_Det.ID_Correlativo = Despachos.Correlativo) AS totaldespacho,
