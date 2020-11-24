@@ -59,7 +59,7 @@ switch ($_GET["op"]) {
             //carga de la data
             foreach ($datos as $row) {
 
-                $sub_array = array();
+                $sub_array = array();// '16395823'
 
                 $ordenes_despacho_string .= ($row['correlativo'] . "(" . $row['totaldespacho'] . "), ");
 
