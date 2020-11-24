@@ -5,14 +5,14 @@ require_once("../acceso/conexion.php");
 
 class InidicadoresDespachos extends Conectar{
 
-    public function get_entregas_despacho_por_chofer($fechai, $fechaf, $id_chofer)
+    public function get_entregasefectivas_por_chofer($fechai, $fechaf, $id_chofer)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion2();
         parent::set_names();
 
-        $sql= "SELECT appfacturas_det.correl AS entreg, fecha_entre, count(appfacturas_det.correl) AS cant_documentos,
+        $sql= "SELECT appfacturas_det.correl AS correlativo, fecha_entre, count(appfacturas_det.correl) AS cant_documentos,
                 (SELECT CONCAT(cedula, ' - ', descripcion) FROM appChofer WHERE cedula = ?) AS chofer
                 FROM appfacturas_det WHERE correl IN
                 (
