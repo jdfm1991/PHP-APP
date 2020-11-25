@@ -33,11 +33,11 @@ switch ($_GET["op"]) {
     case "listar_entregas_efectivas":
         $fechai = $_POST['fechai'];
         $fechaf = $_POST['fechaf'];
-        $chofer_id = $_POST['chofer'];
+        $chofer_id = '16395823'/*$_POST['chofer']*/;
 
         $datos = $indicadores->get_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
-        $num = count($datos);
 
+//        print_r($datos);
         //inicializamos la variables
         $chofer = (!empty($datos[0]['chofer'])) ? $datos[0]['chofer'] : "";
         $ordenes_despacho_string = "";
@@ -47,36 +47,56 @@ switch ($_GET["op"]) {
         $total_ped_porliquidar = 0;
         $promedio_diario_despacho = 0;
 
-        /** AGREGAR TOTAL DE DESPACHOS **/
-
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
+        if(is_array($datos) and count($datos) > 0)
+        {
+            //almacenamos el total de despachos para calcular la efectividad posteriormente
+            foreach ($datos as $row)
+                $totaldespacho += intval($row['cant_documentos']);
 
-        if(is_array($datos) and count($datos) > 0) {
-
-            foreach ($datos as $key => $row) {
+            foreach ($datos as $key => $row)
+            {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
+                $ordenes_despacho_string .= ($row['correlativo'] . "(" . $row['cant_documentos'] . "), ");
+
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
-                //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
-                if($key>0 and is_array($data) and $row['fecha_entre'] == $data[count($data)]['fecha_entrega'])
+                /*print_r([
+                    'tipo_pago' => $row['tipo_pago'],
+                    'fecha_entre' => $row['fecha_entre'],
+                    'key' => $key,
+                    'data' => count($data),
+                    'correl' => $row['correlativo'],
+                ]);*/
+                if($row['tipo_pago'] !='N/C' and $row['fecha_entre'] != null and $key>0 )
                 {
-                    $data[count($data)]['ped_despachados'] += intval($row['entreg']);
-                    $data[count($data)]['ordenes_despacho'] += floatval($porcentaje);
-                    $data[count($data)]['ordenes_despacho'] .= (", " . $row['correlativo']);
-                }
-                //si no es igual, solo inserta un nuevo registro al array
-                else {
-                    $sub_array['fecha_entrega'] = date_format(date_create($row['fecha_entre']), 'd-m-Y');
-                    $sub_array['ped_despachados'] = intval($row['cant_documentos']);
-                    $sub_array['porc_efectividad'] = floatval($porcentaje);
-                    $sub_array['ordenes_despacho'] = $row['correlativo'];
+                    //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
+                    if(count($data)>0 and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega'])
+                    {
+                        $data[count($data)-1]['ped_despachados'] += intval($row['cant_documentos']);
+                        $data[count($data)-1]['porc_efectividad'] += floatval($porcentaje);
+                        $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
+                    }
+                    //si no es igual, solo inserta un nuevo registro al array
+                    else {
+                        $sub_array['fecha_entrega'] = date_format(date_create($row['fecha_entre']), 'd-m-Y');
+                        $sub_array['ped_despachados'] = intval($row['cant_documentos']);
+                        $sub_array['porc_efectividad'] = floatval($porcentaje);
+                        $sub_array['ordenes_despacho'] = $row['correlativo'];
 
-                    $data[] = $sub_array;
+                        $data[] = $sub_array;
+                    }
                 }
 
+                /** facturas sin liquidar **/
+                $sinliquidar = $indicadores->get_facturas_sin_liquidar_por_orden_despacho($row['correlativo']);
+                if (count($sinliquidar) > 0) {
+                    foreach ($sinliquidar as $item)
+                        $fact_sinliquidar_string .= ($item['numerod'] . ", ");
+                }
             }
         }
         /** calcular los pedidos entregados **/
