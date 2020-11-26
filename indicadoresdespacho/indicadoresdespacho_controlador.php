@@ -37,7 +37,6 @@ switch ($_GET["op"]) {
 
         $datos = $indicadores->get_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
 
-//        print_r($datos);
         //inicializamos la variables
         $chofer = (!empty($datos[0]['chofer'])) ? $datos[0]['chofer'] : "";
         $ordenes_despacho_string = "";
@@ -64,13 +63,7 @@ switch ($_GET["op"]) {
 
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
-                /*print_r([
-                    'tipo_pago' => $row['tipo_pago'],
-                    'fecha_entre' => $row['fecha_entre'],
-                    'key' => $key,
-                    'data' => count($data),
-                    'correl' => $row['correlativo'],
-                ]);*/
+                /** entregas efectivas **/
                 if($row['tipo_pago'] !='N/C' and $row['fecha_entre'] != null and $key>0 )
                 {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
@@ -92,11 +85,18 @@ switch ($_GET["op"]) {
                 }
 
                 /** facturas sin liquidar **/
-                $sinliquidar = $indicadores->get_facturas_sin_liquidar_por_orden_despacho($row['correlativo']);
+                if(strlen($row['fact_sin_liquidar'])>0)
+                {
+                    $fact_sinliquidar_string .= (",".$row['fact_sin_liquidar']);
+                    $array = explode(",", $fact_sinliquidar_string);
+                    $array = array_unique($array);
+                    $fact_sinliquidar_string = implode($array,",");
+                }
+                /*$sinliquidar = $indicadores->get_facturas_sin_liquidar_por_orden_despacho($row['correlativo']);
                 if (count($sinliquidar) > 0) {
                     foreach ($sinliquidar as $item)
                         $fact_sinliquidar_string .= ($item['numerod'] . ", ");
-                }
+                }*/
             }
         }
         /** calcular los pedidos entregados **/

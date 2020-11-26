@@ -6,7 +6,7 @@ var indicador_seleccionado;
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $('#efectivas_form #fechai').val("2020-01-01");
-    $('#efectivas_form #fechaf').val("2020-11-04");
+    $('#efectivas_form #fechaf').val("2020-11-20");
     // $("#fechaf").val("");
     $("#tabla").hide();
     $('#grafico').hide();
@@ -278,7 +278,7 @@ function construirTabla(data){
                     '<tr>' +
                     '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
                     '<td align="center" class="small align-middle">' + opt.ped_despachados + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.porc_efectividad + '</td>' +
+                    '<td align="center" class="small align-middle">' + opt.porc_efectividad + ' %</td>' +
                     '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
                     '</tr>'
                 );
