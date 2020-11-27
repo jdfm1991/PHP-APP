@@ -6,7 +6,7 @@ var indicador_seleccionado;
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $('#efectivas_form #fechai').val("2020-01-01");
-    $('#efectivas_form #fechaf').val("2020-11-20");
+    $('#efectivas_form #fechaf').val("2020-11-21");
     // $("#fechaf").val("");
     $("#tabla").hide();
     $('#grafico').hide();
@@ -311,10 +311,10 @@ function llenadoDeSpan(data){
     $("#total_ped_camion").text(totalDespacho);
     $("#total_ped_pendiente").text(pedporliquidar);
     $("#total_ped_entregados").text(pedentregados);
-    $("#promedio_diario_despachos").text(promediodiario + " %");
+    $("#promedio_diario_despachos").text(promediodiario);
 
     $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
-    $("#fact_sinliquidar").text(data.fact_sinliquidar.substr(0, data.ordenes_despacho.length-1));
+    $("#fact_sinliquidar").text(data.fact_sinliquidar.substr(1, data.fact_sinliquidar.length));
 }
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
