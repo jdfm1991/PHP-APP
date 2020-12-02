@@ -3,25 +3,35 @@ var estado_minimizado;
 // 1-efectivas  2-rechazo  3-oportunidad
 var indicador_seleccionado;
 
+let array_selects = [
+    'pills-efectivas',
+    'pills-rechazo',
+    'pills-oportunidad'
+];
+
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $('#efectivas_form #fechai').val("2020-01-01");
-    $('#efectivas_form #fechaf').val("2020-11-21");
+    array_selects.forEach( pill => {
+        $('#'+pill+' #fechai').val("2016-01-01");
+        $('#'+pill+' #fechaf').val("2020-11-21");
+    });
     // $("#fechaf").val("");
     $("#tabla").hide();
     $('#grafico').hide();
     $("#loader").hide();
     estado_minimizado = true;
-    indicador_seleccionado = 1;
+    indicador_seleccionado = 2;
     listar_choferes();
     // listar_causas_de_rechazo(); PENDIENTE TERMINAR
 }
 
 function limpiar() {
-    $("#fechai").val("");
-    $("#fechaf").val("");
-    $("#chofer").val("");
-    $("#causa").val("");
+    array_selects.forEach( pill => {
+        $('#'+pill+' #fechai').val("");
+        $('#'+pill+' #fechaf').val("");
+        $('#'+pill+' #chofer').val("");
+        $('#'+pill+' #causa').val("");
+    });
 }
 
 function validarCantidadRegistrosTabla(data) {
@@ -56,13 +66,11 @@ function listar_choferes(){
     $.post("indicadoresdespacho_controlador.php?op=listar_choferes", function(data, status){
         data = JSON.parse(data);
 
-        let array_selects = ['pills-efectivas', 'pills-rechazo', 'pills-oportunidad'];
-
         array_selects.forEach( pill => {
 
             //lista de seleccion de choferes
             $('#'+pill+' #chofer').append('<option name="" value="">Seleccione</option>');
-            $('#'+pill+' #chofer').append('<option name="" value="16395823" selected>prueba</option>');
+            $('#'+pill+' #chofer').append('<option name="" value="5589533" selected>prueba</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
                 $('#'+pill+' #chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
@@ -98,7 +106,7 @@ $(document).on("click", "#btn_consultar", function () {
             formData = $("#efectivas_form").serializeArray();
             break;
         case 2:
-            listar = "";
+            listar = "listar_causas_rechazo";
             title = $("#pills-rechazo-tab").text().trim();
             formData = $("#rechazo_form").serializeArray();
             break;
@@ -117,9 +125,14 @@ $(document).on("click", "#btn_consultar", function () {
         if ((formData[0]['name'] === "fechai" && formData[0]['value'] !== "")
             && (formData[1]['name'] === "fechaf" && formData[1]['value'] !== "")
             && (formData[2]['name'] === "chofer" && formData[2]['value'] !== "")
-            /*&& $("#causa").val() !== ""*/
+            && ((formData[3]['name'] === "causa" && formData[3]['value'] !== "" && indicador_seleccionado===2) || indicador_seleccionado!==2)
         ) {
-            sesionStorageItems(formData[0]['value'], formData[1]['value'], formData[2]['value'] /*, $("#causa").val()*/);
+            sesionStorageItems(
+                formData[0]['value'],
+                formData[1]['value'],
+                formData[2]['value'],
+                (indicador_seleccionado===2) ? formData[3]['value'] : ""
+            );
 
             //reordenamos el array serializado para volverlo array asociativo.
             let form_data = {};
@@ -191,7 +204,7 @@ function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
     sessionStorage.setItem("causa", causa);
 }
 
-function construirGrafico(data, title, includeLine = false) {
+function construirGrafico(data, title, includeLine) {
     let labels, values, value_max, promedio, dataLine;
 
     if(!jQuery.isEmptyObject(data)) {
@@ -290,6 +303,7 @@ function construirTabla(data){
 }
 
 function llenadoDeSpan(data){
+    $fact = $("#fact_label");
     let totalDespacho;
     let pedporliquidar;
     let pedentregados;
@@ -315,6 +329,17 @@ function llenadoDeSpan(data){
 
     $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
     $("#fact_sinliquidar").text(data.fact_sinliquidar.substr(1, data.fact_sinliquidar.length));
+
+    switch(indicador_seleccionado){
+        case 1:
+            $fact.text('FACTURAS SIN LIQUIDAR');
+            break;
+        case 2:
+            $fact.text('CAUSA DEL RECHAZO');
+            break;
+        default:
+            $fact.text('');
+    }
 }
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.

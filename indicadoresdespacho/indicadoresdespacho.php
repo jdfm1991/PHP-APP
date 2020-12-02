@@ -240,11 +240,11 @@ require_once("../acceso/const.php");
 
                         <div class="pt-3">
                             <div class="form-group">
-                                <label>ORDENES DE DESPACHO</label>
+                                <label id="ordenes_label">ORDENES DE DESPACHO</label>
                                 <p id="ordenes_despacho"></p>
                             </div>
                             <div class="form-group">
-                                <label>FACTURAS SIN LIQUIDAR</label>
+                                <label id="fact_label">FACTURAS SIN LIQUIDAR</label>
                                 <p id="fact_sinliquidar"></p>
                             </div>
                         </div>

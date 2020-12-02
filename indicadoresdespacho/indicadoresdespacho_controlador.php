@@ -22,14 +22,6 @@ switch ($_GET["op"]) {
 
         break;
 
-    /*case "listar_causas_rechazo":
-
-        $output["lista_choferes"] = $choferes->get_choferes();
-
-        echo json_encode($output);
-
-        break;*/
-
     case "listar_entregas_efectivas":
         $fechai = $_POST['fechai'];
         $fechaf = $_POST['fechaf'];
@@ -38,7 +30,8 @@ switch ($_GET["op"]) {
         $datos = $indicadores->get_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
 
         //inicializamos la variables
-        $chofer = (!empty($datos[0]['chofer'])) ? $datos[0]['chofer'] : "";
+        $chofer = $choferes->get_chofer_por_id($chofer_id);
+        $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
         $ordenes_despacho_string = "";
         $fact_sinliquidar_string = "";
         $totaldespacho = 0;
@@ -121,4 +114,10 @@ switch ($_GET["op"]) {
 
         break;
 
+    case "listar_causas_rechazo":
+        /*$output["lista_choferes"] = $choferes->get_choferes();
+
+        echo json_encode($output);*/
+
+        break;
 }
