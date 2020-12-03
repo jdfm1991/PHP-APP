@@ -82,10 +82,11 @@ class Choferes extends Conectar {
 //mostrar los datos del usuario por el id
   public function get_chofer_por_id($id){
 
-    $conectar=parent::conexion();
+    $conectar=parent::conexion2(); //CAMBIAR A CONEXION
     parent::set_names();
 
-    $sql="SELECT * FROM choferes WHERE cedula=?";
+//    $sql="SELECT * FROM choferes WHERE cedula=?";
+    $sql="SELECT * FROM appChofer WHERE cedula=?";
 
     $sql=$conectar->prepare($sql);
 

@@ -19,10 +19,15 @@ function init() {
     $("#tabla").hide();
     $('#grafico').hide();
     $("#loader").hide();
-    estado_minimizado = true;
+    estado_minimizado = false;
     indicador_seleccionado = 2;
     listar_choferes();
     // listar_causas_de_rechazo(); PENDIENTE TERMINAR
+    switch (indicador_seleccionado) {
+        case 1: $("#pills-fectivas-tab").trigger("click");    break;
+        case 2: $("#pills-rechazo-tab").trigger("click");     break;
+        case 3: $("#pills-oportunidad-tab").trigger("click"); break;
+    }
 }
 
 function limpiar() {
@@ -42,7 +47,8 @@ function validarCantidadRegistrosTabla(data) {
 }
 
 var no_puede_estar_vacio = function () {
-    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#chofer").val() !== "" /*&& $("#causa").val() !== ""*/)
+    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#chofer").val() !== "" &&
+        (indicador_seleccionado!==2 || (indicador_seleccionado===2 && $("#pills-rechazo #causa").val() !== "")))
         ? estado_minimizado = true : estado_minimizado = false;
 };
 
@@ -50,6 +56,7 @@ $(document).ready(function(){
     $("#fechai").change(() => no_puede_estar_vacio());
     $("#fechaf").change(() => no_puede_estar_vacio());
     $("#chofer").change(() => no_puede_estar_vacio());
+    $("#causa").change(() => no_puede_estar_vacio());
 
     $("#pills-fectivas-tab").on("click", function (e) {
         indicador_seleccionado = 1;
@@ -67,13 +74,17 @@ function listar_choferes(){
         data = JSON.parse(data);
 
         array_selects.forEach( pill => {
+            $chofer = $('#'+pill+' #chofer');
 
             //lista de seleccion de choferes
-            $('#'+pill+' #chofer').append('<option name="" value="">Seleccione</option>');
-            $('#'+pill+' #chofer').append('<option name="" value="5589533" selected>prueba</option>');
+            $chofer.append('<option name="" value="">Seleccione</option>');
+            if(indicador_seleccionado===2) {
+                $chofer.append('<option name="" value="-">Todos</option>');
+            }
+            $chofer.append('<option name="" value="5589533" selected>prueba</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
-                $('#'+pill+' #chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+                $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
             });
         });
     });
@@ -125,7 +136,7 @@ $(document).on("click", "#btn_consultar", function () {
         if ((formData[0]['name'] === "fechai" && formData[0]['value'] !== "")
             && (formData[1]['name'] === "fechaf" && formData[1]['value'] !== "")
             && (formData[2]['name'] === "chofer" && formData[2]['value'] !== "")
-            && ((formData[3]['name'] === "causa" && formData[3]['value'] !== "" && indicador_seleccionado===2) || indicador_seleccionado!==2)
+            && (indicador_seleccionado!==2 || (indicador_seleccionado===2 && formData[3]['name'] === "causa" && formData[3]['value'] !== ""))
         ) {
             sesionStorageItems(
                 formData[0]['value'],
@@ -164,7 +175,7 @@ $(document).on("click", "#btn_consultar", function () {
                     $("#fechaf_disabled").val(formData[1]['value']);
 
                     //proceso de llenado del grafico
-                    construirGrafico(data, title, indicador_seleccionado === 1);
+                    construirGrafico(data);
 
                     //proceso de llenado de la tabla
                     construirTabla(data.tabla);
@@ -194,6 +205,10 @@ $(document).on("click", "#btn_consultar", function () {
             Swal.fire('Atención!','Seleccione un chofer!','error');
             return (false);
         }
+        if (indicador_seleccionado===2 && formData[3]['name'] === "causa" && formData[3]['value'] === "") {
+            Swal.fire('Atención!','Seleccione una causa de rechazo!','error');
+            return (false);
+        }
     }
 });
 
@@ -204,46 +219,25 @@ function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
     sessionStorage.setItem("causa", causa);
 }
 
-function construirGrafico(data, title, includeLine) {
-    let labels, values, value_max, promedio, dataLine;
+function construirGrafico(data) {
+    let object;
 
-    if(!jQuery.isEmptyObject(data)) {
-        //titulos de las barras
-        labels = data.tabla.map( val => { return val.fecha_entrega; });
-
-        //valores de las barras
-        values = data.tabla.map( val => { return parseInt(val.ped_despachados); });
-
-        //obtiene el valor mas alto de los pedidos despachados
-        value_max = Math.max(data.tabla.map( val => { return parseInt(val.ped_despachados); }));
-
-        //obtiene un array de valores con el valor promedio
-        promedio = values.map(() => { return parseFloat(data.promedio_diario_despacho.replace(',', '.')); });
-    } else {
-        labels = [];
-        values = [];
-        value_max = 0;
-        promedio = 0;
+    switch (indicador_seleccionado) {
+        case 1:
+            object = entregas_efectivas(data);
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
     }
-
 
     //CONSTRUCCION DEL GRAFICO
     var barChart = new Chart($('#barChart').get(0).getContext('2d'), {
         type: 'bar',
         data: jQuery.extend(true, {}, {
-            labels  : labels,
-            datasets: [{
-                label               : title,
-                type                : 'bar',
-                backgroundColor     : 'rgba(60,141,188,0.9)',
-                borderColor         : 'rgba(60,141,188,0.8)',
-                pointRadius         : false,
-                pointColor          : '#3b8bba',
-                pointStrokeColor    : 'rgba(60,141,188,1)',
-                pointHighlightFill  : '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,1)',
-                data                : values
-            }]
+            labels  : object.labels,
+            datasets: []
         }),
         options: {
             responsive: true,
@@ -256,30 +250,31 @@ function construirGrafico(data, title, includeLine) {
                 yAxes: [{
                     ticks: {
                         suggestedMin: 0,
-                        suggestedMax: (value_max > 25) ? value_max : 25
+                        suggestedMax: (object.value_max > 25) ? object.value_max : 25
                     }
                 }],
             },
         }
     });
 
-    //si incluye linea, agrega la linea promedio
-    if(includeLine) {
+
+    object.content.forEach( val => {
+
         barChart.data.datasets.push({
-            label               : 'Promedio',
-            type                : 'line',
-            backgroundColor     : 'rgba(255,99,71,0.9)',
-            borderColor         : 'rgba(255,99,71,0.8)',
-            pointRadius         : true,
-            pointColor          : '#FF6347',
-            pointStrokeColor    : 'rgba(255,99,71,1)',
+            label               : val.label,
+            type                : val.type,
+            backgroundColor     : val.color,
+            borderColor         : val.color,
+            pointRadius         : val.pointRadius,
+            pointStrokeColor    : val.color,
             pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(255,99,71,1)',
-            order               : 0,
-            fill                : false,
-            data                : promedio
+            pointHighlightStroke: val.color,
+            fill                : val.fill,
+            data                : val.values
         });
-    }
+
+    });
+
 }
 
 function construirTabla(data){
@@ -291,7 +286,7 @@ function construirTabla(data){
                     '<tr>' +
                     '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
                     '<td align="center" class="small align-middle">' + opt.ped_despachados + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.porc_efectividad + ' %</td>' +
+                    '<td align="center" class="small align-middle">' + parseInt(opt.porc_efectividad * 10) / 10 + ' %</td>' +
                     '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
                     '</tr>'
                 );

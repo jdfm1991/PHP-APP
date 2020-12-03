@@ -261,5 +261,9 @@ require_once("../acceso/const.php");
 <script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
 
 <script type="text/javascript" src="indicadoresdespacho.js"></script>
+
+<script type="text/javascript" src="indicadores_entregas_efectivas.js"></script>
+<script type="text/javascript" src="indicadores_causas_rechazo.js"></script>
+<script type="text/javascript" src="indicadores_oportunidad_despacho.js"></script>
 </body>
 </html>
