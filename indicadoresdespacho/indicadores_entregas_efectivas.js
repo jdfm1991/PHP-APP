@@ -8,7 +8,7 @@ function entregas_efectivas(data)
         labels = data.tabla.map( val => { return val.fecha_entrega; });
 
         //valores de las barras
-        values = data.tabla.map( val => { return parseInt(val.ped_despachados); });
+        values = data.tabla.map( val => { return parseInt(val.cant_documentos); });
 
         //obtiene el valor mas alto de los pedidos despachados
         value_max = Math.max(data.tabla.map( val => { return parseInt(val.ped_despachados); }));
@@ -45,5 +45,16 @@ function entregas_efectivas(data)
             }
         ]
     };
+}
+
+function thead_table_efectivas()
+{
+    return '' +
+        '<tr>' +
+        '<th align="center" class="align-middle">Fecha Entrega</th>' +
+        '<th align="center" class="align-middle">Pedidos Despachados</th>' +
+        '<th align="center" class="align-middle">% Efectividad</th>' +
+        '<th align="center" class="align-middle">Orden(es) Despacho</th>' +
+        '</tr>'
 }
 

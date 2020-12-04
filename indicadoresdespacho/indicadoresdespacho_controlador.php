@@ -62,15 +62,15 @@ switch ($_GET["op"]) {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
                     if(count($data)>0 and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega'])
                     {
-                        $data[count($data)-1]['ped_despachados'] += intval($row['cant_documentos']);
-                        $data[count($data)-1]['porc_efectividad'] += floatval($porcentaje);
+                        $data[count($data)-1]['cant_documentos'] += intval($row['cant_documentos']);
+                        $data[count($data)-1]['porc'] += floatval($porcentaje);
                         $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
                     }
                     //si no es igual, solo inserta un nuevo registro al array
                     else {
                         $sub_array['fecha_entrega'] = date_format(date_create($row['fecha_entre']), 'd-m-Y');
-                        $sub_array['ped_despachados'] = intval($row['cant_documentos']);
-                        $sub_array['porc_efectividad'] = floatval($porcentaje);
+                        $sub_array['cant_documentos'] = intval($row['cant_documentos']);
+                        $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
 
                         $data[] = $sub_array;
@@ -90,7 +90,7 @@ switch ($_GET["op"]) {
         }
         /** calcular los pedidos entregados **/
         foreach ($data as $arr){
-            $total_ped_entregados += intval($arr['ped_despachados']);
+            $total_ped_entregados += intval($arr['cant_documentos']);
         }
 
         /** calcular los pedidos sin liquidar **/
@@ -105,7 +105,7 @@ switch ($_GET["op"]) {
             "ordenes_despacho" => $ordenes_despacho_string,
             "fact_sinliquidar" => str_ireplace(",",", ",$fact_sinliquidar_string),
             "totaldespacho" => $totaldespacho,
-            "total_ped_entregados" => $total_ped_entregados,
+            "total_ped" => $total_ped_entregados,
             "total_ped_porliquidar" => $total_ped_porliquidar,
             "promedio_diario_despacho" => number_format($promedio_diario_despacho,2, ",", "."),
             "tabla" => $data
@@ -120,7 +120,7 @@ switch ($_GET["op"]) {
         $chofer_id = $_POST['chofer'];
         $causa = $_POST['causa'];
 
-        $datos = $indicadores->get_causasrechazo_por_chofer($fechai, $fechaf, $chofer_id);
+        $datos = $indicadores->get_causasrechazo_por_chofer($fechai, $fechaf, $chofer_id, $causa);
 
         //inicializamos la variables
         $chofer = $choferes->get_chofer_por_id($chofer_id);
@@ -147,21 +147,26 @@ switch ($_GET["op"]) {
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** causas de rechazo **/
-                if($row['tipo_pago'] !='N/C' and $row['fecha_entre'] != null and $key>0 )
+                if($row['tipo_pago'] =='N/C' and $key>0 )
                 {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
-                    if(count($data)>0 and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega'])
-                    {
-                        $data[count($data)-1]['ped_despachados'] += intval($row['cant_documentos']);
-                        $data[count($data)-1]['porc_efectividad'] += floatval($porcentaje);
+                    if(count($data)>0 and  $row['fecha_entre'] != null
+                        and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega']
+                    ) {
+                        $data[count($data)-1]['cant_documentos'] += intval($row['cant_documentos']);
+                        $data[count($data)-1]['porc'] += floatval($porcentaje);
                         $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
                     }
                     //si no es igual, solo inserta un nuevo registro al array
                     else {
-                        $sub_array['fecha_entrega'] = date_format(date_create($row['fecha_entre']), 'd-m-Y');
-                        $sub_array['ped_despachados'] = intval($row['cant_documentos']);
-                        $sub_array['porc_efectividad'] = floatval($porcentaje);
+                        $fecha_entrega = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
+                            ? date_format(date_create($row['fecha_entre']), 'd-m-Y') : "sin entrega";
+
+                        $sub_array['fecha_entrega'] = $fecha_entrega;
+                        $sub_array['cant_documentos'] = intval($row['cant_documentos']);
+                        $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
+                        $sub_array['observacion'] = $row['observacion'];
 
                         $data[] = $sub_array;
                     }
@@ -171,7 +176,7 @@ switch ($_GET["op"]) {
 
         /** calcular los pedidos devueltos **/
         foreach ($data as $arr){
-            $total_ped_devueltos += intval($arr['ped_despachados']);
+            $total_ped_devueltos += intval($arr['cant_documentos']);
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -179,7 +184,7 @@ switch ($_GET["op"]) {
             "chofer" => $chofer,
             "ordenes_despacho" => $ordenes_despacho_string,
             "totaldespacho" => $totaldespacho,
-            "total_ped_entregados" => $total_ped_devueltos,
+            "total_ped" => $total_ped_devueltos,
             "tabla" => $data
         );
         echo json_encode($output);

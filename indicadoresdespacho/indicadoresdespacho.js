@@ -37,6 +37,10 @@ function limpiar() {
         $('#'+pill+' #chofer').val("");
         $('#'+pill+' #causa').val("");
     });
+    $("#ped_pendiente").show();
+    $("#diario_despachos").show();
+
+
 }
 
 function validarCantidadRegistrosTabla(data) {
@@ -86,19 +90,6 @@ function listar_choferes(){
                 //se itera con each para llenar el select en la vista
                 $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
             });
-        });
-    });
-}
-
-function listar_causas_de_rechazo(){
-    $.post("indicadoresdespacho_controlador.php?op=listar_choferes", function(data, status){
-        data = JSON.parse(data);
-
-        //lista de seleccion de choferes
-        $('#causa').append('<option name="" value="">Seleccione Causa del rechazo</option>');
-        $.each(data.lista_choferes, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#causa').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
         });
     });
 }
@@ -168,7 +159,7 @@ $(document).on("click", "#btn_consultar", function () {
                     $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
                     //limpiamos la tabla
-                    $('#tabla tbody').empty();
+                    $('#indicadores_data tbody').empty();
 
                     //llenamos inputs date disabled
                     $("#fechai_disabled").val(formData[0]['value']);
@@ -220,13 +211,16 @@ function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
 }
 
 function construirGrafico(data) {
-    let object;
+    let object, value_max_default;
 
     switch (indicador_seleccionado) {
         case 1:
             object = entregas_efectivas(data);
+            value_max_default = 25;
             break;
         case 2:
+            object = rechazo_de_los_clientes(data);
+            value_max_default = 8;
             break;
         case 3:
             break;
@@ -250,13 +244,12 @@ function construirGrafico(data) {
                 yAxes: [{
                     ticks: {
                         suggestedMin: 0,
-                        suggestedMax: (object.value_max > 25) ? object.value_max : 25
+                        suggestedMax: (object.value_max > 25) ? object.value_max : value_max_default
                     }
                 }],
             },
         }
     });
-
 
     object.content.forEach( val => {
 
@@ -279,14 +272,22 @@ function construirGrafico(data) {
 
 function construirTabla(data){
 
+    $('#indicadores_data thead').empty();
+
+    switch(indicador_seleccionado){
+        case 1: $('#indicadores_data thead').append( thead_table_efectivas() ); break;
+        case 2: $('#indicadores_data thead').append( thead_table_rechazo() ); break;
+        case 3: $('#indicadores_data thead').append(  ); break;
+    }
+
     if(!jQuery.isEmptyObject(data)) {
         $.each(data, function(idx, opt) {
             $('#indicadores_data')
                 .append(
                     '<tr>' +
                     '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.ped_despachados + '</td>' +
-                    '<td align="center" class="small align-middle">' + parseInt(opt.porc_efectividad * 10) / 10 + ' %</td>' +
+                    '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
+                    '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
                     '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
                     '</tr>'
                 );
@@ -301,36 +302,45 @@ function llenadoDeSpan(data){
     $fact = $("#fact_label");
     let totalDespacho;
     let pedporliquidar;
-    let pedentregados;
+    let total_ped;
     let promediodiario;
 
     if(!jQuery.isEmptyObject(data)) {
-        totalDespacho  = data.totaldespacho;
-        pedporliquidar = data.total_ped_porliquidar;
-        pedentregados  = data.total_ped_entregados;
-        promediodiario = data.promedio_diario_despacho;
+        totalDespacho   = data.totaldespacho;
+        total_ped       = data.total_ped;
+        if(indicador_seleccionado!==2){
+            pedporliquidar = data.total_ped_porliquidar;
+            promediodiario = data.promedio_diario_despacho;
+        }
     } else {
-        totalDespacho  = 0;
-        pedporliquidar = 0;
-        pedentregados  = 0;
-        promediodiario = 0;
+        totalDespacho   = 0;
+        total_ped       = 0;
+        pedporliquidar  = 0;
+        promediodiario  = 0;
     }
 
     $("#datos_chofer").val(data.chofer);
     $("#total_ped_camion").text(totalDespacho);
-    $("#total_ped_pendiente").text(pedporliquidar);
-    $("#total_ped_entregados").text(pedentregados);
-    $("#promedio_diario_despachos").text(promediodiario);
+    $("#total_ped_entregados").text(total_ped);
+
+    if(indicador_seleccionado!==2){
+        $("#total_ped_pendiente").text(pedporliquidar);
+        $("#promedio_diario_despachos").text(promediodiario);
+    } else {
+        $("#ped_pendiente").hide();
+        $("#diario_despachos").hide();
+    }
 
     $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
-    $("#fact_sinliquidar").text(data.fact_sinliquidar.substr(1, data.fact_sinliquidar.length));
 
     switch(indicador_seleccionado){
         case 1:
             $fact.text('FACTURAS SIN LIQUIDAR');
+            $("#fact_sinliquidar").text(data.fact_sinliquidar.substr(1, data.fact_sinliquidar.length));
             break;
         case 2:
             $fact.text('CAUSA DEL RECHAZO');
+            $("#fact_sinliquidar").text(sessionStorage.getItem("causa"));
             break;
         default:
             $fact.text('');

@@ -98,10 +98,11 @@ require_once("../acceso/const.php");
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-sm-6">
+                                    <label for="chofer">Causa de rechazo</label>
                                     <select class="custom-select" name="causa" id="causa" style="width: 100%;" required>
                                         <!-- la lista de casusas de rechazo se carga por ajax -->
                                         <option value="">Seleccione Causa del rechazo</option>
-                                        <option value="Todos">Todos</option>
+                                        <option value="todos">Todos</option>
                                         <option value="Merc. no solicitada">Merc. no solicitada</option>
                                         <option value="Fecha venc. cercana">Fecha venc. cercana</option>
                                         <option value="EDV no informo mod pago">EDV no informo mod pago</option>
@@ -193,7 +194,7 @@ require_once("../acceso/const.php");
                                 <p>
                                     Total de Pedidos en el camión: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_camion"></label>
                                 </p>
-                                <p>
+                                <p id="ped_pendiente">
                                     Pedidos pendientes por liquidar: <label id="total_ped_pendiente"></label>
                                 </p>
                             </div>
@@ -201,7 +202,7 @@ require_once("../acceso/const.php");
                                 <p>
                                     Total de Pedidos entregados: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_entregados"></label>
                                 </p>
-                                <p>
+                                <p id="diario_despachos">
                                     Promedio Diario de Despachos: <label id="promedio_diario_despachos"></label>
                                 </p>
                             </div>
