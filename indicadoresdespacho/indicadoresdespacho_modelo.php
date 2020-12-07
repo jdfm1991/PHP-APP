@@ -58,4 +58,28 @@ class InidicadoresDespachos extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function get_oportunidaddespacho_por_chofer($fechai, $fechaf, $id_chofer)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        $sql= "SELECT numerod, codvend, descrip, fecha_entre,
+                       (SELECT fechad FROM appfacturas WHERE appfacturas.correl=appfacturas_det.correl) AS fecha_desp,
+                       (SELECT tiempo_estimado_despacho FROM SAVEND_02 WHERE SAVEND_02.CodVend=SAFACT.CodVend) AS tiempo_estimado
+                FROM SAFACT INNER JOIN appfacturas_det ON appfacturas_det.numeros=SAFACT.NumeroD
+                WHERE SAFACT.TipoFac IN ('A','C') AND correl IN (SELECT CORREL FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
+                    BETWEEN ? AND ? AND cedula_chofer=?) ORDER BY NumeroD";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$fechai);
+        $sql->bindValue(2,$fechaf);
+        $sql->bindValue(3,$id_chofer);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }

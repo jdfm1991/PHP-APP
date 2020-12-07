@@ -199,4 +199,70 @@ switch ($_GET["op"]) {
         echo json_encode($output);
 
         break;
+
+    case "listar_oportunidad_despacho":
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
+        $chofer_id = $_POST['chofer'];
+
+        $datos = $indicadores->get_oportunidaddespacho_por_chofer($fechai, $fechaf, $chofer_id);
+
+        //inicializamos la variables
+        $chofer = $choferes->get_chofer_por_id($chofer_id);
+        $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
+        $oportunidad_promedio = 0;
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+
+        foreach ($datos as $row) {
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            $sub_array = array();
+
+            $fecha_entrega = $row["fecha_entre"] ?? date('Y-m-d');
+            $tiempo_entrega_estimado = intval($row['tiempo_estimado']);
+
+            $tiempo = strtotime($fecha_entrega)-strtotime($row["fecha_desp"]);
+            $tiempo_entrega = intval($tiempo/60/60/24);
+
+            $oportunidad = ($tiempo_entrega <= $tiempo_entrega_estimado) ? 100 : ($tiempo_entrega_estimado/$tiempo_entrega)*100;
+            $oportunidad_promedio += $oportunidad;
+
+            $sub_array[] = $row["numerod"];
+            $sub_array[] = $row["codvend"];
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = $row["fecha_desp"];
+            $sub_array[] = $fecha_entrega;
+            $sub_array[] = $tiempo_entrega_estimado;
+            $sub_array[] = $tiempo_entrega;
+            $sub_array[] = number_format($oportunidad,2,',','.').'%';
+
+            $data[] = $sub_array;
+        }
+
+        /** calculamos el porcentaje de oportunidad de despacho promedio **/
+        if(count($data) > 0) {
+            $oportunidad_promedio = ($oportunidad_promedio/count($data));
+        } else {
+            $oportunidad_promedio = 0;
+        }
+
+        /** construimos un array asociativo para el llenado del datatable **/
+        $tabla = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data
+        );
+
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $output = array(
+            "chofer" => $chofer,
+            "oportunidad_promedio" => $oportunidad_promedio,
+            "tabla" => $tabla
+        );
+        echo json_encode($output);
+
+        break;
 }

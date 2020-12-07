@@ -11,23 +11,24 @@ let array_selects = [
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    array_selects.forEach( pill => {
+    /*array_selects.forEach( pill => {
         $('#'+pill+' #fechai').val("2016-01-01");
         $('#'+pill+' #fechaf').val("2020-12-12");
-    });
+    });*/
 
-    $("#tabla").hide();
+    $("#tabla1").hide();
+    $("#tabla2").hide();
     $('#grafico').hide();
     $("#loader").hide();
     estado_minimizado = false;
-    indicador_seleccionado = 2;
+    indicador_seleccionado = 1;
     listar_choferes();
 
-    switch (indicador_seleccionado) {
+    /*switch (indicador_seleccionado) {
         case 1: $("#pills-fectivas-tab").trigger("click");    break;
         case 2: $("#pills-rechazo-tab").trigger("click");     break;
         case 3: $("#pills-oportunidad-tab").trigger("click"); break;
-    }
+    }*/
 }
 
 function limpiar() {
@@ -43,7 +44,7 @@ function limpiar() {
 
 }
 
-function limpiar_tabla() {
+function limpiar_grafico() {
 
 }
 
@@ -63,10 +64,12 @@ var no_puede_estar_vacio = function () {
 };
 
 $(document).ready(function(){
-    $("#fechai").change(() => no_puede_estar_vacio());
-    $("#fechaf").change(() => no_puede_estar_vacio());
-    $("#chofer").change(() => no_puede_estar_vacio());
-    $("#causa").change(() => no_puede_estar_vacio());
+    array_selects.forEach( pill => {
+        $("#"+pill+" #fechai").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #fechaf").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #chofer").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #causa").change(() => no_puede_estar_vacio());
+    });
 
     $("#pills-fectivas-tab").on("click", function (e) {
         indicador_seleccionado = 1;
@@ -119,14 +122,15 @@ $(document).on("click", "#btn_consultar", function () {
             formData = $("#rechazo_form").serializeArray();
             break;
         case 3:
-            listar = "";
+            listar = "listar_oportunidad_despacho";
             title = $("#pills-oportunidad-tab").text().trim();
             formData = $("#oportunidad_form").serializeArray();
             break;
     }
 
     if (estado_minimizado) {
-        $("#tabla").hide();
+        $("#tabla1").hide();
+        $("#tabla2").hide();
         $("#grafico").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
@@ -162,24 +166,42 @@ $(document).on("click", "#btn_consultar", function () {
                     data = JSON.parse(data);
                     $(".title-card").text(title);
                     limpiar();//LIMPIAMOS EL SELECTOR.
-                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                    $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
-                    //limpiamos la tabla
-                    $('#indicadores_data tbody').empty();
+                    if(indicador_seleccionado === 1 || indicador_seleccionado === 2)
+                    {
+                        $("#tabla1").show('');//MOSTRAMOS LA TABLA.
+                        $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
-                    //llenamos inputs date disabled
-                    $("#fechai_disabled").val(formData[0]['value']);
-                    $("#fechaf_disabled").val(formData[1]['value']);
+                        //limpiamos la tabla
+                        $('#indicadores_data tbody').empty();
 
-                    //proceso de llenado del grafico
-                    construirGrafico(data);
+                        //llenamos inputs date disabled
+                        $("#fechai_disabled").val(formData[0]['value']);
+                        $("#fechaf_disabled").val(formData[1]['value']);
 
-                    //proceso de llenado de la tabla
-                    construirTabla(data.tabla);
+                        //proceso de llenado del grafico
+                        construirGrafico(data);
 
-                    //llenado de los span
-                    llenadoDeSpan(data);
+                        //proceso de llenado de la tabla
+                        construirTabla(data.tabla);
+
+                        //llenado de los span
+                        llenadoDeSpan(data);
+                    }
+                    else if(indicador_seleccionado === 3)
+                    {
+                        $("#tabla2").show('');//MOSTRAMOS LA TABLA.
+
+                        //llenamos inputs date disabled
+                        $("#fechai_disabled1").val(formData[0]['value']);
+                        $("#fechaf_disabled1").val(formData[1]['value']);
+
+                        //proceso de llenado de la tabla
+                        construirTablaOportunidadDespacho(data.tabla);
+
+                        //llenado de los span
+                        llenadoDeSpan(data);
+                    }
 
                     $("#loader").hide();//OCULTAMOS EL LOADER.
                     validarCantidadRegistrosTabla(data.tabla);
@@ -310,38 +332,43 @@ function llenadoDeSpan(data){
     let total_ped;
     let promediodiario;
 
-    if(!jQuery.isEmptyObject(data)) {
-        totalDespacho   = data.totaldespacho;
-        total_ped       = data.total_ped;
+    if(indicador_seleccionado !== 3)
+    {
+        if(!jQuery.isEmptyObject(data)) {
+            totalDespacho   = data.totaldespacho;
+            total_ped       = data.total_ped;
+            if(indicador_seleccionado!==2){
+                pedporliquidar = data.total_ped_porliquidar;
+                promediodiario = data.promedio_diario_despacho;
+            }
+        } else {
+            totalDespacho   = 0;
+            total_ped       = 0;
+            pedporliquidar  = 0;
+            promediodiario  = 0;
+        }
+
+        $("#datos_chofer").val(data.chofer);
+        $("#total_ped_camion").text(totalDespacho);
+        $("#total_ped_entregados").text(total_ped);
+
         if(indicador_seleccionado!==2){
-            pedporliquidar = data.total_ped_porliquidar;
-            promediodiario = data.promedio_diario_despacho;
+            $("#total_ped_pendiente").text(pedporliquidar);
+            $("#promedio_diario_despachos").text(promediodiario);
+        } else {
+            $('[name="ped_pendiente"]').hide();
+            $('[name="diario_despachos"]').hide();
+        }
+
+        if(data.ordenes_despacho.length > 0){
+            $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
+        } else {
+            $("#ordenes_despacho").text("Sin registros para esta Consulta");
         }
     } else {
-        totalDespacho   = 0;
-        total_ped       = 0;
-        pedporliquidar  = 0;
-        promediodiario  = 0;
+        $("#datos_chofer1").val(data.chofer);
+        $("#total_promedio").text(parseInt(data.oportunidad_promedio * 100) /100 + ' %');
     }
-
-    $("#datos_chofer").val(data.chofer);
-    $("#total_ped_camion").text(totalDespacho);
-    $("#total_ped_entregados").text(total_ped);
-
-    if(indicador_seleccionado!==2){
-        $("#total_ped_pendiente").text(pedporliquidar);
-        $("#promedio_diario_despachos").text(promediodiario);
-    } else {
-        $('[name="ped_pendiente"]').hide();
-        $('[name="diario_despachos"]').hide();
-    }
-
-    if(data.ordenes_despacho.length > 0){
-        $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
-    } else {
-        $("#ordenes_despacho").text("Sin registros para esta Consulta");
-    }
-
 
     switch(indicador_seleccionado){
         case 1:
@@ -352,8 +379,6 @@ function llenadoDeSpan(data){
             $fact.text('CAUSA DEL RECHAZO');
             $("#fact_sinliquidar").text(sessionStorage.getItem("causa"));
             break;
-        default:
-            $fact.text('');
     }
 }
 
