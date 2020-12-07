@@ -13,16 +13,16 @@ let array_selects = [
 function init() {
     array_selects.forEach( pill => {
         $('#'+pill+' #fechai').val("2016-01-01");
-        $('#'+pill+' #fechaf').val("2020-11-21");
+        $('#'+pill+' #fechaf').val("2020-12-12");
     });
-    // $("#fechaf").val("");
+
     $("#tabla").hide();
     $('#grafico').hide();
     $("#loader").hide();
     estado_minimizado = false;
     indicador_seleccionado = 2;
     listar_choferes();
-    // listar_causas_de_rechazo(); PENDIENTE TERMINAR
+
     switch (indicador_seleccionado) {
         case 1: $("#pills-fectivas-tab").trigger("click");    break;
         case 2: $("#pills-rechazo-tab").trigger("click");     break;
@@ -37,9 +37,13 @@ function limpiar() {
         $('#'+pill+' #chofer').val("");
         $('#'+pill+' #causa').val("");
     });
-    $("#ped_pendiente").show();
-    $("#diario_despachos").show();
+    $('[name="ped_pendiente"]').show();
+    $('[name="diario_despachos"]').show();
 
+
+}
+
+function limpiar_tabla() {
 
 }
 
@@ -51,8 +55,10 @@ function validarCantidadRegistrosTabla(data) {
 }
 
 var no_puede_estar_vacio = function () {
-    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#chofer").val() !== "" &&
-        (indicador_seleccionado!==2 || (indicador_seleccionado===2 && $("#pills-rechazo #causa").val() !== "")))
+    let pill = array_selects[indicador_seleccionado-1];
+
+    ($("#"+pill+" #fechai").val() !== "" && $("#"+pill+" #fechaf").val() !== "" && $("#"+pill+" #chofer").val() !== "" &&
+        (indicador_seleccionado!==2 || (indicador_seleccionado===2 && $("#"+pill+" #causa").val() !== "")))
         ? estado_minimizado = true : estado_minimizado = false;
 };
 
@@ -74,18 +80,18 @@ $(document).ready(function(){
 });
 
 function listar_choferes(){
-    $.post("indicadoresdespacho_controlador.php?op=listar_choferes", function(data, status){
+    $.post("../choferes/chofer_controlador.php?op=listar_choferes", function(data, status){
         data = JSON.parse(data);
 
         array_selects.forEach( pill => {
             $chofer = $('#'+pill+' #chofer');
 
             //lista de seleccion de choferes
-            $chofer.append('<option name="" value="">Seleccione</option>');
-            if(indicador_seleccionado===2) {
+            $chofer.append('<option name="" value="">Seleccione chofer</option>');
+            if(pill === 'pills-rechazo') {
                 $chofer.append('<option name="" value="-">Todos</option>');
             }
-            $chofer.append('<option name="" value="5589533" selected>prueba</option>');
+            // $chofer.append('<option name="" value="5589533">prueba</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
                 $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
@@ -155,6 +161,7 @@ $(document).on("click", "#btn_consultar", function () {
                 success: function (data) {
                     data = JSON.parse(data);
                     $(".title-card").text(title);
+                    limpiar();//LIMPIAMOS EL SELECTOR.
                     $("#tabla").show('');//MOSTRAMOS LA TABLA.
                     $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
@@ -176,8 +183,6 @@ $(document).on("click", "#btn_consultar", function () {
 
                     $("#loader").hide();//OCULTAMOS EL LOADER.
                     validarCantidadRegistrosTabla(data.tabla);
-                    limpiar();//LIMPIAMOS EL SELECTOR.
-
                 }
             });
 
@@ -327,11 +332,16 @@ function llenadoDeSpan(data){
         $("#total_ped_pendiente").text(pedporliquidar);
         $("#promedio_diario_despachos").text(promediodiario);
     } else {
-        $("#ped_pendiente").hide();
-        $("#diario_despachos").hide();
+        $('[name="ped_pendiente"]').hide();
+        $('[name="diario_despachos"]').hide();
     }
 
-    $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
+    if(data.ordenes_despacho.length > 0){
+        $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
+    } else {
+        $("#ordenes_despacho").text("Sin registros para esta Consulta");
+    }
+
 
     switch(indicador_seleccionado){
         case 1:

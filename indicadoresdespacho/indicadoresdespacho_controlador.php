@@ -14,14 +14,6 @@ $choferes = new Choferes();
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "listar_choferes":
-
-        $output["lista_choferes"] = $choferes->get_choferes();
-
-        echo json_encode($output);
-
-        break;
-
     case "listar_entregas_efectivas":
         $fechai = $_POST['fechai'];
         $fechaf = $_POST['fechaf'];
@@ -123,8 +115,13 @@ switch ($_GET["op"]) {
         $datos = $indicadores->get_causasrechazo_por_chofer($fechai, $fechaf, $chofer_id, $causa);
 
         //inicializamos la variables
-        $chofer = $choferes->get_chofer_por_id($chofer_id);
-        $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
+        if($chofer_id!="-") {
+            $chofer = $choferes->get_chofer_por_id($chofer_id);
+            $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
+        } else {
+            $chofer = "Todos los Choferes";
+        }
+        $ordenes_despacho = Array();
         $ordenes_despacho_string = "";
         $totaldespacho = 0;
         $total_ped_devueltos = 0;
@@ -142,7 +139,15 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $ordenes_despacho_string .= ($row['correlativo'] . "(" . $row['cant_documentos'] . "), ");
+                /** obtener los despachos realizados para imprimirlos en un string ordenado al final **/
+                if(count($ordenes_despacho)>0 and $row['correlativo'] == $ordenes_despacho[count($ordenes_despacho)-1]["correlativo"]) {
+                    $ordenes_despacho[count($ordenes_despacho)-1]['cant_documentos'] += intval($row['cant_documentos']);
+                } else {
+                    $ordenes_despacho[] = array(
+                        "correlativo"     => $row['correlativo'],
+                        "cant_documentos" => $row['cant_documentos']
+                    );
+                }
 
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
@@ -160,7 +165,7 @@ switch ($_GET["op"]) {
                     //si no es igual, solo inserta un nuevo registro al array
                     else {
                         $fecha_entrega = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
-                            ? date_format(date_create($row['fecha_entre']), 'd-m-Y') : "sin entrega";
+                            ? date_format(date_create($row['fecha_entre']), 'd-m-Y') : "sin fecha de entrega";
 
                         $sub_array['fecha_entrega'] = $fecha_entrega;
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
@@ -172,6 +177,10 @@ switch ($_GET["op"]) {
                     }
                 }
             }
+        }
+        /** los despachos realizados obtenidos se agregan a un string **/
+        foreach ($ordenes_despacho as $arr){
+            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . $arr['cant_documentos'] . "), ");
         }
 
         /** calcular los pedidos devueltos **/

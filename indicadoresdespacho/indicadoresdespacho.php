@@ -194,7 +194,7 @@ require_once("../acceso/const.php");
                                 <p>
                                     Total de Pedidos en el camión: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_camion"></label>
                                 </p>
-                                <p id="ped_pendiente">
+                                <p name="ped_pendiente">
                                     Pedidos pendientes por liquidar: <label id="total_ped_pendiente"></label>
                                 </p>
                             </div>
@@ -202,7 +202,7 @@ require_once("../acceso/const.php");
                                 <p>
                                     Total de Pedidos entregados: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_entregados"></label>
                                 </p>
-                                <p id="diario_despachos">
+                                <p name="diario_despachos">
                                     Promedio Diario de Despachos: <label id="promedio_diario_despachos"></label>
                                 </p>
                             </div>

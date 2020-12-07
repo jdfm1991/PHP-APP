@@ -153,4 +153,12 @@ switch ($_GET["op"]) {
 
         break;
 
+    case "listar_choferes":
+
+        $output["lista_choferes"] = $choferes->get_choferes();
+
+        echo json_encode($output);
+
+        break;
+
 }
