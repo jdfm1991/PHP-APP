@@ -72,7 +72,7 @@ switch ($_GET["op"]) {
                 /** facturas sin liquidar **/
                 if(strlen($row['fact_sin_liquidar'])>0)
                 {
-                    $fact_sinliquidar_string .= (",".$row['fact_sin_liquidar']);
+                    $fact_sinliquidar_string .= ($row['fact_sin_liquidar'].",");
                     $array = explode(",", $fact_sinliquidar_string);
                     $array = array_unique($array);
                     sort($array, SORT_ASC);
@@ -259,7 +259,7 @@ switch ($_GET["op"]) {
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
             "chofer" => $chofer,
-            "oportunidad_promedio" => $oportunidad_promedio,
+            "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.').'%',
             "tabla" => $tabla
         );
         echo json_encode($output);

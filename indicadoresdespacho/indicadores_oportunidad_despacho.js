@@ -13,6 +13,10 @@ function construirTablaOportunidadDespacho(data) {
         "bInfo": true,
         "iDisplayLength": 10,
         // "order": [[0, "desc"]],
+        'columnDefs':[{
+            "targets": [0,1,2,3,4,5,6,7], // your case first column
+            "className": "text-center"
+        }],
         "language": texto_español_datatables
     });
 

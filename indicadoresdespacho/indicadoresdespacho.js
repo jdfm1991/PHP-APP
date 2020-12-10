@@ -1,13 +1,15 @@
-var estado_minimizado;
+let estado_minimizado;
 
 // 1-efectivas  2-rechazo  3-oportunidad
-var indicador_seleccionado;
+let indicador_seleccionado;
 
 let array_selects = [
     'pills-efectivas',
     'pills-rechazo',
     'pills-oportunidad'
 ];
+
+let barChart;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
@@ -45,7 +47,10 @@ function limpiar() {
 }
 
 function limpiar_grafico() {
-
+    if (barChart) {
+        barChart.clear();
+        barChart.destroy();
+    }
 }
 
 function validarCantidadRegistrosTabla(data) {
@@ -55,11 +60,11 @@ function validarCantidadRegistrosTabla(data) {
     $('#btn_pdf').attr("disabled", estado);
 }
 
-var no_puede_estar_vacio = function () {
-    let pill = array_selects[indicador_seleccionado-1];
+let no_puede_estar_vacio = function () {
+    let pill = array_selects[indicador_seleccionado - 1];
 
-    ($("#"+pill+" #fechai").val() !== "" && $("#"+pill+" #fechaf").val() !== "" && $("#"+pill+" #chofer").val() !== "" &&
-        (indicador_seleccionado!==2 || (indicador_seleccionado===2 && $("#"+pill+" #causa").val() !== "")))
+    ($("#" + pill + " #fechai").val() !== "" && $("#" + pill + " #fechaf").val() !== "" && $("#" + pill + " #chofer").val() !== "" &&
+        (indicador_seleccionado !== 2 || (indicador_seleccionado === 2 && $("#" + pill + " #causa").val() !== "")))
         ? estado_minimizado = true : estado_minimizado = false;
 };
 
@@ -157,6 +162,7 @@ $(document).on("click", "#btn_consultar", function () {
                 method: "POST",
                 data: form_data,
                 beforeSend: function () {
+                    limpiar_grafico();
                     $("#loader").show(''); /*MOSTRAMOS EL LOADER.*/
                 },
                 error: function (e) {
@@ -192,10 +198,6 @@ $(document).on("click", "#btn_consultar", function () {
                     {
                         $("#tabla2").show('');//MOSTRAMOS LA TABLA.
 
-                        //llenamos inputs date disabled
-                        $("#fechai_disabled1").val(formData[0]['value']);
-                        $("#fechaf_disabled1").val(formData[1]['value']);
-
                         //proceso de llenado de la tabla
                         construirTablaOportunidadDespacho(data.tabla);
 
@@ -230,13 +232,6 @@ $(document).on("click", "#btn_consultar", function () {
     }
 });
 
-function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
-    sessionStorage.setItem("fechai", fechai);
-    sessionStorage.setItem("fechaf", fechaf);
-    sessionStorage.setItem("chofer", chofer);
-    sessionStorage.setItem("causa", causa);
-}
-
 function construirGrafico(data) {
     let object, value_max_default;
 
@@ -254,7 +249,7 @@ function construirGrafico(data) {
     }
 
     //CONSTRUCCION DEL GRAFICO
-    var barChart = new Chart($('#barChart').get(0).getContext('2d'), {
+    barChart = new Chart($('#barChart').get(0).getContext('2d'), {
         type: 'bar',
         data: jQuery.extend(true, {}, {
             labels  : object.labels,
@@ -367,7 +362,7 @@ function llenadoDeSpan(data){
         }
     } else {
         $("#datos_chofer1").val(data.chofer);
-        $("#total_promedio").text(parseInt(data.oportunidad_promedio * 100) /100 + ' %');
+        $("#total_promedio").text(data.oportunidad_promedio);
     }
 
     switch(indicador_seleccionado){
@@ -382,21 +377,52 @@ function llenadoDeSpan(data){
     }
 }
 
+function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
+    sessionStorage.setItem("fechai", fechai);
+    sessionStorage.setItem("fechaf", fechaf);
+    sessionStorage.setItem("chofer", chofer);
+    sessionStorage.setItem("causa", causa);
+}
+
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-    var fechai = sessionStorage.getItem("fechai");
-    var fechaf = sessionStorage.getItem("fechaf");
-    if (fechai !== "" && fechaf !== "") {
-        window.location = "historicocostos_excel.php?fechai="+fechai+"&fechaf="+fechaf;
+    const fechai = sessionStorage.getItem("fechai");
+    const fechaf = sessionStorage.getItem("fechaf");
+    const chofer = sessionStorage.getItem("chofer");
+    const causa  = sessionStorage.getItem("causa");
+    if (fechai !== "" && fechaf !== "" && chofer !== "") {
+        switch (indicador_seleccionado) {
+            case 1:
+                window.location = "reporte_entregas_efectivas_excel.php?fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer;
+                break;
+            case 2:
+                window.location = "reporte_rechazo_clientes_excel.php?fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer+"&causa="+causa;
+                break;
+            case 3:
+                window.location = "reporte_oportunidad_despacho_excel.php?fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer;
+                break;
+        }
     }
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    var fechai = sessionStorage.getItem("fechai");
-    var fechaf = sessionStorage.getItem("fechaf");
-    if (fechai !== "" && fechaf !== "") {
-        window.open('historicocostos_pdf.php?&fechai='+fechai+"&fechaf="+fechaf, '_blank');
+    const fechai = sessionStorage.getItem("fechai");
+    const fechaf = sessionStorage.getItem("fechaf");
+    const chofer = sessionStorage.getItem("chofer");
+    const causa  = sessionStorage.getItem("causa");
+    if (fechai !== "" && fechaf !== "" && chofer !== "") {
+        switch (indicador_seleccionado) {
+            case 1:
+                window.open('reporte_entregas_efectivas_pdf.php?&fechai='+fechai+"&fechaf="+fechaf+"&chofer="+chofer, '_blank');
+                break;
+            case 2:
+                window.open('reporte_rechazo_clientes_pdf.php?&fechai='+fechai+"&fechaf="+fechaf+"&chofer="+chofer+"&causa="+causa, '_blank');
+                break;
+            case 3:
+                window.open('reporte_oportunidad_despacho_pdf.php?&fechai='+fechai+"&fechaf="+fechaf+"&chofer="+chofer, '_blank');
+                break;
+        }
     }
 });
 

@@ -208,11 +208,11 @@ require_once("../acceso/const.php");
                             </div>
                         </div>
                         <!-- BOX BOTONES DE REPORTES-->
-                        <!--<div align="center">
+                        <div align="center">
                             <br><p><span id="total_registros"></span></p><br>
                             <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
                             <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -262,46 +262,31 @@ require_once("../acceso/const.php");
                         <h3 class="card-title">Oportunidad de Despacho</h3>
                     </div>
                     <div class="card-body" style="width:auto;">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-check form-check-inline">
-                                    <div class="form-group col-2 pt-1" align="center">
-                                        <label class="pt-1">CHOFER: </label>&nbsp;&nbsp;&nbsp;
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <input type="text" class="form-control" id="datos_chofer1" disabled>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <input type="date" class="form-control" id="fechai_disabled1" name="fechai" disabled>
-                                    </div>
-                                    <div class="form-group col-1 pt-1" align="center">
-                                        <label> AL </label>
-                                    </div>
-                                    <div class="form-group col-3">
-                                        <input type="date" class="form-control" id="fechaf_disabled1" name="fechaf" disabled>
-                                    </div>
-                                </div>
+                        <div class="form-group row">
+                            <div class="form-group col-sm-1 pt-1">
+                                <label class="pt-1">CHOFER: </label>&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <input type="text" class="form-control" id="datos_chofer1" disabled>
                             </div>
                         </div>
-                        <div class="row">
-                            <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="oportunidad_data">
-                                <thead style="background-color: #17A2B8;color: white;">
-                                <tr>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Nro Fact">Nro Fact</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Ruta">Ruta</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Cliente">Cliente</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fecha Despacho">Fecha Despacho</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fecha Recibe Cliente">Fecha Recibe Cliente</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Tiempo Estandart Desp">Tiempo Estandart Desp</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Tiempo Real Entrega">Tiempo Real Entrega</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Oportunidad">% Oportunidad</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- TD TABLA LLEGAN POR AJAX -->
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="oportunidad_data">
+                            <thead style="background-color: #17A2B8;color: white;">
+                            <tr>
+                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Nro Fact">Nro Fact</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Ruta">Ruta</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cliente">Cliente</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Fecha Despacho">Fecha Despacho</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Fecha Recibe Cliente">Fecha Recibe Cliente</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Tiempo Estandart Desp">Tiempo Estandart Desp</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Tiempo Real Entrega">Tiempo Real Entrega</th>
+                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="% Oportunidad">% Oportunidad</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- TD TABLA LLEGAN POR AJAX -->
+                            </tbody>
+                        </table>
                         <div align="center">
                             <br>
                             <p>
@@ -310,11 +295,11 @@ require_once("../acceso/const.php");
                             <br>
                         </div>
                         <!-- BOX BOTONES DE REPORTES-->
-                        <!--<div align="center">
+                        <div align="center">
                             <br><p><span id="total_registros"></span></p><br>
                             <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
                             <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </div>
