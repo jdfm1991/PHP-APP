@@ -11,6 +11,14 @@ use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
@@ -33,11 +41,13 @@ $row = 0;
 $i = 0;
 //funcion recursiva creada para reporte Excel que evalua los numeros > 0
 // y asigna la letra desde la A....hasta la Z y AA, AB, AC.....AZ
-function getExcelCol($num) {
+function getExcelCol($num, $letra_temp = false) {
     $numero = $num % 26;
     $letra = chr(65 + $numero);
     $num2 = intval($num / 26);
-    $GLOBALS['i'] = $GLOBALS['i'] +1;
+    if(!$letra_temp)
+        $GLOBALS['i'] = $GLOBALS['i'] +1;
+
     if ($num2 > 0) {
         return getExcelCol($num2 - 1) . $letra;
     } else {
@@ -107,6 +117,7 @@ $fecha_entrega = Array();
 $cant_documentos = Array();
 $porc = Array();
 $ordenes_despacho = Array();
+$valoresParaGrafico = Array();
 
 //almacenamos el total de despachos para calcular la efectividad posteriormente
 foreach ($query as $item)
@@ -252,6 +263,7 @@ else {
 $spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
 
 
+
 /************************************* */
 /** CONTENIDO DE LA TABLA DE LA TABLA **/
 /************************************* */
@@ -271,15 +283,27 @@ $style_subtitle->applyFromArray(array('fill' => array('fillType' => Fill::FILL_S
 
 $row-=3;
 $temp_letra = $ult_letra = "";
+$nombre_serie = "";
 for ($j=0; $j<count($cant_documentos); $j++) {
-
+    $sheet = $spreadsheet->getActiveSheet();
     //evalua con la intencion de saber si se va a hacer un salto de la
     //tabla para agregarle estilo a la cabecera de la tabla
     if( ( $j % $ancho_tabla_max )==0 || $j+1==count($cant_documentos) ) {
+
         if($temp_letra!="") {
-            $ult_letra = $temp_letra;
+            $ult_letra = !($j+1==count($cant_documentos)) ? $temp_letra : getExcelCol($i, true);
             $spreadsheet->getActiveSheet()->mergeCells('A'.($row).':'. $ult_letra . ($row));
             $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A'.($row).':'. $ult_letra . ($row));
+        }
+
+        if( $j>0 && ($j % $ancho_tabla_max)==0 || $j+1==count($cant_documentos) )
+        {
+
+            $valoresParaGrafico[] = Array(
+                'fecha_entrega' => array('B', ($row+1), $ult_letra, ($row+1)),
+                'despachos'     => array('B', ($row+2), $ult_letra, ($row+2)),
+            );
+            $sheet->setCellValue($ult_letra . ($row+5), $valoresParaGrafico[0]['fecha_entrega'][0]);
         }
     }
 
@@ -298,10 +322,10 @@ for ($j=0; $j<count($cant_documentos); $j++) {
         $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+2));
         $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+3));
         $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+4));
+        $nombre_serie = array($temp_letra, ($row+4));
     }
 
     $temp_letra = getExcelCol($i);
-    $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue($temp_letra . ($row+1), $fecha_entrega[$j]);
     $sheet->setCellValue($temp_letra . ($row+2), $cant_documentos[$j]);
     $sheet->setCellValue($temp_letra . ($row+3), $porc[$j]);
@@ -315,13 +339,71 @@ for ($j=0; $j<count($cant_documentos); $j++) {
 }
 
 
+/************************************* */
+/**             GRAFICO               **/
+/************************************* */
 
-header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="indicadores_entregas_efectivas_del'.$fechai.'_al_'.$fechaf.'.xls"');
+// tipo (Grupo) de serie de la barras
+$dataSeriesLabels = [
+    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$'.$nombre_serie[1], null, 1),
+//    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1),
+];
+
+// serie EJE X del nombre de las barras (en la parte inferior)
+$xAxisTickValues = [
+    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$'.$valoresParaGrafico[0]['fecha_entrega'][0].'$'.$valoresParaGrafico[0]['fecha_entrega'][1].':$'.$valoresParaGrafico[0]['fecha_entrega'][2].'$'.$valoresParaGrafico[0]['fecha_entrega'][3], null, 4),
+];
+
+//valores de las barras (por cada item del EJE X)
+$dataSeriesValues = [
+    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$'.$valoresParaGrafico[0]['despachos'][0].'$'.$valoresParaGrafico[0]['despachos'][1].':$'.$valoresParaGrafico[0]['despachos'][2].'$'.$valoresParaGrafico[0]['despachos'][3], null, 4),
+    /*new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$C$2:$C$5', null, 4),
+        new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$D$2:$D$5', null, 4),*/
+];
+
+// Construccion de las DataSeries
+$series = new DataSeries(
+    DataSeries::TYPE_BARCHART, // plotType
+    DataSeries::GROUPING_STANDARD, // plotGrouping
+    range(0, count($dataSeriesValues) - 1), // plotOrder
+    $dataSeriesLabels, // plotLabel
+    $xAxisTickValues,  // plotCategory
+    $dataSeriesValues  // plotValues
+);
+$series->setPlotDirection(DataSeries::DIRECTION_COL);
+
+// Datos necesarios para la contruccion del grafico
+$plotArea   = new PlotArea(null, [$series]);
+$legend     = new Legend(Legend::POSITION_RIGHT, null, false);
+$title      = new Title('Entregas Efectivas');
+$yAxisLabel = new Title('Despachos');
+
+// Construccion del Grafico
+$chart = new Chart(
+    'grafico', // name
+    $title, // title
+    $legend, // legend
+    $plotArea, // plotArea
+    true, // plotVisibleOnly
+    0, // displayBlanksAs
+    null, // xAxisLabel
+    $yAxisLabel  // yAxisLabel
+);
+$chart->setTopLeftPosition('B' . ($row+=6))
+      ->setBottomRightPosition('S' . ($row+=17));
+
+// AGREGA EL GRAFICO AL DOCUMENTO
+$spreadsheet->getActiveSheet()->addChart($chart);
+
+
+//header('Content-Type: application/vnd.ms-excel');
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="indicadores_entregas_efectivas_del'.$fechai.'_al_'.$fechaf.'.xlsx"');
 header('Cache-Control: max-age=0');
-
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+$writer = new Xlsx($spreadsheet);
+$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+$writer->setIncludeCharts(true);
+$callStartTime = microtime(true);
 ob_end_clean();
 ob_start();
 $writer->save('php://output');
-
