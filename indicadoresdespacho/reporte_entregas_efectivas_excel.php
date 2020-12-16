@@ -11,7 +11,6 @@ use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
-use PhpOffice\PhpSpreadsheet\Helper\Sample;
 use PhpOffice\PhpSpreadsheet\Chart\Chart;
 use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
 use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
@@ -19,6 +18,7 @@ use PhpOffice\PhpSpreadsheet\Chart\Legend;
 use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
 use PhpOffice\PhpSpreadsheet\Chart\Title;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
@@ -32,10 +32,10 @@ $fechai = $_GET['fechai'];
 $fechaf = $_GET['fechaf'];
 $chofer_id = $_GET['chofer'];
 
-$formato_fecha = "d-m";
+$formato_fecha = "d-m-Y";
 $cant_ordenes_despacho_max = 22;
 $cant_fact_sinliquidar_max = 26;
-$ancho_tabla_max = 20;
+$ancho_tabla_max = 19;
 $row = 0;
 
 $i = 0;
@@ -67,7 +67,10 @@ function addCero($num) {
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
-$spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+foreach(range('B','U') as $columnID) {
+    $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setWidth(10);
+}
 
 
 /********************** */
@@ -94,9 +97,9 @@ $spreadsheet->getActiveSheet()->getStyle('J3:L3')->getFont()->setSize(25);
 $sheet->setCellValue('K3', 'ENTREGAS EFECTIVAS');
 $sheet->setCellValue('R2', 'Codigo: FOR-TRA-09-R0');
 $sheet->setCellValue('R4', 'Fecha: 25/08/14');
-$spreadsheet->getActiveSheet()->getStyle('A'.($row+=0).':U'.($row))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-$spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-$spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':U'.($row))->applyFromArray(array('borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row+=0).':T'.($row))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':T'.($row))->applyFromArray(array('borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
 
 
@@ -193,8 +196,8 @@ $sheet->setCellValue('N'.($row), 'DESDE: ' . date_format(date_create($fechai), "
 $sheet->setCellValue('R'.($row), 'HASTA: ' . date_format(date_create($fechaf), "d-m-Y"));
 $spreadsheet->getActiveSheet()->mergeCells('N'.($row).':O'.($row));
 $spreadsheet->getActiveSheet()->mergeCells('R'.($row).':S'.($row));
-$spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
-$spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
 
 $sheet->setCellValue('A'.($row+=1), 'ORDENES DE DESPACHO');
 $ordenes_despacho_arr = explode(",", $ordenes_despacho_string);
@@ -210,8 +213,8 @@ if(count($ordenes_despacho_arr) > $cant_ordenes_despacho_max)
         //axena cada (cantidad maxima de ordenes) o si llego al final del arr
         if( ($index>0 && ($index % $cant_ordenes_despacho_max)==0) || ($index>0 && $index==count($ordenes_despacho_arr)) ) {
             $sheet->setCellValue('B'.($row), $temp_string);
-            $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':U'.($row));
-            $spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+            $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':T'.($row));
+            $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
             $temp_string = ($arr . ", ");
             $row+=1;
         } else {
@@ -223,11 +226,11 @@ if(count($ordenes_despacho_arr) > $cant_ordenes_despacho_max)
 else {
     //sino no es necesario procesar la ordenes de despachos sino imprimirlas
     $sheet->setCellValue('C'.($row), $ordenes_despacho_string);
-    $spreadsheet->getActiveSheet()->mergeCells('C'.($row).':U'.($row));
-    $spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->mergeCells('C'.($row).':T'.($row));
+    $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
     $row+=1;
 }
-$spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
 
 $sheet->setCellValue('A'.($row+=1), 'FACT SIN LIQUIDAR');
 $fact_sinliquidar_arr = explode(",", $fact_sinliquidar_string);
@@ -243,8 +246,8 @@ if(count($fact_sinliquidar_arr) > $cant_fact_sinliquidar_max)
         //axena cada (cantidad maxima de ordenes) o si llego al final del arr
         if( ($index>0 && ($index % $cant_fact_sinliquidar_max)==0) || ($index>0 && $index==count($fact_sinliquidar_arr)) ) {
             $sheet->setCellValue('B'.($row), $temp_string);
-            $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':U'.($row));
-            $spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+            $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':T'.($row));
+            $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
             $temp_string = ($arr . ", ");
             $row+=1;
         } else {
@@ -255,12 +258,12 @@ if(count($fact_sinliquidar_arr) > $cant_fact_sinliquidar_max)
 }
 else {
     //sino no es necesario procesar las facturas sin liquidar, se imprimen directamente
-    $sheet->setCellValue('C'.($row), $fact_sinliquidar_string);
-    $spreadsheet->getActiveSheet()->mergeCells('C'.($row).':U'.($row));
-    $spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+    $sheet->setCellValue('B'.($row), $fact_sinliquidar_string);
+    $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':T'.($row));
+    $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
     $row+=1;
 }
-$spreadsheet->getActiveSheet()->getStyle('A'.($row).':U'.($row))->applyFromArray(array('borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
 
 
 
@@ -303,7 +306,6 @@ for ($j=0; $j<count($cant_documentos); $j++) {
                 'fecha_entrega' => array('B', ($row+1), $ult_letra, ($row+1)),
                 'despachos'     => array('B', ($row+2), $ult_letra, ($row+2)),
             );
-            $sheet->setCellValue($ult_letra . ($row+5), $valoresParaGrafico[0]['fecha_entrega'][0]);
         }
     }
 
@@ -328,7 +330,7 @@ for ($j=0; $j<count($cant_documentos); $j++) {
     $temp_letra = getExcelCol($i);
     $sheet->setCellValue($temp_letra . ($row+1), $fecha_entrega[$j]);
     $sheet->setCellValue($temp_letra . ($row+2), $cant_documentos[$j]);
-    $sheet->setCellValue($temp_letra . ($row+3), $porc[$j]);
+    $sheet->setCellValue($temp_letra . ($row+3), $porc[$j] . ' %');
     $sheet->setCellValue($temp_letra . ($row+4), $ordenes_despacho[$j]);
 
     /** centrarlas las celdas **/
@@ -339,6 +341,35 @@ for ($j=0; $j<count($cant_documentos); $j++) {
 }
 
 
+
+/************************************* */
+/**      TOTALES BAJO LA TABLA        **/
+/************************************* */
+$row+=6;
+$sheet->setCellValue('B' . ($row+0), 'Total de Pedidos en el camión:');
+$sheet->setCellValue('B' . ($row+1), 'Total de Pedidos entregados:');
+$sheet->setCellValue('B' . ($row+2), 'Pedidos pendientes por liquidar:');
+$sheet->setCellValue('B' . ($row+3), 'Promedio Diario de Despachos:');
+$sheet->setCellValue('E' . ($row+0), $totaldespacho);
+$sheet->setCellValue('E' . ($row+1), $total_ped_entregados);
+$sheet->setCellValue('E' . ($row+2), $total_ped_porliquidar);
+$sheet->setCellValue('E' . ($row+3), number_format($promedio_diario_despacho,2, ",", ".").' %');
+$spreadsheet->getActiveSheet()->mergeCells('B'.($row+0).':D'.($row+0));
+$spreadsheet->getActiveSheet()->mergeCells('B'.($row+1).':D'.($row+1));
+$spreadsheet->getActiveSheet()->mergeCells('B'.($row+2).':D'.($row+2));
+$spreadsheet->getActiveSheet()->mergeCells('B'.($row+3).':D'.($row+3));
+$spreadsheet->getActiveSheet()->getStyle('B'.($row+0).':D'.($row+0))->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('B'.($row+1).':D'.($row+1))->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('B'.($row+2).':D'.($row+2))->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('B'.($row+3).':D'.($row+3))->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('E'.($row+0))->applyFromArray(array('font' => array('bold'  => true), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_LEFT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('E'.($row+1))->applyFromArray(array('font' => array('bold'  => true), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_LEFT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('E'.($row+2))->applyFromArray(array('font' => array('bold'  => true), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_LEFT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('E'.($row+3))->applyFromArray(array('font' => array('bold'  => true), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_LEFT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+
+
+
 /************************************* */
 /**             GRAFICO               **/
 /************************************* */
@@ -346,7 +377,6 @@ for ($j=0; $j<count($cant_documentos); $j++) {
 // tipo (Grupo) de serie de la barras
 $dataSeriesLabels = [
     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$'.$nombre_serie[1], null, 1),
-//    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1),
 ];
 
 // serie EJE X del nombre de las barras (en la parte inferior)
@@ -357,8 +387,6 @@ $xAxisTickValues = [
 //valores de las barras (por cada item del EJE X)
 $dataSeriesValues = [
     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$'.$valoresParaGrafico[0]['despachos'][0].'$'.$valoresParaGrafico[0]['despachos'][1].':$'.$valoresParaGrafico[0]['despachos'][2].'$'.$valoresParaGrafico[0]['despachos'][3], null, 4),
-    /*new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$C$2:$C$5', null, 4),
-        new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$D$2:$D$5', null, 4),*/
 ];
 
 // Construccion de las DataSeries
@@ -373,7 +401,8 @@ $series = new DataSeries(
 $series->setPlotDirection(DataSeries::DIRECTION_COL);
 
 // Datos necesarios para la contruccion del grafico
-$plotArea   = new PlotArea(null, [$series]);
+$layout1    = (new Layout())->setShowVal(true);
+$plotArea   = new PlotArea($layout1, [$series]);
 $legend     = new Legend(Legend::POSITION_RIGHT, null, false);
 $title      = new Title('Entregas Efectivas');
 $yAxisLabel = new Title('Despachos');
@@ -396,9 +425,26 @@ $chart->setTopLeftPosition('B' . ($row+=6))
 $spreadsheet->getActiveSheet()->addChart($chart);
 
 
-//header('Content-Type: application/vnd.ms-excel');
+
+/************************************* */
+/**     CUADRO DE AUTORIZADO POR      **/
+/************************************* */
+$row+=4;
+$sheet->setCellValue('B'.$row, 'Aprobado por: ');
+$sheet->setCellValue('K'.$row, 'C.I:');
+$sheet->setCellValue('O'.$row, 'Firma: ');
+$spreadsheet->getActiveSheet()->mergeCells('B'.($row).':C'.($row));
+$spreadsheet->getActiveSheet()->getStyle('B'.($row).':C'.($row))->applyFromArray(array('font' => array('bold'  => true), 'borders' => array('top' => ['borderStyle' => Border::BORDER_MEDIUM], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM], 'bottom' => ['borderStyle' => Border::BORDER_MEDIUM],)));
+$spreadsheet->getActiveSheet()->getStyle('D'.($row).':J'.($row))->applyFromArray(array('font' => array('bold'  => true), 'borders' => array('top' => ['borderStyle' => Border::BORDER_MEDIUM], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM], 'bottom' => ['borderStyle' => Border::BORDER_MEDIUM],)));
+$spreadsheet->getActiveSheet()->getStyle('K'.($row).':L'.($row))->applyFromArray(array('font' => array('bold'  => true), 'borders' => array('top' => ['borderStyle' => Border::BORDER_MEDIUM], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM], 'bottom' => ['borderStyle' => Border::BORDER_MEDIUM],)));
+$spreadsheet->getActiveSheet()->getStyle('M'.($row).':N'.($row))->applyFromArray(array('font' => array('bold'  => true), 'borders' => array('top' => ['borderStyle' => Border::BORDER_MEDIUM], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM], 'bottom' => ['borderStyle' => Border::BORDER_MEDIUM],)));
+$spreadsheet->getActiveSheet()->getStyle('O'.($row).':P'.($row))->applyFromArray(array('font' => array('bold'  => true), 'borders' => array('top' => ['borderStyle' => Border::BORDER_MEDIUM], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM], 'bottom' => ['borderStyle' => Border::BORDER_MEDIUM],)));
+$spreadsheet->getActiveSheet()->getStyle('Q'.($row).':R'.($row))->applyFromArray(array('font' => array('bold'  => true), 'borders' => array('top' => ['borderStyle' => Border::BORDER_MEDIUM], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM], 'bottom' => ['borderStyle' => Border::BORDER_MEDIUM],)));
+
+
+
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="indicadores_entregas_efectivas_del'.$fechai.'_al_'.$fechaf.'.xlsx"');
+header('Content-Disposition: attachment;filename="indicadores_entregas_efectivas_del_'.$fechai.'_al_'.$fechaf.'.xlsx"');
 header('Cache-Control: max-age=0');
 $writer = new Xlsx($spreadsheet);
 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

@@ -348,9 +348,11 @@ function llenadoDeSpan(data){
         $("#total_ped_entregados").text(total_ped);
 
         if(indicador_seleccionado!==2){
+            $("#label_tipo").text('entregados');
             $("#total_ped_pendiente").text(pedporliquidar);
             $("#promedio_diario_despachos").text(promediodiario);
         } else {
+            $("#label_tipo").text('devueltos');
             $('[name="ped_pendiente"]').hide();
             $('[name="diario_despachos"]').hide();
         }

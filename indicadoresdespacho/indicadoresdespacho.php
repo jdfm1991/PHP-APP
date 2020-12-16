@@ -200,7 +200,7 @@ require_once("../acceso/const.php");
                             </div>
                             <div class="col">
                                 <p>
-                                    Total de Pedidos entregados: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_entregados"></label>
+                                    Total de Pedidos <label id="label_tipo"></label>: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_entregados"></label>
                                 </p>
                                 <p name="diario_despachos">
                                     Promedio Diario de Despachos: <label id="promedio_diario_despachos"></label>
