@@ -8,8 +8,7 @@
   <title>Logistica y Despacho</title>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/dist/css/adminlte.min.css">
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -20,4 +19,6 @@
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/build/css/form_despacho.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/dist/css/adminlte.min.css">
 </head>

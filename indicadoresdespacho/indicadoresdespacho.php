@@ -139,6 +139,12 @@ require_once("../acceso/const.php");
                                     </select>
                                 </div>
                             </div>
+                        
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <input id="check" type="checkbox" name="check" class="form-control" checked data-bootstrap-switch>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -309,6 +315,8 @@ require_once("../acceso/const.php");
 <?php require_once("../footer.php");?>
 <!-- ChartJS -->
 <script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="<?php echo SERVERURL; ?>public/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
 <script type="text/javascript" src="indicadoresdespacho.js"></script>
 

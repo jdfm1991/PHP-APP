@@ -31,6 +31,13 @@ function init() {
         case 2: $("#pills-rechazo-tab").trigger("click");     break;
         case 3: $("#pills-oportunidad-tab").trigger("click"); break;
     }*/
+
+    $("input[data-bootstrap-switch]").bootstrapSwitch({
+        onColor: 'primary',
+        offColor: 'default',
+        onText: ' Anual ',
+        offText: ' Mensual '
+    });
 }
 
 function limpiar() {
