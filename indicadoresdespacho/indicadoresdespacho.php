@@ -61,17 +61,25 @@ require_once("../acceso/const.php");
                     <div class="tab-pane fade show active" id="pills-efectivas" role="tabpanel">
                         <form id="efectivas_form" class="form-horizontal" method="post">
                             <div class="form-group row">
-                                <div class="form-group col-sm-2">
-                                    <label for="fechai">Desde</label>
-                                    <input type="date" class="form-control" id="fechai" name="fechai" required>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label for="fechaf">Hasta</label>
-                                    <input type="date" class="form-control" id="fechaf" name="fechaf" required>
-                                </div>
-                                <div class="form-group col-sm-2">
+                                <div class="form-group col-sm-6">
                                     <label for="chofer">Chofer</label>
                                     <select class="form-control custom-select" name="chofer" id="chofer" style="width: 100%;" required>
+                                        <!-- la lista de tipo se carga por ajax -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-sm-3">
+                                    <label for="chofer">Tipo de Periodo</label>
+                                    <select class="form-control custom-select" name="tipoPeriodo" id="tipoPeriodo" style="width: 100%;" required>
+                                        <option value="">Seleccione tipo Periodo</option>
+                                        <option value="Anual">Anual</option>
+                                        <option value="Mensual">Mensual</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="chofer">Periodo</label>
+                                    <select class="form-control custom-select" name="periodo" id="periodo" style="width: 100%;" required>
                                         <!-- la lista de tipo se carga por ajax -->
                                     </select>
                                 </div>
@@ -100,7 +108,6 @@ require_once("../acceso/const.php");
                                 <div class="form-group col-sm-6">
                                     <label for="chofer">Causa de rechazo</label>
                                     <select class="custom-select" name="causa" id="causa" style="width: 100%;" required>
-                                        <!-- la lista de casusas de rechazo se carga por ajax -->
                                         <option value="">Seleccione Causa del rechazo</option>
                                         <option value="todos">Todos</option>
                                         <option value="Merc. no solicitada">Merc. no solicitada</option>
@@ -123,26 +130,28 @@ require_once("../acceso/const.php");
                     </div>
                     <div class="tab-pane fade" id="pills-oportunidad" role="tabpanel">
                         <form id="oportunidad_form" class="form-horizontal" method="post">
-                            <div class="form-group row">
-                                <div class="form-group col-sm-2">
-                                    <label for="fechai">Desde</label>
-                                    <input type="date" class="form-control" id="fechai" name="fechai" required>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label for="fechaf">Hasta</label>
-                                    <input type="date" class="form-control" id="fechaf" name="fechaf" required>
-                                </div>
-                                <div class="form-group col-sm-2">
+                        <div class="form-group row">
+                                <div class="form-group col-sm-6">
                                     <label for="chofer">Chofer</label>
                                     <select class="form-control custom-select" name="chofer" id="chofer" style="width: 100%;" required>
                                         <!-- la lista de tipo se carga por ajax -->
                                     </select>
                                 </div>
                             </div>
-                        
                             <div class="form-group row">
-                                <div class="col-sm-2">
-                                    <input id="check" type="checkbox" name="check" class="form-control" checked data-bootstrap-switch>
+                                <div class="form-group col-sm-3">
+                                    <label for="chofer">Tipo de Periodo</label>
+                                    <select class="form-control custom-select" name="tipoPeriodo" id="tipoPeriodo" style="width: 100%;" required>
+                                        <option value="">Seleccione tipo Periodo</option>
+                                        <option value="Anual">Anual</option>
+                                        <option value="Mensual">Mensual</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="chofer">Periodo</label>
+                                    <select class="form-control custom-select" name="periodo" id="periodo" style="width: 100%;" required>
+                                        <!-- la lista de tipo se carga por ajax -->
+                                    </select>
                                 </div>
                             </div>
                         </form>

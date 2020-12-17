@@ -13,11 +13,6 @@ let barChart;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    /*array_selects.forEach( pill => {
-        $('#'+pill+' #fechai').val("2016-01-01");
-        $('#'+pill+' #fechaf').val("2020-12-12");
-    });*/
-
     $("#tabla1").hide();
     $("#tabla2").hide();
     $('#grafico').hide();
@@ -25,32 +20,25 @@ function init() {
     estado_minimizado = false;
     indicador_seleccionado = 1;
     listar_choferes();
-
-    /*switch (indicador_seleccionado) {
+    limpiar();
+    switch (indicador_seleccionado) {
         case 1: $("#pills-fectivas-tab").trigger("click");    break;
         case 2: $("#pills-rechazo-tab").trigger("click");     break;
         case 3: $("#pills-oportunidad-tab").trigger("click"); break;
-    }*/
-
-    $("input[data-bootstrap-switch]").bootstrapSwitch({
-        onColor: 'primary',
-        offColor: 'default',
-        onText: ' Anual ',
-        offText: ' Mensual '
-    });
+    }
 }
 
 function limpiar() {
     array_selects.forEach( pill => {
-        $('#'+pill+' #fechai').val("");
-        $('#'+pill+' #fechaf').val("");
         $('#'+pill+' #chofer').val("");
         $('#'+pill+' #causa').val("");
+        $('#'+pill+' #tipoPeriodo').val("");
+        $('#'+pill+' #periodo').val("");
+        $('#'+pill+' #tipoPeriodo').prop("disabled", true);
+        $('#'+pill+' #periodo').prop("disabled", true);
     });
     $('[name="ped_pendiente"]').show();
     $('[name="diario_despachos"]').show();
-
-
 }
 
 function limpiar_grafico() {
@@ -70,16 +58,19 @@ function validarCantidadRegistrosTabla(data) {
 let no_puede_estar_vacio = function () {
     let pill = array_selects[indicador_seleccionado - 1];
 
-    ($("#" + pill + " #fechai").val() !== "" && $("#" + pill + " #fechaf").val() !== "" && $("#" + pill + " #chofer").val() !== "" &&
+    ($("#" + pill + " #tipoPeriodo").val() !== "" && $("#" + pill + " #periodo").val() !== "" && $("#" + pill + " #chofer").val() !== "" &&
         (indicador_seleccionado !== 2 || (indicador_seleccionado === 2 && $("#" + pill + " #causa").val() !== "")))
         ? estado_minimizado = true : estado_minimizado = false;
 };
 
 $(document).ready(function(){
     array_selects.forEach( pill => {
-        $("#"+pill+" #fechai").change(() => no_puede_estar_vacio());
-        $("#"+pill+" #fechaf").change(() => no_puede_estar_vacio());
-        $("#"+pill+" #chofer").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #tipoPeriodo").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #periodo").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #chofer").change(() => {
+            no_puede_estar_vacio();
+            
+        });
         $("#"+pill+" #causa").change(() => no_puede_estar_vacio());
     });
 
@@ -103,14 +94,28 @@ function listar_choferes(){
 
             //lista de seleccion de choferes
             $chofer.append('<option name="" value="">Seleccione chofer</option>');
-            if(pill === 'pills-rechazo') {
+            if(pill === 'pills-rechazo')
                 $chofer.append('<option name="" value="-">Todos</option>');
-            }
-            // $chofer.append('<option name="" value="5589533">prueba</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
                 $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
             });
+        });
+    });
+}
+
+function listar_periodos(tipoPeriodo){
+    $.post("indicadoresdespacho_controlador.php?op=listar_periodos", {tipoPeriodo: tipoPeriodo}, function(data, status){
+        data = JSON.parse(data);
+
+        let pill = array_selects[indicador_seleccionado - 1];
+
+        $periodo = $('#'+pill+' #periodo');
+        //lista de seleccion de periodos
+        $periodo.append('<option name="" value="">Seleccione periodo</option>');
+        $.each(data.lista_periodos, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $periodo.append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
         });
     });
 }
@@ -146,9 +151,9 @@ $(document).on("click", "#btn_consultar", function () {
         $("#grafico").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if ((formData[0]['name'] === "fechai" && formData[0]['value'] !== "")
-            && (formData[1]['name'] === "fechaf" && formData[1]['value'] !== "")
-            && (formData[2]['name'] === "chofer" && formData[2]['value'] !== "")
+        if ((formData[0]['name'] === "chofer" && formData[0]['value'] !== "")
+            && (formData[1]['name'] === "tipoPeriodo" && formData[1]['value'] !== "")
+            && (formData[2]['name'] === "periodo" && formData[2]['value'] !== "")
             && (indicador_seleccionado!==2 || (indicador_seleccionado===2 && formData[3]['name'] === "causa" && formData[3]['value'] !== ""))
         ) {
             sesionStorageItems(
@@ -220,15 +225,15 @@ $(document).on("click", "#btn_consultar", function () {
             estado_minimizado = true;
         }
     } else {
-        if (formData[0]['name'] === "fechai" && formData[0]['value'] === "") {
+        if (formData[0]['name'] === "chofer" && formData[0]['value'] === "") {
             Swal.fire('Atención!','Seleccione una fecha inicial!','error');
             return (false);
         }
-        if (formData[1]['name'] === "fechaf" && formData[1]['value'] === "") {
+        if (formData[1]['name'] === "tipoPeriodo" && formData[1]['value'] === "") {
             Swal.fire('Atención!','Seleccione una fecha final!','error');
             return (false);
         }
-        if (formData[2]['name'] === "chofer" && formData[2]['value'] === "") {
+        if (formData[2]['name'] === "periodo" && formData[2]['value'] === "") {
             Swal.fire('Atención!','Seleccione un chofer!','error');
             return (false);
         }
@@ -386,29 +391,30 @@ function llenadoDeSpan(data){
     }
 }
 
-function sesionStorageItems(fechai, fechaf, chofer, causa = ""){
-    sessionStorage.setItem("fechai", fechai);
-    sessionStorage.setItem("fechaf", fechaf);
+function sesionStorageItems(chofer, tipoPeriodo, periodo, causa = ""){
     sessionStorage.setItem("chofer", chofer);
+    sessionStorage.setItem("tipoPeriodo", tipoPeriodo);
+    sessionStorage.setItem("periodo", periodo);
     sessionStorage.setItem("causa", causa);
 }
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-    const fechai = sessionStorage.getItem("fechai");
-    const fechaf = sessionStorage.getItem("fechaf");
     const chofer = sessionStorage.getItem("chofer");
+    const tipoPeriodo = sessionStorage.getItem("tipoPeriodo");
+    const periodo = sessionStorage.getItem("periodo");
     const causa  = sessionStorage.getItem("causa");
-    if (fechai !== "" && fechaf !== "" && chofer !== "") {
+    
+    if (tipoPeriodo !== "" && periodo !== "" && chofer !== "") {
         switch (indicador_seleccionado) {
             case 1:
-                window.location = "reporte_entregas_efectivas_excel.php?fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer;
+                window.location = "reporte_entregas_efectivas_excel.php?tipoPeriodo="+tipoPeriodo+"&periodo="+periodo+"&chofer="+chofer;
                 break;
             case 2:
-                window.location = "reporte_rechazo_clientes_excel.php?fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer+"&causa="+causa;
+                window.location = "reporte_rechazo_clientes_excel.php?tipoPeriodo="+tipoPeriodo+"&periodo="+periodo+"&chofer="+chofer+"&causa="+causa;
                 break;
             case 3:
-                window.location = "reporte_oportunidad_despacho_excel.php?fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer;
+                window.location = "reporte_oportunidad_despacho_excel.php?tipoPeriodo="+tipoPeriodo+"&periodo="+periodo+"&chofer="+chofer;
                 break;
         }
     }
@@ -416,20 +422,21 @@ $(document).on("click","#btn_excel", function(){
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    const fechai = sessionStorage.getItem("fechai");
-    const fechaf = sessionStorage.getItem("fechaf");
     const chofer = sessionStorage.getItem("chofer");
+    const tipoPeriodo = sessionStorage.getItem("tipoPeriodo");
+    const periodo = sessionStorage.getItem("periodo");
     const causa  = sessionStorage.getItem("causa");
-    if (fechai !== "" && fechaf !== "" && chofer !== "") {
+
+    if (tipoPeriodo !== "" && periodo !== "" && chofer !== "") {
         switch (indicador_seleccionado) {
             case 1:
-                window.open('reporte_entregas_efectivas_pdf.php?&fechai='+fechai+"&fechaf="+fechaf+"&chofer="+chofer, '_blank');
+                window.open('reporte_entregas_efectivas_pdf.php?&tipoPeriodo='+tipoPeriodo+"&periodo="+periodo+"&chofer="+chofer, '_blank');
                 break;
             case 2:
-                window.open('reporte_rechazo_clientes_pdf.php?&fechai='+fechai+"&fechaf="+fechaf+"&chofer="+chofer+"&causa="+causa, '_blank');
+                window.open('reporte_rechazo_clientes_pdf.php?&tipoPeriodo='+tipoPeriodo+"&periodo="+periodo+"&chofer="+chofer+"&causa="+causa, '_blank');
                 break;
             case 3:
-                window.open('reporte_oportunidad_despacho_pdf.php?&fechai='+fechai+"&fechaf="+fechaf+"&chofer="+chofer, '_blank');
+                window.open('reporte_oportunidad_despacho_pdf.php?&tipoPeriodo='+tipoPeriodo+"&periodo="+periodo+"&chofer="+chofer, '_blank');
                 break;
         }
     }
