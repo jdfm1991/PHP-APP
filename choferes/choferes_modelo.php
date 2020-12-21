@@ -90,7 +90,7 @@ class Choferes extends Conectar
         parent::set_names();
 
 //    $sql="SELECT * FROM choferes WHERE cedula=?";
-        $sql = "SELECT * FROM appChofer WHERE cedula=?";
+        $sql = "SELECT descripcion as Nomper,* FROM appChofer WHERE cedula=?";
 
         $sql = $conectar->prepare($sql);
 

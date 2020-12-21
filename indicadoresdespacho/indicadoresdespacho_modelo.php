@@ -81,5 +81,49 @@ class InidicadoresDespachos extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function get_periodos($indicador, $tipo, $id_chofer)
+    {
+        $i = 0;
+        $anio_in_curse = date('Y');
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        switch ($tipo) {
+            case "Anual":
+                $month_in_parameter = $month_in_condition = $month_in_groupBy = $month_in_orderBy = "";
+                break;
+            case "Mensual":
+                $month_in_parameter = ", MONTH(CAST(fecha_entre AS DATETIME)) mes ";
+                $month_in_condition = " DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? AND ";
+                $month_in_groupBy = ", MONTH(CAST(fecha_entre AS DATETIME)) ";
+                $month_in_orderBy = ", mes";
+                break;
+        }
+
+        switch ($indicador) {
+            case 1: $condition_indicador = ""; break;
+            case 2: $condition_indicador = " AND observacion IS NOT NULL AND observacion != '' "; break;
+            case 3: $condition_indicador = " AND SAFACT.TipoFac IN ('A','C') "; break;
+        }
+
+        $sql= "SELECT YEAR(CAST(fecha_entre AS DATETIME)) anio $month_in_parameter
+                FROM appfacturas_det INNER JOIN SAFACT ON appfacturas_det.numeros = SAFACT.NumeroD WHERE
+                correl IN (SELECT correl FROM appfacturas WHERE $month_in_condition cedula_chofer=?)
+                AND fecha_entre IS NOT NULL $condition_indicador
+                GROUP BY YEAR(CAST(fecha_entre AS DATETIME)) $month_in_groupBy
+                ORDER BY anio DESC $month_in_orderBy";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        if($tipo=="Mensual") {
+            $sql->bindValue($i+=1, $anio_in_curse.'-01-01');
+            $sql->bindValue($i+=1, $anio_in_curse.'-12-31');
+        }
+        $sql->bindValue($i+=1,$id_chofer);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

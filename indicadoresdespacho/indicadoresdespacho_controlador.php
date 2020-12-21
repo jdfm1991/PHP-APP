@@ -11,13 +11,66 @@ require_once("../choferes/choferes_modelo.php");
 $indicadores = new InidicadoresDespachos();
 $choferes = new Choferes();
 
+function addCero($num) {
+    if(intval($num)<=9)
+        return "0".$num;
+    return $num;
+}
+
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
+    case "listar_periodos":
+        $indicador_seleccionado = $_GET['s'];
+        $tipoPeriodo = $_POST['tipoPeriodo'];
+        $chofer_id   = $_POST['chofer_id'];
+
+        $datos = $indicadores->get_periodos($indicador_seleccionado, $tipoPeriodo, $chofer_id);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $output = Array();
+        if(is_array($datos) and count($datos) > 0)
+        {
+            foreach ($datos as $row) {
+                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+                $sub_array = array();
+
+                switch($tipoPeriodo) {
+                    case "Anual":
+                        $sub_array["label"] = $row["anio"];
+                        $sub_array["value"] = $row["anio"];
+                        break;
+                    case "Mensual":
+                        $sub_array["label"] = Conectar::convertir(addCero($row["mes"]))." ".$row["anio"];
+                        $sub_array["value"] = $row["anio"]."-".addCero($row["mes"]);
+                        break;  
+                }
+                $output[] = $sub_array;
+            }
+        } else {
+            $output['error'] = "NO HAY DATOS PARA EL CHOFER SELECCIONADO";
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        echo json_encode($output);
+
+        break;
+
     case "listar_entregas_efectivas":
-        $fechai = $_POST['fechai'];
-        $fechaf = $_POST['fechaf'];
+        $tipoPeriodo = $_POST['tipoPeriodo'];
+        $periodo   = $_POST['periodo'];
         $chofer_id = $_POST['chofer'];
+
+        switch($tipoPeriodo) {
+            case "Anual":
+                $fechai = $periodo."-01-01";
+                $fechaf = $periodo."-12-31";
+                break;
+            case "Mensual":
+                $fechai = $periodo."-01";
+                $fechaf = date("Y-m-t", strtotime($periodo));
+                break;  
+        }
 
         $datos = $indicadores->get_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
 
@@ -100,6 +153,8 @@ switch ($_GET["op"]) {
             "total_ped" => $total_ped_entregados,
             "total_ped_porliquidar" => $total_ped_porliquidar,
             "promedio_diario_despacho" => number_format($promedio_diario_despacho,2, ",", "."),
+            "fechai" => $fechai,
+            "fechaf" => $fechaf,
             "tabla" => $data
         );
         echo json_encode($output);
@@ -107,10 +162,21 @@ switch ($_GET["op"]) {
         break;
 
     case "listar_causas_rechazo":
-        $fechai = $_POST['fechai'];
-        $fechaf = $_POST['fechaf'];
+        $tipoPeriodo = $_POST['tipoPeriodo'];
+        $periodo   = $_POST['periodo'];
         $chofer_id = $_POST['chofer'];
         $causa = $_POST['causa'];
+
+        switch($tipoPeriodo) {
+            case "Anual":
+                $fechai = $periodo."-01-01";
+                $fechaf = $periodo."-12-31";
+                break;
+            case "Mensual":
+                $fechai = $periodo."-01";
+                $fechaf = date("Y-m-t", strtotime($periodo));
+                break;  
+        }
 
         $datos = $indicadores->get_causasrechazo_por_chofer($fechai, $fechaf, $chofer_id, $causa);
 
@@ -194,6 +260,8 @@ switch ($_GET["op"]) {
             "ordenes_despacho" => $ordenes_despacho_string,
             "totaldespacho" => $totaldespacho,
             "total_ped" => $total_ped_devueltos,
+            "fechai" => $fechai,
+            "fechaf" => $fechaf,
             "tabla" => $data
         );
         echo json_encode($output);
@@ -201,9 +269,20 @@ switch ($_GET["op"]) {
         break;
 
     case "listar_oportunidad_despacho":
-        $fechai = $_POST['fechai'];
-        $fechaf = $_POST['fechaf'];
+        $tipoPeriodo = $_POST['tipoPeriodo'];
+        $periodo   = $_POST['periodo'];
         $chofer_id = $_POST['chofer'];
+
+        switch($tipoPeriodo) {
+            case "Anual":
+                $fechai = $periodo."-01-01";
+                $fechaf = $periodo."-12-31";
+                break;
+            case "Mensual":
+                $fechai = $periodo."-01";
+                $fechaf = date("Y-m-t", strtotime($periodo));
+                break;  
+        }
 
         $datos = $indicadores->get_oportunidaddespacho_por_chofer($fechai, $fechaf, $chofer_id);
 
@@ -260,6 +339,8 @@ switch ($_GET["op"]) {
         $output = array(
             "chofer" => $chofer,
             "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.').'%',
+            "fechai" => $fechai,
+            "fechaf" => $fechaf,
             "tabla" => $tabla
         );
         echo json_encode($output);

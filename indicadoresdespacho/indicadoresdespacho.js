@@ -63,13 +63,36 @@ let no_puede_estar_vacio = function () {
         ? estado_minimizado = true : estado_minimizado = false;
 };
 
+let es_habilidado = function () {
+    let pill = array_selects[indicador_seleccionado - 1];
+
+    if($("#" + pill + " #chofer").val() !== "") {
+        $("#" + pill + " #tipoPeriodo").prop("disabled", false);
+    } else {
+        $('#' + pill + ' #tipoPeriodo').val("");
+        $('#' + pill + ' #periodo').val("");
+        $("#" + pill + " #tipoPeriodo").prop("disabled", true);
+        $("#" + pill + " #periodo").prop("disabled", true);
+    }
+
+    if($("#" + pill + " #tipoPeriodo").val() !== "") {
+        listar_periodos();
+    } else {
+        $('#' + pill + ' #periodo').val("");
+        $("#" + pill + " #periodo").prop("disabled", true);
+    }
+}
+
 $(document).ready(function(){
     array_selects.forEach( pill => {
-        $("#"+pill+" #tipoPeriodo").change(() => no_puede_estar_vacio());
         $("#"+pill+" #periodo").change(() => no_puede_estar_vacio());
-        $("#"+pill+" #chofer").change(() => {
+        $("#"+pill+" #chofer").change(() => { 
+            no_puede_estar_vacio(); 
+            es_habilidado();
+        });
+        $("#"+pill+" #tipoPeriodo").change(() => {
             no_puede_estar_vacio();
-            
+            es_habilidado();
         });
         $("#"+pill+" #causa").change(() => no_puede_estar_vacio());
     });
@@ -104,19 +127,31 @@ function listar_choferes(){
     });
 }
 
-function listar_periodos(tipoPeriodo){
-    $.post("indicadoresdespacho_controlador.php?op=listar_periodos", {tipoPeriodo: tipoPeriodo}, function(data, status){
+function listar_periodos(){
+    let pill = array_selects[indicador_seleccionado - 1];
+
+    let tipoPeriodo = $("#"+pill+" #tipoPeriodo").val();
+    let chofer_id = $("#"+pill+" #chofer").val();
+
+    $.post("indicadoresdespacho_controlador.php?op=listar_periodos&s="+indicador_seleccionado, 
+    {tipoPeriodo: tipoPeriodo, chofer_id: chofer_id}, 
+    function(data, status) {
         data = JSON.parse(data);
 
-        let pill = array_selects[indicador_seleccionado - 1];
+        $('#'+pill+' #periodo').empty();
 
-        $periodo = $('#'+pill+' #periodo');
+        if(data.error) {
+            $('#'+pill+' #periodo').append('<option name="" value="">' + data.error + '</option>');
+        } 
+        else {
+            $('#'+pill+' #periodo').prop("disabled", false);
         //lista de seleccion de periodos
-        $periodo.append('<option name="" value="">Seleccione periodo</option>');
-        $.each(data.lista_periodos, function(idx, opt) {
+        $('#'+pill+' #periodo').append('<option name="" value="">Seleccione periodo</option>');
+        $.each(data, function(idx, opt) {
             //se itera con each para llenar el select en la vista
-            $periodo.append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
+            $('#'+pill+' #periodo').append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
         });
+        }
     });
 }
 
@@ -194,8 +229,8 @@ $(document).on("click", "#btn_consultar", function () {
                         $('#indicadores_data tbody').empty();
 
                         //llenamos inputs date disabled
-                        $("#fechai_disabled").val(formData[0]['value']);
-                        $("#fechaf_disabled").val(formData[1]['value']);
+                        $("#fechai_disabled").val(data.fechai);
+                        $("#fechaf_disabled").val(data.fechaf);
 
                         //proceso de llenado del grafico
                         construirGrafico(data);
