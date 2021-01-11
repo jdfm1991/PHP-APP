@@ -28,9 +28,20 @@ require_once("../choferes/choferes_modelo.php");
 $indicadores = new InidicadoresDespachos();
 $choferes = new Choferes();
 
-$fechai = $_GET['fechai'];
-$fechaf = $_GET['fechaf'];
+$tipoPeriodo = $_GET['tipoPeriodo'];
+$periodo   = $_GET['periodo'];
 $chofer_id = $_GET['chofer'];
+
+switch($tipoPeriodo) {
+    case "Anual":
+        $fechai = $periodo."-01-01";
+        $fechaf = $periodo."-12-31";
+        break;
+    case "Mensual":
+        $fechai = $periodo."-01";
+        $fechaf = date("Y-m-t", strtotime($periodo));
+        break;  
+}
 
 $formato_fecha = "d-m-Y";
 $cant_ordenes_despacho_max = 22;

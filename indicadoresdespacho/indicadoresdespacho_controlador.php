@@ -307,14 +307,14 @@ switch ($_GET["op"]) {
             $oportunidad = ($tiempo_entrega <= $tiempo_entrega_estimado) ? 100 : ($tiempo_entrega_estimado/$tiempo_entrega)*100;
             $oportunidad_promedio += $oportunidad;
 
-            $sub_array[] = $row["numerod"];
-            $sub_array[] = $row["codvend"];
-            $sub_array[] = $row["descrip"];
-            $sub_array[] = $row["fecha_desp"];
-            $sub_array[] = $fecha_entrega;
-            $sub_array[] = $tiempo_entrega_estimado;
-            $sub_array[] = $tiempo_entrega;
-            $sub_array[] = number_format($oportunidad,2,',','.').'%';
+            $sub_array["numerod"]                 = $row["numerod"];
+            $sub_array["codvend"]                 = $row["codvend"];
+            $sub_array["descrip"]                 = $row["descrip"];
+            $sub_array["fecha_desp"]              = $row["fecha_desp"];
+            $sub_array["fecha_entrega"]           = $fecha_entrega;
+            $sub_array["tiempo_entrega_estimado"] = $tiempo_entrega_estimado;
+            $sub_array["tiempo_entrega"]          = $tiempo_entrega;
+            $sub_array["oportunidad"]             = number_format($oportunidad,2,',','.').'%';
 
             $data[] = $sub_array;
         }
@@ -326,22 +326,13 @@ switch ($_GET["op"]) {
             $oportunidad_promedio = 0;
         }
 
-        /** construimos un array asociativo para el llenado del datatable **/
-        $tabla = array(
-            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-            "aaData" => $data
-        );
-
-
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
             "chofer" => $chofer,
             "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.').'%',
             "fechai" => $fechai,
             "fechaf" => $fechaf,
-            "tabla" => $tabla
+            "tabla" => $data
         );
         echo json_encode($output);
 

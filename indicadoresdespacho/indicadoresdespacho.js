@@ -220,8 +220,7 @@ $(document).on("click", "#btn_consultar", function () {
                     $(".title-card").text(title);
                     limpiar();//LIMPIAMOS EL SELECTOR.
 
-                    if(indicador_seleccionado === 1 || indicador_seleccionado === 2)
-                    {
+                    
                         $("#tabla1").show('');//MOSTRAMOS LA TABLA.
                         $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
@@ -240,17 +239,7 @@ $(document).on("click", "#btn_consultar", function () {
 
                         //llenado de los span
                         llenadoDeSpan(data);
-                    }
-                    else if(indicador_seleccionado === 3)
-                    {
-                        $("#tabla2").show('');//MOSTRAMOS LA TABLA.
-
-                        //proceso de llenado de la tabla
-                        construirTablaOportunidadDespacho(data.tabla);
-
-                        //llenado de los span
-                        llenadoDeSpan(data);
-                    }
+                    
 
                     $("#loader").hide();//OCULTAMOS EL LOADER.
                     validarCantidadRegistrosTabla(data.tabla);
@@ -261,15 +250,15 @@ $(document).on("click", "#btn_consultar", function () {
         }
     } else {
         if (formData[0]['name'] === "chofer" && formData[0]['value'] === "") {
-            Swal.fire('Atención!','Seleccione una fecha inicial!','error');
+            Swal.fire('Atención!','Seleccione un chofer!','error');
             return (false);
         }
         if (formData[1]['name'] === "tipoPeriodo" && formData[1]['value'] === "") {
-            Swal.fire('Atención!','Seleccione una fecha final!','error');
+            Swal.fire('Atención!','Seleccione un Tipo de Periodo!','error');
             return (false);
         }
         if (formData[2]['name'] === "periodo" && formData[2]['value'] === "") {
-            Swal.fire('Atención!','Seleccione un chofer!','error');
+            Swal.fire('Atención!','Seleccione un Periodo!','error');
             return (false);
         }
         if (indicador_seleccionado===2 && formData[3]['name'] === "causa" && formData[3]['value'] === "") {
@@ -346,21 +335,36 @@ function construirTabla(data){
     switch(indicador_seleccionado){
         case 1: $('#indicadores_data thead').append( thead_table_efectivas() ); break;
         case 2: $('#indicadores_data thead').append( thead_table_rechazo() ); break;
-        case 3: $('#indicadores_data thead').append(  ); break;
+        case 3: $('#indicadores_data thead').append( thead_table_oportunidad() ); break;
     }
 
     if(!jQuery.isEmptyObject(data)) {
-        $.each(data, function(idx, opt) {
-            $('#indicadores_data')
-                .append(
-                    '<tr>' +
-                    '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
-                    '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
-                    '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
-                    '</tr>'
-                );
-        });
+
+        if(indicador_seleccionado===1 || indicador_seleccionado===2) {
+            $.each(data, function(idx, opt) {
+                        $('#indicadores_data')
+                            .append(
+                                '<tr>' +
+                                '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
+                                '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
+                                '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
+                                '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
+                                '</tr>'
+                            );
+                    });
+        } else if (indicador_seleccionado===3) {
+            /* $.each(data, function(idx, opt) {
+                $('#indicadores_data')
+                    .append(
+                        '<tr>' +
+                        '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
+                        '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
+                        '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
+                        '</tr>'
+                    );
+            }); */
+        }
     } else {
         //en caso de consulta vacia, mostramos un mensaje de vacio
         $('#indicadores_data').append('<tr><td colspan="4" align="center">Sin registros para esta Consulta</td></tr>');
