@@ -281,6 +281,8 @@ function construirGrafico(data) {
             value_max_default = 8;
             break;
         case 3:
+            object = rechazo_de_los_clientes(data);
+            value_max_default = 8;
             break;
     }
 

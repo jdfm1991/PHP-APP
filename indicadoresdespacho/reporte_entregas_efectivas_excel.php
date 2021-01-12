@@ -45,7 +45,7 @@ switch($tipoPeriodo) {
 
 $formato_fecha = "d-m-Y";
 $cant_ordenes_despacho_max = 22;
-$cant_fact_sinliquidar_max = 26;
+$cant_fact_sinliquidar_max = 24;
 $ancho_tabla_max = 19;
 $row = 0;
 
@@ -166,11 +166,11 @@ foreach ($query as $key => $item)
     /** facturas sin liquidar **/
     if(strlen($item['fact_sin_liquidar'])>0)
     {
-        $fact_sinliquidar_string .= ($item['fact_sin_liquidar'].",");
-        $array = explode(",", $fact_sinliquidar_string);
+        $fact_sinliquidar_string .= ($item['fact_sin_liquidar'].", ");
+        $array = explode(", ", $fact_sinliquidar_string);
         $array = array_unique($array);
-        sort($array, SORT_ASC);
-        $fact_sinliquidar_string = implode($array,",");
+        /* sort($array, SORT_ASC); */
+        $fact_sinliquidar_string = implode($array,", ");
     }
 }
 
@@ -223,8 +223,8 @@ if(count($ordenes_despacho_arr) > $cant_ordenes_despacho_max)
     {
         //axena cada (cantidad maxima de ordenes) o si llego al final del arr
         if( ($index>0 && ($index % $cant_ordenes_despacho_max)==0) || ($index>0 && $index==count($ordenes_despacho_arr)) ) {
-            $sheet->setCellValue('B'.($row), $temp_string);
-            $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':T'.($row));
+            $sheet->setCellValue('C'.($row), $temp_string);
+            $spreadsheet->getActiveSheet()->mergeCells('C'.($row).':T'.($row));
             $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
             $temp_string = ($arr . ", ");
             $row+=1;
@@ -256,8 +256,8 @@ if(count($fact_sinliquidar_arr) > $cant_fact_sinliquidar_max)
     {
         //axena cada (cantidad maxima de ordenes) o si llego al final del arr
         if( ($index>0 && ($index % $cant_fact_sinliquidar_max)==0) || ($index>0 && $index==count($fact_sinliquidar_arr)) ) {
-            $sheet->setCellValue('B'.($row), $temp_string);
-            $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':T'.($row));
+            $sheet->setCellValue('C'.($row), $temp_string);
+            $spreadsheet->getActiveSheet()->mergeCells('C'.($row).':T'.($row));
             $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
             $temp_string = ($arr . ", ");
             $row+=1;
@@ -269,8 +269,8 @@ if(count($fact_sinliquidar_arr) > $cant_fact_sinliquidar_max)
 }
 else {
     //sino no es necesario procesar las facturas sin liquidar, se imprimen directamente
-    $sheet->setCellValue('B'.($row), $fact_sinliquidar_string);
-    $spreadsheet->getActiveSheet()->mergeCells('B'.($row).':T'.($row));
+    $sheet->setCellValue('C'.($row), $fact_sinliquidar_string);
+    $spreadsheet->getActiveSheet()->mergeCells('C'.($row).':T'.($row));
     $spreadsheet->getActiveSheet()->getStyle('A'.($row).':T'.($row))->applyFromArray(array('borders' => array('left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('wrap' => TRUE)));
     $row+=1;
 }

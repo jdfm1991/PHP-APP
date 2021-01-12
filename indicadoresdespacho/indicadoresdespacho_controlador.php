@@ -125,11 +125,11 @@ switch ($_GET["op"]) {
                 /** facturas sin liquidar **/
                 if(strlen($row['fact_sin_liquidar'])>0)
                 {
-                    $fact_sinliquidar_string .= ($row['fact_sin_liquidar'].",");
-                    $array = explode(",", $fact_sinliquidar_string);
+                    $fact_sinliquidar_string .= ($row['fact_sin_liquidar'].", ");
+                    $array = explode(", ", $fact_sinliquidar_string);
                     $array = array_unique($array);
-                    sort($array, SORT_ASC);
-                    $fact_sinliquidar_string = implode($array,",");
+                    /* sort($array, SORT_ASC); */
+                    $fact_sinliquidar_string = implode($array,", ");
                 }
             }
         }

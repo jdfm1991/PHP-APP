@@ -13,7 +13,7 @@ class InidicadoresDespachos extends Conectar{
         parent::set_names();
 
         $sql= "SELECT det.correl AS correlativo, fecha_entre, tipo_pago, count(det.correl) AS cant_documentos,
-               COALESCE(STUFF((SELECT ',' + a.numeros FROM appfacturas_det AS a WHERE a.correl=det.correl AND fecha_entre IS NULL FOR XML PATH ('')), 1, 2, ''), '') AS fact_sin_liquidar
+               COALESCE(STUFF((SELECT ', ' + a.numeros FROM appfacturas_det AS a WHERE a.correl=det.correl AND fecha_entre IS NULL FOR XML PATH ('')), 1, 2, ''), '') AS fact_sin_liquidar
                FROM appfacturas_det AS det WHERE correl IN ( SELECT correl AS correlativo FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? AND cedula_chofer = ?)
                GROUP BY fecha_entre, tipo_pago, correl ORDER BY fecha_entre";
 
