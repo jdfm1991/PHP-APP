@@ -97,7 +97,7 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $ordenes_despacho_string .= ($row['correlativo'] . "(" . $row['cant_documentos'] . "), ");
+                $ordenes_despacho_string .= ($row['correlativo'] . "(" . addCero($row['cant_documentos']) . "), ");
 
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 

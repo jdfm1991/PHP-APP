@@ -51,13 +51,22 @@ class Conectar {
 		return "http://localhost/appweb/";
 	}
 
-	public static function convertir($string){
+	public static function convertir($string, $abreviado = false){
 
-		$string = str_replace(
-			array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'),
-			array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', ' DICIEMBRE'),
-			$string
-		);
+	    if (!$abreviado) {
+            $string = str_replace(
+                array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'),
+                array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', ' DICIEMBRE'),
+                $string
+            );
+        } else {
+            $string = str_replace(
+                array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'),
+                array('ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', ' DIC'),
+                $string
+            );
+        }
+
 		return $string;
 	}
 
