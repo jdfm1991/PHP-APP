@@ -1,6 +1,7 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
+require_once("../acceso/const.php");
 
 require_once ('../public/fpdf/fpdf.php');
 require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' ); 
@@ -101,7 +102,7 @@ function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTa
     $graph->legend->SetColumns(6); 
     $graph->legend->SetColor('#4E4E4E' , '#00A78A'); 
 
-    $graph->title->Set("Entregas Efectivas");
+    $graph->title->Set($titulo);
 
     // Display the graph 
     $x = $ubicacionTamamo[0];
@@ -110,8 +111,9 @@ function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTa
      $altura = $ubicacionTamamo[3];  
        
     // Display the graph 
-    $graph->Stroke("$nombreGrafico.png"); 
-    $pdf->Image("$nombreGrafico.png",$x,$y,$ancho,$altura); 
+    $graph->Stroke("entrega_efectiva.png"); 
+    $pdf->Image("entrega_efectiva.png",$x,$y,$ancho,$altura); 
+    unlink("entrega_efectiva.png");
 }
 
 class PDF extends FPDF
@@ -147,48 +149,9 @@ class PDF extends FPDF
         $this->SetY(190);
         $this->SetX(60);
 		$this->SetAligns(array('L','L','L','L','L','L','L'));
-		/* $this->SetBorders(array('','LTBR','TLBR','TLBR','TLBR','TLBR','TRBL')); */
+		$this->SetBorders(array('','LTBR','TLBR','TLBR','TLBR','TLBR','TRBL'));
 		$this->SetWidths(array(40,20,80,15,25,15,25));
-		$this->Row(array('','Aprobado por:', "",'C.I:',"", 'Firma:',""),6);
-    }
-
-    function SetWidths($w)
-    {
-        //Set the array of column widths
-        $this->widths = $w;
-    }
-
-    function SetAligns($a)
-    {
-        //Set the array of column alignments
-        $this->aligns = $a;
-    }
-
-    function Row($data)
-    {
-        //Calculate the height of the row
-        $nb = 0;
-        for ($i = 0; $i < count($data); $i++)
-            $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
-        $h = 5 * $nb;
-        //Issue a page break first if needed
-        $this->CheckPageBreak($h);
-        //Draw the cells of the row
-        for ($i = 0; $i < count($data); $i++) {
-            $w = $this->widths[$i];
-            $a = isset($this->aligns[$i]) ? $this->aligns[$i] : 'C';
-            //Save the current position
-            $x = $this->GetX();
-            $y = $this->GetY();
-            //Draw the border
-            $this->Rect($x, $y, $w, $h);
-            //Print the text
-            $this->MultiCell($w, 5, $data[$i], 0, $a);
-            //Put the position to the right of the cell
-            $this->SetXY($x + $w, $y);
-        }
-        //Go to the next line
-        $this->Ln($h);
+		$this->Row(array('','Aprobado por:', "",'C.I:',"", 'Firma:',""));
     }
 
     function CheckPageBreak($h)
@@ -196,51 +159,6 @@ class PDF extends FPDF
         //If the height h would cause an overflow, add a new page immediately
         if ($this->GetY() + $h > $this->PageBreakTrigger)
             $this->AddPage($this->CurOrientation, $GLOBALS['documentsize']);
-    }
-
-    function NbLines($w, $txt)
-    {
-        //Computes the number of lines a MultiCell of width w will take
-        $cw =& $this->CurrentFont['cw'];
-        if ($w == 0)
-            $w = $this->w - $this->rMargin - $this->x;
-        $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
-        $s = str_replace("\r", '', $txt);
-        $nb = strlen($s);
-        if ($nb > 0 and $s[$nb - 1] == "\n")
-            $nb--;
-        $sep = -1;
-        $i = 0;
-        $j = 0;
-        $l = 0;
-        $nl = 1;
-        while ($i < $nb) {
-            $c = $s[$i];
-            if ($c == "\n") {
-                $i++;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-                continue;
-            }
-            if ($c == ' ')
-                $sep = $i;
-            $l += $cw[$c];
-            if ($l > $wmax) {
-                if ($sep == -1) {
-                    if ($i == $j)
-                        $i++;
-                } else
-                    $i = $sep + 1;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-            } else
-                $i++;
-        }
-        return $nl;
     }
 }
 
@@ -284,7 +202,7 @@ foreach ($query as $key => $item)
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
-    if($item['tipo_pago'] !='N/C' and $item['fecha_entre'] != null and $key>0 )
+    if($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P' and $item['fecha_entre'] != null and $key>0 )
     {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
@@ -341,19 +259,21 @@ if(count($cant_documentos)>42) {
 /****************************** */
 $pdf->SetFont('Arial','',8);
 $pdf->SetAligns(array('L','L','R','L','R','L'));
-/* $pdf->SetBorders(array('LT','T','T','T','T','TR')); */
+$pdf->SetBorders(array('LT','T','T','T','T','TR'));
 $pdf->SetWidths(array(40,194,20,20,19,37));
-$pdf->Row(array(
+$pdf->RowWithHeight(array(
     'CHOFER:', "$chofer", 
     'DESDE', date_format(date_create($fechai), "d-m-Y"), 
-    'HASTA',date_format(date_create($fechaf), "d-m-Y"))
-);
+    'HASTA',date_format(date_create($fechaf), "d-m-Y")),
+    5);
 $pdf->SetWidths(array(40,290));
-/* $pdf->SetBorders(array('L','R')); */
-$pdf->Row(array('ORDENES DE DESPACHO',"$ordenes_despacho_string"));
+$pdf->SetBorders(array('L','R'));
+$pdf->RowWithHeight(array('',''), 2);
+$pdf->RowWithHeight(array('ORDENES DE DESPACHO',"$ordenes_despacho_string"), 4);
+$pdf->RowWithHeight(array('',''), 2);
 $pdf->SetWidths(array(40,290));
-/* $pdf->SetBorders(array('LB','RB')); */
-$pdf->Row(array('FACTURAS SIN LIQUIDAR',"$fact_sinliquidar_string"));
+$pdf->SetBorders(array('LB','RB'));
+$pdf->RowWithHeight(array('FACTURAS SIN LIQUIDAR',"$fact_sinliquidar_string"), 4);
 $pdf->Cell(0,8,"",0,1,'C');
 
 
@@ -365,71 +285,57 @@ $x = count($cant_documentos);
 $pdf->SetFont('Arial','',10);
 $pdf->SetFillColor(213, 213, 246);
 if($x>=21){
-    $pdf->Cell((11.8*(22))+7,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
+    $pdf->CellFitSpace((13*(22))+5,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
 }else{
-    /* $pdf->SetY(43); */
-    $pdf->Cell((11.8*($x+1))+7,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
+    $pdf->CellFitSpace((13*($x+1))+5,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
 } 
-$pdf->SetFont('Arial','',6);
+$pdf->SetFont('Arial','',6.2);
 $pdf->SetFillColor(182, 182, 247); 
 for($i=0;$i<$x;$i++){
     if($i==0){
-        /* $pdf->SetY(48); */
         $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
     }
-    /* $date3 =date_create($pdf->contarf[$i]);
-    $pdf->ffecha[$i]=date_format($date3,'d-m'); */
     if($i==21){
-        /* $pdf->SetY(73); */
         $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
-        $pdf->Cell(12,5,$fecha_entrega[$i],'TLBR',0,'C', true);
+        $pdf->Cell(13,5,$fecha_entrega[$i],'TLBR',0,'C', true);
     }else{
-        $pdf->Cell(12,5,$fecha_entrega[$j],'TLBR',0,'C', true);
+        $pdf->Cell(13,5,$fecha_entrega[$i],'TLBR',0,'C', true);
     }
 }
 $pdf->Cell(0,5,"",'',1,'C');
 for($i=0;$i<$x;$i++){
     if($i==0){
-        /* $pdf->SetY(53); */
         $pdf->Cell(18,5,'P. Despachados','TLBR',0,'C');
     }
     if($i==21){
-        /* $pdf->SetY(78); */
         $pdf->Cell(18,5,'P. Despachados','TLBR',0,'C');
-        $pdf->Cell(12,5,$cant_documentos[$i],'TLBR',0,'C');
+        $pdf->Cell(13,5,$cant_documentos[$i],'TLBR',0,'C');
     }else{
-        $pdf->Cell(12,5,$cant_documentos[$i],'TLBR',0,'C');
+        $pdf->Cell(13,5,$cant_documentos[$i],'TLBR',0,'C');
     }
-    /* $pdf->ent=$pdf->ent+$pdf->contar[$i]; */
 }
 $pdf->Cell(0,5,"",'',1,'C');
 for($i=0;$i<$x;$i++){
     if($i==0){
-        /* $pdf->SetY(58); */
         $pdf->Cell(18,5,'% Efectividad','TLBR',0,'C');
     }
-    /* $pdf->pocentajeE[$i]=number_format(($pdf->contar[$i]/$pdf->tdespacho)*100,1);
-    $pdf->prom=$pdf->prom+$pdf->pocentajeE[$i]; */
         if($i==21){
-        /* $pdf->SetY(83); */
         $pdf->Cell(18,5,'% Efectividad','TLBR',0,'C');
-        $pdf->Cell(12,5,$porc[$i]." %",'TLBR',0,'C');
+        $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
     }else{
-        $pdf->Cell(12,5,$porc[$i]." %",'TLBR',0,'C');
+        $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
     }
 }
 $pdf->Cell(0,5,"",'',1,'C');
 for($i=0;$i<$x;$i++){
     if($i==0){
-        /* $pdf->SetY(63); */
         $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
     }
     if($i==21){
-        /* $pdf->SetY(88); */
         $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
-        $pdf->Cell(12,5,$ordenes_despacho[$i],'TLBR',0,'C');
+        $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
     }else{
-        $pdf->Cell(12,5,$ordenes_despacho[$i],'TLBR',0,'C');
+        $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
     }
 }
 
@@ -442,15 +348,19 @@ $pdf->Cell(20,6,'','',1,'C');
 $pdf->Cell(50,4,utf8_decode("Total de Pedidos en el camión: ".$totaldespacho),'',0,'L');
 $pdf->Cell(50,4,utf8_decode("Total de Pedidos entregados: ".$total_ped_entregados),'',1,'L');
 $pdf->Cell(50,4,utf8_decode("Pedidos pendientes por liquidar: ".$total_ped_porliquidar),'',0,'L');
-$pdf->Cell(50,4,utf8_decode("Promedio Diario de Despachos: ".number_format($promedio_diario_despacho,2, ",", ".").' %'),'',1,'L');
+$pdf->Cell(50,4,utf8_decode("Promedio Diario de Despachos: ".number_format($promedio_diario_despacho,0)),'',1,'L');
 
+$promedio_despacho = array();
+for($d=0;$d<count($ordenes_despacho);$d++)
+    $promedio_despacho[] = number_format($promedio_diario_despacho,0);
 
 /************************************* */
 /**             GRAFICO               **/
 /************************************* */
+$pdf->AddPage('L', $documentsize);
 $y = $pdf->GetY();
 $x = $pdf->GetX();
-graficar($cant_documentos,$fecha_entrega,$porc,'Indicadores de Despacho',array(60,$y+4,180,80),'Indicadores de Despacho', $pdf);
+graficar($cant_documentos,$fecha_entrega, $promedio_despacho,'Indicadores de Despacho',array(20,$y,320,170),'', $pdf);
 
 
 $pdf->Output();

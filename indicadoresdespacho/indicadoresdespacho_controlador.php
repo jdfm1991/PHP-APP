@@ -102,7 +102,7 @@ switch ($_GET["op"]) {
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** entregas efectivas **/
-                if($row['tipo_pago'] !='N/C' and $row['fecha_entre'] != null and $key>0 )
+                if($row['tipo_pago'] !='N/C' and $row['tipo_pago'] !='N/C/P' and $row['fecha_entre'] != null and $key>0 )
                 {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
                     if(count($data)>0 and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega'])
@@ -152,7 +152,7 @@ switch ($_GET["op"]) {
             "totaldespacho" => $totaldespacho,
             "total_ped" => $total_ped_entregados,
             "total_ped_porliquidar" => $total_ped_porliquidar,
-            "promedio_diario_despacho" => number_format($promedio_diario_despacho,2, ",", "."),
+            "promedio_diario_despacho" => number_format($promedio_diario_despacho,0),
             "fechai" => $fechai,
             "fechaf" => $fechaf,
             "tabla" => $data

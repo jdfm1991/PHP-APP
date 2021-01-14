@@ -144,7 +144,7 @@ foreach ($query as $key => $item)
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
-    if($item['tipo_pago'] !='N/C' and $item['fecha_entre'] != null and $key>0 )
+    if($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P' and $item['fecha_entre'] != null and $key>0 )
     {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
