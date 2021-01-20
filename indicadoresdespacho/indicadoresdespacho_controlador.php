@@ -77,6 +77,7 @@ switch ($_GET["op"]) {
         //inicializamos la variables
         $chofer = $choferes->get_chofer_por_id($chofer_id);
         $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
+        $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
         $ordenes_despacho_string = "";
         $fact_sinliquidar_string = "";
         $totaldespacho = 0;
@@ -105,7 +106,7 @@ switch ($_GET["op"]) {
                 if($row['tipo_pago'] !='N/C' and $row['tipo_pago'] !='N/C/P' and $row['fecha_entre'] != null and $key>0 )
                 {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
-                    if(count($data)>0 and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega'])
+                    if(count($data)>0 and date_format(date_create($row['fecha_entre']), $formato_fecha) == $data[count($data)-1]['fecha_entrega'])
                     {
                         $data[count($data)-1]['cant_documentos'] += intval($row['cant_documentos']);
                         $data[count($data)-1]['porc'] += floatval($porcentaje);
@@ -113,10 +114,11 @@ switch ($_GET["op"]) {
                     }
                     //si no es igual, solo inserta un nuevo registro al array
                     else {
-                        $sub_array['fecha_entrega'] = date_format(date_create($row['fecha_entre']), 'd-m-Y');
+                        $sub_array['fecha_entrega'] = date_format(date_create($row['fecha_entre']), $formato_fecha);
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
                         $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
+                        $sub_array['nombre_mes'] = Conectar::convertir(date_format(date_create($row['fecha_entre']), 'm'), true);
 
                         $data[] = $sub_array;
                     }

@@ -221,24 +221,25 @@ $(document).on("click", "#btn_consultar", function () {
                     limpiar();//LIMPIAMOS EL SELECTOR.
 
                     
-                        $("#tabla1").show('');//MOSTRAMOS LA TABLA.
-                        $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
+                    $("#tabla1").show('');//MOSTRAMOS LA TABLA.
+                    $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
-                        //limpiamos la tabla
-                        $('#indicadores_data tbody').empty();
+                    //limpiamos la tabla
+                    $('#indicadores_data tbody').empty();
+                    condicion_tipoperiodo = formData[1]['value'] === "Anual";
 
-                        //llenamos inputs date disabled
-                        $("#fechai_disabled").val(data.fechai);
-                        $("#fechaf_disabled").val(data.fechaf);
+                    //llenamos inputs date disabled
+                    $("#fechai_disabled").val(data.fechai);
+                    $("#fechaf_disabled").val(data.fechaf);
 
-                        //proceso de llenado del grafico
-                        construirGrafico(data);
+                    //proceso de llenado del grafico
+                    construirGrafico(data, condicion_tipoperiodo);
 
-                        //proceso de llenado de la tabla
-                        construirTabla(data.tabla);
+                    //proceso de llenado de la tabla
+                    construirTabla(data.tabla, condicion_tipoperiodo);
 
-                        //llenado de los span
-                        llenadoDeSpan(data);
+                    //llenado de los span
+                    llenadoDeSpan(data);
                     
 
                     $("#loader").hide();//OCULTAMOS EL LOADER.
@@ -268,12 +269,12 @@ $(document).on("click", "#btn_consultar", function () {
     }
 });
 
-function construirGrafico(data) {
+function construirGrafico(data, condicion_visibilidad_mes) {
     let object, value_max_default;
 
     switch (indicador_seleccionado) {
         case 1:
-            object = entregas_efectivas(data);
+            object = entregas_efectivas(data, condicion_visibilidad_mes);
             value_max_default = 25;
             break;
         case 2:
@@ -330,12 +331,12 @@ function construirGrafico(data) {
 
 }
 
-function construirTabla(data){
+function construirTabla(data, incluye_ordenes){
 
     $('#indicadores_data thead').empty();
 
     switch(indicador_seleccionado){
-        case 1: $('#indicadores_data thead').append( thead_table_efectivas() ); break;
+        case 1: $('#indicadores_data thead').append( thead_table_efectivas(incluye_ordenes) ); break;
         case 2: $('#indicadores_data thead').append( thead_table_rechazo() ); break;
         case 3: $('#indicadores_data thead').append( thead_table_oportunidad() ); break;
     }
@@ -344,16 +345,18 @@ function construirTabla(data){
 
         if(indicador_seleccionado===1 || indicador_seleccionado===2) {
             $.each(data, function(idx, opt) {
-                        $('#indicadores_data')
-                            .append(
-                                '<tr>' +
-                                '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
-                                '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
-                                '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
-                                '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
-                                '</tr>'
-                            );
-                    });
+                ordenes = (!incluye_ordenes) ? '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' : '';
+
+                $('#indicadores_data')
+                    .append(
+                        '<tr>' +
+                        '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
+                        '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
+                        ordenes +
+                        '</tr>'
+                    );
+            });
         } else if (indicador_seleccionado===3) {
             /* $.each(data, function(idx, opt) {
                 $('#indicadores_data')

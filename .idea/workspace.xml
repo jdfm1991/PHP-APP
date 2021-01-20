@@ -20,9 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadores_entregas_efectivas.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadores_entregas_efectivas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +54,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlserver" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -68,7 +70,9 @@
       <option name="presentableId" value="Default" />
       <updated>1610635042184</updated>
       <workItem from="1610635048856" duration="4050000" />
-      <workItem from="1610639170251" duration="3574000" />
+      <workItem from="1610639170251" duration="3750000" />
+      <workItem from="1610735202340" duration="17000" />
+      <workItem from="1611147011250" duration="7462000" />
     </task>
     <servers />
   </component>
@@ -85,12 +89,33 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="361" y="76" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611151986477">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="361" y="76" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.834@0.0.1536.834" timestamp="1611151986477" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1610635178220">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1610635178220" />
+    <state width="1371" height="427" key="GridCell.Tab.0.bottom" timestamp="1611155535965">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1371" height="427" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1611155535965" />
+    <state width="1371" height="427" key="GridCell.Tab.0.center" timestamp="1611155535964">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1371" height="427" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1611155535964" />
+    <state width="1371" height="427" key="GridCell.Tab.0.left" timestamp="1611155535963">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1371" height="427" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1611155535963" />
+    <state width="1371" height="427" key="GridCell.Tab.0.right" timestamp="1611155535964">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1371" height="427" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1611155535964" />
     <state x="277" y="57" key="SettingsEditor" timestamp="1610639107135">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

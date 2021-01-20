@@ -1,11 +1,11 @@
 
-function entregas_efectivas(data)
+function entregas_efectivas(data, condicion_visibilidad_mes)
 {
     let labels, values, value_max, promedio;
 
     if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
-        labels = data.tabla.map( val => { return val.fecha_entrega; });
+        labels = data.tabla.map( val => { return condicion_visibilidad_mes ? val.nombre_mes : val.fecha_entrega; });
 
         //valores de las barras
         values = data.tabla.map( val => { return parseInt(val.cant_documentos); });
@@ -47,14 +47,16 @@ function entregas_efectivas(data)
     };
 }
 
-function thead_table_efectivas()
+function thead_table_efectivas(incluye_ordenes)
 {
+    thead_ordenes = (!incluye_ordenes) ? '<th align="center" class="align-middle">Orden(es) Despacho</th>' : '';
+
     return '' +
         '<tr>' +
         '<th align="center" class="align-middle">Fecha Entrega</th>' +
         '<th align="center" class="align-middle">Pedidos Despachados</th>' +
         '<th align="center" class="align-middle">% Efectividad</th>' +
-        '<th align="center" class="align-middle">Orden(es) Despacho</th>' +
+        thead_ordenes +
         '</tr>'
 }
 
