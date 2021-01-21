@@ -43,7 +43,8 @@ switch($tipoPeriodo) {
         break;  
 }
 
-$formato_fecha = "d-m-Y";
+//$formato_fecha = "d-m-Y";
+$formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
 $cant_ordenes_despacho_max = 22;
 $cant_fact_sinliquidar_max = 24;
 $ancho_tabla_max = 19;
@@ -159,6 +160,7 @@ foreach ($query as $key => $item)
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $ordenes_despacho[] = $item['correlativo'];
+            $nombre_mes[] = Conectar::convertir(date_format(date_create($item['fecha_entre']), 'm'), true);
 
         }
     }
@@ -330,25 +332,33 @@ for ($j=0; $j<count($cant_documentos); $j++) {
         $sheet->setCellValue($temp_letra . ($row+1), $titulo_tabla['fecha_entrega']);
         $sheet->setCellValue($temp_letra . ($row+2), $titulo_tabla['ped_despachados']);
         $sheet->setCellValue($temp_letra . ($row+3), $titulo_tabla['efectividad']);
-        $sheet->setCellValue($temp_letra . ($row+4), $titulo_tabla['orden_despacho']);
+        if ($tipoPeriodo!="Anual") {
+            $sheet->setCellValue($temp_letra . ($row + 4), $titulo_tabla['orden_despacho']);
+        }
         $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row+1));
         $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+2));
         $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+3));
-        $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+4));
+        if ($tipoPeriodo!="Anual") {
+            $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row + 4));
+        }
         $nombre_serie = array($temp_letra, ($row+4));
     }
 
     $temp_letra = getExcelCol($i);
-    $sheet->setCellValue($temp_letra . ($row+1), $fecha_entrega[$j]);
+    $sheet->setCellValue($temp_letra . ($row+1), $tipoPeriodo!="Anual" ? $fecha_entrega[$j] : $nombre_mes[$j]);
     $sheet->setCellValue($temp_letra . ($row+2), $cant_documentos[$j]);
     $sheet->setCellValue($temp_letra . ($row+3), $porc[$j] . ' %');
-    $sheet->setCellValue($temp_letra . ($row+4), $ordenes_despacho[$j]);
+    if ($tipoPeriodo!="Anual") {
+        $sheet->setCellValue($temp_letra . ($row + 4), $ordenes_despacho[$j]);
+    }
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row+1));
     $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row+2))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row+3))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row+4))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    if ($tipoPeriodo!="Anual") {
+        $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row + 4))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    }
 }
 
 

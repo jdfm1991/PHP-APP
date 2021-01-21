@@ -305,7 +305,7 @@ function construirGrafico(data, condicion_visibilidad_mes) {
                 yAxes: [{
                     ticks: {
                         suggestedMin: 0,
-                        suggestedMax: (object.value_max > 25) ? object.value_max : value_max_default
+                        suggestedMax: (object.value_max >= 25) ? object.value_max+5 : value_max_default
                     }
                 }],
             },

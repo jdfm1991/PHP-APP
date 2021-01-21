@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadores_entregas_efectivas.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadores_entregas_efectivas.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,8 @@
       <workItem from="1610635048856" duration="4050000" />
       <workItem from="1610639170251" duration="3750000" />
       <workItem from="1610735202340" duration="17000" />
-      <workItem from="1611147011250" duration="7462000" />
+      <workItem from="1611147011250" duration="8868000" />
+      <workItem from="1611236845544" duration="4807000" />
     </task>
     <servers />
   </component>

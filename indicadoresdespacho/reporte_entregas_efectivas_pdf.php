@@ -33,7 +33,8 @@ switch($tipoPeriodo) {
 }
 
 $documentsize = 'Legal';
-$formato_fecha = "d-m-Y";
+//$formato_fecha = "d-m-Y";
+$formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
 $cant_ordenes_despacho_max = 22;
 $cant_fact_sinliquidar_max = 26;
 $ancho_tabla_max = 19;
@@ -187,6 +188,7 @@ $total_ped_porliquidar = 0;
 $promedio_diario_despacho = 0;
 $fecha_entrega = Array();
 $cant_documentos = Array();
+$nombre_mes = Array();
 $porc = Array();
 $ordenes_despacho = Array();
 $valoresParaGrafico = Array();
@@ -217,6 +219,7 @@ foreach ($query as $key => $item)
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $ordenes_despacho[] = $item['correlativo'];
+            $nombre_mes[] = Conectar::convertir(date_format(date_create($item['fecha_entre']), 'm'), true);
 
         }
     }
@@ -297,9 +300,9 @@ for($i=0;$i<$x;$i++){
     }
     if($i==21){
         $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
-        $pdf->Cell(13,5,$fecha_entrega[$i],'TLBR',0,'C', true);
+        $pdf->Cell(13,5, $tipoPeriodo!="Anual" ? $fecha_entrega[$i] : $nombre_mes[$i],'TLBR',0,'C', true);
     }else{
-        $pdf->Cell(13,5,$fecha_entrega[$i],'TLBR',0,'C', true);
+        $pdf->Cell(13,5, $tipoPeriodo!="Anual" ? $fecha_entrega[$i] : $nombre_mes[$i],'TLBR',0,'C', true);
     }
 }
 $pdf->Cell(0,5,"",'',1,'C');
@@ -326,18 +329,21 @@ for($i=0;$i<$x;$i++){
         $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
     }
 }
-$pdf->Cell(0,5,"",'',1,'C');
-for($i=0;$i<$x;$i++){
-    if($i==0){
-        $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
-    }
-    if($i==21){
-        $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
-        $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
-    }else{
-        $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+if ($tipoPeriodo!="Anual") {
+    $pdf->Cell(0,5,"",'',1,'C');
+    for($i=0;$i<$x;$i++){
+        if($i==0){
+            $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
+        }
+        if($i==21){
+            $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
+            $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+        }else{
+            $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+        }
     }
 }
+
 
 
 /************************************* */
@@ -360,7 +366,7 @@ for($d=0;$d<count($ordenes_despacho);$d++)
 $pdf->AddPage('L', $documentsize);
 $y = $pdf->GetY();
 $x = $pdf->GetX();
-graficar($cant_documentos,$fecha_entrega, $promedio_despacho,'Indicadores de Despacho',array(20,$y,320,170),'', $pdf);
+graficar($cant_documentos, $tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes, $promedio_despacho,'Indicadores de Despacho',array(20,$y,320,170),'', $pdf);
 
 
 $pdf->Output();
