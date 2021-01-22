@@ -89,17 +89,25 @@ require_once("../acceso/const.php");
                     <div class="tab-pane fade" id="pills-rechazo" role="tabpanel">
                         <form id="rechazo_form" class="form-horizontal" method="post">
                             <div class="form-group row">
-                                <div class="form-group col-sm-2">
-                                    <label for="fechai">Desde</label>
-                                    <input type="date" class="form-control" id="fechai" name="fechai" required>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <label for="fechaf">Hasta</label>
-                                    <input type="date" class="form-control" id="fechaf" name="fechaf" required>
-                                </div>
-                                <div class="form-group col-sm-2">
+                                <div class="form-group col-sm-6">
                                     <label for="chofer">Chofer</label>
                                     <select class="form-control custom-select" name="chofer" id="chofer" style="width: 100%;" required>
+                                        <!-- la lista de tipo se carga por ajax -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-sm-3">
+                                    <label for="chofer">Tipo de Periodo</label>
+                                    <select class="form-control custom-select" name="tipoPeriodo" id="tipoPeriodo" style="width: 100%;" required>
+                                        <option value="">Seleccione tipo Periodo</option>
+                                        <option value="Anual">Anual</option>
+                                        <option value="Mensual">Mensual</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="chofer">Periodo</label>
+                                    <select class="form-control custom-select" name="periodo" id="periodo" style="width: 100%;" required>
                                         <!-- la lista de tipo se carga por ajax -->
                                     </select>
                                 </div>
@@ -108,7 +116,7 @@ require_once("../acceso/const.php");
                                 <div class="form-group col-sm-6">
                                     <label for="chofer">Causa de rechazo</label>
                                     <select class="custom-select" name="causa" id="causa" style="width: 100%;" required>
-                                        <option value="">Seleccione Causa del rechazo</option>
+                                        <option value="">--Seleccione Causa del rechazo--</option>
                                         <option value="todos">Todos</option>
                                         <option value="Merc. no solicitada">Merc. no solicitada</option>
                                         <option value="Fecha venc. cercana">Fecha venc. cercana</option>
@@ -251,7 +259,7 @@ require_once("../acceso/const.php");
                         </div>
 
                         <div class="chart">
-                            <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            <canvas id="barChart" style="min-height: 250px; height: 310px; max-height: 500px; max-width: 100%;"></canvas>
                         </div>
 
                         <div class="pt-3">

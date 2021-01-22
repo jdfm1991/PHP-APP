@@ -42,7 +42,7 @@ class InidicadoresDespachos extends Conectar{
         $sql= "SELECT det.correl AS correlativo, fecha_entre, count(det.correl) AS cant_documentos, tipo_pago, observacion
                 FROM appfacturas_det AS det WHERE $rechaz
                     correl IN (SELECT correl AS correlativo FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? $chof)
-                GROUP BY fecha_entre, observacion, tipo_pago, correl ORDER BY correl, fecha_entre";
+                GROUP BY fecha_entre, observacion, tipo_pago, correl ORDER BY fecha_entre asc";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -90,13 +90,15 @@ class InidicadoresDespachos extends Conectar{
         $conectar= parent::conexion2();
         parent::set_names();
 
+        $chofer = $id_chofer!='-' ? ' AND cedula_chofer=?' : '';
+
         switch ($tipo) {
             case "Anual":
                 $month_in_parameter = $month_in_condition = $month_in_groupBy = $month_in_orderBy = "";
                 break;
             case "Mensual":
                 $month_in_parameter = ", MONTH(CAST(fecha_entre AS DATETIME)) mes ";
-                $month_in_condition = " DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? AND ";
+                $month_in_condition = " AND DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ?  ";
                 $month_in_groupBy = ", MONTH(CAST(fecha_entre AS DATETIME)) ";
                 $month_in_orderBy = ", mes";
                 break;
@@ -110,7 +112,7 @@ class InidicadoresDespachos extends Conectar{
 
         $sql= "SELECT YEAR(CAST(fecha_entre AS DATETIME)) anio $month_in_parameter
                 FROM appfacturas_det INNER JOIN SAFACT ON appfacturas_det.numeros = SAFACT.NumeroD WHERE
-                correl IN (SELECT correl FROM appfacturas WHERE $month_in_condition cedula_chofer=?)
+                correl IN (SELECT correl FROM appfacturas WHERE fechad IS NOT NULL $month_in_condition $chofer)
                 AND fecha_entre IS NOT NULL $condition_indicador
                 GROUP BY YEAR(CAST(fecha_entre AS DATETIME)) $month_in_groupBy
                 ORDER BY anio DESC $month_in_orderBy";
@@ -121,7 +123,9 @@ class InidicadoresDespachos extends Conectar{
             $sql->bindValue($i+=1, $anio_in_curse.'-01-01');
             $sql->bindValue($i+=1, $anio_in_curse.'-12-31');
         }
-        $sql->bindValue($i+=1,$id_chofer);
+        if ($id_chofer!='-') {
+            $sql->bindValue($i+=1,$id_chofer);
+        }
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

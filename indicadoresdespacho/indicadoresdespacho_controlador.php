@@ -17,6 +17,15 @@ function addCero($num) {
     return $num;
 }
 
+function check_in_range($date_start, $date_end, $date_toevaluate) {
+    $date_start = strtotime($date_start);
+    $date_end = strtotime($date_end);
+    $date_toevaluate = strtotime($date_toevaluate);
+    if (($date_toevaluate >= $date_start) && ($date_toevaluate <= $date_end))
+        return true;
+    return false;
+}
+
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
@@ -189,6 +198,7 @@ switch ($_GET["op"]) {
         } else {
             $chofer = "Todos los Choferes";
         }
+        $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
         $ordenes_despacho = Array();
         $ordenes_despacho_string = "";
         $totaldespacho = 0;
@@ -220,21 +230,23 @@ switch ($_GET["op"]) {
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** causas de rechazo **/
-                if($row['tipo_pago'] =='N/C' and $key>0 )
+                if(($row['tipo_pago'] =='N/C' or $row['tipo_pago'] =='N/C/P') and $key>0 )
                 {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
-                    if(count($data)>0 and  $row['fecha_entre'] != null
-                        and date_format(date_create($row['fecha_entre']), 'd-m-Y') == $data[count($data)-1]['fecha_entrega']
+                    if(count($data)>0 and  ($row['fecha_entre'] != null
+                        and date_format(date_create($row['fecha_entre']), $formato_fecha) == $data[count($data)-1]['fecha_entrega']) ||
+                        ($row['fecha_entre']==null and "sin fecha de entrega"==$data[count($data)-1]['fecha_entrega'])
                     ) {
                         $data[count($data)-1]['cant_documentos'] += intval($row['cant_documentos']);
                         $data[count($data)-1]['porc'] += floatval($porcentaje);
                         $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
                     }
                     //si no es igual, solo inserta un nuevo registro al array
-                    else {
+                    elseif($row['fecha_entre']==null or check_in_range($fechai, $fechaf, $row['fecha_entre'])){
                         $fecha_entrega = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
-                            ? date_format(date_create($row['fecha_entre']), 'd-m-Y') : "sin fecha de entrega";
-
+                            ? date_format(date_create($row['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
+                        $sub_array['nombre_mes'] = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
+                            ? Conectar::convertir(date_format(date_create($row['fecha_entre']), 'm'), true) : "sin f. entreg.";
                         $sub_array['fecha_entrega'] = $fecha_entrega;
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
                         $sub_array['porc'] = floatval($porcentaje);
@@ -248,7 +260,7 @@ switch ($_GET["op"]) {
         }
         /** los despachos realizados obtenidos se agregan a un string **/
         foreach ($ordenes_despacho as $arr){
-            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . $arr['cant_documentos'] . "), ");
+            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . addCero($arr['cant_documentos']) . "), ");
         }
 
         /** calcular los pedidos devueltos **/

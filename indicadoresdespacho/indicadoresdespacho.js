@@ -278,7 +278,7 @@ function construirGrafico(data, condicion_visibilidad_mes) {
             value_max_default = 25;
             break;
         case 2:
-            object = rechazo_de_los_clientes(data);
+            object = rechazo_de_los_clientes(data, condicion_visibilidad_mes);
             value_max_default = 8;
             break;
         case 3:
@@ -337,7 +337,7 @@ function construirTabla(data, incluye_ordenes){
 
     switch(indicador_seleccionado){
         case 1: $('#indicadores_data thead').append( thead_table_efectivas(incluye_ordenes) ); break;
-        case 2: $('#indicadores_data thead').append( thead_table_rechazo() ); break;
+        case 2: $('#indicadores_data thead').append( thead_table_rechazo(incluye_ordenes) ); break;
         case 3: $('#indicadores_data thead').append( thead_table_oportunidad() ); break;
     }
 

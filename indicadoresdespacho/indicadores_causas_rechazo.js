@@ -1,11 +1,11 @@
 
-function rechazo_de_los_clientes(data)
+function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
 {
     let labels, value_max, values;
 
     if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
-        labels = data.tabla.map( val => { return val.fecha_entrega; });
+        labels = data.tabla.map( val => { return condicion_visibilidad_mes ? val.nombre_mes : val.fecha_entrega; });
 
         //creamos un array con todas las posiciones en 0
         values = labels.map(() => { return 0 });
@@ -42,14 +42,16 @@ function rechazo_de_los_clientes(data)
     };
 }
 
-function thead_table_rechazo()
+function thead_table_rechazo(incluye_ordenes)
 {
+    thead_ordenes = (!incluye_ordenes) ? '<th align="center" class="align-middle">Orden(es) Despacho</th>' : '';
+
     return '' +
         '<tr>' +
         '<th align="center"  class="align-middle">Fecha Devolución</th>' +
         '<th align="center"  class="align-middle">Devoluciones</th>' +
         '<th align="center"  class="align-middle">% Rechazos</th>' +
-        '<th align="center"  class="align-middle">Orden(es) Despacho</th>' +
+        thead_ordenes +
         '</tr>'
 }
 
