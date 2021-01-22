@@ -2,6 +2,7 @@
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
+require_once("../acceso/funciones.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
@@ -10,21 +11,6 @@ require_once("../choferes/choferes_modelo.php");
 //INSTANCIAMOS EL MODELO
 $indicadores = new InidicadoresDespachos();
 $choferes = new Choferes();
-
-function addCero($num) {
-    if(intval($num)<=9)
-        return "0".$num;
-    return $num;
-}
-
-function check_in_range($date_start, $date_end, $date_toevaluate) {
-    $date_start = strtotime($date_start);
-    $date_end = strtotime($date_end);
-    $date_toevaluate = strtotime($date_toevaluate);
-    if (($date_toevaluate >= $date_start) && ($date_toevaluate <= $date_end))
-        return true;
-    return false;
-}
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -50,8 +36,8 @@ switch ($_GET["op"]) {
                         $sub_array["value"] = $row["anio"];
                         break;
                     case "Mensual":
-                        $sub_array["label"] = Conectar::convertir(addCero($row["mes"]))." ".$row["anio"];
-                        $sub_array["value"] = $row["anio"]."-".addCero($row["mes"]);
+                        $sub_array["label"] = Funciones::convertir(addCero($row["mes"]))." ".$row["anio"];
+                        $sub_array["value"] = $row["anio"]."-".Funciones::addCero($row["mes"]);
                         break;  
                 }
                 $output[] = $sub_array;
@@ -107,7 +93,7 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $ordenes_despacho_string .= ($row['correlativo'] . "(" . addCero($row['cant_documentos']) . "), ");
+                $ordenes_despacho_string .= ($row['correlativo'] . "(" . Funciones::addCero($row['cant_documentos']) . "), ");
 
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
@@ -127,7 +113,7 @@ switch ($_GET["op"]) {
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
                         $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
-                        $sub_array['nombre_mes'] = Conectar::convertir(date_format(date_create($row['fecha_entre']), 'm'), true);
+                        $sub_array['nombre_mes'] = Funciones::convertir(date_format(date_create($row['fecha_entre']), 'm'), true);
 
                         $data[] = $sub_array;
                     }
@@ -242,12 +228,13 @@ switch ($_GET["op"]) {
                         $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
                     }
                     //si no es igual, solo inserta un nuevo registro al array
-                    elseif($row['fecha_entre']==null or check_in_range($fechai, $fechaf, $row['fecha_entre'])){
+                    elseif($row['fecha_entre']==null or Funciones::check_in_range($fechai, $fechaf, $row['fecha_entre'])){
                         $fecha_entrega = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
                             ? date_format(date_create($row['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
-                        $sub_array['nombre_mes'] = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
-                            ? Conectar::convertir(date_format(date_create($row['fecha_entre']), 'm'), true) : "sin f. entreg.";
+                        $nombre_mes = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
+                            ? Funciones::convertir(date_format(date_create($row['fecha_entre']), 'm'), true) : "sin f. entreg.";
                         $sub_array['fecha_entrega'] = $fecha_entrega;
+                        $sub_array['nombre_mes'] = $nombre_mes;
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
                         $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
@@ -260,7 +247,7 @@ switch ($_GET["op"]) {
         }
         /** los despachos realizados obtenidos se agregan a un string **/
         foreach ($ordenes_despacho as $arr){
-            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . addCero($arr['cant_documentos']) . "), ");
+            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . Funciones::addCero($arr['cant_documentos']) . "), ");
         }
 
         /** calcular los pedidos devueltos **/

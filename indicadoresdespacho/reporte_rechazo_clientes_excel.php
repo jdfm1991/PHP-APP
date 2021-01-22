@@ -1,6 +1,7 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
+require_once("../acceso/funciones.php");
 
 require('../vendor/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -33,7 +34,6 @@ $fechaf = $_GET['fechaf'];
 $chofer_id = $_GET['chofer'];
 $causa = $_GET['causa'];
 
-$formato_fecha = "d-m-Y";
 $cant_ordenes_despacho_max = 22;
 $cant_fact_sinliquidar_max = 26;
 $ancho_tabla_max = 19;
@@ -54,12 +54,6 @@ function getExcelCol($num, $letra_temp = false) {
     } else {
         return $letra;
     }
-}
-
-function addCero($num) {
-    if(intval($num)<=9)
-        return "0".$num;
-    return $num;
 }
 
 /************************************* */
@@ -116,10 +110,12 @@ if($chofer_id!="-") {
 } else {
     $chofer = "Todos los Choferes";
 }
+$formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
 $ordenes_despacho_string = "";
 $totaldespacho = 0;
 $total_ped_devueltos = 0;
 $fecha_entrega = Array();
+$nombre_mes = Array();
 $cant_documentos = Array();
 $porc = Array();
 $ordenes_despacho = Array();
@@ -147,22 +143,26 @@ foreach ($query as $key => $item)
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** causas de rechazo **/
-    if($item['tipo_pago'] =='N/C' and $key>0 )
+    if(($item['tipo_pago'] =='N/C' or $item['tipo_pago'] =='N/C/P') and $key>0 )
     {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
-        if(count($fecha_entrega)>0 and $item['fecha_entre'] != null
-            and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
-        {
+        if(count($fecha_entrega)>0 and  ($item['fecha_entre'] != null
+                and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1]) ||
+            ($item['fecha_entre']==null and "sin fecha de entrega"==$fecha_entrega[count($fecha_entrega)-1])
+        ) {
             $cant_documentos[count($cant_documentos)-1] += intval($item['cant_documentos']);
             $porc[count($porc)-1] += floatval($porcentaje);
             $correlativo[count($correlativo)-1] .= (", " . $item['correlativo']);
         }
         //si no es igual, solo inserta un nuevo registro al array
-        else {
+        elseif($item['fecha_entre']==null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])){
             $fecha_ent = ($item['fecha_entre'] != null and strlen($item['fecha_entre'])>0)
-                ? date_format(date_create($item['fecha_entre']), 'd-m-Y') : "sin fecha de entrega";
+                ? date_format(date_create($item['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
+            $nombreMes = ($item['fecha_entre'] != null and strlen($item['fecha_entre'])>0)
+                ? Funciones::convertir(date_format(date_create($item['fecha_entre']), 'm'), true) : "sin f. entreg.";
 
             $fecha_entrega[] = $fecha_ent;
+            $nombre_mes[] = $nombreMes;
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $correlativo[] = $item['correlativo'];
@@ -173,7 +173,7 @@ foreach ($query as $key => $item)
 
 /** los despachos realizados obtenidos se agregan a un string **/
 foreach ($ordenes_despacho as $arr){
-    $ordenes_despacho_string .= ($arr['correlativo'] . "(" . addCero($arr['cant_documentos']) . "), ");
+    $ordenes_despacho_string .= ($arr['correlativo'] . "(" . Funciones::addCero($arr['cant_documentos']) . "), ");
 }
 
 /** calcular los pedidos devueltos **/
@@ -268,53 +268,59 @@ for ($j=0; $j<count($cant_documentos); $j++) {
     $sheet = $spreadsheet->getActiveSheet();
     //evalua con la intencion de saber si se va a hacer un salto de la
     //tabla para agregarle estilo a la cabecera de la tabla
-    if( ( $j % $ancho_tabla_max )==0 || $j+1==count($cant_documentos) ) {
+    if (($j % $ancho_tabla_max) == 0 || $j + 1 == count($cant_documentos)) {
 
-        if($temp_letra!="") {
-            $ult_letra = !($j+1==count($cant_documentos)) ? $temp_letra : getExcelCol($i, true);
-            $spreadsheet->getActiveSheet()->mergeCells('A'.($row).':'. $ult_letra . ($row));
-            $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A'.($row).':'. $ult_letra . ($row));
+        if ($temp_letra != "") {
+            $ult_letra = !($j + 1 == count($cant_documentos)) ? $temp_letra : getExcelCol($i, true);
+            $spreadsheet->getActiveSheet()->mergeCells('A' . ($row) . ':' . $ult_letra . ($row));
+            $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A' . ($row) . ':' . $ult_letra . ($row));
         }
 
-        if( $j>0 && ($j % $ancho_tabla_max)==0 || $j+1==count($cant_documentos) )
-        {
-            $valoresParaGrafico[] = Array(
-                'fecha_entrega' => array('B', ($row+1), $ult_letra, ($row+1)),
-                'despachos'     => array('B', ($row+2), $ult_letra, ($row+2)),
+        if ($j > 0 && ($j % $ancho_tabla_max) == 0 || $j + 1 == count($cant_documentos)) {
+            $valoresParaGrafico[] = array(
+                'fecha_entrega' => array('B', ($row + 1), $ult_letra, ($row + 1)),
+                'despachos' => array('B', ($row + 2), $ult_letra, ($row + 2)),
             );
         }
     }
 
     //esta evalua si la iteracion va a ser superior al ancho maximo para generar
     //el salgo de la tabla y agregarle los titulos
-    if( ( $j % $ancho_tabla_max )==0 ) {
+    if (($j % $ancho_tabla_max) == 0) {
         $i = 0;
         $row += 6;
         $temp_letra = getExcelCol($i);
-        $sheet->setCellValue($temp_letra . ($row+0), 'Rechazos de los Clientes');
-        $sheet->setCellValue($temp_letra . ($row+1), $titulo_tabla['fecha_devolucion']);
-        $sheet->setCellValue($temp_letra . ($row+2), $titulo_tabla['ped_devueltos']);
-        $sheet->setCellValue($temp_letra . ($row+3), $titulo_tabla['rechazo']);
-        $sheet->setCellValue($temp_letra . ($row+4), $titulo_tabla['orden_despacho']);
-        $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row+1));
-        $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+2));
-        $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+3));
-        $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row+4));
+        $sheet->setCellValue($temp_letra . ($row + 0), 'Rechazos de los Clientes');
+        $sheet->setCellValue($temp_letra . ($row + 1), $titulo_tabla['fecha_devolucion']);
+        $sheet->setCellValue($temp_letra . ($row + 2), $titulo_tabla['ped_devueltos']);
+        $sheet->setCellValue($temp_letra . ($row + 3), $titulo_tabla['rechazo']);
+        if ($tipoPeriodo != "Anual") {
+            $sheet->setCellValue($temp_letra . ($row + 4), $titulo_tabla['orden_despacho']);
+        }
+        $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row + 1));
+        $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row + 2));
+        $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row + 3));
+        if ($tipoPeriodo != "Anual") {
+            $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row + 4));
+        }
     }
 
     $temp_letra = getExcelCol($i);
-    $sheet->setCellValue($temp_letra . ($row+1), $fecha_entrega[$j]);
-    $sheet->setCellValue($temp_letra . ($row+2), $cant_documentos[$j]);
-    $sheet->setCellValue($temp_letra . ($row+3), $porc[$j] . ' %');
-    $sheet->setCellValue($temp_letra . ($row+4), $correlativo[$j]);
+    $sheet->setCellValue($temp_letra . ($row + 1), $tipoPeriodo!="Anual" ? $fecha_entrega[$j] : $nombre_mes[$j]);
+    $sheet->setCellValue($temp_letra . ($row + 2), $cant_documentos[$j]);
+    $sheet->setCellValue($temp_letra . ($row + 3), $porc[$j] . ' %');
+    if ($tipoPeriodo != "Anual") {
+        $sheet->setCellValue($temp_letra . ($row + 4), $correlativo[$j]);
+    }
 
     /** centrarlas las celdas **/
-    $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row+1));
-    $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row+2))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row+3))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row+4))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row + 1));
+    $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row + 2))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row + 3))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    if ($tipoPeriodo != "Anual") {
+        $spreadsheet->getActiveSheet()->getStyle($temp_letra . ($row + 4))->applyFromArray(array('borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    }
 }
-
 
 /************************************* */
 /**      TOTALES BAJO LA TABLA        **/

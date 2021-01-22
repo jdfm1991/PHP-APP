@@ -48,12 +48,6 @@ function addWidthInArray($num){
     return $num;
 }
 
-function addCero($num) {
-    if(intval($num)<=9)
-        return "0".$num;
-    return $num;
-}
-
 function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTamamo = array(),$titulo = NULL, $pdf){
     // Create the graph. These two calls are always required 
     $graph = new Graph ( 850 , 850 , 'auto' ); 
@@ -199,7 +193,7 @@ foreach ($query as $item)
 
 foreach ($query as $key => $item)
 {
-    $ordenes_despacho_string .= ($item['correlativo'] . "(" . addCero($item['cant_documentos']) . "), ");
+    $ordenes_despacho_string .= ($item['correlativo'] . "(" . Funciones::addCero($item['cant_documentos']) . "), ");
 
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
@@ -219,7 +213,7 @@ foreach ($query as $key => $item)
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $ordenes_despacho[] = $item['correlativo'];
-            $nombre_mes[] = Conectar::convertir(date_format(date_create($item['fecha_entre']), 'm'), true);
+            $nombre_mes[] = Funciones::convertir(date_format(date_create($item['fecha_entre']), 'm'), true);
 
         }
     }

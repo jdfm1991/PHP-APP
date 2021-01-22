@@ -20,12 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/acceso/funciones.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadores_causas_rechazo.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadores_causas_rechazo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +76,7 @@
       <workItem from="1610639170251" duration="3750000" />
       <workItem from="1610735202340" duration="17000" />
       <workItem from="1611147011250" duration="8868000" />
-      <workItem from="1611236845544" duration="15812000" />
+      <workItem from="1611236845544" duration="19465000" />
     </task>
     <servers />
   </component>
@@ -118,9 +120,17 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="1371" height="319" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1611326097452" />
+    <state x="604" y="341" key="NewPhpFileDialog" timestamp="1611328287227">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="604" y="341" key="NewPhpFileDialog/0.0.1536.834@0.0.1536.834" timestamp="1611328287227" />
     <state x="277" y="57" key="SettingsEditor" timestamp="1610639107135">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1610639107135" />
+    <state x="478" y="150" width="579" height="534" key="find.popup" timestamp="1611329134268">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="478" y="150" width="579" height="534" key="find.popup/0.0.1536.834@0.0.1536.834" timestamp="1611329134268" />
   </component>
 </project>
