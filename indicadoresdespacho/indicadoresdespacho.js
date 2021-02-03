@@ -18,7 +18,7 @@ function init() {
     $('#grafico').hide();
     $("#loader").hide();
     estado_minimizado = false;
-    indicador_seleccionado = 1;
+    indicador_seleccionado = 3;
     listar_choferes();
     limpiar();
     switch (indicador_seleccionado) {
@@ -26,6 +26,7 @@ function init() {
         case 2: $("#pills-rechazo-tab").trigger("click");     break;
         case 3: $("#pills-oportunidad-tab").trigger("click"); break;
     }
+
 }
 
 function limpiar() {
@@ -36,6 +37,7 @@ function limpiar() {
         $('#'+pill+' #periodo').val("");
         $('#'+pill+' #tipoPeriodo').prop("disabled", true);
         $('#'+pill+' #periodo').prop("disabled", true);
+        $('#'+pill+' #causa').prop("disabled", true);
     });
     $('[name="ped_pendiente"]').show();
     $('[name="diario_despachos"]').show();
@@ -76,6 +78,7 @@ let es_habilidado = function () {
     }
 
     if($("#" + pill + " #tipoPeriodo").val() !== "") {
+        $('#' + pill + ' #periodo').html("cargando...");
         listar_periodos();
     } else {
         $('#' + pill + ' #periodo').val("");
@@ -85,7 +88,14 @@ let es_habilidado = function () {
 
 $(document).ready(function(){
     array_selects.forEach( pill => {
-        $("#"+pill+" #periodo").change(() => no_puede_estar_vacio());
+        $("#"+pill+" #periodo").change(() => {
+            no_puede_estar_vacio();
+            if($("#" + pill + " #periodo").val() !== "") {
+                $("#" + pill + " #causa").prop("disabled", false);
+            } else {
+                $("#" + pill + " #causa").prop("disabled", true);
+            }
+        });
         $("#"+pill+" #chofer").change(() => { 
             no_puede_estar_vacio(); 
             es_habilidado();
@@ -282,7 +292,7 @@ function construirGrafico(data, condicion_visibilidad_mes) {
             value_max_default = 8;
             break;
         case 3:
-            object = rechazo_de_los_clientes(data);
+            object = oportunidad_despacho(data);
             value_max_default = 8;
             break;
     }
@@ -335,6 +345,7 @@ function construirTabla(data, incluye_ordenes){
 
     $('#indicadores_data thead').empty();
 
+    console.log(indicador_seleccionado)
     switch(indicador_seleccionado){
         case 1: $('#indicadores_data thead').append( thead_table_efectivas(incluye_ordenes) ); break;
         case 2: $('#indicadores_data thead').append( thead_table_rechazo(incluye_ordenes) ); break;
@@ -358,21 +369,24 @@ function construirTabla(data, incluye_ordenes){
                     );
             });
         } else if (indicador_seleccionado===3) {
-            /* $.each(data, function(idx, opt) {
+             $.each(data, function(idx, opt) {
                 $('#indicadores_data')
                     .append(
                         '<tr>' +
+                        '<td align="center" class="small align-middle">' + opt.numerod + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.codvend + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.descrip + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.fecha_desp + '</td>' +
                         '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
-                        '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
-                        '<td align="center" class="small align-middle">' + opt.ordenes_despacho + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.oportunidad + '</td>' +
                         '</tr>'
                     );
-            }); */
+            });
         }
     } else {
+        cols = indicador_seleccionado===3 ? 4 : 6;
         //en caso de consulta vacia, mostramos un mensaje de vacio
-        $('#indicadores_data').append('<tr><td colspan="4" align="center">Sin registros para esta Consulta</td></tr>');
+        $('#indicadores_data').append('<tr><td colspan="'+cols+'" align="center">Sin registros para esta Consulta</td></tr>');
     }
 }
 

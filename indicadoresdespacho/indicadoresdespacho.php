@@ -114,7 +114,7 @@ require_once("../acceso/const.php");
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-sm-6">
-                                    <label for="chofer">Causa de rechazo</label>
+                                    <label for="causa">Causa de rechazo</label>
                                     <select class="custom-select" name="causa" id="causa" style="width: 100%;" required>
                                         <option value="">--Seleccione Causa del rechazo--</option>
                                         <option value="todos">Todos</option>

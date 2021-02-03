@@ -3,18 +3,18 @@ function oportunidad_despacho(data)
 {
     let labels, values, value_max, promedio;
 
-    /* if(!jQuery.isEmptyObject(data)) {
+     if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
         labels = data.tabla.map( val => { return val.fecha_entrega; });
 
         //valores de las barras
-        values = data.tabla.map( val => { return parseInt(val.cant_documentos); });
+        values = data.tabla.map( val => { return parseInt(val.oportunidad); });
 
         //obtiene el valor mas alto de los pedidos despachados
-        value_max = Math.max(data.tabla.map( val => { return parseInt(val.ped_despachados); }));
+        value_max = Math.max(data.tabla.map( val => { return parseInt(val.oportunidad); }));
 
         //obtiene un array de valores con el valor promedio
-        promedio = values.map(() => { return parseFloat(data.promedio_diario_despacho.replace(',', '.')); });
+        promedio = data.oportunidad_promedio;/*values.map(() => { return parseFloat(data.promedio_diario_despacho.replace(',', '.')); });*/
     } else {
         labels = [];
         values = [];
@@ -29,7 +29,7 @@ function oportunidad_despacho(data)
         value_max  : value_max,
         content: [
             {
-                label      : 'Despachos',
+                label      : 'Oportunidad',
                 type       : 'bar',
                 color      : 'rgba(60,141,188,0.8)',
                 pointRadius: false,
@@ -44,7 +44,7 @@ function oportunidad_despacho(data)
                 values     : promedio
             }
         ]
-    }; */
+    };
 }
 
 function construirTablaOportunidadDespacho(data) {

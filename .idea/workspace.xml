@@ -20,14 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/acceso/funciones.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadores_oportunidad_despacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadores_oportunidad_despacho.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,10 +56,13 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="sqlserver" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../AppServ/www/ajpzo" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -77,6 +77,11 @@
       <workItem from="1610735202340" duration="17000" />
       <workItem from="1611147011250" duration="8868000" />
       <workItem from="1611236845544" duration="19465000" />
+      <workItem from="1612276184417" duration="2992000" />
+      <workItem from="1612279454738" duration="104000" />
+      <workItem from="1612279629336" duration="981000" />
+      <workItem from="1612356829546" duration="2438000" />
+      <workItem from="1612360661478" duration="5511000" />
     </task>
     <servers />
   </component>
@@ -94,43 +99,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="361" y="76" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611151986477">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state x="361" y="76" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.834@0.0.1536.834" timestamp="1611151986477" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1610635178220">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1610635178220" />
-    <state width="1371" height="319" key="GridCell.Tab.0.bottom" timestamp="1611326097452">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state width="1371" height="319" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1611326097452" />
-    <state width="1371" height="319" key="GridCell.Tab.0.center" timestamp="1611326097452">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state width="1371" height="319" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1611326097452" />
-    <state width="1371" height="319" key="GridCell.Tab.0.left" timestamp="1611326097452">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state width="1371" height="319" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1611326097452" />
-    <state width="1371" height="319" key="GridCell.Tab.0.right" timestamp="1611326097452">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state width="1371" height="319" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1611326097452" />
-    <state x="604" y="341" key="NewPhpFileDialog" timestamp="1611328287227">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state x="604" y="341" key="NewPhpFileDialog/0.0.1536.834@0.0.1536.834" timestamp="1611328287227" />
-    <state x="277" y="57" key="SettingsEditor" timestamp="1610639107135">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1610639107135" />
-    <state x="478" y="150" width="579" height="534" key="find.popup" timestamp="1611329134268">
-      <screen x="0" y="0" width="1536" height="834" />
-    </state>
-    <state x="478" y="150" width="579" height="534" key="find.popup/0.0.1536.834@0.0.1536.834" timestamp="1611329134268" />
   </component>
 </project>

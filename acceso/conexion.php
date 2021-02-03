@@ -1,5 +1,4 @@
 <?php
-
 date_default_timezone_set('America/Caracas');
 session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
