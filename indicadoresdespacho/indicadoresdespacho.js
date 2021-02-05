@@ -292,7 +292,7 @@ function construirGrafico(data, condicion_visibilidad_mes) {
             value_max_default = 8;
             break;
         case 3:
-            object = oportunidad_despacho(data);
+            object = oportunidad_despacho(data, condicion_visibilidad_mes);
             value_max_default = 8;
             break;
     }
@@ -373,12 +373,14 @@ function construirTabla(data, incluye_ordenes){
                 $('#indicadores_data')
                     .append(
                         '<tr>' +
-                        '<td align="center" class="small align-middle">' + opt.numerod + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.codvend + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.descrip + '</td>' +
                         '<td align="center" class="small align-middle">' + opt.fecha_desp + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.oportunidad + '</td>' +
+                        '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
+                        '<td align="center" class="small align-middle"> ' +
+                            '<div class="progress progress-sm"> ' +
+                                '<div class="progress-bar bg-green" role="progressbar" aria-volumenow="'+ parseInt(opt.oportunidad) +'" aria-volumemin="0" aria-volumemax="100" style="width: '+ parseInt(opt.oportunidad) +'%"></div> ' +
+                            '</div> ' +
+                            '<small>' + parseInt(opt.oportunidad * 10) / 10 + ' %</small>' +
+                        '</td>' +
                         '</tr>'
                     );
             });

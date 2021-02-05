@@ -290,12 +290,14 @@ switch ($_GET["op"]) {
         //inicializamos la variables
         $chofer = $choferes->get_chofer_por_id($chofer_id);
         $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
+        $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
         $oportunidad_promedio = 0;
+        $objetivo = 80;
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
-        foreach ($datos as $row) {
+        foreach ($datos as $key => $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
 
@@ -308,21 +310,35 @@ switch ($_GET["op"]) {
             $oportunidad = ($tiempo_entrega <= $tiempo_entrega_estimado) ? 100 : ($tiempo_entrega_estimado/$tiempo_entrega)*100;
             $oportunidad_promedio += $oportunidad;
 
-            $sub_array["numerod"]                 = $row["numerod"];
-            $sub_array["codvend"]                 = $row["codvend"];
-            $sub_array["descrip"]                 = $row["descrip"];
-            $sub_array["fecha_desp"]              = $row["fecha_desp"];
-            $sub_array["fecha_entrega"]           = $fecha_entrega;
-            $sub_array["tiempo_entrega_estimado"] = $tiempo_entrega_estimado;
-            $sub_array["tiempo_entrega"]          = $tiempo_entrega;
-            $sub_array["oportunidad"]             = number_format($oportunidad,2,',','.').'%';
+            /** oportunidad despachos **/
+            if($row['fecha_desp'] != null)
+            {
+                //almacenamos el total de documentos para calcular la oportunidad posteriormente
+                $totaldoc = Funciones::searchQuantityDocumentsByDates($datos, "fecha_desp", $row['fecha_desp'], $formato_fecha);
 
-            $data[] = $sub_array;
+                //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
+                if(count($data)>0 and date_format(date_create($row['fecha_desp']), $formato_fecha) == $data[count($data)-1]['fecha_desp'])
+                {
+                    $data[count($data)-1]['cant_documentos'] += 1;
+                    $data[count($data)-1]['oportunidad'] += floatval($oportunidad/$totaldoc);
+                    $data[count($data)-1]['documentos'] .= (", " . $row['numerod']);
+                }
+                //si no es igual, solo inserta un nuevo registro al array
+                else {
+                    $sub_array['fecha_desp'] = date_format(date_create($row['fecha_desp']), $formato_fecha);
+                    $sub_array['cant_documentos'] = 1;
+                    $sub_array['oportunidad'] = floatval($totaldoc>=1 ? $oportunidad/$totaldoc : $oportunidad);
+                    $sub_array['documentos'] = $row['numerod'];
+                    $sub_array['nombre_mes'] = Funciones::convertir(date_format(date_create($row['fecha_desp']), 'm'), true);
+
+                    $data[] = $sub_array;
+                }
+            }
         }
 
         /** calculamos el porcentaje de oportunidad de despacho promedio **/
         if(count($data) > 0) {
-            $oportunidad_promedio = ($oportunidad_promedio/count($data));
+            $oportunidad_promedio = ($oportunidad_promedio/count($datos));
         } else {
             $oportunidad_promedio = 0;
         }
@@ -330,9 +346,10 @@ switch ($_GET["op"]) {
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
             "chofer" => $chofer,
-            "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.').'%',
+            "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.'),
             "fechai" => $fechai,
             "fechaf" => $fechaf,
+            "objetivo" => $objetivo,
             "tabla" => $data
         );
         echo json_encode($output);

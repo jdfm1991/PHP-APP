@@ -1,11 +1,11 @@
 
-function oportunidad_despacho(data)
+function oportunidad_despacho(data, condicion_visibilidad_mes)
 {
-    let labels, values, value_max, promedio;
+    let labels, values, value_max, promedio, objetivo;
 
      if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
-        labels = data.tabla.map( val => { return val.fecha_entrega; });
+        labels = data.tabla.map( val => { return condicion_visibilidad_mes ? val.nombre_mes : val.fecha_desp; });
 
         //valores de las barras
         values = data.tabla.map( val => { return parseInt(val.oportunidad); });
@@ -14,12 +14,16 @@ function oportunidad_despacho(data)
         value_max = Math.max(data.tabla.map( val => { return parseInt(val.oportunidad); }));
 
         //obtiene un array de valores con el valor promedio
-        promedio = data.oportunidad_promedio;/*values.map(() => { return parseFloat(data.promedio_diario_despacho.replace(',', '.')); });*/
+        promedio = values.map(() => { return parseFloat(data.oportunidad_promedio.replace(',', '.')); });
+
+        //obtiene un array de valores con el valor objetivo
+        objetivo = values.map(() => { return parseFloat(data.objetivo); });
     } else {
         labels = [];
         values = [];
         value_max = 0;
         promedio = 0;
+        objetivo = 0;
     }
 
     // retornamos un objeto con el contenido necesario
@@ -35,13 +39,20 @@ function oportunidad_despacho(data)
                 pointRadius: false,
                 fill       : false,
                 values     : values
-            }, {
+            }, /*{
                 label      : 'Promedio',
+                type       : 'line',
+                color      : 'rgba(83,109,254,0.9)',
+                pointRadius: true,
+                fill       : false,
+                values     : promedio
+            },*/ {
+                label      : 'Objetivo',
                 type       : 'line',
                 color      : 'rgba(255,99,71,0.9)',
                 pointRadius: true,
                 fill       : false,
-                values     : promedio
+                values     : objetivo
             }
         ]
     };
@@ -74,11 +85,8 @@ function thead_table_oportunidad()
 {
     return '' +
         '<tr>' +
-        '<th align="center" class="align-middle">Nro Fact</th>' +
-        '<th align="center" class="align-middle">Ruta</th>' +
-        '<th align="center" class="align-middle">Cliente</th>' +
         '<th align="center" class="align-middle">Fecha Despacho</th>' +
-        '<th align="center" class="align-middle">Fecha Recibe Cliente</th>' +
+        '<th align="center" class="align-middle">Cantidad Documentos</th>' +
         '<th align="center" class="align-middle">% Oportunidad</th>' +
         '</tr>'
 }

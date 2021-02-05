@@ -36,4 +36,23 @@ class Funciones {
         return false;
     }
 
+    public static function searchQuantityDocumentsByDates($array, $fieldSearch, $search, $format)
+    {
+        $indexI = $indexF = 0;
+        $bandera = true;
+
+        for ($i=0; $i<count($array)-1&&$bandera==true; $i++) {
+            $indexI=$i;
+            if (date_format(date_create($search), $format) == date_format(date_create($array[$i][$fieldSearch]), $format)) {
+                for($j=$i+1; $j<count($array) && date_format(date_create($search), $format)==date_format(date_create($array[$j-1][$fieldSearch]), $format); $j++) {
+                    $indexF=$j;
+                }
+                $bandera=false;
+            }
+        }
+
+        return $indexF - $indexI;
+
+    }
+
 }

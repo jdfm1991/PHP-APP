@@ -70,7 +70,7 @@ class InidicadoresDespachos extends Conectar{
                        (SELECT tiempo_estimado_despacho FROM SAVEND_02 WHERE SAVEND_02.CodVend=SAFACT.CodVend) AS tiempo_estimado
                 FROM SAFACT INNER JOIN appfacturas_det ON appfacturas_det.numeros=SAFACT.NumeroD
                 WHERE SAFACT.TipoFac IN ('A','C') AND correl IN (SELECT CORREL FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
-                    BETWEEN ? AND ? AND cedula_chofer=?) ORDER BY NumeroD";                                                   
+                    BETWEEN ? AND ? AND cedula_chofer=?) ORDER BY fecha_desp";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
