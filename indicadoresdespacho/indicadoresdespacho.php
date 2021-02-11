@@ -168,7 +168,10 @@ require_once("../acceso/const.php");
             </div>
             <!-- BOX BOTON DE PROCESO -->
             <div class="card-footer">
-                <button type="submit" class="btn btn-success" id="btn_consultar"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+                <button type="submit" class="btn btn-success" id="btn_consultar">
+                    <i class="fa fa-search" aria-hidden="true"></i> Consultar
+                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
         <!-- BOX  LOADER -->
@@ -183,7 +186,7 @@ require_once("../acceso/const.php");
         <div class="row">
             <div class="col-md-6">
                 <!-- BOX TABLA -->
-                <div class="card card-info" id="tabla1">
+                <div class="card card-info" id="tabla">
                     <div class="card-header">
                         <h3 class="card-title"><span class="title-card"></span></h3>
                     </div>
@@ -214,7 +217,7 @@ require_once("../acceso/const.php");
 
                         <div class="row pt-3">
                             <div class="col">
-                                <p>
+                                <p name="ttl_ped_camion">
                                     Total de Pedidos en el camión: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_ped_camion"></label>
                                 </p>
                                 <p name="ped_pendiente">
@@ -276,55 +279,6 @@ require_once("../acceso/const.php");
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-            </div>
-
-            <div class="col-md-12">
-                <!-- BOX TABLA -->
-                <div class="card card-info" id="tabla2">
-                    <div class="card-header">
-                        <h3 class="card-title">Oportunidad de Despacho</h3>
-                    </div>
-                    <div class="card-body" style="width:auto;">
-                        <div class="form-group row">
-                            <div class="form-group col-sm-1 pt-1">
-                                <label class="pt-1">CHOFER: </label>&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <input type="text" class="form-control" id="datos_chofer1" disabled>
-                            </div>
-                        </div>
-                        <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="oportunidad_data">
-                            <thead style="background-color: #17A2B8;color: white;">
-                            <tr>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Nro Fact">Nro Fact</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Ruta">Ruta</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cliente">Cliente</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Fecha Despacho">Fecha Despacho</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Fecha Recibe Cliente">Fecha Recibe Cliente</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Tiempo Estandart Desp">Tiempo Estandart Desp</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="Tiempo Real Entrega">Tiempo Real Entrega</th>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="% Oportunidad">% Oportunidad</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- TD TABLA LLEGAN POR AJAX -->
-                            </tbody>
-                        </table>
-                        <div align="center">
-                            <br>
-                            <p>
-                                Porcentaje de Oportunidad Promedio: &nbsp;&nbsp;&nbsp;&nbsp;<label id="total_promedio"></label>
-                            </p>
-                            <br>
-                        </div>
-                        <!-- BOX BOTONES DE REPORTES-->
-                        <div align="center">
-                            <br><p><span id="total_registros"></span></p><br>
-                            <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                            <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

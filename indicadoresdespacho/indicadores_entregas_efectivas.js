@@ -29,7 +29,7 @@ function entregas_efectivas(data, condicion_visibilidad_mes)
         value_max  : value_max,
         content: [
             {
-                label      : 'Despachos',
+                label      : 'Cantidad Pedidos entregados',
                 type       : 'bar',
                 color      : 'rgba(60,141,188,0.8)',
                 pointRadius: false,

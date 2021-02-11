@@ -2,6 +2,7 @@
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
+require_once("../acceso/funciones.php");
 
 require_once ('../public/fpdf/fpdf.php');
 require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' ); 
@@ -198,8 +199,9 @@ foreach ($query as $key => $item)
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
-    if($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P' and $item['fecha_entre'] != null and $key>0 )
-    {
+    if ($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P'
+        and $item['fecha_entre'] != null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])
+    ) {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
         {

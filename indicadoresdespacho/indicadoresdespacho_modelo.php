@@ -15,6 +15,7 @@ class InidicadoresDespachos extends Conectar{
         $sql= "SELECT det.correl AS correlativo, fecha_entre, tipo_pago, count(det.correl) AS cant_documentos,
                COALESCE(STUFF((SELECT ', ' + a.numeros FROM appfacturas_det AS a WHERE a.correl=det.correl AND fecha_entre IS NULL FOR XML PATH ('')), 1, 2, ''), '') AS fact_sin_liquidar
                FROM appfacturas_det AS det WHERE correl IN ( SELECT correl AS correlativo FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? AND cedula_chofer = ?)
+               AND (DATEADD(dd, 0, DATEDIFF(dd, 0, fecha_entre)) BETWEEN ? AND ? OR fecha_entre IS NULL)             
                GROUP BY fecha_entre, tipo_pago, correl ORDER BY fecha_entre";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
@@ -22,6 +23,8 @@ class InidicadoresDespachos extends Conectar{
         $sql->bindValue(1,$fechai);
         $sql->bindValue(2,$fechaf);
         $sql->bindValue(3,$id_chofer);
+        $sql->bindValue(4,$fechai);
+        $sql->bindValue(5,$fechaf);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -69,14 +72,16 @@ class InidicadoresDespachos extends Conectar{
                        (SELECT fechad FROM appfacturas WHERE appfacturas.correl=appfacturas_det.correl) AS fecha_desp,
                        (SELECT tiempo_estimado_despacho FROM SAVEND_02 WHERE SAVEND_02.CodVend=SAFACT.CodVend) AS tiempo_estimado
                 FROM SAFACT INNER JOIN appfacturas_det ON appfacturas_det.numeros=SAFACT.NumeroD
-                WHERE SAFACT.TipoFac IN ('A','C') AND correl IN (SELECT CORREL FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
+                WHERE SAFACT.TipoFac IN (?,?) AND correl IN (SELECT CORREL FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
                     BETWEEN ? AND ? AND cedula_chofer=?) ORDER BY fecha_desp";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$fechai);
-        $sql->bindValue(2,$fechaf);
-        $sql->bindValue(3,$id_chofer);
+        $sql->bindValue(1,'A');
+        $sql->bindValue(2,'C');
+        $sql->bindValue(3,$fechai);
+        $sql->bindValue(4,$fechaf);
+        $sql->bindValue(5,$id_chofer);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -107,7 +112,7 @@ class InidicadoresDespachos extends Conectar{
         switch ($indicador) {
             case 1: $condition_indicador = ""; break;
             case 2: $condition_indicador = " AND observacion IS NOT NULL AND observacion != '' "; break;
-            case 3: $condition_indicador = " AND SAFACT.TipoFac IN ('A','C') "; break;
+            case 3: $condition_indicador = " AND SAFACT.TipoFac IN (?,?) "; break;
         }
 
         $sql= "SELECT YEAR(CAST(fecha_entre AS DATETIME)) anio $month_in_parameter
@@ -125,6 +130,10 @@ class InidicadoresDespachos extends Conectar{
         }
         if ($id_chofer!='-') {
             $sql->bindValue($i+=1,$id_chofer);
+        }
+        if($indicador==3) {
+            $sql->bindValue($i+=1,'A');
+            $sql->bindValue($i+=1,'C');
         }
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);

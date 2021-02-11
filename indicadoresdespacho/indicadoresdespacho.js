@@ -13,12 +13,12 @@ let barChart;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $("#tabla1").hide();
-    $("#tabla2").hide();
+    $("#tabla").hide();
     $('#grafico').hide();
     $("#loader").hide();
+    $("#spinner").css('visibility', 'hidden');
     estado_minimizado = false;
-    indicador_seleccionado = 3;
+    indicador_seleccionado = 1;
     listar_choferes();
     limpiar();
     switch (indicador_seleccionado) {
@@ -41,6 +41,10 @@ function limpiar() {
     });
     $('[name="ped_pendiente"]').show();
     $('[name="diario_despachos"]').show();
+    $('#ordenes_label').show();
+    $('[name="ttl_ped_camion"]').show();
+    $('#ordenes_despacho').text("");
+    $('#fact_sinliquidar').text("");
 }
 
 function limpiar_grafico() {
@@ -78,10 +82,10 @@ let es_habilidado = function () {
     }
 
     if($("#" + pill + " #tipoPeriodo").val() !== "") {
-        $('#' + pill + ' #periodo').html("cargando...");
+        $('#'+pill+' #periodo').append('<option>cargando...</option>');
         listar_periodos();
     } else {
-        $('#' + pill + ' #periodo').val("");
+        $('#'+pill+' #periodo').empty();
         $("#" + pill + " #periodo").prop("disabled", true);
     }
 }
@@ -155,12 +159,12 @@ function listar_periodos(){
         } 
         else {
             $('#'+pill+' #periodo').prop("disabled", false);
-        //lista de seleccion de periodos
-        $('#'+pill+' #periodo').append('<option name="" value="">Seleccione periodo</option>');
-        $.each(data, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#'+pill+' #periodo').append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
-        });
+            //lista de seleccion de periodos
+            $('#'+pill+' #periodo').append('<option name="" value="">Seleccione periodo</option>');
+            $.each(data, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#'+pill+' #periodo').append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
+            });
         }
     });
 }
@@ -191,8 +195,7 @@ $(document).on("click", "#btn_consultar", function () {
     }
 
     if (estado_minimizado) {
-        $("#tabla1").hide();
-        $("#tabla2").hide();
+        $("#tabla").hide();
         $("#grafico").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
@@ -221,6 +224,7 @@ $(document).on("click", "#btn_consultar", function () {
                 beforeSend: function () {
                     limpiar_grafico();
                     $("#loader").show(''); /*MOSTRAMOS EL LOADER.*/
+                    $("#spinner").css('visibility', 'visible');
                 },
                 error: function (e) {
                     console.log(e.responseText);
@@ -229,9 +233,8 @@ $(document).on("click", "#btn_consultar", function () {
                     data = JSON.parse(data);
                     $(".title-card").text(title);
                     limpiar();//LIMPIAMOS EL SELECTOR.
-
                     
-                    $("#tabla1").show('');//MOSTRAMOS LA TABLA.
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
                     $("#grafico").show('');//MOSTRAMOS EL GRAFICO.
 
                     //limpiamos la tabla
@@ -242,18 +245,20 @@ $(document).on("click", "#btn_consultar", function () {
                     $("#fechai_disabled").val(data.fechai);
                     $("#fechaf_disabled").val(data.fechaf);
 
-                    //proceso de llenado del grafico
-                    construirGrafico(data, condicion_tipoperiodo);
-
                     //proceso de llenado de la tabla
                     construirTabla(data.tabla, condicion_tipoperiodo);
 
                     //llenado de los span
                     llenadoDeSpan(data);
-                    
 
-                    $("#loader").hide();//OCULTAMOS EL LOADER.
+                    //proceso de llenado del grafico
+                    construirGrafico(data, condicion_tipoperiodo);
+
                     validarCantidadRegistrosTabla(data.tabla);
+                },
+                complete: function () {
+                    $("#spinner").css('visibility', 'hidden');
+                    $("#loader").hide();//OCULTAMOS EL LOADER.
                 }
             });
 
@@ -298,7 +303,8 @@ function construirGrafico(data, condicion_visibilidad_mes) {
     }
 
     //CONSTRUCCION DEL GRAFICO
-    barChart = new Chart($('#barChart').get(0).getContext('2d'), {
+    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+    barChart = new Chart(barChartCanvas, {
         type: 'bar',
         data: jQuery.extend(true, {}, {
             labels  : object.labels,
@@ -323,7 +329,6 @@ function construirGrafico(data, condicion_visibilidad_mes) {
     });
 
     object.content.forEach( val => {
-
         barChart.data.datasets.push({
             label               : val.label,
             type                : val.type,
@@ -339,13 +344,13 @@ function construirGrafico(data, condicion_visibilidad_mes) {
 
     });
 
+    barChart.update();
 }
 
 function construirTabla(data, incluye_ordenes){
 
     $('#indicadores_data thead').empty();
 
-    console.log(indicador_seleccionado)
     switch(indicador_seleccionado){
         case 1: $('#indicadores_data thead').append( thead_table_efectivas(incluye_ordenes) ); break;
         case 2: $('#indicadores_data thead').append( thead_table_rechazo(incluye_ordenes) ); break;
@@ -363,7 +368,12 @@ function construirTabla(data, incluye_ordenes){
                         '<tr>' +
                         '<td align="center" class="small align-middle">' + opt.fecha_entrega + '</td>' +
                         '<td align="center" class="small align-middle">' + opt.cant_documentos + '</td>' +
-                        '<td align="center" class="small align-middle">' + parseInt(opt.porc * 10) / 10 + ' %</td>' +
+                        '<td align="center" class="small align-middle">' +
+                            '<div class="progress progress-sm"> ' +
+                            '<div class="progress-bar bg-green" role="progressbar" aria-volumenow="'+ parseInt(opt.porc) +'" aria-volumemin="0" aria-volumemax="100" style="width: '+ parseInt(opt.porc) +'%"></div> ' +
+                            '</div> ' +
+                            '<small>' + parseInt(opt.porc * 10) / 10 + ' %</small>' +
+                        '</td>' +
                         ordenes +
                         '</tr>'
                     );
@@ -399,56 +409,70 @@ function llenadoDeSpan(data){
     let total_ped;
     let promediodiario;
 
-    if(indicador_seleccionado !== 3)
-    {
-        if(!jQuery.isEmptyObject(data)) {
-            totalDespacho   = data.totaldespacho;
-            total_ped       = data.total_ped;
-            if(indicador_seleccionado!==2){
+    if(!jQuery.isEmptyObject(data)) {
+        if(indicador_seleccionado===1 || indicador_seleccionado===2) {
+            totalDespacho = data.totaldespacho;
+            total_ped = data.total_ped;
+            if(indicador_seleccionado===1){
                 pedporliquidar = data.total_ped_porliquidar;
                 promediodiario = data.promedio_diario_despacho;
             }
-        } else {
-            totalDespacho   = 0;
-            total_ped       = 0;
-            pedporliquidar  = 0;
-            promediodiario  = 0;
         }
-
-        $("#datos_chofer").val(data.chofer);
-        $("#total_ped_camion").text(totalDespacho);
-        $("#total_ped_entregados").text(total_ped);
-
-        if(indicador_seleccionado!==2){
-            $("#label_tipo").text('entregados');
-            $("#total_ped_pendiente").text(pedporliquidar);
-            $("#promedio_diario_despachos").text(promediodiario);
-        } else {
-            $("#label_tipo").text('devueltos');
-            $('[name="ped_pendiente"]').hide();
-            $('[name="diario_despachos"]').hide();
-        }
-
-        if(data.ordenes_despacho.length > 0){
-            $("#ordenes_despacho").text(data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2));
-        } else {
-            $("#ordenes_despacho").text("Sin registros para esta Consulta");
+        if(indicador_seleccionado===3){
+            total_ped = data.total_ped;
+            promediodiario = data.oportunidad_promedio;
         }
     } else {
-        $("#datos_chofer1").val(data.chofer);
-        $("#total_promedio").text(data.oportunidad_promedio);
+        totalDespacho   = 0;
+        total_ped       = 0;
+        pedporliquidar  = 0;
+        promediodiario  = 0;
     }
 
-    switch(indicador_seleccionado){
+    $("#datos_chofer").val(data.chofer);
+
+    switch (indicador_seleccionado) {
         case 1:
+            $("#label_tipo").text('entregados');
+            $("#total_ped_camion").text(totalDespacho);
+            $("#total_ped_entregados").text(total_ped);
+            $("#total_ped_pendiente").text(pedporliquidar);
+            $("#promedio_diario_despachos").text(promediodiario);
+            $("#ordenes_despacho").text(
+                data.ordenes_despacho.length > 0 ?
+                    data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2) : "Sin registros para esta Consulta"
+            );
             $fact.text('FACTURAS SIN LIQUIDAR');
             $("#fact_sinliquidar").text(data.fact_sinliquidar.substr(1, data.fact_sinliquidar.length));
             break;
         case 2:
+            $("#label_tipo").text('devueltos');
+            $("#total_ped_camion").text(totalDespacho);
+            $("#total_ped_entregados").text(total_ped);
+            $('[name="ped_pendiente"]').hide();
+            $('[name="diario_despachos"]').hide();
+            $("#ordenes_despacho").text(
+                data.ordenes_despacho.length > 0 ?
+                    data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2) : "Sin registros para esta Consulta"
+            );
             $fact.text('CAUSA DEL RECHAZO');
             $("#fact_sinliquidar").text(sessionStorage.getItem("causa"));
             break;
+        case 3:
+            $("#label_tipo").text('');
+            $("#total_ped_entregados").text(total_ped);
+            $('#ordenes_label').hide();
+            $('[name="ttl_ped_camion"]').hide();
+            $('[name="ped_pendiente"]').hide();
+            $('[name="diario_despachos"]').hide();
+            $fact.text('DOCUMENTOS');
+            $("#fact_sinliquidar").text(
+                data.ordenes_despacho.length > 0 ?
+                    data.ordenes_despacho.substr(0, data.ordenes_despacho.length-2) : "Sin registros para esta Consulta"
+            );
+            break;
     }
+
 }
 
 function sesionStorageItems(chofer, tipoPeriodo, periodo, causa = ""){

@@ -11,7 +11,7 @@ function oportunidad_despacho(data, condicion_visibilidad_mes)
         values = data.tabla.map( val => { return parseInt(val.oportunidad); });
 
         //obtiene el valor mas alto de los pedidos despachados
-        value_max = Math.max(data.tabla.map( val => { return parseInt(val.oportunidad); }));
+        value_max = 95/*Math.max(data.tabla.map( val => { return parseInt(val.oportunidad); }))*/;
 
         //obtiene un array de valores con el valor promedio
         promedio = values.map(() => { return parseFloat(data.oportunidad_promedio.replace(',', '.')); });
@@ -33,7 +33,7 @@ function oportunidad_despacho(data, condicion_visibilidad_mes)
         value_max  : value_max,
         content: [
             {
-                label      : 'Oportunidad',
+                label      : '% Oportunidad Despacho',
                 type       : 'bar',
                 color      : 'rgba(60,141,188,0.8)',
                 pointRadius: false,

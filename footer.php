@@ -6,7 +6,6 @@
 		<b>Version</b> 1.0.0
 	</div>
 </footer>
-</div>
 <!-- ./wrapper -->
 <!-- jQuery -->
 <script src="<?php echo SERVERURL; ?>public/plugins/jquery/jquery.min.js"></script>
@@ -63,6 +62,3 @@
 	};
 
 </script>
-</body>
-
-</html>

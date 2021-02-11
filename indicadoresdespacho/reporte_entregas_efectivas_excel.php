@@ -1,6 +1,11 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
+require_once("../acceso/funciones.php");
+
+require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' );
+require_once ( '../public/jpgraph4.3.4/src/jpgraph_bar.php' );
+require_once ( '../public/jpgraph4.3.4/src/jpgraph_line.php' );
 
 require('../vendor/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -139,8 +144,9 @@ foreach ($query as $key => $item)
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
-    if($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P' and $item['fecha_entre'] != null and $key>0 )
-    {
+    if ($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P'
+        and $item['fecha_entre'] != null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])
+    ) {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
         {
@@ -388,8 +394,85 @@ $spreadsheet->getActiveSheet()->getStyle('E'.($row+3))->applyFromArray(array('fo
 /************************************* */
 /**             GRAFICO               **/
 /************************************* */
+$aWidth = 1100; $aHeight = 700;
 
-// tipo (Grupo) de serie de la barras
+$promedio_despacho = array();
+for($d=0;$d<count($ordenes_despacho);$d++)
+    $promedio_despacho[] = number_format($promedio_diario_despacho,0);
+
+$valorMasAlto = 0;
+foreach($cant_documentos as $item) {
+    if ($item > $valorMasAlto) {
+        $valorMasAlto = $item;
+    }
+}
+
+// Create the graph. These two calls are always required
+$graph = new Graph ( $aWidth , $aHeight , 'auto' );
+$graph->SetScale("textlin",0,$valorMasAlto+5);
+
+$graph->SetMargin(50 , 50 , 80 , 100);
+
+$graph->yaxis->SetTickPositions(array( 0,10,20,30,40,50,60,70,80,90,100 ), array( 5,15,25,35,45,55,65,75,80,85,95 ));
+$graph->SetBox(false);
+$graph->yaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
+$graph->xaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
+$graph->xaxis->title->Set("Fecha","left");
+$graph->yaxis->title->Set("Despachos","middle");
+$graph->xaxis->SetTitleMargin(25);
+$graph->yaxis->SetTitleMargin(35);
+
+
+$graph->ygrid->SetFill(false);
+$graph->yaxis->HideLine(false);
+$graph->yaxis->HideTicks(false , false);
+// Setup month as labels on the X-axis
+$graph->xaxis->SetTickLabels($tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes);
+
+// Create the bar plots
+$b1plot = new BarPlot($cant_documentos);
+$b1plot->value->show();
+$lplot = new LinePlot($promedio_despacho);
+
+// ...and add it to the graPH
+$graph->Add($b1plot);
+$graph->Add($lplot);
+
+$b1plot->SetColor("white");
+$b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION);
+$b1plot->SetWidth(25);
+$b1plot->SetLegend("Despachos");
+
+$lplot->SetBarCenter();
+$lplot->SetColor("red");
+$lplot->SetLegend("Promedio ".$promedio_despacho[0]);
+$lplot->mark->SetWidth(15);
+$lplot->mark->setColor("red");
+$lplot->mark->setFillColor("red");
+
+$graph->legend->SetFrameWeight(1);
+$graph->legend->SetColumns(6);
+$graph->legend->SetColor('#4E4E4E' , '#00A78A');
+
+$graph->title->Set('');
+
+// Display the graph
+$graph->Stroke("entrega_efectiva.png");
+$gdImage = imagecreatefrompng('entrega_efectiva.png');
+$objDrawing = new MemoryDrawing();
+$objDrawing->setName('Sample image');
+$objDrawing->setDescription('TEST');
+$objDrawing->setImageResource($gdImage);
+$objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
+$objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+$objDrawing->setHeight($aWidth);
+$objDrawing->setWidth($aHeight);
+$objDrawing->setCoordinates('E' . ($row+=6));
+$objDrawing->setWorksheet($spreadsheet->getActiveSheet());
+unlink("entrega_efectiva.png");
+$row+=20;
+
+/*// tipo (Grupo) de serie de la barras
 $dataSeriesLabels = [
     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$'.$nombre_serie[1], null, 1),
 ];
@@ -437,7 +520,7 @@ $chart->setTopLeftPosition('B' . ($row+=6))
       ->setBottomRightPosition('S' . ($row+=17));
 
 // AGREGA EL GRAFICO AL DOCUMENTO
-$spreadsheet->getActiveSheet()->addChart($chart);
+$spreadsheet->getActiveSheet()->addChart($chart);*/
 
 
 
@@ -468,3 +551,5 @@ $callStartTime = microtime(true);
 ob_end_clean();
 ob_start();
 $writer->save('php://output');
+
+?>

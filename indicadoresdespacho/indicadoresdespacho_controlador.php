@@ -36,7 +36,7 @@ switch ($_GET["op"]) {
                         $sub_array["value"] = $row["anio"];
                         break;
                     case "Mensual":
-                        $sub_array["label"] = Funciones::convertir(addCero($row["mes"]))." ".$row["anio"];
+                        $sub_array["label"] = Funciones::convertir(Funciones::addCero($row["mes"]))." ".$row["anio"];
                         $sub_array["value"] = $row["anio"]."-".Funciones::addCero($row["mes"]);
                         break;  
                 }
@@ -98,8 +98,9 @@ switch ($_GET["op"]) {
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** entregas efectivas **/
-                if($row['tipo_pago'] !='N/C' and $row['tipo_pago'] !='N/C/P' and $row['fecha_entre'] != null and $key>0 )
-                {
+                if ($row['tipo_pago'] !='N/C' and $row['tipo_pago'] !='N/C/P'
+                    and $row['fecha_entre'] != null or Funciones::check_in_range($fechai, $fechaf, $row['fecha_entre'])
+                ) {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
                     if(count($data)>0 and date_format(date_create($row['fecha_entre']), $formato_fecha) == $data[count($data)-1]['fecha_entrega'])
                     {
@@ -216,7 +217,7 @@ switch ($_GET["op"]) {
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** causas de rechazo **/
-                if(($row['tipo_pago'] =='N/C' or $row['tipo_pago'] =='N/C/P') and $key>0 )
+                if(($row['tipo_pago'] =='N/C' or $row['tipo_pago'] =='N/C/P') and $key>=0 )
                 {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
                     if(count($data)>0 and  ($row['fecha_entre'] != null
@@ -291,8 +292,13 @@ switch ($_GET["op"]) {
         $chofer = $choferes->get_chofer_por_id($chofer_id);
         $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
         $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
+        $ordenes_despacho_string = '';
         $oportunidad_promedio = 0;
+        $total_ped = 0;
+        $documentos = "";
         $objetivo = 80;
+        $totaldoc = 0;
+        $fechaaevaluar = "00/00/0000";
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
@@ -314,7 +320,10 @@ switch ($_GET["op"]) {
             if($row['fecha_desp'] != null)
             {
                 //almacenamos el total de documentos para calcular la oportunidad posteriormente
-                $totaldoc = Funciones::searchQuantityDocumentsByDates($datos, "fecha_desp", $row['fecha_desp'], $formato_fecha);
+                if(!Funciones::check_in_range($fechaaevaluar, $fechaaevaluar, $row['fecha_desp'])) {
+                    $fechaaevaluar = $row['fecha_desp'];
+                    $totaldoc = Funciones::searchQuantityDocumentsByDates($datos, "fecha_desp", $fechaaevaluar, $formato_fecha);
+                }
 
                 //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
                 if(count($data)>0 and date_format(date_create($row['fecha_desp']), $formato_fecha) == $data[count($data)-1]['fecha_desp'])
@@ -327,7 +336,7 @@ switch ($_GET["op"]) {
                 else {
                     $sub_array['fecha_desp'] = date_format(date_create($row['fecha_desp']), $formato_fecha);
                     $sub_array['cant_documentos'] = 1;
-                    $sub_array['oportunidad'] = floatval($totaldoc>=1 ? $oportunidad/$totaldoc : $oportunidad);
+                    $sub_array['oportunidad'] = floatval($totaldoc>1 ? $oportunidad/$totaldoc : $oportunidad);
                     $sub_array['documentos'] = $row['numerod'];
                     $sub_array['nombre_mes'] = Funciones::convertir(date_format(date_create($row['fecha_desp']), 'm'), true);
 
@@ -343,14 +352,27 @@ switch ($_GET["op"]) {
             $oportunidad_promedio = 0;
         }
 
+        /** calcular la cantidad de documentos **/
+        foreach ($data as $arr){
+            $total_ped += intval($arr['cant_documentos']);
+        }
+
+        /** concatenar la cantidad de documentos **/
+        foreach ($data as $arr){
+            $ordenes_despacho_string .= (", " . $arr['documentos']);
+        }
+
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
-            "chofer" => $chofer,
+            "chofer"     => $chofer,
             "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.'),
-            "fechai" => $fechai,
-            "fechaf" => $fechaf,
-            "objetivo" => $objetivo,
-            "tabla" => $data
+            "ordenes_despacho" => $ordenes_despacho_string,
+            "total_ped"  => $total_ped,
+            "fechai"     => $fechai,
+            "fechaf"     => $fechaf,
+            "objetivo"   => $objetivo,
+            "documentos" => $documentos,
+            "tabla"      => $data
         );
         echo json_encode($output);
 
