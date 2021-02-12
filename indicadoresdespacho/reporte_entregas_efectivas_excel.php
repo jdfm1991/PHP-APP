@@ -131,7 +131,6 @@ $fecha_entrega = Array();
 $cant_documentos = Array();
 $porc = Array();
 $ordenes_despacho = Array();
-$valoresParaGrafico = Array();
 
 //almacenamos el total de despachos para calcular la efectividad posteriormente
 foreach ($query as $item)
@@ -299,9 +298,9 @@ $style_subtitle->applyFromArray(array('fill' => array('fillType' => Fill::FILL_S
 
 $row-=3;
 $temp_letra = $ult_letra = "";
-$nombre_serie = "";
 for ($j=0; $j<count($cant_documentos); $j++) {
     $sheet = $spreadsheet->getActiveSheet();
+
     //evalua con la intencion de saber si se va a hacer un salto de la
     //tabla para agregarle estilo a la cabecera de la tabla
     if( ( $j % $ancho_tabla_max )==0 || $j+1==count($cant_documentos) ) {
@@ -310,15 +309,6 @@ for ($j=0; $j<count($cant_documentos); $j++) {
             $ult_letra = !($j+1==count($cant_documentos)) ? $temp_letra : getExcelCol($i, true);
             $spreadsheet->getActiveSheet()->mergeCells('A'.($row).':'. $ult_letra . ($row));
             $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A'.($row).':'. $ult_letra . ($row));
-        }
-
-        if( $j>0 && ($j % $ancho_tabla_max)==0 || $j+1==count($cant_documentos) )
-        {
-
-            $valoresParaGrafico[] = Array(
-                'fecha_entrega' => array('B', ($row+1), $ult_letra, ($row+1)),
-                'despachos'     => array('B', ($row+2), $ult_letra, ($row+2)),
-            );
         }
     }
 
@@ -341,7 +331,6 @@ for ($j=0; $j<count($cant_documentos); $j++) {
         if ($tipoPeriodo!="Anual") {
             $spreadsheet->getActiveSheet()->duplicateStyle($style_title, $temp_letra . ($row + 4));
         }
-        $nombre_serie = array($temp_letra, ($row+4));
     }
 
     $temp_letra = getExcelCol($i);
@@ -394,34 +383,35 @@ $spreadsheet->getActiveSheet()->getStyle('E'.($row+3))->applyFromArray(array('fo
 /************************************* */
 /**             GRAFICO               **/
 /************************************* */
-$aWidth = 1100; $aHeight = 700;
+$aWidth = 1080; $aHeight = 450;
 
 $promedio_despacho = array();
 for($d=0;$d<count($ordenes_despacho);$d++)
     $promedio_despacho[] = number_format($promedio_diario_despacho,0);
 
 $valorMasAlto = 0;
-foreach($cant_documentos as $item) {
-    if ($item > $valorMasAlto) {
-        $valorMasAlto = $item;
-    }
-}
+foreach($cant_documentos as $item)
+    if ($item > $valorMasAlto) {$valorMasAlto = $item;}
+
+$valuesPar = $valuesImpar = Array();
+for($m=0; $m <= $valorMasAlto+5; $m+=5)
+    if ($m%2==0){$valuesPar[] = $m;}
+    else{$valuesImpar[] = $m;}
 
 // Create the graph. These two calls are always required
 $graph = new Graph ( $aWidth , $aHeight , 'auto' );
-$graph->SetScale("textlin",0,$valorMasAlto+5);
+$graph->SetScale("textlin");
 
-$graph->SetMargin(50 , 50 , 80 , 100);
+$graph->SetMargin(50 , 30 , 40 , 100);
 
-$graph->yaxis->SetTickPositions(array( 0,10,20,30,40,50,60,70,80,90,100 ), array( 5,15,25,35,45,55,65,75,80,85,95 ));
+$graph->yaxis->SetTickPositions($valuesPar, $valuesImpar);
 $graph->SetBox(false);
 $graph->yaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
 $graph->xaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
 $graph->xaxis->title->Set("Fecha","left");
-$graph->yaxis->title->Set("Despachos","middle");
+$graph->yaxis->title->Set("Cantidad Pedidos entregados","middle");
 $graph->xaxis->SetTitleMargin(25);
 $graph->yaxis->SetTitleMargin(35);
-
 
 $graph->ygrid->SetFill(false);
 $graph->yaxis->HideLine(false);
@@ -438,20 +428,24 @@ $lplot = new LinePlot($promedio_despacho);
 $graph->Add($b1plot);
 $graph->Add($lplot);
 
+$b1plot->value->Show();
+$b1plot->value->SetColor("black","darkred");
+$b1plot->value->SetFormat('%1d');
 $b1plot->SetColor("white");
 $b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION);
 $b1plot->SetWidth(25);
-$b1plot->SetLegend("Despachos");
+$b1plot->SetLegend("Cantidad Pedidos entregados");
 
 $lplot->SetBarCenter();
 $lplot->SetColor("red");
-$lplot->SetLegend("Promedio ".$promedio_despacho[0]);
+$lplot->SetLegend("Promedio (".$promedio_despacho[0].")");
 $lplot->mark->SetWidth(15);
 $lplot->mark->setColor("red");
 $lplot->mark->setFillColor("red");
 
 $graph->legend->SetFrameWeight(1);
 $graph->legend->SetColumns(6);
+$graph->legend->Pos(0.2, 0.03);
 $graph->legend->SetColor('#4E4E4E' , '#00A78A');
 
 $graph->title->Set('');
@@ -465,69 +459,17 @@ $objDrawing->setDescription('TEST');
 $objDrawing->setImageResource($gdImage);
 $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
 $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
-$objDrawing->setHeight($aWidth);
-$objDrawing->setWidth($aHeight);
-$objDrawing->setCoordinates('E' . ($row+=6));
+$objDrawing->setHeight($aHeight);
+$objDrawing->setWidth($aWidth);
+$objDrawing->setCoordinates('C' . ($row+=5));
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 unlink("entrega_efectiva.png");
-$row+=20;
-
-/*// tipo (Grupo) de serie de la barras
-$dataSeriesLabels = [
-    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$'.$nombre_serie[1], null, 1),
-];
-
-// serie EJE X del nombre de las barras (en la parte inferior)
-$xAxisTickValues = [
-    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$'.$valoresParaGrafico[0]['fecha_entrega'][0].'$'.$valoresParaGrafico[0]['fecha_entrega'][1].':$'.$valoresParaGrafico[0]['fecha_entrega'][2].'$'.$valoresParaGrafico[0]['fecha_entrega'][3], null, 4),
-];
-
-//valores de las barras (por cada item del EJE X)
-$dataSeriesValues = [
-    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$'.$valoresParaGrafico[0]['despachos'][0].'$'.$valoresParaGrafico[0]['despachos'][1].':$'.$valoresParaGrafico[0]['despachos'][2].'$'.$valoresParaGrafico[0]['despachos'][3], null, 4),
-];
-
-// Construccion de las DataSeries
-$series = new DataSeries(
-    DataSeries::TYPE_BARCHART, // plotType
-    DataSeries::GROUPING_STANDARD, // plotGrouping
-    range(0, count($dataSeriesValues) - 1), // plotOrder
-    $dataSeriesLabels, // plotLabel
-    $xAxisTickValues,  // plotCategory
-    $dataSeriesValues  // plotValues
-);
-$series->setPlotDirection(DataSeries::DIRECTION_COL);
-
-// Datos necesarios para la contruccion del grafico
-$layout1    = (new Layout())->setShowVal(true);
-$plotArea   = new PlotArea($layout1, [$series]);
-$legend     = new Legend(Legend::POSITION_RIGHT, null, false);
-$title      = new Title('Entregas Efectivas');
-$yAxisLabel = new Title('Despachos');
-
-// Construccion del Grafico
-$chart = new Chart(
-    'grafico', // name
-    $title, // title
-    $legend, // legend
-    $plotArea, // plotArea
-    true, // plotVisibleOnly
-    0, // displayBlanksAs
-    null, // xAxisLabel
-    $yAxisLabel  // yAxisLabel
-);
-$chart->setTopLeftPosition('B' . ($row+=6))
-      ->setBottomRightPosition('S' . ($row+=17));
-
-// AGREGA EL GRAFICO AL DOCUMENTO
-$spreadsheet->getActiveSheet()->addChart($chart);*/
-
 
 
 /************************************* */
 /**     CUADRO DE AUTORIZADO POR      **/
 /************************************* */
-$row+=4;
+$row+=25;
 $sheet->setCellValue('B'.$row, 'Aprobado por: ');
 $sheet->setCellValue('K'.$row, 'C.I:');
 $sheet->setCellValue('O'.$row, 'Firma: ');
@@ -546,7 +488,6 @@ header('Content-Disposition: attachment;filename="indicadores_entregas_efectivas
 header('Cache-Control: max-age=0');
 $writer = new Xlsx($spreadsheet);
 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-$writer->setIncludeCharts(true);
 $callStartTime = microtime(true);
 ob_end_clean();
 ob_start();

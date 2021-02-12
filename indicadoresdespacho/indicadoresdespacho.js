@@ -18,7 +18,7 @@ function init() {
     $("#loader").hide();
     $("#spinner").css('visibility', 'hidden');
     estado_minimizado = false;
-    indicador_seleccionado = 1;
+    indicador_seleccionado = 2;
     listar_choferes();
     limpiar();
     switch (indicador_seleccionado) {

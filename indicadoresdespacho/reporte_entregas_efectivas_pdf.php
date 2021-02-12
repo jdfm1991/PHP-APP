@@ -50,24 +50,32 @@ function addWidthInArray($num){
 }
 
 function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTamamo = array(),$titulo = NULL, $pdf){
+    $valorMasAlto = 0;
+    foreach($contar as $item)
+        if ($item > $valorMasAlto) {$valorMasAlto = $item;}
+
+    $valuesPar = $valuesImpar = Array();
+    for($m=0; $m <= $valorMasAlto+5; $m+=5)
+        if ($m%2==0){$valuesPar[] = $m;}
+        else{$valuesImpar[] = $m;}
+
     // Create the graph. These two calls are always required 
     $graph = new Graph ( 850 , 850 , 'auto' ); 
-    $graph->SetScale("textlin",0,50);  
+    $graph->SetScale("textlin");
 
-    $graph->SetMargin(50 , 50 , 80 , 100); 
+    $graph->SetMargin(50 , 30 , 40 , 100);
 
-    $graph->yaxis->SetTickPositions(array( 0,10,20,30,40,50,60,70,80,90,100 ), array( 5,15,25,35,45,55,65,75,80,85,95 ));  
+    $graph->yaxis->SetTickPositions($valuesPar, $valuesImpar);
     $graph->SetBox(false); 
     $graph->yaxis->title->SetFont(FF_VERDANA, FS_NORMAL); 
     $graph->xaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
     $graph->xaxis->title->Set("Fecha","left");
-    $graph->yaxis->title->Set("Despachos","middle");
+    $graph->yaxis->title->Set("Cantidad Pedidos entregados","middle");
     $graph->xaxis->SetTitleMargin(25);
     $graph->yaxis->SetTitleMargin(35);
 
 
-    $graph->ygrid->SetFill(false); 
-    //$graph -> xaxis -> SetTickLabels (array( 'A' , 'B' , 'C' , 'D' )); 
+    $graph->ygrid->SetFill(false);
     $graph->yaxis->HideLine(false); 
     $graph->yaxis->HideTicks(false , false); 
     // Setup month as labels on the X-axis 
@@ -80,12 +88,15 @@ function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTa
 
     // ...and add it to the graPH 
     $graph->Add($b1plot); 
-    $graph->Add($lplot); 
+    $graph->Add($lplot);
 
+    $b1plot->value->Show();
+    $b1plot->value->SetColor("black","darkred");
+    $b1plot->value->SetFormat('%1d');
     $b1plot->SetColor("white"); 
     $b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION); 
     $b1plot->SetWidth(25);  
-    $b1plot->SetLegend("Despachos");  
+    $b1plot->SetLegend("Cantidad Pedidos entregados");
 
     $lplot->SetBarCenter(); 
     $lplot->SetColor("red"); 
@@ -95,7 +106,8 @@ function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTa
     $lplot->mark->setFillColor("red"); 
 
     $graph->legend->SetFrameWeight(1); 
-    $graph->legend->SetColumns(6); 
+    $graph->legend->SetColumns(6);
+    $graph->legend->Pos(0.2, 0.03);
     $graph->legend->SetColor('#4E4E4E' , '#00A78A'); 
 
     $graph->title->Set($titulo);
@@ -245,126 +257,128 @@ $promedio_diario_despacho = (count($cant_documentos) > 0) ? $total_ped_entregado
 /****************************************************************************** */
 /** EVALUAMOS SI LA DATA PROCESADA ES INFERIOR A 42 PARA EVITAR DESBORDAMIENTO **/
 /****************************************************************************** */
-if(count($cant_documentos)>42) {
+if(count(explode(",", $ordenes_despacho_string)) > 300) {
+
     echo "<script>
-                alert('Desbordamiento de informacion. Disminuya el rango de fecha para mejor visualizacion');
+                alert('ERROR: Desbordamiento! la cantidad de datos excede el límite para este reporte.');
                 window.close();
           </script>";
-}
+
+} else {
+
+    /****************************** */
+    /**      DATOS DEL REPORTE     **/
+    /****************************** */
+    $pdf->SetFont('Arial','',8);
+    $pdf->SetAligns(array('L','L','R','L','R','L'));
+    $pdf->SetBorders(array('LT','T','T','T','T','TR'));
+    $pdf->SetWidths(array(40,194,20,20,19,37));
+    $pdf->RowWithHeight(array(
+        'CHOFER:', "$chofer",
+        'DESDE', date_format(date_create($fechai), "d-m-Y") ." ".count(explode(",", $ordenes_despacho_string)),
+        'HASTA',date_format(date_create($fechaf), "d-m-Y")),
+        5);
+    $pdf->SetWidths(array(40,290));
+    $pdf->SetBorders(array('L','R'));
+    $pdf->RowWithHeight(array('',''), 2);
+    $pdf->RowWithHeight(array('ORDENES DE DESPACHO',"$ordenes_despacho_string"), 4);
+    $pdf->RowWithHeight(array('',''), 2);
+    $pdf->SetWidths(array(40,290));
+    $pdf->SetBorders(array('LB','RB'));
+    $pdf->RowWithHeight(array('FACTURAS SIN LIQUIDAR',"$fact_sinliquidar_string"), 4);
+    $pdf->Cell(0,8,"",0,1,'C');
 
 
-/****************************** */
-/**      DATOS DEL REPORTE     **/
-/****************************** */
-$pdf->SetFont('Arial','',8);
-$pdf->SetAligns(array('L','L','R','L','R','L'));
-$pdf->SetBorders(array('LT','T','T','T','T','TR'));
-$pdf->SetWidths(array(40,194,20,20,19,37));
-$pdf->RowWithHeight(array(
-    'CHOFER:', "$chofer", 
-    'DESDE', date_format(date_create($fechai), "d-m-Y"), 
-    'HASTA',date_format(date_create($fechaf), "d-m-Y")),
-    5);
-$pdf->SetWidths(array(40,290));
-$pdf->SetBorders(array('L','R'));
-$pdf->RowWithHeight(array('',''), 2);
-$pdf->RowWithHeight(array('ORDENES DE DESPACHO',"$ordenes_despacho_string"), 4);
-$pdf->RowWithHeight(array('',''), 2);
-$pdf->SetWidths(array(40,290));
-$pdf->SetBorders(array('LB','RB'));
-$pdf->RowWithHeight(array('FACTURAS SIN LIQUIDAR',"$fact_sinliquidar_string"), 4);
-$pdf->Cell(0,8,"",0,1,'C');
+    /************************************* */
+    /** CONTENIDO DE LA TABLA DE LA TABLA **/
+    /************************************* */
+    $x = count($cant_documentos);
 
-
-/************************************* */
-/** CONTENIDO DE LA TABLA DE LA TABLA **/
-/************************************* */
-$x = count($cant_documentos);
-
-$pdf->SetFont('Arial','',10);
-$pdf->SetFillColor(213, 213, 246);
-if($x>=21){
-    $pdf->CellFitSpace((13*(22))+5,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
-}else{
-    $pdf->CellFitSpace((13*($x+1))+5,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
-} 
-$pdf->SetFont('Arial','',6.2);
-$pdf->SetFillColor(182, 182, 247); 
-for($i=0;$i<$x;$i++){
-    if($i==0){
-        $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
-    }
-    if($i==21){
-        $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
-        $pdf->Cell(13,5, $tipoPeriodo!="Anual" ? $fecha_entrega[$i] : $nombre_mes[$i],'TLBR',0,'C', true);
+    $pdf->SetFont('Arial','',10);
+    $pdf->SetFillColor(213, 213, 246);
+    if($x>=21){
+        $pdf->CellFitSpace((13*(22))+5,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
     }else{
-        $pdf->Cell(13,5, $tipoPeriodo!="Anual" ? $fecha_entrega[$i] : $nombre_mes[$i],'TLBR',0,'C', true);
+        $pdf->CellFitSpace((13*($x+1))+5,6,utf8_decode('Entregas Efectivas'),'TLRB',1,'C',true);
     }
-}
-$pdf->Cell(0,5,"",'',1,'C');
-for($i=0;$i<$x;$i++){
-    if($i==0){
-        $pdf->Cell(18,5,'P. Despachados','TLBR',0,'C');
-    }
-    if($i==21){
-        $pdf->Cell(18,5,'P. Despachados','TLBR',0,'C');
-        $pdf->Cell(13,5,$cant_documentos[$i],'TLBR',0,'C');
-    }else{
-        $pdf->Cell(13,5,$cant_documentos[$i],'TLBR',0,'C');
-    }
-}
-$pdf->Cell(0,5,"",'',1,'C');
-for($i=0;$i<$x;$i++){
-    if($i==0){
-        $pdf->Cell(18,5,'% Efectividad','TLBR',0,'C');
-    }
+    $pdf->SetFont('Arial','',6.2);
+    $pdf->SetFillColor(182, 182, 247);
+    for($i=0;$i<$x;$i++){
+        if($i==0){
+            $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
+        }
         if($i==21){
-        $pdf->Cell(18,5,'% Efectividad','TLBR',0,'C');
-        $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
-    }else{
-        $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
+            $pdf->Cell(18,5,'F. Entrega','TLBR',0,'C',true);
+            $pdf->Cell(13,5, $tipoPeriodo!="Anual" ? $fecha_entrega[$i] : $nombre_mes[$i],'TLBR',0,'C', true);
+        }else{
+            $pdf->Cell(13,5, $tipoPeriodo!="Anual" ? $fecha_entrega[$i] : $nombre_mes[$i],'TLBR',0,'C', true);
+        }
     }
-}
-if ($tipoPeriodo!="Anual") {
     $pdf->Cell(0,5,"",'',1,'C');
     for($i=0;$i<$x;$i++){
         if($i==0){
-            $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
+            $pdf->Cell(18,5,'P. Despachados','TLBR',0,'C');
         }
         if($i==21){
-            $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
-            $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+            $pdf->Cell(18,5,'P. Despachados','TLBR',0,'C');
+            $pdf->Cell(13,5,$cant_documentos[$i],'TLBR',0,'C');
         }else{
-            $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+            $pdf->Cell(13,5,$cant_documentos[$i],'TLBR',0,'C');
         }
     }
+    $pdf->Cell(0,5,"",'',1,'C');
+    for($i=0;$i<$x;$i++){
+        if($i==0){
+            $pdf->Cell(18,5,'% Efectividad','TLBR',0,'C');
+        }
+        if($i==21){
+            $pdf->Cell(18,5,'% Efectividad','TLBR',0,'C');
+            $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
+        }else{
+            $pdf->Cell(13,5,$porc[$i]." %",'TLBR',0,'C');
+        }
+    }
+    if ($tipoPeriodo!="Anual") {
+        $pdf->Cell(0,5,"",'',1,'C');
+        for($i=0;$i<$x;$i++){
+            if($i==0){
+                $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
+            }
+            if($i==21){
+                $pdf->Cell(18,5,'Orden(es) D','TLBR',0,'C');
+                $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+            }else{
+                $pdf->CellFitSpace(13,5,$ordenes_despacho[$i],'TLBR',0,'C');
+            }
+        }
+    }
+
+
+
+    /************************************* */
+    /**      TOTALES BAJO LA TABLA        **/
+    /************************************* */
+    $pdf->SetFont('Arial','',8);
+    $pdf->Cell(20,6,'','',1,'C');
+    $pdf->Cell(50,4,utf8_decode("Total de Pedidos en el camión: ".$totaldespacho),'',0,'L');
+    $pdf->Cell(50,4,utf8_decode("Total de Pedidos entregados: ".$total_ped_entregados),'',1,'L');
+    $pdf->Cell(50,4,utf8_decode("Pedidos pendientes por liquidar: ".$total_ped_porliquidar),'',0,'L');
+    $pdf->Cell(50,4,utf8_decode("Promedio Diario de Despachos: ".number_format($promedio_diario_despacho,0)),'',1,'L');
+
+    $promedio_despacho = array();
+    for($d=0;$d<count($ordenes_despacho);$d++)
+        $promedio_despacho[] = number_format($promedio_diario_despacho,0);
+
+    /************************************* */
+    /**             GRAFICO               **/
+    /************************************* */
+    $pdf->AddPage('L', $documentsize);
+    $y = $pdf->GetY();
+    $x = $pdf->GetX();
+    graficar($cant_documentos, $tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes, $promedio_despacho,'Indicadores de Despacho',array(20,$y,320,170),'', $pdf);
+
+
+    $pdf->Output();
 }
-
-
-
-/************************************* */
-/**      TOTALES BAJO LA TABLA        **/
-/************************************* */
-$pdf->SetFont('Arial','',8);
-$pdf->Cell(20,6,'','',1,'C');
-$pdf->Cell(50,4,utf8_decode("Total de Pedidos en el camión: ".$totaldespacho),'',0,'L');
-$pdf->Cell(50,4,utf8_decode("Total de Pedidos entregados: ".$total_ped_entregados),'',1,'L');
-$pdf->Cell(50,4,utf8_decode("Pedidos pendientes por liquidar: ".$total_ped_porliquidar),'',0,'L');
-$pdf->Cell(50,4,utf8_decode("Promedio Diario de Despachos: ".number_format($promedio_diario_despacho,0)),'',1,'L');
-
-$promedio_despacho = array();
-for($d=0;$d<count($ordenes_despacho);$d++)
-    $promedio_despacho[] = number_format($promedio_diario_despacho,0);
-
-/************************************* */
-/**             GRAFICO               **/
-/************************************* */
-$pdf->AddPage('L', $documentsize);
-$y = $pdf->GetY();
-$x = $pdf->GetX();
-graficar($cant_documentos, $tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes, $promedio_despacho,'Indicadores de Despacho',array(20,$y,320,170),'', $pdf);
-
-
-$pdf->Output();
 
 ?>
