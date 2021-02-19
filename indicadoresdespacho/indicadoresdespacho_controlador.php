@@ -227,6 +227,17 @@ switch ($_GET["op"]) {
                         $data[count($data)-1]['cant_documentos'] += intval($row['cant_documentos']);
                         $data[count($data)-1]['porc'] += floatval($porcentaje);
                         $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
+
+                        $arr = array_map(function ($arr) { return $arr['tipo']; }, $data[count($data)-1]['observacion']);
+                        //verifica si existe la observacion
+                        if (!in_array($row['observacion'], $arr)) {
+                            # no existe, le agrega en una nueva posicion
+                            $data[count($data)-1]['observacion'][] = Array("tipo" => $row['observacion'], "cant" => intval($row['cant_documentos']) );
+                        } else {
+                            # si existe, le suma la cantidad de documentos
+                            $pos = array_search($row['observacion'], $arr);
+                            $data[count($data)-1]['observacion'][$pos]['cant'] += intval($row['cant_documentos']);
+                        }
                     }
                     //si no es igual, solo inserta un nuevo registro al array
                     elseif($row['fecha_entre']==null or Funciones::check_in_range($fechai, $fechaf, $row['fecha_entre'])){
@@ -239,7 +250,10 @@ switch ($_GET["op"]) {
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
                         $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
-                        $sub_array['observacion'] = $row['observacion'];
+                        $sub_array['observacion'][] = Array(
+                            "tipo" => $row['observacion'],
+                            "cant" => intval($row['cant_documentos'])
+                        );
 
                         $data[] = $sub_array;
                     }

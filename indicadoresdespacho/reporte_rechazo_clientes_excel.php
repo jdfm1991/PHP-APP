@@ -3,6 +3,10 @@
 require_once("../acceso/conexion.php");
 require_once("../acceso/funciones.php");
 
+require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' );
+require_once ( '../public/jpgraph4.3.4/src/jpgraph_bar.php' );
+require_once ( '../public/jpgraph4.3.4/src/jpgraph_line.php' );
+
 require('../vendor/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -65,6 +69,80 @@ function getExcelCol($num, $letra_temp = false) {
     } else {
         return $letra;
     }
+}
+
+function color_causa_rechazo($value)
+{
+    $hex = '';
+    $rgba = '';
+
+    switch (strtolower($value)) {
+        case "merc. no solicitada":
+            $hex = "#7153f9";
+            $rgba = 'rgba(113, 83, 249, 0.8)';
+            break;
+        case "fecha venc. cercana":
+            $hex = "#4279a7";
+            $rgba = 'rgba(66, 121, 167, 0.8)';
+            break;
+        case "edv no informo mod pago":
+            $hex = "#c9ea30";
+            $rgba = 'rgba(201, 234, 48, 0.8)';
+            break;
+        case "cliente no puede pagar":
+            $hex = "#BA9191";
+            $rgba = 'rgba(186, 145, 145, 0.8)';
+            break;
+        case "cliente indisponible para recepcion":
+            $hex = "#9ca2a2";
+            $rgba = 'rgba(156, 162, 162, 0.8)';
+            break;
+        case "precio no fue el acordado":
+            $hex = "#C4CAC8";
+            $rgba = 'rgba(196, 202, 200, 0.8)';
+            break;
+        case "mercancia vencida":
+            $hex = "#CAB8D4";
+            $rgba = 'rgba(202, 184, 212, 0.8)';
+            break;
+        case "pedido incompleto":
+            $hex = "#E7E6E3";
+            $rgba = 'rgba(231, 230, 227, 0.8)';
+            break;
+        case "faltante en el almacen":
+            $hex = "#FAE39F";
+            $rgba = 'rgba(250, 227, 159, 0.8)';
+            break;
+        case "faltante en el bulto":
+            $hex = "#F2FA9F";
+            $rgba = 'rgba(242, 250, 159, 0.8)';
+            break;
+        case "caja mal estado":
+            $hex = "#fc9245";
+            $rgba = 'rgba(252, 146, 69, 0.8)';
+            break;
+        case "retraso de entrega":
+            $hex = "#61D29E";
+            $rgba = 'rgba(97, 210, 158, 0.8)';
+            break;
+        case "facturado bajo cero":
+            $hex = "#298776";
+            $rgba = 'rgba(41, 135, 118, 0.8)';
+            break;
+        case "otro":
+            $hex = "#a9d2f5";
+            $rgba = 'rgba(169, 210, 245, 0.8)';
+            break;
+        default:
+            $hex = "#a9d2f5";
+            $rgba = 'rgba(169, 210, 245, 0.8)';
+            break;
+    }
+
+    return array(
+        'hex' => $hex,
+        'rgba' => $rgba
+    );
 }
 
 /************************************* */
@@ -154,7 +232,7 @@ foreach ($query as $key => $item)
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** causas de rechazo **/
-    if(($item['tipo_pago'] =='N/C' or $item['tipo_pago'] =='N/C/P') and $key>0 )
+    if(($item['tipo_pago'] =='N/C' or $item['tipo_pago'] =='N/C/P') and $key>=0 )
     {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and  ($item['fecha_entre'] != null
@@ -164,6 +242,10 @@ foreach ($query as $key => $item)
             $cant_documentos[count($cant_documentos)-1] += intval($item['cant_documentos']);
             $porc[count($porc)-1] += floatval($porcentaje);
             $correlativo[count($correlativo)-1] .= (", " . $item['correlativo']);
+            if (!in_array($item['observacion'], $observacion[count($observacion)-1])) {
+                $observacion[count($observacion)-1][] = Array($item['observacion']);
+            }
+
         }
         //si no es igual, solo inserta un nuevo registro al array
         elseif($item['fecha_entre']==null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])){
@@ -177,7 +259,7 @@ foreach ($query as $key => $item)
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $correlativo[] = $item['correlativo'];
-            $observacion[] = $item['observacion'];
+            $observacion[] = Array($item['observacion']);
         }
     }
 }
@@ -354,10 +436,28 @@ $spreadsheet->getActiveSheet()->getStyle('E'.($row+1))->applyFromArray(array('fo
 /************************************* */
 /**             GRAFICO               **/
 /************************************* */
+$aWidth = 1080; $aHeight = 450;
+
+$values = array();
+for($d=0;$d<count($cant_documentos);$d++)
+    $values[] = array(
+        'cant_documentos' => $cant_documentos[$d],
+        'observacion'     => $observacion[$d]
+    );
+
+$valorMasAlto = 0;
+foreach($cant_documentos as $item)
+    if ($item > $valorMasAlto) {$valorMasAlto = $item;}
+
+$valuesPar = $valuesImpar = Array();
+for($m=0; $m <= $valorMasAlto+5; $m+=5)
+    if ($m%2==0){$valuesPar[] = $m;}
+    else{$valuesImpar[] = $m;}
+
 
 //agregamos los titulos de la leyenda ocultos atras del grafico
 $num_temp = 0;
-foreach ($observacion as $key=>$obs) {
+foreach ($observacion as $key => $obs) {
     $num_temp = $pos = ($row + $key + 4);
     $sheet->setCellValue('B'.$pos, strtoupper($obs));
 
@@ -368,8 +468,96 @@ foreach ($observacion as $key=>$obs) {
     }
 }
 
+
+
+// Create the graph. These two calls are always required
+$graph = new Graph ( $aWidth , $aHeight , 'auto' );
+$graph->SetScale("textlin");
+
+$graph->SetMargin(50 , 30 , 40 , 100);
+
+$graph->yaxis->SetTickPositions($valuesPar, $valuesImpar);
+$graph->SetBox(false);
+$graph->yaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
+$graph->xaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
+$graph->xaxis->title->Set("Fecha","left");
+$graph->yaxis->title->Set("Cantidad Devoluciones","middle");
+$graph->xaxis->SetTitleMargin(25);
+$graph->yaxis->SetTitleMargin(35);
+
+$graph->ygrid->SetFill(false);
+$graph->yaxis->HideLine(false);
+$graph->yaxis->HideTicks(false , false);
+// Setup month as labels on the X-axis
+$graph->xaxis->SetTickLabels($tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes);
+
+// Create the bar plots desgloce de devoluciones
+$bplot = array();
+foreach ($values as $key => $value) {
+    //creamos un nuevo Barplot
+    $bplotTemp = new BarPlot(array($value['cant_documentos']));
+    $bplotTemp->value->show();
+
+    //por ultimo lo agregamos a un array para su posterior plot
+    $bplot[] = $bplotTemp;
+}
+// Create the grouped bar plot
+$gbbplot = new AccBarPlot($bplot);
+// ...and add it to the graPH
+$graph->Add( $gbbplot );
+
+foreach ($values as $key => $value) {
+    //buscamos y signamos el color
+    $colorTemp = color_causa_rechazo($value['observacion']);
+    ($bplot[$key])->SetColor($colorTemp['hex']);
+    ($bplot[$key])->SetFillColor($colorTemp['hex']);
+
+    //asignamos el nombre de la leyenda
+    ($bplot[$key])->SetLegend(strtoupper($value['observacion']));
+}
+
+
+/*$b1plot->value->Show();
+$b1plot->value->SetColor("black","darkred");
+$b1plot->value->SetFormat('%1d');
+$b1plot->SetColor("white");
+$b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION);
+$b1plot->SetWidth(25);
+$b1plot->SetLegend("Cantidad Pedidos entregados");
+
+$lplot->SetBarCenter();
+$lplot->SetColor("red");
+$lplot->SetLegend("Promedio (".$promedio_despacho[0].")");
+$lplot->mark->SetWidth(15);
+$lplot->mark->setColor("red");
+$lplot->mark->setFillColor("red");*/
+
+$graph->legend->SetFrameWeight(1);
+$graph->legend->SetColumns(5);
+$graph->legend->Pos(0.2, 0.03);
+//$graph->legend->SetPos(0.5,0.99,'center','bottom');
+$graph->legend->SetFont(FF_VERDANA, FS_NORMAL,9);
+$graph->legend->SetColor('#4E4E4E' , '#00A78A');
+
+$graph->title->Set('');
+
+// Display the graph
+$graph->Stroke("rechazo_clientes.png");
+$gdImage = imagecreatefrompng('rechazo_clientes.png');
+$objDrawing = new MemoryDrawing();
+$objDrawing->setName('Sample image');
+$objDrawing->setDescription('TEST');
+$objDrawing->setImageResource($gdImage);
+$objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
+$objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+$objDrawing->setHeight($aHeight);
+$objDrawing->setWidth($aWidth);
+$objDrawing->setCoordinates('C' . ($row+=5));
+$objDrawing->setWorksheet($spreadsheet->getActiveSheet());
+unlink("rechazo_clientes.png");
+
 // tipo (Grupo) de serie de la barras
-$dataSeriesLabels = [];
+/*$dataSeriesLabels = [];
 for($x=($row+4); $x<=$num_temp; $x++){
     $dataSeriesLabels[] = new DataSeriesValues('String', 'Worksheet!$B$'.$x, null, 1);
 }
@@ -417,14 +605,14 @@ $chart->setTopLeftPosition('B' . ($row+=4))
     ->setBottomRightPosition('S' . ($row+=17));
 
 // AGREGA EL GRAFICO AL DOCUMENTO
-$spreadsheet->getActiveSheet()->addChart($chart);
+$spreadsheet->getActiveSheet()->addChart($chart);*/
 
 
 
 /************************************* */
 /**     CUADRO DE AUTORIZADO POR      **/
 /************************************* */
-$row+=4;
+$row+=25;
 $sheet->setCellValue('B'.$row, 'Aprobado por: ');
 $sheet->setCellValue('K'.$row, 'C.I:');
 $sheet->setCellValue('O'.$row, 'Firma: ');
