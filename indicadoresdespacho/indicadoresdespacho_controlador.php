@@ -2,7 +2,6 @@
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
-require_once("../acceso/funciones.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
@@ -36,8 +35,8 @@ switch ($_GET["op"]) {
                         $sub_array["value"] = $row["anio"];
                         break;
                     case "Mensual":
-                        $sub_array["label"] = Funciones::convertir(Funciones::addCero($row["mes"]))." ".$row["anio"];
-                        $sub_array["value"] = $row["anio"]."-".Funciones::addCero($row["mes"]);
+                        $sub_array["label"] = Dates::month_name(Strings::addCero($row["mes"]))." ".$row["anio"];
+                        $sub_array["value"] = $row["anio"]."-".Strings::addCero($row["mes"]);
                         break;  
                 }
                 $output[] = $sub_array;
@@ -93,13 +92,13 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $ordenes_despacho_string .= ($row['correlativo'] . "(" . Funciones::addCero($row['cant_documentos']) . "), ");
+                $ordenes_despacho_string .= ($row['correlativo'] . "(" . Strings::addCero($row['cant_documentos']) . "), ");
 
                 $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** entregas efectivas **/
                 if ($row['tipo_pago'] !='N/C' and $row['tipo_pago'] !='N/C/P'
-                    and $row['fecha_entre'] != null or Funciones::check_in_range($fechai, $fechaf, $row['fecha_entre'])
+                    and $row['fecha_entre'] != null or Dates::check_in_range($fechai, $fechaf, $row['fecha_entre'])
                 ) {
                     //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
                     if(count($data)>0 and date_format(date_create($row['fecha_entre']), $formato_fecha) == $data[count($data)-1]['fecha_entrega'])
@@ -114,7 +113,7 @@ switch ($_GET["op"]) {
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
                         $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
-                        $sub_array['nombre_mes'] = Funciones::convertir(date_format(date_create($row['fecha_entre']), 'm'), true);
+                        $sub_array['nombre_mes'] = Dates::month_name(date_format(date_create($row['fecha_entre']), 'm'), true);
 
                         $data[] = $sub_array;
                     }
@@ -240,11 +239,11 @@ switch ($_GET["op"]) {
                         }
                     }
                     //si no es igual, solo inserta un nuevo registro al array
-                    elseif($row['fecha_entre']==null or Funciones::check_in_range($fechai, $fechaf, $row['fecha_entre'])){
+                    elseif($row['fecha_entre']==null or Dates::check_in_range($fechai, $fechaf, $row['fecha_entre'])){
                         $fecha_entrega = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
                             ? date_format(date_create($row['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
                         $nombre_mes = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
-                            ? Funciones::convertir(date_format(date_create($row['fecha_entre']), 'm'), true) : "sin f. entreg.";
+                            ? Dates::month_name(date_format(date_create($row['fecha_entre']), 'm'), true) : "sin f. entreg.";
                         $sub_array['fecha_entrega'] = $fecha_entrega;
                         $sub_array['nombre_mes'] = $nombre_mes;
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
@@ -262,7 +261,7 @@ switch ($_GET["op"]) {
         }
         /** los despachos realizados obtenidos se agregan a un string **/
         foreach ($ordenes_despacho as $arr){
-            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . Funciones::addCero($arr['cant_documentos']) . "), ");
+            $ordenes_despacho_string .= ($arr['correlativo'] . "(" . Strings::addCero($arr['cant_documentos']) . "), ");
         }
 
         /** calcular los pedidos devueltos **/
@@ -334,9 +333,9 @@ switch ($_GET["op"]) {
             if($row['fecha_desp'] != null)
             {
                 //almacenamos el total de documentos para calcular la oportunidad posteriormente
-                if(!Funciones::check_in_range($fechaaevaluar, $fechaaevaluar, $row['fecha_desp'])) {
+                if(!Dates::check_in_range($fechaaevaluar, $fechaaevaluar, $row['fecha_desp'])) {
                     $fechaaevaluar = $row['fecha_desp'];
-                    $totaldoc = Funciones::searchQuantityDocumentsByDates($datos, "fecha_desp", $fechaaevaluar, $formato_fecha);
+                    $totaldoc = Functions::searchQuantityDocumentsByDates($datos, "fecha_desp", $fechaaevaluar, $formato_fecha);
                 }
 
                 //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
@@ -352,7 +351,7 @@ switch ($_GET["op"]) {
                     $sub_array['cant_documentos'] = 1;
                     $sub_array['oportunidad'] = floatval($totaldoc>1 ? $oportunidad/$totaldoc : $oportunidad);
                     $sub_array['documentos'] = $row['numerod'];
-                    $sub_array['nombre_mes'] = Funciones::convertir(date_format(date_create($row['fecha_desp']), 'm'), true);
+                    $sub_array['nombre_mes'] = Dates::month_name(date_format(date_create($row['fecha_desp']), 'm'), true);
 
                     $data[] = $sub_array;
                 }

@@ -1,7 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
-require_once("../acceso/funciones.php");
 
 require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' );
 require_once ( '../public/jpgraph4.3.4/src/jpgraph_bar.php' );
@@ -49,27 +48,12 @@ switch($tipoPeriodo) {
         break;
 }
 
+$excel = new Excel();
+
 $cant_ordenes_despacho_max = 22;
 $cant_fact_sinliquidar_max = 26;
 $ancho_tabla_max = 19;
 $row = 0;
-
-$i = 0;
-//funcion recursiva creada para reporte Excel que evalua los numeros > 0
-// y asigna la letra desde la A....hasta la Z y AA, AB, AC.....AZ
-function getExcelCol($num, $letra_temp = false) {
-    $numero = $num % 26;
-    $letra = chr(65 + $numero);
-    $num2 = intval($num / 26);
-    if(!$letra_temp)
-        $GLOBALS['i'] = $GLOBALS['i'] +1;
-
-    if ($num2 > 0) {
-        return getExcelCol($num2 - 1) . $letra;
-    } else {
-        return $letra;
-    }
-}
 
 function color_causa_rechazo($value)
 {

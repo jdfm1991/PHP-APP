@@ -7,8 +7,10 @@ function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
         //titulos de las barras
         labels = data.tabla.map( val => { return condicion_visibilidad_mes ? val.nombre_mes : val.fecha_entrega; });
 
-        //creamos un array con todas las posiciones en 0
-        values = labels.map(() => { return 0 });
+        //creamos un array con todas las posiciones en 0 de la cantidad de observaciones
+        arr_temp = data.tabla.map( val => { return val.observacion.length; });
+        index_max_obs = arr_temp.findIndex( val => { val === Math.max(...arr_temp); });
+        values = data.tabla[index_max_obs].observacion.map(() => { return 0 });
 
         //obtiene el valor mas alto de los pedidos despachados
         value_max = Math.max(...data.tabla.map( val => { return parseInt(val.cant_documentos); }));
@@ -30,9 +32,9 @@ function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
                 value[index] = parseInt(val.cant_documentos)
 
                 return {
-                    label      : val.observacion,
+                    label      : /*val.observacion*/"merc. no solicitada",
                     type       : 'bar',
-                    color      : color_causa_rechazo(val.observacion).rgba,
+                    color      : color_causa_rechazo(/*val.observacion*/"merc. no solicitada").rgba,
                     pointRadius: false,
                     fill       : false,
                     values     : value
