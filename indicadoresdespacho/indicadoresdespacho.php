@@ -116,21 +116,7 @@ require_once("../acceso/const.php");
                                 <div class="form-group col-sm-6">
                                     <label for="causa">Causa de rechazo</label>
                                     <select class="custom-select" name="causa" id="causa" style="width: 100%;" required>
-                                        <option value="">--Seleccione Causa del rechazo--</option>
-                                        <option value="todos">Todos</option>
-                                        <option value="Merc. no solicitada">Merc. no solicitada</option>
-                                        <option value="Fecha venc. cercana">Fecha venc. cercana</option>
-                                        <option value="EDV no informo mod pago">EDV no informo mod pago</option>
-                                        <option value="Cliente no puede pagar">Cliente no puede pagar</option>
-                                        <option value="Cliente indisponible para recepcion">Cliente indisponible para recepcion</option>
-                                        <option value="Precio no fue el acordado">Precio no fue el acordado</option>
-                                        <option value="Mercancia vencida">Mercancia vencida</option>
-                                        <option value="Pedido incompleto">Pedido incompleto</option>
-                                        <option value="Faltante en el almacen">Faltante en el almacen</option>
-                                        <option value="Faltante en el bulto">Faltante en el bulto</option>
-                                        <option value="Caja mal estado">Caja mal estado</option>
-                                        <option value="Retraso de entrega">Retraso de entrega</option>
-                                        <option value="Facturado bajo cero">Facturado bajo cero</option>
+                                        <!-- la lista de casusas se carga por ajax -->
                                     </select>
                                 </div>
                             </div>

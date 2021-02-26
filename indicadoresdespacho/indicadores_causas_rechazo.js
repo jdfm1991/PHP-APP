@@ -1,16 +1,22 @@
 
 function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
 {
-    let labels, value_max, values;
+    let labels, value_max, values, index_color;
 
     if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
         labels = data.tabla.map( val => { return condicion_visibilidad_mes ? val.nombre_mes : val.fecha_entrega; });
 
+        //creamos un array inicializado en 0 basandose en la dimension de labels.
+        values = labels.map( () => { return 0; });
+
         //creamos un array con todas las posiciones en 0 de la cantidad de observaciones
-        arr_temp = data.tabla.map( val => { return val.observacion.length; });
-        index_max_obs = arr_temp.findIndex( val => { val === Math.max(...arr_temp); });
-        values = data.tabla[index_max_obs].observacion.map(() => { return 0 });
+        /*arr_temp = data.tabla.map( val => { return val.observacion.length; });
+        index_max_obs = arr_temp.findIndex( (val) =>  val === Math.max(...arr_temp) );
+        values = index_max_obs !== -1 ? data.tabla[index_max_obs].observacion.map(() => { return 0 }) : [];*/
+
+        //creamos un array con los id de colores por causa de rechazo
+        index_color = get_index_colors(data.tabla);
 
         //obtiene el valor mas alto de los pedidos despachados
         value_max = Math.max(...data.tabla.map( val => { return parseInt(val.cant_documentos); }));
@@ -18,7 +24,28 @@ function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
         labels = [];
         values = [];
         value_max = 0;
+        index_color = [];
     }
+
+
+    // crear un nuevo objeto para el content que contendra en cada posicion:
+    //  * label de la observacion
+    //  * color de la barra en rgba
+    //  * un array value con la dimension de la cantidad de labels, con valores de cantidad de documentos segun observacion
+    causas_rechaz = [];
+    index_color.map( id_rechaz => {
+
+        data.tabla.map( val => {
+
+            val.observacion.map( val => {
+
+                return val.color.id;
+
+            });
+
+        });
+
+    });
 
     // retornamos un objeto con el contenido necesario
     // para procesar el grafico
@@ -55,6 +82,22 @@ function thead_table_rechazo(incluye_ordenes)
         '<th align="center"  class="align-middle">% Rechazos</th>' +
         thead_ordenes +
         '</tr>'
+}
+
+function get_index_colors(data) {
+    // creamos el array vacio
+    var arr = [];
+
+    // iteramos a data.tabla
+    data.forEach( val => {
+        // cada observacion tiene un array de diferentes dimensiones.
+        // devolvemos especificamente los id de color del tipo de observacion (filtrando que no existan valores null, undefined, NaN)
+        //agregamos con push al array fuera de forEach tomando encuenta que retornamos un array gracias al spread operator (...)
+        arr.push(...val.observacion.map( val => { return val.color.id; }).filter(Boolean));
+    });
+
+    //retornamos un nuevo array sin valores repetidos y ordenados en forma ascendente.
+    return [...new Set(arr)].sort((a, b) => a - b );
 }
 
 function color_causa_rechazo(value)

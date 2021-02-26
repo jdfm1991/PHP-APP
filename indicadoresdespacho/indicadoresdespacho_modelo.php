@@ -42,10 +42,11 @@ class InidicadoresDespachos extends Conectar{
         $chof = ($id_chofer != "-") ? " AND cedula_chofer = ?" : "";
 
 
-        $sql= "SELECT det.correl AS correlativo, fecha_entre, count(det.correl) AS cant_documentos, tipo_pago, observacion
-                FROM appfacturas_det AS det WHERE $rechaz
-                    correl IN (SELECT correl AS correlativo FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? $chof)
-                GROUP BY fecha_entre, observacion, tipo_pago, correl ORDER BY fecha_entre asc";
+        $sql= "SELECT det.correl AS correlativo, fecha_entre, count(det.correl) AS cant_documentos, tipo_pago, observacion, color, rechazo.id AS color_id
+               FROM appfacturas_det AS det 
+               LEFT JOIN APPWEBAJ.dbo.M_rechazos AS rechazo ON UPPER(descripcion) = UPPER(det.observacion) 
+               WHERE $rechaz correl IN (SELECT correl AS correlativo FROM appfacturas WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ? $chof)
+               GROUP BY fecha_entre, observacion, tipo_pago, correl, color, rechazo.id ORDER BY fecha_entre asc";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

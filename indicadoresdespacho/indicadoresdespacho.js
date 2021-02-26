@@ -20,6 +20,7 @@ function init() {
     estado_minimizado = false;
     indicador_seleccionado = 2;
     listar_choferes();
+    listar_causas_rechazo();
     limpiar();
     switch (indicador_seleccionado) {
         case 1: $("#pills-fectivas-tab").trigger("click");    break;
@@ -137,6 +138,22 @@ function listar_choferes(){
                 //se itera con each para llenar el select en la vista
                 $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
             });
+        });
+    });
+}
+
+function listar_causas_rechazo(){
+    $.post("indicadoresdespacho_controlador.php?op=obtener_causas_rechazo", function(data, status){
+        data = JSON.parse(data);
+
+        $causa = $('#pills-rechazo #causa');
+
+        //lista de seleccion de causas
+        $causa.append('<option name="" value="">--Seleccione Causa del rechazo--</option>');
+        $causa.append('<option name="" value="todos">Todos</option>');
+        $.each(data.lista_causas, function(idx, opt) {
+            //se itera con each para llenar el select en la vista
+            $causa.append('<option name="" value="' + opt.id +'">' + opt.descripcion + '</option>');
         });
     });
 }

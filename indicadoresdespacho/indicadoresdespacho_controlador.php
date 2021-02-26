@@ -50,6 +50,7 @@ switch ($_GET["op"]) {
 
         break;
 
+
     case "listar_entregas_efectivas":
         $tipoPeriodo = $_POST['tipoPeriodo'];
         $periodo   = $_POST['periodo'];
@@ -158,6 +159,16 @@ switch ($_GET["op"]) {
 
         break;
 
+
+    case "obtener_causas_rechazo":
+
+        $output["lista_causas"] = CausasRechazos::todos();
+
+        echo json_encode($output);
+
+        break;
+
+
     case "listar_causas_rechazo":
         $tipoPeriodo = $_POST['tipoPeriodo'];
         $periodo   = $_POST['periodo'];
@@ -231,7 +242,11 @@ switch ($_GET["op"]) {
                         //verifica si existe la observacion
                         if (!in_array($row['observacion'], $arr)) {
                             # no existe, le agrega en una nueva posicion
-                            $data[count($data)-1]['observacion'][] = Array("tipo" => $row['observacion'], "cant" => intval($row['cant_documentos']) );
+                            $data[count($data)-1]['observacion'][] = Array(
+                                "tipo" => $row['observacion'],
+                                "cant" => intval($row['cant_documentos']),
+                                "color" => Array("id" => $row['color_id'], "hex" => $row['color'])
+                            );
                         } else {
                             # si existe, le suma la cantidad de documentos
                             $pos = array_search($row['observacion'], $arr);
@@ -250,8 +265,9 @@ switch ($_GET["op"]) {
                         $sub_array['porc'] = floatval($porcentaje);
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
                         $sub_array['observacion'][] = Array(
-                            "tipo" => $row['observacion'],
-                            "cant" => intval($row['cant_documentos'])
+                            "tipo"  => $row['observacion'],
+                            "cant"  => intval($row['cant_documentos']),
+                            "color" => Array("id" => $row['color_id'], "hex" => $row['color'])
                         );
 
                         $data[] = $sub_array;

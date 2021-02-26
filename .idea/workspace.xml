@@ -20,26 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/js/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Colors.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Dates.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Email.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Pdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/sql/CausasRechazos.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/acceso/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/const.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/acceso/funciones.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadores_causas_rechazo.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadores_causas_rechazo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +109,8 @@
       <workItem from="1614006594864" duration="916000" />
       <workItem from="1614084579024" duration="1116000" />
       <workItem from="1614087340639" duration="8850000" />
-      <workItem from="1614171092439" duration="9728000" />
+      <workItem from="1614171092439" duration="20539000" />
+      <workItem from="1614343383931" duration="650000" />
     </task>
     <servers />
   </component>
