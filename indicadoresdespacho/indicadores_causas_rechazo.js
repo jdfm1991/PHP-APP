@@ -1,51 +1,22 @@
 
-function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
+function rechazo_de_los_clientes(data, condicion_visibilidad_mes, causas)
 {
-    let labels, value_max, values, index_color;
+    let labels, value_max, values;
 
     if(!jQuery.isEmptyObject(data)) {
         //titulos de las barras
         labels = data.tabla.map( val => { return condicion_visibilidad_mes ? val.nombre_mes : val.fecha_entrega; });
 
-        //creamos un array inicializado en 0 basandose en la dimension de labels.
-        values = labels.map( () => { return 0; });
+        //creamos un array con la data necesaria para ser procesada en el reporte.
+        values = get_data(data, causas, labels);
 
-        //creamos un array con todas las posiciones en 0 de la cantidad de observaciones
-        /*arr_temp = data.tabla.map( val => { return val.observacion.length; });
-        index_max_obs = arr_temp.findIndex( (val) =>  val === Math.max(...arr_temp) );
-        values = index_max_obs !== -1 ? data.tabla[index_max_obs].observacion.map(() => { return 0 }) : [];*/
-
-        //creamos un array con los id de colores por causa de rechazo
-        index_color = get_index_colors(data.tabla);
-
-        //obtiene el valor mas alto de los pedidos despachados
-        value_max = Math.max(...data.tabla.map( val => { return parseInt(val.cant_documentos); }));
+        //obtiene el valor mas alto de la cantidad de rechazos
+        value_max = Math.max(...data.tabla.map( val => { return Math.max(...val.observacion.map( val => { return val.cant; })); }) );
     } else {
         labels = [];
         values = [];
         value_max = 0;
-        index_color = [];
     }
-
-
-    // crear un nuevo objeto para el content que contendra en cada posicion:
-    //  * label de la observacion
-    //  * color de la barra en rgba
-    //  * un array value con la dimension de la cantidad de labels, con valores de cantidad de documentos segun observacion
-    causas_rechaz = [];
-    index_color.map( id_rechaz => {
-
-        data.tabla.map( val => {
-
-            val.observacion.map( val => {
-
-                return val.color.id;
-
-            });
-
-        });
-
-    });
 
     // retornamos un objeto con el contenido necesario
     // para procesar el grafico
@@ -53,18 +24,18 @@ function rechazo_de_los_clientes(data, condicion_visibilidad_mes)
         labels : labels,
         value_max  : value_max,
         content: [
-            ...data.tabla.map( (val, index) => {
+            ...values.map( (val, index) => {
 
-                const value = values.slice();
-                value[index] = parseInt(val.cant_documentos)
+                const {tipo, color, values} = val;
+                const {r, g, b} = hexToRgb(color);
 
                 return {
-                    label      : /*val.observacion*/"merc. no solicitada",
+                    label      : tipo.toLowerCase(),
                     type       : 'bar',
-                    color      : color_causa_rechazo(/*val.observacion*/"merc. no solicitada").rgba,
+                    color      : `rgba(${r}, ${g}, ${b}, 0.8)`,
                     pointRadius: false,
                     fill       : false,
-                    values     : value
+                    values     : values
                 };
             })
         ]
@@ -100,76 +71,33 @@ function get_index_colors(data) {
     return [...new Set(arr)].sort((a, b) => a - b );
 }
 
-function color_causa_rechazo(value)
-{
-    let hex, rgba;
+function get_data(data, causas, labels) {
+    let values_rechaz = [];
 
-    switch (value.toLowerCase()) {
-        case "merc. no solicitada":
-            hex = "#7153f9";
-            rgba = 'rgba(113, 83, 249, 0.8)';
-            break;
-        case "fecha venc. cercana":
-            hex = "#4279a7";
-            rgba = 'rgba(66, 121, 167, 0.8)';
-            break;
-        case "edv no informo mod pago":
-            hex = "#c9ea30";
-            rgba = 'rgba(201, 234, 48, 0.8)';
-            break;
-        case "cliente no puede pagar":
-            hex = "#BA9191";
-            rgba = 'rgba(186, 145, 145, 0.8)';
-            break;
-        case "cliente indisponible para recepcion":
-            hex = "#9ca2a2";
-            rgba = 'rgba(156, 162, 162, 0.8)';
-            break;
-        case "precio no fue el acordado":
-            hex = "#C4CAC8";
-            rgba = 'rgba(196, 202, 200, 0.8)';
-            break;
-        case "mercancia vencida":
-            hex = "#CAB8D4";
-            rgba = 'rgba(202, 184, 212, 0.8)';
-            break;
-        case "pedido incompleto":
-            hex = "#E7E6E3";
-            rgba = 'rgba(231, 230, 227, 0.8)';
-            break;
-        case "faltante en el almacen":
-            hex = "#FAE39F";
-            rgba = 'rgba(250, 227, 159, 0.8)';
-            break;
-        case "faltante en el bulto":
-            hex = "#F2FA9F";
-            rgba = 'rgba(242, 250, 159, 0.8)';
-            break;
-        case "caja mal estado":
-            hex = "#fc9245";
-            rgba = 'rgba(252, 146, 69, 0.8)';
-            break;
-        case "retraso de entrega":
-            hex = "#61D29E";
-            rgba = 'rgba(97, 210, 158, 0.8)';
-            break;
-        case "facturado bajo cero":
-            hex = "#298776";
-            rgba = 'rgba(41, 135, 118, 0.8)';
-            break;
-        case "otro":
-            hex = "#a9d2f5";
-            rgba = 'rgba(169, 210, 245, 0.8)';
-            break;
-        default:
-            hex = "#a9d2f5";
-            rgba = 'rgba(169, 210, 245, 0.8)';
-            break;
-    }
+    //array inicializado en 0 en base a la cantidad de registro de labels
+    arr_temp = labels.map( () => { return 0; });
 
-    return {
-        hex : hex,
-        rgba: rgba
-    };
+    //creamos un array con los id de colores por causa de rechazo disponibles en el rango de fecha
+    index_color = get_index_colors(data.tabla);
+
+    //creamos un array inicializado basandose en la dimension de index_color.
+    index_color.forEach( (idx) => {
+        values_rechaz.push( {id: idx, tipo: causas[idx-1].descripcion, values: [...arr_temp], color: causas[idx-1].color} );
+    }); console.log(values_rechaz)
+
+    //llenamos el array con la data necesaria para ser procesada en el reporte.
+    const { tabla } = data;
+    values_rechaz.forEach( (val, index) => {
+        const { tipo } = val;
+        tabla.forEach( (t, idx) => {
+            const tipos_observacion = t.observacion.map( v => { return v.tipo.toUpperCase(); });
+
+            if(tipos_observacion.includes(tipo)) {
+                values_rechaz[index].values[idx] = t.observacion[tipos_observacion.indexOf(tipo)].cant;
+            }
+        });
+    });
+
+    return values_rechaz;
 }
 

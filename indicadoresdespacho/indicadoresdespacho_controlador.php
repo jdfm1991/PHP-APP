@@ -198,17 +198,28 @@ switch ($_GET["op"]) {
         $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
         $ordenes_despacho = Array();
         $ordenes_despacho_string = "";
-        $totaldespacho = 0;
+        $totaldespacho = Array();
+        $totalendespacho = 0;
         $total_ped_devueltos = 0;
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
         if(is_array($datos) and count($datos) > 0)
         {
-            //almacenamos el total de despachos
-            foreach ($datos as $row)
-                $totaldespacho += intval($row['cant_documentos']);
+            //almacenamos el total de despachos agrupado
+            foreach ($datos as $row){
+                if($row['fecha_entre']==null or Dates::check_in_range($fechai, $fechaf, $row['fecha_entre'])) {
+                    $fecha_entrega = $row['fecha_entre'] != null ? date_format(date_create($row['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
 
+                    //consultamos si la fecha a consultar existe en el array totaldespacho
+                    if(count($totaldespacho)>0 and in_array($fecha_entrega, array_keys($totaldespacho)))
+                        $totaldespacho[$fecha_entrega] += intval($row['cant_documentos']);
+                    //si no existe, solo inserta un nuevo registro al array
+                    else $totaldespacho[$fecha_entrega] = intval($row['cant_documentos']);
+                }
+            }
+
+            //empezamos con el proceso de la data
             foreach ($datos as $key => $row)
             {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
@@ -224,8 +235,6 @@ switch ($_GET["op"]) {
                     );
                 }
 
-                $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
-
                 /** causas de rechazo **/
                 if(($row['tipo_pago'] =='N/C' or $row['tipo_pago'] =='N/C/P') and $key>=0 )
                 {
@@ -234,16 +243,17 @@ switch ($_GET["op"]) {
                         and date_format(date_create($row['fecha_entre']), $formato_fecha) == $data[count($data)-1]['fecha_entrega']) ||
                         ($row['fecha_entre']==null and "sin fecha de entrega"==$data[count($data)-1]['fecha_entrega'])
                     ) {
+                        $porcentaje = ($row['cant_documentos'] / $totaldespacho[$data[count($data)-1]['fecha_entrega']]) * 100;
                         $data[count($data)-1]['cant_documentos'] += intval($row['cant_documentos']);
-                        $data[count($data)-1]['porc'] += floatval($porcentaje);
+                        $data[count($data)-1]['porc'] += $porcentaje;
                         $data[count($data)-1]['ordenes_despacho'] .= (", " . $row['correlativo']);
 
                         $arr = array_map(function ($arr) { return $arr['tipo']; }, $data[count($data)-1]['observacion']);
                         //verifica si existe la observacion
-                        if (!in_array($row['observacion'], $arr)) {
+                        if (!in_array(strtoupper($row['observacion']), $arr)) {
                             # no existe, le agrega en una nueva posicion
                             $data[count($data)-1]['observacion'][] = Array(
-                                "tipo" => $row['observacion'],
+                                "tipo" => strtoupper($row['observacion']),
                                 "cant" => intval($row['cant_documentos']),
                                 "color" => Array("id" => $row['color_id'], "hex" => $row['color'])
                             );
@@ -259,13 +269,15 @@ switch ($_GET["op"]) {
                             ? date_format(date_create($row['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
                         $nombre_mes = ($row['fecha_entre'] != null and strlen($row['fecha_entre'])>0)
                             ? Dates::month_name(date_format(date_create($row['fecha_entre']), 'm'), true) : "sin f. entreg.";
+                        $porcentaje = ($row['cant_documentos'] / $totaldespacho[$fecha_entrega]) * 100;
+
                         $sub_array['fecha_entrega'] = $fecha_entrega;
                         $sub_array['nombre_mes'] = $nombre_mes;
                         $sub_array['cant_documentos'] = intval($row['cant_documentos']);
-                        $sub_array['porc'] = floatval($porcentaje);
+                        $sub_array['porc'] = $porcentaje;
                         $sub_array['ordenes_despacho'] = $row['correlativo'];
                         $sub_array['observacion'][] = Array(
-                            "tipo"  => $row['observacion'],
+                            "tipo"  => strtoupper($row['observacion']),
                             "cant"  => intval($row['cant_documentos']),
                             "color" => Array("id" => $row['color_id'], "hex" => $row['color'])
                         );
@@ -285,11 +297,16 @@ switch ($_GET["op"]) {
             $total_ped_devueltos += intval($arr['cant_documentos']);
         }
 
+        /** calcular el total despachos **/
+        foreach ($totaldespacho as $key => $arr){
+            $totalendespacho += intval($arr);
+        }
+
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
             "chofer" => $chofer,
             "ordenes_despacho" => $ordenes_despacho_string,
-            "totaldespacho" => $totaldespacho,
+            "totaldespacho" => $totalendespacho,
             "total_ped" => $total_ped_devueltos,
             "fechai" => $fechai,
             "fechaf" => $fechaf,

@@ -2,6 +2,7 @@ let estado_minimizado;
 
 // 1-efectivas  2-rechazo  3-oportunidad
 let indicador_seleccionado;
+let causas_rechazo;
 
 let array_selects = [
     'pills-efectivas',
@@ -18,7 +19,8 @@ function init() {
     $("#loader").hide();
     $("#spinner").css('visibility', 'hidden');
     estado_minimizado = false;
-    indicador_seleccionado = 2;
+    indicador_seleccionado = 1;
+    causas_rechazo = {};
     listar_choferes();
     listar_causas_rechazo();
     limpiar();
@@ -83,6 +85,7 @@ let es_habilidado = function () {
     }
 
     if($("#" + pill + " #tipoPeriodo").val() !== "") {
+        $('#'+pill+' #periodo').empty();
         $('#'+pill+' #periodo').append('<option>cargando...</option>');
         listar_periodos();
     } else {
@@ -144,6 +147,7 @@ function listar_choferes(){
 
 function listar_causas_rechazo(){
     $.post("indicadoresdespacho_controlador.php?op=obtener_causas_rechazo", function(data, status){
+        causas_rechazo = JSON.parse(data).lista_causas;
         data = JSON.parse(data);
 
         $causa = $('#pills-rechazo #causa');
@@ -310,7 +314,7 @@ function construirGrafico(data, condicion_visibilidad_mes) {
             value_max_default = 25;
             break;
         case 2:
-            object = rechazo_de_los_clientes(data, condicion_visibilidad_mes);
+            object = rechazo_de_los_clientes(data, condicion_visibilidad_mes, causas_rechazo);
             value_max_default = 8;
             break;
         case 3:
@@ -346,17 +350,18 @@ function construirGrafico(data, condicion_visibilidad_mes) {
     });
 
     object.content.forEach( val => {
+        const {label, type, color, pointRadius, fill, values} = val;
         barChart.data.datasets.push({
-            label               : val.label,
-            type                : val.type,
-            backgroundColor     : val.color,
-            borderColor         : val.color,
-            pointRadius         : val.pointRadius,
-            pointStrokeColor    : val.color,
+            label               : label,
+            type                : type,
+            backgroundColor     : color,
+            borderColor         : color,
+            pointRadius         : pointRadius,
+            pointStrokeColor    : color,
             pointHighlightFill  : '#fff',
-            pointHighlightStroke: val.color,
-            fill                : val.fill,
-            data                : val.values
+            pointHighlightStroke: color,
+            fill                : fill,
+            data                : values
         });
 
     });
