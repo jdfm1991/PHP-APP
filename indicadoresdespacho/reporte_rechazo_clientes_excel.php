@@ -48,86 +48,27 @@ switch($tipoPeriodo) {
         break;
 }
 
-$excel = new Excel();
+$i = 0;
+//funcion recursiva creada para reporte Excel que evalua los numeros > 0
+// y asigna la letra desde la A....hasta la Z y AA, AB, AC.....AZ
+function getExcelCol($num, $letra_temp = false) {
+    $numero = $num % 26;
+    $letra = chr(65 + $numero);
+    $num2 = intval($num / 26);
+    if(!$letra_temp)
+        $GLOBALS['i'] = $GLOBALS['i'] +1;
 
-$cant_ordenes_despacho_max = 22;
+    if ($num2 > 0) {
+        return getExcelCol($num2 - 1) . $letra;
+    } else {
+        return $letra;
+    }
+}
+
+$cant_ordenes_despacho_max = 21;
 $cant_fact_sinliquidar_max = 26;
 $ancho_tabla_max = 19;
 $row = 0;
-
-function color_causa_rechazo($value)
-{
-    $hex = '';
-    $rgba = '';
-
-    switch (strtolower($value)) {
-        case "merc. no solicitada":
-            $hex = "#7153f9";
-            $rgba = 'rgba(113, 83, 249, 0.8)';
-            break;
-        case "fecha venc. cercana":
-            $hex = "#4279a7";
-            $rgba = 'rgba(66, 121, 167, 0.8)';
-            break;
-        case "edv no informo mod pago":
-            $hex = "#c9ea30";
-            $rgba = 'rgba(201, 234, 48, 0.8)';
-            break;
-        case "cliente no puede pagar":
-            $hex = "#BA9191";
-            $rgba = 'rgba(186, 145, 145, 0.8)';
-            break;
-        case "cliente indisponible para recepcion":
-            $hex = "#9ca2a2";
-            $rgba = 'rgba(156, 162, 162, 0.8)';
-            break;
-        case "precio no fue el acordado":
-            $hex = "#C4CAC8";
-            $rgba = 'rgba(196, 202, 200, 0.8)';
-            break;
-        case "mercancia vencida":
-            $hex = "#CAB8D4";
-            $rgba = 'rgba(202, 184, 212, 0.8)';
-            break;
-        case "pedido incompleto":
-            $hex = "#E7E6E3";
-            $rgba = 'rgba(231, 230, 227, 0.8)';
-            break;
-        case "faltante en el almacen":
-            $hex = "#FAE39F";
-            $rgba = 'rgba(250, 227, 159, 0.8)';
-            break;
-        case "faltante en el bulto":
-            $hex = "#F2FA9F";
-            $rgba = 'rgba(242, 250, 159, 0.8)';
-            break;
-        case "caja mal estado":
-            $hex = "#fc9245";
-            $rgba = 'rgba(252, 146, 69, 0.8)';
-            break;
-        case "retraso de entrega":
-            $hex = "#61D29E";
-            $rgba = 'rgba(97, 210, 158, 0.8)';
-            break;
-        case "facturado bajo cero":
-            $hex = "#298776";
-            $rgba = 'rgba(41, 135, 118, 0.8)';
-            break;
-        case "otro":
-            $hex = "#a9d2f5";
-            $rgba = 'rgba(169, 210, 245, 0.8)';
-            break;
-        default:
-            $hex = "#a9d2f5";
-            $rgba = 'rgba(169, 210, 245, 0.8)';
-            break;
-    }
-
-    return array(
-        'hex' => $hex,
-        'rgba' => $rgba
-    );
-}
 
 /************************************* */
 /** CONFIGURAMOS EL TIPO DE DOCUMENTO **/
@@ -185,7 +126,8 @@ if($chofer_id!="-") {
 }
 $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
 $ordenes_despacho_string = "";
-$totaldespacho = 0;
+$totaldespacho = Array();
+$totalendespacho = 0;
 $total_ped_devueltos = 0;
 $fecha_entrega = Array();
 $nombre_mes = Array();
@@ -194,12 +136,20 @@ $porc = Array();
 $ordenes_despacho = Array();
 $correlativo = Array();
 $observacion = Array();
-$valoresParaGrafico = Array();
 
 
-//almacenamos el total de despachos para calcular la efectividad posteriormente
-foreach ($query as $item)
-    $totaldespacho += intval($item['cant_documentos']);
+//almacenamos el total de despachos agrupado
+foreach ($query as $item){
+    if($item['fecha_entre']==null or Dates::check_in_range($fechai, $fechaf, $item['fecha_entre'])) {
+        $fecha_entreg = $item['fecha_entre'] != null ? date_format(date_create($item['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
+
+        //consultamos si la fecha a consultar existe en el array totaldespacho
+        if(count($totaldespacho)>0 and in_array($fecha_entreg, array_keys($totaldespacho)))
+            $totaldespacho[$fecha_entreg] += intval($item['cant_documentos']);
+        //si no existe, solo inserta un nuevo registro al array
+        else $totaldespacho[$fecha_entreg] = intval($item['cant_documentos']);
+    }
+}
 
 foreach ($query as $key => $item)
 {
@@ -213,8 +163,6 @@ foreach ($query as $key => $item)
         );
     }
 
-    $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
-
     /** causas de rechazo **/
     if(($item['tipo_pago'] =='N/C' or $item['tipo_pago'] =='N/C/P') and $key>=0 )
     {
@@ -223,39 +171,62 @@ foreach ($query as $key => $item)
                 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1]) ||
             ($item['fecha_entre']==null and "sin fecha de entrega"==$fecha_entrega[count($fecha_entrega)-1])
         ) {
+            $porcentaje = ($item['cant_documentos'] / $totaldespacho[$fecha_entrega[count($fecha_entrega)-1]]) * 100;
             $cant_documentos[count($cant_documentos)-1] += intval($item['cant_documentos']);
-            $porc[count($porc)-1] += floatval($porcentaje);
+            $porc[count($porc)-1] += $porcentaje;
             $correlativo[count($correlativo)-1] .= (", " . $item['correlativo']);
-            if (!in_array($item['observacion'], $observacion[count($observacion)-1])) {
-                $observacion[count($observacion)-1][] = Array($item['observacion']);
+
+            $arr = array_map(function ($val) { return $val['tipo']; }, $observacion[$fecha_entrega[count($fecha_entrega)-1]]);
+            //verifica si existe la observacion
+            if (!in_array(strtoupper($item['observacion']), $arr)) {
+                # no existe, le agrega en una nueva posicion
+                $observacion[$fecha_entrega[count($fecha_entrega)-1]][] = Array(
+                    "tipo" => strtoupper($item['observacion']),
+                    "cant" => intval($item['cant_documentos']),
+                    "color" => Array("id" => $item['color_id'], "hex" => $item['color'])
+                );
+            } else {
+                # si existe, le suma la cantidad de documentos
+                $pos = array_search($item['observacion'], $arr);
+                $observacion[$fecha_entrega[count($fecha_entrega)-1]][$pos]['cant'] += intval($item['cant_documentos']);
             }
 
         }
         //si no es igual, solo inserta un nuevo registro al array
-        elseif($item['fecha_entre']==null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])){
+        elseif($item['fecha_entre']==null or Dates::check_in_range($fechai, $fechaf, $item['fecha_entre'])){
             $fecha_ent = ($item['fecha_entre'] != null and strlen($item['fecha_entre'])>0)
                 ? date_format(date_create($item['fecha_entre']), $formato_fecha) : "sin fecha de entrega";
             $nombreMes = ($item['fecha_entre'] != null and strlen($item['fecha_entre'])>0)
-                ? Funciones::convertir(date_format(date_create($item['fecha_entre']), 'm'), true) : "sin f. entreg.";
+                ? Dates::month_name(date_format(date_create($item['fecha_entre']), 'm'), true) : "sin f. entreg.";
+            $porcentaje = ($item['cant_documentos'] / $totaldespacho[$fecha_ent]) * 100;
 
             $fecha_entrega[] = $fecha_ent;
             $nombre_mes[] = $nombreMes;
             $cant_documentos[] = intval($item['cant_documentos']);
-            $porc[] = floatval($porcentaje);
+            $porc[] = $porcentaje;
             $correlativo[] = $item['correlativo'];
-            $observacion[] = Array($item['observacion']);
+            $observacion[$fecha_ent][] = Array(
+                "tipo"  => strtoupper($item['observacion']),
+                "cant"  => intval($item['cant_documentos']),
+                "color" => Array("id" => $item['color_id'], "hex" => $item['color'])
+            );
         }
     }
 }
 
 /** los despachos realizados obtenidos se agregan a un string **/
 foreach ($ordenes_despacho as $arr){
-    $ordenes_despacho_string .= ($arr['correlativo'] . "(" . Funciones::addCero($arr['cant_documentos']) . "), ");
+    $ordenes_despacho_string .= ($arr['correlativo'] . "(" . Strings::addCero($arr['cant_documentos']) . "), ");
 }
 
 /** calcular los pedidos devueltos **/
 foreach ($cant_documentos as $arr){
     $total_ped_devueltos += intval($arr);
+}
+
+/** calcular el total despachos **/
+foreach ($totaldespacho as $key => $arr){
+    $totalendespacho += intval($arr);
 }
 
 
@@ -352,13 +323,6 @@ for ($j=0; $j<count($cant_documentos); $j++) {
             $spreadsheet->getActiveSheet()->mergeCells('A' . ($row) . ':' . $ult_letra . ($row));
             $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A' . ($row) . ':' . $ult_letra . ($row));
         }
-
-        if ($j > 0 && ($j % $ancho_tabla_max) == 0 || $j + 1 == count($cant_documentos)) {
-            $valoresParaGrafico[] = array(
-                'fecha_entrega' => array('B', ($row + 1), $ult_letra, ($row + 1)),
-                'despachos' => array('B', ($row + 2), $ult_letra, ($row + 2)),
-            );
-        }
     }
 
     //esta evalua si la iteracion va a ser superior al ancho maximo para generar
@@ -385,7 +349,7 @@ for ($j=0; $j<count($cant_documentos); $j++) {
     $temp_letra = getExcelCol($i);
     $sheet->setCellValue($temp_letra . ($row + 1), $tipoPeriodo!="Anual" ? $fecha_entrega[$j] : $nombre_mes[$j]);
     $sheet->setCellValue($temp_letra . ($row + 2), $cant_documentos[$j]);
-    $sheet->setCellValue($temp_letra . ($row + 3), $porc[$j] . ' %');
+    $sheet->setCellValue($temp_letra . ($row + 3), number_format($porc[$j], 2, ",", ".") . ' %');
     if ($tipoPeriodo != "Anual") {
         $sheet->setCellValue($temp_letra . ($row + 4), $correlativo[$j]);
     }
@@ -405,7 +369,7 @@ for ($j=0; $j<count($cant_documentos); $j++) {
 $row+=6;
 $sheet->setCellValue('B' . ($row+0), 'Total de Pedidos en el camión:');
 $sheet->setCellValue('B' . ($row+1), 'Total de Pedidos devueltos:');
-$sheet->setCellValue('E' . ($row+0), $totaldespacho);
+$sheet->setCellValue('E' . ($row+0), $totalendespacho);
 $sheet->setCellValue('E' . ($row+1), $total_ped_devueltos);
 $spreadsheet->getActiveSheet()->mergeCells('B'.($row+0).':D'.($row+0));
 $spreadsheet->getActiveSheet()->mergeCells('B'.($row+1).':D'.($row+1));
@@ -420,35 +384,64 @@ $spreadsheet->getActiveSheet()->getStyle('E'.($row+1))->applyFromArray(array('fo
 /************************************* */
 /**             GRAFICO               **/
 /************************************* */
+# ancho y alto de la imagen grafico
 $aWidth = 1080; $aHeight = 450;
+$labels = $tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes;
+$causas = CausasRechazos::todos();
 
+# array inicializado con los valores en cero basado en la cantidad de registros de $labels
+$arr_temp = array_map(function() { return 0; }, $labels);
+
+# creamos un array con los id de colores por causa de rechazo disponibles en el rango de fecha
+$index_color = [];
+foreach ($observacion as $obsr) { foreach ($obsr as $value) { array_push($index_color, $value['color']['id']); }}
+$index_color = array_unique($index_color); sort($index_color);
+
+# creamos un array inicializado basandose en la dimension de index_color.
 $values = array();
-for($d=0;$d<count($cant_documentos);$d++)
-    $values[] = array(
-        'cant_documentos' => $cant_documentos[$d],
-        'observacion'     => $observacion[$d]
-    );
+foreach ($index_color as $idx) {
+    array_push($values, Array(
+        'id'     => $idx,
+        'tipo'   => $causas[$idx-1]['descripcion'],
+        'values' => $arr_temp,
+        'color'  => $causas[$idx-1]['color']
+    ));
+}
 
+# llenamos el array con la data necesaria para ser procesada en el grafico
+foreach ($values as $index => $val) {
+    foreach ($observacion as $grupo_asocionacion => $obsr) {
+        $tipos_observacion = array_map(function($tipo_obs) { return $tipo_obs['tipo']; }, $obsr);
+        if (in_array($val['tipo'], $tipos_observacion)) {
+            $idx = array_search($grupo_asocionacion, array_keys($observacion));
+            $values[$index]['values'][$idx] = $obsr[array_search($val['tipo'], $tipos_observacion)]['cant'];
+        }
+    }
+}
+
+
+# obtencion del valor mas alto en base a $cant_documentos
 $valorMasAlto = 0;
 foreach($cant_documentos as $item)
     if ($item > $valorMasAlto) {$valorMasAlto = $item;}
 
+# llenado de unos array con las escalas para el grafico en base al valor mas alto
+$salto = $valorMasAlto < 10 ? 1 : 5;
 $valuesPar = $valuesImpar = Array();
-for($m=0; $m <= $valorMasAlto+5; $m+=5)
+for($m=0; $m <= $valorMasAlto+$salto; $m+=$salto)
     if ($m%2==0){$valuesPar[] = $m;}
     else{$valuesImpar[] = $m;}
 
-
-//agregamos los titulos de la leyenda ocultos atras del grafico
+# agregamos los titulos de la leyenda ocultos atras del grafico
 $num_temp = 0;
-foreach ($observacion as $key => $obs) {
+foreach ($values as $key => $value) {
     $num_temp = $pos = ($row + $key + 4);
-    $sheet->setCellValue('B'.$pos, strtoupper($obs));
+    $sheet->setCellValue('C'.$pos, $value['tipo']);
 
     //agregamos a su vez los valores por serie
-    $i = 2;
-    foreach ($cant_documentos as $key1=>$value){
-        $sheet->setCellValue(getExcelCol($i).$pos, ($key==$key1) ? $value : 0);
+    $i = 4;
+    foreach ($value['values'] as $val){
+        $sheet->setCellValue(getExcelCol($i) . $pos, $val);
     }
 }
 
@@ -479,8 +472,18 @@ $graph->xaxis->SetTickLabels($tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_me
 $bplot = array();
 foreach ($values as $key => $value) {
     //creamos un nuevo Barplot
-    $bplotTemp = new BarPlot(array($value['cant_documentos']));
+    $bplotTemp = new BarPlot($value['values']);
     $bplotTemp->value->show();
+    $bplotTemp->value->SetColor("black","darkred");
+    $bplotTemp->value->SetFormat('%1d');
+
+    //buscamos y signamos el color
+    $bplotTemp->SetColor($value['color']);
+    $bplotTemp->SetFillColor($value['color']);
+
+    //asignamos el nombre de la leyenda
+    $bplotTemp->SetWidth(25);
+    $bplotTemp->SetLegend($value['tipo']);
 
     //por ultimo lo agregamos a un array para su posterior plot
     $bplot[] = $bplotTemp;
@@ -490,36 +493,10 @@ $gbbplot = new AccBarPlot($bplot);
 // ...and add it to the graPH
 $graph->Add( $gbbplot );
 
-foreach ($values as $key => $value) {
-    //buscamos y signamos el color
-    $colorTemp = color_causa_rechazo($value['observacion']);
-    ($bplot[$key])->SetColor($colorTemp['hex']);
-    ($bplot[$key])->SetFillColor($colorTemp['hex']);
-
-    //asignamos el nombre de la leyenda
-    ($bplot[$key])->SetLegend(strtoupper($value['observacion']));
-}
-
-
-/*$b1plot->value->Show();
-$b1plot->value->SetColor("black","darkred");
-$b1plot->value->SetFormat('%1d');
-$b1plot->SetColor("white");
-$b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION);
-$b1plot->SetWidth(25);
-$b1plot->SetLegend("Cantidad Pedidos entregados");
-
-$lplot->SetBarCenter();
-$lplot->SetColor("red");
-$lplot->SetLegend("Promedio (".$promedio_despacho[0].")");
-$lplot->mark->SetWidth(15);
-$lplot->mark->setColor("red");
-$lplot->mark->setFillColor("red");*/
-
 $graph->legend->SetFrameWeight(1);
 $graph->legend->SetColumns(5);
 $graph->legend->Pos(0.2, 0.03);
-//$graph->legend->SetPos(0.5,0.99,'center','bottom');
+$graph->legend->SetPos(0.5,0.99,'center','bottom');
 $graph->legend->SetFont(FF_VERDANA, FS_NORMAL,9);
 $graph->legend->SetColor('#4E4E4E' , '#00A78A');
 
@@ -536,61 +513,9 @@ $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
 $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
 $objDrawing->setHeight($aHeight);
 $objDrawing->setWidth($aWidth);
-$objDrawing->setCoordinates('C' . ($row+=5));
+$objDrawing->setCoordinates('C' . ($row+=4));
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 unlink("rechazo_clientes.png");
-
-// tipo (Grupo) de serie de la barras
-/*$dataSeriesLabels = [];
-for($x=($row+4); $x<=$num_temp; $x++){
-    $dataSeriesLabels[] = new DataSeriesValues('String', 'Worksheet!$B$'.$x, null, 1);
-}
-
-// serie EJE X del nombre de las barras (en la parte inferior)
-$xAxisTickValues = [
-    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$'.$valoresParaGrafico[0]['fecha_entrega'][0].'$'.$valoresParaGrafico[0]['fecha_entrega'][1].':$'.$valoresParaGrafico[0]['fecha_entrega'][2].'$'.$valoresParaGrafico[0]['fecha_entrega'][3], null, count($cant_documentos)),
-];
-
-//valores de las barras (por cada item del EJE X)
-$dataSeriesValues = []; $i=2;
-for($x=($row+4); $x<$num_temp+1; $x++){
-    $dataSeriesValues[] = new DataSeriesValues('Number', 'Worksheet!$C$'.$x.':$'.getExcelCol($i+count($cant_documentos), true).'$'.$x, null, count($cant_documentos));
-}
-
-// Construccion de las DataSeries
-$series = new DataSeries(
-    DataSeries::TYPE_BARCHART, // plotType
-    DataSeries::GROUPING_STANDARD, // plotGrouping
-    range(0, count($dataSeriesValues) - 1), // plotOrder
-    $dataSeriesLabels, // plotLabel
-    $xAxisTickValues,  // plotCategory
-    $dataSeriesValues  // plotValues
-);
-$series->setPlotDirection(DataSeries::DIRECTION_COL);
-
-// Datos necesarios para la contruccion del grafico
-$plotArea   = new PlotArea(null, [$series]);
-$legend     = new Legend(Legend::POSITION_RIGHT, null, false);
-$title      = new Title('Causas de los rechazo');
-$yAxisLabel = new Title('Despachos');
-
-// Construccion del Grafico
-$chart = new Chart(
-    'grafico', // name
-    $title, // title
-    $legend, // legend
-    $plotArea, // plotArea
-    true, // plotVisibleOnly
-    0, // displayBlanksAs
-    null, // xAxisLabel
-    $yAxisLabel  // yAxisLabel
-);
-$chart->setTopLeftPosition('B' . ($row+=4))
-    ->setBottomRightPosition('S' . ($row+=17));
-
-// AGREGA EL GRAFICO AL DOCUMENTO
-$spreadsheet->getActiveSheet()->addChart($chart);*/
-
 
 
 /************************************* */

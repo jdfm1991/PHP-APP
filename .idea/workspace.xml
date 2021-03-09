@@ -21,11 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/js/Colors.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadores_causas_rechazo.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadores_causas_rechazo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Excel.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Pdf_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +54,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="dfbeafa6-6210-4dfc-83cb-effeb544480e" />
+  </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -78,7 +81,7 @@
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../codeigniter" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -110,7 +113,9 @@
       <workItem from="1614084579024" duration="1116000" />
       <workItem from="1614087340639" duration="8850000" />
       <workItem from="1614171092439" duration="20539000" />
-      <workItem from="1614343383931" duration="55373000" />
+      <workItem from="1614343383931" duration="55562000" />
+      <workItem from="1614879838768" duration="32505000" />
+      <workItem from="1615292721036" duration="8322000" />
     </task>
     <servers />
   </component>
