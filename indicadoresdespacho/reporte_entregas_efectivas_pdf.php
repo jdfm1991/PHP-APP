@@ -2,7 +2,6 @@
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
 require_once("../acceso/const.php");
-require_once("../acceso/funciones.php");
 
 require_once ('../public/fpdf/fpdf.php');
 require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' ); 
@@ -47,81 +46,6 @@ function addWidthInArray($num){
     $GLOBALS['width'][$GLOBALS['j']] = $num;
     $GLOBALS['j'] = $GLOBALS['j'] + 1;
     return $num;
-}
-
-function graficar($contar, $contarf,$promedio,$nombreGrafico = NULL,$ubicacionTamamo = array(),$titulo = NULL, $pdf){
-    $valorMasAlto = 0;
-    foreach($contar as $item)
-        if ($item > $valorMasAlto) {$valorMasAlto = $item;}
-
-    $valuesPar = $valuesImpar = Array();
-    for($m=0; $m <= $valorMasAlto+5; $m+=5)
-        if ($m%2==0){$valuesPar[] = $m;}
-        else{$valuesImpar[] = $m;}
-
-    // Create the graph. These two calls are always required 
-    $graph = new Graph ( 850 , 850 , 'auto' ); 
-    $graph->SetScale("textlin");
-
-    $graph->SetMargin(50 , 30 , 40 , 100);
-
-    $graph->yaxis->SetTickPositions($valuesPar, $valuesImpar);
-    $graph->SetBox(false); 
-    $graph->yaxis->title->SetFont(FF_VERDANA, FS_NORMAL); 
-    $graph->xaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
-    $graph->xaxis->title->Set("Fecha","left");
-    $graph->yaxis->title->Set("Cantidad Pedidos entregados","middle");
-    $graph->xaxis->SetTitleMargin(25);
-    $graph->yaxis->SetTitleMargin(35);
-
-
-    $graph->ygrid->SetFill(false);
-    $graph->yaxis->HideLine(false); 
-    $graph->yaxis->HideTicks(false , false); 
-    // Setup month as labels on the X-axis 
-    $graph->xaxis->SetTickLabels($contarf); 
-
-    // Create the bar plots 
-    $b1plot = new BarPlot($contar); 
-    $b1plot->value->show();
-    $lplot = new LinePlot($promedio); 
-
-    // ...and add it to the graPH 
-    $graph->Add($b1plot); 
-    $graph->Add($lplot);
-
-    $b1plot->value->Show();
-    $b1plot->value->SetColor("black","darkred");
-    $b1plot->value->SetFormat('%1d');
-    $b1plot->SetColor("white"); 
-    $b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION); 
-    $b1plot->SetWidth(25);  
-    $b1plot->SetLegend("Cantidad Pedidos entregados");
-
-    $lplot->SetBarCenter(); 
-    $lplot->SetColor("red"); 
-    $lplot->SetLegend("Promedio ".$promedio[0]); 
-    $lplot->mark->SetWidth(15); 
-    $lplot->mark->setColor("red"); 
-    $lplot->mark->setFillColor("red"); 
-
-    $graph->legend->SetFrameWeight(1); 
-    $graph->legend->SetColumns(6);
-    $graph->legend->Pos(0.2, 0.03);
-    $graph->legend->SetColor('#4E4E4E' , '#00A78A'); 
-
-    $graph->title->Set($titulo);
-
-    // Display the graph 
-    $x = $ubicacionTamamo[0];
-     $y = $ubicacionTamamo[1]; 
-     $ancho = $ubicacionTamamo[2];  
-     $altura = $ubicacionTamamo[3];  
-       
-    // Display the graph 
-    $graph->Stroke("entrega_efectiva.png"); 
-    $pdf->Image("entrega_efectiva.png",$x,$y,$ancho,$altura); 
-    unlink("entrega_efectiva.png");
 }
 
 class PDF extends FPDF
@@ -206,13 +130,13 @@ foreach ($query as $item)
 
 foreach ($query as $key => $item)
 {
-    $ordenes_despacho_string .= ($item['correlativo'] . "(" . Funciones::addCero($item['cant_documentos']) . "), ");
+    $ordenes_despacho_string .= ($item['correlativo'] . "(" . Strings::addCero($item['cant_documentos']) . "), ");
 
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
     if ($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P'
-        and $item['fecha_entre'] != null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])
+        and $item['fecha_entre'] != null or Dates::check_in_range($fechai, $fechaf, $item['fecha_entre'])
     ) {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
@@ -227,7 +151,7 @@ foreach ($query as $key => $item)
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $ordenes_despacho[] = $item['correlativo'];
-            $nombre_mes[] = Funciones::convertir(date_format(date_create($item['fecha_entre']), 'm'), true);
+            $nombre_mes[] = Dates::month_name(date_format(date_create($item['fecha_entre']), 'm'), true);
 
         }
     }
@@ -369,14 +293,86 @@ if(count(explode(",", $ordenes_despacho_string)) > 300) {
     for($d=0;$d<count($ordenes_despacho);$d++)
         $promedio_despacho[] = number_format($promedio_diario_despacho,0);
 
+
     /************************************* */
     /**             GRAFICO               **/
     /************************************* */
     $pdf->AddPage('L', $documentsize);
     $y = $pdf->GetY();
     $x = $pdf->GetX();
-    graficar($cant_documentos, $tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes, $promedio_despacho,'Indicadores de Despacho',array(20,$y,320,170),'', $pdf);
 
+    $valorMasAlto = 0;
+    foreach($cant_documentos as $item)
+        if ($item > $valorMasAlto) {$valorMasAlto = $item;}
+
+    $valuesPar = $valuesImpar = Array();
+    for($m=0; $m <= $valorMasAlto+5; $m+=5)
+        if ($m%2==0){$valuesPar[] = $m;}
+        else{$valuesImpar[] = $m;}
+
+    // Create the graph. These two calls are always required
+    $graph = new Graph ( 850 , 850 , 'auto' );
+    $graph->SetScale("textlin");
+
+    $graph->SetMargin(50 , 30 , 40 , 100);
+
+    $graph->yaxis->SetTickPositions($valuesPar, $valuesImpar);
+    $graph->SetBox(false);
+    $graph->yaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
+    $graph->xaxis->title->SetFont(FF_VERDANA, FS_NORMAL);
+    $graph->xaxis->title->Set("Fecha","left");
+    $graph->yaxis->title->Set("Cantidad Pedidos entregados","middle");
+    $graph->xaxis->SetTitleMargin(25);
+    $graph->yaxis->SetTitleMargin(35);
+
+
+    $graph->ygrid->SetFill(false);
+    $graph->yaxis->HideLine(false);
+    $graph->yaxis->HideTicks(false , false);
+    // Setup month as labels on the X-axis
+    $graph->xaxis->SetTickLabels($tipoPeriodo!="Anual" ? $fecha_entrega : $nombre_mes);
+
+    // Create the bar plots
+    $b1plot = new BarPlot($cant_documentos);
+    $b1plot->value->show();
+    $lplot = new LinePlot($promedio_despacho);
+
+    // ...and add it to the graPH
+    $graph->Add($b1plot);
+    $graph->Add($lplot);
+
+    $b1plot->value->Show();
+    $b1plot->value->SetColor("black","darkred");
+    $b1plot->value->SetFormat('%1d');
+    $b1plot->SetColor("white");
+    $b1plot->SetFillGradient("#000066" , "white" , GRAD_LEFT_REFLECTION);
+    $b1plot->SetWidth(25);
+    $b1plot->SetLegend("Cantidad Pedidos entregados");
+
+    $lplot->SetBarCenter();
+    $lplot->SetColor("red");
+    $lplot->SetLegend("Promedio ".$promedio_despacho[0]);
+    $lplot->mark->SetWidth(15);
+    $lplot->mark->setColor("red");
+    $lplot->mark->setFillColor("red");
+
+    $graph->legend->SetFrameWeight(1);
+    $graph->legend->SetColumns(6);
+    $graph->legend->Pos(0.2, 0.03);
+    $graph->legend->SetPos(0.5,0.95,'center','bottom');
+    $graph->legend->SetColor('#4E4E4E' , '#00A78A');
+
+    $graph->title->Set('');
+
+    // Display the graph
+    $x = 20;
+    $ancho = 320;
+    $altura = 170;
+
+    // Display the graph
+    $graph->Stroke("entrega_efectiva.png");
+    $pdf->Image("entrega_efectiva.png",$x,$y,$ancho,$altura);
+    unlink("entrega_efectiva.png");
 
     $pdf->Output();
 }

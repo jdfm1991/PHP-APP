@@ -316,6 +316,7 @@ switch ($_GET["op"]) {
 
         break;
 
+
     case "listar_oportunidad_despacho":
         $tipoPeriodo = $_POST['tipoPeriodo'];
         $periodo   = $_POST['periodo'];

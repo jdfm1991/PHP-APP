@@ -1,7 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../acceso/conexion.php");
-require_once("../acceso/funciones.php");
 
 require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' );
 require_once ( '../public/jpgraph4.3.4/src/jpgraph_bar.php' );
@@ -138,13 +137,13 @@ foreach ($query as $item)
 
 foreach ($query as $key => $item)
 {
-    $ordenes_despacho_string .= ($item['correlativo'] . "(" . Funciones::addCero($item['cant_documentos']) . "),");
+    $ordenes_despacho_string .= ($item['correlativo'] . "(" . Strings::addCero($item['cant_documentos']) . "),");
 
     $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
     if ($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P'
-        and $item['fecha_entre'] != null or Funciones::check_in_range($fechai, $fechaf, $item['fecha_entre'])
+        and $item['fecha_entre'] != null or Dates::check_in_range($fechai, $fechaf, $item['fecha_entre'])
     ) {
         //consultamos si la de la iteracion actual tiene fecha igual a la insertada en la interacion anterior
         if(count($fecha_entrega)>0 and date_format(date_create($item['fecha_entre']), $formato_fecha) == $fecha_entrega[count($fecha_entrega)-1])
@@ -159,7 +158,7 @@ foreach ($query as $key => $item)
             $cant_documentos[] = intval($item['cant_documentos']);
             $porc[] = floatval($porcentaje);
             $ordenes_despacho[] = $item['correlativo'];
-            $nombre_mes[] = Funciones::convertir(date_format(date_create($item['fecha_entre']), 'm'), true);
+            $nombre_mes[] = Dates::month_name(date_format(date_create($item['fecha_entre']), 'm'), true);
 
         }
     }
@@ -446,6 +445,7 @@ $lplot->mark->setFillColor("red");
 $graph->legend->SetFrameWeight(1);
 $graph->legend->SetColumns(6);
 $graph->legend->Pos(0.2, 0.03);
+$graph->legend->SetPos(0.5,0.95,'center','bottom');
 $graph->legend->SetColor('#4E4E4E' , '#00A78A');
 
 $graph->title->Set('');

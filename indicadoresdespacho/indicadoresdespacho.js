@@ -168,24 +168,29 @@ function listar_periodos(){
     let tipoPeriodo = $("#"+pill+" #tipoPeriodo").val();
     let chofer_id = $("#"+pill+" #chofer").val();
 
-    $.post("indicadoresdespacho_controlador.php?op=listar_periodos&s="+indicador_seleccionado, 
-    {tipoPeriodo: tipoPeriodo, chofer_id: chofer_id}, 
-    function(data, status) {
-        data = JSON.parse(data);
+    $.ajax({
+        async: true,
+        cache: true,
+        url: "indicadoresdespacho_controlador.php?op=listar_periodos&s="+indicador_seleccionado,
+        method: "POST",
+        data: {tipoPeriodo: tipoPeriodo, chofer_id: chofer_id},
+        success: function (data) {
+            data = JSON.parse(data);
 
-        $('#'+pill+' #periodo').empty();
+            $('#'+pill+' #periodo').empty();
 
-        if(data.error) {
-            $('#'+pill+' #periodo').append('<option name="" value="">' + data.error + '</option>');
-        } 
-        else {
-            $('#'+pill+' #periodo').prop("disabled", false);
-            //lista de seleccion de periodos
-            $('#'+pill+' #periodo').append('<option name="" value="">Seleccione periodo</option>');
-            $.each(data, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $('#'+pill+' #periodo').append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
-            });
+            if(data.error) {
+                $('#'+pill+' #periodo').append('<option name="" value="">' + data.error + '</option>');
+            }
+            else {
+                $('#'+pill+' #periodo').prop("disabled", false);
+                //lista de seleccion de periodos
+                $('#'+pill+' #periodo').append('<option name="" value="">Seleccione periodo</option>');
+                $.each(data, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#'+pill+' #periodo').append('<option name="" value="' + opt.value +'">' + opt.label + '</option>');
+                });
+            }
         }
     });
 }

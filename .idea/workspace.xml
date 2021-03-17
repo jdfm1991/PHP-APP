@@ -21,10 +21,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Excel.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Pdf_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Pdf_helper.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +119,10 @@
       <workItem from="1614171092439" duration="20539000" />
       <workItem from="1614343383931" duration="55562000" />
       <workItem from="1614879838768" duration="32505000" />
-      <workItem from="1615292721036" duration="8322000" />
+      <workItem from="1615292721036" duration="8495000" />
+      <workItem from="1615379781554" duration="6952000" />
+      <workItem from="1615466630829" duration="8474000" />
+      <workItem from="1615821565257" duration="8660000" />
     </task>
     <servers />
   </component>
