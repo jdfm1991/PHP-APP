@@ -202,6 +202,7 @@ require_once("../acceso/const.php");
 
     </div>
     <?php require_once("../footer.php"); ?>
+    <script type="text/javascript" src="../helpers/js/Number.js"></script>
     <script type="text/javascript" src="despachos.js"></script>
 </body>
 </html>

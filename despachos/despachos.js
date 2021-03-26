@@ -60,13 +60,6 @@ function limpiar_campo_factura_modal() {
     $("#detalle_despacho").html("");
 }
 
-function agregarCeros(fact, cant_numbers = 6){
-    var cad_cero="";
-    for(var i=0;i<(cant_numbers-fact.length);i++)
-        cad_cero+=0;
-    return cad_cero+fact;
-}
-
 
 /*************************************************************************************************************/
 /*                                             VALIDACIONES                                                  */
@@ -201,7 +194,7 @@ function totales() {
 
 function buscarFacturaEnDespachos(nrofact){
     if (nrofact !== "") {
-        nrofact = agregarCeros(nrofact);
+        nrofact = addZeros(nrofact);
         $("#detalle_despacho").html("");
         $.post("despachos_controlador.php?op=buscar_facturaEnDespachos_modal", {nrfactb: nrofact}, function(data, status){
             data = JSON.parse(data);
@@ -396,7 +389,7 @@ $(document).on("click", ".anadir", function () {
 });
 
 function anadirFactPorDespachar() {
-    var factura = agregarCeros($("#factura").val());
+    var factura = addZeros($("#factura").val());
 
     validaciones = validarFacturaEnDespachos(factura) && validarPesoporFactura(factura) && validarExistenciaFactura(factura);
 

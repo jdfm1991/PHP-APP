@@ -14,7 +14,7 @@
     <!-- LOGO SUPERIOR MENU -->
     <a href="<?php echo SERVERURL; ?>principal.php" class="brand-link">
         <img src="<?php echo SERVERURL; ?>public/dist/img/AdminLTELogo.png " alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Logistica y Despacho</span>
+        <span class="brand-text font-weight-light">Logística y Despacho</span>
     </a>
     <!-- PERFIL DE USUARIO -->
     <div class="sidebar">
@@ -48,7 +48,7 @@
                         <li class="nav-item">
                             <a href="<?php echo SERVERURL; ?>relacionclientes/relacionclientes.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Relacion de Clientes</p>
+                                <p>Relación de Clientes</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -139,7 +139,7 @@
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Almacen<i class="right fas fa-angle-left"></i></p>
+                                <p>Almacén<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <!-- SUB MENU ALMACEN -->
                             <ul class="nav nav-treeview">
@@ -282,6 +282,29 @@
                             </li> -->
                             </ul>
                         </li>
+
+                        <!-- VENTAS -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ventas<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <!-- SUB MENU ALMACEN -->
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?php echo SERVERURL; ?>kpi/kpi.php" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>KPI</p>
+                                    </a>
+                                </li>
+                                <!--<li class="nav-item">
+                                    <a href="<?php /*echo SERVERURL; */?>facturassindespachar/facturassindespachar.php" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Facturas sin Despachar</p>
+                                    </a>
+                                </li>-->
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 
@@ -315,7 +338,7 @@
                             <a href="<?php echo SERVERURL; ?>vehiculos/vehiculos.php" class="nav-link">
 
                                 <i class="fas fa-truck nav-icon"></i>
-                                <p>Crear Vehiculo</p>
+                                <p>Crear Vehículo</p>
                             </a>
                         </li>
                     </ul>

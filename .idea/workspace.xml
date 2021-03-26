@@ -20,16 +20,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/helpers/js/Number.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi_pdf.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi_tabla.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/kpi_tabla.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Pdf_helper.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_oportunidad_despacho_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/despachos/despachos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/despachos/despachos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/js/Colors.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/js/Colors.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/menu_lateral.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +48,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -79,6 +85,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="sqlserver" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -90,6 +97,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\appweb\kpi" />
+      <recent name="C:\xampp\htdocs\appweb\kpi\tablas" />
       <recent name="C:\xampp\htdocs\appweb\helpers\php" />
     </key>
   </component>
@@ -122,7 +131,11 @@
       <workItem from="1615292721036" duration="8495000" />
       <workItem from="1615379781554" duration="6952000" />
       <workItem from="1615466630829" duration="8474000" />
-      <workItem from="1615821565257" duration="8660000" />
+      <workItem from="1615821565257" duration="9793000" />
+      <workItem from="1616070632665" duration="836000" />
+      <workItem from="1616074098491" duration="5543000" />
+      <workItem from="1616416371108" duration="8846000" />
+      <workItem from="1616677198880" duration="18306000" />
     </task>
     <servers />
   </component>
