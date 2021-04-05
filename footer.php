@@ -7,19 +7,28 @@
 	</div>
 </footer>
 <!-- ./wrapper -->
+<script src="<?php echo SERVERURL; ?>public/plugins/moment/moment.min.js"></script>
 <!-- jQuery -->
 <script src="<?php echo SERVERURL; ?>public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo SERVERURL; ?>public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo SERVERURL; ?>public/dist/js/adminlte.min.js"></script>
+<!-- DataTables -->
 <script src="<?php echo SERVERURL; ?>public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo SERVERURL; ?>public/plugins/datatables/jquery.columntoggle.js"></script>
 <script src="<?php echo SERVERURL; ?>public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="<?php echo SERVERURL; ?>public/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?php echo SERVERURL; ?>public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo SERVERURL; ?>public/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo SERVERURL; ?>public/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo SERVERURL; ?>public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
 <script src="<?php echo SERVERURL; ?>public/plugins/bootbox/bootbox.min.js"></script>
 <!-- sweetalert2 -->
 <script src="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- date-range-picker -->
+<script src="<?php echo SERVERURL; ?>public/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- dashboard3 -->
 <!--<script src="--><?php //echo SERVERURL; ?><!--public/dist/js/pages/dashboard3.js"></script>-->
 <script src="<?php echo SERVERURL; ?>public/plugins/select2/js/select2.full.min.js"></script>
@@ -33,6 +42,8 @@
 		$('.select2bs4').select2({
 			theme: 'bootstrap4'
 		})
+        //Date range picker
+        $('.daterangepicker').daterangepicker()
 	})
 
     //variable global utilizada para traducir los textos de datatables a lenguaje español

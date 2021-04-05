@@ -14,19 +14,21 @@ require_once("../acceso/const.php");
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="<?php echo SERVERURL; ?>public/dist/img/AdminLTELogo.png " alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                <img src="<?php echo SERVERURL; ?>public/dist/img/AdminLTELogo.png " alt="AdminLTE Logo"
+                     class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Logística y Despacho</span>
             </a>
 
-            <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Right navbar links -->
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                 <li class="nav-item">
-                    <a href="#" class="btn btn-primary">Cerrar Ventana</a>
+                    <input type="button" class="btn btn-primary" value="Cerrar Ventana" onClick="self.close();" onKeyPress="self.close();" />
                 </li>
             </ul>
         </div>
@@ -49,73 +51,101 @@ require_once("../acceso/const.php");
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
+
                 <div class="row mb-2">
-                    <div class="col-sm-2">
-                            <dt class="col-sm-4 text-gray">Desde:</dt>
-                            <dd class="col-sm-8 text-gray">01/01/2020</dd>
+                    <div class="col-sm-3 mt-4 form-check-inline">
+                        <dt class="col-sm-3 text-gray">Desde:</dt>
+                        <input type="text" class="form-control-sm col-8 text-center" id="fechai" value="<?php echo $_GET['fechai']; ?>" readonly>
                     </div><!-- /.col -->
-                    <div class="col-sm-2">
+                    <div class="col-sm-3 mt-4 form-check-inline">
                         <dt class="col-sm-4 text-gray">Hasta:</dt>
-                        <dd class="col-sm-8 text-gray">31/01/2020</dd>
+                        <input type="text" class="form-control-sm col-sm-8 text-center" id="fechaf" value="<?php echo $_GET['fechaf']; ?>" readonly>
                     </div><!-- /.col -->
-                    <div class="col-sm-3">
-                        <dt class="col-sm-4 text-gray">Días Habiles:</dt>
-                        <dd class="col-sm-8 text-gray">21</dd>
+                    <div class="col-sm-2 mt-4 form-check-inline">
+                        <dt class="col-sm-7 text-gray">Días Habiles:</dt>
+                        <input type="text" class="form-control-sm col-sm-5  text-center" id="d_habiles" value="<?php echo $_GET['d_habiles']; ?>" readonly>
                     </div><!-- /.col -->
-                    <div class="col-sm-3">
-                        <dt class="col-sm-4 text-gray">Días Transc:</dt>
-                        <dd class="col-sm-8 text-gray">15</dd>
+                    <div class="col-sm-2 mt-4 form-check-inline">
+                        <dt class="col-sm-7 text-gray">Días Transc:</dt>
+                        <input type="text" class="form-control-sm col-sm-5  text-center" id="d_trans" value="<?php echo $_GET['d_trans']; ?>" readonly>
                     </div><!-- /.col -->
-                </div><!-- /.row -->
+                </div>
+                <!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
 
         <!-- Main content -->
         <div class="content">
+            <!--            <div class="container">-->
+            <table id="tabla"
+                   class="table table-sm text-center table-condensed table-bordered table-striped table-responsive table-primary"
+                   style="width:100%;">
+                <thead style="color: white;">
+                <tr style="background-color: teal">
+                    <th class="small align-middle" colspan="1">Rutas</th>
+                    <th class="small align-middle" colspan="14" id="cabecera_activacion">Activaci&oacute;n</th>
+                    <th class="small align-middle" colspan="7">Efectividad</th>
+                    <th class="small align-middle" colspan="15" >Ventas</th>
+                </tr>
+                <tr>
+                    <th class="small align-middle">Rutas</th>
+                    <th class="small align-middle">Maestro</th>
+                    <th class="small align-middle">Clientes Activados</th>
+                    <div id="marcas"></div>
+                    <!--marcas-->
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">FLORESTAL</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">ST MORITZ</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">PEPSICO</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">LA PASTORENA</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">IBERIA</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">PUIG</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">GENICA</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">BARBANESA</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">COMETIN</div></th>
+                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">CHARLIZE</div></th>
+                    <!--marcas-->
+                    <th class="small align-middle">% Activación Alcanzado</th>
+                    <th class="small align-middle">Pendiente</th>
+                    <th class="small align-middle">Visita</th>
+                    <th class="small align-middle">Objetivo Facturas más Notas Mensual</th>
+                    <th class="small align-middle">Total Facturas Realizadas</th>
+                    <th class="small align-middle">Total Notas Realizadas</th>
+                    <th class="small align-middle">Devoluciones Realizadas (nt + fac)</th>
+                    <th class="small align-middle">Total Devoluciones Realizadas ($)</th>
+                    <th class="small align-middle">% Efectividad Alcanzada a la Fecha</th>
+                    <th class="small align-middle">Objetivo (Bulto)</th>
+                    <th class="small align-middle">Logro (Bulto)</th>
+                    <th class="small align-middle">%Alcanzado (Bulto)</th>
+                    <th class="small align-middle">Objetivo (Kg)</th>
+                    <th class="small align-middle">Logro (Kg)</th>
+                    <th class="small align-middle">%Alcanzado (Kg)</th>
+                    <th class="small align-middle">Real Drop Size ($)</th>
+                    <th class="small align-middle">Objetivo Total Ventas ($)</th>
+                    <th class="small align-middle">Total Logro Ventas en ($)</th>
+                    <th class="small align-middle">%Alcanzado ($)</th>
+                    <th class="small align-middle">Ventas PEPSICO ($)</th>
+                    <th class="small align-middle">% Venta PEPSICO</th>
+                    <th class="small align-middle">Ventas Complementaria ($)</th>
+                    <th class="small align-middle">% Venta Complementaria</th>
+                    <th class="small align-middle">Cobranza Rebajadas (Bs)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- TD TABLA LLEGAN POR AJAX -->
+                </tbody>
+            </table>
+
+
+            <hr>
+            <!--</div>-->
+            <!-- /.container-fluid -->
             <div class="container">
-                <table id="tabla" class="table table-sm text-center table-hover table-condensed table-bordered table-striped" style="width:100%;">
-                    <thead style="background-color: #17A2B8;color: white;">
-                    <tr>
-                        <th class="small align-middle">Rutas</th>
-                        <th class="small align-middle">Maestro</th>
-                        <th class="small align-middle">Clientes Activados</th>
-                        <!--marcas-->
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">FLORESTAL</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">ST MORITZ</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">PEPSICO</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">LA PASTORENA</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">IBERIA</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">PUIG</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">GENICA</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">BARBANESA</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">COMETIN</div></th>
-                        <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">CHARLIZE</div></th>
-                        <!--marcas-->
-                        <th class="small align-middle">% Activación Alcanzado</th>
-                        <th class="small align-middle">Pendiente</th>
-                        <th class="small align-middle">Visita</th>
-                        <th class="small align-middle">Objetivo Facturas más Notas Mensual</th>
-                        <th class="small align-middle">Total Facturas Realizadas</th>
-                        <th class="small align-middle">Total Notas Realizadas</th>
-                        <th class="small align-middle">Devoluciones Realizadas (nt + fac)</th>
-                        <th class="small align-middle">Total Devoluciones Realizadas ($)</th>
-                        <th class="small align-middle">Tiempo Promedio Estimado</th>
-                        <th class="small align-middle">%Oportunidad</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- TD TABLA LLEGAN POR AJAX -->
-                    </tbody>
-                </table>
-
-
-                <hr>
-
                 <a href="#" class="card-link" id="btn_excel">Exportar a Excel</a>
                 <a href="#" class="card-link" id="btn_pdf">Exportar a PDF</a>
-            </div><!-- /.container-fluid -->
+            </div>
         </div>
+
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

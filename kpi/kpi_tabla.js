@@ -1,5 +1,20 @@
 
 
+
+$(document).ready(function(){
+    $('table').columntoggle({
+        //Class of column toggle contains toggle link
+        toggleContainerClass:'columntoggle-container',
+        //Text in column toggle box
+        toggleLabel:'MOSTRAR/OCULTAR CELDAS: ',
+        //the prefix of key in localstorage
+        keyPrefix:'columntoggle-',
+        //keyname in localstorage, if empty, it will get from URL
+        key:''
+
+    });
+});
+
 function validarCantidadRegistrosTabla() {
     (tabla.rows().count() === 0)
         ? estado = true : estado = false;

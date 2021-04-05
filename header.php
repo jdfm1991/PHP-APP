@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/datatables/jquery.columntoggle.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/daterangepicker/daterangepicker.css">
   <!-- sweetalert2 -->
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/style_loader.css">

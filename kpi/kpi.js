@@ -57,7 +57,7 @@ $(document).on("click", "#btn_consultar", function () {
     let d_transcurridos = parseInt($("#d_transcurridos").val());
 
     if (!estado_vacio && fechai !== "" && fechaf !== "" && d_habiles > 1 &&  d_habiles > 0) {
-        window.open("kpi_tabla.php?&fechai="+fechai+"&fechaf="+fechaf+""+"&d_habiles="+d_habiles+"&d_transcurridos="+d_transcurridos, '_blank');
+        window.open("kpi_tabla.php?&fechai="+fechai+"&fechaf="+fechaf+""+"&d_habiles="+d_habiles+"&d_trans="+d_transcurridos, '_blank');
         limpiar();
         estado_vacio = true;
     } else {
