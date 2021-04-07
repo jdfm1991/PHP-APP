@@ -49,7 +49,7 @@ switch ($_GET["op"]) {
 
     case "listar_marcas":
 
-        $output["lista_marcas"] = $sellin->get_marcas();
+        $output["lista_marcas"] = Marcas::todos();
 
         echo json_encode($output);
         break;

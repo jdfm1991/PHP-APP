@@ -1,30 +1,29 @@
 <?php
 
 
-class CausasRechazos extends Conectar {
+class Marcas extends Conectar {
 
     public static function todos()
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, descripcion, color FROM M_rechazos";
+        $sql= "SELECT DISTINCT(marca) FROM saprod WHERE activo = '1' ORDER BY marca ASC";
 
-        $result = (new Conectar)->conexion()->prepare($sql);
+        $result = (new Conectar)->conexion2()->prepare($sql);
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getByNameOrId($key)
+    public static function getByName($key)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, descripcion, color FROM M_rechazos WHERE id=? OR descripcion=?";
+        $sql= "SELECT DISTINCT(marca) FROM saprod WHERE activo = '1' AND marca=?";
 
-        $result = (new Conectar)->conexion()->prepare($sql);
+        $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue(1,$key);
-        $result->bindValue(2,$key);
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
