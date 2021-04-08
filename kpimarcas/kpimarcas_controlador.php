@@ -7,14 +7,14 @@ require_once("../acceso/conexion.php");
 require_once("kpimarcas_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$kpiMarcas = new KpiMarcas();
+$kpiMarca = new KpiMarca();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
     case "listar_marcas":
         $marcas = Marcas::todos();
-        $kpi_marcas = array_map(function ($arr) { return $arr['descripcion']; }, $kpiMarcas->listar_kpiMarcas());
+        $kpi_marcas = array_map(function ($arr) { return $arr['descripcion']; }, KpiMarcas::todos());
 
         $arr = Array();
         foreach ($marcas as $m){
@@ -33,13 +33,13 @@ switch ($_GET["op"]) {
         $marcas = isset($_POST['marcas']) ? $_POST['marcas'] : array();
         $guardar = $eliminar = true;
 
-        if(count($kpiMarcas->listar_kpiMarcas()) > 0) {
-            $eliminar = $kpiMarcas->eliminar_kpiMarcas();
+        if(count(KpiMarcas::todos()) > 0) {
+            $eliminar = $kpiMarca->eliminar_kpiMarcas();
         }
 
         if (!empty($marcas) and $eliminar) {
             foreach ($marcas as $marca) {
-                $guardar = $kpiMarcas->registrar_kpiMarcas($marca);
+                $guardar = $kpiMarca->registrar_kpiMarcas($marca);
             }
         }
 

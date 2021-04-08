@@ -20,18 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Marcas.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/php/Numbers.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/KpiMarcas.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/CausasRechazos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/CausasRechazos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/menu_lateral.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sellin/sellin_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/sellin/sellin_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sellin/sellin_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/sellin/sellin_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpi/kpi_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimarcas/kpimarcas_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimarcas/kpimarcas_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +137,7 @@
       <workItem from="1616074098491" duration="5543000" />
       <workItem from="1616416371108" duration="8846000" />
       <workItem from="1616677198880" duration="47854000" />
-      <workItem from="1617717749862" duration="14398000" />
+      <workItem from="1617717749862" duration="25231000" />
     </task>
     <servers />
   </component>

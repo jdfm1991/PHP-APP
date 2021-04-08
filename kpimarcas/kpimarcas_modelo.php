@@ -2,22 +2,7 @@
 //LLAMAMOS A LA CONEXION.
 require_once("../acceso/conexion.php");
 
-class KpiMarcas extends Conectar{
-
-    public function listar_kpiMarcas()
-    {
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar = parent::conexion();
-        parent::set_names();
-
-        $sql = "SELECT id, descripcion, fechae FROM Kpi_marcas";
-
-        $sql = $conectar->prepare($sql);
-        $sql->execute();
-
-        return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
+class KpiMarca extends Conectar{
 
     public function registrar_kpiMarcas($marca)
     {
