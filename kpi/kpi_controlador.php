@@ -41,26 +41,37 @@ switch ($_GET["op"]) {
                         $ruta = $vend["ID3"];
                         $clientes         = $kpi->get_MaestroClientesPorRuta($ruta);
                         $clientes_activos = $kpi->get_ClientesActivosPorRuta($ruta, $fechai2, $fechaf2);
-                        $frecuencia       = $kpi->get_frecuenciaVisita($ruta);
+                        $activacionBultos = KpiHelpers::activacionBultosPorMarcasKpi($ruta, $marcasKpi, $fechai2, $fechaf2);
+                        $porc_activacion  = (count($clientes)!=0) ? Strings::rdecimal((count($clientes_activos)/count($clientes))*100) : 0;
+                        $frecuencia       = $kpi->get_frecuenciaVisita($ruta)[0];
+                        $frecuenciaVisita = KpiHelpers::frecuenciaVisita($frecuencia);
+                        $obj_documentos_mensual = KpiHelpers::objetivoFacturasMasNotasMensual(count($clientes), $d_habiles, $frecuencia);
+                        $facturas_realizadas    = $kpi->get_ventasFactura($ruta, $fechai2, $fechaf2);
+                        $notas_realizadas = $kpi->get_ventasNotas($ruta, $fechai2, $fechaf2);
                         $devolucionesFact = $kpi->get_devolucionesFactura($ruta, $fechai2, $fechaf2);
                         $devolucionesNota = $kpi->get_devolucionesNotas($ruta, $fechai2, $fechaf2);
-                        $montoendivisa_devoluciones_fact = $kpi->get_montoDivisasDevolucionesFactura($ruta, $fechai2, $fechaf2)[0]["MontoD"];
-                        $montoendivisa_devoluciones_nt   = $kpi->get_montoDivisasDevolucionesNotas($ruta, $fechai2, $fechaf2)[0]["MontoD"];
+                        $montoendivisa_devoluciones_fact = floatval($kpi->get_montoDivisasDevolucionesFactura($ruta, $fechai2, $fechaf2)[0]["MontoD"]);
+                        $montoendivisa_devoluciones_nt   = floatval($kpi->get_montoDivisasDevolucionesNotas($ruta, $fechai2, $fechaf2)[0]["MontoD"]);
+                        $efec_alcanzada_fecha = KpiHelpers::efectividadAlcanzadaAlaFecha($d_trans, $d_habiles, $obj_documentos_mensual, count($facturas_realizadas),count($notas_realizadas));
+                        $objetivo_bulto       = KpiHelpers::objetivoBulto($frecuencia);
+                        $logro_bulto          = KpiHelpers::logroPorTipo($ruta, $fechai2, $fechaf2, 'BUL');
 
 
                         $sub_array1 = array(
                             'ruta'            => $ruta,
                             'maestro'         => count($clientes),
                             'activos'         => count($clientes_activos),
-                            'marcas'          => KpiHelpers::activacionBultosPorMarcasKpi($ruta, $marcasKpi, $kpi, $fechai2, $fechaf2),
-                            'porc_activacion' => (count($clientes)!=0) ? Strings::rdecimal((count($clientes_activos)/count($clientes))*100) : 0,
+                            'marcas'          => $activacionBultos,
+                            'porc_activacion' => $porc_activacion,
                             'por_activar'     => count($clientes) - count($clientes_activos),
-                            'visita'          => KpiHelpers::frecuenciaVisita($frecuencia),
-                            'obj_documentos_mensual' => Strings::rdecimal(KpiHelpers::objetivoFacturasMasNotasMensual(count($clientes), $d_habiles, $frecuencia), 2),
-                            'facturas_realizadas'    => count($kpi->get_ventasFactura($ruta, $fechai2, $fechaf2)),
-                            'notas_realizadas'       => count($kpi->get_ventasNotas($ruta, $fechai2, $fechaf2)),
+                            'visita'          => $frecuenciaVisita,
+                            'obj_documentos_mensual' => Strings::rdecimal($obj_documentos_mensual, 2),
+                            'facturas_realizadas'    => count($facturas_realizadas),
+                            'notas_realizadas'       => count($notas_realizadas),
                             'devoluciones_realizadas'    => count($devolucionesFact) + count($devolucionesNota),
-                            'montoendivisa_devoluciones' => Strings::rdecimal(floatval($montoendivisa_devoluciones_fact) + floatval($montoendivisa_devoluciones_nt),2),
+                            'montoendivisa_devoluciones' => Strings::rdecimal($montoendivisa_devoluciones_fact+$montoendivisa_devoluciones_nt,2),
+                            'efec_alcanzada_fecha' => Strings::rdecimal($efec_alcanzada_fecha, 2),
+                            'objetivo_bulto'       => Strings::rdecimal($objetivo_bulto),
                         );
 
 

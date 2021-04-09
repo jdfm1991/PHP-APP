@@ -3,16 +3,16 @@
 
 class KpiHelpers
 {
-    public static function activacionBultosPorMarcasKpi($ruta, $marcasKpi, $kpi, $fechai, $fechaf) {
+    public static function activacionBultosPorMarcasKpi($ruta, $marcasKpi, $fechai, $fechaf) {
         $temp = array();
         foreach ($marcasKpi as $i => $marca)
-            $temp[$marca] = count($kpi->bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf));
+            $temp[$marca] = count(KpiMarcas::bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf));
 
         return $temp;
     }
 
     public static function frecuenciaVisita($frecuencia) {
-        $frecu_ot = isset($frecuencia) ? $frecuencia : 2;
+        $frecu_ot = (isset($frecuencia['Frecuencia']) and !empty($frecuencia['Frecuencia'])) ? $frecuencia['Frecuencia'] : 2;
 
         switch ($frecu_ot) {
             case 1:
@@ -48,5 +48,55 @@ class KpiHelpers
         }
 
         return ($frecu * $clientes);
+    }
+
+    public static function efectividadAlcanzadaAlaFecha($dias_trans, $dias_habiles, $obj_documentos_mensual, $facturas_realizadas, $notas_realizadas) {
+
+        $tmp = ( ($dias_trans/$dias_habiles) * $obj_documentos_mensual );
+
+        return ($tmp!=0) ? ( ($facturas_realizadas+$notas_realizadas) / $tmp )*100 : 0;
+    }
+
+    public static function objetivoBulto($frecuencia) {
+        $objetivo = (isset($frecuencia['ObjVentasBu']) and !empty($frecuencia['ObjVentasBu'])) ? $frecuencia['Frecuencia'] : 0;
+
+        return $objetivo;
+    }
+
+    public static function logroPorTipo($ruta, $fechai, $fechaf, $tipo) {
+        # considerar que:
+        #       a = factura
+        #       b = devolucion factura
+        #       c = nota
+        #       d = devolucion nota
+
+        switch ($tipo) {
+            case "KG":
+                $logro_kg_a = KpiLogro::Kg_fact($ruta, $fechai, $fechaf, 'A')[0]['kg'];
+                $logro_kg_b = KpiLogro::Kg_fact($ruta, $fechai, $fechaf, 'B')[0]['kg'] * (-1);
+                $logro_kg_c = KpiLogro::Kg_nota($ruta, $fechai, $fechaf, 'C')[0]['kg'];
+                $logro_kg_d = KpiLogro::Kg_nota($ruta, $fechai, $fechaf, 'D')[0]['kg'] * (-1);
+
+                $logrado = $logro_kg_a + $logro_kg_b + $logro_kg_c + $logro_kg_d;
+                break;
+            case "UNI":
+                $logro_unid_a = KpiLogro::Unid_fact($ruta, $fechai, $fechaf, 'A')[0]['paq'];
+                $logro_unid_b = KpiLogro::Unid_fact($ruta, $fechai, $fechaf, 'B')[0]['paq'] * (-1);
+                $logro_unid_c = KpiLogro::Unid_nota($ruta, $fechai, $fechaf, 'C')[0]['paq'];
+                $logro_unid_d = KpiLogro::Unid_nota($ruta, $fechai, $fechaf, 'D')[0]['paq'] * (-1);
+
+                $logrado = $logro_unid_a + $logro_unid_b + $logro_unid_c + $logro_unid_d;
+                break;
+            case "BUL":
+                $logro_bul_a = KpiLogro::Bul_fact($ruta, $fechai, $fechaf, 'A')[0]['bul'];
+                $logro_bul_b = KpiLogro::Bul_fact($ruta, $fechai, $fechaf, 'B')[0]['bul'] * (-1);
+                $logro_bul_c = KpiLogro::Bul_nota($ruta, $fechai, $fechaf, 'C')[0]['bul'];
+                $logro_bul_d = KpiLogro::Bul_nota($ruta, $fechai, $fechaf, 'D')[0]['bul'] * (-1);
+
+                $logrado = $logro_bul_a + $logro_bul_b + $logro_bul_c + $logro_bul_d;
+                break;
+        }
+
+        return ($logrado!=0) ? $logrado : 0;
     }
 }
