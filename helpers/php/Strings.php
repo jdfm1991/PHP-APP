@@ -11,7 +11,7 @@ class Strings {
 
     public static function rdecimal($number, $precision = 1, $separator = '.', $separatorDecimal = ',') {
         $numberParts = explode($separator, $number);
-        $response = number_format($numberParts[0], 0, ",", ".");
+        $response = number_format(floatval($numberParts[0]), 0, ",", ".");
         if (count($numberParts) > 1) {
             $response .= $separatorDecimal;
             $response .= substr(

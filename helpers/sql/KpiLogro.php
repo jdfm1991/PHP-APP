@@ -9,9 +9,9 @@ class KpiLogro extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select sum(CASE saitemfac.Esunid WHEN 1 then (cantidad/cantempaq)*saprod.tara ELSE cantidad*saprod.tara END) AS kg
-			 from saitemfac inner join saprod on saitemfac.coditem = saprod.codprod where 
-			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) between ? and ? and codvend = ? and (tipofac = ?)";
+        $sql= "SELECT SUM(CASE saitemfac.Esunid WHEN 1 THEN (cantidad/cantempaq)*saprod.tara ELSE cantidad*saprod.tara END) AS kg
+			 FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod WHERE 
+			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND codvend = ? AND (tipofac = ?)";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue($i+=1, $fechai);
@@ -28,9 +28,9 @@ class KpiLogro extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select sum(CASE saitemnota.esunidad WHEN 1 then (cantidad/cantempaq)*saprod.tara ELSE cantidad*saprod.tara END) AS kg
-			 from saitemnota inner join saprod on saitemnota.coditem = saprod.codprod where 
-			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) between ? and ? and codvend = ? and (tipofac = ?)";
+        $sql= "SELECT SUM(CASE saitemnota.esunidad WHEN 1 THEN (cantidad/cantempaq)*saprod.tara ELSE cantidad*saprod.tara END) AS kg
+			 FROM saitemnota INNER JOIN saprod ON saitemnota.coditem = saprod.codprod WHERE 
+			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) BETWEEN ? AND ? AND codvend = ? AND (tipofac = ?)";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue($i+=1, $fechai);
@@ -47,9 +47,9 @@ class KpiLogro extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select SUM((CASE saitemfac.Esunid WHEN 1 then cantidad ELSE cantidad*cantempaq END)) AS paq
-			 from saitemfac inner join saprod on saitemfac.coditem = saprod.codprod where 
-			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) between ? and ? and codvend = ? and (tipofac = ?)";
+        $sql= "SELECT SUM((CASE saitemfac.Esunid WHEN 1 THEN cantidad ELSE cantidad*cantempaq END)) AS paq
+			 FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod WHERE 
+			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND codvend = ? AND (tipofac = ?)";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue($i+=1, $fechai);
@@ -66,9 +66,9 @@ class KpiLogro extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select SUM((CASE saitemnota.esunidad WHEN 1 then cantidad ELSE cantidad*cantempaq END)) AS paq
-                from saitemnota inner join saprod on saitemnota.coditem = saprod.codprod where 
-                DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) between ? and ? and codvend = ? and (tipofac = ?)";
+        $sql= "SELECT SUM((CASE saitemnota.esunidad WHEN 1 THEN cantidad ELSE cantidad*cantempaq END)) AS paq
+                FROM saitemnota INNER JOIN saprod ON saitemnota.coditem = saprod.codprod WHERE 
+                DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) BETWEEN ? AND ? AND codvend = ? AND (tipofac = ?)";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue($i+=1, $fechai);
@@ -85,9 +85,9 @@ class KpiLogro extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select sum((CASE saitemfac.Esunid WHEN 1 then cantidad/cantempaq ELSE cantidad END)) AS bul
-			 from saitemfac inner join saprod on saitemfac.coditem = saprod.codprod where 
-			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) between ? and ? and codvend = ? and (tipofac = ?)";
+        $sql= "SELECT sum((CASE saitemfac.Esunid WHEN 1 THEN cantidad/cantempaq ELSE cantidad END)) AS bul
+			 FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod WHERE 
+			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND codvend = ? AND (tipofac = ?)";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue($i+=1, $fechai);
@@ -104,9 +104,9 @@ class KpiLogro extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select sum((CASE saitemnota.esunidad WHEN 1 then cantidad/cantempaq ELSE cantidad END)) AS bul
-			 from saitemnota inner join saprod on saitemnota.coditem = saprod.codprod where 
-			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) between ? and ? and codvend = ? and (tipofac = ?)";
+        $sql= "SELECT sum((CASE saitemnota.esunidad WHEN 1 THEN cantidad/cantempaq ELSE cantidad END)) AS bul
+			 FROM saitemnota INNER JOIN saprod ON saitemnota.coditem = saprod.codprod WHERE 
+			 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) BETWEEN ? AND ? AND codvend = ? AND (tipofac = ?)";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue($i+=1, $fechai);

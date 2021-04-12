@@ -1,5 +1,13 @@
 
+let colspanActivacion;
 
+//FUNCION QUE SE EJECUTA AL INICIO.
+function init() {
+    colspanActivacion = $('#cabecera_activacion').attr('colSpan');
+
+    listar_marcas();
+    listar_kpi();
+}
 
 $(document).ready(function(){
     $('table').columntoggle({
@@ -23,24 +31,66 @@ function validarCantidadRegistrosTabla() {
 }
 
 
-function listar_depositos_marcas(){
+function listar_kpi(){
 
-    // $.post("listadeprecio_controlador.php?op=listar_depositos_marcas", function(data){
-    //     data = JSON.parse(data);
-    //
-    //     $('#depo').append('<option name="" value="">Seleccione Almacen</option>');
-    //     $.each(data.lista_depositos, function(idx, opt) {
-    //         //se itera con each para llenar el select en la vista
-    //         $('#depo').append('<option name="" value="' + opt.codubi +'">'+ opt.codubi +': '+ opt.descrip.substr(0, 35) + '</option>');
-    //     });
-    //
-    //     $('#marca').append('<option name="" value="">Seleccione una Marca</option>').append('<option name="" value="-">TODAS</option>');
-    //     $.each(data.lista_marcas, function(idx, opt) {
-    //         $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
-    //     });
-    // });
+    let fechai    = $('#fechai').val();
+    let fechaf    = $('#fechaf').val();
+    let d_habiles = $('#d_habiles').val();
+    let d_trans   = $('#d_trans').val();
+
+    $.ajax({
+        url: "kpi_controlador.php?op=listar_kpi",
+        method: "POST",
+        data: {fechai: fechai, fechaf: fechaf, d_habiles: d_habiles, d_trans:d_trans},
+        beforeSend: function () {
+            // limpiar_grafico();
+            $("#loader").show(''); /*MOSTRAMOS EL LOADER.*/
+            $("#spinner").css('visibility', 'visible');
+        },
+        error: function (e) {
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            data = JSON.parse(data);
 
 
+        },
+        complete: function () {
+            $("#spinner").css('visibility', 'hidden');
+            $("#loader").hide();//OCULTAMOS EL LOADER.
+        }
+    });
+}
+
+function listar_marcas() {
+    $.ajax({
+        async: false,
+        url: "kpi_controlador.php?op=listar_marcaskpi",
+        type: "GET",
+        error: function (e) {
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+
+            if(!jQuery.isEmptyObject(data.lista_marcaskpi)){
+                $('#cabecera_activacion').attr('colSpan', (parseInt(colspanActivacion) + parseInt(data.lista_marcaskpi.length)) );
+
+                $.each(data.lista_marcaskpi, function(idx, opt) {
+                    $('table thead #cells').find('th:nth-child('+3+')').after(
+                        '<th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">' + opt + '</div></th>'
+                    );
+                });
+            }
+        }
+    });
+}
+
+function limpiar_grafico() {
+    if (barChart) {
+        barChart.clear();
+        barChart.destroy();
+    }
 }
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
@@ -70,3 +120,5 @@ $(document).on("click","#btn_pdf", function(){
     // var exis = sessionStorage.getItem("exis");
     // window.open("listadeprecio_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
 });
+
+init();

@@ -84,27 +84,14 @@ require_once("../acceso/const.php");
                 <thead style="color: white;">
                 <tr style="background-color: teal">
                     <th class="small align-middle" colspan="1">Rutas</th>
-                    <th class="small align-middle" colspan="14" id="cabecera_activacion">Activaci&oacute;n</th>
+                    <th class="small align-middle" colspan="4" id="cabecera_activacion">Activaci&oacute;n</th>
                     <th class="small align-middle" colspan="7">Efectividad</th>
                     <th class="small align-middle" colspan="15" >Ventas</th>
                 </tr>
-                <tr>
+                <tr id="cells">
                     <th class="small align-middle">Rutas</th>
                     <th class="small align-middle">Maestro</th>
                     <th class="small align-middle">Clientes Activados</th>
-                    <div id="marcas"></div>
-                    <!--marcas-->
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">FLORESTAL</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">ST MORITZ</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">PEPSICO</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">LA PASTORENA</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">IBERIA</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">PUIG</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">GENICA</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">BARBANESA</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">COMETIN</div></th>
-                    <th style="width: 20px;"><div class="small align-middle" style="width: 10px; word-wrap: break-word; text-align: center">CHARLIZE</div></th>
-                    <!--marcas-->
                     <th class="small align-middle">% Activación Alcanzado</th>
                     <th class="small align-middle">Pendiente</th>
                     <th class="small align-middle">Visita</th>

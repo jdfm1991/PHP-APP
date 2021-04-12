@@ -5,7 +5,7 @@ class KpiHelpers
 {
     public static function activacionBultosPorMarcasKpi($ruta, $marcasKpi, $fechai, $fechaf) {
         $temp = array();
-        foreach ($marcasKpi as $i => $marca)
+        foreach ($marcasKpi as $key => $marca)
             $temp[$marca] = count(KpiMarcas::bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf));
 
         return $temp;
@@ -57,8 +57,8 @@ class KpiHelpers
         return ($tmp!=0) ? ( ($facturas_realizadas+$notas_realizadas) / $tmp )*100 : 0;
     }
 
-    public static function objetivoBulto($frecuencia) {
-        $objetivo = (isset($frecuencia['ObjVentasBu']) and !empty($frecuencia['ObjVentasBu'])) ? $frecuencia['Frecuencia'] : 0;
+    public static function obtenerObjetivo($frecuencia, $nombreCampo) {
+        $objetivo = (isset($frecuencia[$nombreCampo]) and !empty($frecuencia[$nombreCampo])) ? $frecuencia[$nombreCampo] : 0;
 
         return $objetivo;
     }
@@ -69,6 +69,8 @@ class KpiHelpers
         #       b = devolucion factura
         #       c = nota
         #       d = devolucion nota
+
+        $logrado = 0;
 
         switch ($tipo) {
             case "KG":
