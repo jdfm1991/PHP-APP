@@ -2,7 +2,7 @@
 //LLAMAMOS A LA CONEXION.
 require_once("../acceso/conexion.php");
 
-class KpiMarca extends Conectar{
+class KpiMarcaModel extends Conectar{
 
     public function registrar_kpiMarcas($marca)
     {

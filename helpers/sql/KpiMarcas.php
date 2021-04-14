@@ -3,12 +3,13 @@
 
 class KpiMarcas extends Conectar {
 
-    public static function todos()
+    public static function todos($orden = 'ASC')
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, descripcion, fechae FROM Kpi_marcas";
+
+        $sql= "SELECT id, descripcion, fechae FROM Kpi_marcas ORDER BY id $orden";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->execute();

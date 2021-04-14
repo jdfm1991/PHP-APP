@@ -47,6 +47,7 @@ switch ($_GET["op"]) {
             $ttl_porc_alcanzado_kg          = 0;
             $ttl_objetivo_ventas_divisas    = 0;
             $ttl_logro_ventas_divisas       = 0;
+            $ttl_porc_ventas_divisas        = 0;
             $ttl_real_dz_dolares            = 0;
             $ttl_logro_ventas_divisas_pepsico        = 0;
             $ttl_porcentaje_ventas_divisas_pepsico   = 0;
@@ -83,6 +84,7 @@ switch ($_GET["op"]) {
                 $subttl_porc_alcanzado_kg          = 0;
                 $subttl_objetivo_ventas_divisas    = 0;
                 $subttl_logro_ventas_divisas       = 0;
+                $subttl_porc_ventas_divisas        = 0;
                 $subttl_real_dz_dolares            = 0;
                 $subttl_logro_ventas_divisas_pepsico        = 0;
                 $subttl_porcentaje_ventas_divisas_pepsico   = 0;
@@ -122,6 +124,7 @@ switch ($_GET["op"]) {
                         $ventas_divisas_fact  = $kpi->get_ventasDivisasFactura($ruta, $fechai2, $fechaf2)[0]["MontoD"];
                         $ventas_divisas_nt    = $kpi->get_ventasDivisasNotas($ruta, $fechai2, $fechaf2)[0]["MontoD"];
                         $logro_ventas_divisas = floatval($ventas_divisas_fact) + floatval($ventas_divisas_nt);
+                        $porc_ventas_divisas  = (($objetivo_ventas_divisas!=0) ? ($logro_ventas_divisas/$objetivo_ventas_divisas)*100 : 0) ?? 0;
                         $real_dz_dolares      = (($facturas_realizadas+$notas_realizadas) > 0) ? $logro_ventas_divisas/($facturas_realizadas+$notas_realizadas) : 0;
                         $ventas_divisas_pepsico_fact         = $kpi->get_ventasDivisasPepsicoFactura($ruta, $fechai2, $fechaf2)[0]["MontoD"];
                         $ventas_divisas_pepsico_nt           = $kpi->get_ventasDivisasPepsicoNotas($ruta, $fechai2, $fechaf2)[0]["MontoD"];
@@ -139,21 +142,22 @@ switch ($_GET["op"]) {
                         $subttl_clientes_activos                         += $clientes_activos;
                         $subttl_activacionBultos                         = $subttl_marcas->get_totalKpiMarcas();
                         $subttl_clientes_noactivos                       += $clientes_noactivos;
-                        $subttl_porc_activacion                          += $porc_activacion;
+                        $subttl_porc_activacion                          = ($subttl_clientes!=0) ? ($subttl_clientes_activos/$subttl_clientes) * 100 : 0;
                         $subttl_obj_documentos_mensual                   += $obj_documentos_mensual;
                         $subttl_facturas_realizadas                      += $facturas_realizadas;
                         $subttl_notas_realizadas                         += $notas_realizadas;
                         $subttl_devoluciones_realizadas                  += $devoluciones_realizadas;
                         $subttl_montoendivisa_devoluciones               += $montoendivisa_devoluciones;
-                        $subttl_efec_alcanzada_fecha                     += $efec_alcanzada_fecha;
+                        $subttl_efec_alcanzada_fecha                     = KpiHelpers::efectividadAlcanzadaAlaFecha($d_trans, $d_habiles, $subttl_obj_documentos_mensual, $subttl_facturas_realizadas, $subttl_notas_realizadas);
                         $subttl_objetivo_bulto                           += $objetivo_bulto;
                         $subttl_logro_bulto                              += $logro_bulto;
-                        $subttl_porc_alcanzado_bulto                     += $porc_alcanzado_bulto;
+                        $subttl_porc_alcanzado_bulto                     = (($subttl_objetivo_bulto!=0) ? ($subttl_logro_bulto/$subttl_objetivo_bulto)*100 : 0) ?? 0;
                         $subttl_objetivo_kg                              += $objetivo_kg;
                         $subttl_logro_kg                                 += $logro_kg;
-                        $subttl_porc_alcanzado_kg                        += $porc_alcanzado_kg;
+                        $subttl_porc_alcanzado_kg                        = (($subttl_objetivo_kg!=0) ? ($subttl_logro_kg/$subttl_objetivo_kg)*100 : 0) ?? 0;
                         $subttl_objetivo_ventas_divisas                  += $objetivo_ventas_divisas;
                         $subttl_logro_ventas_divisas                     += $logro_ventas_divisas;
+                        $subttl_porc_ventas_divisas                      = (($subttl_objetivo_ventas_divisas!=0) ? ($subttl_logro_ventas_divisas/$subttl_objetivo_ventas_divisas)*100 : 0) ?? 0;
                         $subttl_real_dz_dolares                          += $real_dz_dolares;
                         $subttl_logro_ventas_divisas_pepsico             += $logro_ventas_divisas_pepsico;
                         $subttl_porcentaje_ventas_divisas_pepsico        += $porcentaje_ventas_divisas_pepsico;
@@ -185,7 +189,7 @@ switch ($_GET["op"]) {
                             'drop_size_divisas'             => Strings::rdecimal($real_dz_dolares, 2),
                             'objetivo_ventas_divisas'       => Strings::rdecimal($objetivo_ventas_divisas, 2),
                             'logro_ventas_divisas'          => Strings::rdecimal($logro_ventas_divisas, 2),
-                            'porc_alcanzado_ventas_divisas' => Strings::rdecimal($porc_alcanzado_kg, 2),
+                            'porc_alcanzado_ventas_divisas' => Strings::rdecimal($porc_ventas_divisas, 2),
                             'logro_ventas_divisas_pepsico'                 => Strings::rdecimal($logro_ventas_divisas_pepsico, 2),
                             'porc_alcanzado_ventas_divisas_pepsico'        => Strings::rdecimal($porcentaje_ventas_divisas_pepsico, 2),
                             'logro_ventas_divisas_complementaria'          => Strings::rdecimal($logro_ventas_divisas_complementaria, 2),
@@ -202,30 +206,31 @@ switch ($_GET["op"]) {
                     $ttl_clientes_activos                         += $subttl_clientes_activos;
                     $ttl_activacionBultos                         = $ttl_marcas->get_totalKpiMarcas();
                     $ttl_clientes_noactivos                       += $subttl_clientes_noactivos;
-                    $ttl_porc_activacion                          += $subttl_porc_activacion;
+                    $ttl_porc_activacion                          = ($ttl_clientes!=0) ? ($ttl_clientes_activos/$ttl_clientes) * 100 : 0;;
                     $ttl_obj_documentos_mensual                   += $subttl_obj_documentos_mensual;
                     $ttl_facturas_realizadas                      += $subttl_facturas_realizadas;
                     $ttl_notas_realizadas                         += $subttl_notas_realizadas;
                     $ttl_devoluciones_realizadas                  += $subttl_devoluciones_realizadas;
                     $ttl_montoendivisa_devoluciones               += $subttl_montoendivisa_devoluciones;
-                    $ttl_efec_alcanzada_fecha                     += $subttl_efec_alcanzada_fecha;
+                    $ttl_efec_alcanzada_fecha                     = KpiHelpers::efectividadAlcanzadaAlaFecha($d_trans, $d_habiles, $ttl_obj_documentos_mensual, $ttl_facturas_realizadas, $ttl_notas_realizadas);
                     $ttl_objetivo_bulto                           += $subttl_objetivo_bulto;
                     $ttl_logro_bulto                              += $subttl_logro_bulto;
-                    $ttl_porc_alcanzado_bulto                     += $subttl_porc_alcanzado_bulto;
+                    $ttl_porc_alcanzado_bulto                     = (($ttl_objetivo_bulto!=0) ? ($ttl_logro_bulto/$ttl_objetivo_bulto)*100 : 0) ?? 0;
                     $ttl_objetivo_kg                              += $subttl_objetivo_kg;
                     $ttl_logro_kg                                 += $subttl_logro_kg;
-                    $ttl_porc_alcanzado_kg                        += $subttl_porc_alcanzado_kg;
+                    $ttl_porc_alcanzado_kg                        = (($ttl_objetivo_kg!=0) ? ($ttl_logro_kg/$ttl_objetivo_kg)*100 : 0) ?? 0;
                     $ttl_objetivo_ventas_divisas                  += $subttl_objetivo_ventas_divisas;
                     $ttl_logro_ventas_divisas                     += $subttl_logro_ventas_divisas;
+                    $ttl_porc_ventas_divisas                      = (($ttl_objetivo_ventas_divisas!=0) ? ($ttl_logro_ventas_divisas/$ttl_objetivo_ventas_divisas)*100 : 0) ?? 0;
                     $ttl_real_dz_dolares                          += $subttl_real_dz_dolares;
                     $ttl_logro_ventas_divisas_pepsico             += $subttl_logro_ventas_divisas_pepsico;
-                    $ttl_porcentaje_ventas_divisas_pepsico        += $subttl_porcentaje_ventas_divisas_pepsico;
+                    $ttl_porcentaje_ventas_divisas_pepsico        += $subttl_porcentaje_ventas_divisas_pepsico/count($vendedores);
                     $ttl_logro_ventas_divisas_complementaria      += $subttl_logro_ventas_divisas_complementaria;
-                    $ttl_porcentaje_ventas_divisas_complementaria += $subttl_porcentaje_ventas_divisas_complementaria;
+                    $ttl_porcentaje_ventas_divisas_complementaria += $subttl_porcentaje_ventas_divisas_complementaria/count($vendedores);
                     $ttl_cobranzasRebajadas                       += $subttl_cobranzasRebajadas;
 
                     $subtotal = array(
-                        'ruta'            => "",
+                        'ruta'            => "SUBTOTAL",
                         'maestro'         => $subttl_clientes,
                         'activos'         => $subttl_clientes_activos,
                         'marcas'          => $subttl_activacionBultos,
@@ -249,9 +254,9 @@ switch ($_GET["op"]) {
                         'logro_ventas_divisas'          => Strings::rdecimal($subttl_logro_ventas_divisas, 2),
                         'porc_alcanzado_ventas_divisas' => Strings::rdecimal($subttl_porc_alcanzado_kg, 2),
                         'logro_ventas_divisas_pepsico'                 => Strings::rdecimal($subttl_logro_ventas_divisas_pepsico, 2),
-                        'porc_alcanzado_ventas_divisas_pepsico'        => Strings::rdecimal($subttl_porcentaje_ventas_divisas_pepsico, 2),
+                        'porc_alcanzado_ventas_divisas_pepsico'        => Strings::rdecimal($subttl_porcentaje_ventas_divisas_pepsico/count($vendedores), 2),
                         'logro_ventas_divisas_complementaria'          => Strings::rdecimal($subttl_logro_ventas_divisas_complementaria, 2),
-                        'porc_alcanzado_ventas_divisas_complementaria' => Strings::rdecimal($subttl_porcentaje_ventas_divisas_complementaria, 2),
+                        'porc_alcanzado_ventas_divisas_complementaria' => Strings::rdecimal($subttl_porcentaje_ventas_divisas_complementaria/count($vendedores), 2),
                         'cobranzas_rebajadas'                          => Strings::rdecimal($subttl_cobranzasRebajadas, 2),
                     );
 
@@ -261,7 +266,7 @@ switch ($_GET["op"]) {
             }
 
             $total_general = array(
-                'ruta'            => "",
+                'ruta'            => "TOTAL GENERAL",
                 'maestro'         => $ttl_clientes,
                 'activos'         => $ttl_clientes_activos,
                 'marcas'          => $ttl_activacionBultos,
@@ -285,16 +290,15 @@ switch ($_GET["op"]) {
                 'logro_ventas_divisas'          => Strings::rdecimal($ttl_logro_ventas_divisas, 2),
                 'porc_alcanzado_ventas_divisas' => Strings::rdecimal($ttl_porc_alcanzado_kg, 2),
                 'logro_ventas_divisas_pepsico'                 => Strings::rdecimal($ttl_logro_ventas_divisas_pepsico, 2),
-                'porc_alcanzado_ventas_divisas_pepsico'        => Strings::rdecimal($ttl_porcentaje_ventas_divisas_pepsico, 2),
+                'porc_alcanzado_ventas_divisas_pepsico'        => Strings::rdecimal($ttl_porcentaje_ventas_divisas_pepsico/count($coordinadores), 2),
                 'logro_ventas_divisas_complementaria'          => Strings::rdecimal($ttl_logro_ventas_divisas_complementaria, 2),
-                'porc_alcanzado_ventas_divisas_complementaria' => Strings::rdecimal($ttl_porcentaje_ventas_divisas_complementaria, 2),
+                'porc_alcanzado_ventas_divisas_complementaria' => Strings::rdecimal($ttl_porcentaje_ventas_divisas_complementaria/count($coordinadores), 2),
                 'cobranzas_rebajadas'                          => Strings::rdecimal($ttl_cobranzasRebajadas, 2),
             );
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
-            "cant_marcas"   => count($marcasKpi),
             "tabla"         => $data,
             "total_general" => $total_general,
         );
@@ -304,7 +308,7 @@ switch ($_GET["op"]) {
 
 
     case "listar_marcaskpi":
-        $output['lista_marcaskpi'] = array_map(function ($arr) { return $arr['descripcion']; }, KpiMarcas::todos());
+        $output['lista_marcaskpi'] = array_map(function ($arr) { return $arr['descripcion']; }, KpiMarcas::todos('DESC'));
 
         echo json_encode($output);
         break;

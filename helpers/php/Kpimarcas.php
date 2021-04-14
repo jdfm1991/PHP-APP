@@ -12,7 +12,10 @@ class Kpimarca
     public function __construct($marcasKpi)
     {
         foreach ($marcasKpi as $marca)
-            $this->arr[$marca] = 0;
+            $this->arr[] = array(
+                'marca' => $marca,
+                'valor' => 0,
+            );
 
         return $this->arr;
     }
@@ -25,8 +28,12 @@ class Kpimarca
 
     public function set_acumKpiMarcas ($marcasArr)
     {
-        foreach ($marcasArr as $marca => $value)
-            $this->arr[$marca] += $value;
+        $arr_temp = array_map(function ($arr) { return $arr['marca']; }, $this->get_totalKpiMarcas());
+
+        foreach ($marcasArr as $idx => $marca) {
+            $pos = array_search($marca['marca'], $arr_temp);
+            $this->arr[$pos]['valor'] += $marca['valor'];
+        }
     }
 
 }

@@ -6,7 +6,10 @@ class KpiHelpers
     public static function activacionBultosPorMarcasKpi($ruta, $marcasKpi, $fechai, $fechaf) {
         $temp = array();
         foreach ($marcasKpi as $key => $marca)
-            $temp[$marca] = count(KpiMarcas::bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf));
+            $temp[] = array(
+                'marca' => $marca,
+                'valor' => count(KpiMarcas::bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf))
+            );
 
         return $temp;
     }

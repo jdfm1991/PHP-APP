@@ -1,35 +1,26 @@
 
+let colspanRutas;
 let colspanActivacion;
+let colspanEfectividad;
+let colspanVentas;
+let colspanTotal;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    colspanActivacion = $('#cabecera_activacion').attr('colSpan');
+    colspanRutas       = $('#cabecera_rutas').attr('colSpan');
+    colspanActivacion  = $('#cabecera_activacion').attr('colSpan');
+    colspanEfectividad = $('#cabecera_efectividad').attr('colSpan');
+    colspanVentas      = $('#cabecera_ventas').attr('colSpan');
+
+    colspanTotal = colspanRutas + colspanActivacion + colspanEfectividad + colspanVentas;
 
     listar_marcas();
     listar_kpi();
 }
 
 $(document).ready(function(){
-    $('table').columntoggle({
-        //Class of column toggle contains toggle link
-        toggleContainerClass:'columntoggle-container',
-        //Text in column toggle box
-        toggleLabel:'MOSTRAR/OCULTAR CELDAS: ',
-        //the prefix of key in localstorage
-        keyPrefix:'columntoggle-',
-        //keyname in localstorage, if empty, it will get from URL
-        key:''
 
-    });
 });
-
-function validarCantidadRegistrosTabla() {
-    (tabla.rows().count() === 0)
-        ? estado = true : estado = false;
-    $('#btn_excel').attr("disabled", estado);
-    $('#btn_pdf').attr("disabled", estado);
-}
-
 
 function listar_kpi(){
 
@@ -42,22 +33,57 @@ function listar_kpi(){
         url: "kpi_controlador.php?op=listar_kpi",
         method: "POST",
         data: {fechai: fechai, fechaf: fechaf, d_habiles: d_habiles, d_trans:d_trans},
+        dataType: "json", // Formato de datos que se espera en la respuesta
         beforeSend: function () {
-            // limpiar_grafico();
-            $("#loader").show(''); /*MOSTRAMOS EL LOADER.*/
-            $("#spinner").css('visibility', 'visible');
+            swal.fire({
+                html: '<h5>Procesando información, espere...</h5>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onRender: function() {
+                    // there will only ever be one sweet alert open.
+                    $('.swal2-content').prepend(sweet_loader);
+                }
+            });
         },
         error: function (e) {
             console.log(e.responseText);
         },
-        success: function (data) {
-            data = JSON.parse(data);
+        success: function (datos) {
+            if(!jQuery.isEmptyObject(datos.tabla)){
+                $.each(datos.tabla, function(idx, opt) {
+                    let { coordinador, data, subtotal } = opt
 
+                    $('#tabla').append('<tr><td class="text-left" style="font-weight: bold" colspan="'+colspanTotal+'">' + coordinador.toUpperCase() + '</td></tr>');
 
+                    $.each(data, function(idx, opt) {
+                        $('#tabla').append(obtenerInfoTabla(opt));
+                    });
+
+                    $('#tabla').append(obtenerInfoTabla(subtotal, true, true));
+                });
+            }
+            $('#tabla').append('<tr><td colspan="'+colspanTotal+'">'+ "" +'</td></tr>');
+            $('#tabla').append(obtenerInfoTabla(datos.total_general, true, true));
         },
         complete: function () {
-            $("#spinner").css('visibility', 'hidden');
-            $("#loader").hide();//OCULTAMOS EL LOADER.
+            swal.fire({
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1000,
+                html: '<h5>Carga completa!</h5>'
+            });
+
+            $('table').columntoggle({
+                //Class of column toggle contains toggle link
+                toggleContainerClass:'columntoggle-container',
+                //Text in column toggle box
+                toggleLabel:'MOSTRAR/OCULTAR CELDAS: ',
+                //the prefix of key in localstorage
+                keyPrefix:'columntoggle-',
+                //keyname in localstorage, if empty, it will get from URL
+                key:''
+
+            });
         }
     });
 }
@@ -86,11 +112,71 @@ function listar_marcas() {
     });
 }
 
-function limpiar_grafico() {
-    if (barChart) {
-        barChart.clear();
-        barChart.destroy();
+function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
+    isBold  = negrita===true ? 'style="font-weight: bold"' : "";
+
+    let valuesMarcas = '';
+    opt.marcas.forEach( val => { valuesMarcas += '<td align="center" class="small align-middle" '+isBold+'>' + val.valor + '</td>' });
+
+    return  '<tr>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.ruta + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.maestro + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.activos + '</td>' +
+            valuesMarcas +
+            td_withprogress(opt.porc_activacion, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.por_activar + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.visita + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.obj_documentos_mensual + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.facturas_realizadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.notas_realizadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.devoluciones_realizadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.montoendivisa_devoluciones + '</td>' +
+            td_withprogress(opt.efec_alcanzada_fecha, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.objetivo_bulto + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.logro_bulto + '</td>' +
+            td_withprogress(opt.porc_alcanzado_bulto, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.objetivo_kg + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.logro_kg + '</td>' +
+            td_withprogress(opt.porc_alcanzado_kg, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.drop_size_divisas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.objetivo_ventas_divisas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.logro_ventas_divisas + '</td>' +
+            td_withprogress(opt.porc_alcanzado_ventas_divisas, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.logro_ventas_divisas_pepsico + '</td>' +
+            td_withprogress(opt.porc_alcanzado_ventas_divisas_pepsico, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.logro_ventas_divisas_complementaria + '</td>' +
+            td_withprogress(opt.porc_alcanzado_ventas_divisas_complementaria, isBold, colorFull) +
+            '<td align="center" class="small align-middle" '+isBold+'>' + opt.cobranzas_rebajadas + '</td>' +
+            '</tr>';
+}
+
+let td_withprogress = (valor, isBold, withCellColor) => {
+    if(withCellColor)
+        return '<td align="center" class="small align-middle '+semaforo(valor)+'" '+isBold+'>' + valor + ' %</td>'
+    return '<td align="center" class="small align-middle" '+isBold+'>' + obtenerProgress(valor) + '</td>'
+}
+
+function obtenerProgress(valor) {
+    valor = parseFloat(valor.replace('.','').replace(',','.'));
+    return '<span>'+valor+'%</span>' +
+        '<div class="progress progress-xs">' +
+                '<div class="progress-bar '+semaforo(valor)+'" style="width: '+valor+'%"></div>' +
+            '</div>'
+}
+
+function semaforo(valor) {
+    let bg;
+    if (!is_float(valor)) {
+        valor = parseFloat(valor.toString().replace('.','').replace(',','.'));
     }
+    if (valor > 80){
+        bg = "bg-success";
+    }else if (valor > 50 && valor <= 80){
+        bg = "bg-warning";
+    }else if (valor <= 50){
+        bg = "bg-danger";
+    }
+    return bg;
 }
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.

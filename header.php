@@ -17,6 +17,7 @@
   <!-- sweetalert2 -->
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/style_loader.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/color-palette.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/build/css/form_despacho.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -24,4 +25,6 @@
     <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo SERVERURL; ?>public/dist/css/adminlte.min.css">
+
+
 </head>

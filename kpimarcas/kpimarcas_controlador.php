@@ -7,7 +7,7 @@ require_once("../acceso/conexion.php");
 require_once("kpimarcas_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$kpiMarca = new KpiMarca();
+$kpiMarca = new KpiMarcaModel();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {

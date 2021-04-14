@@ -78,15 +78,13 @@ require_once("../acceso/const.php");
         <!-- Main content -->
         <div class="content">
             <!--            <div class="container">-->
-            <table id="tabla"
-                   class="table table-sm text-center table-condensed table-bordered table-striped table-responsive table-primary"
-                   style="width:100%;">
+            <table id="tabla" class="table table-sm text-center table-condensed table-bordered table-striped table-responsive table-primary" style="width:100%;">
                 <thead style="color: white;">
                 <tr style="background-color: teal">
-                    <th class="small align-middle" colspan="1">Rutas</th>
-                    <th class="small align-middle" colspan="4" id="cabecera_activacion">Activaci&oacute;n</th>
-                    <th class="small align-middle" colspan="7">Efectividad</th>
-                    <th class="small align-middle" colspan="15" >Ventas</th>
+                    <th class="small align-middle" colspan="1"  id="cabecera_rutas">Rutas</th>
+                    <th class="small align-middle" colspan="4"  id="cabecera_activacion">Activaci&oacute;n</th>
+                    <th class="small align-middle" colspan="7"  id="cabecera_efectividad">Efectividad</th>
+                    <th class="small align-middle" colspan="15" id="cabecera_ventas">Ventas</th>
                 </tr>
                 <tr id="cells">
                     <th class="small align-middle">Rutas</th>
@@ -118,11 +116,22 @@ require_once("../acceso/const.php");
                     <th class="small align-middle">Cobranza Rebajadas (Bs)</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody style="background-color: aliceblue">
                 <!-- TD TABLA LLEGAN POR AJAX -->
                 </tbody>
             </table>
 
+            <div class="row text-center">
+                <div class="col-sm-1">
+                    <div class="bg-success color-palette"><span>VERDE: 81 - 100% </span></div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="bg-warning color-palette"><span>AMARILLO: 51 - 80%</span></div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="bg-danger color-palette"><span>ROJO: 0 - 50% </span></div>
+                </div>
+            </div>
 
             <hr>
             <!--</div>-->
@@ -142,6 +151,8 @@ require_once("../acceso/const.php");
 
     <!-- Main Footer -->
     <?php require_once("../footer.php"); ?>
+    <script type="text/javascript" src="../helpers/js/Number.js"></script>
+
     <script type="text/javascript" src="kpi_tabla.js"></script>
 </div>
 <!-- ./wrapper -->

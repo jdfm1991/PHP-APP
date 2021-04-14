@@ -41,7 +41,7 @@
         var toggleStatusStorage = {
             save: function(el){
                 var hidelist = [];
-                $(el).find('thead > tr > th').each(function(index){
+                $(el).find('thead > #cells > th').each(function(index){
                     //column index start from 1
                     var columnindex = index + 1;
 
@@ -85,7 +85,7 @@
 
             //find table header to extract columns
             var toggleColumnHtml = [];
-            $(this).find('thead > tr > th').each(function(index){
+            $(this).find('thead > #cells > th').each(function(index){
 
                 //column index start from 1
                 var columnindex = index + 1;
