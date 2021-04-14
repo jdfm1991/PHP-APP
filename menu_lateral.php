@@ -297,6 +297,12 @@
                                         <p>KPI</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo SERVERURL; ?>kpimanager/kpimanager.php" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>KPI Manager's</p>
+                                    </a>
+                                </li>
                                 <!--<li class="nav-item">
                                     <a href="<?php /*echo SERVERURL; */?>facturassindespachar/facturassindespachar.php" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>

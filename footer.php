@@ -33,6 +33,7 @@
 <!--<script src="--><?php //echo SERVERURL; ?><!--public/dist/js/pages/dashboard3.js"></script>-->
 <script src="<?php echo SERVERURL; ?>public/plugins/select2/js/select2.full.min.js"></script>
 <!-- Page script -->
+<script type="text/javascript" src="<?php echo SERVERURL; ?>helpers/js/SweetAlerts.js"></script>
 <script>
 	$(function() {
 		//Initialize Select2 Elements
@@ -71,9 +72,6 @@
             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
         }
 	};
-
     // the loader html
     var sweet_loader = '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
-
-
 </script>

@@ -20,21 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/color-palette.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/js/SweetAlerts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/js/Number.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/js/Number.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Kpimarcas.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Kpimarcas.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/KpiMarcas.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/KpiMarcas.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_tabla.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpimarcas/kpimarcas_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpimarcas/kpimarcas_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/plugins/datatables/jquery.columntoggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/plugins/datatables/jquery.columntoggle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/plugins/sweetalert2/sweetalert2.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/plugins/sweetalert2/sweetalert2.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/menu_lateral.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +43,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="HTML File" />
         <option value="JavaScript File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -102,6 +97,7 @@
       <recent name="C:\xampp\htdocs\appweb\public\plugins\datatables" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\appweb\kpimanager" />
       <recent name="C:\xampp\htdocs\appweb\kpi" />
       <recent name="C:\xampp\htdocs\appweb\kpi\tablas" />
       <recent name="C:\xampp\htdocs\appweb\helpers\php" />
@@ -141,7 +137,7 @@
       <workItem from="1616074098491" duration="5543000" />
       <workItem from="1616416371108" duration="8846000" />
       <workItem from="1616677198880" duration="47854000" />
-      <workItem from="1617717749862" duration="80708000" />
+      <workItem from="1617717749862" duration="95548000" />
     </task>
     <servers />
   </component>

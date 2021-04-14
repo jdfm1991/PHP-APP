@@ -35,17 +35,10 @@ function listar_kpi(){
         data: {fechai: fechai, fechaf: fechaf, d_habiles: d_habiles, d_trans:d_trans},
         dataType: "json", // Formato de datos que se espera en la respuesta
         beforeSend: function () {
-            swal.fire({
-                html: '<h5>Procesando información, espere...</h5>',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onRender: function() {
-                    // there will only ever be one sweet alert open.
-                    $('.swal2-content').prepend(sweet_loader);
-                }
-            });
+            SweetAlertLoadingShow("Procesando información, espere...");
         },
         error: function (e) {
+            SweetAlertError(e.responseText.substring(0, 400) + "...", "Error!")
             console.log(e.responseText);
         },
         success: function (datos) {
@@ -66,12 +59,7 @@ function listar_kpi(){
             $('#tabla').append(obtenerInfoTabla(datos.total_general, true, true));
         },
         complete: function () {
-            swal.fire({
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 1000,
-                html: '<h5>Carga completa!</h5>'
-            });
+            SweetAlertSuccessLoading()
 
             $('table').columntoggle({
                 //Class of column toggle contains toggle link
