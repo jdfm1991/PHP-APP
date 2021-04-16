@@ -15,6 +15,7 @@ function SweetAlertSuccessLoading(message = "Carga completa!") {
     swal.fire({
         icon: 'success',
         showConfirmButton: false,
+        allowOutsideClick: false,
         timer: 1000,
         html: '<h5>'+ message +'</h5>'
     });
@@ -23,5 +24,25 @@ function SweetAlertSuccessLoading(message = "Carga completa!") {
 function SweetAlertLoadingClose() { swal.close() }
 
 function SweetAlertError(message = "",title = "Atención!", icon = "error") {
-    Swal.fire(title, message, icon);
+    Swal.fire({
+        title: title,
+        html: message.substring(0, 400) + "...",
+        icon: icon,
+        allowOutsideClick: false
+    });
+    return true;
+}
+
+function ToastSweetMenssage(icon = 'success', message = 'Proceso Exitoso!') {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    })
+    Toast.fire({
+        icon: icon,
+        title: message
+    })
 }

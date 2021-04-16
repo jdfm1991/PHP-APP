@@ -32,6 +32,11 @@
 <!-- dashboard3 -->
 <!--<script src="--><?php //echo SERVERURL; ?><!--public/dist/js/pages/dashboard3.js"></script>-->
 <script src="<?php echo SERVERURL; ?>public/plugins/select2/js/select2.full.min.js"></script>
+<!-- jquery-validation -->
+<script src="<?php echo SERVERURL; ?>public/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?php echo SERVERURL; ?>public/plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- InputMask -->
+<script src="<?php echo SERVERURL; ?>public/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 <!-- Page script -->
 <script type="text/javascript" src="<?php echo SERVERURL; ?>helpers/js/SweetAlerts.js"></script>
 <script>

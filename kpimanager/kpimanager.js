@@ -1,25 +1,79 @@
-var tabla;
+let tabla;
+
+let validator;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $("#spinner").css('visibility', 'hidden');
     listar();
 }
 
+$(document).ready(function () {
+    $.validator.setDefaults({
+        submitHandler: function () {
+            guardaryeditar();
+        }
+    });
+
+    $("#obj_ventas_divisas").inputmask('currency',{
+        "autoUnmask": true,
+        radixPoint:",",
+        groupSeparator: ".",
+        allowMinus: false,
+        prefix: '',
+        digits: 2,
+        digitsOptional: false,
+        rightAlign: true,
+        unmaskAsNumber: true
+    });
+
+    validaciones();
+});
+
 /*funcion para limpiar formulario de modal*/
 function limpiar() {
-    $("#cedula").val("");
-    $('#login').val("");
-    $('#nomper').val("");
-    $('#email').val("");
-    $('#clave').val("");
-    $('#rol').html("");
-    $('#estado').val("");
-    $('#id_usuario').val("");
+    validator.resetForm();
+    $('#supervisor').val("");
+    $("#ruta").val("");
+    $("#ruta").prop("disabled", true);
+    $('#obj_ventas_kg').val("0");
+    $('#nombre').val("");
+    $('#obj_ventas_bul').val("0");
+    $('#cedula').val("");
+    $('#obj_ventas_und').val("0");
+    $('#ubicacion').val("");
+    $('#drop_size').val("0");
+    $("#drop_size").prop("disabled", true);
+    $('#clase').html("");
+    $('#obj_clientes_captar').val("0");
+    $('#obj_especial').val("0");
+    $('#deposito').val("01");
+    $("#deposito").prop("disabled", true);
+    $('#logro_obj_especial').val("0");
+    $('#frecuencia').val("");
+    $('#tiempo_est_despacho').val("0");
+    $('#obj_ventas_divisas').val("0");
+    $('#obj_ava').val("");
+    $('#objetivo_kpi').html("");
+    $('#fotos_ava').val("");
+
+    if ($("#supervisor").hasClass('is-valid')) {
+        $('#supervisor').removeClass('is-valid');
+    }
+    if ($("#supervisor").hasClass('is-warning')) {
+        $("#supervisor").removeClass('is-warning')
+    }
+}
+
+function validarCantidadRegistrosTabla() {
+    (tabla.rows().count() === 0)
+        ? estado = true : estado = false;
+    $('#btn_excel').attr("disabled", estado);
+    $('#btn_pdf').attr("disabled", estado);
 }
 
 //function listar
 function listar() {
+    let isError = false;
     tabla = $('#tabla').dataTable({
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -33,14 +87,14 @@ function listar() {
                     SweetAlertLoadingShow();
                 },
                 error: function (e) {
-                    SweetAlertError(e.responseText.substring(0, 400) + "...", "Error!")
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
                 },
                 complete: function () {
-                    // validarCantidadRegistrosTabla();
+                    if(!isError) SweetAlertLoadingClose();
+                    validarCantidadRegistrosTabla();
                 }
             },
-
         "bDestroy": true,
         "responsive": true,
         "bInfo": true,
@@ -67,6 +121,7 @@ function cambiarEstado(id, est) {
                 method: "POST",
                 data: {id: id, est: est},
                 success: function (data) {
+                    SweetAlertSuccessLoading(data.mensaje);
                     $('#tabla').DataTable().ajax.reload();
                 }
             });
@@ -75,108 +130,235 @@ function cambiarEstado(id, est) {
 }
 
 function mostrar(edv) {
-
-    limpiar();
+    let isError = false;
     $('#kpimanagerModal').modal('show');
-    loading()
-    // $("#loader1").show('');
 
-    /*$.post("kpimanager_controlador.php?op=mostrar", {id_usuario: id_usuario}, function (data, status) {
-        data = JSON.parse(data);
+    $.ajax({
+        url: "kpimanager_controlador.php?op=mostrar",
+        type: "POST",
+        dataType: "json",
+        data: {edv: edv},
+        beforeSend: function () {
+            limpiar();
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
 
-        //lista de seleccion de roles
-        $('#rol').append('<option name="" value="">Seleccione un rol de usuario</option>');
-        $.each(data.lista_roles, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#rol').append('<option name="" value="' + opt.ID +'">' + opt.Descripcion.substr(0, 35) + '</option>');
-        });
+            $('#clase').append('<option name="" value="">SELECCIONE UNA OPCION</option>');
+            $.each(data.lista_clases_kpi, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#clase').append('<option name="" value="' + opt.clase +'">' + opt.clase.substr(0, 35) + '</option>');
+            });
 
-        $('#cedula').val(data.cedula);
-        $("#cedula").prop("disabled", true);
-        $('#login').val(data.login);
-        $("#login").prop("disabled", false);
-        $('#nomper').val(data.nomper);
-        $("#nomper").prop("disabled", false);
-        $('#email').val(data.email);
-        $('#clave').val(data.clave);
-        $('#rol').val(data.rol);
-        $('#estado').val(data.estado);
-        $('.modal-title').text("Editar Usuario");
-        $('#id_usuario').val(id_usuario);
+            $('#objetivo_kpi').append('<option name="" value="">SELECCIONE UNA OPCION</option>');
+            $.each(data.lista_obj_kpi, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#objetivo_kpi').append('<option name="" value="' + opt.id +'">' + opt.descripcion.substr(0, 35) + '</option>');
+            });
 
-        // $("#loader1").hide();
-    });*/
+            $('#supervisor').val(data.coordinador.toUpperCase());
+            $("#ruta").val(data.codvend);
+            $("#ruta").prop("disabled", true);
+            $('#obj_ventas_kg').val(data.obj_ventas_kg);
+            $('#nombre').val(data.nombre);
+            $('#obj_ventas_bul').val(data.obj_ventas_bul);
+            $('#cedula').val(data.cedula);
+            $('#obj_ventas_und').val(data.obj_ventas_und);
+            $('#ubicacion').val(data.ubicacion);
+            $('#drop_size').val(data.obj_dropsize);
+            $("#drop_size").prop("disabled", true);
+            $('#clase').val(data.clase);
+            $('#obj_clientes_captar').val(data.obj_captar_clientes);
+            $('#obj_especial').val(data.obj_especial);
+            $('#deposito').val(data.deposito);
+            $("#deposito").prop("disabled", true);
+            $('#logro_obj_especial').val(data.obj_logro_especial);
+            $('#frecuencia').val(data.frecuencia);
+            $('#tiempo_est_despacho').val(data.tiempo_estimado_despacho);
+            $('#obj_ventas_divisas').val(data.obj_ventas_divisas);
+            $('#obj_ava').val(data.ava);
+            $('#objetivo_kpi').val( (data.objetivo_kpi!=="0") ? data.objetivo_kpi : "" );
+            $('#fotos_ava').val(data.ava_fotos);
+
+            $("#supervisor").addClass(
+                ($("#supervisor").val().length > 0 ? 'is-valid' : 'is-warning')
+            );
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
+    });
 }
 
-function guardaryeditar(e) {
-
-    e.preventDefault(); //No se activará la acción predeterminada del evento
-    var formData = new FormData($("#usuario_form")[0]);
-
+function guardaryeditar() {
+    const formData = new FormData($("#edv_form")[0]);
     $.ajax({
         url: "kpimanager_controlador.php?op=guardar",
         type: "POST",
+        dataType: "json",
         data: formData,
         contentType: false,
         processData: false,
-        success: function (datos) {
-            console.log(datos);
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            })
-            Toast.fire({
-                icon: 'success',
-                title: 'Proceso Exitoso!'
-            })
-            $('#usuario_form')[0].reset();
-            $('#usuarioModal').modal('hide');
-            $('#usuario_data').DataTable().ajax.reload();
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            ToastSweetMenssage(data.icono, icono.mensaje);
+            $('#edv_form')[0].reset();
+            $('#kpimanagerModal').modal('hide');
+            $('#tabla').DataTable().ajax.reload();
             limpiar();
         }
     });
 }
 
-//ACCION AL PRECIONAR EL BOTON.
-$(document).on("click", "#btn_guardar", function () {
-
-    let form = $('#frm_kpimarcas').serialize();
-
-    $.ajax({
-        async: true,
-        url: "kpimarcas_controlador.php?op=guardar_kpiMarcas",
-        method: "POST",
-        data: form,
-        beforeSend: function () {
-            $("#spinner").css('visibility', 'visible'); //MOSTRAMOS EL LOADER.
+function validaciones() {
+    validator = $('#edv_form').validate({
+        rules: {
+            obj_ventas_kg: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            nombre: {
+                required: true,
+                minlength: 5
+            },
+            obj_ventas_bul: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            cedula: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            obj_ventas_und: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            ubicacion: {
+                required: true,
+                minlength: 5
+            },
+            clase: {
+                required: true,
+            },
+            obj_clientes_captar: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            obj_especial: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            logro_obj_especial: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            frecuencia: {
+                required: true,
+            },
+            tiempo_est_despacho: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            obj_ventas_divisas: {
+                required: true,
+                number: true,
+                min: 0,
+            },
+            objetivo_kpi: {
+                required: true,
+            },
         },
-        error: function (e) {
-            console.log(e.responseText);
-            Swal.fire('Atención!','ha ocurrido un error!','error');
+        messages: {
+            obj_ventas_kg: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            nombre: {
+                required: "Campo requerido",
+                minlength: "El Campo debe contener al menos 5 caracteres"
+            },
+            obj_ventas_bul: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            cedula: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            obj_ventas_und: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            ubicacion: {
+                required: "Campo requerido",
+                minlength: "el Campo debe contener al menos 5 caracteres"
+            },
+            clase: {
+                required: "Campo requerido",
+            },
+            obj_clientes_captar: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            obj_especial: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            logro_obj_especial: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            frecuencia: {
+                required: "Campo requerido",
+            },
+            tiempo_est_despacho: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            obj_ventas_divisas: {
+                required: "Campo requerido",
+                number: "Ingrese sólo valores numéricos",
+                min: "valor mínimo aceptable es 0"
+            },
+            objetivo_kpi: {
+                required: "Campo requerido",
+            }
         },
-        success: function (data) {
-            data = JSON.parse(data);
-
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: false,
-            })
-
-            if(!jQuery.isEmptyObject(data))
-                Toast.fire({icon: data.icono, title: data.mensaje})
-            else
-                Toast.fire({icon: 'error', title: 'Error al Guardar!'})
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
         },
-        complete: function () {
-            $("#spinner").css('visibility', 'hidden');
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
         }
     });
-});
+}
 
 init();

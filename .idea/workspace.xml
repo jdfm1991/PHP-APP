@@ -20,16 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/js/SweetAlerts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/menu_lateral.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/js/SweetAlerts.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/js/SweetAlerts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +89,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/plugins/datatables" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="Console" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -137,7 +137,8 @@
       <workItem from="1616074098491" duration="5543000" />
       <workItem from="1616416371108" duration="8846000" />
       <workItem from="1616677198880" duration="47854000" />
-      <workItem from="1617717749862" duration="95548000" />
+      <workItem from="1617717749862" duration="112701000" />
+      <workItem from="1618581303724" duration="10062000" />
     </task>
     <servers />
   </component>
@@ -155,5 +156,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
