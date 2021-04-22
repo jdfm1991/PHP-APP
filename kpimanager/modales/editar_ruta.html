@@ -24,13 +24,15 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="ruta">RUTA</label>
-                                <input type="text" class="form-control input-sm" maxlength="20" id="ruta" name="ruta" placeholder="Ruta" disabled>
+                                <input type="text" class="form-control input-sm bg-gray-light" maxlength="20" id="ruta" name="ruta" placeholder="Ruta" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="obj_ventas_kg">OBJ. VENTAS (KG)</label>
-                                <input type="text" class="form-control input-sm" maxlength="30" id="obj_ventas_kg" name="obj_ventas_kg" placeholder="Ingrese objetivo ventas (kg)">
+                                <label for="objetivo_kpi">TIPO DE OBJETIVO EN KPI</label>
+                                <select class="form-control custom-select" name="objetivo_kpi" id="objetivo_kpi" style="width: 100%;">
+                                    <!-- la lista se carga por ajax -->
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -71,10 +73,8 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="objetivo_kpi">TIPO DE OBJETIVO EN KPI</label>
-                                <select class="form-control custom-select" name="objetivo_kpi" id="objetivo_kpi" style="width: 100%;">
-                                    <!-- la lista se carga por ajax -->
-                                </select>
+                                <label for="obj_ventas_kg">OBJ. VENTAS (KG)</label>
+                                <input type="text" class="form-control input-sm" maxlength="30" id="obj_ventas_kg" name="obj_ventas_kg" placeholder="Ingrese objetivo ventas (kg)">
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="deposito">DEPOSITO</label>
-                                <input type="text" class="form-control input-sm" maxlength="100" id="deposito" name="deposito" placeholder="Ingrese deposito" value="01" disabled>
+                                <input type="text" class="form-control input-sm bg-gray-light" maxlength="100" id="deposito" name="deposito" placeholder="Ingrese deposito" value="01" readonly>
                             </div>
                         </div>
                         <div class="col-6">
@@ -152,7 +152,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="drop_size">OBJ. DROP SIZE</label>
-                                <input type="text" class="form-control input-sm" maxlength="100" id="drop_size" name="drop_size" placeholder="Ingrese objetivo drop size" disabled>
+                                <input type="text" class="form-control input-sm bg-gray-light" maxlength="100" id="drop_size" name="drop_size" placeholder="Ingrese objetivo drop size" readonly>
                             </div>
                         </div>
                     </div>

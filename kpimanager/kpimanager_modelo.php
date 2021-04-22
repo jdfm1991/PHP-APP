@@ -75,22 +75,6 @@ class KpiManager extends Conectar {
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function registrar_kpiMarcas($marca)
-    {
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar = parent::conexion();
-        parent::set_names();
-
-        $sql = "INSERT INTO Kpi_marcas (descripcion, fechae) VALUES (?,?)";
-
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $marca);
-        $sql->bindValue(2, date("d/m/Y h:i:s"));
-
-        return $sql->execute();
-    }
-
     public function editar_estado_edv($id, $estado){
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -105,4 +89,108 @@ class KpiManager extends Conectar {
         $sql->bindValue(2,$id);
         return $resultado = $sql->execute();
     }
+
+    function get_datos_edv_antesactualizar($edv) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT OBJCAPTAR, OBJESPECIAL, OBJLOGESPEC, OBJVENTASBS, OBJVENTASUN, OBJVENTASKG, OBJVENTASBU FROM savend_02 WHERE codvend = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $edv);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function actualizar_edv($values){
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar=parent::conexion2();
+        parent::set_names();
+
+        $sql="UPDATE savend SET CLASE = ?, Descrip = ? WHERE codvend = ?";
+
+        $sql=$conectar->prepare($sql);
+        $sql->bindValue(1, $values['clase']);
+        $sql->bindValue(2, $values['nombre']);
+        $sql->bindValue(3, $values['ruta']);
+        return $resultado = $sql->execute();
+    }
+
+    public function actualizar_edv_02($values) {
+        $i=0;
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar=parent::conexion2();
+        parent::set_names();
+
+        $sql="UPDATE savend_02 SET 
+                APENOM = ?, CEDULA = ?, coordinador = ?, FRECUENCIA = ?, AVA = ?, AVA_FOTOS = ?,
+                OBJCAPTAR = ?, OBJESPECIAL = ?, OBJLOGESPEC = ?, OBJVENTASBS = ?, Tiempo_Estimado_Despacho = ?,
+                UBICACION = ?, OBJVENTASUN = ?, OBJVENTASKG = ?, OBJVENTASBU = ?, Requerido_Bult_Und = ?
+                WHERE codvend = ?";
+
+        $sql=$conectar->prepare($sql);
+        $sql->bindValue($i+=1, $values['nombre']);
+        $sql->bindValue($i+=1, $values['cedula']);
+        $sql->bindValue($i+=1, $values['supervisor']);
+        $sql->bindValue($i+=1, $values['frecuencia']);
+        $sql->bindValue($i+=1, $values['obj_ava']);
+        $sql->bindValue($i+=1, $values['fotos_ava']);
+        $sql->bindValue($i+=1, $values['obj_clientes_captar']);
+        $sql->bindValue($i+=1, $values['obj_especial']);
+        $sql->bindValue($i+=1, $values['logro_obj_especial']);
+        $sql->bindValue($i+=1, $values['obj_ventas_divisas']);
+        $sql->bindValue($i+=1, $values['tiempo_est_despacho']);
+        $sql->bindValue($i+=1, $values['ubicacion']);
+        $sql->bindValue($i+=1, $values['obj_ventas_und']);
+        $sql->bindValue($i+=1, $values['obj_ventas_kg']);
+        $sql->bindValue($i+=1, $values['obj_ventas_bul']);
+        $sql->bindValue($i+=1, $values['objetivo_kpi']);
+        $sql->bindValue($i+=1, $values['ruta']);
+        return $resultado = $sql->execute();
+    }
+
+    public function insertar_historico_cambio_kpi($idusuario, $edv) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "INSERT INTO auaj.dbo.hist_cambio_kpi (usuario, fechah, ruta) VALUES (?, ?, ?)";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$idusuario);
+        $sql->bindValue(2,date("d/m/Y h:i:s"));
+        $sql->bindValue(3,$edv);
+        $resultado = $sql->execute();
+
+        return $resultado ? $conectar->lastInsertId() : -1;
+    }
+
+    public function insertar_cambio_historico_kpi($codigo, $campo, $antes, $despues) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "INSERT INTO auaj.dbo.cambio_hist_kpi (codig, campo, antes, despu) VALUES (?, ?, ?, ?)";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$codigo);
+        $sql->bindValue(2,$campo);
+        $sql->bindValue(3,$antes);
+        $sql->bindValue(4,$despues);
+        return $sql->execute();
+    }
+
 }

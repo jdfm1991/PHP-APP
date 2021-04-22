@@ -1,6 +1,5 @@
 <?php
 require_once("acceso/conexion.php");
-require_once("acceso/const.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,6 +25,9 @@ require_once("acceso/const.php");
         </div>
       </div>
       <section class="content">
+          <?php
+          print_r($_SESSION["nomper"]);
+          ?>
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-3 col-6">

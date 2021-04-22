@@ -52,6 +52,8 @@ class Usuarios extends Conectar
                     $_SESSION["email"] = $resultado['Email'];
                     $_SESSION["rol"] = $resultado['ID_Rol'];
 
+
+
                     header("Location:" . Conectar::ruta() . "principal.php");
                     exit();
                 } else {

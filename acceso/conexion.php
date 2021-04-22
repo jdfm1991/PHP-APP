@@ -3,10 +3,11 @@ date_default_timezone_set('America/Caracas');
 session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
 
-include_once "../helpers/php/index.php";
-include_once "../helpers/sql/index.php";
 include_once "const.php";
-
+if (!empty($_SESSION)) {
+    include_once "../helpers/php/index.php";
+    include_once "../helpers/sql/index.php";
+}
 
 class Conectar {
 

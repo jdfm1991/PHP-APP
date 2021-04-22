@@ -128,46 +128,92 @@ switch ($_GET["op"]) {
 
 
     case "guardar":
-        $escredito = $_POST["escredito"];
-        //eliminamos los puntos, y cambia la coma por punto
-        $limitecred = str_replace(".", "", str_replace(",", ".", $_POST["LimiteCred"]));
-        $diascred = $_POST["diascred"];
-        $estoleran = $_POST["estoleran"];
-        $diastole = $_POST["diasTole"];
-        $descto = str_replace(".", "", str_replace(",", ".", $_POST["descto"]));
-        $observacion = $_POST["observa"]; //saclie_ext
 
+        $hist_cambio_kpi = false;
+        $cambio_hist_kpi = false;
 
-        /*si ya existe entonces actualizamos el cliente*/
-        $saclie = $relacion->actualizar_cliente($codclie, $descrip, $descorder, $id3, $clase, $represent, $direc1, $direc2, $pais, $estado, $ciudad, $email, $telef, $movil, $activo, $codzona, $codvend, $tipocli, $tipopvp, $escredito, $limitecred, $diascred, $estoleran, $diastole, $descto);
+        $values = array(
+            'supervisor'          => $_POST["supervisor"],
+            'ruta'                => $_POST["ruta"],
+            'cedula'              => $_POST["cedula"],
+            'nombre'              => $_POST["nombre"],
+            'obj_ventas_kg'       => $_POST["obj_ventas_kg"],
+            'obj_ventas_und'      => $_POST["obj_ventas_und"],
+            'obj_ventas_bul'      => $_POST["obj_ventas_bul"],
+            'ubicacion'           => $_POST["ubicacion"],
+            'drop_size'           => $_POST["drop_size"],
+            'clase'               => $_POST["clase"],
+            'obj_clientes_captar' => $_POST["obj_clientes_captar"],
+            'obj_especial'        => $_POST["obj_especial"],
+            'deposito'            => $_POST["deposito"],
+            'logro_obj_especial'  => $_POST["logro_obj_especial"],
+            'frecuencia'          => $_POST["frecuencia"],
+            'tiempo_est_despacho' => $_POST["tiempo_est_despacho"],
+            'obj_ventas_divisas'  => str_replace(".", "", str_replace(",", ".", $_POST["obj_ventas_divisas"])),
+            'obj_ava'             => $_POST["obj_ava"],
+            'objetivo_kpi'        => $_POST["objetivo_kpi"],
+            'fotos_ava'           => $_POST["fotos_ava"],
+        );
 
-        //si actualizo bien los datos del cliente en saclie, continua con saclie_ext
-        if($saclie){
-            //evalua si existe un registro en la tabla saclie_ext, si existe actualizamos los datos, si no existe crea un nuevo registro.
-            $datos = $relacion->get_cliente_Ext_por_codigo($codclie);
+        # obtenemos los datos antes de actualizarlos para almacenarlos en un historico
+        $antesActualizar = $kpiManager->get_datos_edv_antesactualizar($values['ruta']);
 
-            if (is_array($datos) == true and count($datos) == 0) {
-                //no existe registro saclie_ext del cliente, lo inserta
-                $saclie_ext = $relacion->registrar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion);
-            } else {
-                //como existe un registro en la base de datos, lo Actualiza
-                $saclie_ext = $relacion->actualizar_cliente_ext($codclie, $municipio, $diasvisita, $ruc, $latitud, $longitud, $codnestle, $observacion);
+        # actualizamos los datos del EDV
+        $actualizarEdv    = $kpiManager->actualizar_edv($values);
+        $actualizarEdv_02 = $kpiManager->actualizar_edv_02($values);
+
+        # si la actualizacion fue existosa
+        if($actualizarEdv_02) {
+            $change = 0;
+
+            # creamos un array con el valor segun el campo para almarcenarlo en el historico
+            $array = array(
+                0 => $values['obj_clientes_captar'],
+                1 => $values['obj_especial'],
+                2 => $values['logro_obj_especial'],
+                3 => $values['obj_ventas_divisas'],
+                4 => $values['obj_ventas_und'],
+                5 => $values['obj_ventas_kg'],
+                6 => $values['obj_ventas_bul']
+            );
+
+            #verificamos logicamente cuales campos modificaron
+            for ($i=0; $i < count(array_keys($antesActualizar[0])); $i++) {
+                if($antesActualizar[0][array_keys($antesActualizar[0])[$i]] != $array[$i]) {
+                    $change++;
+                }
             }
-            //evalua si se actualizo o inserto bien los datos.
-            if(!$saclie_ext)
-                $output["mensaje"] = "Error al insertar o actualizar Saclie_ext $codclie";
+            if ($change > 0) {
+                # insertamos el dato de historico y obtenemos el codigo de insersion
+                print_r($_SESSION);
+                $hist_cambio_kpi = $kpiManager->insertar_historico_cambio_kpi($_SESSION['cedula'], $values['ruta']);
+                if ($hist_cambio_kpi != -1) {
+                    for($i=0; $i < count(array_keys($antesActualizar[0])); $i++) {
+                        if($antesActualizar[0][array_keys($antesActualizar)[$i]] != $array[$i]) {
+                            $antes   = $antesActualizar[0][array_keys($antesActualizar[0])[$i]];
+                            $despues = $array[$i];
+                            # insertamos el historico por campo
+                            $cambio_hist_kpi = $kpiManager->insertar_cambio_historico_kpi($hist_cambio_kpi, $i, $antes, $despues);
+                        }
+                    }
+                }
 
-        } else {
-            $output["mensaje"] = "Error al actualizar cliente";
+            }
         }
 
         //mensaje
-        if($saclie){
-            $output["mensaje"] = "Cliente $codclie Actualizado con Exito";
+        $output["icono"] = "error";
+        if ($actualizarEdv and $actualizarEdv_02 and ($hist_cambio_kpi and $cambio_hist_kpi)) {
+            $output["mensaje"] = 'Datos actualizados';
             $output["icono"] = "success";
+        } elseif (!$actualizarEdv) {
+            $output["mensaje"] = 'Error al actualizar datos';
+        } elseif (!$actualizarEdv_02) {
+            $output["mensaje"] = 'Error al actualizar clase';
+        } elseif (!$hist_cambio_kpi or !$cambio_hist_kpi) {
+            $output["mensaje"] = 'Error al insertar historico';
         } else {
-            //en caso de error mostrara uno de los mensajes asignados
-            $output["icono"] = "error";
+            $output["mensaje"] = 'Error al actualizar';
         }
 
         echo json_encode($output);

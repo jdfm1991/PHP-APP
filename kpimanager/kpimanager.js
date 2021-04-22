@@ -14,6 +14,10 @@ $(document).ready(function () {
         }
     });
 
+    $("#objetivo_kpi").change(() => {
+        tipo_objetivo_kpi($('#objetivo_kpi').val())
+    });
+
     $("#obj_ventas_divisas").inputmask('currency',{
         "autoUnmask": true,
         radixPoint:",",
@@ -34,7 +38,7 @@ function limpiar() {
     validator.resetForm();
     $('#supervisor').val("");
     $("#ruta").val("");
-    $("#ruta").prop("disabled", true);
+    $("#ruta").prop("readonly", true);
     $('#obj_ventas_kg').val("0");
     $('#nombre').val("");
     $('#obj_ventas_bul').val("0");
@@ -42,12 +46,12 @@ function limpiar() {
     $('#obj_ventas_und').val("0");
     $('#ubicacion').val("");
     $('#drop_size').val("0");
-    $("#drop_size").prop("disabled", true);
+    $("#drop_size").prop("readonly", true);
     $('#clase').html("");
     $('#obj_clientes_captar').val("0");
     $('#obj_especial').val("0");
     $('#deposito').val("01");
-    $("#deposito").prop("disabled", true);
+    $("#deposito").prop("readonly", true);
     $('#logro_obj_especial').val("0");
     $('#frecuencia').val("");
     $('#tiempo_est_despacho').val("0");
@@ -132,6 +136,7 @@ function cambiarEstado(id, est) {
 function mostrar(edv) {
     let isError = false;
     $('#kpimanagerModal').modal('show');
+    limpiar();
 
     $.ajax({
         url: "kpimanager_controlador.php?op=mostrar",
@@ -139,7 +144,6 @@ function mostrar(edv) {
         dataType: "json",
         data: {edv: edv},
         beforeSend: function () {
-            limpiar();
             SweetAlertLoadingShow();
         },
         error: function (e) {
@@ -162,7 +166,7 @@ function mostrar(edv) {
 
             $('#supervisor').val(data.coordinador.toUpperCase());
             $("#ruta").val(data.codvend);
-            $("#ruta").prop("disabled", true);
+            $("#ruta").prop("readonly", true);
             $('#obj_ventas_kg').val(data.obj_ventas_kg);
             $('#nombre').val(data.nombre);
             $('#obj_ventas_bul').val(data.obj_ventas_bul);
@@ -170,12 +174,12 @@ function mostrar(edv) {
             $('#obj_ventas_und').val(data.obj_ventas_und);
             $('#ubicacion').val(data.ubicacion);
             $('#drop_size').val(data.obj_dropsize);
-            $("#drop_size").prop("disabled", true);
+            $("#drop_size").prop("readonly", true);
             $('#clase').val(data.clase);
             $('#obj_clientes_captar').val(data.obj_captar_clientes);
             $('#obj_especial').val(data.obj_especial);
             $('#deposito').val(data.deposito);
-            $("#deposito").prop("disabled", true);
+            $("#deposito").prop("readonly", true);
             $('#logro_obj_especial').val(data.obj_logro_especial);
             $('#frecuencia').val(data.frecuencia);
             $('#tiempo_est_despacho').val(data.tiempo_estimado_despacho);
@@ -183,6 +187,8 @@ function mostrar(edv) {
             $('#obj_ava').val(data.ava);
             $('#objetivo_kpi').val( (data.objetivo_kpi!=="0") ? data.objetivo_kpi : "" );
             $('#fotos_ava').val(data.ava_fotos);
+
+            tipo_objetivo_kpi($('#objetivo_kpi').val());
 
             $("#supervisor").addClass(
                 ($("#supervisor").val().length > 0 ? 'is-valid' : 'is-warning')
@@ -208,13 +214,44 @@ function guardaryeditar() {
             console.log(e.responseText);
         },
         success: function (data) {
-            ToastSweetMenssage(data.icono, icono.mensaje);
+            let { icono, mensaje } = data
+            ToastSweetMenssage(icono, mensaje);
             $('#edv_form')[0].reset();
             $('#kpimanagerModal').modal('hide');
             $('#tabla').DataTable().ajax.reload();
             limpiar();
         }
     });
+}
+
+function tipo_objetivo_kpi(valor) {
+    $('#obj_ventas_kg').val('0');
+    $('#obj_ventas_bul').val('0');
+    $('#obj_ventas_und').val('0');
+
+    $('#obj_ventas_kg').prop("readonly", valor!=='1');
+    $('#obj_ventas_bul').prop("readonly", valor!=='2');
+    $('#obj_ventas_und').prop("readonly", valor!=='3');
+
+    if (valor!=='1' && !$("#obj_ventas_kg").hasClass('bg-gray-light')) {
+        $("#obj_ventas_kg").addClass('bg-gray-light');
+    } else {
+        $('#obj_ventas_kg').removeClass('bg-gray-light');
+    }
+
+    if (valor!=='2' && !$("#obj_ventas_bul").hasClass('bg-gray-light')) {
+        $("#obj_ventas_bul").addClass('bg-gray-light');
+    } else {
+        $('#obj_ventas_bul').removeClass('bg-gray-light');
+    }
+
+    if (valor!=='3' && !$("#obj_ventas_und").hasClass('bg-gray-light')) {
+        $("#obj_ventas_und").addClass('bg-gray-light');
+    } else {
+        $('#obj_ventas_und').removeClass('bg-gray-light');
+    }
+
+
 }
 
 function validaciones() {
@@ -275,7 +312,7 @@ function validaciones() {
                 min: 0,
             },
             obj_ventas_divisas: {
-                required: true,
+                // required: true,
                 number: true,
                 min: 0,
             },
@@ -339,7 +376,7 @@ function validaciones() {
                 min: "valor mínimo aceptable es 0"
             },
             obj_ventas_divisas: {
-                required: "Campo requerido",
+                // required: "Campo requerido",
                 number: "Ingrese sólo valores numéricos",
                 min: "valor mínimo aceptable es 0"
             },

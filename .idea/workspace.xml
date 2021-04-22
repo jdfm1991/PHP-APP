@@ -20,16 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/js/SweetAlerts.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/js/SweetAlerts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/principal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios/Usuarios_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios/Usuarios_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +136,7 @@
       <workItem from="1616416371108" duration="8846000" />
       <workItem from="1616677198880" duration="47854000" />
       <workItem from="1617717749862" duration="112701000" />
-      <workItem from="1618581303724" duration="10062000" />
+      <workItem from="1618581303724" duration="27643000" />
     </task>
     <servers />
   </component>
