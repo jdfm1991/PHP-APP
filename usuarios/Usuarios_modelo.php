@@ -46,13 +46,11 @@ class Usuarios extends Conectar
                 //si existe el registro entonces se conecta en session
                 if (is_array($resultado) and count($resultado) > 0) {
                     /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
-                    $_SESSION["cedula"] = $resultado['Cedula'];
-                    $_SESSION["login"] = $resultado['Login'];
-                    $_SESSION["nomper"] = $resultado['Nomper'];
-                    $_SESSION["email"] = $resultado['Email'];
-                    $_SESSION["rol"] = $resultado['ID_Rol'];
-
-
+                    $_SESSION["cedula"] = $resultado["Cedula"];
+                    $_SESSION["login"] = $resultado["Login"];
+                    $_SESSION["nomper"] = $resultado["Nomper"];
+                    $_SESSION["email"] = $resultado["Email"];
+                    $_SESSION["rol"] = $resultado["ID_Rol"];
 
                     header("Location:" . Conectar::ruta() . "principal.php");
                     exit();
