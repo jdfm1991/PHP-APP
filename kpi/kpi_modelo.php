@@ -45,7 +45,7 @@ class Kpi extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT codclie FROM saclie WHERE codvend = ? AND activo = '1'";
+        $sql = "SELECT descrip, codclie, direc1 AS direc, (SELECT DiasVisita FROM SACLIE_01 WHERE SACLIE_01.CodClie=SACLIE.CodClie) as dia_visita FROM saclie WHERE codvend = ? AND activo = '1'";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $ruta);
         $sql->execute();

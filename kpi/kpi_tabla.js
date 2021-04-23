@@ -61,7 +61,7 @@ function listar_kpi(){
         complete: function () {
             SweetAlertSuccessLoading()
 
-            $('table').columntoggle({
+            $('#tabla').columntoggle({
                 //Class of column toggle contains toggle link
                 toggleContainerClass:'columntoggle-container',
                 //Text in column toggle box
@@ -77,11 +77,13 @@ function listar_kpi(){
 }
 
 function listar_marcas() {
+    let isError = false;
     $.ajax({
         async: false,
         url: "kpi_controlador.php?op=listar_marcaskpi",
         type: "GET",
         error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
             console.log(e.responseText);
         },
         success: function (data) {
@@ -100,19 +102,111 @@ function listar_marcas() {
     });
 }
 
+function mostrarDetalleEdv(edv) {
+    let isError = false;
+    $('#detalleEdvModal').modal('show');
+
+    $.ajax({
+        url: "kpi_controlador.php?op=mostrar_detalle_edv",
+        type: "POST",
+        dataType: "json",
+        data: {edv: edv},
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+            $('#tabla_detalle_edv tbody').empty();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            $('#descrip_edv_title').html(data.edv);
+
+            $.each(data.detalle_edv, function(idx, opt) {
+                $('#tabla_detalle_edv').append(
+                    '<tr>' +
+                    '<td class="text-right" style="font-weight: bold; width: 30%">' + opt[0] + '</td>' +
+                    '<td class="text-left" style="font-weight: normal; width: 70%">' + opt[1] + '</td>' +
+                    '</tr>');
+            });
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
+    });
+}
+
+function mostrarListaClientes(edv, flag) {
+    let isError = false;
+    let typeModal;
+    let title;
+    $('#listaClientesModal').modal('show');
+
+    switch (flag) {
+        case 1:
+            typeModal = 'listar_maestro_clientes';
+            title = 'Maestro de Clientes';
+            break;
+        case 2:
+            typeModal = 'listar_clientes_activados';
+            title = 'Clientes Activados';
+            break;
+        case 3:
+            typeModal = 'listar_clientes_pendientes';
+            title = 'Clientes No Activados';
+            break;
+    }
+
+    $('#tipo_lista_clientes_title').html(title);
+    $('#descrip_lista_clientes_edv').html(edv);
+
+    $('#tabla_lista_clientes').dataTable({
+        "aProcessing": true,//Activamos el procesamiento del datatables
+        "aServerSide": true,//Paginación y filtrado realizados por el servidor
+        "ajax":
+            {
+                url: 'kpi_controlador.php?op='+typeModal,
+                type: "post",
+                dataType: "json",
+                data: {edv: edv},
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
+                error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                }
+            },
+        "bDestroy": true,
+        "responsive": true,
+        "bInfo": true,
+        "iDisplayLength": 10,//Por cada 10 registros hace una paginación
+        "order": [[0, "asc"]],//Ordenar (columna,orden)
+        "language": texto_español_datatables
+    }).DataTable();
+}
+
 function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
     isBold  = negrita===true ? 'style="font-weight: bold"' : "";
+
+    ruta = negrita===true ? opt.ruta : '<a data-toggle="modal" onclick="mostrarDetalleEdv(\''+opt.ruta+'\')" data-target="#detalleEdvModal" href="#">' +opt.ruta+ '</a>' ;
+    maestro = negrita===true ? opt.maestro : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 1)" data-target="#listaClientesModal" href="#">' +opt.maestro+ '</a>' ;
+    clientes_activados = negrita===true ? opt.activos : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 2)" data-target="#listaClientesModal" href="#">' +opt.activos+ '</a>' ;
+    clientes_pendientes = negrita===true ? opt.por_activar : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 3)" data-target="#listaClientesModal" href="#">' +opt.por_activar+ '</a>' ;
 
     let valuesMarcas = '';
     opt.marcas.forEach( val => { valuesMarcas += '<td align="center" class="small align-middle" '+isBold+'>' + val.valor + '</td>' });
 
     return  '<tr>' +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.ruta + '</td>' +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.maestro + '</td>' +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.activos + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + ruta + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + maestro + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + clientes_activados + '</td>' +
             valuesMarcas +
             td_withprogress(opt.porc_activacion, isBold, colorFull) +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.por_activar + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + clientes_pendientes + '</td>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.visita + '</td>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.obj_documentos_mensual + '</td>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.facturas_realizadas + '</td>' +

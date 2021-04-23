@@ -123,13 +123,13 @@ require_once("../acceso/const.php");
 
             <div class="row text-center">
                 <div class="col-sm-1">
-                    <div class="bg-success color-palette"><span>VERDE: 81 - 100% </span></div>
+                    <div class="bg-danger color-palette"><span>ROJO: 0 - 50% </span></div>
                 </div>
                 <div class="col-sm-1">
                     <div class="bg-warning color-palette"><span>AMARILLO: 51 - 80%</span></div>
                 </div>
                 <div class="col-sm-1">
-                    <div class="bg-danger color-palette"><span>ROJO: 0 - 50% </span></div>
+                    <div class="bg-success color-palette"><span>VERDE: 81 - 100% </span></div>
                 </div>
             </div>
 
@@ -146,8 +146,18 @@ require_once("../acceso/const.php");
     </div>
     <!-- /.content-wrapper -->
 
-    <!-- MODAL  DETALLE DE FACTURA -->
-    <?php //include 'modales/detalle_factura.html' ?>
+    <!-- MODAL  DETALLE DE EDV -->
+    <?php include 'modales/detalle_edv.html' ?>
+
+    <!-- MODAL  LISTA DE CLIENTES SEGUN SU OPCION A MOSTRAR (MAESTRO, CLIENTES ACTIVADOS, CLIENTES PENDIENTES) -->
+    <?php include 'modales/lista_clientes.html' ?>
+
+    <!-- MODAL  LISTA DETALLE DE CLIENTES Y PRODUCTOS POR EDV Y MARCA -->
+    <?php include 'modales/detalle_activacion_por_marca.html' ?>
+
+    <!-- MODAL  LISTA DETALLE DE DOCUMENTOS SEGUN OPCION A MOSTRAR (FACT REALIZADAS, NOTAS REALIZADAS, DEVOLUCIONES, COBRANZAS REBAJADAS) -->
+    <?php include 'modales/lista_documentos.html' ?>
+
 
     <!-- Main Footer -->
     <?php require_once("../footer.php"); ?>

@@ -14,7 +14,7 @@ class KpiManager extends Conectar {
         $condicion = ($edv!='-') ? 'WHERE U.CodVend = ?' : '';
 
         //QUERY
-        $sql = "SELECT S.Descrip, S.clase, S.activo, U.* FROM savend_02 AS U INNER JOIN savend AS S ON S.CodVend = U.CodVend $condicion";
+        $sql = "SELECT S.Descrip, S.clase, S.Telef, S.activo, U.* FROM savend_02 AS U INNER JOIN savend AS S ON S.CodVend = U.CodVend $condicion";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

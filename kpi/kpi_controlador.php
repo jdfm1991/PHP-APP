@@ -5,12 +5,20 @@ require_once("../acceso/conexion.php");
 
 //LLAMAMOS AL MODELO
 require_once("kpi_modelo.php");
+require_once("../kpimanager/kpimanager_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $kpi = new Kpi();
+$kpiManager = new KpiManager();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
+
+    case "listar_marcaskpi":
+        $output['lista_marcaskpi'] = array_map(function ($arr) { return $arr['descripcion']; }, KpiMarcas::todos('DESC'));
+
+        echo json_encode($output);
+        break;
 
     case "listar_kpi":
         $fechai     = $_POST['fechai'];
@@ -306,10 +314,116 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case 'mostrar_detalle_edv':
+        $edv = $_POST['edv'];
+        $datos = $kpiManager->get_datos_edv($edv)[0];
 
-    case "listar_marcaskpi":
-        $output['lista_marcaskpi'] = array_map(function ($arr) { return $arr['descripcion']; }, KpiMarcas::todos('DESC'));
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        if (is_array($datos) == true and count($datos) > 0) {
+            $obj_kpi = $kpiManager->get_objetivos_kpi();
+
+            $data[] = array("Nombre y Apellido", $datos["Descrip"]);
+            $data[] = array("Cédula Identidad",  $datos["cedula"]);
+            $data[] = array("Teléfono",          $datos["Telef"]);
+            $data[] = array("Ubicación",         $datos["ubicacion"]);
+            $data[] = array("Objetivo Kpi",      $obj_kpi[intval($datos["Requerido_Bult_Und"])]['descripcion']);
+            $data[] = array("Clase",             $datos["clase"]);
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $output = array(
+            "edv" => $datos["CodVend"],
+            "detalle_edv" => $data
+        );
 
         echo json_encode($output);
+        break;
+
+    case 'listar_maestro_clientes':
+        $edv = $_POST['edv'];
+        $datos = $kpi->get_MaestroClientesPorRuta($edv);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = $row["codclie"];
+            $sub_array[] = $row["direc"];
+            $sub_array[] = strtoupper($row["dia_visita"]);
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
+        break;
+
+    case 'listar_clientes_activados':
+        $edv = $_POST['edv'];
+        $fechai     = $_POST['fechai'];
+        $fechaf     = $_POST['fechaf'];
+
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = $kpi->get_ClientesActivosPorRuta($ruta, $fechai2, $fechaf2);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = $row["codclie"];
+            $sub_array[] = $row["direc"];
+            $sub_array[] = strtoupper($row["dia_visita"]);
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
+        break;
+
+    case 'listar_clientes_pendientes':
+        $edv = $_POST['edv'];
+        $datos = $kpi->get_MaestroClientesPorRuta($edv);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = $row["codclie"];
+            $sub_array[] = $row["direc"];
+            $sub_array[] = strtoupper($row["dia_visita"]);
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
         break;
 }

@@ -20,14 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/kpi/modales/detalle_activacion_por_marca.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/modales/detalle_edv.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/modales/lista_clientes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kpi/modales/lista_documentos.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpi/kpi_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_tabla.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_tabla.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/kpimanager_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" beforeDir="false" afterPath="$PROJECT_DIR$/kpimanager/modales/editar_ruta.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/principal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/Usuarios_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios/Usuarios_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +45,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -87,7 +90,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/plugins/datatables" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Console" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -137,6 +140,8 @@
       <workItem from="1616677198880" duration="47854000" />
       <workItem from="1617717749862" duration="112701000" />
       <workItem from="1618581303724" duration="27643000" />
+      <workItem from="1619186393491" duration="2281000" />
+      <workItem from="1619188794309" duration="4407000" />
     </task>
     <servers />
   </component>

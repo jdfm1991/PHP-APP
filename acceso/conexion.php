@@ -1,10 +1,10 @@
 <?php
 date_default_timezone_set('America/Caracas');
 include_once "const.php";
-if (!empty($_SESSION)) {
+//if (!empty($_SESSION)) {
     include_once "../helpers/php/index.php";
     include_once "../helpers/sql/index.php";
-}
+//}
 class Conectar {
 	protected $dbh;
 	protected function conexion(){
