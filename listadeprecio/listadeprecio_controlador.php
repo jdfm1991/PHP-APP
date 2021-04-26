@@ -183,7 +183,7 @@ switch ($_GET["op"]) {
         //DEPOSITOS
         $output["lista_depositos"] = $almacenes->get_Almacenes();
         //MARCAS
-        $output["lista_marcas"] = $marcas->get_marcas();
+        $output["lista_marcas"] = Marcas::todos();
 
         echo json_encode($output);
         break;

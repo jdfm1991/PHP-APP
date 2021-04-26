@@ -61,14 +61,54 @@ class Kpi extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT distinct(SAFACT.CodClie) AS CODCLIE FROM SAFACT WHERE SAFACT.CodVend = ? AND TipoFac in ('A') AND SAFACT.CodClie IN (SELECT SACLIE.CodClie FROM SACLIE INNER JOIN SACLIE_01 ON SACLIE.CodClie = SACLIE_01.CodClie
+        $sql = "SELECT distinct(SAFACT.CodClie) AS codclie, Descrip as descrip, Direc2 AS direc, (SELECT DiasVisita FROM SACLIE_01 WHERE SACLIE_01.CodClie=SAFACT.CodClie) as dia_visita FROM SAFACT WHERE SAFACT.CodVend = ? AND TipoFac in ('A') AND SAFACT.CodClie IN (SELECT SACLIE.CodClie FROM SACLIE INNER JOIN SACLIE_01 ON SACLIE.CodClie = SACLIE_01.CodClie
                 WHERE ACTIVO = 1 AND (SACLIE.CodVend = ? or Ruta_Alternativa = ? OR Ruta_Alternativa_2 = ?)) AND DATEADD(dd, 0, DATEDIFF(dd, 0, SAFACT.FechaE)) between ? and ? AND NumeroD NOT IN (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac in ('A') AND x.NumeroR is not NULL AND cast(X.Monto as BIGINT) = cast((select Z.Monto from SAFACT AS Z where Z.NumeroD = x.NumeroR and Z.TipoFac in ('B'))as BIGINT))
                 
                 UNION
                 
-                SELECT distinct(SANOTA.CodClie) AS CODCLIE FROM SANOTA WHERE SANOTA.CodVend = ? AND TipoFac in ('C') AND SANOTA.numerof = '0' AND SANOTA.CodClie IN (SELECT SACLIE.CodClie FROM SACLIE INNER JOIN SACLIE_01 ON SACLIE.CodClie = SACLIE_01.CodClie
+                SELECT distinct(SANOTA.CodClie) AS codclie, rsocial AS descip, direccion AS direc, (SELECT DiasVisita FROM SACLIE_01 WHERE SACLIE_01.CodClie=SANOTA.CodClie) as dia_visita FROM SANOTA WHERE SANOTA.CodVend = ? AND TipoFac in ('C') AND SANOTA.numerof = '0' AND SANOTA.CodClie IN (SELECT SACLIE.CodClie FROM SACLIE INNER JOIN SACLIE_01 ON SACLIE.CodClie = SACLIE_01.CodClie
                 WHERE ACTIVO = 1 AND (SACLIE.CodVend = ? or Ruta_Alternativa = ? OR Ruta_Alternativa_2 = ?)) AND DATEADD(dd, 0, DATEDIFF(dd, 0, SANOTA.FechaE)) between ? and ? AND NumeroD NOT IN (SELECT X.NumeroD FROM SANOTA AS X WHERE X.TipoFac in ('C') AND x.numerof is not NULL AND cast(X.subtotal as BIGINT) = cast((select Z.subtotal from SANOTA AS Z where Z.NumeroD = x.numerof and Z.TipoFac in ('D'))as BIGINT))";
         $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
+
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
+        $sql->execute();
+
+        return $resultado = $sql->fetchAll();
+    }
+
+    public function get_ClientesNoActivosPorRuta($ruta, $fechai, $fechaf)
+    {
+        $i = 0;
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+        $sql = "SELECT cli.codclie AS codclie, cli.descrip AS descrip, cli.Direc2 AS direc, cli01.DiasVisita AS dia_visita  FROM SACLIE AS CLI INNER JOIN saclie_01 AS CLI01 ON CLI.codclie = CLI01.codclie WHERE CLI.activo = 1 AND (CLI.CodVend = ? OR CLI01.Ruta_Alternativa = ? OR CLI01.Ruta_Alternativa_2 = ?)
+                AND CLI.codclie NOT IN
+                (SELECT DISTINCT (SAFACT.CodClie) AS CODCLIE FROM SAFACT WHERE SAFACT.CodVend = ? AND TipoFac = 'A' AND SAFACT.CodClie IN (SELECT SACLIE.CodClie FROM SACLIE INNER JOIN SACLIE_01 ON SACLIE.CodClie = SACLIE_01.CodClie
+                WHERE ACTIVO = 1 AND (SACLIE.CodVend = ? OR Ruta_Alternativa = ? OR Ruta_Alternativa_2 = ?)) AND DATEADD(dd, 0, DATEDIFF(dd, 0, SAFACT.FechaE)) BETWEEN ? AND ? AND NumeroD NOT IN (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac IN ('A') AND x.NumeroR IS NOT NULL AND cast(X.Monto AS BIGINT) = cast((SELECT Z.Monto FROM SAFACT AS Z WHERE Z.NumeroD = x.NumeroR AND Z.TipoFac IN ('B')) AS BIGINT))
+                
+                UNION
+                
+                SELECT DISTINCT (SANOTA.CodClie) AS CODCLIE FROM SANOTA WHERE SANOTA.CodVend = ? AND TipoFac IN ('C') AND SANOTA.numerof = '0' AND SANOTA.CodClie IN (SELECT SACLIE.CodClie FROM SACLIE INNER JOIN SACLIE_01 ON SACLIE.CodClie = SACLIE_01.CodClie
+                WHERE ACTIVO = 1 AND (SACLIE.CodVend = ? OR Ruta_Alternativa = ? OR Ruta_Alternativa_2 = ?)) AND DATEADD(dd, 0, DATEDIFF(dd, 0, SANOTA.FechaE)) BETWEEN ? AND ? AND NumeroD NOT IN (SELECT X.NumeroD FROM SANOTA AS X WHERE X.TipoFac IN ('C') AND x.numerof IS NOT NULL AND cast(X.subtotal AS BIGINT) = cast((SELECT Z.subtotal FROM SANOTA AS Z WHERE Z.NumeroD = x.numerof AND Z.TipoFac IN ('D')) AS BIGINT)))";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+        $sql->bindValue($i+=1, $ruta);
+
         $sql->bindValue($i+=1, $ruta);
         $sql->bindValue($i+=1, $ruta);
         $sql->bindValue($i+=1, $ruta);

@@ -152,8 +152,8 @@ $pdf->SetFont('Arial', '', 7);
 
 $pdf->SetWidths(array(18, 60, 18, 50, 21, 24));
 
-$total = $clientesnoactivos->getTotalClientesnoActivos($fechai, $fechaf,$codvend);
-$query = $clientesnoactivos->getClientesNoactivos($fechai, $fechaf, $codvend);
+//$total = $clientesnoactivos->getTotalClientesnoActivos($fechai, $fechaf,$codvend);
+$query = $clientesnoactivos->getClientesNoactivos($codvend, $fechai, $fechaf);
 
 foreach ($query as $i) {
 
@@ -176,7 +176,7 @@ foreach ($query as $i) {
     );
 }
 $pdf->Ln(10);
-$pdf->Cell(190, 10, 'Clientes NO Activados: '. $total[0]['cuenta'], 0, 1, 'C');
+$pdf->Cell(190, 10, 'Clientes NO Activados: '. count($query), 0, 1, 'C');
 $pdf->Output();
 
 ?>

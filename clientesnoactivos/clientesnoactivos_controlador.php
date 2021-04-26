@@ -14,7 +14,7 @@ switch ($_GET["op"]) {
 
     case "buscar_clientesnoactivos":
 
-    $datos = $clientesnoactivos->getClientesNoactivos($_POST["fechai"], $_POST["fechaf"], $_POST["vendedor"]);
+    $datos = $clientesnoactivos->getClientesNoactivos($_POST["vendedor"], $_POST["fechai"], $_POST["fechaf"]);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();

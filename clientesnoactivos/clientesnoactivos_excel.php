@@ -29,7 +29,7 @@ $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
 $sheet->setCellValue('A1', 'Codigo Cliente')->setCellValue('B1', 'Descripcion')->setCellValue('C1', 'Rif')->setCellValue('D1', 'Direccion')->setCellValue('E1', 'Estatus')->setCellValue('F1', 'Dias Visita');
 
-$total = $clientesnoactivos->getTotalClientesnoActivos($fechai, $fechaf,$codvend);
+//$total = $clientesnoactivos->getTotalClientesnoActivos($fechai, $fechaf,$codvend);
 $query = $clientesnoactivos->getClientesNoactivos($fechai, $fechaf, $codvend);
 $row = 2;
 foreach ($query as $i) {
@@ -46,7 +46,7 @@ foreach ($query as $i) {
     $sheet->setCellValue('F' . $row, $i['diasvisita']);
     $row++;
 }
-$sheet->setCellValue('B' . ($row+3), 'Clientes NO Activados: ' . $total[0]['cuenta']);
+$sheet->setCellValue('B' . ($row+3), 'Clientes NO Activados: ' . count($query));
 
 
 header('Content-Type: application/vnd.ms-excel');

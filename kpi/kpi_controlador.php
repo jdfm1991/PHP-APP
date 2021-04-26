@@ -368,14 +368,14 @@ switch ($_GET["op"]) {
         break;
 
     case 'listar_clientes_activados':
-        $edv = $_POST['edv'];
-        $fechai     = $_POST['fechai'];
-        $fechaf     = $_POST['fechaf'];
+        $edv    = $_POST['edv'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
 
         $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
         $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
 
-        $datos = $kpi->get_ClientesActivosPorRuta($ruta, $fechai2, $fechaf2);
+        $datos = $kpi->get_ClientesActivosPorRuta($edv, $fechai2, $fechaf2);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
@@ -401,8 +401,14 @@ switch ($_GET["op"]) {
         break;
 
     case 'listar_clientes_pendientes':
-        $edv = $_POST['edv'];
-        $datos = $kpi->get_MaestroClientesPorRuta($edv);
+        $edv    = $_POST['edv'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
+
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = $kpi->get_ClientesNoActivosPorRuta($edv, $fechai2, $fechaf2);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
@@ -425,5 +431,9 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
         echo json_encode($results);
+        break;
+
+    case 'mostrar_activacion_bultos':
+
         break;
 }

@@ -141,6 +141,8 @@ function mostrarListaClientes(edv, flag) {
     let typeModal;
     let title;
     $('#listaClientesModal').modal('show');
+    let fechai = $('#fechai').val();
+    let fechaf = $('#fechaf').val();
 
     switch (flag) {
         case 1:
@@ -168,7 +170,7 @@ function mostrarListaClientes(edv, flag) {
                 url: 'kpi_controlador.php?op='+typeModal,
                 type: "post",
                 dataType: "json",
-                data: {edv: edv},
+                data: {edv: edv, fechai: fechai, fechaf:fechaf},
                 beforeSend: function () {
                     SweetAlertLoadingShow();
                 },
@@ -189,6 +191,60 @@ function mostrarListaClientes(edv, flag) {
     }).DataTable();
 }
 
+function mostrarActivacionBultoPorMarca(edv, marca) {
+    let isError = false;
+    $('#detalleEdvModal').modal('show');
+    let fechai = $('#fechai').val();
+    let fechaf = $('#fechaf').val();
+
+    $.ajax({
+        url: "kpi_controlador.php?op=mostrar_activacion_bultos",
+        type: "POST",
+        dataType: "json",
+        data: {edv: edv, marca:marca, fechai: fechai, fechaf:fechaf},
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+            $('#tabla_detalle_edv tbody').empty();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            $('#tabla_lista_clientes').dataTable({
+                "aProcessing": true,//Activamos el procesamiento del datatables
+                "aServerSide": true,//Paginación y filtrado realizados por el servidor
+                "ajax":
+                    {
+                        url: 'kpi_controlador.php?op='+typeModal,
+                        type: "post",
+                        dataType: "json",
+                        data: {edv: edv, fechai: fechai, fechaf:fechaf},
+                        beforeSend: function () {
+                            SweetAlertLoadingShow();
+                        },
+                        error: function (e) {
+                            isError = SweetAlertError(e.responseText, "Error!")
+                            console.log(e.responseText);
+                        },
+                        complete: function () {
+                            if(!isError) SweetAlertLoadingClose();
+                        }
+                    },
+                "bDestroy": true,
+                "responsive": true,
+                "bInfo": true,
+                "iDisplayLength": 10,//Por cada 10 registros hace una paginación
+                "order": [[0, "asc"]],//Ordenar (columna,orden)
+                "language": texto_español_datatables
+            }).DataTable();
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
+    });
+}
+
 function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
     isBold  = negrita===true ? 'style="font-weight: bold"' : "";
 
@@ -198,7 +254,7 @@ function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
     clientes_pendientes = negrita===true ? opt.por_activar : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 3)" data-target="#listaClientesModal" href="#">' +opt.por_activar+ '</a>' ;
 
     let valuesMarcas = '';
-    opt.marcas.forEach( val => { valuesMarcas += '<td align="center" class="small align-middle" '+isBold+'>' + val.valor + '</td>' });
+    opt.marcas.forEach( val => { valuesMarcas += '<td align="center" class="small align-middle" '+isBold+'>' + (negrita===true ? val.valor : '<a data-toggle="modal" onclick="mostrarActivacionBultoPorMarca(\''+opt.ruta+'\', \''+opt.marca+'\')" data-target="#listaClientesModal" href="#">'+ val.valor +'</a>') + '</td>' });
 
     return  '<tr>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + ruta + '</td>' +
