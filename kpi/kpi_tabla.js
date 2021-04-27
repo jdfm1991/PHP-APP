@@ -105,6 +105,7 @@ function listar_marcas() {
 function mostrarDetalleEdv(edv) {
     let isError = false;
     $('#detalleEdvModal').modal('show');
+    $('#descrip_edv_title').html(edv);
 
     $.ajax({
         url: "kpi_controlador.php?op=mostrar_detalle_edv",
@@ -120,8 +121,6 @@ function mostrarDetalleEdv(edv) {
             console.log(e.responseText);
         },
         success: function (data) {
-            $('#descrip_edv_title').html(data.edv);
-
             $.each(data.detalle_edv, function(idx, opt) {
                 $('#tabla_detalle_edv').append(
                     '<tr>' +
@@ -191,70 +190,121 @@ function mostrarListaClientes(edv, flag) {
     }).DataTable();
 }
 
-function mostrarActivacionBultoPorMarca(edv, marca) {
+function mostrarActivacionPorMarca(edv, marca) {
     let isError = false;
-    $('#detalleEdvModal').modal('show');
+    $('#activacionPorMarcaModal').modal('show');
     let fechai = $('#fechai').val();
     let fechaf = $('#fechaf').val();
 
-    $.ajax({
-        url: "kpi_controlador.php?op=mostrar_activacion_bultos",
-        type: "POST",
-        dataType: "json",
-        data: {edv: edv, marca:marca, fechai: fechai, fechaf:fechaf},
-        beforeSend: function () {
-            SweetAlertLoadingShow();
-            $('#tabla_detalle_edv tbody').empty();
-        },
-        error: function (e) {
-            isError = SweetAlertError(e.responseText, "Error!")
-            console.log(e.responseText);
-        },
-        success: function (data) {
-            $('#tabla_lista_clientes').dataTable({
-                "aProcessing": true,//Activamos el procesamiento del datatables
-                "aServerSide": true,//Paginación y filtrado realizados por el servidor
-                "ajax":
-                    {
-                        url: 'kpi_controlador.php?op='+typeModal,
-                        type: "post",
-                        dataType: "json",
-                        data: {edv: edv, fechai: fechai, fechaf:fechaf},
-                        beforeSend: function () {
-                            SweetAlertLoadingShow();
-                        },
-                        error: function (e) {
-                            isError = SweetAlertError(e.responseText, "Error!")
-                            console.log(e.responseText);
-                        },
-                        complete: function () {
-                            if(!isError) SweetAlertLoadingClose();
-                        }
-                    },
-                "bDestroy": true,
-                "responsive": true,
-                "bInfo": true,
-                "iDisplayLength": 10,//Por cada 10 registros hace una paginación
-                "order": [[0, "asc"]],//Ordenar (columna,orden)
-                "language": texto_español_datatables
-            }).DataTable();
-        },
-        complete: function () {
-            if(!isError) SweetAlertLoadingClose();
-        }
-    });
+    $('#descrip_activacion_marca').html(edv);
+    $('#marca_descrip').html(marca);
+
+    $('#tabla_activacion_marca').dataTable({
+        "aProcessing": true,//Activamos el procesamiento del datatables
+        "aServerSide": true,//Paginación y filtrado realizados por el servidor
+        "ajax":
+            {
+                url: 'kpi_controlador.php?op=listar_activacion_marcas',
+                type: "post",
+                dataType: "json",
+                data: {edv: edv, marca:marca, fechai: fechai, fechaf:fechaf},
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
+                error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                }
+            },
+        "bDestroy": true,
+        "responsive": true,
+        "bInfo": true,
+        "iDisplayLength": 10,//Por cada 10 registros hace una paginación
+        "order": [[1, "asc"]],//Ordenar (columna,orden)
+        "language": texto_español_datatables
+    }).DataTable();
+}
+
+function mostrarListaDocumentos(edv, flag) {
+    let isError = false;
+    let typeModal;
+    let title;
+    $('#listaDocumentosModal').modal('show');
+    let fechai = $('#fechai').val();
+    let fechaf = $('#fechaf').val();
+
+    switch (flag) {
+        case 1:
+            typeModal = 'listar_facturas_realizadas';
+            title = 'Facturas Realizadas';
+            break;
+        case 2:
+            typeModal = 'listar_notas_realizadas';
+            title = 'Notas Realizadas';
+            break;
+        case 3:
+            typeModal = 'listar_devoluciones_realizadas';
+            title = 'Devoluciones Realizadas';
+            break;
+        case 4:
+            typeModal = 'listar_cobranzas_rebajadas';
+            title = 'Cobranzas Rebajadas';
+            break;
+    }
+
+    $('#tipo_lista_documentos_title').html(title);
+    $('#descrip_edv_documentos').html(edv);
+
+    $('#thead_monto').html( (flag===4) ? 'Monto Rebajado' : 'Monto');
+    $('#tfoot_monto').html( (flag===4) ? 'Monto Rebajado' : 'Monto');
+
+    $('#tabla_documentos').dataTable({
+        "aProcessing": true,//Activamos el procesamiento del datatables
+        "aServerSide": true,//Paginación y filtrado realizados por el servidor
+        "ajax":
+            {
+                url: 'kpi_controlador.php?op='+typeModal,
+                type: "post",
+                dataType: "json",
+                data: {edv: edv, fechai: fechai, fechaf:fechaf},
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
+                error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                }
+            },
+        "bDestroy": true,
+        "responsive": true,
+        "bInfo": true,
+        "iDisplayLength": 10,//Por cada 10 registros hace una paginación
+        "order": [[0, "asc"]],//Ordenar (columna,orden)
+        "language": texto_español_datatables
+    }).DataTable();
 }
 
 function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
     isBold  = negrita===true ? 'style="font-weight: bold"' : "";
 
+    // se toma como referencia para la condicion si es negrita, debido a que si es TRUE es que es subtotal o totalgeneral. en caso contrario es algun edv
     ruta = negrita===true ? opt.ruta : '<a data-toggle="modal" onclick="mostrarDetalleEdv(\''+opt.ruta+'\')" data-target="#detalleEdvModal" href="#">' +opt.ruta+ '</a>' ;
     maestro = negrita===true ? opt.maestro : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 1)" data-target="#listaClientesModal" href="#">' +opt.maestro+ '</a>' ;
     clientes_activados = negrita===true ? opt.activos : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 2)" data-target="#listaClientesModal" href="#">' +opt.activos+ '</a>' ;
     clientes_pendientes = negrita===true ? opt.por_activar : '<a data-toggle="modal" onclick="mostrarListaClientes(\''+opt.ruta+'\', 3)" data-target="#listaClientesModal" href="#">' +opt.por_activar+ '</a>' ;
+    facturas_realizadas = negrita===true ? opt.facturas_realizadas : '<a data-toggle="modal" onclick="mostrarListaDocumentos(\''+opt.ruta+'\', 1)" data-target="#listaDocumentosModal" href="#">' +opt.facturas_realizadas+ '</a>' ;
+    notas_realizadas = negrita===true ? opt.notas_realizadas : '<a data-toggle="modal" onclick="mostrarListaDocumentos(\''+opt.ruta+'\', 2)" data-target="#listaDocumentosModal" href="#">' +opt.notas_realizadas+ '</a>' ;
+    devoluciones_realizadas = negrita===true ? opt.devoluciones_realizadas : '<a data-toggle="modal" onclick="mostrarListaDocumentos(\''+opt.ruta+'\', 3)" data-target="#listaDocumentosModal" href="#">' +opt.devoluciones_realizadas+ '</a>' ;
+    cobranzas_rebajadas = negrita===true ? opt.cobranzas_rebajadas : '<a data-toggle="modal" onclick="mostrarListaDocumentos(\''+opt.ruta+'\', 4)" data-target="#listaDocumentosModal" href="#">' +opt.cobranzas_rebajadas+ '</a>' ;
 
     let valuesMarcas = '';
-    opt.marcas.forEach( val => { valuesMarcas += '<td align="center" class="small align-middle" '+isBold+'>' + (negrita===true ? val.valor : '<a data-toggle="modal" onclick="mostrarActivacionBultoPorMarca(\''+opt.ruta+'\', \''+opt.marca+'\')" data-target="#listaClientesModal" href="#">'+ val.valor +'</a>') + '</td>' });
+    opt.marcas.forEach( val => { valuesMarcas += '<td align="center" class="small align-middle" '+isBold+'>' + (negrita===true ? val.valor : '<a data-toggle="modal" onclick="mostrarActivacionPorMarca(\''+opt.ruta+'\', \''+val.marca+'\')" data-target="#activacionPorMarcaModal" href="#">'+ val.valor +'</a>') + '</td>' });
 
     return  '<tr>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + ruta + '</td>' +
@@ -265,9 +315,9 @@ function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
             '<td align="center" class="small align-middle" '+isBold+'>' + clientes_pendientes + '</td>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.visita + '</td>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.obj_documentos_mensual + '</td>' +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.facturas_realizadas + '</td>' +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.notas_realizadas + '</td>' +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.devoluciones_realizadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + facturas_realizadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + notas_realizadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + devoluciones_realizadas + '</td>' +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.montoendivisa_devoluciones + '</td>' +
             td_withprogress(opt.efec_alcanzada_fecha, isBold, colorFull) +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.objetivo_bulto + '</td>' +
@@ -284,7 +334,7 @@ function obtenerInfoTabla(opt, negrita=false, colorFull=false) {
             td_withprogress(opt.porc_alcanzado_ventas_divisas_pepsico, isBold, colorFull) +
             '<td align="center" class="small align-middle" '+isBold+'>' + opt.logro_ventas_divisas_complementaria + '</td>' +
             td_withprogress(opt.porc_alcanzado_ventas_divisas_complementaria, isBold, colorFull) +
-            '<td align="center" class="small align-middle" '+isBold+'>' + opt.cobranzas_rebajadas + '</td>' +
+            '<td align="center" class="small align-middle" '+isBold+'>' + cobranzas_rebajadas + '</td>' +
             '</tr>';
 }
 

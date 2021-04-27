@@ -32,28 +32,22 @@ class FacturaSinDes extends Conectar{
         $clase = (!hash_equals("-", $tipo)) ? "AND VEND.Clase = ?": "";
 
         $sql = "SELECT *, $valores_adicionales
-                (SELECT sum(cantidad) FROM saitemfac WHERE saitemfac.numerod = SA.numerod AND saitemfac.tipofac = ? AND EsUnid = ?) AS Bult,
-                (SELECT sum(cantidad) FROM saitemfac WHERE saitemfac.numerod = SA.numerod AND saitemfac.tipofac = ? AND EsUnid = ?) AS Paq
+                (SELECT sum(cantidad) FROM saitemfac WHERE saitemfac.numerod = SA.numerod AND saitemfac.tipofac = 'A' AND EsUnid = '0') AS Bult,
+                (SELECT sum(cantidad) FROM saitemfac WHERE saitemfac.numerod = SA.numerod AND saitemfac.tipofac = 'A' AND EsUnid = '1') AS Paq
                 FROM safact AS SA INNER JOIN SAVEND AS VEND ON VEND.CodVend = SA.CodVend
                 WHERE $condicion_1
-                AND SA.TipoFac = ? $codven $clase
-                AND (SA.NumeroR IS NULL OR SA.NumeroR IN (SELECT x.NumeroD FROM SAFACT AS x WHERE cast(x.Monto AS INT)<cast(SA.Monto AS INT) AND X.TipoFac = ?
+                AND SA.TipoFac = 'A' $codven $clase
+                AND (SA.NumeroR IS NULL OR SA.NumeroR IN (SELECT x.NumeroD FROM SAFACT AS x WHERE cast(x.Monto AS INT)<cast(SA.Monto AS INT) AND X.TipoFac = 'B'
                 AND x.NumeroD=SA.NumeroR)) $condicion_2 ORDER BY SA.NumeroD";
         $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1, 'A');
-        $sql->bindValue($i+=1, '0');
-        $sql->bindValue($i+=1, 'A');
-        $sql->bindValue($i+=1, '1');
         $sql->bindValue($i+=1, $fechai);
         $sql->bindValue($i+=1, $fechaf);
-        $sql->bindValue($i+=1, 'A');
         if(!hash_equals("-", $convend)) {
             $sql->bindValue($i+=1, $convend);
         }
         if(!hash_equals("-", $tipo)) {
             $sql->bindValue($i += 1, $tipo);
         }
-        $sql->bindValue($i+=1, 'B');
         $sql->execute();
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

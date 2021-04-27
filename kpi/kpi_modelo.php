@@ -150,7 +150,7 @@ class Kpi extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT numerod FROM safact WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, safact.FechaE)) BETWEEN ? AND ? AND safact.codvend = ? AND tipofac = 'A' AND NumeroD NOT IN 
+        $sql = "SELECT numerod, descrip, fechae, COALESCE(TGravable/NULLIF(Tasa,0), 0) as montod FROM safact WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, safact.FechaE)) BETWEEN ? AND ? AND safact.codvend = ? AND tipofac = 'A' AND NumeroD NOT IN 
                 (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac = 'A' AND x.NumeroR IS NOT NULL AND
                 CAST(X.Monto AS BIGINT) = CAST((SELECT Z.Monto FROM SAFACT AS Z WHERE Z.NumeroD = x.NumeroR AND Z.TipoFac = 'B') AS BIGINT))";
         $sql = $conectar->prepare($sql);
@@ -170,7 +170,7 @@ class Kpi extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT numerod FROM sanota WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, sanota.FechaE)) BETWEEN ? AND ? AND sanota.codvend = ? AND tipofac = 'C' AND SANOTA.numerof = '0' AND NumeroD NOT IN 
+        $sql = "SELECT numerod, rsocial as descrip, fechae, COALESCE(subtotal, 0) AS montod FROM sanota WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, sanota.FechaE)) BETWEEN ? AND ? AND sanota.codvend = ? AND tipofac = 'C' AND SANOTA.numerof = '0' AND NumeroD NOT IN 
                 (SELECT X.NumeroD FROM sanota AS X WHERE X.TipoFac = 'C' AND x.Numerof IS NOT NULL AND
                 CAST(X.subtotal AS BIGINT) = CAST((SELECT Z.subtotal FROM SAnota AS Z WHERE Z.NumeroD = x.Numerof AND Z.TipoFac = 'D')AS BIGINT))";
         $sql = $conectar->prepare($sql);
@@ -190,7 +190,7 @@ class Kpi extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT numerod FROM safact WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, safact.FechaE)) BETWEEN ? AND ? AND safact.codvend = ? AND tipofac = 'B'";
+        $sql = "SELECT numerod, descrip, fechae, COALESCE(TGravable/NULLIF(Tasa,0), 0) as montod FROM safact WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, safact.FechaE)) BETWEEN ? AND ? AND safact.codvend = ? AND tipofac = 'B'";
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $fechai);
         $sql->bindValue($i+=1, $fechaf);
@@ -208,7 +208,7 @@ class Kpi extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT numerod FROM SANOTA WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, SANOTA.FechaE)) BETWEEN ? AND ? AND SANOTA.codvend = ? AND tipofac = 'D'";
+        $sql = "SELECT numerod, rsocial as descrip, fechae, COALESCE(subtotal, 0) AS montod FROM SANOTA WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, SANOTA.FechaE)) BETWEEN ? AND ? AND SANOTA.codvend = ? AND tipofac = 'D'";
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $fechai);
         $sql->bindValue($i+=1, $fechaf);

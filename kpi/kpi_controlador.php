@@ -433,7 +433,179 @@ switch ($_GET["op"]) {
         echo json_encode($results);
         break;
 
-    case 'mostrar_activacion_bultos':
+    case 'listar_activacion_marcas':
+        $edv    = $_POST['edv'];
+        $marca  = $_POST['marca'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
 
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = KpiMarcas::bultosActivadosPorMarca($edv, $marca, $fechai2, $fechaf2, true);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $tipoDocu  = ($row["tipofac"]=='A' ? 'Factura' : 'Nota de Entrega');
+            $tipoBadge = ($row["tipofac"]=='A' ? 'badge-primary' : 'badge-secondary');
+
+            $sub_array[] = $row["cliente"];
+            $sub_array[] = $row["producto"];
+            $sub_array[] = intval($row["bult"]);
+            $sub_array[] = intval($row["paq"]);
+            $sub_array[] = $row["numerod"] .'<br><span class="right badge '.$tipoBadge.'">'.$tipoDocu.'</span>';
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
+        break;
+
+    case 'listar_facturas_realizadas':
+        $edv = $_POST['edv'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
+
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = $kpi->get_ventasFactura($edv, $fechai2, $fechaf2);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["numerod"];
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
+            $sub_array[] = number_format($row["montod"], 2, ",", ".");
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
+        break;
+
+    case 'listar_notas_realizadas':
+        $edv = $_POST['edv'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
+
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = $kpi->get_ventasNotas($edv, $fechai2, $fechaf2);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["numerod"];
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
+            $sub_array[] = number_format($row["montod"], 2, ",", ".");
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
+        break;
+
+    case 'listar_devoluciones_realizadas':
+        $edv = $_POST['edv'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
+
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = array();
+
+        $devolucionesFact = $kpi->get_devolucionesFactura($edv, $fechai2, $fechaf2);
+        foreach ($devolucionesFact as $devol) array_push($datos, $devol);
+
+        $devolucionesNota = $kpi->get_devolucionesNotas($edv, $fechai2, $fechaf2);
+        foreach ($devolucionesNota as $devol) array_push($datos, $devol);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        /*$data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["numerod"];
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
+            $sub_array[] = number_format($row["montod"], 2, ",", ".");
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);*/
+        echo json_encode($devolucionesNota);
+        break;
+
+    case 'listar_cobranzas_rebajadas':
+        $edv = $_POST['edv'];
+        $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
+
+        $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
+        $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
+
+        $datos = $kpi->get_MaestroClientesPorRuta($edv);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $row){
+
+            $sub_array = array();
+
+            $sub_array[] = $row["descrip"];
+            $sub_array[] = $row["codclie"];
+            $sub_array[] = $row["direc"];
+            $sub_array[] = strtoupper($row["dia_visita"]);
+
+            $data[] = $sub_array;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($results);
         break;
 }

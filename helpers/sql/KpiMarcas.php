@@ -16,13 +16,16 @@ class KpiMarcas extends Conectar {
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf)
+    public static function bultosActivadosPorMarca($ruta, $marca, $fechai, $fechaf, $detalle = false)
     {
         $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT DISTINCT(CodClie) FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod INNER JOIN
+        $cells_fact = $detalle==true ? ", SAFACT.NumeroD AS numerod, safact.Descrip AS cliente, saitemfac.Descrip1 AS producto, saitemfac.TipoFac AS tipofac, (CASE WHEN EsUnid = '0' THEN Cantidad ELSE 0 END) AS bult, (CASE WHEN EsUnid = '1' THEN Cantidad ELSE 0 END) AS paq" : '';
+        $cells_nota = $detalle==true ? ", SANOTA.numerod, sanota.rsocial AS cliente, saitemnota.descripcion AS producto, saitemnota.tipofac AS tipofac, (CASE WHEN esunidad = '0' THEN cantidad ELSE 0 END) AS bult, (CASE WHEN esunidad = '1' THEN cantidad ELSE 0 END) AS paq" : '';
+
+        $sql= "SELECT DISTINCT(CodClie) $cells_fact FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod INNER JOIN
                 SAFACT ON SAITEMFAC.NumeroD = SAFACT.NumeroD WHERE
                 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND saprod.marca LIKE ? AND
                 SAITEMFAC.codvend = ? AND saitemfac.tipofac = 'A' AND SAFACT.tipofac = 'A' AND SAFACT.NumeroD NOT IN
@@ -31,7 +34,7 @@ class KpiMarcas extends Conectar {
                 
                 UNION
                 
-                SELECT DISTINCT(CodClie) FROM saitemnota INNER JOIN saprod ON saitemnota.coditem = saprod.codprod INNER JOIN
+                SELECT DISTINCT(CodClie) $cells_nota FROM saitemnota INNER JOIN saprod ON saitemnota.coditem = saprod.codprod INNER JOIN
                 sanota ON saitemnota.NumeroD = sanota.NumeroD WHERE
                 DATEADD(dd, 0, DATEDIFF(dd, 0, saitemnota.FechaE)) BETWEEN ? AND ? AND saprod.marca LIKE ? AND
                 saitemnota.codvend = ? AND saitemnota.tipofac = 'C' AND sanota.tipofac = 'C' AND numerof = '0' AND sanota.NumeroD NOT IN
