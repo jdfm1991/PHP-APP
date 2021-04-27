@@ -23,12 +23,12 @@ function listar_marcas() {
     $.ajax({
         async: false,
         url: "kpimarcas_controlador.php?op=listar_marcas",
-        type: "GET",
+        type: "post",
+        dataType: "json",
         error: function (e) {
             console.log(e.responseText);
         },
         success: function (data) {
-            data = JSON.parse(data);
 
             if(!jQuery.isEmptyObject(data.lista_marcas)){
                 $.each(data.lista_marcas, function(idx, opt) {

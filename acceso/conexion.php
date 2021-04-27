@@ -29,7 +29,7 @@ class Conectar {
 		return $this->dbh->query("SET NAMES 'utf8'");
 	}
 	public function ruta(){
-		return "http://localhost/appweb/";
+		return SERVERURL;
 	}
 protected function limpiar_cadena($cadena){
 $cadena=trim($cadena);

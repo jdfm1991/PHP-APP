@@ -1,4 +1,4 @@
 <?php
 
-define('SERVERURL', "http://localhost/appweb/");
+define('SERVERURL', "http://192.168.0.10/appweb/");
 

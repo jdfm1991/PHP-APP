@@ -20,16 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/kpi/modales/detalle_documento.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logueoerror.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_4_2021_8_03_a__m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_4_2021_8_03_a__m___Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/facturassindespachar/facturassindespachar_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/facturassindespachar/facturassindespachar_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/KpiMarcas.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/KpiMarcas.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/acceso/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/acceso/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/acceso/const.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kpi/kpi_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/kpi_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/modales/detalle_activacion_por_marca.html" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/modales/detalle_activacion_por_marca.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/modales/detalle_edv.html" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/modales/detalle_edv.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kpi/modales/lista_documentos.html" beforeDir="false" afterPath="$PROJECT_DIR$/kpi/modales/lista_documentos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kpimarcas/kpimarcas.js" beforeDir="false" afterPath="$PROJECT_DIR$/kpimarcas/kpimarcas.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +49,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -61,7 +60,7 @@
     </file-type-list>
   </component>
   <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="dfbeafa6-6210-4dfc-83cb-effeb544480e" />
+    <option name="defaultAccountId" value="5128d731-f344-44ed-bc3e-a9b32045240f" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
@@ -142,6 +141,8 @@
       <workItem from="1618581303724" duration="27643000" />
       <workItem from="1619186393491" duration="2281000" />
       <workItem from="1619188794309" duration="25507000" />
+      <workItem from="1619546121953" duration="753000" />
+      <workItem from="1619547485669" duration="3021000" />
     </task>
     <servers />
   </component>
