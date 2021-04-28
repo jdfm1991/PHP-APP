@@ -1,5 +1,7 @@
 <?php
-require_once("acceso/conexion.php");
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
+require_once("../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,6 +27,9 @@ require_once("acceso/conexion.php");
         </div>
       </div>
       <section class="content">
+          <?php
+          var_dump($_SESSION);
+          ?>
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-3 col-6">

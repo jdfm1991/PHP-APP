@@ -1,8 +1,7 @@
 <?php
 
 //conexion a la base de datos
-
-//require_once("../config/conexion.php");
+//require_once("../../config/conexion.php");
 
 class Usuarios extends Conectar
 {
@@ -52,7 +51,8 @@ class Usuarios extends Conectar
                     $_SESSION["email"] = $resultado["Email"];
                     $_SESSION["rol"] = $resultado["ID_Rol"];
 
-                    header("Location:" . Conectar::ruta() . "principal.php");
+//                    var_dump($_SESSION);
+                    header("Location:" . URL_APP . "principal.php");
                     exit();
                 } else {
                     //si no existe el registro entonces le aparece un mensaje

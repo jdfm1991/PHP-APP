@@ -7,38 +7,38 @@
 	</div>
 </footer>
 <!-- ./wrapper -->
-<script src="<?php echo SERVERURL; ?>public/plugins/moment/moment.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/moment/moment.min.js"></script>
 <!-- jQuery -->
-<script src="<?php echo SERVERURL; ?>public/plugins/jquery/jquery.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="<?php echo SERVERURL; ?>public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="<?php echo SERVERURL; ?>public/dist/js/adminlte.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>dist/js/adminlte.min.js"></script>
 <!-- DataTables -->
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables/jquery.columntoggle.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables/jquery.columntoggle.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-<script src="<?php echo SERVERURL; ?>public/plugins/bootbox/bootbox.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/bootbox/bootbox.min.js"></script>
 <!-- sweetalert2 -->
-<script src="<?php echo SERVERURL; ?>public/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <!-- date-range-picker -->
-<script src="<?php echo SERVERURL; ?>public/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/daterangepicker/daterangepicker.js"></script>
 <!-- dashboard3 -->
-<!--<script src="--><?php //echo SERVERURL; ?><!--public/dist/js/pages/dashboard3.js"></script>-->
-<script src="<?php echo SERVERURL; ?>public/plugins/select2/js/select2.full.min.js"></script>
+<!--<script src="--><?php //echo URL_LIBRARY; ?><!--dist/js/pages/dashboard3.js"></script>-->
+<script src="<?php echo URL_LIBRARY; ?>plugins/select2/js/select2.full.min.js"></script>
 <!-- jquery-validation -->
-<script src="<?php echo SERVERURL; ?>public/plugins/jquery-validation/jquery.validate.min.js"></script>
-<script src="<?php echo SERVERURL; ?>public/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- InputMask -->
-<script src="<?php echo SERVERURL; ?>public/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 <!-- Page script -->
-<script type="text/javascript" src="<?php echo SERVERURL; ?>helpers/js/SweetAlerts.js"></script>
+<script src="<?php echo URL_HELPERS_JS; ?>SweetAlerts.js" type="text/javascript"></script>
 <script>
 	$(function() {
 		//Initialize Select2 Elements

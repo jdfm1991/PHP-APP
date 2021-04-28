@@ -1,8 +1,7 @@
 <?php
 //LLAMAMOS A LA CONEXION.
 //LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>

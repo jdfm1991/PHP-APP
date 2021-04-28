@@ -2,8 +2,8 @@
 date_default_timezone_set('America/Caracas');
 include_once "const.php";
 //if (!empty($_SESSION)) {
-    include_once "../helpers/php/index.php";
-    include_once "../helpers/sql/index.php";
+    include_once (PATH_HELPERS_PHP . "php/index.php");
+    include_once (PATH_HELPERS_PHP . "sql/index.php");
 //}
 class Conectar {
 	protected $dbh;
@@ -29,7 +29,7 @@ class Conectar {
 		return $this->dbh->query("SET NAMES 'utf8'");
 	}
 	public function ruta(){
-		return SERVERURL;
+		return URL_APP;
 	}
 protected function limpiar_cadena($cadena){
 $cadena=trim($cadena);
