@@ -1,11 +1,32 @@
 <?php
 session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
+
 require_once("../config/conexion.php");
-if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
-  require_once("usuarios/Usuarios_modelo.php");
-  $usuario = new Usuarios();
-  $usuario->login();
+
+if (!isset($_SESSION)) {
+
+    header("Location:". URL_APP ."principal.php");
+
+} else {
+
+    if (isset($_POST["enviar"]) and $_POST["enviar"] == "si")
+    {
+        require_once("usuarios/Usuarios_modelo.php");
+        $usuario = new Usuarios();
+        $response = $usuario->login();
+
+        if ($response['status']==='1')
+        {
+            include_once (PATH_HELPERS_PHP . "php/Session.php");
+            Session::create($response['data']);
+
+//            var_dump($_SESSION);
+
+            header("Location:". URL_APP ."principal.php");
+        }
+    }
+
 }
 ?>
 <!DOCTYPE html>

@@ -1,8 +1,7 @@
 <?php
 //LLAMAMOS A LA CONEXION.
 //LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,7 +80,7 @@ require_once("../acceso/const.php");
 
 </div>
 <?php require_once("../footer.php"); ?>
-<script type="text/javascript" src="../helpers/js/Number.js"></script>
+<script src="<?php echo URL_HELPERS_JS; ?>Number.js" type="text/javascript"></script>
 
 <script type="text/javascript" src="kpi.js"></script>
 </body>

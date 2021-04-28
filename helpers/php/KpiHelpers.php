@@ -104,4 +104,18 @@ class KpiHelpers
 
         return ($logrado!=0) ? $logrado : 0;
     }
+
+    public static function cobranzasRebajadas($ruta, $fechai, $fechaf) {
+        $total = 0;
+        $cobranzasRebajadas = Cobranzas::getCobranzasRebajadas($ruta, $fechai, $fechaf);
+
+        if (is_array($cobranzasRebajadas) == true and count($cobranzasRebajadas) > 0)
+        {
+            foreach ($cobranzasRebajadas as $row) {
+                $total += $row['MONTO'];
+            }
+        }
+
+        return $total;
+    }
 }

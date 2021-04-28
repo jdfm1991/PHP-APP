@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO
 require_once("kpi_modelo.php");
@@ -142,7 +142,7 @@ switch ($_GET["op"]) {
                         $ventas_divisas_complementaria_nt    = $kpi->get_ventasDivisasComplementariaNotas($ruta, $fechai2, $fechaf2)[0]["MontoD"];
                         $logro_ventas_divisas_complementaria = floatval($ventas_divisas_complementaria_fact) + floatval($ventas_divisas_complementaria_nt);
                         $porcentaje_ventas_divisas_complementaria = ($logro_ventas_divisas > 0) ? ($logro_ventas_divisas_complementaria / $logro_ventas_divisas) * 100 : 0;
-                        $cobranzasRebajadas = $kpi->get_cobranzasRebajadas($ruta, $fechai2, $fechaf2)[0]["total"];
+                        $cobranzasRebajadas = KpiHelpers::cobranzasRebajadas($ruta, $fechai2, $fechaf2);
 
                         #llenado de los subtotals
                         $subttl_marcas->set_acumKpiMarcas($activacionBultos);
@@ -554,12 +554,15 @@ switch ($_GET["op"]) {
         foreach ($devolucionesNota as $devol) array_push($datos, $devol);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        /*$data = Array();
+        $data = Array();
         foreach ($datos as $row){
 
             $sub_array = array();
 
-            $sub_array[] = $row["numerod"];
+            $tipoDocu  = ($row["tipofac"]=='B' ? 'Devolución Factura' : 'Devolución Nota de Entrega');
+            $tipoBadge = ($row["tipofac"]=='B' ? 'badge-primary' : 'badge-secondary');
+
+            $sub_array[] = $row["numerod"] .'<br><span class="right badge '.$tipoBadge.'">'.$tipoDocu.'</span>';
             $sub_array[] = $row["descrip"];
             $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
             $sub_array[] = number_format($row["montod"], 2, ",", ".");
@@ -572,8 +575,8 @@ switch ($_GET["op"]) {
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-            "aaData" => $data);*/
-        echo json_encode($devolucionesNota);
+            "aaData" => $data);
+        echo json_encode($results);
         break;
 
     case 'listar_cobranzas_rebajadas':
@@ -584,7 +587,7 @@ switch ($_GET["op"]) {
         $fechai2 = str_replace('/','-',$fechai); $fechai2 = date('Y-m-d', strtotime($fechai2));
         $fechaf2 = str_replace('/','-',$fechaf); $fechaf2 = date('Y-m-d', strtotime($fechaf2));
 
-        $datos = $kpi->get_MaestroClientesPorRuta($edv);
+        $datos = Cobranzas::getCobranzasRebajadas($edv, $fechai2, $fechaf2);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
@@ -592,10 +595,10 @@ switch ($_GET["op"]) {
 
             $sub_array = array();
 
-            $sub_array[] = $row["descrip"];
-            $sub_array[] = $row["codclie"];
-            $sub_array[] = $row["direc"];
-            $sub_array[] = strtoupper($row["dia_visita"]);
+            $sub_array[] = $row["numerod"];
+            $sub_array[] = $row["Descrip"];
+            $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
+            $sub_array[] = number_format($row["MONTO"], 2, ",", ".");
 
             $data[] = $sub_array;
         }

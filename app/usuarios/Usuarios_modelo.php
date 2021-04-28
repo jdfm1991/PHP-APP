@@ -30,8 +30,11 @@ class Usuarios extends Conectar
             $login = $_POST["login"];
 
             if (empty($login) and empty($clave)) {
-                header("Location:" . Conectar::ruta() . "index.php?m=2");
-                exit();
+                return array(
+                    'status'  => '2',
+                    'message' => 'Los campos estan vacios.',
+                    'data'    => array()
+                );
             } else {
 
                 $sql = "SELECT * FROM Usuarios WHERE Login=? AND Clave =?";
@@ -43,21 +46,22 @@ class Usuarios extends Conectar
                 $resultado = $sql->fetch();
 
                 //si existe el registro entonces se conecta en session
-                if (is_array($resultado) and count($resultado) > 0) {
+                if (is_array($resultado) and count($resultado) > 0)
+                {
                     /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
-                    $_SESSION["cedula"] = $resultado["Cedula"];
-                    $_SESSION["login"] = $resultado["Login"];
-                    $_SESSION["nomper"] = $resultado["Nomper"];
-                    $_SESSION["email"] = $resultado["Email"];
-                    $_SESSION["rol"] = $resultado["ID_Rol"];
+                    return array(
+                        'status'  => '1',
+                        'message' => 'ok',
+                        'data'    => $resultado
+                    );
 
-//                    var_dump($_SESSION);
-                    header("Location:" . URL_APP . "principal.php");
-                    exit();
                 } else {
-                    //si no existe el registro entonces le aparece un mensaje
-                    header("Location:" . Conectar::ruta() . "index.php?m=1");
-                    exit();
+
+                    return array(
+                        'status'  => '2',
+                        'message' => 'El correo y/o password es incorrecto o no tienes permiso!',
+                        'data'    => array()
+                    );
                 }
             }//cierre del else
         }//condicion enviar

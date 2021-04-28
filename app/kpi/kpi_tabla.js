@@ -46,7 +46,7 @@ function listar_kpi(){
                 $.each(datos.tabla, function(idx, opt) {
                     let { coordinador, data, subtotal } = opt
 
-                    $('#tabla').append('<tr><td class="text-left" style="font-weight: bold" colspan="'+colspanTotal+'">' + coordinador.toUpperCase() + '</td></tr>');
+                    $('#tabla').append('<tr><td class="text-left" colspan="'+colspanTotal+'">Coordinador:   <strong>' + coordinador.toUpperCase() + '</strong></td></tr>');
 
                     $.each(data, function(idx, opt) {
                         $('#tabla').append(obtenerInfoTabla(opt));

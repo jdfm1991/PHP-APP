@@ -1,8 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +12,7 @@ require_once("../acceso/const.php");
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="<?php echo SERVERURL; ?>public/dist/img/AdminLTELogo.png " alt="AdminLTE Logo"
+                <img src="<?php echo URL_LIBRARY; ?>dist/img/AdminLTELogo.png " alt="AdminLTE Logo"
                      class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Logística y Despacho</span>
@@ -88,11 +86,11 @@ require_once("../acceso/const.php");
                 </tr>
                 <tr id="cells">
                     <th class="small align-middle">Rutas</th>
-                    <th class="small align-middle">Maestro</th>
+                    <th class="small align-middle">Maestro de Clientes</th>
                     <th class="small align-middle">Clientes Activados</th>
-                    <th class="small align-middle">% Activación Alcanzado</th>
-                    <th class="small align-middle">Pendiente</th>
-                    <th class="small align-middle">Visita</th>
+                    <th class="small align-middle">% Activación Clientes Alcanzado</th>
+                    <th class="small align-middle">Clientes Pendientes</th>
+                    <th class="small align-middle">Frecuencia de Visita</th>
                     <th class="small align-middle">Objetivo Facturas más Notas Mensual</th>
                     <th class="small align-middle">Total Facturas Realizadas</th>
                     <th class="small align-middle">Total Notas Realizadas</th>
@@ -161,7 +159,7 @@ require_once("../acceso/const.php");
 
     <!-- Main Footer -->
     <?php require_once("../footer.php"); ?>
-    <script type="text/javascript" src="../helpers/js/Number.js"></script>
+    <script src="<?php echo URL_HELPERS_JS; ?>Number.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="kpi_tabla.js"></script>
 </div>
