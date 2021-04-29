@@ -30,7 +30,7 @@ switch ($_GET["op"]) {
                 );
 
                 include_once (PATH_HELPERS_PHP . "php/Session.php");
-                Session::create($response['data']);
+                Session::create($resultado);
 
             } else {
                 $output = array(

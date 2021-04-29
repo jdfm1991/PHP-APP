@@ -84,12 +84,16 @@ require_once("../config/const.php");
 <div id="preloader"></div>
 
 <!-- Vendor JS Files -->
-<script src="<?php echo URL_LANDINGPAGE; ?>vendor/jquery/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="<?php echo URL_LIBRARY; ?>plugins/jquery/jquery.min.js"></script>
+<!--<script src="--><?php //echo URL_LANDINGPAGE; ?><!--vendor/jquery/jquery.min.js"></script>-->
 <script src="<?php echo URL_LANDINGPAGE; ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo URL_LANDINGPAGE; ?>vendor/jquery.easing/jquery.easing.min.js"></script>
 <!-- jquery-validation -->
 <script src="<?php echo URL_LIBRARY; ?>plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo URL_LIBRARY; ?>plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- sweetalert2 -->
+<script src="<?php echo URL_LIBRARY; ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
 <script src="<?php echo URL_LANDINGPAGE; ?>vendor/waypoints/jquery.waypoints.min.js"></script>
 <script src="<?php echo URL_LANDINGPAGE; ?>vendor/isotope-layout/isotope.pkgd.min.js"></script>

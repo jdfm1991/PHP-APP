@@ -2,10 +2,14 @@ let validator;
 
 $(document).ready(function () {
 
-    $.validator.setDefaults({
+    /*$.validator.setDefaults({
         submitHandler: function () {
             login();
         }
+    });*/
+
+    $("#btnAcceder").click(function () {
+        login();
     });
 
     $("#btnLogin").click(function () {
@@ -23,12 +27,14 @@ function limpiar() {
 }
 
 function login() {
-    const formData = new FormData($("#login_form")[0]);
+    let user = $('#login').val()
+    let clave = $('#clave').val()
+    // const formData = new FormData($("#login_form")[0]);
     $.ajax({
         url: "auth/auth_controlador.php?op=login_in",
         type: "POST",
         dataType: "json",
-        data: formData,
+        data: {login:user, clave:clave},
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
             console.log(e.responseText);
@@ -42,7 +48,7 @@ function login() {
                 $('#loginModal').modal('hide');
                 limpiar();
 
-                window.locationf = '../principal'
+                window.location = 'principal.php'
             } else {
                 $("#error").show();
                 $('#mensaje').html(message);
