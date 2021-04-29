@@ -42,7 +42,7 @@ function login() {
                 $('#loginModal').modal('hide');
                 limpiar();
 
-                // window.location = 'principal.php'
+                window.location = 'principal.php'
             } else {
                 $("#error").show();
                 $('#mensaje').html(message);
