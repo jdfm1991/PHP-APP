@@ -1,39 +1,53 @@
 let validator;
 
 $(document).ready(function () {
+
     $.validator.setDefaults({
         submitHandler: function () {
-            guardaryeditar();
+            login();
         }
+    });
+
+    $("#btnLogin").click(function () {
+        limpiar();
+        $('#loginModal').modal('show');
     });
 
     validaciones();
 });
 
 function limpiar() {
-    validator.resetForm();
+    $("#error").hide();
+    $('#login').removeClass('is-invalid');
+    $('#clave').removeClass('is-invalid');
 }
 
-function guardaryeditar() {
-    const formData = new FormData($("#edv_form")[0]);
+function login() {
+    const formData = new FormData($("#login_form")[0]);
     $.ajax({
-        url: "kpimanager_controlador.php?op=guardar",
+        url: "auth/auth_controlador.php?op=login_in",
         type: "POST",
         dataType: "json",
         data: formData,
-        contentType: false,
-        processData: false,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
             console.log(e.responseText);
         },
-        success: function (data) {
-            let { icono, mensaje } = data
-            ToastSweetMenssage(icono, mensaje);
-            $('#edv_form')[0].reset();
-            $('#kpimanagerModal').modal('hide');
-            $('#tabla').DataTable().ajax.reload();
-            limpiar();
+        success: function (callback) {
+            let {  status, message, data } = callback
+
+            if (status) {
+                $("#error").hide();
+                $('#login_form')[0].reset();
+                $('#loginModal').modal('hide');
+                limpiar();
+
+                window.locationf = '../principal'
+            } else {
+                $("#error").show();
+                $('#mensaje').html(message);
+            }
+
         }
     });
 }
@@ -47,7 +61,7 @@ function validaciones() {
             },
             clave: {
                 required: true,
-                minlength: 5
+                minlength: 6
             },
         },
         messages: {
@@ -57,7 +71,7 @@ function validaciones() {
             },
             clave: {
                 required: "Campo requerido",
-                minlength: "El Campo debe contener al menos 5 caracteres"
+                minlength: "El Campo debe contener al menos 6 caracteres"
             }
         },
         errorElement: 'span',

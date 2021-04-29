@@ -20,10 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/phpinfo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA/schema/dbo.sYMBAA.zip" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/auth_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/auth_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/login1.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/login_controller.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/login_modelo.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/landingpage/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/landingpage/css/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,9 +62,6 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
-  </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="5128d731-f344-44ed-bc3e-a9b32045240f" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">

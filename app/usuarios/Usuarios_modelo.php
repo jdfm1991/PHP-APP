@@ -18,55 +18,6 @@ class Usuarios extends Conectar
         return $sql->rowCount();
     }
 
-    public function login()
-    {
-
-        $conectar = parent::conexion();
-        parent::set_names();
-        if (isset($_POST["enviar"])) {
-
-            //INICIO DE VALIDACIONES
-            $clave = md5($_POST["clave"]);
-            $login = $_POST["login"];
-
-            if (empty($login) and empty($clave)) {
-                return array(
-                    'status'  => '2',
-                    'message' => 'Los campos estan vacios.',
-                    'data'    => array()
-                );
-            } else {
-
-                $sql = "SELECT * FROM Usuarios WHERE Login=? AND Clave =?";
-                $sql = $conectar->prepare($sql);
-                $sql->bindValue(1, $login);
-                $sql->bindValue(2, $clave);
-                $sql->execute();
-
-                $resultado = $sql->fetch();
-
-                //si existe el registro entonces se conecta en session
-                if (is_array($resultado) and count($resultado) > 0)
-                {
-                    /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
-                    return array(
-                        'status'  => '1',
-                        'message' => 'ok',
-                        'data'    => $resultado
-                    );
-
-                } else {
-
-                    return array(
-                        'status'  => '2',
-                        'message' => 'El correo y/o password es incorrecto o no tienes permiso!',
-                        'data'    => array()
-                    );
-                }
-            }//cierre del else
-        }//condicion enviar
-    }
-
     //listar los usuarios
     public function get_usuarios()
     {
