@@ -1,5 +1,6 @@
 <?php
-
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
 
@@ -26,7 +27,8 @@ switch ($_GET["op"]) {
                 $output = array(
                     'status'  => true,
                     'message' => 'ok',
-                    'data'    => $resultado
+                    'data'    => $resultado,
+                    'sesion'  => $_SESSION
                 );
 
                 include_once (PATH_HELPERS_PHP . "php/Session.php");

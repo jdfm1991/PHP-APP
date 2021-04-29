@@ -1,4 +1,6 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 require_once("../config/const.php");
 ?>
 <!DOCTYPE html>
