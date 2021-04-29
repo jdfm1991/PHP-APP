@@ -20,19 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/php/Session.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Cobranzas.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phpinfo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA/schema/dbo.sYMBAA.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +45,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -62,6 +54,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="5128d731-f344-44ed-bc3e-a9b32045240f" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
@@ -86,7 +81,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../InversionesML" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
@@ -94,6 +89,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\laragon\www\appweb" />
       <recent name="C:\xampp\htdocs\appweb\kpi\modales" />
       <recent name="C:\xampp\htdocs\appweb\public\plugins\datatables" />
     </key>

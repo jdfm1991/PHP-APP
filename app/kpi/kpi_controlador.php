@@ -490,7 +490,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["numerod"];
             $sub_array[] = $row["descrip"];
             $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
-            $sub_array[] = number_format($row["montod"], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row["montod"], 2);
 
             $data[] = $sub_array;
         }
@@ -523,7 +523,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["numerod"];
             $sub_array[] = $row["descrip"];
             $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
-            $sub_array[] = number_format($row["montod"], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row["montod"], 2);
 
             $data[] = $sub_array;
         }
@@ -565,7 +565,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["numerod"] .'<br><span class="right badge '.$tipoBadge.'">'.$tipoDocu.'</span>';
             $sub_array[] = $row["descrip"];
             $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
-            $sub_array[] = number_format($row["montod"], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row["montod"], 2);
 
             $data[] = $sub_array;
         }
@@ -598,7 +598,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["numerod"];
             $sub_array[] = $row["Descrip"];
             $sub_array[] = date('d-m-Y', strtotime($row["fechae"]));
-            $sub_array[] = number_format($row["MONTO"], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row["MONTO"], 2);
 
             $data[] = $sub_array;
         }
