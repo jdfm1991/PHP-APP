@@ -20,109 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/login/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/login/login.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/login/login1.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/login/login_controller.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/login/login_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/apple-touch-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/clients/client-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/clients/client-2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/clients/client-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/clients/client-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/clients/client-5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/clients/client-6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/cta-bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/hero-img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-details-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-details-2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/portfolio/portfolio-details-3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/skills.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/team/team-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/team/team-2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/team/team-3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/team/team-4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/img/why-us.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/js/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/aos/aos.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/aos/aos.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-grid.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-grid.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-grid.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-grid.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-reboot.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-reboot.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-reboot.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap-reboot.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/css/bootstrap.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.bundle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.bundle.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.bundle.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.bundle.min.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/bootstrap/js/bootstrap.min.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/css/animations.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/css/boxicons.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/css/boxicons.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/css/transformations.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/fonts/boxicons.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/fonts/boxicons.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/fonts/boxicons.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/fonts/boxicons.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/boxicons/fonts/boxicons.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/icofont/fonts/icofont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/icofont/fonts/icofont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/icofont/icofont.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/isotope-layout/isotope.pkgd.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/isotope-layout/isotope.pkgd.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/jquery.easing/jquery.easing.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/jquery/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/jquery/jquery.min.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/ajax-loader.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.carousel.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.carousel.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.theme.default.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.theme.default.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.theme.green.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.theme.green.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/assets/owl.video.play.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/owl.carousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/owl.carousel/owl.carousel.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/php-email-form/validate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.symbol.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/remixicon/remixicon.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/venobox/venobox.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/venobox/venobox.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/venobox/venobox.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/venobox/venobox.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/landingpage/vendor/waypoints/jquery.waypoints.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phpinfo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA/schema/dbo.sYMBAA.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,13 +38,14 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -152,6 +54,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="5128d731-f344-44ed-bc3e-a9b32045240f" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
@@ -176,7 +81,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../php-jwt-authentication-example" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
@@ -184,15 +89,16 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\laragon\www\appweb" />
       <recent name="C:\xampp\htdocs\appweb\kpi\modales" />
       <recent name="C:\xampp\htdocs\appweb\public\plugins\datatables" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\appweb\app\login" />
       <recent name="C:\xampp\htdocs\appweb" />
       <recent name="C:\xampp\htdocs\appweb\app" />
       <recent name="C:\xampp\htdocs\appweb\kpimanager" />
       <recent name="C:\xampp\htdocs\appweb\kpi" />
+      <recent name="C:\xampp\htdocs\appweb\kpi\tablas" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -235,7 +141,7 @@
       <workItem from="1619188794309" duration="25507000" />
       <workItem from="1619546121953" duration="753000" />
       <workItem from="1619547485669" duration="3021000" />
-      <workItem from="1619619691037" duration="19611000" />
+      <workItem from="1619619691037" duration="13334000" />
     </task>
     <servers />
   </component>
