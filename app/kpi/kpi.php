@@ -1,6 +1,7 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
 require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>

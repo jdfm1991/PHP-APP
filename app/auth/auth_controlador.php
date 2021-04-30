@@ -23,6 +23,9 @@ switch ($_GET["op"]) {
 
             if (is_array($resultado) and count($resultado) > 0)
             {
+                include_once (PATH_HELPERS_PHP . "php/Session.php");
+                Session::create($resultado);
+
                 /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
                 $output = array(
                     'status'  => true,
@@ -30,9 +33,6 @@ switch ($_GET["op"]) {
                     'data'    => $resultado,
                     'sesion'  => $_SESSION
                 );
-
-                include_once (PATH_HELPERS_PHP . "php/Session.php");
-                Session::create($resultado);
 
             } else {
                 $output = array(

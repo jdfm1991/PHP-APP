@@ -20,33 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_4_2021_8_03_a__m__[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_4_2021_8_03_a__m___Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m___Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/auth_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/ver_productos_factura_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/ver_productos_factura_modal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/crear_o_editar_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/crear_o_editar_cliente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_cliente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,6 +61,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="5128d731-f344-44ed-bc3e-a9b32045240f" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
