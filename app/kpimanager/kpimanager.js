@@ -123,7 +123,12 @@ function cambiarEstado(id, est) {
             $.ajax({
                 url: "kpimanager_controlador.php?op=activarydesactivar",
                 method: "POST",
+                dataType: "json",
                 data: {id: id, est: est},
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
                 success: function (data) {
                     SweetAlertSuccessLoading(data.mensaje);
                     $('#tabla').DataTable().ajax.reload();

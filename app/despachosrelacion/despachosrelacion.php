@@ -1,6 +1,5 @@
 <?php
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,6 +75,7 @@ require_once("../acceso/const.php");
 </div>
 <!-- /.content-wrapper -->
 <?php require_once("../footer.php");?>
+<script type="text/javascript" src="<?php echo URL_HELPERS_JS ?>Number.js"></script>
 <script type="text/javascript" src="despachosrelacion.js"></script>
 </body>
 </html>

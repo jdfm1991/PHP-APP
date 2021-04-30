@@ -23,7 +23,6 @@ function init() {
     $("#minimizar").slideDown();
     $("#tabla_facturas_por_despachar").hide();
     $("#tabla_detalle_despacho").hide();
-    $("#loader1").hide();
     $( "#containerProgress" ).hide();
     $('.nextBtn').attr("disabled", true);
     $('.generar').attr("disabled", true);
@@ -98,12 +97,16 @@ function onPressKey(e) {
 function cargarCapacidadVehiculo(id) {
     $.ajax({
         url: "despachos_controlador.php?op=obtener_pesomaxvehiculo",
-        method: "POST", data: {id: id},
+        method: "POST",
+        dataType: "json",
+        data: {id: id},
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
         success: function (data) {
-            data = JSON.parse(data);
             peso_max_vehiculo = data.capacidad;
             cubicaje_max_vehiculo = data.cubicajeMax;
-            console.log(data.cubicajeMax);
         }
     });
 }
@@ -116,9 +119,13 @@ function validarPesoporFactura(numero_fact){
             cache: true,
             url: "despachos_controlador.php?op=obtener_pesoporfactura",
             method: "POST",
+            dataType: "json",
             data: {numero_fact: numero_fact, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
             success: function (data) {
-                data = JSON.parse(data);
                 if( data.cond === 'false' ){
                     Swal.fire('Atención!', 'El Vehiculo esta al maximo de Capacidad!', 'error');
                     resultado = false;
@@ -139,9 +146,13 @@ function validarFacturaEnDespachos(numero_fact){
             cache: true,
             url: "despachos_controlador.php?op=buscar_facturaendespacho",
             method: "POST",
+            dataType: "json",
             data: {numero_fact: numero_fact},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
             success: function (data) {
-                data = JSON.parse(data);
                 if( data.mensaje.toString().length > 0 ){
                     Swal.fire('Atención!', data.mensaje, 'error');
                     resultado = false;
@@ -162,9 +173,13 @@ function validarExistenciaFactura(numero_fact){
             cache: true,
             url: "despachos_controlador.php?op=buscar_existefactura",
             method: "POST",
+            dataType: "json",
             data: {numero_fact: numero_fact, registros_por_despachar: registros_por_despachar},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
             success: function (data) {
-                data = JSON.parse(data);
                 if( data.mensaje.toString().length > 0 ){
                     Swal.fire('Atención!', data.mensaje, 'error');
                     resultado = false;
@@ -181,8 +196,12 @@ function totales() {
     $.ajax({
         url: "despachos_controlador.php?op=listar_totales_paq_bul_despacho",
         method: "post",
+        dataType: "json",
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
         success: function (data) {
-            data = JSON.parse(data);
             var texto= "Total Bultos: "+data.total_bultos+"  Total Pag: "+data.total_paq;
             $("#cuenta").html(texto);
 
@@ -196,31 +215,39 @@ function buscarFacturaEnDespachos(nrofact){
     if (nrofact !== "") {
         nrofact = addZeros(nrofact);
         $("#detalle_despacho").html("");
-        $.post("despachos_controlador.php?op=buscar_facturaEnDespachos_modal", {nrfactb: nrofact}, function(data, status){
-            data = JSON.parse(data);
-
-            if(!jQuery.isEmptyObject(data.factura_en_despacho)){
-                $("#detalle_despacho").append(
-                    '<p>' +
+        $.ajax({
+            url: "despachos_controlador.php?op=buscar_facturaEnDespachos_modal",
+            type: "POST",
+            dataType: "json",
+            data: {nrfactb: nrofact},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                if(!jQuery.isEmptyObject(data.factura_en_despacho)){
+                    $("#detalle_despacho").append(
+                        '<p>' +
                         '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
                         '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
                         '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
                         '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
-                    '</p>'
-                );
-
-                if(!jQuery.isEmptyObject(data.datos_pago)){
-                    $("#detalle_despacho").append(
-                        '<p>' +
-                            '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
-                            '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
                         '</p>'
                     );
-                }else{
-                    $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+
+                    if(!jQuery.isEmptyObject(data.datos_pago)){
+                        $("#detalle_despacho").append(
+                            '<p>' +
+                            '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
+                            '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                            '</p>'
+                        );
+                    }else{
+                        $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+                    }
+                } else {
+                    $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
                 }
-            } else {
-                $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
             }
         });
     } else {
@@ -229,23 +256,29 @@ function buscarFacturaEnDespachos(nrofact){
 }
 
 function listar_chofer_vehiculo(){
-    $.post("despachos_controlador.php?op=listar_chofer_vehiculo", function(data, status){
-        data = JSON.parse(data);
+    $.ajax({
+        url: "despachos_controlador.php?op=listar_chofer_vehiculo",
+        type: "POST",
+        dataType: "json",
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            //lista de seleccion de choferes
+            $('#chofer').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_choferes, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+            });
 
-        //lista de seleccion de choferes
-        $('#chofer').append('<option name="" value="">Seleccione</option>');
-        $.each(data.lista_choferes, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
-        });
-
-        //lista de seleccion de vehiculos
-        $('#vehiculo').append('<option name="" value="">Seleccione</option>');
-        $.each(data.lista_vehiculos, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#vehiculo').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + "  " + opt.Capacidad + " Kg" + '</option>');
-        });
-
+            //lista de seleccion de vehiculos
+            $('#vehiculo').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_vehiculos, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#vehiculo').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + "  " + opt.Capacidad + " Kg" + '</option>');
+            });
+        }
     });
 }
 
@@ -266,6 +299,9 @@ $(document).ready(function () {
     $("#destino").on('keyup', () => no_puede_estar_vacio()).keyup();
     $("#factura").on('keyup', () => no_puede_estar_vacio()).keyup();
 
+    /*$('#factura').keypress(function(e){
+        onPressKey(e)
+    });*/
 });
 
 function VistasDeFormulario() {
@@ -331,9 +367,16 @@ function anadir(documento) {
 
 function eliminar(documento) {
     if(documento.length > 0) {
-        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: documento, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo: peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo, eliminarPeso: "si"},
-            function (data, status) {
-                data = JSON.parse(data);
+        $.ajax({
+            url: "despachos_controlador.php?op=obtener_pesoporfactura",
+            type: "POST",
+            dataType: "json",
+            data: {numero_fact: documento, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo: peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo, eliminarPeso: "si"},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
                 //asignamos el peso acumulado restandole la factura a eliminar
                 peso_acum_facturas = data.pesoNuevoAcum.toString();
                 cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
@@ -347,7 +390,7 @@ function eliminar(documento) {
                 //recargar la tabla
                 cargarTabladeFacturasporDespachar();
             }
-        );
+        });
     }
 }
 
@@ -398,17 +441,23 @@ function anadirFactPorDespachar() {
         anadir(factura);
 
         //cargar peso de la factura
-        $.post("despachos_controlador.php?op=obtener_pesoporfactura", {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
-            function (data, status) {
-                data = JSON.parse(data);
-
+        $.ajax({
+            url: "despachos_controlador.php?op=obtener_pesoporfactura",
+            type: "POST",
+            dataType: "json",
+            data: {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
                 peso_acum_facturas = data.pesoNuevoAcum.toString();
                 cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
 
                 //seteamos la barra de progreso
                 barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso, data.cubicajeNuevoAcum, data.porcentajeCubicaje);
             }
-        );
+        });
 
         //cargar tabla de facturas por despachar
         cargarTabladeFacturasporDespachar();
@@ -435,27 +484,20 @@ $(document).on("click", ".generar", function () {
             // estado_minimizado = false;
             if (fecha !== "" && chofer !== "" && vehiculo !== "" && destino !== "" && registros_por_despachar.length > 0) {
 
-                var mensaje = "";
                 //INSERTAR EL NUEVO DESPACHO
                 $.ajax({
                     url: "despachos_controlador.php?op=registrar_despacho",
                     method: "POST",
+                    dataType: "json",
                     data: {fechad: fecha, chofer: chofer, vehiculo: vehiculo, destino: destino, usuario: usuario, documentos: registros_por_despachar},
+                    error: function (e) {
+                        SweetAlertError(e.responseText, "Error!")
+                        console.log(e.responseText);
+                    },
                     success: function (data) {
-                        data = JSON.parse(data);
-                        mensaje = data.mensaje;
+                        let {icono, mensaje} = data;
                         sessionStorage.setItem("correl", data.correl);
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                        });
-                        Toast.fire({
-                            icon: data.icono,
-                            title: mensaje
-                        });
+                        ToastSweetMenssage(icono, mensaje);
 
                         //verifica si el mensaje de insercion contiene error
                         if(mensaje.includes('ERROR')) {
@@ -469,12 +511,12 @@ $(document).on("click", ".generar", function () {
 
                 estado_minimizado = true;
             } else {
-                Swal.fire('Atención!', 'NO TIENE FACTURAS SELECCIONADAS.', 'error');
+                SweetAlertError('NO TIENE FACTURAS SELECCIONADAS.', "Atención!")
                 return (false);
             }
         }
     } else {
-        Swal.fire('Atención!', 'EL PESO DE LA MERCANCIA SOBREPASA LA CAPACIDAD QUE SOPORTA ESTE CAMION.', 'error');
+        SweetAlertError('EL PESO DE LA MERCANCIA SOBREPASA LA CAPACIDAD QUE SOPORTA ESTE CAMION.', "Atención!")
         return (false);
 
     }
@@ -506,19 +548,21 @@ $(document).on("click", "#btnBuscarFactModal", function () {
 
 
 function cargarTabladeFacturasporDespachar() {
+    let isError = false;
     if(registros_por_despachar.toString().length > 0){
         tabla_por_despachar = $('#fact_por_despachar_data').dataTable({
             "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
             "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
             "ajax": {
-                beforeSend: function () {
-                    $("#loader1").show(''); //MOSTRAMOS EL LOADER.
-                },
                 url: "despachos_controlador.php?op=obtener_facturasporcargardespacho",
                 type: "post",
                 dataType: "json",
                 data: {registros_por_despachar: registros_por_despachar},
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -536,8 +580,7 @@ function cargarTabladeFacturasporDespachar() {
                         estado_minimizado = false;
                     }
 
-                    $("#loader1").hide();//OCULTAMOS EL LOADER.
-                    // validarCantidadRegistrosTabla();
+                    if(!isError) SweetAlertLoadingClose();
                     limpiar_campo_factura();//LIMPIAMOS EL INPUT.
                 }
             },//TRADUCCION DEL DATATABLE.
@@ -546,10 +589,6 @@ function cargarTabladeFacturasporDespachar() {
             "bInfo": true,
             "iDisplayLength": 10,
             "order": [[0, "desc"]],
-            'columnDefs':[{
-                "targets": [0,1,2,3,4,5,6,7],
-                "className": "text-center",
-            }],
             "language": texto_español_datatables
         });
     } else {
@@ -561,25 +600,27 @@ function cargarTabladeFacturasporDespachar() {
 function cargarTabladeProductosEnDespachoCreado() {
     //obtenemos el nuevo correlativo
     var correlativo = sessionStorage.getItem("correl");
-
+    let isError = false;
     //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
     tabla_despachos = $('#despacho_general_data').dataTable({
         "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
         "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
         "ajax": {
-            beforeSend: function () {
-                $("#loader").show(''); //MOSTRAMOS EL LOADER.
-            },
             url: "despachos_controlador.php?op=listar_despacho",
             type: "post",
+            dataType: "json",
             data: {correlativo: correlativo},
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
             error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
                 console.log(e.responseText);
             },
             complete: function () {
 
                 $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
-                $("#loader").hide();//OCULTAMOS EL LOADER.
+                if(!isError) SweetAlertLoadingClose();
                 totales();
                 validarCantidadRegistrosTabla();
 

@@ -1,7 +1,7 @@
 
 <?php
  //LLAMAMOS A LA CONEXION.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 class Despachos extends Conectar{
 
@@ -93,7 +93,7 @@ class Despachos extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getNuevoCorrelativo() {
+    /*public function getNuevoCorrelativo() {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
@@ -107,26 +107,29 @@ class Despachos extends Conectar{
         $sql = $conectar->prepare($sql);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }*/
 
-    public function insertarDespacho($fechad, $chofer, $vehiculo, $destino, $usuario) {
-
+    public function insertarDespacho($values) {
+        $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "INSERT INTO Despachos (fechae, fechad, ID_Chofer, ID_Vehiculo, Destino, ID_Usuario) VALUES (GETDATE(), ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Despachos (fechae, fechad, ID_Chofer, ID_Vehiculo, Destino, ID_Usuario) VALUES (?, ?, ?, ?, ?, ?)";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$fechad);
-        $sql->bindValue(2,$chofer);
-        $sql->bindValue(3,$vehiculo);
-        $sql->bindValue(4,$destino);
-        $sql->bindValue(5,$usuario);
-        return $sql->execute();
+        $sql->bindValue($i+=1, date('Y-m-d'));
+        $sql->bindValue($i+=1,$values['fechad']);
+        $sql->bindValue($i+=1,$values['chofer']);
+        $sql->bindValue($i+=1,$values['vehiculo']);
+        $sql->bindValue($i+=1,$values['destino']);
+        $sql->bindValue($i+=1,$values['usuario']);
+        $resultado = $sql->execute();
+
+        return $resultado ? $conectar->lastInsertId() : -1;
     }
 
     public function deleteDespacho($correlativo) {

@@ -2,7 +2,6 @@ var tabla;
 
 //Función que se ejecuta al inicio
 function init() {
-    $("#loader").hide();
     listar();
 }
 
@@ -22,11 +21,14 @@ function cambiarEstado(id, est) {
             $.ajax({
                 url: "relacionclientesinactivos_controlador.php?op=activarydesactivar",
                 method: "POST",
+                dataType: "json",
                 data: {codclie: id, est: est},
                 error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
                 },
                 success: function (data) {
+                    SweetAlertSuccessLoading(data.mensaje);
                     $('#cliente_data').DataTable().ajax.reload();
                 }
             });
@@ -36,23 +38,24 @@ function cambiarEstado(id, est) {
 
 //function listar
 function listar() {
+    let isError = false;
     tabla = $('#cliente_data').dataTable({
-
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax": {
-            beforeSend: function () {
-                $("#loader").show(''); //MOSTRAMOS EL LOADER.
-            },
             url: 'relacionclientesinactivos_controlador.php?op=listar',
             type: "get",
             dataType: "json",
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
             error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
                 console.log(e.responseText);
             },
             complete: function () {
                 $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                $("#loader").hide();//OCULTAMOS EL LOADER.
+                if(!isError) SweetAlertLoadingClose();
             }
         },
         "bDestroy": true,
@@ -60,31 +63,7 @@ function listar() {
         "bInfo": true,
         "iDisplayLength": 10,//Por cada 10 registros hace una paginación
         "order": [[0, "asc"]],//Ordenar (columna,orden)
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        }//cerrando language
-
+        "language": texto_español_datatables
     }).DataTable();
 }
 

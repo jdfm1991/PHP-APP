@@ -1,6 +1,5 @@
 <?php
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,18 +23,18 @@ require_once("../acceso/const.php");
                             <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="cliente_data">
                                 <thead style="background-color: #17A2B8;color: white;">
                                 <tr>
-                                    <th data-toggle="tooltip" data-placement="top" title="Codigo Cliente">Codigo Cliente</th>
-                                    <th data-toggle="tooltip" data-placement="top" title="Razón Social">Razón Social</th>
-                                    <th data-toggle="tooltip" data-placement="top" title="Rif">Rif</th>
-                                    <th data-toggle="tooltip" data-placement="top" title="Acción">Acción</th>
+                                    <th class="text-center" title="Codigo Cliente">Codigo Cliente</th>
+                                    <th class="text-center" title="Razón Social">Razón Social</th>
+                                    <th class="text-center" title="Rif">Rif</th>
+                                    <th class="text-center" title="Acción">Acción</th>
                                 </tr>
                                 </thead>
                                 <tfoot style="background-color: #ccc;color: white;">
                                 <tr>
-                                    <th style="text-align: center;">Codigo Cliente</th>
-                                    <th style="text-align: center;">Razón Social</th>
-                                    <th style="text-align: center;">Rif</th>
-                                    <th style="text-align: center;">Acción</th>
+                                    <th class="text-center">Codigo Cliente</th>
+                                    <th class="text-center">Razón Social</th>
+                                    <th class="text-center">Rif</th>
+                                    <th class="text-center">Acción</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -44,14 +43,7 @@ require_once("../acceso/const.php");
                             </table>
                         </div>
                     </div>
-                    <!-- BOX  LOADER -->
-                    <figure id="loader">
-                        <div class="dot white"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </figure>
+
                 </div>
             </div>
         </div>

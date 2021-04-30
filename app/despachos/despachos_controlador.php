@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO
 require_once("../choferes/choferes_modelo.php");
@@ -93,11 +93,11 @@ switch ($_GET["op"]) {
 
         //evaluacion del color de la barra de progreso del peso acumulado
         $bgProgress = "";
-        if(floatval($porcentajePeso) > 0 && floatval($porcentajePeso) <=69){
+        if(floatval($porcentajePeso) >= 0 && floatval($porcentajePeso) <70){
             $bgProgress = "bg-success";
-        } elseif(floatval($porcentajePeso) > 70 && floatval($porcentajePeso) <=89){
+        } elseif(floatval($porcentajePeso) >= 70 && floatval($porcentajePeso) <90){
             $bgProgress = "bg-warning";
-        }elseif (floatval($porcentajePeso) > 90 && floatval($porcentajePeso) <=100){
+        }elseif (floatval($porcentajePeso) >= 90 && floatval($porcentajePeso) <=100){
             $bgProgress = "bg-danger";
         }
         $output["porcentajePeso"] = $porcentajePeso;
@@ -162,6 +162,7 @@ switch ($_GET["op"]) {
 
         $datos = $despachos->getFacturaEnDespachos($_POST['nrfactb']);
 
+        $output = array();
         //verificamos que exista datos de la consulta
         if(is_array($datos) == true && count($datos) > 0) {
             //creamos un array para almacenar los datos procesados
@@ -255,24 +256,28 @@ switch ($_GET["op"]) {
             $array = explode(";", substr($_POST["documentos"], 0, -1));
         }
 
-        $creacionDespacho = $despachos->insertarDespacho($_POST["fechad"], $_POST["chofer"], $_POST["vehiculo"], $_POST["destino"], $_POST["usuario"]);
+        $values = array(
+            'fechad'   => $_POST["fechad"],
+            'chofer'   => $_POST["chofer"],
+            'vehiculo' => $_POST["vehiculo"],
+            'destino'  => $_POST["destino"],
+            'usuario'  => $_POST["usuario"],
+        );
 
-        if($creacionDespacho){
+        $creacionDespacho = $despachos->insertarDespacho($values);
 
-            $correlativo = $despachos->getNuevoCorrelativo();
-
-            (count($correlativo) > 0) ? $correl = $correlativo[0]["correl"] : $correl = 1;
+        if($creacionDespacho != -1){
 
             foreach ($array AS $item)
-                $despachos->insertarDetalleDespacho($correl, $item, 'A');
+                $despachos->insertarDetalleDespacho($creacionDespacho, $item, 'A');
 
             $cad_cero = "";
-            for($i=0; $i<(8-$num); $i++)
-                $cad_cero+=0;
+            for($i=0; $i<(8-intval($creacionDespacho)); $i++)
+                $cad_cero.='0';
 
-            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . ($cad_cero+$num);
+            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . ($cad_cero.$creacionDespacho);
             $output["icono"] = "success";
-            $output["correl"] = $correl;
+            $output["correl"] = $creacionDespacho;
         } else {
             $output["mensaje"] = "ERROR AL CREAR ESTE DESPACHO";
             $output["icono"] = "error";

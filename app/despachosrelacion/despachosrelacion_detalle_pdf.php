@@ -1,6 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 require('../public/fpdf/fpdf.php');
 

@@ -1,8 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 
 ?>
 <!DOCTYPE html>
@@ -81,73 +79,79 @@ require_once("../acceso/const.php");
 
 						</div>
 						<div class="row setup-content" id="step-2">
-
 							<div class="col-md-12">
 								<h3> Inclusión de Facturas</h3>
 								<div class="form-group">
 									<label class="control-label">Ingrese Número de Factura a Despachar</label>
-									<input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" onkeypress="onPressKey(event)" />
+									<input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" />
 								</div>
-								<button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
-
-                                <div class="form-check form-check-inline container text-center  justify-content-center align-items-center" id="containerProgress">
-                                    <div class="progress progress-xs" style="width: 10em">
-                                        <div class="progress-bar bg-success" id="barraProgreso" style="width: 0%"></div>
-                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <h5><span class="badge bg-success" id="textoBarraProgreso">0 / 0</span></h5>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div class="progress progress-xs" style="width: 10em">
-                                        <div class="progress-bar bg-info" id="barraProgresoCubicaje" style="width: 0%"></div>
-                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <h5><span class="badge bg-info" id="textoBarraProgresoCubicaje">0 / 0</span></h5>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
+                            </div>
+                            <div class="col-6">
+                                <div class="container text-center  justify-content-center align-items-center" id="containerProgress">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h5><span class="badge bg-success" id="textoBarraProgreso">0 / 0</span></h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5><span class="badge bg-info" id="textoBarraProgresoCubicaje">0 / 0</span></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar bg-success" id="barraProgreso" style="width: 0"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar bg-info" id="barraProgresoCubicaje" style="width: 0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-								<button class="btn btn-success float-right generar" type="button">Generar!</button>
-							</div>
-
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-success float-right generar" type="button">Generar!</button>
+                            </div>
 						</div>
 
 					</form>
 				</div>
-				<!-- BOX  LOADER -->
-                <figure id="loader1">
-                    <div class="dot white"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </figure>
+
 			</div>
 			<div class="card card-info" id="tabla_facturas_por_despachar">
 				<div class="card-header">
 					<h3 class="card-title">Relación de Facturas a Despachar</h3>
 				</div>
 				<div class="card-body" style="width:auto;">
-					<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="fact_por_despachar_data">
+					<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="fact_por_despachar_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Factura">Factura</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fecha">Fecha</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Razón Social">Razón Social</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Zona">Zona</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Ruta O EDV">Ruta</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Monto">Monto</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Peso (Kg)">Peso (Kg)</th>
-                                <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Volumen (cm3)">Volumen (cm3)</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Acción">Acción</th>
+								<th class="text-center" title="Factura">Factura</th>
+								<th class="text-center" title="Fecha">Fecha</th>
+								<th class="text-center" title="Razón Social">Razón Social</th>
+								<th class="text-center" title="Zona">Zona</th>
+								<th class="text-center" title="Ruta O EDV">Ruta</th>
+								<th class="text-center" title="Monto">Monto</th>
+								<th class="text-center" title="Peso (Kg)">Peso (Kg)</th>
+                                <th class="text-center" title="Volumen (cm3)">Volumen (cm3)</th>
+								<th class="text-center" title="Acción">Acción</th>
 							</tr>
 						</thead>
 						<tfoot style="background-color: #ccc;color: white;">
 							<tr>
-								<th style="text-align: center;">Factura</th>
-								<th style="text-align: center;">Fecha</th>
-								<th style="text-align: center;">Razón Social</th>
-								<th style="text-align: center;">Zona</th>
-								<th style="text-align: center;">Ruta</th>
-								<th style="text-align: center;">Monto</th>
-								<th style="text-align: center;">Peso (Kg)</th>
-                                <th style="text-align: center;">Volulem (cm3)</th>
-								<th style="text-align: center;">Acción</th>
+								<th class="text-center">Factura</th>
+								<th class="text-center">Fecha</th>
+								<th class="text-center">Razón Social</th>
+								<th class="text-center">Zona</th>
+								<th class="text-center">Ruta</th>
+								<th class="text-center">Monto</th>
+								<th class="text-center">Peso (Kg)</th>
+                                <th class="text-center">Volulem (cm3)</th>
+								<th class="text-center">Acción</th>
 							</tr>
 						</tfoot>
 						<tbody>
@@ -166,18 +170,18 @@ require_once("../acceso/const.php");
 					<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="despacho_general_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Codigo del Producto">Codigo del Producto</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Descripción">Descripción</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Cantidad de Bultos">Cantidad de Bultos</th>
-								<th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Cantidad de Paquetes">Cantidad de Paquetes</th>
+								<th class="text-center" title="Codigo del Producto">Codigo del Producto</th>
+								<th class="text-center" title="Descripción">Descripción</th>
+								<th class="text-center" title="Cantidad de Bultos">Cantidad de Bultos</th>
+								<th class="text-center" title="Cantidad de Paquetes">Cantidad de Paquetes</th>
 							</tr>
 						</thead>
 						<tfoot style="background-color: #aaa;color: white;">
 							<tr>
-								<th style="text-align: center;"></th>
-								<th style="text-align: center;">TOTAL = </th>
-								<th id="cantBul_tfoot" style="text-align: center;">Cantidad de Bultos</th>
-								<th id="cantPaq_tfoot" style="text-align: center;">Cantidad de Paquetes</th>
+								<th class="text-center"></th>
+								<th class="text-center">TOTAL = </th>
+								<th id="cantBul_tfoot" class="text-center">Cantidad de Bultos</th>
+								<th id="cantPaq_tfoot" class="text-center">Cantidad de Paquetes</th>
 							</tr>
 						</tfoot>
 						<tbody>
@@ -202,7 +206,7 @@ require_once("../acceso/const.php");
 
     </div>
     <?php require_once("../footer.php"); ?>
-    <script type="text/javascript" src="../helpers/js/Number.js"></script>
+    <script type="text/javascript" src="<?php echo URL_HELPERS_JS ?>Number.js"></script>
     <script type="text/javascript" src="despachos.js"></script>
 </body>
 </html>

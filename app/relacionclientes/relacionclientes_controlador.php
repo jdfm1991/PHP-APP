@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO
 require_once("relacionclientes_modelo.php");
@@ -481,15 +481,14 @@ switch ($_GET["op"]) {
         }
 
         $totales_factura = $relacion->get_totales_factura_por_id($numerod, $tipofact);
-        if (is_array($totales_factura) == true and count($totales_factura) > 0) {
-            $output["subtotal"] = number_format($totales_factura[0]['subtotal'], 2, ",", ".");
-            $output["descuento"] = number_format($totales_factura[0]['descuento'], 2, ",", ".");
-            $output["exento"] = number_format($totales_factura[0]['exento'], 2, ",", ".");
-            $output["base"] = number_format($totales_factura[0]['base'], 2, ",", ".");
-            $output["iva"] = number_format($totales_factura[0]['iva'], 0, ",", ".");
-            $output["impuesto"] = number_format($totales_factura[0]['impuesto'], 2, ",", ".");
-            $output["total"] = number_format($totales_factura[0]['total'], 2, ",", ".");
-        }
+        $output["subtotal"]  = isset($totales_factura[0]['subtotal']) ? number_format($totales_factura[0]['subtotal'], 2, ",", ".") : 0;
+        $output["descuento"] = isset($totales_factura[0]['descuento']) ? number_format($totales_factura[0]['descuento'], 2, ",", ".") : 0;
+        $output["exento"]    = isset($totales_factura[0]['exento']) ? number_format($totales_factura[0]['exento'], 2, ",", ".") : 0;
+        $output["base"]      = isset($totales_factura[0]['base']) ? number_format($totales_factura[0]['base'], 2, ",", ".") : 0;
+        $output["iva"]       = isset($totales_factura[0]['iva']) ? number_format($totales_factura[0]['iva'], 0, ",", ".") : 0;
+        $output["impuesto"]  = isset($totales_factura[0]['impuesto']) ? number_format($totales_factura[0]['impuesto'], 2, ",", ".") : 0;
+        $output["total"]     = isset($totales_factura[0]['total']) ? number_format($totales_factura[0]['total'], 2, ",", ".") : 0;
+
 
         $factura_despachada = $despachos->get_existe_factura_despachada_por_id($numerod);
         if (is_array($factura_despachada) == true and count($factura_despachada) > 0) {

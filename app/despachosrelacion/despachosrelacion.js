@@ -26,31 +26,26 @@ function limpiar_modal_detalle_despacho() {
     $("#cantFacturas").text("");
 }
 
-function agregarCeros(fact, cantidad_ceros = 6){
-    var cad_cero="";
-    for(var i=0;i<(cantidad_ceros-fact.length);i++)
-        cad_cero+=0;
-    return cad_cero+fact;
-}
-
 function modalEditarDespachos(correlativo) { //editar
+    let isError = false;
     limpiar_modal_detalle_despacho();
     if (correlativo !== "") {
         $.ajax({
             url: "despachosrelacion_controlador.php?op=buscar_despacho_por_correlativo",
             method: "POST",
+            dataType: "json",
             data: { correlativo: correlativo },
             beforeSend: function () {
                 $('#editarDespachoModal').modal('show');
                 $('#relacion_despacho_editar').hide();
                 $('#modalMostrarEditarDespacho').hide();
-                $("#loader_editar_despacho").show(''); //MOSTRAMOS EL LOADER.
+                SweetAlertLoadingShow();
             },
             error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
                 console.log(e.responseText);
             },
             success: function (data) {
-                data = JSON.parse(data);
 
                 //CABECERA DEL DESPACHO
                 $("#correlativo").val(correlativo);
@@ -85,42 +80,59 @@ function modalEditarDespachos(correlativo) { //editar
 
                 $('#relacion_despacho_editar').show();
                 $("#loader_editar_despacho").hide('');
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
     }
 }
 
 function modalMostrarEditarDespacho(correlativo) {
+    let isError = false;
     $('#alert_editar_despacho').hide();
-    $.post("despachosrelacion_controlador.php?op=buscar_cabeceraDespacho_para_editar", {correlativo: correlativo}, function (data, status) {
-        data = JSON.parse(data);
+    $.ajax({
+        url: "despachosrelacion_controlador.php?op=buscar_cabeceraDespacho_para_editar",
+        method: "POST",
+        dataType: "json",
+        data: {correlativo: correlativo},
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            //lista de seleccion de chofer
+            $('#chofer_editar').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_choferes, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#chofer_editar').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+            });
 
-        //lista de seleccion de chofer
-        $('#chofer_editar').append('<option name="" value="">Seleccione</option>');
-        $.each(data.lista_choferes, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#chofer_editar').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
-        });
+            //lista de seleccion de vehiculos
+            $('#vehiculo_editar').append('<option name="" value="">Seleccione</option>');
+            $.each(data.lista_vehiculos, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#vehiculo_editar').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + '  ' + opt.Capacidad + ' Kg' + '</option>');
+            });
 
-        //lista de seleccion de vehiculos
-        $('#vehiculo_editar').append('<option name="" value="">Seleccione</option>');
-        $.each(data.lista_vehiculos, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#vehiculo_editar').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + '  ' + opt.Capacidad + ' Kg' + '</option>');
-        });
-
-
-        $("#destino_editar").val(data.destino);
-        $("#fecha_editar").val(data.fecha);
-        $("#chofer_editar").val(data.chofer);
-        $("#vehiculo_editar").val(data.vehiculo);
-        $("#correlativo_editar").val(correlativo);
-        $('#editarChoferDestinoDespachoModal').modal('show');
+            $("#destino_editar").val(data.destino);
+            $("#fecha_editar").val(data.fecha);
+            $("#chofer_editar").val(data.chofer);
+            $("#vehiculo_editar").val(data.vehiculo);
+            $("#correlativo_editar").val(correlativo);
+            $('#editarChoferDestinoDespachoModal').modal('show');
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
     });
 }
 
 function modalGuardarEditarDespacho() {
-
+    let isError = false;
     var destino = $("#destino_editar").val();
     var fechad = $("#fecha_editar").val();
     var chofer = $("#chofer_editar").val();
@@ -129,14 +141,29 @@ function modalGuardarEditarDespacho() {
 
     if(destino.length > 0 && fechad.length > 0 && chofer.length > 0 && vehiculo.length >0){
         $('#editarChoferDestinoDespachoModal').modal('hide');
-        $.post("despachosrelacion_controlador.php?op=actualizar_cabeceraDespacho_para_editar", {correlativo: correlativo, destino: destino, fechad: fechad, chofer: chofer, vehiculo: vehiculo}, function (data, status) {
-            data = JSON.parse(data);
-            if(!data.mensaje.includes('ERROR')){
-                modalEditarDespachos(correlativo);
-                $('#editarChoferDestinoDespachoModal').modal('hide');
-                $('#relacion_data').DataTable().ajax.reload();
-            } else {
-                $('#alert_editar_despacho').show();
+        $.ajax({
+            url: "despachosrelacion_controlador.php?op=actualizar_cabeceraDespacho_para_editar",
+            method: "POST",
+            dataType: "json",
+            data: {correlativo: correlativo, destino: destino, fechad: fechad, chofer: chofer, vehiculo: vehiculo},
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
+            error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                if(!data.mensaje.includes('ERROR')){
+                    modalEditarDespachos(correlativo);
+                    $('#editarChoferDestinoDespachoModal').modal('hide');
+                    $('#relacion_data').DataTable().ajax.reload();
+                } else {
+                    $('#alert_editar_despacho').show();
+                }
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
     } else {
@@ -146,27 +173,42 @@ function modalGuardarEditarDespacho() {
 
 function modalMostrarDocumentoEnDespacho(nro_documento, correlativo) {
     $('#alert_editar_documento').hide();
-    $("#documento_editar").val(agregarCeros(nro_documento));
-    $("#viejo_documento_editar").val(agregarCeros(nro_documento));
+    $("#documento_editar").val(addZeros(nro_documento));
+    $("#viejo_documento_editar").val(addZeros(nro_documento));
     $("#correlativo_del_documento_editar").val(correlativo);
     $('#editarFacturaEnDespachoModal').modal('show');
 }
 
 function modalGuardarDocumentoEnDespacho() {
-
+    let isError = false;
     var documento_nuevo = $("#documento_editar").val();
     var documento_viejo = $("#viejo_documento_editar").val();
     var correlativo = $("#correlativo_del_documento_editar").val();
 
     if(documento_nuevo.length > 0 && documento_viejo.length > 0 && correlativo.length > 0){
-        $.post("despachosrelacion_controlador.php?op=actualizar_factura_en_despacho", {correlativo: correlativo, documento_nuevo: documento_nuevo, documento_viejo: documento_viejo}, function (data, status) {
-            data = JSON.parse(data);
-            if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
-                $('#editarFacturaEnDespachoModal').modal('hide');
-                $('#tabla_editar_despacho').DataTable().ajax.reload();
-            } else {
-                $('#alert_editar_documento').show();
-                $('#text_alert_editar_documento').text(data.mensaje);
+        $.ajax({
+            url: "despachosrelacion_controlador.php?op=actualizar_factura_en_despacho",
+            method: "POST",
+            dataType: "json",
+            data: {correlativo: correlativo, documento_nuevo: documento_nuevo, documento_viejo: documento_viejo},
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
+            error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
+                    $('#editarFacturaEnDespachoModal').modal('hide');
+                    $('#tabla_editar_despacho').DataTable().ajax.reload();
+                } else {
+                    $('#alert_editar_documento').show();
+                    $('#text_alert_editar_documento').text(data.mensaje);
+                }
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
     } else {
@@ -190,8 +232,14 @@ function modalEliminarDocumentoEnDespacho(nro_documento, correlativo) {
             $.ajax({
                 url: "despachosrelacion_controlador.php?op=eliminar_factura_en_despacho",
                 method: "POST",
+                dataType: "json",
                 data: {correlativo: correlativo, nro_documento: nro_documento},
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
                 success: function (data) {
+                    SweetAlertSuccessLoading(data.mensaje);
                     $('#tabla_editar_despacho').DataTable().ajax.reload();
                 }
             });
@@ -207,18 +255,27 @@ function modalAgregarDocumentoEnDespacho() {
 function modalGuardarNuevoDocumentoEnDespacho() {
 
     var correlativo = $("#correlativo").val();
-    var documento_agregar = agregarCeros($("#documento_agregar").val());
+    var documento_agregar = addZeros($("#documento_agregar").val());
 
     if(correlativo.length > 0 && documento_agregar.length > 0){
-        $.post("despachosrelacion_controlador.php?op=agregar_factura_en_despacho", {correlativo: correlativo, documento_agregar: documento_agregar}, function (data, status) {
-            data = JSON.parse(data);
-            if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
-                $('#agregarFacturaEnDespachoModal').modal('hide');
-                $('#tabla_editar_despacho').DataTable().ajax.reload();
-                $('#relacion_data').DataTable().ajax.reload();
-            } else {
-                $('#alert_agregar_documento').show();
-                $('#text_alert_agregar_documento').text(data.mensaje);
+        $.ajax({
+            url: "despachosrelacion_controlador.php?op=agregar_factura_en_despacho",
+            method: "POST",
+            dataType: "json",
+            data: {correlativo: correlativo, documento_agregar: documento_agregar},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
+                    $('#agregarFacturaEnDespachoModal').modal('hide');
+                    $('#tabla_editar_despacho').DataTable().ajax.reload();
+                    $('#relacion_data').DataTable().ajax.reload();
+                } else {
+                    $('#alert_agregar_documento').show();
+                    $('#text_alert_agregar_documento').text(data.mensaje);
+                }
             }
         });
     } else {
@@ -231,7 +288,7 @@ function EliminarUnDespacho(correlativo) {
 
     Swal.fire({
         // title: '¿Estas Seguro?',
-        text: "¿Estas Seguro de Eliminar el despacho "+agregarCeros(correlativo, 8)+" ?",
+        text: "¿Estas Seguro de Eliminar el despacho "+addZeros(correlativo, 8)+" ?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -243,21 +300,14 @@ function EliminarUnDespacho(correlativo) {
             $.ajax({
                 url: "despachosrelacion_controlador.php?op=eliminar_un_despacho",
                 method: "POST",
+                dataType: "json",
                 data: {correlativo: correlativo},
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
                 success: function (data) {
-                    data = JSON.parse(data);
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    });
-                    Toast.fire({
-                        icon: data.icono,
-                        title: data.mensaje
-                    });
-
+                    ToastSweetMenssage(data.icono, data.mensaje)
                     //verifica si el mensaje de insercion no contiene error
                     if(!data.mensaje.includes('ERROR')) {
                         $('#relacion_data').DataTable().ajax.reload();
@@ -270,20 +320,24 @@ function EliminarUnDespacho(correlativo) {
 
 function modalVerDetalleDespacho(correlativo) {
     if (correlativo !== "") {
-
+        let isError = false;
         $("#correlativo_ver_productos_despacho").val(correlativo);
-        $("#nro_despacho").text(agregarCeros(correlativo, 8));
+        $("#nro_despacho").text(addZeros(correlativo, 8));
         $('#verDetalleDeUnDespachoModal').modal('show');
 
         $.ajax({
             url: "despachosrelacion_controlador.php?op=listar_productos_de_un_despacho",
             method: "post",
+            dataType: "json",
             data: {correlativo: correlativo},
             beforeSend: function () {
-                $("#loader_detalle_productos_despacho").show(''); //MOSTRAMOS EL LOADER.
+                SweetAlertLoadingShow();
+            },
+            error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
             },
             success: function (data) {
-                data = JSON.parse(data);
 
                 //TABLA DE LAS FACTURAS DENTRO DE ESE DESPACHO
                 $('#tabla_detalle_productos_del_despacho').dataTable({
@@ -310,6 +364,9 @@ function modalVerDetalleDespacho(correlativo) {
                 $("#cantBul_tfoot").text(data.total_bultos);
                 $("#cantPaq_tfoot").text(data.total_paq);
                 $("#loader_detalle_productos_despacho").hide();//OCULTAMOS EL LOADER.
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
     }
@@ -328,8 +385,8 @@ function abrirReporteDetalleCompletoDeUnDepacho(correlativo) {
 }
 
 function listarRelacionDespachos() {
+    let isError = false;
     tabla_relacion_despachos = $('#relacion_data').dataTable({
-
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax":
@@ -337,8 +394,15 @@ function listarRelacionDespachos() {
                 url: 'despachosrelacion_controlador.php?op=listar_RelacionDespachos',
                 type: "get",
                 dataType: "json",
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
                 }
             },
 
@@ -358,35 +422,44 @@ function listarRelacionDespachos() {
 
 function buscarFacturaEnDespachos(nrofact){
     if (nrofact !== "") {
-        nrofact = agregarCeros(nrofact);
+        nrofact = addZeros(nrofact);
         $("#detalle_despacho").html("");
-        $.post("../despachos/despachos_controlador.php?op=buscar_facturaEnDespachos_modal", {nrfactb: nrofact}, function(data, status){
-            data = JSON.parse(data);
-
-            if(!jQuery.isEmptyObject(data.factura_en_despacho)){
-                $("#detalle_despacho").append(
-                    '<p>' +
-                    '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
-                    '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
-                    '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
-                    '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
-                    '</p>'
-                );
-
-                if(!jQuery.isEmptyObject(data.datos_pago)){
+        $.ajax({
+            url: "../despachos/despachos_controlador.php?op=buscar_facturaEnDespachos_modal",
+            method: "POST",
+            dataType: "json",
+            data: {nrfactb: nrofact},
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                if(!jQuery.isEmptyObject(data.factura_en_despacho)){
                     $("#detalle_despacho").append(
                         '<p>' +
-                        '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
-                        '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                        '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
+                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
+                        '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
+                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
                         '</p>'
                     );
-                }else{
-                    $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+
+                    if(!jQuery.isEmptyObject(data.datos_pago)){
+                        $("#detalle_despacho").append(
+                            '<p>' +
+                            '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
+                            '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                            '</p>'
+                        );
+                    }else{
+                        $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+                    }
+                } else {
+                    $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
                 }
-            } else {
-                $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
             }
         });
+
     } else {
         $("#detalle_despacho").html("");
     }
