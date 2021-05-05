@@ -1,4 +1,4 @@
-var tabla_activacionclientes;
+var tabla;
 
 var estado_minimizado;
 
@@ -14,7 +14,7 @@ function limpiar() {
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_activacionclientes.rows().count() === 0)
+    (tabla.rows().count() === 0)
         ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
@@ -36,23 +36,25 @@ $(document).on("click", "#btn_activacionclientes", function () {
         if(fecha_final !== "") {
             sessionStorage.setItem("fechaf", fecha_final);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_activacionclientes = $('#activacionclientes_data').DataTable({
+            let isError = false;
+            tabla = $('#activacionclientes_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
                     url: "activacionclientes_controlador.php?op=buscar_activacionclientes",
                     type: "post",
+                    dataType: "json",
                     data: {fecha_final: fecha_final},
+                    beforeSend: function () {
+                        SweetAlertLoadingShow();
+                    },
                     error: function (e) {
+                        isError = SweetAlertError(e.responseText, "Error!")
                         console.log(e.responseText);
                     },
                     complete: function () {
-
+                        if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
                         limpiar();//LIMPIAMOS EL SELECTOR.
                     }
@@ -67,7 +69,7 @@ $(document).on("click", "#btn_activacionclientes", function () {
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe Ingresar una Fecha Tope!', 'error');
+        SweetAlertError('Debe Ingresar una Fecha Tope!');
         return (false);
     }
 });

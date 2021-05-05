@@ -105,7 +105,7 @@ class KpiHelpers
         return ($logrado!=0) ? $logrado : 0;
     }
 
-    public static function cobranzasRebajadas($ruta, $fechai, $fechaf) {
+    public static function totalCobranzasRebajadas($ruta, $fechai, $fechaf) {
         $total = 0;
         $cobranzasRebajadas = Cobranzas::getCobranzasRebajadas($ruta, $fechai, $fechaf);
 

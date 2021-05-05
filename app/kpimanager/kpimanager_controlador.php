@@ -30,7 +30,6 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-
     case "listar":
         $edv = $_POST['edv'];
         $datos = $kpiManager->get_datos_edv($edv);

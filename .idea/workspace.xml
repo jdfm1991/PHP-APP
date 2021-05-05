@@ -20,17 +20,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m___Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Factura.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/NotaDeEntrega.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Vendedores.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/Documents.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m__[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m___Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/auth_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientesinactivos/relacionclientesinactivos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +86,7 @@
     </file-type-list>
   </component>
   <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="5128d731-f344-44ed-bc3e-a9b32045240f" />
+    <option name="defaultAccountId" value="dfbeafa6-6210-4dfc-83cb-effeb544480e" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
@@ -86,26 +109,29 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Services" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\Services" />
       <recent name="E:\laragon\www\appweb" />
       <recent name="C:\xampp\htdocs\appweb\kpi\modales" />
       <recent name="C:\xampp\htdocs\appweb\public\plugins\datatables" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\Services" />
       <recent name="C:\xampp\htdocs\appweb" />
       <recent name="C:\xampp\htdocs\appweb\app" />
       <recent name="C:\xampp\htdocs\appweb\kpimanager" />
       <recent name="C:\xampp\htdocs\appweb\kpi" />
-      <recent name="C:\xampp\htdocs\appweb\kpi\tablas" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -150,6 +176,9 @@
       <workItem from="1619547485669" duration="3021000" />
       <workItem from="1619619691037" duration="13334000" />
       <workItem from="1619787753655" duration="10906000" />
+      <workItem from="1620049945166" duration="7639000" />
+      <workItem from="1620132433644" duration="8278000" />
+      <workItem from="1620143215241" duration="12759000" />
     </task>
     <servers />
   </component>

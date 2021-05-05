@@ -53,10 +53,9 @@ switch ($_GET["op"]) {
 
     case "listar_vendedores":
 
-        $output['lista_vendedores'] = $clientesbloqueados->get_vendedores();
+        $output['lista_vendedores'] = Vendedores::todos();
 
         echo json_encode($output);
-
         break;
 
 }

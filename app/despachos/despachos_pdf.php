@@ -14,6 +14,14 @@ $despachos  = new Despachos();
 
 $correlativo = $_GET['correlativo'];
 
+$j = 0;
+$width = array();
+function addWidthInArray($num){
+    $GLOBALS['width'][$GLOBALS['j']] = $num;
+    $GLOBALS['j'] = $GLOBALS['j'] + 1;
+    return $num;
+}
+
 class PDF extends FPDF
 {
     // Cabecera de página
@@ -28,7 +36,7 @@ class PDF extends FPDF
         $chofer = $choferes->get_chofer_por_id($cabeceraDespacho[0]['ID_Chofer']);
         $vehiculo = $vehiculos->get_vehiculo_por_id($cabeceraDespacho[0]['ID_Vehiculo']);
         // Logo
-        $this->Image(PATH_LIBRARY.'/build/images/logo.png', 10, 8, 33);
+        $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15
         $this->SetFont('Arial', 'B', 11);
         // Movernos a la derecha

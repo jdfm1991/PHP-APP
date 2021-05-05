@@ -403,7 +403,7 @@ switch ($_GET["op"]) {
 
             $sub_array = array();
 
-            $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['numerod'].'\', \''.$row['codclie'].'\')" data-target="#detallefactura" href="#"> '.$row['numerod'].'</div>';
+            $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['numerod'].'\', \''.$row['tipofac'].'\')" data-target="#detallefactura" href="#"> '.$row['numerod'].'</div>';
             $sub_array[] = $row["codvend"];
             $sub_array[] = date('d/m/Y', strtotime($row['fechae']));
             $sub_array[] = number_format($row['saldo'], 2, ",", ".");
@@ -426,69 +426,9 @@ switch ($_GET["op"]) {
     case "detalle_de_factura":
 
         $numerod = $_POST["numerod"];
-        $codclie = $_POST["codclie"];
-        $tipofact = 'A';
+        $tipofact = $_POST["tipofac"];
 
-        $cabecera_factura = $relacion->get_factura_cliente_por_id($codclie, $numerod);
-        if (is_array($cabecera_factura) == true and count($cabecera_factura) > 0) {
-            $output["descrip"] = $cabecera_factura[0]['descrip'];
-            $output["codusua"] = $cabecera_factura[0]['codusua'];
-            $output["fechae"] = date('d/m/Y', strtotime($cabecera_factura[0]['fechae']));
-            $output["codvend"] = $cabecera_factura[0]['codvend'];
-        }
-
-        $detalle_factura = $relacion->get_detalle_factura_por_id($numerod, $tipofact);
-        if (is_array($detalle_factura) == true and count($detalle_factura) > 0) {
-            //debido a que el detalle de una factura es de multiples items(productos),
-            //se procede a crear un array que almacene cada registro
-            $array_detalle = Array();
-
-            //se itera cada items
-            $paquetes = 0;
-            $bultos = 0;
-            foreach ($detalle_factura as $detalle){
-                //se crea otro array adicional que es quien almacena las columnas para 1 registro
-                $sub_array = array();
-
-                $cantidad = 0;
-                $tipounid = "";
-
-                $cantidad = $detalle['cantidad'];
-
-                if ($detalle['esunid'] == 1) {
-                    $tipounid = "PAQ";
-                    $paquetes += intval($cantidad);
-                } else {
-                    $tipounid = "BUL";
-                    $bultos += intval($cantidad);
-                }
-
-                //asignamos al array adicional las columnas con arrays asociativo
-                $sub_array["coditem"] = $detalle['coditem'];
-                $sub_array["descrip1"] = $detalle['descrip1'];
-                $sub_array["cantidad"] = number_format($cantidad, 0, ".", ",");
-                $sub_array["tipounid"] = $tipounid;
-                $sub_array["totalitem"] = number_format($detalle['totalitem'], 2, ",", ".");
-
-                //asignamos el array adicional al array de registros
-                $array_detalle[] = $sub_array;
-            }
-            //una vez culminado las iteraciones, el array de registros, se asigna a una variable de salida
-            $output["detalle_factura"] = $array_detalle;
-            //y devolvemos tambien los paquetes y bultos totales
-            $output["paquetes"] = $paquetes;
-            $output["bultos"]   = $bultos;
-        }
-
-        $totales_factura = $relacion->get_totales_factura_por_id($numerod, $tipofact);
-        $output["subtotal"]  = isset($totales_factura[0]['subtotal']) ? number_format($totales_factura[0]['subtotal'], 2, ",", ".") : 0;
-        $output["descuento"] = isset($totales_factura[0]['descuento']) ? number_format($totales_factura[0]['descuento'], 2, ",", ".") : 0;
-        $output["exento"]    = isset($totales_factura[0]['exento']) ? number_format($totales_factura[0]['exento'], 2, ",", ".") : 0;
-        $output["base"]      = isset($totales_factura[0]['base']) ? number_format($totales_factura[0]['base'], 2, ",", ".") : 0;
-        $output["iva"]       = isset($totales_factura[0]['iva']) ? number_format($totales_factura[0]['iva'], 0, ",", ".") : 0;
-        $output["impuesto"]  = isset($totales_factura[0]['impuesto']) ? number_format($totales_factura[0]['impuesto'], 2, ",", ".") : 0;
-        $output["total"]     = isset($totales_factura[0]['total']) ? number_format($totales_factura[0]['total'], 2, ",", ".") : 0;
-
+        $output['factura'] = Documents::getInvoice($numerod, $tipofact);
 
         $factura_despachada = $despachos->get_existe_factura_despachada_por_id($numerod);
         if (is_array($factura_despachada) == true and count($factura_despachada) > 0) {

@@ -4,7 +4,10 @@ include_once "const.php";
 //if (!empty($_SESSION)) {
     include_once (PATH_HELPERS_PHP . "php/index.php");
     include_once (PATH_HELPERS_PHP . "sql/index.php");
+    # servicios
+    include_once (PATH_SERVICE_PHP . "index.php");
 //}
+
 class Conectar {
 	protected $dbh;
 	protected function conexion(){

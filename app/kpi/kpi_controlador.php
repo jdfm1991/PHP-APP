@@ -142,7 +142,7 @@ switch ($_GET["op"]) {
                         $ventas_divisas_complementaria_nt    = $kpi->get_ventasDivisasComplementariaNotas($ruta, $fechai2, $fechaf2)[0]["MontoD"];
                         $logro_ventas_divisas_complementaria = floatval($ventas_divisas_complementaria_fact) + floatval($ventas_divisas_complementaria_nt);
                         $porcentaje_ventas_divisas_complementaria = ($logro_ventas_divisas > 0) ? ($logro_ventas_divisas_complementaria / $logro_ventas_divisas) * 100 : 0;
-                        $cobranzasRebajadas = KpiHelpers::cobranzasRebajadas($ruta, $fechai2, $fechaf2);
+                        $cobranzasRebajadas = KpiHelpers::totalCobranzasRebajadas($ruta, $fechai2, $fechaf2);
 
                         #llenado de los subtotals
                         $subttl_marcas->set_acumKpiMarcas($activacionBultos);

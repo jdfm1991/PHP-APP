@@ -393,7 +393,8 @@ class RelacionClientes extends Conectar
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT codclie, numerod, fechae, codvend, codusua, codvend,  DATEDIFF(DD, fechae, CONVERT( date ,GETDATE())) AS DiasTransHoy, saldo 
+        $sql = "SELECT codclie, numerod, fechae, codvend, codusua, codvend,  DATEDIFF(DD, fechae, CONVERT( date ,GETDATE())) AS DiasTransHoy, saldo,
+                    (SELECT TOP(1) TipoFac FROM safact s WHERE s.numerod = numerod) AS tipofac
                 FROM saacxc WHERE codclie= ? AND  tipocxc='10' AND saldo>0";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

@@ -1,6 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("clientescodnestle_modelo.php");
@@ -40,7 +40,14 @@ switch ($_GET["op"]) {
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
-    echo json_encode($results);
 
+    echo json_encode($results);
     break;
+
+    case "listar_vendedores":
+
+        $output['lista_vendedores'] = Vendedores::todos();
+
+        echo json_encode($output);
+        break;
 }

@@ -31,17 +31,6 @@ class Clientesbloqueados extends Conectar{
 
 	}
 
-	public function get_vendedores(){
-
-		$conectar=parent::conexion2();
-		parent::set_names();
-		$sql="SELECT * FROM savend WHERE activo = '1' ORDER BY CodVend ASC";
-		$sql=$conectar->prepare($sql);
-		$sql->execute();
-
-		return $resultado=$sql->fetchAll();
-	}
-
 	public function getTotalClientesPorCodigo($codvend){
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2

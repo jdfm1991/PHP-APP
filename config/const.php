@@ -13,4 +13,6 @@ const URL_HELPERS_JS  = ("http://". SERVER ."/appweb/helpers/js/");
 
 # PATH  (los archivos php se cargan por ruta absoluta y no por url)
 define("PATH_HELPERS_PHP", $_SERVER['DOCUMENT_ROOT'] ."/appweb/helpers/");
+define("PATH_SERVICE_PHP", $_SERVER['DOCUMENT_ROOT'] ."/appweb/services/");
 define("PATH_LIBRARY",     $_SERVER['DOCUMENT_ROOT'] ."/appweb/public/");
+define("PATH_VENDOR",     $_SERVER['DOCUMENT_ROOT'] ."/appweb/vendor/");

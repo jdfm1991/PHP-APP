@@ -450,7 +450,7 @@ function mostrarModalDetalleCliente(codclie) {
     });
 }
 
-function mostrarModalDetalleFactura(numerod, codclie) {
+function mostrarModalDetalleFactura(numerod, tipofac) {
     let isError = false;
     limpiar_modal_detalle_factura();
     $('#detallefactura').modal('show');
@@ -459,7 +459,7 @@ function mostrarModalDetalleFactura(numerod, codclie) {
         url: "relacionclientes_controlador.php?op=detalle_de_factura",
         method: "POST",
         dataType: "json",
-        data: {numerod: numerod, codclie: codclie},
+        data: {numerod: numerod, tipofac: tipofac},
         beforeSend: function () {
             SweetAlertLoadingShow();
         },
@@ -468,70 +468,79 @@ function mostrarModalDetalleFactura(numerod, codclie) {
             console.log(e.responseText);
         },
         success: function (data) {
-            //cabecera de la factura
-            $("#numero_factura").text(numerod);
-            $("#descrip_detfactura").text(data.descrip);
-            $("#codusua_detfactura").text(data.codusua);
-            $("#fechae_detfactura").text(data.fechae);
-            $("#codvend_detfactura").text(data.codvend);
+            let { factura, factura_despachada} = data;
 
-            //detalle de la factura
-            $.each(data.detalle_factura, function(idx, opt) {
-                //como puede hacer varios registros de productos en una factura se itera con each
+            if (factura.info.existeData === true)
+            {
+                let {cabecera, detalle, totales, info} = factura;
+
+                //cabecera de la factura
+                $("#numero_factura").text(numerod);
+                $("#descrip_detfactura").text(cabecera.descrip);
+                $("#codusua_detfactura").text(cabecera.codusua);
+                $("#fechae_detfactura").text(cabecera.fechae);
+                $("#codvend_detfactura").text(cabecera.codvend);
+
+                //detalle de la factura
+                $.each(detalle, function (idx, opt) {
+                    //como puede hacer varios registros de productos en una factura se itera con each
+                    $('#tabla_detalle_factura')
+                        .append(
+                            '<tr>' +
+                            '<td align="center" class="small align-middle">' + opt.coditem + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.descrip + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.cantidad + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.tipounid + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.precio + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.descuento + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.totalitem + '</td>' +
+                            '</tr>'
+                        );
+                });
+
                 $('#tabla_detalle_factura')
-                    .append(
+                    .append( //separador
                         '<tr>' +
-                        '<td align="center" class="small align-middle">' + opt.coditem + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.descrip1 + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.cantidad + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.tipounid + '</td>' +
-                        '<td align="center" class="small align-middle">' + opt.totalitem + '</td>' +
+                        '<td colspan="7">===================================================================</td>' +
+                        '</tr>'
+                    )
+                    .append( //totales de la factura
+                        '<tr>' +
+                        '<td align="center" class="small align-middle"> Total de Bultos ' + info.bultos + '</td>' +
+                        '<td colspan="4"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Sub Total</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.subtotal + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td align="center" class="small align-middle"> Total de Paquetes ' + info.paquetes + '</td>' +
+                        '<td colspan="4"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Descuento</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.descuento + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Excento</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.exento + '</div></td>' +
+                        '</tr>' +
+
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Base Imponible</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.base + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.impuesto + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Monto Total</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.total + '</div></td>' +
                         '</tr>'
                     );
-            });
-
-            $('#tabla_detalle_factura')
-                .append( //separador
-                    '<tr>' +
-                    '<td colspan="5">===================================================================</td>' +
-                    '</tr>'
-                )
-                .append( //totales de la factura
-                    '<tr>' +
-                    '<td align="center" class="small align-middle"> Total de Bultos ' + data.bultos + '</td>' +
-                    '<td colspan="2"></td>' +
-                    '<td align="center" class="small align-middle"><div align="right">Sub Total</div></td>' +
-                    '<td align="center" class="small align-middle"><div align="center">' + data.subtotal + '</div></td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td align="center" class="small align-middle"> Total de Paquetes ' + data.paquetes + '</td>' +
-                    '<td colspan="2"></td>' +
-                    '<td align="center" class="small align-middle"><div align="right">Descuento</div></td>' +
-                    '<td align="center" class="small align-middle"><div align="center">' + data.descuento + '</div></td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td colspan="3"></td>' +
-                    '<td align="center" class="small align-middle"><div align="right">Excento</div></td>' +
-                    '<td align="center" class="small align-middle"><div align="center">' + data.exento + '</div></td>' +
-                    '</tr>' +
-
-                    '<tr>' +
-                    '<td colspan="3"></td>' +
-                    '<td align="center" class="small align-middle"><div align="right">Base Imponible</div></td>' +
-                    '<td align="center" class="small align-middle"><div align="center">' + data.base + '</div></td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td colspan="3"></td>' +
-                    '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
-                    '<td align="center" class="small align-middle"><div align="center">' + data.impuesto + '</div></td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td colspan="3"></td>' +
-                    '<td align="center" class="small align-middle"><div align="right">Monto Total</div></td>' +
-                    '<td align="center" class="small align-middle"><div align="center">' + data.total + '</div></td>' +
-                    '</tr>'
-                );
-            $("#factura_despachada").html(data.factura_despachada);
+            }
+            $("#factura_despachada").html(factura_despachada);
         },
         complete: function () {
             if(!isError) SweetAlertLoadingClose();
