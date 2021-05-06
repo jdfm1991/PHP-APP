@@ -155,7 +155,7 @@ switch ($_GET["op"]) {
 
     case "listar_choferes":
 
-        $output["lista_choferes"] = $choferes->get_choferes();
+        $output["lista_choferes"] = Choferes::todos();
 
         echo json_encode($output);
 

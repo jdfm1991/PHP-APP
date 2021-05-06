@@ -1,11 +1,10 @@
-var tabla_clientesbloqueados;
+var tabla;
 
 var estado_minimizado;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
     listar_vendedores();
 }
@@ -15,23 +14,37 @@ function limpiar() {
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_clientesbloqueados.rows().count() === 0)
+    (tabla.rows().count() === 0)
     ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
 }
 
 function listar_vendedores() {
-    $.post("clientesbloqueados_controlador.php?op=listar_vendedores", function(data){
-        data = JSON.parse(data);
-
-        if(!jQuery.isEmptyObject(data.lista_vendedores)){
-            //lista de seleccion de vendedores
-            $('#vendedor').append('<option name="" value="">Seleccione</option>');
-            $.each(data.lista_vendedores, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
-            });
+    let isError = false;
+    $.ajax({
+        url: "clientesbloqueados_controlador.php?op=listar_vendedores",
+        method: "POST",
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data.lista_vendedores)){
+                //lista de seleccion de vendedores
+                $('#vendedor').append('<option name="" value="">Seleccione</option>');
+                $.each(data.lista_vendedores, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
+                });
+            }
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
@@ -52,23 +65,25 @@ $(document).on("click", "#btn_clientesbloqueados", function () {
         if (vendedor !== "") {
             sessionStorage.setItem("vendedor", vendedor);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_clientesbloqueados = $('#clientesbloqueados_data').DataTable({
+            let isError = false;
+            tabla = $('#clientesbloqueados_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
                     url: "clientesbloqueados_controlador.php?op=buscar_clientesbloqueados",
                     type: "post",
+                    dataType: "json",
                     data: {vendedor: vendedor},
+                    beforeSend: function () {
+                        SweetAlertLoadingShow();
+                    },
                     error: function (e) {
+                        isError = SweetAlertError(e.responseText, "Error!")
                         console.log(e.responseText);
                     },
                     complete: function () {
-
+                        if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
                         mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
@@ -85,7 +100,7 @@ $(document).on("click", "#btn_clientesbloqueados", function () {
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar al menos un Vendedor!', 'error');
+        SweetAlertError('Debe seleccionar al menos un Vendedor!');
         return (false);
     }
 });
@@ -109,7 +124,7 @@ $(document).on("click","#btn_pdf", function(){
 function mostrar() {
 
     var texto= 'Clientes Bloqueados: ';
-    var cuenta =(tabla_clientesbloqueados.rows().count());
+    var cuenta =(tabla.rows().count());
     $("#cuenta").html(texto + cuenta);
 }
 

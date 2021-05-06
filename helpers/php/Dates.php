@@ -30,4 +30,9 @@ class Dates {
             return true;
         return false;
     }
+
+    public static function daysEnterDates($date_start, $date_end){
+        // Da igual el formato de las fechas (dd-mm-aaaa o aaaa-mm-dd)
+        return ((strtotime($date_end)-strtotime($date_start))/86400);
+    }
 }

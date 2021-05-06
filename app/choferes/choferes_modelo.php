@@ -66,41 +66,6 @@ class Choferes extends Conectar
 
     }
 
-    //listar los usuarios
-    public function get_choferes()
-    {
-
-        $conectar = parent::conexion2();//CAMBIAR A CONEXION
-        parent::set_names();
-
-//        $sql = "select * from choferes";
-        $sql = "SELECT id_chofer, cedula as Cedula, descripcion as Nomper, estatus FROM appChofer";
-
-        $sql = $conectar->prepare($sql);
-        $sql->execute();
-
-        return $resultado = $sql->fetchAll();
-    }
-
-//mostrar los datos del usuario por el id
-    public function get_chofer_por_id($id)
-    {
-
-        $conectar = parent::conexion2(); //CAMBIAR A CONEXION
-        parent::set_names();
-
-//    $sql="SELECT * FROM choferes WHERE cedula=?";
-        $sql = "SELECT descripcion as Nomper,* FROM appChofer WHERE cedula=?";
-
-        $sql = $conectar->prepare($sql);
-
-        $sql->bindValue(1, $id);
-        $sql->execute();
-
-        return $resultado = $sql->fetchAll();
-
-    }
-
     public function editar_estado($id, $estado)
     {
 

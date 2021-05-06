@@ -1,12 +1,12 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
-require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' );
-require_once ( '../public/jpgraph4.3.4/src/jpgraph_bar.php' );
-require_once ( '../public/jpgraph4.3.4/src/jpgraph_line.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_bar.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_line.php' );
 
-require('../vendor/autoload.php');
+require (PATH_VENDOR.'autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -26,11 +26,9 @@ use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
-require_once("../choferes/choferes_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $indicadores = new InidicadoresDespachos();
-$choferes = new Choferes();
 
 $tipoPeriodo = $_GET['tipoPeriodo'];
 $periodo   = $_GET['periodo'];
@@ -85,7 +83,7 @@ foreach(range('B','U') as $columnID) {
 /********************** */
 /** SE INSERTA EL LOGO **/
 /********************** */
-$gdImage = imagecreatefrompng('../public/build/images/logo.png');
+$gdImage = imagecreatefrompng(PATH_LIBRARY.'/build/images/logo.png');
 $objDrawing = new MemoryDrawing();
 $objDrawing->setName('Sample image');
 $objDrawing->setDescription('TEST');
@@ -119,7 +117,7 @@ $spreadsheet->getActiveSheet()->getStyle('A'.($row+=1).':T'.($row))->applyFromAr
 $query = $indicadores->get_causasrechazo_por_chofer($fechai, $fechaf, $chofer_id, $causa);
 
 if($chofer_id!="-") {
-    $chofer = $choferes->get_chofer_por_id($chofer_id);
+    $chofer = Choferes::getByDni($chofer_id);
     $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
 } else {
     $chofer = "Todos los Choferes";

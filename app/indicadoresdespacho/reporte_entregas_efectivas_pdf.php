@@ -1,21 +1,18 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 
-require_once ('../public/fpdf/fpdf.php');
-require_once ( '../public/jpgraph4.3.4/src/jpgraph.php' ); 
-require_once ( '../public/jpgraph4.3.4/src/jpgraph_bar.php' ); 
-require_once ( '../public/jpgraph4.3.4/src/jpgraph_line.php' ); 
+require(PATH_LIBRARY.'fpdf/fpdf.php');
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_bar.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_line.php' );
 
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
-require_once("../choferes/choferes_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $indicadores = new InidicadoresDespachos();
-$choferes = new Choferes();
 
 $tipoPeriodo = $_GET['tipoPeriodo'];
 $periodo   = $_GET['periodo'];
@@ -61,7 +58,7 @@ class PDF extends FPDF
         /** SE INSERTA EL LOGO **/
         /********************** */
         $this->Ln(-3);
-        $this->Image('../public/build/images/logo.png', 10, 8, 33);
+        $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         
         /********************** */
         /** TITULO DEL REPORTE **/
@@ -108,7 +105,7 @@ $pdf->SetFont('Arial', '', 7);
 /** INICIO DE LOS PROCESOS DE OBTENCION DE DATOS Y PROCESAMIENTO PARA UTILIZARLOS POSTERIORMENTE **/
 /************************************************************************************************ */
 $query = $indicadores->get_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
-$chofer = $choferes->get_chofer_por_id($chofer_id);
+$chofer = Choferes::getByDni($chofer_id);
 
 $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
 $ordenes_despacho_string = "";
@@ -163,7 +160,7 @@ foreach ($query as $key => $item)
         $array = explode(", ", $fact_sinliquidar_string);
         $array = array_unique($array);
         /* sort($array, SORT_ASC); */
-        $fact_sinliquidar_string = implode($array,", ");
+        $fact_sinliquidar_string = implode(", ", $array);
     }
 }
 

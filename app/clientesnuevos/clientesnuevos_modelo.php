@@ -1,7 +1,7 @@
 
 <?php
  //LLAMAMOS A LA CONEXION.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 class ClientesNuevos extends Conectar{
 
@@ -25,22 +25,5 @@ class ClientesNuevos extends Conectar{
 
 	}
 
-	/*public function getTotalClientesnuevos($fechai,$fechaf){
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-		$conectar= parent::conexion2();
-
-        //QUERY
-		$sql= "SELECT count(CodClie) AS cuenta FROM saclie WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? ";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-		$sql = $conectar->prepare($sql);
-		$sql->bindValue(1,$fechai);
-		$sql->bindValue(2,$fechaf);
-		$sql->execute();
-		return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-	}*/
 }
 

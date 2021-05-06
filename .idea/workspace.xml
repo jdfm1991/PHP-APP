@@ -20,40 +20,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Factura.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/sql/NotaDeEntrega.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Vendedores.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/Documents.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m__[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_4_2021_8_31_a__m___Default_Changelist_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Choferes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/chofer_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/choferes/chofer_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/choferes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/choferes/choferes_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/modales/detalle_factura.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_entregas_efectivas_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_oportunidad_despacho_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_oportunidad_despacho_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_rechazo_clientes_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/KpiHelpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Dates.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Dates.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/fpdf/fpdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/fpdf/fpdf.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +129,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Services" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/facturassindespachar/modales" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
@@ -121,6 +138,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\facturassindespachar\modales" />
       <recent name="C:\Apache24\htdocs\appweb\Services" />
       <recent name="E:\laragon\www\appweb" />
       <recent name="C:\xampp\htdocs\appweb\kpi\modales" />
@@ -178,7 +196,7 @@
       <workItem from="1619787753655" duration="10906000" />
       <workItem from="1620049945166" duration="7639000" />
       <workItem from="1620132433644" duration="8278000" />
-      <workItem from="1620143215241" duration="12759000" />
+      <workItem from="1620143215241" duration="26043000" />
     </task>
     <servers />
   </component>

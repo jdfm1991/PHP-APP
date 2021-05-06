@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("clientessintr_modelo.php");
@@ -19,16 +19,14 @@ switch ($_GET["op"]) {
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = array();
 
-
         foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
-            /*$sub_array[] = date("d-m-Y",strtotime($row["fechauv"]));*/
 
             $sub_array[] = $row["codvend"];
             $sub_array[] = $row["codclie"];
             $sub_array[] = $row["descrip"];
-            $sub_array[] = number_format($row["debe"], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row["debe"], 2);
 
             $data[] = $sub_array;
         }
@@ -40,7 +38,14 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data
         );
-        echo json_encode($results);
 
+        echo json_encode($results);
+        break;
+
+    case "listar_vendedores":
+
+        $output['lista_vendedores'] = Vendedores::todos();
+
+        echo json_encode($output);
         break;
 }

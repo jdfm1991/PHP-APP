@@ -5,7 +5,6 @@ var estado_minimizado;
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
     listar_vendedores();
 }

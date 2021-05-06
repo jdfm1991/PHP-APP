@@ -1,7 +1,7 @@
 
 <?php
 //LLAMAMOS A LA CONEXION.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 class ClientesSintr extends Conectar
 {

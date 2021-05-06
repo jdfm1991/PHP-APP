@@ -1,8 +1,8 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -156,18 +156,9 @@ require_once("../acceso/const.php");
             <div class="card-footer">
                 <button type="submit" class="btn btn-success" id="btn_consultar">
                     <i class="fa fa-search" aria-hidden="true"></i> Consultar
-                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
-        <!-- BOX  LOADER -->
-        <figure id="loader">
-            <div class="dot white"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </figure>
 
         <div class="row">
             <div class="col-md-6">
@@ -186,13 +177,13 @@ require_once("../acceso/const.php");
                             </div>
                         </div>
                         <div class="row pt-3">
-                            <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="indicadores_data">
+                            <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="indicadores_data">
                                 <thead style="background-color: #17A2B8;color: white;">
                                 <tr>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="F. Entreg">Fecha Entrega</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="P. Despachados">Pedidos Despachados</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="% Efectividad">% Efectividad</th>
-                                    <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Orden(es) D">Orden(es) Despacho</th>
+                                    <th class="text-center" title="F. Entreg">Fecha Entrega</th>
+                                    <th class="text-center" title="P. Despachados">Pedidos Despachados</th>
+                                    <th class="text-center" title="% Efectividad">% Efectividad</th>
+                                    <th class="text-center" title="Orden(es) D">Orden(es) Despacho</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -271,10 +262,11 @@ require_once("../acceso/const.php");
 </div>
 <?php require_once("../footer.php");?>
 <!-- ChartJS -->
-<script src="<?php echo SERVERURL; ?>public/plugins/chart.js/Chart.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/chart.js/Chart.min.js"></script>
 <!-- Bootstrap Switch -->
-<script src="<?php echo SERVERURL; ?>public/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<script type="text/javascript" src="../helpers/js/Colors.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="<?php echo URL_HELPERS_JS; ?>Colors.js" type="text/javascript"></script>
+
 
 <script type="text/javascript" src="indicadoresdespacho.js"></script>
 

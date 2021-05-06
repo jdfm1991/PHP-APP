@@ -441,6 +441,5 @@ switch ($_GET["op"]) {
 
 
         echo json_encode($output);
-
         break;
 }

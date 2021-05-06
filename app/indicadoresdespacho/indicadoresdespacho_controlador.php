@@ -1,18 +1,21 @@
 <?php
-
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("indicadoresdespacho_modelo.php");
-require_once("../choferes/choferes_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $indicadores = new InidicadoresDespachos();
-$choferes = new Choferes();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
+
+    case "listar_choferes":
+        $output["lista_choferes"] = Choferes::todos();
+
+        echo json_encode($output);
+        break;
 
     case "listar_periodos":
         $indicador_seleccionado = $_GET['s'];
@@ -70,7 +73,7 @@ switch ($_GET["op"]) {
         $datos = $indicadores->get_entregasefectivas_por_chofer($fechai, $fechaf, $chofer_id);
 
         //inicializamos la variables
-        $chofer = $choferes->get_chofer_por_id($chofer_id);
+        $chofer = Choferes::getByDni($chofer_id);
         $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
         $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
         $ordenes_despacho_string = "";
@@ -127,7 +130,7 @@ switch ($_GET["op"]) {
                     $array = explode(", ", $fact_sinliquidar_string);
                     $array = array_unique($array);
                     /* sort($array, SORT_ASC); */
-                    $fact_sinliquidar_string = implode($array,", ");
+                    $fact_sinliquidar_string = implode(", ", $array);
                 }
             }
         }
@@ -190,7 +193,7 @@ switch ($_GET["op"]) {
 
         //inicializamos la variables
         if($chofer_id!="-") {
-            $chofer = $choferes->get_chofer_por_id($chofer_id);
+            $chofer = Choferes::getByDni($chofer_id);
             $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
         } else {
             $chofer = "Todos los Choferes";
@@ -336,7 +339,7 @@ switch ($_GET["op"]) {
         $datos = $indicadores->get_oportunidaddespacho_por_chofer($fechai, $fechaf, $chofer_id);
 
         //inicializamos la variables
-        $chofer = $choferes->get_chofer_por_id($chofer_id);
+        $chofer = Choferes::getByDni($chofer_id);
         $chofer = (count($chofer) > 0) ? $chofer[0]['cedula'].' - '.$chofer[0]['descripcion'] : "";
         $formato_fecha = $tipoPeriodo=="Anual" ? 'm-Y' : 'd-m-Y';
         $ordenes_despacho_string = '';

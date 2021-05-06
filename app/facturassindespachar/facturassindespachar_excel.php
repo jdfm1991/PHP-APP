@@ -1,8 +1,28 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
-require('../vendor/autoload.php');
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_bar.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_line.php' );
+
+require (PATH_VENDOR.'autoload.php');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Style;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("facturassindespachar_modelo.php");
@@ -10,17 +30,16 @@ require_once("facturassindespachar_modelo.php");
 //INSTANCIAMOS EL MODELO
 $factsindes = new FacturaSinDes();
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 $i = 0;
 //funcion recursiva creada para reporte Excel que evalua los numeros > 0
 // y asigna la letra desde la A....hasta la Z y AA, AB, AC.....AZ
-function getExcelCol($num) {
+function getExcelCol($num, $letra_temp = false) {
     $numero = $num % 26;
     $letra = chr(65 + $numero);
     $num2 = intval($num / 26);
-    $GLOBALS['i'] = $GLOBALS['i'] +1;
+    if(!$letra_temp)
+        $GLOBALS['i'] = $GLOBALS['i'] +1;
+
     if ($num2 > 0) {
         return getExcelCol($num2 - 1) . $letra;
     } else {
@@ -35,32 +54,59 @@ $tipo = $_GET['tipo'];
 $check = hash_equals("true", $_GET['check']);
 $hoy = date("d-m-Y");
 
-// Da igual el formato de las fechas (dd-mm-aaaa o aaaa-mm-dd),
-function diasEntreFechas($fechainicio, $fechafin){
-    return ((strtotime($fechafin)-strtotime($fechainicio))/86400);
-}
-
 
 //creamos la cabecera de la tabla
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
-$sheet->setCellValue(getExcelCol($i).'1', 'Documento');
-$sheet->setCellValue(getExcelCol($i).'1', 'Fecha Emisión');
-if($check) {
-    $sheet->setCellValue(getExcelCol($i).'1', 'Fecha Despacho');
-    $sheet->setCellValue(getExcelCol($i).'1', 'DíasTrans');
+
+// Logo
+$gdImage = imagecreatefrompng(PATH_LIBRARY.'build/images/logo.png');
+$objDrawing = new MemoryDrawing();
+$objDrawing->setName('Sample image');
+$objDrawing->setDescription('TEST');
+$objDrawing->setImageResource($gdImage);
+$objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
+$objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+$objDrawing->setHeight(108);
+$objDrawing->setWidth(128);
+$objDrawing->setCoordinates('I1');
+$objDrawing->setWorksheet($spreadsheet->getActiveSheet());
+
+/** DATOS DEL REPORTE **/
+switch ($GLOBALS['check']) {
+    case true:
+        $titulo = 'REPORTE DE FACTURAS DESPACHADAS DEL ' . $fechai . ' AL ' . $fechaf;
+        break;
+    case false:
+        $titulo = 'REPORTE DE FACTURAS SIN DESPACHAR DEL ' . $fechai . ' AL ' . $fechaf;
+        break;
 }
-$sheet->setCellValue(getExcelCol($i).'1', 'Código');
-$sheet->setCellValue(getExcelCol($i).'1', 'Cliente');
-$sheet->setCellValue(getExcelCol($i).'1', 'DíasHastHoy');
-$sheet->setCellValue(getExcelCol($i).'1', 'Cant Bult');
-$sheet->setCellValue(getExcelCol($i).'1', 'Cant Paq');
-$sheet->setCellValue(getExcelCol($i).'1', 'Monto Bs');
-$sheet->setCellValue(getExcelCol($i).'1', 'EDV');
+$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
+$sheet->setCellValue('A1', $titulo);
+//$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
+//$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+
+
+$spreadsheet->getActiveSheet()->mergeCells('A1:H1');
+
+/** TITULO DE LA TABLA **/
+$sheet->setCellValue(getExcelCol($i).'7', 'Documento');
+$sheet->setCellValue(getExcelCol($i).'7', 'Fecha Emisión');
 if($check) {
-    $sheet->setCellValue(getExcelCol($i).'1', 'TPromEsti');
-    $sheet->setCellValue(getExcelCol($i).'1', '%Oportunidad');
+    $sheet->setCellValue(getExcelCol($i).'7', 'Fecha Despacho');
+    $sheet->setCellValue(getExcelCol($i).'7', 'DíasTrans');
+}
+$sheet->setCellValue(getExcelCol($i).'7', 'Código');
+$sheet->setCellValue(getExcelCol($i).'7', 'Cliente');
+$sheet->setCellValue(getExcelCol($i).'7', 'DíasHastHoy');
+$sheet->setCellValue(getExcelCol($i).'7', 'Cant Bult');
+$sheet->setCellValue(getExcelCol($i).'7', 'Cant Paq');
+$sheet->setCellValue(getExcelCol($i).'7', 'Monto Bs');
+$sheet->setCellValue(getExcelCol($i).'7', 'EDV');
+if($check) {
+    $sheet->setCellValue(getExcelCol($i).'7', 'TPromEsti');
+    $sheet->setCellValue(getExcelCol($i).'7', '%Oportunidad');
 }
 
 //obtenemos el ultimo valor de la celda y la guardamos en una variable auxiliar
@@ -68,7 +114,33 @@ $aux = $i-1;
 //se itera la cantidad de celdas almacenadas en la variable axiliar y se situan AutoSize
 for($n=0; $n <= $aux; $n++){ $spreadsheet->getActiveSheet()->getColumnDimension(getExcelCol($n))->setAutoSize(true); }
 //pinta la cabecera de amarillo
-$spreadsheet->getActiveSheet()->getStyle('A1:'.getExcelCol($aux).'1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
+$style_title = new Style();
+$style_title->applyFromArray(
+    array(
+        'font' => array(
+            'name' => 'Arial',
+            'bold'  => true,
+            'color' => array('rgb' => '000000')
+        ),
+        'fill' => array(
+            'fillType' => Fill::FILL_SOLID,
+            'color' => ['argb' => 'C8DCFF00'],
+        ),
+        'borders' => array(
+            'top' => ['borderStyle' => Border::BORDER_THIN],
+            'bottom' => ['borderStyle' => Border::BORDER_THIN],
+            'right' => ['borderStyle' => Border::BORDER_MEDIUM],
+        ),
+        'alignment' => array(
+            'horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            'wrap' => TRUE
+        )
+    )
+);
+
+//estableceer el estilo de la cabecera de la tabla
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:'.getExcelCol($aux).'7');
 
 
 //a partir de aqui comienza a llenarse la tabla
@@ -78,14 +150,14 @@ $suma_bulto = 0;
 $suma_paq = 0;
 $suma_monto = 0;
 $porcent = 0;
-$row = 2;
+$row = 8;
 foreach ($query as $x) {
     $i = 0;
 
     if($check) {
         $calcula = 0;
-        if (round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))) != 0)
-            $calcula = (2 / round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))))*100;
+        if (round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))) != 0)
+            $calcula = (2 / round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))))*100;
 
         if ($calcula > 100)
             $calcula = 100;
@@ -94,23 +166,50 @@ foreach ($query as $x) {
     }
 
     $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue(getExcelCol($i) . $row, $x['NumeroD']);
-    $sheet->setCellValue(getExcelCol($i) . $row, date("d/m/Y", strtotime($x["FechaE"])));
+    $sheet->setCellValue(getExcelCol($i, true) . $row, $x['NumeroD']);
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, date("d/m/Y", strtotime($x["FechaE"])));
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
     if ($check) {
-        $sheet->setCellValue(getExcelCol($i) . $row, date("d/m/Y", strtotime($x["fechad"])));
-        $sheet->setCellValue(getExcelCol($i) . $row, round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))));
+        $sheet->setCellValue(getExcelCol($i, true) . $row, date("d/m/Y", strtotime($x["fechad"])));
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+        $sheet->setCellValue(getExcelCol($i, true) . $row, round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))));
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
     }
-    $sheet->setCellValue(getExcelCol($i) . $row, $x['CodClie']);
-    $sheet->setCellValue(getExcelCol($i) . $row, utf8_decode($x['Descrip']));
-    $sheet->setCellValue(getExcelCol($i) . $row, round(diasEntreFechas(date("d-m-Y", strtotime($x["FechaE"])), $hoy)));
-    $sheet->setCellValue(getExcelCol($i) . $row, number_format($x["Bult"], 0, ",", "."));
-    $sheet->setCellValue(getExcelCol($i) . $row, number_format($x["Paq"], 0, ",", "."));
-    $sheet->setCellValue(getExcelCol($i) . $row, number_format($x["Monto"], 1, ",", ".")); $suma_monto += $x["Monto"];
-    $sheet->setCellValue(getExcelCol($i) . $row, $x['CodVend']);
+    $sheet->setCellValue(getExcelCol($i, true) . $row, $x['CodClie']);
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, utf8_decode($x['Descrip']));
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])), $hoy)));
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, number_format($x["Bult"], 0));
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, number_format($x["Paq"], 0));
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($x["Monto"], 1)); $suma_monto += $x["Monto"];
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, $x['CodVend']);
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
     if ($check) {
-        $sheet->setCellValue(getExcelCol($i) . $row, 2);
-        $sheet->setCellValue(getExcelCol($i) . $row, number_format($calcula, 1, ",", ".") . "%");
+        $sheet->setCellValue(getExcelCol($i, true) . $row, 2);
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+        $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($calcula, 1) . "%");
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
     }
+
     $row++;
 }
 $i = 0;
@@ -126,18 +225,20 @@ $sheet->setCellValue(getExcelCol($i) . ($row + 3), 'Total de Documentos:  ' . $n
 $sheet->setCellValue(getExcelCol($i) . ($row + 3), '');
 $sheet->setCellValue(getExcelCol($i) . ($row + 3), '');
 $sheet->setCellValue(getExcelCol($i) . ($row + 3), '');
-$sheet->setCellValue(getExcelCol($i) . ($row + 3), 'Monto Total: ' . number_format($suma_monto, 2, ",", "."));
+$sheet->setCellValue(getExcelCol($i) . ($row + 3), 'Monto Total: ' . Strings::rdecimal($suma_monto, 2));
 $sheet->setCellValue(getExcelCol($i) . ($row + 3), '');
 if ($check) {
     $sheet->setCellValue(getExcelCol($i) . ($row + 3), '');
-    $sheet->setCellValue(getExcelCol($i) . ($row + 3), '% Oportunidad Total: ' . number_format(($porcent / count($query)), 2, ",", ".") . ' %');
+    $sheet->setCellValue(getExcelCol($i) . ($row + 3), '% Oportunidad Total: ' . Strings::rdecimal(($porcent / count($query)), 2) . ' %');
 }
 
-header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="Listado_de_precios_e_inventario_' . date('d/m/Y') . '.xls"');
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="Listado_de_precios_e_inventario_' . date('d/m/Y') . '.xlsx"');
 header('Cache-Control: max-age=0');
 
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+$writer = new Xlsx($spreadsheet);
+$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+$callStartTime = microtime(true);
 ob_end_clean();
 ob_start();
 $writer->save('php://output');

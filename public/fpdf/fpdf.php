@@ -362,11 +362,6 @@ function Header()
 	// To be implemented in your own inherited class
 }
 
-function Footer()
-{
-	// To be implemented in your own inherited class
-}
-
 function PageNo()
 {
 	// Get current page number
@@ -2142,6 +2137,17 @@ protected function _enddoc()
 			$nb = max($nb,$this->NbLines($this->widths[$i],$data[$i]));
 		$h=$alto*$nb;
 		return $h;
+	}
+
+	// Pie de página
+	function Footer()
+	{
+		// Posición: a 1,5 cm del final
+		$this->SetY(-15);
+		// Arial italic 8
+		$this->SetFont('Arial', 'I', 8);
+		// Número de página
+		$this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
 	}
 
 	function CheckPageBreak($h)

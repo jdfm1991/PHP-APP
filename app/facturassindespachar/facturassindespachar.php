@@ -1,8 +1,8 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,15 +43,15 @@ require_once("../acceso/const.php");
                 <form class="form-horizontal" id="frmfactsindes">
                     <div class="form-group row">
                         <div class="form-group col-sm-2">
-                            <label>Desde</label>
+                            <label for="fechai">Desde</label>
                             <input type="date" class="form-control" id="fechai" name="fechai" required>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label>Hasta</label>
+                            <label for="fechaf">Hasta</label>
                             <input type="date" class="form-control" id="fechaf" name="fechaf" required>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label>Tipo</label>
+                            <label for="tipo">Tipo</label>
                             <select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;" required>
                                 <!-- la lista de tipo se carga por ajax -->
                             </select>
@@ -79,38 +79,30 @@ require_once("../acceso/const.php");
                 </button>
             </div>
         </div>
-        <!-- BOX  LOADER -->
-        <figure id="loader">
-            <div class="dot white"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </figure>
         <!-- BOX TABLA -->
         <div class="card card-info" id="tabla">
             <div class="card-header">
                 <h3 class="card-title">Relación de Facturas sin despachar</h3>
             </div>
             <div class="card-body" style="width:auto;">
-                <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="tablafactsindes">
+                <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tablafactsindes">
                     <thead style="background-color: #17A2B8;color: white;">
                         <tr>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Fact">Documento</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="FechaEmi">Fecha Emisión</th>
+                            <th class="text-center" title="Fact">Documento</th>
+                            <th class="text-center" title="FechaEmi">Fecha Emisión</th>
 
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="FechaDesp">Fecha Despacho</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="DiasTrans">Dias Transcurridos</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Código">Código</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Cliente">Cliente</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="DíasHastHoy">Días Transcurridos Hasta Hoy</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="CantBult">Cantidad Bultos</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="CantPaq">Cantidad Paquetes</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Monto">Monto Bs</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="EDV">EDV</th>
+                            <th class="text-center" title="FechaDesp">Fecha Despacho</th>
+                            <th class="text-center" title="DiasTrans">Dias Transcurridos</th>
+                            <th class="text-center" title="Código">Código</th>
+                            <th class="text-center" title="Cliente">Cliente</th>
+                            <th class="text-center" title="DíasHastHoy">Días Transcurridos Hasta Hoy</th>
+                            <th class="text-center" title="CantBult">Cantidad Bultos</th>
+                            <th class="text-center" title="CantPaq">Cantidad Paquetes</th>
+                            <th class="text-center" title="Monto">Monto Bs</th>
+                            <th class="text-center" title="EDV">EDV</th>
 
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="TPromEsti">Tiempo Promedio Estimado</th>
-                            <th style="text-align: center;" data-toggle="tooltip" data-placement="top" title="%Oportunidad">%Oportunidad</th>
+                            <th class="text-center" title="TPromEsti">Tiempo Promedio Estimado</th>
+                            <th class="text-center" title="%Oportunidad">%Oportunidad</th>
                         </tr>
                     </thead>
                     <tbody>

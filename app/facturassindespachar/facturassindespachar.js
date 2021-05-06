@@ -4,7 +4,6 @@ var estado_minimizado;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $("#loader").hide();
     $("#tabla").hide();
     estado_minimizado = false;
     listar_vendedores();
@@ -65,28 +64,28 @@ $(document).on("click", "#btn_factsindes", function () {
         estado_minimizado = false;
         if (fechai !== "" && fechaf !== "" && tipo !== "" && vendedores !== "") {
             sesionStorageItems(fechai, fechaf, tipo, vendedores, check);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
                 async: true,
                 url: "facturassindespachar_controlador.php?op=listar",
                 method: "POST",
+                dataType: "json",
                 data: {'fechai': fechai,'fechaf': fechaf,'tipo': tipo, 'vendedores': vendedores, 'check': check,},
                 beforeSend: function () {
-                    $("#loader").show(''); //MOSTRAMOS EL LOADER.
+                    SweetAlertLoadingShow();
                     if(tabla instanceof $.fn.dataTable.Api){
                         $('#tablafactsindes').DataTable().clear().destroy();
                     }
                     $('#tablafactsindes thead').empty();
                 },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
-                    Swal.fire('Atención!','ha ocurrido un error!','error');
                 },
                 success: function (data) {
-                    data = JSON.parse(data);
 
                     $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                    $("#loader").hide();//OCULTAMOS EL LOADER.
 
                     //creamos una matriz JSON para aoColumnDefs
                     var aryJSONColTable = [];
@@ -132,6 +131,9 @@ $(document).on("click", "#btn_factsindes", function () {
 
                     validarCantidadRegistrosTabla();
                     limpiar();
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
                 }
             });
             estado_minimizado = true;
@@ -139,19 +141,19 @@ $(document).on("click", "#btn_factsindes", function () {
     } else {
 
         if (fechai === ""){
-            Swal.fire('Atención!', 'Debe Colocar la fecha inicial!', 'error');
+            SweetAlertError('Debe Colocar la fecha inicial!');
             return false;
         }
         if (fechaf === "" ){
-            Swal.fire('Atención!', 'Debe Colocar la fecha final!', 'error');
+            SweetAlertError('Debe Colocar la fecha final!');
             return false;
         }
         if (vendedores === ""){
-            Swal.fire('Atención!', 'Debe Seleccionar una Ruta!', 'error');
+            SweetAlertError('Debe Seleccionar una Ruta!');
             return false;
         }
         if (tipo === ""){
-            Swal.fire('Atención!', 'Debe Seleccionar un Tipo!', 'error');
+            SweetAlertError('Debe Seleccionar un Tipo!');
             return false;
         }
     }
@@ -165,118 +167,153 @@ function sesionStorageItems(fechai, fechaf, tipo, vendedores, check){
     sessionStorage.setItem("check", check);
 }
 
-function listar_vendedores(){
-    $.post("../clientesbloqueados/clientesbloqueados_controlador.php?op=listar_vendedores", function(data){
-        data = JSON.parse(data);
-
-        if(!jQuery.isEmptyObject(data.lista_vendedores)){
-            //lista de seleccion de vendedores
-            $('#vendedores')
-                .append('<option name="" value="">Seleccione un Vendedor o Ruta</option>')
-                .append('<option name="" value="-">Todos</option>');
-            $.each(data.lista_vendedores, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $('#vendedores').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
-            });
+function listar_vendedores() {
+    let isError = false;
+    $.ajax({
+        url: "facturassindespachar_controlador.php?op=listar_vendedores",
+        method: "POST",
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data.lista_vendedores)){
+                //lista de seleccion de vendedores
+                $('#vendedores').append('<option name="" value="">Seleccione</option>');
+                $.each(data.lista_vendedores, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#vendedores').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
+                });
+            }
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
 
 function listar_canales(){
-    $.post("facturassindespachar_controlador.php?op=listar_canales", function(data){
-        data = JSON.parse(data);
-
-        if(!jQuery.isEmptyObject(data.lista_canales)){
-            //lista de seleccion de vendedores
-            $('#tipo')
-                .append('<option name="" value="">Seleccione Tipo</option>')
-                .append('<option name="" value="-">Todos</option>');
-            $.each(data.lista_canales, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $('#tipo').append('<option name="" value="' + opt.Clase +'">' + opt.Clase + '</option>');
-            });
+    $.ajax({
+        url: "facturassindespachar_controlador.php?op=listar_canales",
+        method: "POST",
+        dataType: "json",
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data.lista_canales)){
+                //lista de seleccion de vendedores
+                $('#tipo')
+                    .append('<option name="" value="">Seleccione Tipo</option>')
+                    .append('<option name="" value="-">Todos</option>');
+                $.each(data.lista_canales, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#tipo').append('<option name="" value="' + opt.Clase +'">' + opt.Clase + '</option>');
+                });
+            }
         }
     });
 }
-
 function mostrarModalDetalleFactura(numerod, tipofac) {
+    let isError = false;
     limpiar_modal_detalle_factura();
     $('#detallefactura').modal('show');
-    $("#loader2").show('');
 
-    $.post("facturassindespachar_controlador.php?op=detalle_de_factura", {numerod: numerod, tipofac: tipofac}, function (data) {
-        data = JSON.parse(data);
+    $.ajax({
+        url: "facturassindespachar_controlador.php?op=detalle_de_factura",
+        method: "POST",
+        dataType: "json",
+        data: {numerod: numerod, tipofac: tipofac},
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            let { factura, factura_despachada} = data;
 
-        //cabecera de la factura
-        $("#numero_documento").text(numerod);
-        $("#tipo_documento").text(data.tipo_documento);
-        $("#descrip_detfactura").text(data.descrip);
-        $("#codusua_detfactura").text(data.codusua);
-        $("#fechae_detfactura").text(data.fechae);
-        $("#codvend_detfactura").text(data.codvend);
+            if (factura.info.existeData === true)
+            {
+                let {cabecera, detalle, totales, info} = factura;
 
-        //detalle de la factura
-        $.each(data.detalle_factura, function(idx, opt) {
-            //como puede hacer varios registros de productos en una factura se itera con each
-            $('#tabla_detalle_factura')
-                .append(
-                    '<tr>' +
-                    '<td align="center" class="small align-middle">' + opt.coditem + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.descrip1 + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.cantidad + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.tipounid + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.peso + '</td>' +
-                    '<td align="center" class="small align-middle">' + opt.totalitem + '</td>' +
-                    '</tr>'
-                );
-        });
+                //cabecera de la factura
+                $("#numero_factura").text(numerod);
+                $("#descrip_detfactura").text(cabecera.descrip);
+                $("#codusua_detfactura").text(cabecera.codusua);
+                $("#fechae_detfactura").text(cabecera.fechae);
+                $("#codvend_detfactura").text(cabecera.codvend);
 
-        $('#tabla_detalle_factura')
-            .append( //separador
-                '<tr>' +
-                '<td colspan="5">===================================================================</td>' +
-                '</tr>'
-            )
-            .append( //totales de la factura
-                '<tr>' +
-                '<td align="center" class="small align-middle"> Total Productos ' + data.productos + '</td>' +
-                '<td colspan="3"></td>' +
-                '<td align="center" class="small align-middle"><div align="right">Sub Total</div></td>' +
-                '<td align="center" class="small align-middle"><div align="center">' + data.subtotal + '</div></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="center" class="small align-middle"> Total de Bultos ' + data.bultos + '</td>' +
-                '<td colspan="3"></td>' +
-                '<td align="center" class="small align-middle"><div align="right">Descuento</div></td>' +
-                '<td align="center" class="small align-middle"><div align="center">' + data.descuento + '</div></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="center" class="small align-middle"> Total de Paquetes ' + data.paquetes + '</td>' +
-                '<td colspan="3"></td>' +
-                '<td align="center" class="small align-middle"><div align="right">Excento</div></td>' +
-                '<td align="center" class="small align-middle"><div align="center">' + data.exento + '</div></td>' +
-                '</tr>' +
+                //detalle de la factura
+                $.each(detalle, function (idx, opt) {
+                    //como puede hacer varios registros de productos en una factura se itera con each
+                    $('#tabla_detalle_factura')
+                        .append(
+                            '<tr>' +
+                            '<td align="center" class="small align-middle">' + opt.coditem + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.descrip + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.cantidad + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.tipounid + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.precio + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.descuento + '</td>' +
+                            '<td align="center" class="small align-middle">' + opt.totalitem + '</td>' +
+                            '</tr>'
+                        );
+                });
 
-                '<tr>' +
-                '<td align="center" class="small align-middle"> Total de Kg ' + data.kg + '</td>' +
-                '<td colspan="3"></td>' +
-                '<td align="center" class="small align-middle"><div align="right">Base Imponible</div></td>' +
-                '<td align="center" class="small align-middle"><div align="center">' + data.base + '</div></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td colspan="4"></td>' +
-                '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
-                '<td align="center" class="small align-middle"><div align="center">' + data.impuesto + '</div></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td colspan="4"></td>' +
-                '<td align="center" class="small align-middle"><div align="right">Monto Total</div></td>' +
-                '<td align="center" class="small align-middle"><div align="center">' + data.total + '</div></td>' +
-                '</tr>'
-            );
-        $("#documento_despachado").html(data.factura_despachada);
+                $('#tabla_detalle_factura')
+                    .append( //separador
+                        '<tr>' +
+                        '<td colspan="7">===================================================================</td>' +
+                        '</tr>'
+                    )
+                    .append( //totales de la factura
+                        '<tr>' +
+                        '<td align="center" class="small align-middle"> Total de Bultos ' + info.bultos + '</td>' +
+                        '<td colspan="4"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Sub Total</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.subtotal + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td align="center" class="small align-middle"> Total de Paquetes ' + info.paquetes + '</td>' +
+                        '<td colspan="4"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Descuento</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.descuento + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Excento</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.exento + '</div></td>' +
+                        '</tr>' +
 
-        $("#loader2").hide();
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Base Imponible</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.base + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.impuesto + '</div></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="5"></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Monto Total</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="center">' + totales.total + '</div></td>' +
+                        '</tr>'
+                    );
+            }
+            $("#factura_despachada").html(factura_despachada);
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
     });
 }
 

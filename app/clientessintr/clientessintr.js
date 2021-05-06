@@ -1,11 +1,10 @@
-var tabla_clientessintr;
+var tabla;
 
 var estado_minimizado;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
     listar_vendedores();
 }
@@ -17,7 +16,7 @@ function limpiar() {
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_clientessintr.rows().count() === 0)
+    (tabla.rows().count() === 0)
         ? estado = true : estado = false;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
@@ -39,16 +38,30 @@ var no_puede_estar_vacio = function () {
 };
 
 function listar_vendedores() {
-    $.post("../clientesbloqueados/clientesbloqueados_controlador.php?op=listar_vendedores", function(data){
-        data = JSON.parse(data);
-
-        if(!jQuery.isEmptyObject(data.lista_vendedores)){
-            //lista de seleccion de vendedores
-            $('#vendedor').append('<option name="" value="">Seleccione un Vendedor o Ruta</option>');
-            $.each(data.lista_vendedores, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
-            });
+    let isError = false;
+    $.ajax({
+        url: "clientessintr_controlador.php?op=listar_vendedores",
+        method: "POST",
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data.lista_vendedores)){
+                //lista de seleccion de vendedores
+                $('#vendedor').append('<option name="" value="">Seleccione</option>');
+                $.each(data.lista_vendedores, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
+                });
+            }
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
@@ -57,12 +70,6 @@ $(document).ready(function () {
     $("#fechai").change(() => no_puede_estar_vacio());
     $("#fechaf").change(() => no_puede_estar_vacio());
     $("#vendedor").change(() => no_puede_estar_vacio());
-
-    $("#fechaf").datepicker({
-        todayBtn: "linked",
-        minDate: date,
-        maxDate: +7
-    });
 });
 
 //ACCION AL PRECIONAR EL BOTON.
@@ -80,24 +87,26 @@ $(document).on("click", "#btn_clientessintr", function () {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
             sessionStorage.setItem("vendedor", vendedor);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_clientessintr = $('#clientessintr_data').DataTable({
+            tabla = $('#clientessintr_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
                     url: "clientessintr_controlador.php?op=buscar_clientessintr",
                     type: "post",
+                    dataType: "json",
                     data: { fechai: fechai, fechaf: fechaf, vendedor: vendedor },
+                    beforeSend: function () {
+                        SweetAlertLoadingShow();
+                    },
                     error: function (e) {
+                        isError = SweetAlertError(e.responseText, "Error!")
                         console.log(e.responseText);
                     },
                     complete: function () {
-
+                        if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
                         mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
@@ -114,7 +123,7 @@ $(document).on("click", "#btn_clientessintr", function () {
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar un rango de fecha y un vendedor.', 'error');
+        SweetAlertError('Debe seleccionar un rango de fecha y un vendedor.');
         return (false);
 
     }
@@ -142,7 +151,7 @@ $(document).on("click", "#btn_pdf", function () {
 
 function mostrar() {
     var texto = 'Clientes Sin Transacción:  ';
-    var cuenta = (tabla_clientessintr.rows().count());
+    var cuenta = (tabla.rows().count());
     $("#cuenta").html(texto + cuenta);
 }
 

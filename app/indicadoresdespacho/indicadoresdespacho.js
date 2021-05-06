@@ -16,8 +16,6 @@ let barChart;
 function init() {
     $("#tabla").hide();
     $('#grafico').hide();
-    $("#loader").hide();
-    $("#spinner").css('visibility', 'hidden');
     estado_minimizado = false;
     indicador_seleccionado = 1;
     causas_rechazo = {};
@@ -127,38 +125,60 @@ $(document).ready(function(){
 });
 
 function listar_choferes(){
-    $.post("../choferes/chofer_controlador.php?op=listar_choferes", function(data, status){
-        data = JSON.parse(data);
+    let isError = false;
+    $.ajax({
+        url: "indicadoresdespacho_controlador.php?op=listar_choferes",
+        method: "POST",
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            array_selects.forEach( pill => {
+                $chofer = $('#'+pill+' #chofer');
 
-        array_selects.forEach( pill => {
-            $chofer = $('#'+pill+' #chofer');
-
-            //lista de seleccion de choferes
-            $chofer.append('<option name="" value="">Seleccione chofer</option>');
-            if(pill === 'pills-rechazo')
-                $chofer.append('<option name="" value="-">Todos</option>');
-            $.each(data.lista_choferes, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+                //lista de seleccion de choferes
+                $chofer.append('<option name="" value="">Seleccione chofer</option>');
+                if(pill === 'pills-rechazo')
+                    $chofer.append('<option name="" value="-">Todos</option>');
+                $.each(data.lista_choferes, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $chofer.append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+                });
             });
-        });
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
     });
 }
 
 function listar_causas_rechazo(){
-    $.post("indicadoresdespacho_controlador.php?op=obtener_causas_rechazo", function(data, status){
-        causas_rechazo = JSON.parse(data).lista_causas;
-        data = JSON.parse(data);
+    $.ajax({
+        url: "indicadoresdespacho_controlador.php?op=obtener_causas_rechazo",
+        method: "POST",
+        dataType: "json",
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            causas_rechazo = data.lista_causas;
 
-        $causa = $('#pills-rechazo #causa');
+            $causa = $('#pills-rechazo #causa');
 
-        //lista de seleccion de causas
-        $causa.append('<option name="" value="">--Seleccione Causa del rechazo--</option>');
-        $causa.append('<option name="" value="todos">Todos</option>');
-        $.each(data.lista_causas, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $causa.append('<option name="" value="' + opt.id +'">' + opt.descripcion + '</option>');
-        });
+            //lista de seleccion de causas
+            $causa.append('<option name="" value="">--Seleccione Causa del rechazo--</option>');
+            $causa.append('<option name="" value="todos">Todos</option>');
+            $.each(data.lista_causas, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $causa.append('<option name="" value="' + opt.id +'">' + opt.descripcion + '</option>');
+            });
+        }
     });
 }
 
@@ -169,13 +189,15 @@ function listar_periodos(){
     let chofer_id = $("#"+pill+" #chofer").val();
 
     $.ajax({
-        async: true,
-        cache: true,
         url: "indicadoresdespacho_controlador.php?op=listar_periodos&s="+indicador_seleccionado,
         method: "POST",
+        dataType: "json",
         data: {tipoPeriodo: tipoPeriodo, chofer_id: chofer_id},
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
         success: function (data) {
-            data = JSON.parse(data);
 
             $('#'+pill+' #periodo').empty();
 
@@ -241,22 +263,22 @@ $(document).on("click", "#btn_consultar", function () {
             let form_data = {};
             formData.forEach( val => { form_data[val.name] = val.value } );
 
-
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
                 url: "indicadoresdespacho_controlador.php?op="+listar,
                 method: "POST",
+                dataType: "json",
                 data: form_data,
                 beforeSend: function () {
                     limpiar_grafico();
-                    $("#loader").show(''); /*MOSTRAMOS EL LOADER.*/
-                    $("#spinner").css('visibility', 'visible');
+                    SweetAlertLoadingShow();
                 },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
                 },
                 success: function (data) {
-                    data = JSON.parse(data);
                     $(".title-card").text(title);
                     limpiar();//LIMPIAMOS EL SELECTOR.
                     
@@ -283,8 +305,7 @@ $(document).on("click", "#btn_consultar", function () {
                     validarCantidadRegistrosTabla(data.tabla);
                 },
                 complete: function () {
-                    $("#spinner").css('visibility', 'hidden');
-                    $("#loader").hide();//OCULTAMOS EL LOADER.
+                    if(!isError) SweetAlertLoadingClose();
                 }
             });
 
@@ -292,19 +313,19 @@ $(document).on("click", "#btn_consultar", function () {
         }
     } else {
         if (formData[0]['name'] === "chofer" && formData[0]['value'] === "") {
-            Swal.fire('Atención!','Seleccione un chofer!','error');
+            SweetAlertError('Seleccione un chofer!');
             return (false);
         }
         if (formData[1]['name'] === "tipoPeriodo" && formData[1]['value'] === "") {
-            Swal.fire('Atención!','Seleccione un Tipo de Periodo!','error');
+            SweetAlertError('Seleccione un Tipo de Periodo!');
             return (false);
         }
         if (formData[2]['name'] === "periodo" && formData[2]['value'] === "") {
-            Swal.fire('Atención!','Seleccione un Periodo!','error');
+            SweetAlertError('Seleccione un Periodo!');
             return (false);
         }
         if (indicador_seleccionado===2 && formData[3]['name'] === "causa" && formData[3]['value'] === "") {
-            Swal.fire('Atención!','Seleccione una causa de rechazo!','error');
+            SweetAlertError('Seleccione una causa de rechazo!');
             return (false);
         }
     }

@@ -38,8 +38,8 @@ class PDF extends FPDF
         $this->SetFillColor(200,220,255);
         // titulo de columnas
         $this->Cell(addWidthInArray(17), 6, 'Ult Venta', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(24), 6, 'Cod Cliente', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(80), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(22), 6, 'Cod Cliente', 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(76), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(22), 6, 'Rif', 1, 0, 'C', true);
         $this->Cell(addWidthInArray(21), 6, 'CodVend', 1, 0, 'C', true);
         $this->Cell(addWidthInArray(27), 6, 'Pendiente', 1, 1, 'C', true);

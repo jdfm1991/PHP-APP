@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("clientesnoactivos_modelo.php");
@@ -16,9 +16,8 @@ switch ($_GET["op"]) {
 
     $datos = $clientesnoactivos->getClientesNoactivos($_POST["vendedor"], $_POST["fechai"], $_POST["fechaf"]);
 
-        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+    //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();
-
 
     foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
@@ -42,13 +41,20 @@ switch ($_GET["op"]) {
 
     }
 
-        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+    //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
     $results = array(
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
-    echo json_encode($results);
 
+    echo json_encode($results);
     break;
+
+    case "listar_vendedores":
+
+        $output['lista_vendedores'] = Vendedores::todos();
+
+        echo json_encode($output);
+        break;
 }

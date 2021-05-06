@@ -1,11 +1,10 @@
-var tabla_clientesnuevos;
+var tabla;
 
 var estado_minimizado;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
 }
 
@@ -15,7 +14,7 @@ function limpiar() {
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_clientesnuevos.rows().count() === 0)
+    (tabla.rows().count() === 0)
         ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
@@ -43,28 +42,29 @@ $(document).on("click", "#btn_clientesnuevos", function () {
         if (fechai !== "" && fechaf !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_clientesnuevos = $('#clientesnuevos_data').DataTable({
+            tabla = $('#clientesnuevos_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
                     url: "clientesnuevos_controlador.php?op=buscar_clientesnuevos",
                     type: "post",
+                    dataType: "json",
                     data: {fechai: fechai, fechaf: fechaf},
+                    beforeSend: function () {
+                        SweetAlertLoadingShow();
+                    },
                     error: function (e) {
+                        isError = SweetAlertError(e.responseText, "Error!")
                         console.log(e.responseText);
                     },
                     complete: function () {
-
+                        if(!isError) SweetAlertLoadingClose();
                         validarCantidadRegistrosTabla();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
                         mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
-
                     }
                 },//TRADUCCION DEL DATATABLE.
                 "bDestroy": true,
@@ -77,7 +77,7 @@ $(document).on("click", "#btn_clientesnuevos", function () {
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar un rango de Fecha!', 'error');
+        SweetAlertError('Debe seleccionar un rango de Fecha!');
         return (false);
 
     }
@@ -103,7 +103,7 @@ $(document).on("click","#btn_pdf", function(){
 
 function mostrar() {
     var texto= 'Clientes Nuevos: ';
-    var cuenta =(tabla_clientesnuevos.rows().count());
+    var cuenta =(tabla.rows().count());
     $("#cuenta").html(texto + cuenta);
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("clientesbloqueados_modelo.php");
