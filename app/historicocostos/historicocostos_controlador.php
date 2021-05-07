@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("historicocostos_modelo.php");
@@ -31,11 +31,10 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip"];
             $sub_array[] = $row["marca"];
             $sub_array[] = date("d/m/Y", strtotime($row['fechae']));
-            $sub_array[] = number_format($row['costo'], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row['costo'], 2);
             $sub_array[] = $row["cantidad"];
 
             $data[] = $sub_array;
-
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -44,7 +43,7 @@ switch ($_GET["op"]) {
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
-        echo json_encode($results);
 
+        echo json_encode($results);
         break;
 }

@@ -5,7 +5,6 @@ var estado_minimizado;
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
 }
 
@@ -39,26 +38,27 @@ $(document).on("click", "#btn_consultar", function () {
         if (fechai !== "" && fechaf !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             tabla = $('#historicocostos_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
                     url: "historicocostos_controlador.php?op=listar",
                     type: "post",
+                    dataType: "json",
                     data: {fechai: fechai, fechaf: fechaf},
+                    beforeSend: function () {
+                        SweetAlertLoadingShow();
+                    },
                     error: function (e) {
+                        isError = SweetAlertError(e.responseText, "Error!")
                         console.log(e.responseText);
                     },
                     complete: function () {
-
+                        if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
-                        // mostrar();
                         limpiar();//LIMPIAMOS EL SELECTOR.
 
                     }
@@ -74,11 +74,11 @@ $(document).on("click", "#btn_consultar", function () {
         }
     } else {
         if (fechai === "") {
-            Swal.fire('Atención!','Seleccione una fecha inicial!','error');
+            SweetAlertError('Seleccione una fecha inicial!');
             return (false);
         }
         if (fechaf === "") {
-            Swal.fire('Atención!','Seleccione una fecha final!','error');
+            SweetAlertError('Seleccione una fecha final!');
             return (false);
         }
     }

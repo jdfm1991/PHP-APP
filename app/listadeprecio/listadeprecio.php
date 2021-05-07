@@ -1,8 +1,8 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,37 +97,30 @@ require_once("../acceso/const.php");
                 <button type="submit" class="btn btn-success" id="btn_listadeprecio"><i class="fa fa-search" aria-hidden="true"></i>Consultar</button>
             </div>
         </div>
-        <!-- BOX  LOADER -->
-        <figure id="loader">
-            <div class="dot white"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </figure>
+
         <!-- BOX TABLA -->
         <div class="card card-info" id="tabla">
             <div class="card-header">
                 <h3 class="card-title">Clientes</h3>
             </div>
             <div class="card-body" style="width:auto;">
-                <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="tablaprecios">
+                <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tablaprecios">
                     <thead style="background-color: #17A2B8;color: white;">
                         <tr>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Código</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Producto">Producto</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Marca">Marca</th>
+                            <th class="text-center" title="Código">Código</th>
+                            <th class="text-center" title="Producto">Producto</th>
+                            <th class="text-center" title="Marca">Marca</th>
 
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Bultos">Bultos</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Bulto</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Bulto</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Bulto</th>
+                            <th class="text-center" title="Bultos">Bultos</th>
+                            <th class="text-center" title="Precio 1">Precio 1 Bulto</th>
+                            <th class="text-center" title="Precio 2">Precio 2 Bulto</th>
+                            <th class="text-center" title="Precio 3">Precio 3 Bulto</th>
 
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Código">Paquete</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 1">Precio 1 Paquete</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 2">Precio 2 Paquete</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Precio 3">Precio 3 Paquete</th>
-                            <th class="text-center" data-toggle="tooltip" data-placement="top" title="Cubicaje">Cubicaje</th>
+                            <th class="text-center" title="Código">Paquete</th>
+                            <th class="text-center" title="Precio 1">Precio 1 Paquete</th>
+                            <th class="text-center" title="Precio 2">Precio 2 Paquete</th>
+                            <th class="text-center" title="Precio 3">Precio 3 Paquete</th>
+                            <th class="text-center" title="Cubicaje">Cubicaje</th>
                         </tr>
                     </thead>
                     <tbody>

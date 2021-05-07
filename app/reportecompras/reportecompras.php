@@ -1,8 +1,8 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,13 +42,11 @@ require_once("../acceso/const.php");
             <div  class="card-body" id="minimizar">
                 <form class="form-horizontal" id="frmCompras">
                     <div class="form-group row">
-                        <div class="form-group col-sm-3">
-                            <label for="fechai">Fecha</label>
+                        <div class="form-group col-2">
+                            <label for="fechai">Fecha inicial</label>
                             <input type="date" class="form-control" id="fechai" name="fechai" required>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-3 col-sm-3">
                             <label for="marca">Marca</label>
                             <select class="custom-select" name="marca" id="marca" style="width: 100%;" required>
                                 <!-- la lista de marcas se carga por ajax -->
@@ -62,14 +60,7 @@ require_once("../acceso/const.php");
                 <button type="submit" class="btn btn-success" id="btn_reportecompra"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
             </div>
         </div>
-        <!-- BOX  LOADER -->
-        <figure id="loader">
-            <div class="dot white"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </figure>
+
         <!-- BOX TABLA -->
         <div class="card card-info" id="tabla">
             <div class="card-header">
@@ -77,7 +68,7 @@ require_once("../acceso/const.php");
             </div>
             <div class="card-body table-responsive p-2" style="width:auto; height: 500px;">
                 <form id="form_reportecompras" method="post">
-                    <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="reportecompras_data">
+                    <table class="table table-sm table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="reportecompras_data">
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
                             <th style="width: 10px" rowspan="2">#</th>

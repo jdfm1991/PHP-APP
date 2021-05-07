@@ -1,6 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("costodeinventario_modelo.php");
@@ -63,14 +63,14 @@ switch ($_GET["op"]) {
             $sub_array['codprod'] = $row["codprod"];
             $sub_array['descrip'] = $row["descrip"];
             $sub_array['marca'] = $row["marca"];
-            $sub_array['costo'] = number_format($row['costo'],2, ",", ".");
-            $sub_array['cdisplay'] = number_format($cdisplay,2, ",", ".");
-            $sub_array['precio'] = number_format($row['precio'],2, ",", ".");
-            $sub_array['bultos'] = number_format($row['bultos'],2, ",", ".");
-            $sub_array['paquetes'] = number_format($row['paquetes'],2, ",", ".");
-            $sub_array['costoxbulto'] = number_format($row['costo'] * $row['bultos'],2, ",", ".");
-            $sub_array['cdisplayxpaquetes'] = number_format($cdisplay * $row['paquetes'],2, ",", ".");
-            $sub_array['tara'] = number_format($row['tara'],2, ",", ".");
+            $sub_array['costo'] = Strings::rdecimal($row['costo'],2);
+            $sub_array['cdisplay'] = Strings::rdecimal($cdisplay,2);
+            $sub_array['precio'] = Strings::rdecimal($row['precio'],2);
+            $sub_array['bultos'] = Strings::rdecimal($row['bultos'],2);
+            $sub_array['paquetes'] = Strings::rdecimal($row['paquetes'],2);
+            $sub_array['costoxbulto'] = Strings::rdecimal($row['costo'] * $row['bultos'],2);
+            $sub_array['cdisplayxpaquetes'] = Strings::rdecimal($cdisplay * $row['paquetes'],2);
+            $sub_array['tara'] = Strings::rdecimal($row['tara'],2);
 
             //ACUMULAMOS LOS TOTALES
             $costos += $row['costo'];
@@ -87,14 +87,14 @@ switch ($_GET["op"]) {
         }
         //creamos un array para almacenar los datos acumulados
         $sub_array1 = array();
-        $sub_array1['costos'] = number_format($costos,2, ",", ".");
-        $sub_array1['costos_p'] = number_format($costos_p,2, ",", ".");
-        $sub_array1['precios'] = number_format($precios,2, ",", ".");
-        $sub_array1['bultos'] = number_format($bultos,2, ",", ".");
-        $sub_array1['paquetes'] = number_format($paquetes,2, ",", ".");
-        $sub_array1['total_costo_bultos'] = number_format($total_costo_bultos,2, ",", ".");
-        $sub_array1['total_costo_paquetes'] = number_format($total_costo_paquetes,2, ",", ".");
-        $sub_array1['total_tara'] = number_format($total_tara,2, ",", ".");
+        $sub_array1['costos'] = Strings::rdecimal($costos,2);
+        $sub_array1['costos_p'] = Strings::rdecimal($costos_p,2);
+        $sub_array1['precios'] = Strings::rdecimal($precios,2);
+        $sub_array1['bultos'] = Strings::rdecimal($bultos,2);
+        $sub_array1['paquetes'] = Strings::rdecimal($paquetes,2);
+        $sub_array1['total_costo_bultos'] = Strings::rdecimal($total_costo_bultos,2);
+        $sub_array1['total_costo_paquetes'] = Strings::rdecimal($total_costo_paquetes,2);
+        $sub_array1['total_tara'] = Strings::rdecimal($total_tara,2);
         $sub_array1['cantidad_registros'] = count($datos);
 
         //al terminar, se almacena en una variable de salida el array.
@@ -105,10 +105,16 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case "listar_marcas":
+
+        $output["lista_marcas"] = Marcas::todos();
+
+        echo json_encode($output);
+        break;
 
     case "listar_depositos":
 
-        $output['lista_depositos'] = $costo->get_Almacenes();
+        $output['lista_depositos'] = Almacen::todos();
 
         echo json_encode($output);
         break;

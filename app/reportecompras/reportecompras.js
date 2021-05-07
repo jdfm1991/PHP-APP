@@ -5,7 +5,6 @@ var estado_minimizado;
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
     listar_marcas();
 }
@@ -26,18 +25,21 @@ function validarCantidadRegistrosTabla() {
 }
 
 function listar_marcas() {
+    let isError = false;
     $.ajax({
-        url: "../sellin/sellin_controlador.php?op=listar_marcas",
+        url: "reportecompras_controlador.php?op=listar_marcas",
         type: "GET",
+        dataType: "json",
         beforeSend: function () {
+            SweetAlertLoadingShow();
             //mientras carga inabilitamos el select
             $("#marca").attr("disabled", true);
         },
-        error: function(X){
-            Swal.fire('Atención!','ha ocurrido un error!','error');
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
         },
         success: function(data) {
-            data = JSON.parse(data);
             //cuando termina la consulta, activamos el boton
             $("#marca").attr("disabled", false);
             //lista de seleccion de las marcas
@@ -48,6 +50,9 @@ function listar_marcas() {
                 //se itera con each para llenar el select en la vista
                 $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
             });
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
@@ -75,29 +80,32 @@ $(document).on("click", "#btn_reportecompra", function () {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("marca", marca);
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-
             $.ajax({
-                beforeSend: function () {
-                    $("#loader").show();
-                },
-                type: "POST",
+                cache:true,
                 url: "reportecompras_controlador.php?op=listar",
+                type: "POST",
+                dataType: "json",
                 data: {fechai: fechai, marca: marca},
-                error: function(X){
-                    Swal.fire('Atención!','ha ocurrido un error!','error');
+                beforeSend: function () {
+                    SweetAlertLoadingShow("Procesando información, espere...");
+                },
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
                 },
                 success: function(data) {
-                    data = JSON.parse(data);
-                    $("#tabla").show();
-                    $("#loader").hide();
                     limpiar();//LIMPIAMOS EL SELECTOR.
                     imprimir_tabla(data);
+                },
+                complete: function () {
+                    SweetAlertSuccessLoading()
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
                 }
             });
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar fecha y marca valido!', 'error');
+        SweetAlertError('Debe seleccionar fecha y marca valido!');
         return (false);
     }
 });

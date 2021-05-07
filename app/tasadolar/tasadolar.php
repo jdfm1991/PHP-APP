@@ -1,6 +1,8 @@
 <?php
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
+//LLAMAMOS A LA CONEXION.
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,16 +42,16 @@ require_once("../acceso/const.php");
                             <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tasa_data">
                                 <thead style="background-color: #17A2B8;color: white;">
                                 <tr>
-                                    <th data-toggle="tooltip" data-placement="top" title="#">#</th>
-                                    <th data-toggle="tooltip" data-placement="top" title="Fecha">Fecha</th>
-                                    <th data-toggle="tooltip" data-placement="top" title="Tasa">Tasa</th>
+                                    <th class="text-center" title="#">#</th>
+                                    <th class="text-center" title="Fecha">Fecha</th>
+                                    <th class="text-center" title="Tasa">Tasa</th>
                                 </tr>
                                 </thead>
                                 <tfoot style="background-color: #ccc;color: white;">
                                 <tr>
-                                    <th style="text-align: center;">#</th>
-                                    <th style="text-align: center;">Fecha</th>
-                                    <th style="text-align: center;">Tasa</th>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Tasa</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -63,14 +65,6 @@ require_once("../acceso/const.php");
                             </div>
                         </div>
                     </div>
-                    <!-- BOX  LOADER -->
-                    <figure id="loader">
-                        <div class="dot white"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </figure>
                 </div>
             </div>
         </div>

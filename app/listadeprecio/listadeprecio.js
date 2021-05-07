@@ -4,7 +4,6 @@ var estado_minimizado;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $("#loader").hide();
     $("#tabla").hide();
     estado_minimizado = false;
     listar_depositos_marcas();
@@ -66,29 +65,26 @@ $(document).on("click", "#btn_listadeprecio", function () {
         estado_minimizado = false;
         if (depos !== "" && marcas !== "" && orden !== "") {
             sesionStorageItems(depos, marcas, orden, p1, p2, p3, iva, cubi, exis);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
                 async: true,
                 url: "listadeprecio_controlador.php?op=listar",
                 method: "POST",
+                dataType: "json",
                 data: {'depo': depos,'marca': marcas,'orden': orden,'p1': p1, 'p2': p2, 'p3': p3, 'iva': iva, 'cubi': cubi, 'exis':exis,},
                 beforeSend: function () {
-                    $("#loader").show(''); //MOSTRAMOS EL LOADER.
+                    SweetAlertLoadingShow();
                     if(tabla instanceof $.fn.dataTable.Api){
                         $('#tablaprecios').DataTable().clear().destroy();
                     }
                     $('#tablaprecios thead').empty();
                 },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
-                    Swal.fire('Atención!','ha ocurrido un error!','error');
                 },
                 success: function (data) {
-                    data = JSON.parse(data);
-
-                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                    $("#loader").hide();//OCULTAMOS EL LOADER.
-
                     //creamos una matriz JSON para aoColumnDefs
                     var aryJSONColTable = [];
                     /*var aryColTableChecked = data.columns;
@@ -126,24 +122,27 @@ $(document).on("click", "#btn_listadeprecio", function () {
 
                     validarCantidadRegistrosTabla();
                     limpiar();
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
                 }
             });
-
 
             estado_minimizado = true;
         }
     } else {
 
         if (depos === "") {
-            Swal.fire('Atención!','Seleccione un Almacen!','error');
+            SweetAlertError('Seleccione un Almacen!');
             return (false);
         }
         if (marcas === "") {
-            Swal.fire('Atención!','Seleccione al menos una Marca!','error');
+            SweetAlertError('Seleccione al menos una Marca!');
             return (false);
         }
         if (orden === "") {
-            Swal.fire('Atención!',' Seleccione como desea Ordenar!','error');
+            SweetAlertError(' Seleccione como desea Ordenar!');
             return (false);
         }
     }
@@ -162,23 +161,34 @@ function sesionStorageItems(depos, marcas, orden, p1, p2, p3, iva, cubi, exis){
 }
 
 function listar_depositos_marcas(){
+    let isError = false;
+    $.ajax({
+        url: "listadeprecio_controlador.php?op=listar_depositos_marcas",
+        method: "POST",
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            $('#depo').append('<option name="" value="">Seleccione Almacen</option>');
+            $.each(data.lista_depositos, function(idx, opt) {
+                //se itera con each para llenar el select en la vista
+                $('#depo').append('<option name="" value="' + opt.codubi +'">'+ opt.codubi +': '+ opt.descrip.substr(0, 35) + '</option>');
+            });
 
-    $.post("listadeprecio_controlador.php?op=listar_depositos_marcas", function(data){
-        data = JSON.parse(data);
-
-        $('#depo').append('<option name="" value="">Seleccione Almacen</option>');
-        $.each(data.lista_depositos, function(idx, opt) {
-            //se itera con each para llenar el select en la vista
-            $('#depo').append('<option name="" value="' + opt.codubi +'">'+ opt.codubi +': '+ opt.descrip.substr(0, 35) + '</option>');
-        });
-
-        $('#marca').append('<option name="" value="">Seleccione una Marca</option>').append('<option name="" value="-">TODAS</option>');
-        $.each(data.lista_marcas, function(idx, opt) {
-            $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
-        });
+            $('#marca').append('<option name="" value="">Seleccione una Marca</option>').append('<option name="" value="-">TODAS</option>');
+            $.each(data.lista_marcas, function(idx, opt) {
+                $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
+            });
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+        }
     });
-
-
 }
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.

@@ -1,24 +1,10 @@
 
 <?php
 //LLAMAMOS A LA CONEXION.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 class CostodeInventario extends Conectar
 {
-	public function get_Almacenes()
-	{
-	    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-		$conectar = parent::conexion2();
-		parent::set_names();
-
-		$sql = "SELECT CodUbic AS codubi, Descrip AS descrip FROM sadepo ORDER BY codubic";
-		$sql = $conectar->prepare($sql);
-		$sql->execute();
-
-		return $resultado = $sql->fetchAll();
-	}
-
 	public function getCostosdEinventario($edv, $marca)
 	{
 		//LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2

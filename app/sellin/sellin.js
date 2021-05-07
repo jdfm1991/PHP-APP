@@ -1,4 +1,4 @@
-var tabla_sellin;
+var tabla;
 
 var estado_minimizado;
 
@@ -17,25 +17,39 @@ function limpiar() {
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_sellin.rows().count() === 0)
+    (tabla.rows().count() === 0)
         ? estado = true  : estado = false ;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
 }
 
 function listar_marcas() {
-    $.post("sellin_controlador.php?op=listar_marcas", function(data){
-        data = JSON.parse(data);
-
-        if(!jQuery.isEmptyObject(data.lista_marcas)){
-            //lista de seleccion de vendedores
-            $('#marca')
-                .append('<option name="" value="">Seleccione una opción</option>')
-                .append('<option name="" value="-">TODAS</option>');
-            $.each(data.lista_marcas, function(idx, opt) {
-                //se itera con each para llenar el select en la vista
-                $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
-            });
+    let isError = false;
+    $.ajax({
+        url: "sellin_controlador.php?op=listar_marcas",
+        method: "POST",
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data.lista_marcas)){
+                //lista de seleccion de vendedores
+                $('#marca')
+                    .append('<option name="" value="">Seleccione una opción</option>')
+                    .append('<option name="" value="-">TODAS</option>');
+                $.each(data.lista_marcas, function(idx, opt) {
+                    //se itera con each para llenar el select en la vista
+                    $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
+                });
+            }
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
@@ -67,28 +81,28 @@ $(document).on("click", "#btn_sellin", function () {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
             sessionStorage.setItem("marca", marca);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla_sellin = $('#sellin_data').DataTable({
+            tabla = $('#sellin_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    beforeSend: function () {
-                        $("#loader").show(''); //MOSTRAMOS EL LOADER.
-                    },
                     url: "sellin_controlador.php?op=buscar_sellin",
                     type: "post",
+                    dataType: "json",
                     data: {fechai: fechai, fechaf: fechaf, marca: marca},
+                    beforeSend: function () {
+                        SweetAlertLoadingShow();
+                    },
                     error: function (e) {
+                        isError = SweetAlertError(e.responseText, "Error!")
                         console.log(e.responseText);
                     },
                     complete: function () {
-
+                        if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                        $("#loader").hide();//OCULTAMOS EL LOADER.
                         validarCantidadRegistrosTabla();
-                       /* mostrar()*/
                         limpiar();//LIMPIAMOS EL SELECTOR.
-
                     }
                 },//TRADUCCION DEL DATATABLE.
                 "bDestroy": true,
@@ -101,7 +115,7 @@ $(document).on("click", "#btn_sellin", function () {
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar un rango de fecha y un marca.', 'error');
+        SweetAlertError('Debe seleccionar un rango de fecha y un marca.');
         return (false);
 
     }
@@ -128,17 +142,9 @@ $(document).on("click","#btn_pdf", function(){
 });
 
 function mostrar() {
-   /* var fechai = $("#fechai").val();
-    var fechaf = $("#fechaf").val();
-    var marca = $("#marca").val();
-    $.post("clientes_controlador.php?op=mostrar", {fechai: fechai, fechaf: fechaf, marca: marca}, function (data, status) {
-        data = JSON.parse(data);
 
-        $("#cuenta").html(data.cuenta);
-
-    });*/
     var texto= 'Clientes Sin Transacción:  ';
-    var cuenta =(tabla_sellin.rows().count());
+    var cuenta =(tabla.rows().count());
     $("#cuenta").html(texto + cuenta);
 }
 

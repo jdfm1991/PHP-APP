@@ -1,17 +1,13 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("listadeprecio_modelo.php");
-require_once("../costodeinventario/costodeinventario_modelo.php");
-require_once("../sellin/sellin_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $precios = new Listadeprecio();
-$almacenes = new CostodeInventario();
-$marcas = new sellin();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -107,29 +103,29 @@ switch ($_GET["op"]) {
                 case 1:
                     if ($row['esexento'] == 0)
                     {
-                        $sub_array[] = number_format($row['precio'. $sumap2 ] * $iva, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($row['precio'. $sumap2 ] * $iva, 2);
                     } else {
-                        $sub_array[] = number_format($row['precio'. $sumap2 ], 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($row['precio'. $sumap2 ], 2);
                     }
                     break;
                 case 2:
                     if ($p1 == 1)
                     {
-                        $sub_array[] = number_format($precio1, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($precio1, 2);
                     } else {
-                        $sub_array[] = number_format($precio2, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($precio2, 2);
                     }
                     if ($p3 == 3)
                     {
-                        $sub_array[] = number_format($precio3, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($precio3, 2);
                     } else {
-                        $sub_array[] = number_format($precio2, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($precio2, 2);
                     }
                     break;
                 default: /** 0 || 3**/
-                    $sub_array[] = number_format($precio1, 2, ",", ".");
-                    $sub_array[] = number_format($precio2, 2, ",", ".");
-                    $sub_array[] = number_format($precio3, 2, ",", ".");
+                    $sub_array[] = Strings::rdecimal($precio1, 2);
+                    $sub_array[] = Strings::rdecimal($precio2, 2);
+                    $sub_array[] = Strings::rdecimal($precio3, 2);
             }
             // <!--PAQUETES-->
             $sub_array[] = round($row['exunidad']);
@@ -137,29 +133,29 @@ switch ($_GET["op"]) {
                 case 1:
                     if ($row['esexento'] == 0)
                     {
-                        $sub_array[] = number_format($row['preciou'. $sumap2 ]* $iva, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($row['preciou'. $sumap2 ]* $iva, 2);
                     } else {
-                        $sub_array[] = number_format($row['preciou'. $sumap2 ], 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($row['preciou'. $sumap2 ], 2);
                     }
                     break;
                 case 2:
                     if ($p1 == 1)
                     {
-                        $sub_array[] = number_format($preciou1, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($preciou1, 2);
                     } else {
-                        $sub_array[] = number_format($preciou2, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($preciou2, 2);
                     }
                     if ($p3 == 3)
                     {
-                        $sub_array[] = number_format($preciou3, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($preciou3, 2);
                     } else {
-                        $sub_array[] = number_format($preciou2, 2, ",", ".");
+                        $sub_array[] = Strings::rdecimal($preciou2, 2);
                     }
                     break;
                 default: /** 0 || 3**/
-                    $sub_array[] = number_format($preciou1, 2, ",", ".");
-                    $sub_array[] = number_format($preciou2, 2, ",", ".");
-                    $sub_array[] = number_format($preciou3, 2, ",", ".");
+                    $sub_array[] = Strings::rdecimal($preciou1, 2);
+                    $sub_array[] = Strings::rdecimal($preciou2, 2);
+                    $sub_array[] = Strings::rdecimal($preciou3, 2);
                 }
             if ($cubi == 1) {
                 $sub_array[] = $row['cubicaje'];
@@ -181,7 +177,7 @@ switch ($_GET["op"]) {
 
     case "listar_depositos_marcas":
         //DEPOSITOS
-        $output["lista_depositos"] = $almacenes->get_Almacenes();
+        $output["lista_depositos"] = Almacen::todos();
         //MARCAS
         $output["lista_marcas"] = Marcas::todos();
 

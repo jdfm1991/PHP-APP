@@ -1,4 +1,5 @@
 <?php
+include_once 'Almacen.php';
 include_once 'CausasRechazos.php';
 include_once 'Choferes.php';
 include_once 'Cobranzas.php';

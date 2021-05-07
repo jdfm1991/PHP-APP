@@ -1,14 +1,28 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
-require ('../vendor/autoload.php');
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_bar.php' );
+require_once ( PATH_LIBRARY.'jpgraph4.3.4/src/jpgraph_line.php' );
 
+require (PATH_VENDOR.'autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Style;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("reportecompras_modelo.php");
@@ -28,12 +42,14 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
 $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+$spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+$spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(true);
@@ -41,8 +57,21 @@ $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(true);
-$spreadsheet->getActiveSheet()->getStyle('A7:T7')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
-$spreadsheet->getActiveSheet()->getStyle('A8:T8')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
+//$spreadsheet->getActiveSheet()->getStyle('A7:T7')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
+//$spreadsheet->getActiveSheet()->getStyle('A8:T8')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('F2F2F2');
+
+// Logo
+$gdImage = imagecreatefrompng(PATH_LIBRARY.'build/images/logo.png');
+$objDrawing = new MemoryDrawing();
+$objDrawing->setName('Sample image');
+$objDrawing->setDescription('TEST');
+$objDrawing->setImageResource($gdImage);
+$objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
+$objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+$objDrawing->setHeight(108);
+$objDrawing->setWidth(128);
+$objDrawing->setCoordinates('O1');
+$objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
@@ -65,7 +94,7 @@ $sheet->setCellValue('A7', '#')
     ->setCellValue('B7', 'Codigo')
     ->setCellValue('C7', 'Descripcion')
     ->setCellValue('D7', 'Display x Bulto')
-    ->setCellValue('E7', 'Último precio de compra')
+    ->setCellValue('E7', 'Último precio compra')
     ->setCellValue('E8', 'Display')
     ->setCellValue('F8', 'Bulto')
     ->setCellValue('G7', '% Rent')
@@ -89,27 +118,7 @@ $sheet->setCellValue('A7', '#')
 
 $style_title = new Style();
 $style_title->applyFromArray(
-    array(
-        'font' => array(
-            'name' => 'Arial',
-            'bold'  => true,
-            'color' => array('rgb' => '000000')
-        ),
-        'fill' => array(
-            'fillType' => Fill::FILL_SOLID,
-            'color' => ['argb' => 'F2F2F2'],
-        ),
-        'borders' => array(
-            'top' => ['borderStyle' => Border::BORDER_THIN],
-            'bottom' => ['borderStyle' => Border::BORDER_THIN],
-            'right' => ['borderStyle' => Border::BORDER_MEDIUM],
-        ),
-        'alignment' => array(
-            'horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            'wrap' => TRUE
-        )
-    )
+    Excel::styleHeadTable()
 );
 
 //estableceer el estilo de la cabecera de la tabla
@@ -128,22 +137,22 @@ foreach ($v as $key=>$coditem) {
         $sheet->setCellValue('A' . $i, $num+1);
         $sheet->setCellValue('B' . $i, $row[0]["codproducto"]);
         $sheet->setCellValue('C' . $i, $row[0]["descrip"]);
-        $sheet->setCellValue('D' . $i, number_format($row[0]["displaybultos"], 0, ",", "."));
-        $sheet->setCellValue('E' . $i, number_format($row[0]["costodisplay"], 2, ",", "."));
-        $sheet->setCellValue('F' . $i, number_format($row[0]["costobultos"], 2, ",", "."));
-        $sheet->setCellValue('G' . $i, number_format($row[0]["rentabilidad"], 1, ",", ".") . "  %");
-        $sheet->setCellValue('H' . $i, (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : 0);
-        $sheet->setCellValue('I' . $i, (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0, ",", ".") : 0);
-        $sheet->setCellValue('J' . $i, (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : 0);
-        $sheet->setCellValue('K' . $i, (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0, ",", ".") : 0);
-        $sheet->setCellValue('L' . $i, number_format($row[0]["semana1"], 0, ",", "."));
-        $sheet->setCellValue('M' . $i, number_format($row[0]["semana2"], 0, ",", "."));
-        $sheet->setCellValue('N' . $i, number_format($row[0]["semana3"], 0, ",", "."));
-        $sheet->setCellValue('O' . $i, number_format($row[0]["semana4"], 0, ",", "."));
-        $sheet->setCellValue('P' . $i, number_format($row[0]["totalventasmesanterior"], 0, ",", "."));
-        $sheet->setCellValue('Q' . $i, number_format($row[0]["bultosexistentes"], 1, ",", "."));
-        $sheet->setCellValue('R' . $i, number_format($row[0]["diasdeinventario"], 0, ",", "."));
-        $sheet->setCellValue('S' . $i, number_format($row[0]["sugerido"], 1, ",", "."));
+        $sheet->setCellValue('D' . $i, number_format($row[0]["displaybultos"], 0));
+        $sheet->setCellValue('E' . $i, Strings::rdecimal($row[0]["costodisplay"], 2));
+        $sheet->setCellValue('F' . $i, Strings::rdecimal($row[0]["costobultos"], 2));
+        $sheet->setCellValue('G' . $i, Strings::rdecimal($row[0]["rentabilidad"], 2) . "  %");
+        $sheet->setCellValue('H' . $i, (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : '------------');
+        $sheet->setCellValue('I' . $i, (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0);
+        $sheet->setCellValue('J' . $i, (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : '------------');
+        $sheet->setCellValue('K' . $i, (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0);
+        $sheet->setCellValue('L' . $i, number_format($row[0]["semana1"], 0));
+        $sheet->setCellValue('M' . $i, number_format($row[0]["semana2"], 0));
+        $sheet->setCellValue('N' . $i, number_format($row[0]["semana3"], 0));
+        $sheet->setCellValue('O' . $i, number_format($row[0]["semana4"], 0));
+        $sheet->setCellValue('P' . $i, number_format($row[0]["totalventasmesanterior"], 0));
+        $sheet->setCellValue('Q' . $i, Strings::rdecimal($row[0]["bultosexistentes"], 2));
+        $sheet->setCellValue('R' . $i, number_format($row[0]["diasdeinventario"], 0));
+        $sheet->setCellValue('S' . $i, Strings::rdecimal($row[0]["sugerido"], 2));
         $sheet->setCellValue('T' . $i, $n[$key]);
 
 
@@ -179,12 +188,13 @@ foreach ($v as $key=>$coditem) {
     }
 }
 
-header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="REPORTE_COMPRAS_'.strtoupper($meses[intval($mes)])."_".$ano.'.xls"');
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="REPORTE_COMPRAS_'.strtoupper($meses[intval($mes)])."_".$ano.'.xlsx"');
 header('Cache-Control: max-age=0');
 
-
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+$writer = new Xlsx($spreadsheet);
+$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+$callStartTime = microtime(true);
 ob_end_clean();
 ob_start();
 $writer->save('php://output');

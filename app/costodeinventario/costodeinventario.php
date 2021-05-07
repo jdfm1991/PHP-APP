@@ -1,8 +1,8 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,21 +63,14 @@ require_once("../acceso/const.php");
 					<button type="submit" class="btn btn-success" id="btn_costodeinventario"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
 				</div>
 			</div>
-			<!-- BOX  LOADER -->
-			<figure id="loader">
-				<div class="dot white"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-			</figure>
+
             <!-- BOX TABLA -->
             <div class="card card-info" id="tabla">
                 <div class="card-header">
                     <h3 class="card-title">Costos de Inventario</h3>
                 </div>
                 <div class="card-body table-responsive p-0" style="width:100%; height:400px;">
-                    <table class="table table-hover table-condensed table-bordered table-striped table-head-fixed text-nowrap" id="costodeinventario_data">
+                    <table class="table table-sm table-hover table-condensed table-bordered table-striped table-head-fixed text-nowrap text-center" id="costodeinventario_data">
                         <thead style="color: black;">
                         <tr>
                             <th class="text-center">Codigo</th>

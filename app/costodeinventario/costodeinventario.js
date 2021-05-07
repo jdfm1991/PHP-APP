@@ -3,7 +3,6 @@ var estado_minimizado;
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
     listar_marcas();
     listar_almacenes();
@@ -37,36 +36,39 @@ $(document).on("click", "#btn_costodeinventario", function () {
 
     if (estado_minimizado) {
         $("#tabla").hide();
-        $("#loader").hide();
         $("#minimizar").slideToggle();
         estado_minimizado = false;
         if (marcas !== "") {
             //serializamos la informacion de marca y almacen
             var datos=$('#frmCostos').serialize();
+            let isError = false;
             //almacenamos en sesion una variable
             sessionStorage.setItem("datos", datos);
             $.ajax({
-                beforeSend: function () {
-                    $("#loader").show();
-                },
-                type: "POST",
                 url: "costodeinventario_controlador.php?op=listar_costoseinventario",
+                method: "POST",
+                dataType: "json",
                 data: datos,
-                error: function(X){
-                    Swal.fire('Atención!','ha ocurrido un error!','error');
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
+                error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
                 },
                 success: function(data) {
-                    data = JSON.parse(data);
-                    $("#tabla").show();
-                    $("#loader").hide();
                     limpiar();//LIMPIAMOS EL SELECTOR.
                     imprimir_tabla(data);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
                 }
             });
             estado_minimizado = true;
         }
     } else {
-        Swal.fire('Atención!','Seleccione una Marca!','error');
+        SweetAlertError('Seleccione una Marca!');
         return (false);
 
     }
@@ -126,18 +128,21 @@ function imprimir_tabla(data) {
 }
 
 function listar_marcas() {
+    let isError = false;
     $.ajax({
-        url: "../sellin/sellin_controlador.php?op=listar_marcas",
-        type: "GET",
+        url: "costodeinventario_controlador.php?op=listar_marcas",
+        type: "get",
+        dataType: "json",
         beforeSend: function () {
+            SweetAlertLoadingShow();
             //mientras carga inabilitamos el select
             $("#marca").attr("disabled", true);
         },
-        error: function(X){
-            Swal.fire('Atención!','ha ocurrido un error!','error');
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
         },
         success: function(data) {
-            data = JSON.parse(data);
             //cuando termina la consulta, activamos el boton
             $("#marca").attr("disabled", false);
             //lista de seleccion de las marcas
@@ -148,6 +153,9 @@ function listar_marcas() {
                 //se itera con each para llenar el select en la vista
                 $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
             });
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
@@ -155,16 +163,17 @@ function listar_marcas() {
 function listar_almacenes() {
     $.ajax({
         url: "costodeinventario_controlador.php?op=listar_depositos",
-        type: "GET",
+        type: "get",
+        dataType: "json",
         beforeSend: function () {
             //mientras carga inabilitamos el select
             $('[name="depo[]"]').attr("disabled", true);
         },
-        error: function(X){
-            Swal.fire('Atención!','ha ocurrido un error!','error');
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
         },
         success: function(data) {
-            data = JSON.parse(data);
             //cuando termina la consulta, activamos el boton
             $('[name="depo[]"]').attr("disabled", false);
             //lista de seleccion de depositos
@@ -180,7 +189,7 @@ function listar_almacenes() {
 $(document).on("click","#btn_excel", function(){
     var datos = sessionStorage.getItem("datos");
     if (datos !== "") {
-        window.open('costodeinventario_excel.php?&'+datos, '_blank');
+        window.location = 'costodeinventario_excel.php?&'+datos;
     }
 });
 

@@ -1,8 +1,8 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
-require('../public/fpdf/fpdf.php');
+require(PATH_LIBRARY.'fpdf/fpdf.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("reportecompras_modelo.php");
@@ -49,7 +49,7 @@ class PDF extends FPDF
     function Header()
     {
         // Logo
-        $this->Image('../public/build/images/logo.png', 10, 8, 33);
+        $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15
         $this->SetFont('Arial', 'B', 10);
         // Movernos a la derecha
@@ -58,74 +58,59 @@ class PDF extends FPDF
         $this->Cell(40, 10, 'REPORTE DE COMPRAS DE ' . strtoupper($GLOBALS['meses'][intval($GLOBALS['mes'])]) ." " . $GLOBALS['ano'], 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
+        $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(6, 18, '#', 1, 0, 'C', 0);
-        $this->Cell(20, 18, 'Codigo', 1, 0, 'C', 0);
-        $this->Cell(38, 18, 'Descripcion', 1, 0, 'C', 0);
-        $this->MultiCell2(20, 9, 'Display x Bulto', 1, 0, 'C', 0);
+        $this->Cell(6, 18, '#', 1, 0, 'C', true);
+        $this->Cell(20, 18, 'Codigo', 1, 0, 'C', true);
+        $this->Cell(38, 18, 'Descripcion', 1, 0, 'C', true);
+        $this->MultiCell2(20, 9, 'Display x Bulto', 1, 0, 'C', true);
         $this->Ln(-9);
         $this->Cell(84);
-        $this->MultiCell2(44, 12, 'Ultimo precio de compra', 1, 0, 'C', 0);
+        $this->MultiCell2(44, 12, 'Ultimo precio de compra', 1, 0, 'C', true);
 //        $this->Ln(-6);
         $this->Cell(128);
-        $this->Cell(13, 18, '% Rent', 1, 0, 'C', 0);
-        $this->MultiCell2(34, 6, 'Fecha penultima compra', 1, 0, 'C', 0);
+        $this->Cell(13, 18, '% Rent', 1, 0, 'C', true);
+        $this->MultiCell2(34, 6, 'Fecha penultima compra', 1, 0, 'C', true);
         $this->Ln(-6);
         $this->Cell(175);
-        $this->MultiCell2(34, 6, 'Fecha ultima compra', 1, 0, 'C', 0);
+        $this->MultiCell2(34, 6, 'Fecha ultima compra', 1, 0, 'C', true);
         $this->Ln(-6);
         $this->Cell(209);
-        $this->MultiCell2(30, 6, 'Ventas mes aterior', 1, 0, 'C', 0);
+        $this->MultiCell2(30, 6, 'Ventas mes aterior', 1, 0, 'C', true);
         $this->Ln(-6);
         $this->Cell(239);
-        $this->MultiCell2(15, 4.5, 'Venta total ultimo mes', 1, 0, 'C', 0);
+        $this->MultiCell2(15, 4.5, 'Venta total ultimo mes', 1, 0, 'C', true);
         $this->Ln(-13.5);
         $this->Cell(254);
-        $this->MultiCell2(20, 6, 'Existencia Actual Bultos', 1, 0, 'C', 0);
+        $this->MultiCell2(20, 6, 'Existencia Actual Bultos', 1, 0, 'C', true);
         $this->Ln(-12);
         $this->Cell(274);
-        $this->MultiCell2(20, 9, 'Dias de Inventario', 1, 0, 'C', 0);
+        $this->MultiCell2(20, 9, 'Dias de Inventario', 1, 0, 'C', true);
         $this->Ln(-9);
         $this->Cell(294);
-        $this->Cell(20, 18, 'Sugerido', 1, 0, 'C', 0);
-        $this->Cell(14, 18, 'Pedido', 1, 1, 'C', 0);
+        $this->Cell(20, 18, 'Sugerido', 1, 0, 'C', true);
+        $this->Cell(14, 18, 'Pedido', 1, 1, 'C', true);
 
         $this->Ln(-6);
         $this->Cell(84);
-        $this->Cell(22, 6, 'Display', 1, 0, 'C', 0);
-        $this->Cell(22, 6, 'Bulto', 1, 0, 'C', 0);
+        $this->Cell(22, 6, 'Display', 1, 0, 'C', true);
+        $this->Cell(22, 6, 'Bulto', 1, 0, 'C', true);
         $this->Cell(13);
-        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', 0);
-        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', 0);
-        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', 0);
-        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', 0);
-        $this->Cell(7.5, 6, '1', 1, 0, 'C', 0);
-        $this->Cell(7.5, 6, '2', 1, 0, 'C', 0);
-        $this->Cell(7.5, 6, '3', 1, 0, 'C', 0);
-        $this->Cell(7.5, 6, '4', 1, 1, 'C', 0);
+        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', true);
+        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', true);
+        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', true);
+        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', true);
+        $this->Cell(7.5, 6, '1', 1, 0, 'C', true);
+        $this->Cell(7.5, 6, '2', 1, 0, 'C', true);
+        $this->Cell(7.5, 6, '3', 1, 0, 'C', true);
+        $this->Cell(7.5, 6, '4', 1, 1, 'C', true);
     }
 
-    // Pie de página
-    function Footer()
+    function CheckPageBreak($h)
     {
-        // Posición: a 1,5 cm del final
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial', 'I', 8);
-        // Número de página
-        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
-    }
-
-    function SetWidths($w)
-    {
-        //Set the array of column widths
-        $this->widths = $w;
-    }
-
-    function SetAligns($a)
-    {
-        //Set the array of column alignments
-        $this->aligns = $a;
+        //If the height h would cause an overflow, add a new page immediately
+        if ($this->GetY() + $h > $this->PageBreakTrigger)
+            $this->AddPage($this->CurOrientation, $GLOBALS['documentsize']);
     }
 
     function Row($data, $numberColumn = [], $fill = false)
@@ -162,58 +147,6 @@ class PDF extends FPDF
         //Go to the next line
         $this->Ln($h);
     }
-
-    function CheckPageBreak($h)
-    {
-        //If the height h would cause an overflow, add a new page immediately
-        if ($this->GetY() + $h > $this->PageBreakTrigger)
-            $this->AddPage($this->CurOrientation, $GLOBALS['documentsize']);
-    }
-
-    function NbLines($w, $txt)
-    {
-        //Computes the number of lines a MultiCell of width w will take
-        $cw =& $this->CurrentFont['cw'];
-        if ($w == 0)
-            $w = $this->w - $this->rMargin - $this->x;
-        $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
-        $s = str_replace("\r", '', $txt);
-        $nb = strlen($s);
-        if ($nb > 0 and $s[$nb - 1] == "\n")
-            $nb--;
-        $sep = -1;
-        $i = 0;
-        $j = 0;
-        $l = 0;
-        $nl = 1;
-        while ($i < $nb) {
-            $c = $s[$i];
-            if ($c == "\n") {
-                $i++;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-                continue;
-            }
-            if ($c == ' ')
-                $sep = $i;
-            $l += $cw[$c];
-            if ($l > $wmax) {
-                if ($sep == -1) {
-                    if ($i == $j)
-                        $i++;
-                } else
-                    $i = $sep + 1;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-            } else
-                $i++;
-        }
-        return $nl;
-    }
 }
 
 $pdf = new PDF();
@@ -237,22 +170,22 @@ foreach ($v as $key=>$coditem)
                 $num+1,
                 $row[0]["codproducto"],
                 $row[0]["descrip"],
-                number_format($row[0]["displaybultos"], 0, ",", "."),
-                number_format($row[0]["costodisplay"], 2, ",", "."),
-                number_format($row[0]["costobultos"], 2, ",", "."),
-                number_format($row[0]["rentabilidad"], 1, ",", ".") . "  %",
-                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : 0,
-                (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0, ",", ".") : 0,
-                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : 0,
-                (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0, ",", ".") : 0,
-                number_format($row[0]["semana1"], 0, ",", "."),
-                number_format($row[0]["semana2"], 0, ",", "."),
-                number_format($row[0]["semana3"], 0, ",", "."),
-                number_format($row[0]["semana4"], 0, ",", "."),
-                number_format($row[0]["totalventasmesanterior"], 0, ",", "."),
-                number_format($row[0]["bultosexistentes"], 1, ",", "."),
-                number_format($row[0]["diasdeinventario"], 0, ",", "."),
-                number_format($row[0]["sugerido"], 1, ",", "."),
+                number_format($row[0]["displaybultos"], 0),
+                Strings::rdecimal($row[0]["costodisplay"], 2),
+                Strings::rdecimal($row[0]["costobultos"], 2),
+                Strings::rdecimal($row[0]["rentabilidad"], 2) . "  %",
+                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : '-',
+                (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0,
+                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : '-',
+                (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0,
+                number_format($row[0]["semana1"], 0),
+                number_format($row[0]["semana2"], 0),
+                number_format($row[0]["semana3"], 0),
+                number_format($row[0]["semana4"], 0),
+                number_format($row[0]["totalventasmesanterior"], 0),
+                Strings::rdecimal($row[0]["bultosexistentes"], 2),
+                number_format($row[0]["diasdeinventario"], 0),
+                Strings::rdecimal($row[0]["sugerido"], 2),
                 $n[$key]
             ),
             [6],

@@ -2,7 +2,6 @@ var tabla;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $("#loader").hide();
     listar();
 }
 
@@ -15,22 +14,24 @@ function validarCantidadRegistrosTabla() {
 
 //function listar
 function listar() {
+    let isError = false;
     tabla = $('#tasa_data').dataTable({
 
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax": {
-            beforeSend: function () {
-                $("#loader").show(''); //MOSTRAMOS EL LOADER.
-            },
             url: 'tasadolar_controlador.php?op=listar',
             type: "get",
             dataType: "json",
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
             error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
                 console.log(e.responseText);
             },
             complete: function () {
-                $("#loader").hide();//OCULTAMOS EL LOADER.
+                if(!isError) SweetAlertLoadingClose();
                 validarCantidadRegistrosTabla();
             }
         },

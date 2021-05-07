@@ -1,7 +1,7 @@
 <?php
 
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("tasadolar_modelo.php");
@@ -25,10 +25,9 @@ switch ($_GET["op"]) {
 
             $sub_array[] = $key+1;
             $sub_array[] = date("d/m/Y", strtotime($row["fechae"]));
-            $sub_array[] = number_format($row["tasa"], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row["tasa"], 2);
 
             $data[] = $sub_array;
-
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -37,8 +36,8 @@ switch ($_GET["op"]) {
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
-        echo json_encode($results);
 
+        echo json_encode($results);
         break;
 
 }

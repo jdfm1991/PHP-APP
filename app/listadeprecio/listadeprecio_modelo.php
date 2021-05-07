@@ -1,21 +1,9 @@
 
 <?php
  //LLAMAMOS A LA CONEXION.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 class Listadeprecio extends Conectar{
-
-	public function get_Almacenes(){
-
-		$conectar=parent::conexion2();
-		parent::set_names();
-
-		$sql="SELECT CodUbic AS codubi, Descrip AS descrip FROM sadepo ORDER BY codubic";
-		$sql=$conectar->prepare($sql);
-		$sql->execute();
-
-		return $resultado=$sql->fetchAll();
-	}
 
 	public function getListadeprecios($marca, $depos, $exis, $orden){
 

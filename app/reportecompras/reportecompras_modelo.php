@@ -1,7 +1,8 @@
 
 <?php
+set_time_limit(0);
 //LLAMAMOS A LA CONEXION.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 class ReporteCompras extends Conectar
 {

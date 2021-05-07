@@ -1,8 +1,8 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
-require('../public/fpdf/fpdf.php');
+require(PATH_LIBRARY.'fpdf/fpdf.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("listadeprecio_modelo.php");
@@ -89,7 +89,7 @@ class PDF extends FPDF
         }
 
         // Logo
-        $this->Image('../public/build/images/logo.png', 10, 8, 33);
+        $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15
         $this->SetFont('Arial', '', 12);
         // Movernos a la derecha
@@ -98,97 +98,48 @@ class PDF extends FPDF
         $this->Cell(40, 10, 'REPORTE DE LISTADO DE PRECIOS E INVENTARIO', 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
+        $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(18 + ($anchoAdicional*0.20)), 6, 'Codigo', 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(65 + ($anchoAdicional*0.40)), 6, utf8_decode('Descripción'), 1, 0, 'C', 0);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, 'Marca', 1, 0, 'C', 0);
+        $this->Cell(addWidthInArray(18 + ($anchoAdicional*0.20)), 6, 'Codigo', 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(65 + ($anchoAdicional*0.40)), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, 'Marca', 1, 0, 'C', true);
         //BULTOS
-        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, 'Bultos', 1, 0, 'C', 0);
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, 'Bultos', 1, 0, 'C', true);
         switch ($GLOBALS['sumap']) {
             case 1:
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Bul', 1, 0, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Bul', 1, 0, 'C', true);
                 break;
             case 2:
                 if($GLOBALS['p1'] == 1){ $pAux = $GLOBALS['p1']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', true);
                 if ($GLOBALS['p3'] == 3){ $pAux = $GLOBALS['p3']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', true);
                 break;
             default: /** 0 || 3**/
-                $this->Cell(addWidthInArray(25), 6, 'Pre 1 Bul', 1, 0, 'C', 0);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 2 Bul', 1, 0, 'C', 0);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 3 Bul', 1, 0, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre 1 Bul', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, 'Pre 2 Bul', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, 'Pre 3 Bul', 1, 0, 'C', true);
         }
         //PAQUETES
-        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, 'Paquete', 1, 0, 'C', 0);
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, 'Paquete', 1, 0, 'C', true);
         switch ($GLOBALS['sumap']) {
             case 1:
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Paq', 1, $aux, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Paq', 1, $aux, 'C', true);
                 break;
             case 2:
                 if($GLOBALS['p1'] == 1){ $pAux = $GLOBALS['p1']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, 0, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, 0, 'C', true);
                 if ($GLOBALS['p3'] == 3){ $pAux = $GLOBALS['p3']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, $aux, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, $aux, 'C', true);
                 break;
             default: /** 0 || 3**/
-                $this->Cell(addWidthInArray(25), 6, 'Pre 1 Paq', 1, 0, 'C', 0);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 2 Paq', 1, 0, 'C', 0);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 3 Paq', 1, $aux, 'C', 0);
+                $this->Cell(addWidthInArray(25), 6, 'Pre 1 Paq', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, 'Pre 2 Paq', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, 'Pre 3 Paq', 1, $aux, 'C', true);
         }
         if ($GLOBALS['cubi'] == 1) {
-            $this->Cell(addWidthInArray(24), 6, 'Cubicaje', 1, 1, 'C', 0);
+            $this->Cell(addWidthInArray(24), 6, 'Cubicaje', 1, 1, 'C', true);
         }
-    }
-
-    // Pie de página
-    function Footer()
-    {
-        // Posición: a 1,5 cm del final
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial', 'I', 8);
-        // Número de página
-        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
-    }
-
-    function SetWidths($w)
-    {
-        //Set the array of column widths
-        $this->widths = $w;
-    }
-
-    function SetAligns($a)
-    {
-        //Set the array of column alignments
-        $this->aligns = $a;
-    }
-
-    function Row($data)
-    {
-        //Calculate the height of the row
-        $nb = 0;
-        for ($i = 0; $i < count($data); $i++)
-            $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
-        $h = 5 * $nb;
-        //Issue a page break first if needed
-        $this->CheckPageBreak($h);
-        //Draw the cells of the row
-        for ($i = 0; $i < count($data); $i++) {
-            $w = $this->widths[$i];
-            $a = isset($this->aligns[$i]) ? $this->aligns[$i] : 'C';
-            //Save the current position
-            $x = $this->GetX();
-            $y = $this->GetY();
-            //Draw the border
-            $this->Rect($x, $y, $w, $h);
-            //Print the text
-            $this->MultiCell($w, 5, $data[$i], 0, $a);
-            //Put the position to the right of the cell
-            $this->SetXY($x + $w, $y);
-        }
-        //Go to the next line
-        $this->Ln($h);
     }
 
     function CheckPageBreak($h)
@@ -196,51 +147,6 @@ class PDF extends FPDF
         //If the height h would cause an overflow, add a new page immediately
         if ($this->GetY() + $h > $this->PageBreakTrigger)
             $this->AddPage($this->CurOrientation, $GLOBALS['documentsize']);
-    }
-
-    function NbLines($w, $txt)
-    {
-        //Computes the number of lines a MultiCell of width w will take
-        $cw =& $this->CurrentFont['cw'];
-        if ($w == 0)
-            $w = $this->w - $this->rMargin - $this->x;
-        $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
-        $s = str_replace("\r", '', $txt);
-        $nb = strlen($s);
-        if ($nb > 0 and $s[$nb - 1] == "\n")
-            $nb--;
-        $sep = -1;
-        $i = 0;
-        $j = 0;
-        $l = 0;
-        $nl = 1;
-        while ($i < $nb) {
-            $c = $s[$i];
-            if ($c == "\n") {
-                $i++;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-                continue;
-            }
-            if ($c == ' ')
-                $sep = $i;
-            $l += $cw[$c];
-            if ($l > $wmax) {
-                if ($sep == -1) {
-                    if ($i == $j)
-                        $i++;
-                } else
-                    $i = $sep + 1;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-            } else
-                $i++;
-        }
-        return $nl;
     }
 }
 
@@ -279,30 +185,30 @@ foreach ($query as $x) {
     addInfoInArray(round($x['existen']));
     switch ($sumap) {
         case 1:
-            if ($x['esexento'] == 0) { addInfoInArray( number_format($x['precio'. $sumap2 ]* $iva, 2, ",", ".") ); } else { addInfoInArray( number_format($x['precio'. $sumap2 ], 2, ",", ".") ); }
+            if ($x['esexento'] == 0) { addInfoInArray( Strings::rdecimal($x['precio'. $sumap2 ]* $iva, 2) ); } else { addInfoInArray( Strings::rdecimal($x['precio'. $sumap2 ], 2) ); }
             break;
         case 2:
-            if ($p1 == 1) { addInfoInArray( number_format($precio1, 2, ",", ".") ); } else { addInfoInArray( number_format($precio2, 2, ",", ".") ); }
-            if ($p3 == 3) { addInfoInArray( number_format($precio3, 2, ",", ".") ); } else { addInfoInArray( number_format($precio2, 2, ",", ".") ); }
+            if ($p1 == 1) { addInfoInArray( Strings::rdecimal($precio1, 2) ); } else { addInfoInArray( Strings::rdecimal($precio2, 2) ); }
+            if ($p3 == 3) { addInfoInArray( Strings::rdecimal($precio3, 2) ); } else { addInfoInArray( Strings::rdecimal($precio2, 2) ); }
             break;
         default: /** 0 || 3**/
-            addInfoInArray(number_format($precio1, 2, ",", "."));
-            addInfoInArray(number_format($precio2, 2, ",", "."));
-            addInfoInArray(number_format($precio3, 2, ",", "."));
+            addInfoInArray(Strings::rdecimal($precio1, 2));
+            addInfoInArray(Strings::rdecimal($precio2, 2));
+            addInfoInArray(Strings::rdecimal($precio3, 2));
     }
     addInfoInArray(round($x['exunidad']));
     switch ($sumap) {
         case 1:
-            if ($x['esexento'] == 0) { addInfoInArray( number_format($x['preciou'. $sumap2 ]* $iva, 2, ",", ".") ); } else { addInfoInArray( number_format($x['preciou'. $sumap2 ], 2, ",", "." ) ); }
+            if ($x['esexento'] == 0) { addInfoInArray( Strings::rdecimal($x['preciou'. $sumap2 ]* $iva, 2) ); } else { addInfoInArray( Strings::rdecimal($x['preciou'. $sumap2 ], 2 ) ); }
             break;
         case 2:
-            if ($p1 == 1) { addInfoInArray( number_format($preciou1, 2, ",", ".") ); } else { addInfoInArray( number_format($preciou2, 2, ",", ".") ); }
-            if ($p3 == 3) { addInfoInArray( number_format($preciou3, 2, ",", ".") ); } else { addInfoInArray( number_format($preciou2, 2, ",", ".") ); }
+            if ($p1 == 1) { addInfoInArray( Strings::rdecimal($preciou1, 2) ); } else { addInfoInArray( Strings::rdecimal($preciou2, 2) ); }
+            if ($p3 == 3) { addInfoInArray( Strings::rdecimal($preciou3, 2) ); } else { addInfoInArray( Strings::rdecimal($preciou2, 2) ); }
             break;
         default: /** 0 || 3**/
-            addInfoInArray(number_format($preciou1, 2, ",", "."));
-            addInfoInArray(number_format($preciou2, 2, ",", "."));
-            addInfoInArray(number_format($preciou3, 2, ",", "."));
+            addInfoInArray(Strings::rdecimal($preciou1, 2));
+            addInfoInArray(Strings::rdecimal($preciou2, 2));
+            addInfoInArray(Strings::rdecimal($preciou3, 2));
     }
     if ($cubi == 1) {
         addInfoInArray($x['cubicaje']);

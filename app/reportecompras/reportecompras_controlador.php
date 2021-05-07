@@ -1,6 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("reportecompras_modelo.php");
@@ -29,22 +29,22 @@ switch ($_GET["op"]) {
             $sub_array['num'] = $key+1;
             $sub_array['codproducto'] = $row[0]["codproducto"];
             $sub_array['descrip'] = $row[0]["descrip"];
-            $sub_array['displaybultos'] = number_format($row[0]["displaybultos"], 0, ",", ".");
-            $sub_array['costodisplay'] = number_format($row[0]["costodisplay"], 2, ",", ".");
-            $sub_array['costobultos'] = number_format($row[0]["costobultos"], 2, ",", ".");
-            $sub_array['rentabilidad'] = number_format($row[0]["rentabilidad"], 1, ",", ".");
-            $sub_array['fechapenultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : 0;
-            $sub_array['bultospenultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0, ",", ".") : 0;
-            $sub_array['fechaultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : 0;
-            $sub_array['bultosultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0, ",", ".") : 0;
-            $sub_array['semana1'] = number_format($row[0]["semana1"], 0, ",", ".");
-            $sub_array['semana2'] = number_format($row[0]["semana2"], 0, ",", ".");
-            $sub_array['semana3'] = number_format($row[0]["semana3"], 0, ",", ".");
-            $sub_array['semana4'] = number_format($row[0]["semana4"], 0, ",", ".");
-            $sub_array['totalventasmesanterior'] = number_format($row[0]["totalventasmesanterior"], 0, ",", ".");
-            $sub_array['bultosexistentes'] = number_format($row[0]["bultosexistentes"], 1, ",", ".");
-            $sub_array['diasdeinventario'] = number_format($row[0]["diasdeinventario"], 0, ",", ".");
-            $sub_array['sugerido'] = number_format($row[0]["sugerido"], 1, ",", ".");
+            $sub_array['displaybultos'] = number_format($row[0]["displaybultos"], 0);
+            $sub_array['costodisplay'] = Strings::rdecimal($row[0]["costodisplay"], 2);
+            $sub_array['costobultos'] = Strings::rdecimal($row[0]["costobultos"], 2);
+            $sub_array['rentabilidad'] = Strings::rdecimal($row[0]["rentabilidad"], 2);
+            $sub_array['fechapenultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : '-';
+            $sub_array['bultospenultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0;
+            $sub_array['fechaultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : '-';
+            $sub_array['bultosultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0;
+            $sub_array['semana1'] = number_format($row[0]["semana1"], 0);
+            $sub_array['semana2'] = number_format($row[0]["semana2"], 0);
+            $sub_array['semana3'] = number_format($row[0]["semana3"], 0);
+            $sub_array['semana4'] = number_format($row[0]["semana4"], 0);
+            $sub_array['totalventasmesanterior'] = number_format($row[0]["totalventasmesanterior"], 0);
+            $sub_array['bultosexistentes'] = Strings::rdecimal($row[0]["bultosexistentes"], 1);
+            $sub_array['diasdeinventario'] = number_format($row[0]["diasdeinventario"], 0);
+            $sub_array['sugerido'] = Strings::rdecimal($row[0]["sugerido"], 2);
             $sub_array['pedido'] = '<input type="text" name="n[]" style="text-align: right; width: 90%;">
                                     <input type="hidden" name="v[]" value="'. $row[0]["codproducto"] .'">';
 
@@ -58,7 +58,13 @@ switch ($_GET["op"]) {
         $output['cantidad_registros'] = count($codidos_producto);
 
         echo json_encode($output);
+        break;
 
+    case "listar_marcas":
+
+        $output["lista_marcas"] = Marcas::todos();
+
+        echo json_encode($output);
         break;
 
 }

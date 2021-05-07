@@ -69,27 +69,7 @@ $sheet->setCellValue('A7', 'Codigo Cliente')
 
 $style_title = new Style();
 $style_title->applyFromArray(
-    array(
-        'font' => array(
-            'name' => 'Arial',
-            'bold'  => true,
-            'color' => array('rgb' => '000000')
-        ),
-        'fill' => array(
-            'fillType' => Fill::FILL_SOLID,
-            'color' => ['argb' => 'C8DCFF00'],
-        ),
-        'borders' => array(
-            'top' => ['borderStyle' => Border::BORDER_THIN],
-            'bottom' => ['borderStyle' => Border::BORDER_THIN],
-            'right' => ['borderStyle' => Border::BORDER_MEDIUM],
-        ),
-        'alignment' => array(
-            'horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            'wrap' => TRUE
-        )
-    )
+    Excel::styleHeadTable()
 );
 
 //estableceer el estilo de la cabecera de la tabla
