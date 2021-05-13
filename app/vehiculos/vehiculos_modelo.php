@@ -1,9 +1,7 @@
 <?php
 
 //conexion a la base de datos
-
-//require_once("../config/conexion.php");
-
+require_once("../../config/conexion.php");
 
 class Vehiculos extends Conectar {
 

@@ -17,7 +17,7 @@ class Excel
             ),
             'fill' => array(
                 'fillType' => Fill::FILL_SOLID,
-                'color' => ['argb' => 'C8DCFF00'],
+                'color' => ['argb' => 'c8dcff'],
             ),
             'borders' => array(
                 'top' => ['borderStyle' => Border::BORDER_THIN],

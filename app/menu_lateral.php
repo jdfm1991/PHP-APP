@@ -332,7 +332,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo URL_APP; ?>choferes/choferes.php" class="nav-link">
+                            <a href="<?php echo URL_APP; ?>chofer/chofer.php" class="nav-link">
 
                                 <i class="fas fa-walking nav-icon"></i>
                                 <p>Crear Chofer</p>
@@ -359,7 +359,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo URL_APP; ?>kpimarcas/kpimarcas.php" class="nav-link">
+                            <a href="<?php echo URL_APP; ?>kpimarcas/kpimarca.php" class="nav-link">
 
                                 <i class="fas fa-chart-line nav-icon"></i>
                                 <p>Kpi Marcas</p>

@@ -15,7 +15,6 @@ function init() {
         //habilita los campos cuando se agrega un registro nuevo ya que cuando se editaba un registro asociado entonces aparecia deshabilitado los campos
         $("#placa").attr('disabled', false);
 
-
         $(".modal-title").text("Agregar Vehiculo");
 
     });
@@ -32,19 +31,26 @@ function limpiar() {
 }
 
 //function listar
-
 function listar() {
+    let isError = false;
     tabla = $('#vehiculo_data').dataTable({
 
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax":
             {
-                url: 'vehiculo_controlador.php?op=listar',
+                url: 'vehiculos_controlador.php?op=listar',
                 type: "get",
                 dataType: "json",
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
                 }
             },
 
@@ -53,30 +59,7 @@ function listar() {
         "bInfo": true,
         "iDisplayLength": 10,//Por cada 10 registros hace una paginación
         "order": [[0, "asc"]],//Ordenar (columna,orden)
-        "language": texto_español_datatables /*{
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        }*///cerrando language
+        "language": texto_español_datatables
     }).DataTable();
 }
 
@@ -94,7 +77,7 @@ function cambiarEstado(id, est) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "vehiculo_controlador.php?op=activarydesactivar",
+                url: "vehiculos_controlador.php?op=activarydesactivar",
                 method: "POST",
                 data: {id: id, est: est},
                 success: function (data) {
@@ -105,10 +88,10 @@ function cambiarEstado(id, est) {
     })
 }
 
-function mostrar(id_vehiculo) {
+function mostrar(id_vehiculo = -1) {
     console.log(id_vehiculo);
 
-    $.post("vehiculo_controlador.php?op=mostrar", {id_vehiculo: id_vehiculo}, function (data, status) {
+    $.post("vehiculos_controlador.php?op=mostrar", {id_vehiculo: id_vehiculo}, function (data, status) {
         data = JSON.parse(data);
 
         //si existe la cedula_relacion entonces tiene relacion con otras tablas
@@ -153,7 +136,7 @@ function guardaryeditar(e) {
     e.preventDefault(); //No se activará la acción predeterminada del evento
     var formData = new FormData($("#vehiculo_form")[0]);
     $.ajax({
-        url: "vehiculo_controlador.php?op=guardaryeditar",
+        url: "vehiculos_controlador.php?op=guardaryeditar",
         type: "POST",
         data: formData,
         contentType: false,

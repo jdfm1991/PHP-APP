@@ -8,7 +8,7 @@ class Marcas extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT DISTINCT(marca) FROM saprod WHERE activo = '1' ORDER BY marca ASC";
+        $sql= "SELECT DISTINCT(marca) FROM saprod WHERE activo = '1' AND marca IS NOT NULL ORDER BY marca ASC";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->execute();

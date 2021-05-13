@@ -20,55 +20,79 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/php/Excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Almacen.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml.tmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPCONFISUR.bFN5hg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPCONFISUR.bFN5hg/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPCONFISUR.bFN5hg/schema/dbo.sYMBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPCONFISUR.bFN5hg/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/COAJ.laUfAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/COAJ.laUfAA/schema/dbo.sYMBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA/schema/dbo.sYMBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/DCP1.oO4fAA/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/MCONFISUR.uEmnpA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/MCONFISUR.uEmnpA/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/MCONFISUR.uEmnpA/schema/dbo.sYMBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/MCONFISUR.uEmnpA/schema/dbo.sYMBAA.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/MCONFISUR.uEmnpA/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_5_2021_9_25_a__m__[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_5_2021_9_25_a__m___Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/chofer_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/choferes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/choferes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/choferes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/choferes/modales/crear_o_editar_chofer.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/modales/crear_o_editar_chofer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarcas.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarcas/kpimarca.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarcas.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarcas/kpimarca.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarcas_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarcas/kpimarca_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarcas_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarcas/kpimarca_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/menu_lateral.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuarios/modales/crear_o_editar_usuario.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/modales/crear_o_editar_usuario.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuarios/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/usuarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuarios/usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/usuarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuarios/usuarios_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/usuarios_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculo_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Choferes.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Choferes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Marcas.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Marcas.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +218,14 @@
       <workItem from="1619787753655" duration="10906000" />
       <workItem from="1620049945166" duration="7639000" />
       <workItem from="1620132433644" duration="8278000" />
-      <workItem from="1620143215241" duration="38295000" />
+      <workItem from="1620143215241" duration="60940000" />
+      <workItem from="1620759193260" duration="2894000" />
+      <workItem from="1620826479957" duration="176000" />
+      <workItem from="1620829031879" duration="388000" />
+      <workItem from="1620831157108" duration="1307000" />
+      <workItem from="1620839722585" duration="5908000" />
+      <workItem from="1620908874312" duration="900000" />
+      <workItem from="1620910966995" duration="9706000" />
     </task>
     <servers />
   </component>

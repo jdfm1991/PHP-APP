@@ -1,6 +1,8 @@
 <?php
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
+//LLAMAMOS A LA CONEXION.
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,17 +24,17 @@ require_once("../acceso/const.php");
 								<h3 class="card-title">Usuarios Registrados</h3><!-- overflow:scroll; -->
 							</div>
 							<div class="card-body" style="width:auto;">
-								<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="usuario_data">
+								<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="usuario_data">
 									<thead style="background-color: #17A2B8;color: white;">
 										<tr>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="# Cedula"># Cedula</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Login">Login</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Nombre y Apellido">Nombre y Apellido</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Correo Electronico">Correo Electrónico</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Rol">Rol</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Fecha de Registro">Fecha de Registro</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Fecha Ultimo Ingreso">Fecha Ultimo Ingreso</td>
-											<td class="text-center" data-toggle="tooltip" data-placement="top" title="Acción">Acciónes</td>
+											<td class="text-center" title="# Cedula"># Cedula</td>
+											<td class="text-center" title="Login">Login</td>
+											<td class="text-center" title="Nombre y Apellido">Nombre y Apellido</td>
+											<td class="text-center" title="Correo Electronico">Correo Electrónico</td>
+											<td class="text-center" title="Rol">Rol</td>
+											<td class="text-center" title="Fecha de Registro">Fecha de Registro</td>
+											<td class="text-center" title="Fecha Ultimo Ingreso">Fecha Ultimo Ingreso</td>
+											<td class="text-center" title="Acción">Acciónes</td>
 										</tr>
 									</thead>
 									<tfoot style="background-color: #ccc;color: white;">

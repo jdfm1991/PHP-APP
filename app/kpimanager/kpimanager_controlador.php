@@ -13,16 +13,16 @@ $kpiManager = new KpiManager();
 switch ($_GET["op"]) {
 
     case "activarydesactivar":
-        $codvend = $_POST["id"];
+        $id = $_POST["id"];
         $activo  = $_POST["est"];
         //consultamos si existe el registro
-        $datos = $kpiManager->get_datos_edv($codvend);
+        $datos = $kpiManager->get_datos_edv($id);
         //valida el id del cliente
         if (is_array($datos) == true and count($datos) > 0) {
             //si esta activo(1) lo situamos cero(0), y viceversa
             ($activo == "0") ? $activo = 1 : $activo = 0;
             //edita el estado
-            $estado = $kpiManager->editar_estado_edv($codvend, $activo);
+            $estado = $kpiManager->editar_estado_edv($id, $activo);
             //evalua que se realizara el query
             ($estado) ? $output["mensaje"] = "Actualizacion realizada Exitosamente" : $output["mensaje"] = "Error al Actualizar";
         }

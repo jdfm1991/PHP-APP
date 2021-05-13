@@ -8,10 +8,10 @@ class Choferes extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        //        $sql = "select * from choferes";
-        $sql= "SELECT id_chofer, cedula as Cedula, descripcion as Nomper, estatus FROM appChofer";
+                $sql = "select Cedula, Nomper, Fecha_Registro, Estado from choferes";
+//        $sql= "SELECT id_chofer, cedula as Cedula, descripcion as Nomper, estatus as Estado FROM appChofer";
 
-        $result = (new Conectar)->conexion2()->prepare($sql);
+        $result = (new Conectar)->conexion()->prepare($sql);
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -21,10 +21,10 @@ class Choferes extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        //    $sql="SELECT * FROM choferes WHERE cedula=?";
-        $sql= "SELECT descripcion as Nomper,* FROM appChofer WHERE cedula=?";
+            $sql="SELECT Cedula, Nomper, Fecha_Registro, Estado FROM choferes WHERE cedula=?";
+//        $sql= "SELECT descripcion as Nomper,* FROM appChofer WHERE cedula=?";
 
-        $result = (new Conectar)->conexion2()->prepare($sql);
+        $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue(1,$key);
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);

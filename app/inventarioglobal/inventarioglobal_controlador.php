@@ -1,6 +1,6 @@
 <?php
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("inventarioglobal_modelo.php");
@@ -134,12 +134,12 @@ switch ($_GET["op"]) {
 
         //CREAMOS UN SUB_ARRAY PARA ALMACENAR LOS DATOS ACUMULADOS
         $sub_array1 = array();
-        $sub_array1['tbulto']     = number_format($tbulto,0,',','.');
-        $sub_array1['tpaq']       = number_format($tpaq,0,',','.');
-        $sub_array1['tbultsaint'] = number_format($tbultsaint,0,',','.');
-        $sub_array1['tpaqsaint']  = number_format($tpaqsaint,0,',','.');
-        $sub_array1['tbultoinv']  = number_format($tbultoinv,0,',','.');
-        $sub_array1['tpaqinv']    = number_format($tpaqinv,0,',','.');
+        $sub_array1['tbulto']     = number_format($tbulto,0);
+        $sub_array1['tpaq']       = number_format($tpaq,0);
+        $sub_array1['tbultsaint'] = number_format($tbultsaint,0);
+        $sub_array1['tpaqsaint']  = number_format($tpaqsaint,0);
+        $sub_array1['tbultoinv']  = number_format($tbultoinv,0);
+        $sub_array1['tpaqinv']    = number_format($tpaqinv,0);
         $sub_array1['facturas_sin_despachar'] = count($devolucionesDeFactura);
 
 
@@ -152,6 +152,13 @@ switch ($_GET["op"]) {
 
         //de igual forma, se almacena en una variable de salida el array de totales.
         $output['totales_tabla'] = $sub_array1;
+
+        echo json_encode($output);
+        break;
+
+    case "listar_depositos":
+
+        $output['lista_depositos'] = Almacen::todos();
 
         echo json_encode($output);
         break;

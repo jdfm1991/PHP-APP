@@ -1,11 +1,10 @@
-var tabla_inventarioglobal;
+var tabla;
 var estado_minimizado;
 var depo;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
     $("#tabla").hide();
-    $("#loader").hide();
     estado_minimizado = false;
 
     listar_almacenes();
@@ -36,7 +35,7 @@ function limpiar() {
 }
 
 function validarCantidadRegistrosTabla() {
-    (tabla_inventarioglobal.rows().count() === 0)
+    (tabla.rows().count() === 0)
         ? estado = true : estado = false;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
@@ -51,18 +50,21 @@ $(document).ready(function () {
 });
 
 function listar_almacenes() {
+    let isError = false;
     $.ajax({
-        url: "../costodeinventario/costodeinventario_controlador.php?op=listar_depositos",
+        url: "inventarioglobal_controlador.php?op=listar_depositos",
         type: "GET",
+        dataType: "json",
         beforeSend: function () {
             //mientras carga inabilitamos el select
             $('[name="depo[]"]').attr("disabled", true);
+            SweetAlertLoadingShow();
         },
-        error: function(X){
-            Swal.fire('Atención!','ha ocurrido un error!','error');
+        error: function(e){
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
         },
         success: function(data) {
-            data = JSON.parse(data);
             //cuando termina la consulta, activamos el boton
             $('[name="depo[]"]').attr("disabled", false);
             //lista de seleccion de depositos
@@ -70,6 +72,9 @@ function listar_almacenes() {
                 //se itera con each para llenar el select en la vista
                 $('[name="depo[]"]').append('<option name="" value="' + opt.codubi +'">' + opt.codubi + ': '+ opt.descrip.substr(0, 35) + '</option>');
             });
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }
@@ -88,31 +93,31 @@ $(document).on("click", "#btn_inventarioglobal", function () {
             var datos = $('#frminventario').serialize();
             //almacenamos en sesion una variable
             sessionStorage.setItem("datos", datos);
+            let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
-                beforeSend: function () {
-                    $("#loader").show();
-                },
-                type: "POST",
                 url: "inventarioglobal_controlador.php?op=listar_inventarioglobal",
+                type: "POST",
                 data: datos,
-                error: function(X){
-                    Swal.fire('Atención!','ha ocurrido un error!','error');
+                dataType: "json",
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
+                error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
                 },
                 success: function(data) {
-                    data = JSON.parse(data);
-                    $("#tabla").show();
-                    $("#loader").hide();
-
+                    let {contenido_tabla, totales_tabla} = data;
                     //TABLA
-                    tabla_inventarioglobal = $('#inventarioglobal_data').dataTable({
+                    tabla = $('#inventarioglobal_data').dataTable({
                         "aProcessing": true,//Activamos el procesamiento del datatables
                         "aServerSide": true,//Paginación y filtrado realizados por el servidor
 
-                        "sEcho": data.contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                        "iTotalRecords": data.contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                        "iTotalDisplayRecords": data.contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                        "aaData": data.contenido_tabla.aaData, // informacion por registro
+                        "sEcho": contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                        "iTotalRecords": contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                        "iTotalDisplayRecords": contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                        "aaData": contenido_tabla.aaData, // informacion por registro
 
                         "bDestroy": true,
                         "responsive": true,
@@ -123,24 +128,27 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                         }],
                         "language": texto_español_datatables
                     }).DataTable();
-
-                    $('#tfoot_cantbul_x_des').html(data.totales_tabla.tbulto);
-                    $('#tfoot_cantpaq_x_des').html(data.totales_tabla.tpaq);
-                    $('#tfoot_cantbul_sistema').html(data.totales_tabla.tbultsaint);
-                    $('#tfoot_cantpaq_sistema').html(data.totales_tabla.tpaqsaint);
-                    $('#tfoot_totalbul_inv').html(data.totales_tabla.tbultoinv);
-                    $('#tfoot_totalpaq_inv').html(data.totales_tabla.tpaqinv);
-                    $('#cuenta').text("Total Facturas sin Despachar: " + data.totales_tabla.facturas_sin_despachar);
+                    $('#tfoot_cantbul_x_des').val(totales_tabla.tbulto);
+                    $('#tfoot_cantpaq_x_des').val(totales_tabla.tpaq);
+                    $('#tfoot_cantbul_sistema').val(totales_tabla.tbultsaint);
+                    $('#tfoot_cantpaq_sistema').val(totales_tabla.tpaqsaint);
+                    $('#tfoot_totalbul_inv').val(totales_tabla.tbultoinv);
+                    $('#tfoot_totalpaq_inv').val(totales_tabla.tpaqinv);
+                    $('#cuenta').text("Total Facturas sin Despachar: " + totales_tabla.facturas_sin_despachar);
 
                     validarCantidadRegistrosTabla();
                     limpiar();//LIMPIAMOS EL SELECTOR.
                     estado_minimizado = true;
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
                 }
             });
 
         }
     } else {
-        Swal.fire('Atención!', 'Debe seleccionar al menos un Almacén!', 'error');
+        SweetAlertError('Debe seleccionar al menos un Almacén!');
         return (false);
 
     }

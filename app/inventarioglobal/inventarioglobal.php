@@ -1,8 +1,8 @@
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
-//LLAMAMOS A LAS CONSTANTES.
-require_once("../acceso/conexion.php");
-require_once("../acceso/const.php");
+require_once("../../config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,32 +59,24 @@ require_once("../acceso/const.php");
 					<button type="submit" class="btn btn-success" id="btn_inventarioglobal"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
 				</div>
 			</div>
-			<!-- BOX  LOADER -->
-			<figure id="loader">
-				<div class="dot white"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-			</figure>
 			<!-- BOX TABLA -->
 			<div class="card card-info" id="tabla">
 				<div class="card-header">
 					<h3 class="card-title">Inventario Global</h3>
 				</div>
 				<div class="card-body" style="width:auto;">
-					<table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="inventarioglobal_data">
+					<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="inventarioglobal_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
-                                <th class="text-center" data-toggle="tooltip" data-placement="top" title="#">#</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Codigo">Codigo</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Producto">Producto</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Cantidad Bultos Por Despachar">Cantidad Bultos por Despachar</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Cantidad Paquetes por Despachar">Cantidad Paquetes por Despachar</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Cantidad Bultos Sistema">Cantidad Bultos Sistema</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Canidad Paquetes Sistema">Canidad Paquetes Sistema</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Total Inventario Bultos">Total Inventario Bultos</th>
-								<th class="text-center" data-toggle="tooltip" data-placement="top" title="Total Inventario Paquetes">Total Inventario Paquetes</th>
+                                <th class="text-center" title="#">#</th>
+								<th class="text-center" title="Codigo">Codigo</th>
+								<th class="text-center" title="Producto">Producto</th>
+								<th class="text-center" title="Cantidad Bultos Por Despachar">Cantidad Bultos por Despachar</th>
+								<th class="text-center" title="Cantidad Paquetes por Despachar">Cantidad Paquetes por Despachar</th>
+								<th class="text-center" title="Cantidad Bultos Sistema">Cantidad Bultos Sistema</th>
+								<th class="text-center" title="Canidad Paquetes Sistema">Canidad Paquetes Sistema</th>
+								<th class="text-center" title="Total Inventario Bultos">Total Inventario Bultos</th>
+								<th class="text-center" title="Total Inventario Paquetes">Total Inventario Paquetes</th>
 							</tr>
 						</thead>
 						<tfoot style="background-color: #ccc;color: white;">

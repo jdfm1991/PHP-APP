@@ -1,61 +1,69 @@
 <?php
 
 //llamar a la conexion de la base de datos
-require_once("../acceso/conexion.php");
+require_once("../../config/conexion.php");
+
 //llamar a el modelo Usuarios
 require_once("Usuarios_modelo.php");
+
 $usuarios = new Usuarios();
 
-$id_usuario = isset($_POST["id_usuario"]);
-$cedula = isset($_POST["cedula"]);
-$login = isset($_POST["login"]);
-$nomper = isset($_POST["nomper"]);
-$email = isset($_POST["email"]);
-$clave = isset($_POST["clave"]);
-$rol = isset($_POST["rol"]);
-$estado = isset($_POST["estado"]);
 /*$fecha_registro = date("Y-m-d h:i:s");
 $fecha_ult_ingreso = date("Y-m-d h:i:s");*/
 
 
 switch ($_GET["op"]) {
 
-
     case "guardaryeditar":
+        $usuario = true;
 
+        $id_usuario = $_POST['id_usuario'];
+
+        $data = array(
+            'id_usuario'=> $id_usuario,
+            'cedula'    => $_POST['cedula'],
+            'login'     => $_POST['login'],
+            'nomper'    => $_POST['nomper'],
+            'email'     => $_POST['email'],
+            'clave'     => $_POST['clave'],
+            'rol'       => $_POST['rol'],
+            'estado'    => $_POST['estado'],
+        );
 
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
-
-        if (empty($_POST["id_usuario"])) {
+        if (empty($id_usuario)) {
 
             /*verificamos si existe la cedula y correo en la base de datos, si ya existe un registro con la cedula o correo entonces no se registra el usuario*/
-
-            $datos = $usuarios->get_cedula_correo_del_usuario($_POST["cedula"], $_POST["email"]);
+            $datos = $usuarios->get_cedula_correo_del_usuario($data["cedula"], $data["email"]);
 
             if (is_array($datos) == true and count($datos) == 0) {
-
                 //no existe el usuario por lo tanto hacemos el registros
-
-                $usuarios->registrar_usuario($cedula, $login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
-
-                /*si ya exista el correo y la cedula entonces aparece el mensaje*/
+                $usuario = $usuarios->registrar_usuario($data);
 
             } else {
-
                 /*   $errors[]="La cédula o el correo ya existe";*/
-
             }
 
-        } /*cierre de la validacion empty  */ else {
-
+        } else {
             /*si ya existe entonces editamos el usuario*/
-
-            $usuarios->editar_usuario($login, $nomper, $email, $clave, $rol, $estado, $id_usuario);
-
-
+            $usuario = $usuarios->editar_usuario($data);
         }
 
+        //mensaje
+        if($usuario){
+            $output = [
+                "mensaje" => "Guardado con Exito!",
+                "icono"   => "success"
+            ];
+        } else {
+            $output = [
+                "mensaje" => "Ocurrió un error al Guardar!",
+                "icono"   => "error"
+            ];
+        }
+
+        echo json_encode($output);
         break;
 
     case "mostrar":
@@ -67,7 +75,6 @@ switch ($_GET["op"]) {
             $datos = $usuarios->get_usuario_por_id($_POST["id_usuario"]);
 
             foreach ($datos as $row) {
-
                 $output["cedula"] = $row["Cedula"];
                 $output["login"] = $row["Login"];
                 $output["nomper"] = $row["Nomper"];
@@ -75,7 +82,6 @@ switch ($_GET["op"]) {
                 $output["clave"] = $row["Clave"];
                 $output["estado"] = $row["Estado"];
                 $output["rol"] = $row["ID_Rol"];
-                
             }
         }
 
@@ -91,6 +97,7 @@ switch ($_GET["op"]) {
             $usuarios->editar_estado($_POST["id"], $_POST["est"]);
         }
         break;
+
     case "listar":
         $datos = $usuarios->get_usuarios();
         //declaramos el array
@@ -170,22 +177,49 @@ switch ($_GET["op"]) {
             $sub_array[] = $nivel;
             $sub_array[] = $Fecha_Registro;
             $sub_array[] = $Fecha_Ult_Ingreso;
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="cambiarEstado(' . $row["Cedula"] . ',' . $row["Estado"] . ');" name="estado" id="' . $row["Cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '<button type="button" onClick="mostrar(' . $row["Cedula"] . ');"  id="' . $row["Cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '<button type="button" onClick="eliminar(' . $row["Cedula"] . ');"  id="' . $row["Cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center">
+                                <button type="button" onClick="cambiarEstado(\'' . $row["Cedula"] . '\',\'' . $row["Estado"] . '\');" name="estado" id="' . $row["Cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
+                                <button type="button" onClick="mostrar(\'' . $row["Cedula"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                <button type="button" onClick="eliminar(\'' . $row["Cedula"] . '\',\''. $row["Login"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                            </div>';
 
             $data[] = $sub_array;
-
         }
 
         $results = array(
-
             "sEcho" => 1, //Información para el datatables
             "iTotalRecords" => count($data), //enviamos el total registros al datatable
             "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
-            "aaData" => $data);
-        echo json_encode($results);
+            "aaData" => $data
+        );
 
+        echo json_encode($results);
         break;
 
+    case "eliminar":
+        $eliminar = false;
+        $cedula = $_POST["cedula"];
+
+        $usuario = $usuarios->get_usuario_byDni($cedula);
+        if(is_array($usuario) == true and count($usuario) > 0) {
+            $eliminar = $usuarios->eliminar_usuario($cedula);
+        }
+
+        //mensaje
+        if($eliminar){
+            $output = [
+                "mensaje" => "Se eliminó exitosamente!",
+                "icono"   => "success"
+            ];
+        } else {
+            $output = [
+                "mensaje" => "Ocurrió un error al eliminar!",
+                "icono"   => "error"
+            ];
+        }
+
+        echo json_encode($output);
+        break;
 }
 
 ?>
