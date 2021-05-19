@@ -89,44 +89,41 @@ function cambiarEstado(id, est) {
 }
 
 function mostrar(id_vehiculo = -1) {
-    console.log(id_vehiculo);
+    let isError = false;
+    limpiar();
+    $('#vehiculoModal').modal('show');
 
-    $.post("vehiculos_controlador.php?op=mostrar", {id_vehiculo: id_vehiculo}, function (data, status) {
-        data = JSON.parse(data);
+    if(id_vehiculo !== -1)
+    {
+        $.ajax({
+            url: "vehiculos_controlador.php?op=mostrar",
+            method: "POST",
+            dataType: "json",
+            data: {id_vehiculo: id_vehiculo},
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
+            error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
 
-        //si existe la cedula_relacion entonces tiene relacion con otras tablas
-        if (data.cedula_relacion) {
+                $('#placa').val(data.placa);
+                $("#placa").prop("disabled", true);
+                $('#modelo').val(data.modelo);
+                $('#capacidad').val(data.capacidad);
+                $('#volumen').val(data.volumen);
+                $('#estado').val(data.estado);
+                $('.modal-title').text("Editar Vehiculo");
+                $('#id_vehiculo').val(id_vehiculo);
 
-            $('#vehiculoModal').modal('show');
-
-            $('#placa').val(data.cedula_relacion);
-
-            //desactiva el campo
-
-            $('#placa').val(data.placa);
-            $("#placa").prop("disabled", true);
-            $('#modelo').val(data.modelo);
-            $('#capacidad').val(data.capacidad);
-            $('#volumen').val(data.volumen);
-            $('#estado').val(data.estado);
-            $('.modal-title').text("Editar Vehiculo");
-            $('#id_vehiculo').val(id_vehiculo);
-
-        } else {
-
-            $('#vehiculoModal').modal('show');
-            $('#placa').val(data.placa);
-            $("#placa").prop("disabled", true);
-            $('#modelo').val(data.modelo);
-            $('#capacidad').val(data.capacidad);
-            $('#volumen').val(data.volumen);
-            $('#estado').val(data.estado);
-            $('.modal-title').text("Editar Vehiculo");
-            $('#id_vehiculo').val(id_vehiculo);
-        }
-    });
-
-
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
+            }
+        });
+    }
 }
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
@@ -139,32 +136,60 @@ function guardaryeditar(e) {
         url: "vehiculos_controlador.php?op=guardaryeditar",
         type: "POST",
         data: formData,
+        dataType: "json",
         contentType: false,
         processData: false,
-
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
         success: function (datos) {
+            let { icono, mensaje } = datos;
+            ToastSweetMenssage(icono, mensaje);
 
-            console.log(datos);
+            //verifica si el mensaje de insercion contiene error
+            if(mensaje.includes('error')) {
+                return (false);
+            } else {
+                $('#vehiculo_form')[0].reset();
+                $('#vehiculoModal').modal('hide');
+                $('#vehiculo_data').DataTable().ajax.reload();
+                limpiar();
+            }
 
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            })
-
-            Toast.fire({
-                icon: 'success',
-                title: 'Proceso Exitoso!'
-            })
-
-            $('#vehiculo_form')[0].reset();
-            $('#vehiculoModal').modal('hide');
-            $('#vehiculo_data').DataTable().ajax.reload();
-            limpiar();
         }
     });
+}
+
+function eliminar(id, vehiculo) {
+
+    Swal.fire({
+        // title: '¿Estas Seguro?',
+        text: "¿Estas Seguro de Eliminar el vehículo "+vehiculo+" ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "vehiculos_controlador.php?op=eliminar",
+                method: "POST",
+                dataType: "json",
+                data: {id: id},
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
+                success: function (data) {
+                    ToastSweetMenssage(data.icono, data.mensaje);
+                    $('#vehiculo_data').DataTable().ajax.reload();
+                }
+            });
+        }
+    })
 }
 
 

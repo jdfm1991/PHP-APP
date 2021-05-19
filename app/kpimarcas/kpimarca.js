@@ -20,12 +20,17 @@ function init() {
 }
 
 function listar_marcas() {
+    let isError = false;
     $.ajax({
         async: false,
         url: "kpimarca_controlador.php?op=listar_marcas",
         type: "post",
         dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
         error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
             console.log(e.responseText);
         },
         success: function (data) {
@@ -36,6 +41,9 @@ function listar_marcas() {
                     $('.duallistbox').append('<option name="" value="' + opt.marca +'" '+(opt.selec ? "selected" : "")+'>' + opt.marca + '</option>');
                 });
             }
+        },
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
         }
     });
 }

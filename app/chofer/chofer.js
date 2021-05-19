@@ -142,13 +142,52 @@ function guardaryeditar(e) {
 			let { icono, mensaje } = datos;
 			ToastSweetMenssage(icono, mensaje);
 
-			$('#chofer_form')[0].reset();
-			$('#choferModal').modal('hide');
-			$('#choferes_data').DataTable().ajax.reload();
-			limpiar();
+			//verifica si el mensaje de insercion contiene error
+			if(mensaje.includes('error')) {
+				return (false);
+			} else {
+				$('#chofer_form')[0].reset();
+				$('#choferModal').modal('hide');
+				$('#choferes_data').DataTable().ajax.reload();
+				limpiar();
+			}
+
 		}
 	});
 }
+
+
+function eliminar(id, chofer) {
+
+	Swal.fire({
+		// title: '¿Estas Seguro?',
+		text: "¿Estas Seguro de Eliminar el chofer "+chofer+" ?",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Si, eliminar!',
+		cancelButtonText: 'Cancelar'
+	}).then((result) => {
+		if (result.value) {
+			$.ajax({
+				url: "chofer_controlador.php?op=eliminar",
+				method: "POST",
+				dataType: "json",
+				data: {id: id},
+				error: function (e) {
+					SweetAlertError(e.responseText, "Error!")
+					console.log(e.responseText);
+				},
+				success: function (data) {
+					ToastSweetMenssage(data.icono, data.mensaje);
+					$('#choferes_data').DataTable().ajax.reload();
+				}
+			});
+		}
+	})
+}
+
 
 init();
 

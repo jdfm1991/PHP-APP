@@ -56,4 +56,22 @@ class Chofer extends Conectar
         $sql->bindValue(2, $id);
         return $sql->execute();
     }
+
+    public function eliminar_chofer($id)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        //QUERY
+//    $sql = "DELETE FROM choferes WHERE id = ?";
+        $sql = "UPDATE choferes SET deleted_at=? WHERE Cedula=?";
+
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, date("Y/m/d h:i:s"));
+        $sql->bindValue(2, $id);
+
+        return $sql->execute();
+    }
 }

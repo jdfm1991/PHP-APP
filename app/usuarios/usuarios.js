@@ -231,7 +231,7 @@ function eliminar(cedula, usuario) {
                     console.log(e.responseText);
                 },
                 success: function (data) {
-                    // ToastSweetMenssage(data.icono, data.mensaje);
+                    ToastSweetMenssage(data.icono, data.mensaje);
                     $('#usuario_data').DataTable().ajax.reload();
                 }
             });

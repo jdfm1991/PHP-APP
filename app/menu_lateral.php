@@ -33,7 +33,7 @@
                 <!-- INICIO -->
                 <li class="nav-item">
                     <a href="<?php echo URL_APP; ?>principal.php" class="nav-link">
-                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <i class="fas fa-home nav-icon"></i>
                         <p>Inicio</p>
                     </a>
                 </li>
@@ -322,20 +322,34 @@
                         <p>Configuración<i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?php echo URL_APP; ?>usuarios/usuarios.php" class="nav-link">
-
-                                <i class="fas fa-user-plus nav-icon"></i>
-                                <p>Crear Usuario</p>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-address-book nav-icon"></i>
+                                <p>Usuarios y Roles<i class="right fas fa-angle-left"></i></p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?php echo URL_APP; ?>usuarios/usuarios.php" class="nav-link">
+
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>Getión de Usuarios</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo URL_APP; ?>roles/roles.php" class="nav-link">
+                                        <i class="fas fa-user-lock nav-icon"></i>
+                                        <p>Roles</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="<?php echo URL_APP; ?>chofer/chofer.php" class="nav-link">
 
-                                <i class="fas fa-walking nav-icon"></i>
-                                <p>Crear Chofer</p>
+                                <i class="fas fa-street-view nav-icon"></i>
+                                <p>Choferes</p>
                             </a>
                         </li>
                     </ul>
@@ -344,19 +358,11 @@
                             <a href="<?php echo URL_APP; ?>vehiculos/vehiculos.php" class="nav-link">
 
                                 <i class="fas fa-truck nav-icon"></i>
-                                <p>Crear Vehículo</p>
+                                <p>Vehículos</p>
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?php echo URL_APP; ?>roles/roles.php" class="nav-link">
 
-                                <i class="fas fa-user-lock nav-icon"></i>
-                                <p>Crear Rol de Usuario</p>
-                            </a>
-                        </li>
-                    </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="<?php echo URL_APP; ?>kpimarcas/kpimarca.php" class="nav-link">
@@ -380,8 +386,8 @@
                 <!-- CERRAR SESION -->
                 <li class="nav-item">
                     <a href="<?php echo URL_APP; ?>destruir.php" class="nav-link">
-                        <i class="fas fa-user-times"></i>
-                        <p>Cerrar sesión</p>
+                        <i class="fas fa-power-off"></i>
+                        <p> Cerrar sesión</p>
                     </a>
                 </li>
             </ul>

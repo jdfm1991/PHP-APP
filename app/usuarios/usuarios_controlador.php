@@ -8,12 +8,8 @@ require_once("Usuarios_modelo.php");
 
 $usuarios = new Usuarios();
 
-/*$fecha_registro = date("Y-m-d h:i:s");
-$fecha_ult_ingreso = date("Y-m-d h:i:s");*/
-
-
-switch ($_GET["op"]) {
-
+switch ($_GET["op"])
+{
     case "guardaryeditar":
         $usuario = true;
 
@@ -67,21 +63,22 @@ switch ($_GET["op"]) {
         break;
 
     case "mostrar":
+        $output=array();
 
         $output['lista_roles'] = $usuarios->get_roles();
 
         if($_POST["id_usuario"] != -1){
             //el parametro id_usuario se envia por AJAX cuando se edita el usuario
-            $datos = $usuarios->get_usuario_por_id($_POST["id_usuario"]);
+            $datos = $usuarios->get_usuario_byDni($_POST["id_usuario"]);
 
             foreach ($datos as $row) {
-                $output["cedula"] = $row["Cedula"];
-                $output["login"] = $row["Login"];
-                $output["nomper"] = $row["Nomper"];
-                $output["email"] = $row["Email"];
-                $output["clave"] = $row["Clave"];
-                $output["estado"] = $row["Estado"];
-                $output["rol"] = $row["ID_Rol"];
+                $output["cedula"] = $row["cedula"];
+                $output["login"] = $row["login"];
+                $output["nomper"] = $row["nomper"];
+                $output["email"] = $row["email"];
+//                $output["clave"] = $row["clave"];
+                $output["estado"] = $row["estado"];
+                $output["rol"] = $row["id_rol"];
             }
         }
 
@@ -89,75 +86,86 @@ switch ($_GET["op"]) {
         break;
 
     case "activarydesactivar":
+        $id = $_POST["id"];
+        $activo  = $_POST["est"];
         //los parametros id_usuario y est vienen por via ajax
-        $datos = $usuarios->get_usuario_por_id($_POST["id"]);
+        $datos = $usuarios->get_usuario_byDni($id);
         //valida el id del usuario
         if (is_array($datos) == true and count($datos) > 0) {
-            //edita el estado del usuario
-            $usuarios->editar_estado($_POST["id"], $_POST["est"]);
+            //si esta activo(1) lo situamos cero(0), y viceversa
+            ($activo == "0") ? $activo = 1 : $activo = 0;
+            //edita el estado
+            $usuarios->editar_estado($id, $activo);
+            //evalua que se realizara el query
+            ($estado) ? $output["mensaje"] = "Actualizacion realizada Exitosamente" : $output["mensaje"] = "Error al Actualizar";
         }
+
+        echo json_encode($output);
         break;
 
     case "listar":
         $datos = $usuarios->get_usuarios();
+
         //declaramos el array
         $data = array();
+
         foreach ($datos as $row) {
             $sub_array = array();
+
             //ESTADO
             $est = '';
             $atrib = "btn btn-success btn-sm estado";
-            if ($row["Estado"] == 0) {
+            if ($row["estado"] == 0) {
                 $est = 'INACTIVO';
                 $atrib = "btn btn-warning btn-sm estado";
             } else {
-                if ($row["Estado"] == 1) {
+                if ($row["estado"] == 1) {
                     $est = 'ACTIVO';
                 }
             }
             //nivel del rol asignado
 
-            if ($row["ID_Rol"] == 1) {
+            if ($row["id_rol"] == 1) {
 
                 $nivel = "SUPER ADMINISTRADOR";
 
-            } elseif ($row["ID_Rol"] == 2) {
+            } elseif ($row["id_rol"] == 2) {
 
                 $nivel = "ADMINISTRADOR";
 
-            } elseif ($row["ID_Rol"] == 3) {
+            } elseif ($row["id_rol"] == 3) {
 
                 $nivel = "DIRECTIVA";
 
-            } elseif ($row["ID_Rol"] == 4) {
+            } elseif ($row["id_rol"] == 4) {
 
                 $nivel = "GERENTE";
 
-            } elseif ($row["ID_Rol"] == 5) {
+            } elseif ($row["id_rol"] == 5) {
 
                 $nivel = "JEFE ADMINISTRATIVO";
 
-            } elseif ($row["ID_Rol"] == 6) {
+            } elseif ($row["id_rol"] == 6) {
 
                 $nivel = "SUPERVISOR";
 
-            } elseif ($row["ID_Rol"] == 7) {
+            } elseif ($row["id_rol"] == 7) {
 
                 $nivel = "ANALISTA";
 
-            } elseif ($row["ID_Rol"] == 8) {
+            } elseif ($row["id_rol"] == 8) {
 
                 $nivel = "COBRANZAS";
 
-            } elseif ($row["ID_Rol"] == 9) {
+            } elseif ($row["id_rol"] == 9) {
 
                 $nivel = "DESPACHOS";
 
-            } elseif ($row["ID_Rol"] == 10) {
+            } elseif ($row["id_rol"] == 10) {
 
                 $nivel = "REPORTES";
 
-            } elseif ($row["ID_Rol"] == 11) {
+            } elseif ($row["id_rol"] == 11) {
 
                 $nivel = "EDV";
 
@@ -167,20 +175,20 @@ switch ($_GET["op"]) {
 
             }
 
-            $Fecha_Registro = date('d/m/Y', strtotime($row['Fecha_Registro']));
-            $Fecha_Ult_Ingreso = date('d/m/Y', strtotime($row['Fecha_Ult_Ingreso']));
+            $Fecha_Registro = date('d/m/Y', strtotime($row['fecha_registro']));
+            $Fecha_Ult_Ingreso = date('d/m/Y', strtotime($row['fecha_ult_ingreso']));
 
-            $sub_array[] = $row["Cedula"];
-            $sub_array[] = $row["Login"];
-            $sub_array[] = $row["Nomper"];
-            $sub_array[] = $row["Email"];
+            $sub_array[] = $row["cedula"];
+            $sub_array[] = $row["login"];
+            $sub_array[] = $row["nomper"];
+            $sub_array[] = $row["email"];
             $sub_array[] = $nivel;
             $sub_array[] = $Fecha_Registro;
             $sub_array[] = $Fecha_Ult_Ingreso;
             $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="cambiarEstado(\'' . $row["Cedula"] . '\',\'' . $row["Estado"] . '\');" name="estado" id="' . $row["Cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
-                                <button type="button" onClick="mostrar(\'' . $row["Cedula"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
-                                <button type="button" onClick="eliminar(\'' . $row["Cedula"] . '\',\''. $row["Login"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                <button type="button" onClick="cambiarEstado(\'' . $row["cedula"] . '\',\'' . $row["estado"] . '\');" name="estado" id="' . $row["cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
+                                <button type="button" onClick="mostrar(\'' . $row["cedula"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                <button type="button" onClick="eliminar(\'' . $row["cedula"] . '\',\''. $row["login"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                             </div>';
 
             $data[] = $sub_array;

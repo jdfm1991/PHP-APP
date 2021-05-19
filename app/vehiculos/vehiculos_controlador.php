@@ -2,131 +2,170 @@
 
 //llamar a la conexion de la base de datos
 require_once("../../config/conexion.php");
+
 //llamar a el modelo vehiculo
 require_once("vehiculos_modelo.php");
+
 $vehiculo = new Vehiculos();
-
-$id_vehiculo = isset($_POST["id_vehiculo"]);
-$placa = isset($_POST["placa"]);
-$modelo = isset($_POST["modelo"]);
-$capacidad = isset($_POST["capacidad"]);
-$volumen = isset($_POST["volumen"]);
-$estado = isset($_POST["estado"]);
-/*$fecha_registro = date("Y-m-d h:i:s");
-$fecha_ult_ingreso = date("Y-m-d h:i:s");*/
-
 
 switch ($_GET["op"]) {
 
     case "guardaryeditar":
+        $est_vehiculo = false;
+
+        $id_vehiculo = $_POST["id_vehiculo"];
+
+        $data = array(
+            'id_vehiculo'   => $id_vehiculo,
+            'placa'         => strtoupper(str_replace("-","",$_POST['placa'])),
+            'modelo'        =>strtoupper($_POST['modelo']),
+            'capacidad'     => str_replace(".","", str_replace(",","", $_POST['capacidad'])),
+            'volumen'       => $_POST["volumen"],
+            'estado'        => $_POST["estado"],
+        );
 
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
-
-        if (empty($_POST["id_vehiculo"])) {
+        if (empty($id_vehiculo)) {
 
             /*verificamos si existe la placa y correo en la base de datos, si ya existe un registro con la placa o correo entonces no se registra el usuario*/
-
-            $datos = $vehiculo->get_placa_del_vehiculo($_POST["placa"]);
+            $datos = $vehiculo->get_placa_del_vehiculo($data["placa"]);
 
             if (is_array($datos) == true and count($datos) == 0) {
-
                 //no existe el usuario por lo tanto hacemos el registros
-
-                $vehiculo->registrar_vehiculo($placa, $modelo, $capacidad, $volumen, $estado, $id_vehiculo);
-
-                /*si ya exista el correo y la placa entonces aparece el mensaje*/
-
+                $est_vehiculo = $vehiculo->registrar_vehiculo($data);
             } else {
-
 
             }
 
-        } /*cierre de la validacion empty  */ else {
-
+        } else {
             /*si ya existe entonces editamos el usuario*/
-
-            $vehiculo->editar_vehiculo($modelo, $capacidad, $volumen, $estado, $id_vehiculo);
-
-
+            $est_vehiculo = $vehiculo->editar_vehiculo($data);
         }
 
+        //mensaje
+        if($est_vehiculo){
+            $output = [
+                "mensaje" => "Guardado con Exito!",
+                "icono"   => "success"
+            ];
+        } else {
+            $output = [
+                "mensaje" => "Ocurrió un error al Guardar!",
+                "icono"   => "error"
+            ];
+        }
 
+        echo json_encode($output);
         break;
 
     case "mostrar":
+        $output=array();
 
         //selecciona el id del usuario
-
         //el parametro id_vehiculo se envia por AJAX cuando se edita el usuario
-
         $datos = $vehiculo->get_vehiculo_por_id($_POST["id_vehiculo"]);
 
         foreach ($datos as $row) {
-
-            $output["id_vehiculo"] = $row["ID"];
-            $output["placa"] = $row["Placa"];
-            $output["modelo"] = $row["Modelo"];
-            $output["capacidad"] = $row["Capacidad"];
-            $output["volumen"] = $row["Volumen"];
-            $output["estado"] = $row["Estado"];
-
+            $output["id_vehiculo"] = $row["id"];
+            $output["placa"] = $row["placa"];
+            $output["modelo"] = $row["modelo"];
+            $output["capacidad"] = $row["capacidad"];
+            $output["volumen"] = $row["volumen"];
+            $output["estado"] = $row["estado"];
         }
 
         echo json_encode($output);
         break;
 
     case "activarydesactivar":
+        $id = $_POST["id"];
+        $activo  = $_POST["est"];
         //los parametros id_vehiculo y est vienen por via ajax
-        $datos = $vehiculo->get_vehiculo_por_id($_POST["id"]);
+        $datos = $vehiculo->get_vehiculo_por_id($id);
         //valida el id del usuario
         if (is_array($datos) == true and count($datos) > 0) {
-            //edita el estado del usuario
-            $vehiculo->editar_estado($_POST["id"], $_POST["est"]);
+            //si esta activo(1) lo situamos cero(0), y viceversa
+            ($activo == "0") ? $activo = 1 : $activo = 0;
+            //edita el estado
+            $vehiculo->editar_estado($id, $activo);
+            //evalua que se realizara el query
+            ($estado) ? $output["mensaje"] = "Actualizacion realizada Exitosamente" : $output["mensaje"] = "Error al Actualizar";
         }
+
+        echo json_encode($output);
         break;
+
     case "listar":
         $datos = $vehiculo->get_vehiculos();
+
         //declaramos el array
         $data = Array();
+
         foreach ($datos as $row) {
             $sub_array = array();
+
             //ESTADO
             $est = '';
             $atrib = "btn btn-success btn-sm estado";
-            if ($row["Estado"] == 0) {
+            if ($row["estado"] == 0) {
                 $est = 'INACTIVO';
                 $atrib = "btn btn-warning btn-sm estado";
             } else {
-                if ($row["Estado"] == 1) {
+                if ($row["estado"] == 1) {
                     $est = 'ACTIVO';
                 }
             }
 
 
-            $Fecha_Registro = date('d/m/Y', strtotime($row['Fecha_Registro']));
+            $Fecha_Registro = date('d/m/Y', strtotime($row['fecha_registro']));
 
-            $sub_array[] = $row["Placa"];
-            $sub_array[] = $row["Modelo"];
-            $sub_array[] = $row["Capacidad"];
-            $sub_array[] = $row["Volumen"];
+            $sub_array[] = $row["placa"];
+            $sub_array[] = $row["modelo"];
+            $sub_array[] = $row["capacidad"];
+            $sub_array[] = $row["volumen"];
             $sub_array[] = $Fecha_Registro;
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="cambiarEstado(' . $row["ID"] . ',' . $row["Estado"] . ');" name="estado" id="' . $row["ID"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '<button type="button" onClick="mostrar(' . $row["ID"] . ');"  id="' . $row["ID"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '<button type="button" onClick="eliminar(' . $row["ID"] . ');"  id="' . $row["ID"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center">
+                                <button type="button" onClick="cambiarEstado(\'' . $row["id"] . '\',\'' . $row["estado"] . '\');" name="estado" id="' . $row["id"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
+                                <button type="button" onClick="mostrar(\'' . $row["id"] . '\');"  id="' . $row["id"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                <button type="button" onClick="eliminar(\'' . $row["id"] . '\',\'' . $row["modelo"] . '\');"  id="' . $row["id"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                            </div>';
 
             $data[] = $sub_array;
-
         }
 
         $results = array(
-
             "sEcho" => 1, //Información para el datatables
             "iTotalRecords" => count($data), //enviamos el total registros al datatable
             "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
             "aaData" => $data);
-        echo json_encode($results);
 
+        echo json_encode($results);
         break;
 
-}
+    case "eliminar":
+        $eliminar = false;
+        $id = $_POST["id"];
 
+        $datos = $vehiculo->get_vehiculo_por_id($id);
+        if(is_array($datos) == true and count($datos) > 0) {
+            $eliminar = $vehiculo->eliminar_vehiculo($id);
+        }
+
+        //mensaje
+        if($eliminar){
+            $output = [
+                "mensaje" => "Se eliminó exitosamente!",
+                "icono"   => "success"
+            ];
+        } else {
+            $output = [
+                "mensaje" => "Ocurrió un error al eliminar!",
+                "icono"   => "error"
+            ];
+        }
+
+        echo json_encode($output);
+        break;
+}
 ?>

@@ -8,14 +8,6 @@ require_once("chofer_modelo.php");
 
 $chofer = new Chofer();
 
-/*$id_chofer = isset($_POST["id_chofer"]);
-$cedula = isset($_POST["cedula"]);
-$nomper = isset($_POST["nomper"]);
-$estado = isset($_POST["estado"]);*/
-/*$fecha_registro = date("Y-m-d h:i:s");
-$fecha_ult_ingreso = date("Y-m-d h:i:s");*/
-
-
 switch ($_GET["op"]) {
 
     case "activarydesactivar":
@@ -66,6 +58,7 @@ switch ($_GET["op"]) {
             $sub_array[] = '<div class="col text-center">
                                 <button type="button" onClick="cambiarEstado(\'' . $row["Cedula"] . '\',\'' . $row["Estado"] . '\');" name="estado" id="' . $row["Cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
                                 <button type="button" onClick="mostrar(\'' . $row["Cedula"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                <button type="button" onClick="eliminar(\'' . $row["Cedula"] . '\',\'' . $row["Nomper"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                             </div>';
 
             $data[] = $sub_array;
@@ -138,6 +131,31 @@ switch ($_GET["op"]) {
             $output["nomper"] = $datos[0]["Nomper"];
             $output["fecha_ingreso"] = $datos[0]["Fecha_Registro"];
             $output["estado"] = $datos[0]["Estado"];
+        }
+
+        echo json_encode($output);
+        break;
+
+    case "eliminar":
+        $eliminar = false;
+        $id = $_POST["id"];
+
+        $datos = Choferes::getByDni($id);
+        if(is_array($datos) == true and count($datos) > 0) {
+            $eliminar = $chofer->eliminar_chofer($id);
+        }
+
+        //mensaje
+        if($eliminar){
+            $output = [
+                "mensaje" => "Se eliminó exitosamente!",
+                "icono"   => "success"
+            ];
+        } else {
+            $output = [
+                "mensaje" => "Ocurrió un error al eliminar!",
+                "icono"   => "error"
+            ];
         }
 
         echo json_encode($output);
