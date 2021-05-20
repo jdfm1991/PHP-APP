@@ -20,22 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chofer/chofer.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chofer/chofer_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarca.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarcas/kpimarca.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/menu_lateral.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/Usuarios_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuarios/usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/usuarios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuarios/usuarios_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuarios/usuarios_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/modales/crear_o_editar_vehiculo.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/modales/crear_o_editar_vehiculo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Choferes.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Choferes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/roles/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/roles/roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/roles/roles_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/roles/roles_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +159,7 @@
       <workItem from="1620908874312" duration="900000" />
       <workItem from="1620910966995" duration="11213000" />
       <workItem from="1621256366277" duration="123000" />
-      <workItem from="1621263023176" duration="19455000" />
+      <workItem from="1621263023176" duration="23911000" />
     </task>
     <servers />
   </component>

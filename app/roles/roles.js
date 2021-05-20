@@ -23,15 +23,14 @@ function init() {
 /*funcion para limpiar formulario de modal*/
 function limpiar() {
     $("#rol").val("");
-
     $('#id_rol').val("");
+    $(".modal-title").text("Crear Rol");
 }
 
 //function listar
-
 function listar() {
+    let isError = false;
     tabla = $('#roles_data').dataTable({
-
         "aProcessing": true,//Activamos el procesamiento del datatables
         "aServerSide": true,//Paginación y filtrado realizados por el servidor
         "ajax":
@@ -39,8 +38,15 @@ function listar() {
                 url: 'roles_controlador.php?op=listar',
                 type: "get",
                 dataType: "json",
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
                 error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
                     console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
                 }
             },
 
@@ -54,39 +60,56 @@ function listar() {
 }
 
 
-function mostrar(id_rol) {
-    $.post("roles_controlador.php?op=mostrar", {id_rol: id_rol}, function (data, status) {
-        data = JSON.parse(data);
+function mostrar(id_rol = -1) {
+    let isError = false;
+    limpiar();
+    //si es -1 el modal es crear nuevo
+    if(id_rol !== -1)
+    {
+        $.ajax({
+            url: "roles_controlador.php?op=mostrar",
+            method: "POST",
+            dataType: "json",
+            data:  {id_rol: id_rol},
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
+            error: function (e) {
+                isError = SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                //si existe la cedula_relacion entonces tiene relacion con otras tablas
+                if (data.cedula_relacion) {
 
-        //si existe la cedula_relacion entonces tiene relacion con otras tablas
-        if (data.cedula_relacion) {
+                    $('#rolModal').modal('show');
+                    $('#rol').val(data.cedula_relacion);
+                    //desactiva el campo
 
-            $('#rolModal').modal('show');
-            $('#rol').val(data.cedula_relacion);
-            //desactiva el campo
+                    $('#rol').val(data.descripcion);
+                    $("#rol").prop("disabled", false);
 
-            $('#rol').val(data.descripcion);
-            $("#rol").prop("disabled", false);
+                    $('.modal-title').text("Editar Rol");
+                    $('#id_rol').val(id_rol);
 
-            $('.modal-title').text("Editar Rol");
-            $('#id_rol').val(id_rol);
+                } else {
 
-        } else {
+                    $('#rolModal').modal('show');
+                    $('#rol').val(data.descripcion);
+                    $("#rol").prop("disabled", false);
 
-            $('#rolModal').modal('show');
-            $('#rol').val(data.descripcion);
-            $("#rol").prop("disabled", false);
-
-            $('.modal-title').text("Editar Rol");
-            $('#id_rol').val(id_rol);
-        }
-    });
-
-
+                    $('.modal-title').text("Editar Rol");
+                    $('#id_rol').val(id_rol);
+                }
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
+            }
+        });
+    }
 }
 
 //la funcion guardaryeditar(e); se llama cuando se da click al boton submit
-
 function guardaryeditar(e) {
 
     e.preventDefault(); //No se activará la acción predeterminada del evento
@@ -96,31 +119,69 @@ function guardaryeditar(e) {
         url: "roles_controlador.php?op=guardaryeditar",
         type: "POST",
         data: formData,
+        dataType: "json",
         contentType: false,
         processData: false,
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
         success: function (datos) {
-            console.log(datos);
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            })
+            let { icono, mensaje } = datos;
+            ToastSweetMenssage(icono, mensaje);
 
-            Toast.fire({
-                icon: 'success',
-                title: 'Proceso Exitoso!'
-            })
-
-            $('#rol_form')[0].reset();
-            $('#rolModal').modal('hide');
-            $('#roles_data').DataTable().ajax.reload();
-            limpiar();
+            //verifica si el mensaje de insercion contiene error
+            if(mensaje.includes('error')) {
+                return (false);
+            } else {
+                $('#rol_form')[0].reset();
+                $('#rolModal').modal('hide');
+                $('#roles_data').DataTable().ajax.reload();
+                limpiar();
+            }
         }
     });
+}
 
+function eliminar(id, rol) {
 
+    Swal.fire({
+        // title: '¿Estas Seguro?',
+        text: "¿Estas Seguro de Eliminar el Rol "+rol+" ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "roles_controlador.php?op=eliminar",
+                method: "POST",
+                dataType: "json",
+                data: {id_rol: id},
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
+                success: function (data) {
+
+                    //verifica si el mensaje de insercion contiene error
+                    if(data.icono.includes('error')) {
+                        SweetAlertError(data.mensaje, "Error!")
+                        return (false);
+                    } else {
+                        ToastSweetMenssage(data.icono, data.mensaje);
+                        $('#rol_form')[0].reset();
+                        $('#rolModal').modal('hide');
+                        $('#roles_data').DataTable().ajax.reload();
+                        limpiar();
+                    }
+                }
+            });
+        }
+    })
 }
 
 //Mostrar datos del usuario en la ventana modal del formularioS
