@@ -20,11 +20,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/permisos/permisos.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/permisos/permisos.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/permisos/permisos_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/permisos/permisos_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/js/Icons.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Menu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Modulos.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/plugins/jquery-orgchart/css/jquery.orgchart.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/plugins/jquery-orgchart/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/plugins/jquery-orgchart/js/jquery.orgchart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/appweb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/appweb.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/roles/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/menu_lateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/menu_lateral.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/roles/roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/roles/roles_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/roles/roles_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,8 +68,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -83,7 +112,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/facturassindespachar/modales" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/plugins" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
@@ -92,18 +121,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
+      <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
       <recent name="C:\Apache24\htdocs\appweb\app\facturassindespachar\modales" />
       <recent name="C:\Apache24\htdocs\appweb\Services" />
       <recent name="E:\laragon\www\appweb" />
-      <recent name="C:\xampp\htdocs\appweb\kpi\modales" />
-      <recent name="C:\xampp\htdocs\appweb\public\plugins\datatables" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema" />
       <recent name="C:\Apache24\htdocs\appweb\Services" />
       <recent name="C:\xampp\htdocs\appweb" />
       <recent name="C:\xampp\htdocs\appweb\app" />
       <recent name="C:\xampp\htdocs\appweb\kpimanager" />
-      <recent name="C:\xampp\htdocs\appweb\kpi" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -159,7 +188,13 @@
       <workItem from="1620908874312" duration="900000" />
       <workItem from="1620910966995" duration="11213000" />
       <workItem from="1621256366277" duration="123000" />
-      <workItem from="1621263023176" duration="23911000" />
+      <workItem from="1621263023176" duration="25022000" />
+      <workItem from="1621598764456" duration="9446000" />
+      <workItem from="1621867006336" duration="636000" />
+      <workItem from="1621871577263" duration="1192000" />
+      <workItem from="1621880475098" duration="1681000" />
+      <workItem from="1621884180624" duration="26390000" />
+      <workItem from="1622117835381" duration="24295000" />
     </task>
     <servers />
   </component>

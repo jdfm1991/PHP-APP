@@ -29,6 +29,7 @@ require_once("../../config/conexion.php");
 										<tr>
 											<td class="text-center" title="ID del Rol">ID</td>
 											<td class="text-center" title="Rol de Usuario">Rol de Usuario</td>
+											<td class="text-center" title="Permisos">Permisos</td>
 											<td class="text-center" title="Acción">Acciónes</td>
 										</tr>
 									</thead>
@@ -36,6 +37,7 @@ require_once("../../config/conexion.php");
 										<tr>
 											<td class="text-center">ID</td>
 											<td class="text-center">Rol de Usuario</td>
+											<td class="text-center">Permisos</td>
 											<td class="text-center">Acciónes</td>
 										</tr>
 									</tfoot>

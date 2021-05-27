@@ -374,13 +374,22 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="<?php echo URL_APP; ?>gestionsistema/gestionsistema.php" class="nav-link">
+
+                                <i class="fas fa-project-diagram nav-icon"></i>
+                                <p>Gestión del sistema</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <!--<ul class="nav nav-treeview">
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
 
                                 <i class="fas fa-mail-bulk nav-icon"></i>
                                 <p>Notificaciones</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul>-->
                 </li>
 
                 <!-- CERRAR SESION -->

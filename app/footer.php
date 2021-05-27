@@ -37,6 +37,8 @@
 <script src="<?php echo URL_LIBRARY; ?>plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- InputMask -->
 <script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- OrgChart Plugin -->
+<script src="<?php echo URL_LIBRARY;?>plugins/jquery-orgchart/js/jquery.orgchart.js"></script>
 <!-- Page script -->
 <script src="<?php echo URL_HELPERS_JS; ?>SweetAlerts.js" type="text/javascript"></script>
 <script>

@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- OrgChart Plugin -->
+    <link rel="stylesheet" href="<?php echo URL_LIBRARY;?>plugins/jquery-orgchart/css/jquery.orgchart.css">
+    <link rel="stylesheet" href="<?php echo URL_LIBRARY;?>plugins/jquery-orgchart/css/style.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>dist/css/adminlte.min.css">
 </head>

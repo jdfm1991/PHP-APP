@@ -79,6 +79,13 @@ switch ($_GET["op"]) {
 
             $sub_array[] = $row["id"];
             $sub_array[] = $row["descripcion"];
+
+            # el parametro t es el tipo:
+            #        0 el tipo es rol (este caso)
+            #        1 el tipo es usuario
+            $sub_array[] = '<div align="center form-check-inline p-t-30">
+								<a href="../permisos/permisos.php?&t='. 0 .'&i='. $row["id"] .'">Ver Permisos</a>
+							</div>';
             $sub_array[] = '<div class="col text-center">
                                 <button type="button" onClick="mostrar(\'' . $row["id"] . '\');"  id="' . $row["id"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
                                 <button type="button" onClick="eliminar(\'' . $row["id"] . '\',\'' . $row["descripcion"] . '\');"  id="' . $row["id"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
