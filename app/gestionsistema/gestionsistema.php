@@ -73,7 +73,7 @@ require_once("../../config/conexion.php");
                                                 <td class="text-center" title="Ruta">Ruta</td>
                                                 <td class="text-center" title="Menú">Menú</td>
                                                 <td class="text-center" title="Nombre">Nombre</td>
-                                                <td class="text-center" title="Descripción">Descripción</td>
+                                                <td class="text-center" title="Icono">Icono</td>
                                                 <td class="text-center" title="Acción">Acciónes</td>
                                             </tr>
                                             </thead>
@@ -82,7 +82,7 @@ require_once("../../config/conexion.php");
                                                 <td class="text-center">Ruta</td>
                                                 <td class="text-center">Menú</td>
                                                 <td class="text-center">Nombre</td>
-                                                <td class="text-center">Descripción</td>
+                                                <td class="text-center">Icono</td>
                                                 <td class="text-center">Acciónes</td>
                                             </tr>
                                             </tfoot>

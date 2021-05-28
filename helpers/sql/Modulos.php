@@ -8,7 +8,7 @@ class Modulos extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, nombre, descripcion, ruta, menu_id, estatus FROM Modulos1";
+        $sql= "SELECT id, nombre, icono, ruta, menu_id, estatus FROM Modulos1";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->execute();
@@ -20,7 +20,7 @@ class Modulos extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, nombre, descripcion, ruta, menu_id, estatus FROM Modulos1 WHERE id=?";
+        $sql= "SELECT id, nombre, icono, ruta, menu_id, estatus FROM Modulos1 WHERE id=?";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue(1,$key);
@@ -33,7 +33,7 @@ class Modulos extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, nombre, descripcion, ruta, menu_id, estatus FROM Modulos1 WHERE ruta=?";
+        $sql= "SELECT id, nombre, icono, ruta, menu_id, estatus FROM Modulos1 WHERE ruta=?";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue(1,$key);

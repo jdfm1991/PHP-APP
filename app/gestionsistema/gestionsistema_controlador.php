@@ -41,7 +41,7 @@ switch ($_GET["op"]) {
 								</div>
 							</div>';
             $sub_array[] = $row["nombre"];
-            $sub_array[] = $row["descripcion"];
+            $sub_array[] = '<i class="'.$row["icono"].'"></i> ' . $row["icono"];
             $sub_array[] = '<div class="col text-center">
                                 <button type="button" onClick="cambiarEstado_modulo(\'' . $row["id"] . '\',\'' . $row["estatus"] . '\');" name="estado" id="' . $row["id"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
                                 <button type="button" onClick="mostrar_modulo(\'' . $row["id"] . '\');"  id="' . $row["id"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
@@ -74,7 +74,7 @@ switch ($_GET["op"]) {
             foreach ($datos as $row) {
                 $output["id"] = $row["id"];
                 $output["nombre"] = $row["nombre"];
-                $output["descripcion"] = $row["descripcion"];
+                $output["icono"] = $row["icono"];
                 $output["ruta"] = $row["ruta"];
                 $output["menu_id"] = $row["menu_id"];
                 $output["estatus"] = $row["estatus"];
@@ -90,12 +90,12 @@ switch ($_GET["op"]) {
         $id_modulo = $_POST['id_modulo'];
 
         $data = array(
-            'id_modulo'     => $id_modulo,
-            'nombre'        => ucwords($_POST['nombre']),
-            'descripcion'   => $_POST['descripcion'],
-            'ruta'          => $_POST['ruta'],
-            'menu_id'       => $_POST['menu_id'],
-            'estado'        => $_POST['estado'],
+            'id_modulo' => $id_modulo,
+            'nombre'    => ucwords($_POST['nombre']),
+            'icono'     => !empty($_POST['icono']) ? $_POST['icono'] : 'far fa-dot-circle',
+            'ruta'      => $_POST['ruta'],
+            'menu_id'   => $_POST['menu_id'],
+            'estado'    => $_POST['estado'],
         );
 
         /*si el id no existe entonces lo registra

@@ -12,11 +12,11 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "INSERT INTO Modulos1 (nombre, descripcion, ruta, menu_id, estatus) VALUES(?,?,?,?,?);";
+        $sql = "INSERT INTO Modulos1 (nombre, icono, ruta, menu_id, estatus) VALUES(?,?,?,?,?);";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["nombre"]);
-        $sql->bindValue($i+=1, $data["descripcion"]);
+        $sql->bindValue($i+=1, $data["icono"]);
         $sql->bindValue($i+=1, $data["ruta"]);
         $sql->bindValue($i+=1, $data["menu_id"]);
         $sql->bindValue($i+=1, $data["estado"]);
@@ -32,11 +32,11 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "UPDATE Modulos1 SET nombre=?, descripcion=?, ruta=?, menu_id=?, estatus=?  WHERE id=?";
+        $sql = "UPDATE Modulos1 SET nombre=?, icono=?, ruta=?, menu_id=?, estatus=?  WHERE id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["nombre"]);
-        $sql->bindValue($i+=1, $data["descripcion"]);
+        $sql->bindValue($i+=1, $data["icono"]);
         $sql->bindValue($i+=1, $data["ruta"]);
         $sql->bindValue($i+=1, $data["menu_id"]);
         $sql->bindValue($i+=1, $data["estado"]);

@@ -53,6 +53,8 @@ function limpiar_modulo() {
     $(".modal-title").text("Agregar Módulo");
     $('#ruta').html('<option value="">--Seleccione--</option>');
     $('#menu_id').html('<option value="">--Seleccione--</option>');
+    $('#moduloModal #icono').val('').change();
+    icon = '';
 }
 
 /*funcion para limpiar formulario de modal*/
@@ -62,19 +64,29 @@ function limpiar_menu() {
     $(".modal-title").text("Agregar Menú");
     $('#menu_padre').html('');
     $('#menu_hijo').html('');
-    $('#icono').val('').change();
+    $('#menuModal #icono').val('').change();
     icon = '';
 }
 
 $(document).ready(function () {
-    $("#icono").change(() => {
-        $('#icon').removeClass(icon).addClass($("#icono").val());
-        icon = $("#icono").val();
+    $("#moduloModal #icono").change(() => {
+        $('#moduloModal #icon').removeClass(icon).addClass($("#moduloModal #icono").val());
+        icon = $("#moduloModal #icono").val();
     });
 
-    $("#icono").on('keyup', () => {
-        $('#icon').removeClass(icon).addClass($("#icono").val());
-        icon = $("#icono").val();
+    $("#moduloModal #icono").on('keyup', () => {
+        $('#moduloModal #icon').removeClass(icon).addClass($("#moduloModal #icono").val());
+        icon = $("#moduloModal #icono").val();
+    }).keyup();
+
+    $("#menuModal #icono").change(() => {
+        $('#menuModal #icon').removeClass(icon).addClass($("#menuModal #icono").val());
+        icon = $("#menuModal #icono").val();
+    });
+
+    $("#menuModal #icono").on('keyup', () => {
+        $('#menuModal #icon').removeClass(icon).addClass($("#menuModal #icono").val());
+        icon = $("#menuModal #icono").val();
     }).keyup();
 });
 
@@ -264,7 +276,7 @@ function mostrar_modulo(id_modulo= -1) {
 
             if(id_modulo !== -1) {
                 $('#moduloModal #nombre').val(data.nombre);
-                $('#descripcion').val(data.descripcion);
+                $('#moduloModal #icono').val(data.icono).change();
                 $('#ruta').val(data.ruta);
                 $('#menu_id').val(data.menu_id);
                 $('#estado').val(data.estatus);
@@ -321,7 +333,7 @@ function mostrar_menu(id_menu= -1) {
                 $('#orden').val(data.menu_orden);
                 $('#menu_padre').val(data.menu_padre);
                 $('#menu_hijo').val(data.menu_hijo);
-                $('#icono').val(data.icono).change();
+                $('#menuModal #icono').val(data.icono).change();
 
                 $('#estado').val(data.estatus);
                 $('.modal-title').text("Editar Menú");
