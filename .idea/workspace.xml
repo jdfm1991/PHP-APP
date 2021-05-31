@@ -20,21 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Permisos.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/permisos/permisos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permisos/permisos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permisos/permisos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/sql/Modulos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Modulos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +168,9 @@
       <workItem from="1621871577263" duration="1192000" />
       <workItem from="1621880475098" duration="1681000" />
       <workItem from="1621884180624" duration="26390000" />
-      <workItem from="1622117835381" duration="26280000" />
+      <workItem from="1622117835381" duration="27086000" />
+      <workItem from="1622465693067" duration="1175000" />
+      <workItem from="1622468874195" duration="6428000" />
     </task>
     <servers />
   </component>

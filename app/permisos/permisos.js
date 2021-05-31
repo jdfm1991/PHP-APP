@@ -1,7 +1,7 @@
 
 //Función que se ejecuta al inicio
 function init() {
-    // listar();
+    listar_permisos_por_rol();
     //cuando se da click al boton submit entonces se ejecuta la funcion guardaryeditar(e);
     $("#rol_form").on("submit", function (e) {
         guardaryeditar(e);
@@ -9,19 +9,20 @@ function init() {
 
     //cambia el titulo de la ventana modal cuando se da click al boton
     $("#btnGestion").click(function () {
-        window.location = "permisosgestion.php";
+        window.location = "../gestionsistema/gestionsistema.php";
     });
 }
 
-function listar() {
+function listar_permisos_por_rol() {
     let isError = false;
     let id = $("#id").val();
     $.ajax({
         async: true,
         cache: true,
-        url: `${baseUrl}permisos/listar/`+id,
+        url: 'permisos_controlador.php?op=listar_permisos_por_rol',
         method: "POST",
         dataType: "json",
+        data: {rol_id: id},
         beforeSend: function () {
             SweetAlertLoadingShow();
         },
@@ -30,8 +31,9 @@ function listar() {
             console.log(e.responseText);
         },
         success: function (data) {
+
             if(!jQuery.isEmptyObject(data)){
-                $.each(data, function(idx, opt) {
+                /*$.each(data, function(idx, opt) {
                     let { menu_id, menu_nombre, modulos } = opt;
 
                     $('#permisos').append('<h4 id="menu_'+menu_id+'" class="card-title m-t-20">'+ menu_nombre +'</h4>');
@@ -61,7 +63,7 @@ function listar() {
                     }
                     temp += '</div>';
                     $('#permisos').append(temp);
-                });
+                });*/
             }
         },
         complete: function () {
