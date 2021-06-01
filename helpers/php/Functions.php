@@ -114,38 +114,39 @@ class Functions {
         return $output;
     }
 
-    public static function organigramaMenusWithModules($id){
+    public static function organigramaMenusWithModules($id, $rol_id = -1){
         $output = array();
 
         $hijos = ($id==-1) ? Menu::withoutFather() : Menu::getChildren($id);
         if (is_array($hijos) == true and count($hijos) > 0)
         {
-            foreach ($hijos as $key => $hijo)
-            {
+            foreach ($hijos as $key => $hijo) {
                 $sub_array = array();
 
                 $sub_array['title'] = $hijo['nombre'];
 
+                # verifica si existe hijos para aplicar recursion
                 $existenHijos = Menu::getChildren($hijo['id']);
-                if (is_array($existenHijos) == true and count($existenHijos) > 0) {
-                    $sub_array['children'] = Functions::orgranigramaMenus($hijo['id']);
-                }
-                else { # si no existen menus hijos, verificamos si tiene modulos
-                    $modulosMenu = array();
-                    $existenModulos = Modulos::getByMenuId($hijo['id']);
-                    if (is_array($existenModulos) == true and count($existenModulos) > 0) {
-                        $modulosPorRol = array_map(function ($arr) { return $arr['id_modulo']; }, Permisos::getRolesGrupoPorRolID($rol_id));
-                        foreach ($existenModulos as $key1 => $modulo) {
-                            $modulosMenu[] = array(
-                                'id' 	   => $modulo['id'],
-                                'name'   => $modulo['nombre'],
-                                'selected' => in_array($modulo['id'], $modulosPorRol)
-                            );
-                        }
+                $sub_array['children'] = (is_array($existenHijos) == true and count($existenHijos) > 0)
+                    ? Functions::organigramaMenusWithModules($hijo['id'], $rol_id)
+                    : array();
 
-                        $sub_array['modules'] = $modulosMenu;
+
+                 # verificamos si tiene modulos
+                $modulosMenu = array();
+                $existenModulos = Modulos::getByMenuId($hijo['id']);
+                if (is_array($existenModulos) == true and count($existenModulos) > 0) {
+                    $modulosPorRol = array_map(function ($arr) { return $arr['id_modulo']; }, Permisos::getRolesGrupoPorRolID($rol_id));
+                    foreach ($existenModulos as $key1 => $modulo) {
+                        $modulosMenu[] = array(
+                            'id' 	   => $modulo['id'],
+                            'name'   => $modulo['nombre'],
+                            'selected' => in_array($modulo['id'], $modulosPorRol)
+                        );
                     }
                 }
+
+                $sub_array['modules'] = $modulosMenu;
 
                 $output[] = $sub_array;
             }

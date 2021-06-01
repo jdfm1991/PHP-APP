@@ -20,14 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Permisos.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/permisos/permisos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/permisos/permisos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/permisos/permisos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permisos/permisos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/permisos/permisos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permisos/permisos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/permiso/permiso.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permiso/permiso.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permiso/permiso_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/permisos/permisos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permiso/permiso_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/roles/roles_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Modulos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Modulos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +169,7 @@
       <workItem from="1621884180624" duration="26390000" />
       <workItem from="1622117835381" duration="27086000" />
       <workItem from="1622465693067" duration="1175000" />
-      <workItem from="1622468874195" duration="6428000" />
+      <workItem from="1622468874195" duration="14696000" />
     </task>
     <servers />
   </component>

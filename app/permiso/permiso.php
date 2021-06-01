@@ -53,6 +53,6 @@ require_once("../../config/conexion.php");
     </section>
 </div>
 <?php require_once("../footer.php");?>
-<script type="text/javascript" src="permisos.js"></script>
+<script type="text/javascript" src="permiso.js"></script>
 </body>
 </html>

@@ -13,13 +13,25 @@ function init() {
     });
 }
 
+function permisosRecursion(data) {
+    let output;
+    $.each(data, function(idx, opt) {
+        let { title, children, modules } = opt;
+        output += '<h4 class="card-title m-t-20">'+ title +'</h4> ';
+
+        if (!jQuery.isEmptyObject(children)) {
+
+        }
+    });
+
+    return output;
+}
+
 function listar_permisos_por_rol() {
     let isError = false;
     let id = $("#id").val();
     $.ajax({
-        async: true,
-        cache: true,
-        url: 'permisos_controlador.php?op=listar_permisos_por_rol',
+        url: 'permiso_controlador.php?op=listar_permisos_por_rol',
         method: "POST",
         dataType: "json",
         data: {rol_id: id},
@@ -31,10 +43,18 @@ function listar_permisos_por_rol() {
             console.log(e.responseText);
         },
         success: function (data) {
-
             if(!jQuery.isEmptyObject(data)){
+                $('#permisos').append(permisosRecursion(data));
+
                 /*$.each(data, function(idx, opt) {
-                    let { menu_id, menu_nombre, modulos } = opt;
+                    let { title, children, modules } = opt;
+
+                    $('#permisos').append('<h4 id="menu_'+menu_id+'" class="card-title m-t-20">'+ menu_nombre +'</h4>');
+
+                    // verificamos si no tiene menus hijos
+                    if(!jQuery.isEmptyObject(children)){
+
+                    }
 
                     $('#permisos').append('<h4 id="menu_'+menu_id+'" class="card-title m-t-20">'+ menu_nombre +'</h4>');
 

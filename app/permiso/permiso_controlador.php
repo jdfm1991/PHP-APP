@@ -4,7 +4,7 @@
 require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("permisos_modelo.php");
+require_once("permiso_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $permisos = new Permiso();
@@ -15,32 +15,7 @@ switch ($_GET["op"]) {
     case "listar_permisos_por_rol":
         $output = array();
         $rol_id = $_POST['rol_id'];
-//        $output = Functions::organigramaMenusWithModules($rol_id);
-
-        $menus = Menu::todos();
-        if (is_array($menus) == true and count($menus) > 0) {
-            foreach ($menus as $key => $menu)
-            {
-                $modulosMenu = array();
-                $modulos = Modulos::getByMenuId($menu['id']);
-                $modulosPorRol = array_map(function ($arr) { return $arr['id_modulo']; }, $permisos->getRolesGrupoPorRolID($rol_id));
-                if (is_array($modulos) == true and count($modulos) > 0) {
-                    foreach ($modulos as $key1 => $modulo) {
-                        $modulosMenu[] = array(
-                            'id' 	   => $modulo['id'],
-                            'nombre'   => $modulo['nombre'],
-                            'selected' => in_array($modulo['id'], $modulosPorRol)
-                        );
-                    }
-                }
-
-                $output[] = array(
-                    'menu_id' 	  => $menu['id'],
-                    'menu_nombre' => $menu['nombre'],
-                    'modulos' 	  => $modulosMenu,
-                );
-            }
-        }
+        $output = Functions::organigramaMenusWithModules(-1, $rol_id);
 
         echo json_encode($output);
         break;
