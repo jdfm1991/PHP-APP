@@ -37,13 +37,21 @@ require_once("../../config/conexion.php");
             </div>
             <div class="card-body" style="width:auto;">
                 <form id="permisos_form">
-                    <h3 class="card-title text-center">Seleccione los permisos para el rol seleccionado</h3>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <h3 class="">Seleccione los permisos a habilitar</h3>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div id="permisos" class="mt-4">
                         <!--se cargan por ajax-->
                     </div>
 
                     <div class="text-left m-t-10">
+                        <!--tipo 0 es roles, tipo 1 es usuarios-->
                         <input type="hidden" name="tipo" id="tipo" value="<?php echo $_GET['t'] ?>"/>
                         <input type="hidden" name="id" id="id" value="<?php echo $_GET['i'] ?>"/>
                     </div>

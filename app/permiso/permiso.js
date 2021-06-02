@@ -2,6 +2,7 @@
 //Función que se ejecuta al inicio
 function init() {
     listar_permisos_por_rol();
+
     //cuando se da click al boton submit entonces se ejecuta la funcion guardaryeditar(e);
     $("#rol_form").on("submit", function (e) {
         guardaryeditar(e);
@@ -11,20 +12,6 @@ function init() {
     $("#btnGestion").click(function () {
         window.location = "../gestionsistema/gestionsistema.php";
     });
-}
-
-function permisosRecursion(data) {
-    let output;
-    $.each(data, function(idx, opt) {
-        let { title, children, modules } = opt;
-        output += '<h4 class="card-title m-t-20">'+ title +'</h4> ';
-
-        if (!jQuery.isEmptyObject(children)) {
-
-        }
-    });
-
-    return output;
 }
 
 function listar_permisos_por_rol() {
@@ -43,47 +30,8 @@ function listar_permisos_por_rol() {
             console.log(e.responseText);
         },
         success: function (data) {
-            if(!jQuery.isEmptyObject(data)){
-                $('#permisos').append(permisosRecursion(data));
-
-                /*$.each(data, function(idx, opt) {
-                    let { title, children, modules } = opt;
-
-                    $('#permisos').append('<h4 id="menu_'+menu_id+'" class="card-title m-t-20">'+ menu_nombre +'</h4>');
-
-                    // verificamos si no tiene menus hijos
-                    if(!jQuery.isEmptyObject(children)){
-
-                    }
-
-                    $('#permisos').append('<h4 id="menu_'+menu_id+'" class="card-title m-t-20">'+ menu_nombre +'</h4>');
-
-                    let temp='<div class="row demo-swtich">';
-                    if (!jQuery.isEmptyObject(modulos)) {
-                        $.each(modulos, function(idx, opt) {
-                            let { id, nombre, selected } = opt;
-                            temp += '<div class="col-6">' +
-                                '<div class="row">' +
-                                '<div class="demo-switch-title col-8">' + menu_nombre + ' --> ' + nombre + '</div>' +
-                                '<div class="switch col-3">' +
-                                '<label>' +
-                                '<input id="modulo_'+id+'" onchange="guardar(\''+ id +'\')" type="checkbox" '+ (selected ? 'checked':'') +'>' +
-                                '<span class="lever switch-col-light-blue"></span>' +
-                                '</label>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>';
-                        });
-                    } else {
-                        temp += '<div class="col-12">' +
-                            '<div class="demo-switch-title">' +
-                            '<span class="label label-warning">Sin Permisos para este menú</span>' +
-                            '</div>' +
-                            '</div>';
-                    }
-                    temp += '</div>';
-                    $('#permisos').append(temp);
-                });*/
+            if (!jQuery.isEmptyObject(data)) {
+                $('#permisos').html(permisosRecursion(data, ''));
             }
         },
         complete: function () {
@@ -96,7 +44,7 @@ function guardar(modulo_id) {
     let rol_id = $("#id").val();
     let state = document.getElementById('modulo_'+modulo_id).checked === true;
     $.ajax({
-        url: `${baseUrl}permisos/guardarrolmod`,
+        url: 'permiso_controlador.php?op=guardar_permisos_por_rol',
         type: "POST",
         dataType: "json",
         data: {modulo_id: modulo_id, rol_id: rol_id, state: state},
@@ -109,6 +57,62 @@ function guardar(modulo_id) {
             ToastSweetMenssage(icono, mensaje);
         }
     });
+}
+
+function permisosRecursion(data, pretitle) {
+    let output = '';
+    // recorremos la variable data, que es los menu:
+    // si es la primera vez es los menu padre
+    // si ya entro en proceso recursivo es menu hijo
+    $.each(data, function(idx, opt) {
+        let { title, children, modules } = opt;
+
+        // agregamos el titulo del menu
+        output += '<div class="row ' + (pretitle.length === 0 ? 'mt-3' : '') + '">' +
+                        '<div class="col">' +
+                        ( pretitle.length === 0
+                                ? '<div class="form-group"><h4 class="">'+ title +'</h4></div>'
+                                : '<div class="form-group"><h5 class="pl-3">'+ title +'</h5></div>'
+                        ) +
+                        '</div>' +
+                  '</div>';
+
+        // verificamos si tiene menus hijos el menu padre
+        if (!jQuery.isEmptyObject(children)) {
+            // si existen hijos realiza el proceso recursivo
+            output += permisosRecursion(children, ((pretitle.length > 0) ? (pretitle+' --> '+title) : title));
+        }
+
+        // luego verificamos si el menu posee modulos dependientes
+        let temp = '<div class="row mt-1">';
+        if (!jQuery.isEmptyObject(modules))
+        {
+            $.each(modules, function(idx, opt) {
+                let { id, name, selected } = opt;
+
+                temp += '<div class="col-6 form-group pl-5">' +
+                    '<div class="custom-control custom-switch custom-switch-off-light custom-switch-on-success">' +
+                    '<input id="modulo_'+id+'" onchange="guardar(\''+ id +'\')" type="checkbox" class="custom-control-input" '+ (selected ? 'checked':'') +'>' +
+                    '<label for="modulo_'+id+'" class="custom-control-label">' + ((pretitle.length > 0) ? (pretitle+' --> '+title) : title) + ' --> ' + name + '</label>' +
+                    '</div>' +
+                    '</div>';
+            });
+        }
+        else if (jQuery.isEmptyObject(children) && jQuery.isEmptyObject(modules)) {
+            // si no tiene modulos ni hijos, imprimimos un mensaje
+            temp += '<div class="col-12 form-group">' +
+                '<div class="custom-control">' +
+                '<span class="badge badge-warning">Sin Módulos para este menú</span>' +
+                '</div>' +
+                '</div>';
+        }
+        temp += '</div>';
+
+        output += temp;
+    });
+
+    // retornamos el string html generado
+    return output;
 }
 
 //Mostrar datos del usuario en la ventana modal del formularioS
