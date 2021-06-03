@@ -114,7 +114,7 @@ class Functions {
         return $output;
     }
 
-    public static function organigramaMenusWithModules($id, $rol_id = -1){
+    public static function organigramaMenusWithModules($id, $type = -1, $type_id = -1){
         $output = array();
 
         $hijos = ($id==-1) ? Menu::withoutFather() : Menu::getChildren($id);
@@ -128,20 +128,29 @@ class Functions {
                 # verifica si existe hijos para aplicar recursion
                 $existenHijos = Menu::getChildren($hijo['id']);
                 $sub_array['children'] = (is_array($existenHijos) == true and count($existenHijos) > 0)
-                    ? Functions::organigramaMenusWithModules($hijo['id'], $rol_id)
+                    ? Functions::organigramaMenusWithModules($hijo['id'], $type, $type_id)
                     : array();
-
 
                  # verificamos si tiene modulos
                 $modulosMenu = array();
                 $existenModulos = Modulos::getByMenuId($hijo['id']);
                 if (is_array($existenModulos) == true and count($existenModulos) > 0) {
-                    $modulosPorRol = array_map(function ($arr) { return $arr['id_modulo']; }, Permisos::getRolesGrupoPorRolID($rol_id));
+                    $arr_permissions_by_typo = array();
+
+                    # el parametro tipo:
+                    #        0 el tipo es rol
+                    #        1 el tipo es usuario
+                    switch ($type) {
+                        case 0: $arr_permissions_by_typo = Permisos::getRolesGrupoPorRolID($type_id); break;
+                        case 1: $arr_permissions_by_typo = Permisos::getPermisosPorUsuarioID($type_id); break;
+                    }
+
+                    $modulosInDB = array_map(function ($arr) { return $arr['id_modulo']; }, $arr_permissions_by_typo);
                     foreach ($existenModulos as $key1 => $modulo) {
                         $modulosMenu[] = array(
                             'id' 	   => $modulo['id'],
                             'name'   => $modulo['nombre'],
-                            'selected' => in_array($modulo['id'], $modulosPorRol)
+                            'selected' => in_array($modulo['id'], $modulosInDB)
                         );
                     }
                 }

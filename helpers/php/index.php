@@ -7,4 +7,5 @@ include_once 'Functions.php';
 include_once 'KpiHelpers.php';
 include_once 'kpimarcas.php';
 include_once 'Numbers.php';
+include_once 'PermisosHelpers.php';
 include_once 'Strings.php';

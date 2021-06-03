@@ -11,4 +11,5 @@ include_once 'Menu.php';
 include_once 'Modulos.php';
 include_once 'NotaDeEntrega.php';
 include_once 'Permisos.php';
+include_once 'Usuarios.php';
 include_once 'Vendedores.php';

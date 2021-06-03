@@ -21,7 +21,7 @@ require_once("../../config/conexion.php");
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <input id="btnGestion" type="button" class="btn btn-outline-primary mr-3" value="Gestión permisos" />
-                        <input id="btnVolver"  type="button" class="btn btn-outline-secondary" value="Volver a roles" />
+                        <input id="btnVolver"  type="button" class="btn btn-outline-secondary" value="Volver" />
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@ require_once("../../config/conexion.php");
                 <form id="permisos_form">
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
+                            <div class="form-group text-center">
                                 <h3 class="">Seleccione los permisos a habilitar</h3>
                             </div>
                         </div>
@@ -61,6 +61,8 @@ require_once("../../config/conexion.php");
     </section>
 </div>
 <?php require_once("../footer.php");?>
+<script src="<?php echo URL_HELPERS_JS; ?>Permissions.js" type="text/javascript"></script>
+
 <script type="text/javascript" src="permiso.js"></script>
 </body>
 </html>

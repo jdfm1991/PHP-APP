@@ -5,47 +5,88 @@ require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("permiso_modelo.php");
+require_once("../roles/roles_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $permisos = new Permiso();
+$roles = new Roles();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "listar_permisos_por_rol":
+    case "obtener_descripcion":
         $output = array();
-        $rol_id = $_POST['rol_id'];
-        $output = Functions::organigramaMenusWithModules(-1, $rol_id);
+        $id = $_POST['id'];
+        $tipo = $_POST['tipo'];
+
+        # el parametro tipo:
+        #        0 el tipo es rol
+        #        1 el tipo es usuario
+        switch ($tipo) {
+            case 0:
+                $output['descripcion'] = $roles->get_rol_por_id($id)[0]['descripcion'];
+                break;
+            case 1:
+                $output['descripcion'] = Usuarios::byDni($id)[0]['nomper'];
+                break;
+        }
 
         echo json_encode($output);
         break;
 
-    case 'guardar_permisos_por_rol':
-            $output = array();
-            $data = array(
-                'modulo_id' => $_POST['modulo_id'],
-                'rol_id'	=> $_POST['rol_id']
-            );
-            $state = $_POST['state'];
+    case "listar_permisos":
+        $id = $_POST['id'];
+        $tipo = $_POST['tipo'];
 
-            if ($state=="true") {
-                $mensajeError = 'registrar';
-                $mensajeSuccess = 'registró';
-                $rolMod = $permisos->registrar_rolmod($data);
-            } else {
-                $mensajeError = 'eliminar';
-                $mensajeSuccess = 'eliminó';
-                $rolMod = $permisos->borrar_rolmod($data);
+        $output = Functions::organigramaMenusWithModules(-1, $tipo, $id);
+
+        echo json_encode($output);
+        break;
+
+    case 'guardar_permisos':
+        $reponse = false;
+        $output = array();
+
+        $state = $_POST['state'];
+        $tipo = $_POST['tipo'];
+
+        $data = array(
+            'id' => $_POST['id'],
+            'modulo_id' => $_POST['modulo_id'],
+        );
+
+        if ($state=="true") {
+            $mensajeError = 'registrar';
+            $mensajeSuccess = 'registró';
+            switch ($tipo) {
+                case 0: // permisos por rol
+                    $reponse = Permisos::registrar_rolmod($data) and PermisosHelpers::registrarPermisoPorRol($data);
+                    break;
+                case 1: // permisos por usuario
+                    $reponse = Permisos::registrar_permiso($data);
+                    break;
             }
-
-            if ($rolMod) {
-                $output["mensaje"] = "Se $mensajeSuccess correctamente";
-                $output["icono"] = "success";
-            } else {
-                $output["mensaje"] = "Error al $mensajeError";
-                $output["icono"] = "error";
+        } else {
+            $mensajeError = 'eliminar';
+            $mensajeSuccess = 'eliminó';
+            switch ($tipo) {
+                case 0: // permisos por rol
+                    $reponse = Permisos::borrar_rolmod($data) and PermisosHelpers::borrarPermisoPorRol($data);
+                    break;
+                case 1: // permisos por usuario
+                    $reponse = Permisos::borrar_permiso($data);
+                    break;
             }
+        }
 
-            echo json_encode($output);
-            break;
+        if ($reponse) {
+            $output["mensaje"] = "Se $mensajeSuccess correctamente";
+            $output["icono"] = "success";
+        } else {
+            $output["mensaje"] = "Error al $mensajeError";
+            $output["icono"] = "error";
+        }
+
+        echo json_encode($output);
+        break;
 }

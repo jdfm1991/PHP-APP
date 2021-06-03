@@ -10,7 +10,7 @@ require_once("../../config/conexion.php");
     if (isset($_POST["enviar"]) and $_POST["enviar"] == "si")
     {
         require_once("usuarios/Usuarios_modelo.php");
-        $usuario = new Usuarios();
+        $usuario = new Usuario();
         $response = $usuario->login();
 
         if ($response['status']==='1')
