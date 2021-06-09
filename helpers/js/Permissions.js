@@ -54,3 +54,56 @@ function permisosRecursion(data, pretitle) {
     // retornamos el string html generado
     return output;
 }
+
+function permisosMenuLateral(data) {
+    let output = '';
+    // recorremos la variable data, que es los menu:
+    // si es la primera vez es los menu padre
+    // si ya entro en proceso recursivo es menu hijo
+    $.each(data, function(idx, opt) {
+        let { title, children, modules, icon } = opt;
+
+        output += '<li class="nav-item has-treeview">';
+
+        // agregamos el titulo del menu
+        output += '<a href="#" class="nav-link">' +
+                        '<i class="nav-icon '+ icon +'"></i>' +
+                        '<p>'+ title +'<i class="fas fa-angle-left right"></i></p>' +
+                   '</a>';
+
+        // verificamos si tiene menus hijos el menu padre
+        if (!jQuery.isEmptyObject(children)) {
+            output += '<ul class="nav nav-treeview">';
+            // si existen hijos realiza el proceso recursivo
+            output += permisosMenuLateral(children);
+
+            output += '</ul>';
+        }
+
+        // luego verificamos si el menu posee modulos dependientes
+
+        if (!jQuery.isEmptyObject(modules))
+        {
+            output += '<ul class="nav nav-treeview">';
+            $.each(modules, function(idx, opt) {
+                let { name, route, icon, selected } = opt;
+
+                if (selected) {
+                    output +=
+                        '<li class="nav-item">' +
+                            '<a href="'+ url +route+'/'+ route+'.php" class="nav-link">' +
+                                '<i class="'+ icon +'"></i>' +
+                                '<p>'+ name +'</p>' +
+                            '</a>' +
+                        '</li>';
+                }
+            });
+            output += '</ul>';
+        }
+        output += '</li>';
+    });
+
+
+    // retornamos el string html generado
+    return output;
+}

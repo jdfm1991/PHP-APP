@@ -37,8 +37,9 @@ switch ($_GET["op"]) {
     case "listar_permisos":
         $id = $_POST['id'];
         $tipo = $_POST['tipo'];
+        $esMenuLateral = $_POST['esMenuLateral']==1; #variable entera, que utilizamos en forma de bandera para condicionar la obtencionde datos
 
-        $output = Functions::organigramaMenusWithModules(-1, $tipo, $id);
+        $output = Functions::organigramaMenusWithModules(-1, $tipo, $id, $esMenuLateral);
 
         echo json_encode($output);
         break;

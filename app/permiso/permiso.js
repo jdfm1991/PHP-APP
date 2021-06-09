@@ -70,7 +70,7 @@ function listar_permisos() {
         url: 'permiso_controlador.php?op=listar_permisos',
         method: "POST",
         dataType: "json",
-        data: {id: id, tipo: tipo},
+        data: {id: id, tipo: tipo, esMenuLateral: 0},
         beforeSend: function () {
             SweetAlertLoadingShow();
         },

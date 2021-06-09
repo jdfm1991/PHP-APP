@@ -30,8 +30,7 @@ switch ($_GET["op"]) {
                 $output = array(
                     'status'  => true,
                     'message' => 'ok',
-                    'data'    => $resultado,
-                    'sesion'  => $_SESSION
+                    'data'    => $resultado
                 );
 
             } else {

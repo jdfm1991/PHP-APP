@@ -80,7 +80,7 @@ require_once("../config/const.php");
 </section><!-- End Hero -->
 
 <!-- MODAL LOGIN -->
-<?php include 'auth/login.html' ?>
+<?php include 'auth/modales/login.html' ?>
 
 <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
 <div id="preloader"></div>

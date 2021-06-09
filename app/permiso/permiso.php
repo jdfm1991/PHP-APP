@@ -61,7 +61,7 @@ require_once("../../config/conexion.php");
     </section>
 </div>
 <?php require_once("../footer.php");?>
-<script src="<?php echo URL_HELPERS_JS; ?>Permissions.js" type="text/javascript"></script>
+<!--<script src="--><?php //echo URL_HELPERS_JS; ?><!--Permissions.js" type="text/javascript"></script>-->
 
 <script type="text/javascript" src="permiso.js"></script>
 </body>

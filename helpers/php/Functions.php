@@ -114,7 +114,7 @@ class Functions {
         return $output;
     }
 
-    public static function organigramaMenusWithModules($id, $type = -1, $type_id = -1){
+    public static function organigramaMenusWithModules($id, $type = -1, $type_id = -1, $itsForSideMenu = false, $isChildren = false, &$countModules = 0){
         $output = array();
 
         $hijos = ($id==-1) ? Menu::withoutFather() : Menu::getChildren($id);
@@ -124,11 +124,12 @@ class Functions {
                 $sub_array = array();
 
                 $sub_array['title'] = $hijo['nombre'];
+                $sub_array['icon'] = $hijo['icono'];
 
                 # verifica si existe hijos para aplicar recursion
                 $existenHijos = Menu::getChildren($hijo['id']);
                 $sub_array['children'] = (is_array($existenHijos) == true and count($existenHijos) > 0)
-                    ? Functions::organigramaMenusWithModules($hijo['id'], $type, $type_id)
+                    ? Functions::organigramaMenusWithModules($hijo['id'], $type, $type_id, $itsForSideMenu, true, $countModules)
                     : array();
 
                  # verificamos si tiene modulos
@@ -147,17 +148,43 @@ class Functions {
 
                     $modulosInDB = array_map(function ($arr) { return $arr['id_modulo']; }, $arr_permissions_by_typo);
                     foreach ($existenModulos as $key1 => $modulo) {
+                        $isSelected = in_array($modulo['id'], $modulosInDB);
+
+                        if ($isSelected==true)
+                            $countModules+=1;
+
                         $modulosMenu[] = array(
-                            'id' 	   => $modulo['id'],
-                            'name'   => $modulo['nombre'],
-                            'selected' => in_array($modulo['id'], $modulosInDB)
+                            'id' 	    => $modulo['id'],
+                            'name'      => $modulo['nombre'],
+                            'route'     => $modulo['ruta'],
+                            'icon'      => $modulo['icono'],
+                            'selected'  => $isSelected
                         );
                     }
                 }
 
                 $sub_array['modules'] = $modulosMenu;
 
-                $output[] = $sub_array;
+
+                # hacemos una condicion que:
+                #   si es para el menu lateral, preguntamos si tiene al menos un modulo seleccionado, si no tiene, no muestra dicho menu
+                #   sino es para menu lateral, es para el modulo de permisos y lista los seleccionados y no seleccionados
+                if($itsForSideMenu==true)
+                {
+                    #si tiene modulos seleccinados, agregamos al array
+                    if ($countModules>0) {
+                        $output[] = $sub_array;
+                    }
+
+                    # si no es hijo, reiniciamos el contador
+                    if (!$isChildren) {
+                        $countModules = 0;
+                    }
+                }
+                else {
+                    $output[] = $sub_array;
+                }
+
             }
         }
         return $output;
