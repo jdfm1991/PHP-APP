@@ -171,7 +171,7 @@ class Functions {
                 #   sino es para menu lateral, es para el modulo de permisos y lista los seleccionados y no seleccionados
                 if($itsForSideMenu==true)
                 {
-                    #si tiene modulos seleccinados, agregamos al array
+                    #si tiene al menos modulo seleccinado, agregamos al array
                     if ($countModules>0) {
                         $output[] = $sub_array;
                     }
