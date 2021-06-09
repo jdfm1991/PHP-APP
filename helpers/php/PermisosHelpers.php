@@ -3,6 +3,13 @@
 
 class PermisosHelpers
 {
+    public static function verficarAcceso($ruta) {
+        $permiso = Permisos::verficarPermisoPorSessionUsuario($ruta);
+
+        # si retorna al menos un registro, tiene permisos
+        return count($permiso) > 0;
+    }
+
     public static function registrarPermisoPorRol($data) {
         $permiso = false;
 

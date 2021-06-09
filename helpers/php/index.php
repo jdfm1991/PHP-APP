@@ -9,3 +9,4 @@ include_once 'kpimarcas.php';
 include_once 'Numbers.php';
 include_once 'PermisosHelpers.php';
 include_once 'Strings.php';
+include_once 'Url.php';

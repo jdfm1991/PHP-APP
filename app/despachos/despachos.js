@@ -276,7 +276,7 @@ function listar_chofer_vehiculo(){
             $('#vehiculo').append('<option name="" value="">Seleccione</option>');
             $.each(data.lista_vehiculos, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
-                $('#vehiculo').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + "  " + opt.Capacidad + " Kg" + '</option>');
+                $('#vehiculo').append('<option name="" value="' + opt.id +'">' + opt.modelo + "  " + opt.capacidad + " Kg" + '</option>');
             });
         }
     });

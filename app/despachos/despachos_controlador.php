@@ -4,21 +4,17 @@
 require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO
-require_once("../choferes/choferes_modelo.php");
-require_once("../vehiculos/vehiculos_modelo.php");
 require_once("despachos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $despachos  = new Despachos();
-$vehiculo = new Vehiculos();
-$choferes = new Choferes();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
     case "obtener_pesomaxvehiculo":
 
-        $peso_max_vehiculo = $vehiculo->get_vehiculo_por_id($_POST["id"]);
+        $peso_max_vehiculo = Vehiculos::getById($_POST["id"]);
 
         $output["capacidad"] = $peso_max_vehiculo[0]["Capacidad"];
         $output["cubicajeMax"] = $peso_max_vehiculo[0]["Volumen"];
@@ -208,8 +204,8 @@ switch ($_GET["op"]) {
 
     case "listar_chofer_vehiculo":
 
-        $output["lista_choferes"] = $choferes->get_choferes();
-        $output["lista_vehiculos"] = $vehiculo->get_vehiculos();
+        $output["lista_choferes"] = Choferes::todos();
+        $output["lista_vehiculos"] = Vehiculos::todos();
 
         echo json_encode($output);
         break;

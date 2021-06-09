@@ -6,14 +6,10 @@ require_once("../../config/conexion.php");
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("despachosrelacion_modelo.php");
 require_once("../despachos/despachos_modelo.php");
-require_once("../choferes/choferes_modelo.php");
-require_once("../vehiculos/vehiculos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $relacion = new DespachosRelacion();
 $despachos = new Despachos();
-$choferes = new Choferes();
-$vehiculos = new Vehiculos();
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -116,6 +112,8 @@ switch ($_GET["op"]) {
                 "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
                 "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
                 "aaData" => $data);
+        } else {
+            $output['tabla'] = array();
         }
 
         echo json_encode($output);
@@ -129,8 +127,8 @@ switch ($_GET["op"]) {
 
         //consultamos el despacho y la lista de choferes y vehiculos
         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
-        $output["lista_choferes"] = $choferes->get_choferes();
-        $output["lista_vehiculos"] = $vehiculos->get_vehiculos();
+        $output["lista_choferes"] = Choferes::todos();
+        $output["lista_vehiculos"] = Vehiculos::todos();
 
         if(is_array($despacho) == true and count($despacho) > 0) {
             //asignamos en una variable de salida los datos necesarios del despacho

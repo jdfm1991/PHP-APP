@@ -56,27 +56,30 @@ function modalEditarDespachos(correlativo) { //editar
                 $("#cantFacturas").text(data.cantFacturas);
                 $('#modalMostrarEditarDespacho').show();
 
-                //TABLA DE DETALLE DE DESPACHO
-                $('#tabla_editar_despacho').dataTable({
-                    "aProcessing": true,//Activamos el procesamiento del datatables
-                    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+                if (!jQuery.isEmptyObject(data.tabla))
+                {
+                    //TABLA DE DETALLE DE DESPACHO
+                    $('#tabla_editar_despacho').dataTable({
+                        "aProcessing": true,//Activamos el procesamiento del datatables
+                        "aServerSide": true,//Paginación y filtrado realizados por el servidor
 
-                    "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                    "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                    "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                    "aaData": data.tabla.aaData, // informacion por registro
+                        "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                        "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                        "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                        "aaData": data.tabla.aaData, // informacion por registro
 
-                    "bDestroy": true,
-                    "responsive": true,
-                    "bInfo": true,
-                    "iDisplayLength": 5,//Por cada 5 registros hace una paginación
-                    "order": [[0, "desc"]],//Ordenar (columna,orden)
-                    'columnDefs':[{
-                        "targets": 3, // your case first column
-                        "className": "text-center"
-                    }],
-                    "language": texto_español_datatables
-                }).DataTable();
+                        "bDestroy": true,
+                        "responsive": true,
+                        "bInfo": true,
+                        "iDisplayLength": 5,//Por cada 5 registros hace una paginación
+                        "order": [[0, "desc"]],//Ordenar (columna,orden)
+                        'columnDefs':[{
+                            "targets": 3, // your case first column
+                            "className": "text-center"
+                        }],
+                        "language": texto_español_datatables
+                    }).DataTable();
+                }
 
                 $('#relacion_despacho_editar').show();
                 $("#loader_editar_despacho").hide('');

@@ -190,4 +190,15 @@ class Functions {
         return $output;
     }
 
+    public static function getNameDirectory()
+    {
+        $nombre_archivo = $_SERVER['PHP_SELF'];
+        $nombre_archivo_a = explode('/appweb/app/', $nombre_archivo)[1];
+        $archivo_nombre = explode("/",$nombre_archivo_a)[0];
+        $archivo_nombre_a = explode('.', $archivo_nombre);
+        $ar_nombre = $archivo_nombre_a[0];
+
+        return $ar_nombre;
+    }
+
 }

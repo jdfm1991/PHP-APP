@@ -29,6 +29,24 @@ class Permisos extends Conectar
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function verficarPermisoPorSessionUsuario($ruta)
+    {
+        $i=0;
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+
+        $sql= "SELECT p.id, id_usuarios, id_modulo, m.ruta
+                FROM Permisos p
+                INNER JOIN Modulos1 m ON m.id = p.ID_Modulo
+                WHERE id_usuarios=? AND m.ruta=?";
+
+        $result = (new Conectar)->conexion()->prepare($sql);
+        $result->bindValue($i+=1, $_SESSION['cedula']);
+        $result->bindValue($i+=1, $ruta);
+        $result->execute();
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function registrar_permiso($data)
     {
         $i=0;

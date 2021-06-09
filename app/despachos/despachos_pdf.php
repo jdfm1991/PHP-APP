@@ -6,8 +6,6 @@ require(PATH_LIBRARY.'fpdf/fpdf.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once("despachos_modelo.php");
-require_once("../choferes/choferes_modelo.php");
-require_once("../vehiculos/vehiculos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $despachos  = new Despachos();
@@ -28,13 +26,11 @@ class PDF extends FPDF
     function Header()
     {
         $despachos  = new Despachos();
-        $choferes = new Choferes();
-        $vehiculos = new Vehiculos();
 
         $empresa = $despachos->getDatosEmpresa();
         $cabeceraDespacho = $despachos->getCabeceraDespacho($_GET['correlativo']);
-        $chofer = $choferes->get_chofer_por_id($cabeceraDespacho[0]['ID_Chofer']);
-        $vehiculo = $vehiculos->get_vehiculo_por_id($cabeceraDespacho[0]['ID_Vehiculo']);
+        $chofer = Choferes::getByDni($cabeceraDespacho[0]['ID_Chofer']);
+        $vehiculo = Vehiculos::getById($cabeceraDespacho[0]['ID_Vehiculo']);
         // Logo
         $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15

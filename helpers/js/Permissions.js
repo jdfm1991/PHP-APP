@@ -92,7 +92,7 @@ function permisosMenuLateral(data) {
                     output +=
                         '<li class="nav-item">' +
                             '<a href="'+ url +route+'/'+ route+'.php" class="nav-link">' +
-                                '<i class="'+ icon +'"></i>' +
+                                '<i class="nav-icon '+ icon +'"></i>' +
                                 '<p>'+ name +'</p>' +
                             '</a>' +
                         '</li>';

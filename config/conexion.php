@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('America/Caracas');
 include_once "const.php";
-//if (!empty($_SESSION)) {
+//if (is_array($_SESSION)) {
     include_once (PATH_HELPERS_PHP . "php/index.php");
     include_once (PATH_HELPERS_PHP . "sql/index.php");
     # servicios

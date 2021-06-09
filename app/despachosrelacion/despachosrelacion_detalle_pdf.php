@@ -7,14 +7,10 @@ require('../public/fpdf/fpdf.php');
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once ("despachosrelacion_modelo.php");
 require_once("../despachos/despachos_modelo.php");
-require_once("../choferes/choferes_modelo.php");
-require_once("../vehiculos/vehiculos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $relacion  = new DespachosRelacion();
 $despachos  = new Despachos();
-$choferes = new Choferes();
-$vehiculos = new Vehiculos();
 
 $correlativo = $_GET['correlativo'];
 
@@ -158,8 +154,8 @@ $pdf->SetFont('Arial', '', 8);
     /*              CABECERA                   */
     /*******************************************/
 $cabeceraDespacho = $despachos->getCabeceraDespacho($correlativo);
-$chofer = $choferes->get_chofer_por_id($cabeceraDespacho[0]['ID_Chofer']);
-$vehiculo = $vehiculos->get_vehiculo_por_id($cabeceraDespacho[0]['ID_Vehiculo']);
+$chofer = Choferes::getByDni($cabeceraDespacho[0]['ID_Chofer']);
+$vehiculo = Vehiculos::getById($cabeceraDespacho[0]['ID_Vehiculo']);
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(90,7,'Nro de Despacho: '.str_pad($correlativo, 8, 0, STR_PAD_LEFT),0,0,'C');

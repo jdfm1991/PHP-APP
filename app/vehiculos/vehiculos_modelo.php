@@ -3,25 +3,8 @@
 //conexion a la base de datos
 require_once("../../config/conexion.php");
 
-class Vehiculos extends Conectar
+class Vehiculo extends Conectar
 {
-
-    //listar los usuarios
-    public function get_vehiculos()
-    {
-        $conectar = parent::conexion();
-        parent::set_names();
-
-        $sql = "SELECT id, placa, modelo, capacidad, volumen, fecha_registro, estado 
-            FROM Vehiculos WHERE deleted_at IS NULL";
-
-        $sql = $conectar->prepare($sql);
-        $sql->execute();
-
-        return $resultado = $sql->fetchAll();
-    }
-
-
     public function registrar_vehiculo($data)
     {
         $i = 0;
@@ -61,24 +44,6 @@ class Vehiculos extends Conectar
 
 //fin editar usuario
 
-//mostrar los datos del usuario por el id
-    public function get_vehiculo_por_id($id)
-    {
-
-        $conectar = parent::conexion();
-        parent::set_names();
-
-        $sql = "SELECT id, placa, modelo, capacidad, volumen, fecha_registro, estado 
-                FROM Vehiculos WHERE deleted_at IS NULL AND id=?";
-
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $id);
-        $sql->execute();
-
-        return $resultado = $sql->fetchAll();
-
-    }
-
     public function editar_estado($id, $estado)
     {
         $conectar = parent::conexion();
@@ -91,22 +56,6 @@ class Vehiculos extends Conectar
         $sql->bindValue(2, $id);
 
         return $sql->execute();
-    }
-
-    public function get_placa_del_vehiculo($placa)
-    {
-
-        $conectar = parent::conexion();
-        parent::set_names();
-
-        $sql = "SELECT id, placa, modelo, capacidad, volumen, fecha_registro, estado 
-                FROM Vehiculos WHERE deleted_at IS NULL AND placa=? ";
-
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $placa);
-        $sql->execute();
-        return $resultado = $sql->fetchAll();
-
     }
 
     public function eliminar_vehiculo($id)
