@@ -3,14 +3,22 @@ session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
+
+if (!isset($_SESSION['cedula'])) {
+    session_destroy(); Url::redirect(URL_APP);
+}
 ?>
 <!DOCTYPE html>
 <html>
 <?php require_once("../header.php");?>
 <body class="hold-transition sidebar-mini layout-fixed">
-	<?php require_once("../menu_lateral.php");?>
-	<!-- BOX COMPLETO DE LA VISTA -->
-	<div class="content-wrapper">
+	<?php require_once("../menu_lateral.php");
+    if (!PermisosHelpers::verficarAcceso( Functions::getNameDirectory() )) {
+        include ('../errorNoTienePermisos.php');
+    }
+    else { ?>
+	    <!-- BOX COMPLETO DE LA VISTA -->
+	    <div class="content-wrapper">
 		<!-- BOX DE LA MIGA DE PAN -->
 		<section class="content-header">
 			<div class="container-fluid">
@@ -110,7 +118,9 @@ require_once("../../config/conexion.php");
 					</div>
 				</section>
 			</div>
-			<?php require_once("../footer.php");?>
-			<script type="text/javascript" src="clientesnoactivos.js"></script>
-		</body>
-		</html>
+        <?php require_once("../footer.php");?>
+        <script type="text/javascript" src="clientesnoactivos.js"></script><?php
+    }
+    ?>
+</body>
+</html>

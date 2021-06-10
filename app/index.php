@@ -2,6 +2,11 @@
 session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
 require_once("../config/const.php");
+include_once (PATH_HELPERS_PHP . "php/Url.php");
+
+if (isset($_SESSION['cedula'])) {
+    Url::redirect(URL_APP . 'principal.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
