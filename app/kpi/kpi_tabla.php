@@ -137,8 +137,13 @@ require_once("../../config/conexion.php");
             <!--</div>-->
             <!-- /.container-fluid -->
             <div class="container">
-                <a href="#" class="card-link" id="btn_excel">Exportar a Excel</a>
-                <a href="#" class="card-link" id="btn_pdf">Exportar a PDF</a>
+                <a href="kpi_excel.php?&fechai=<?php echo $_GET['fechai']; ?> &fechaf=<?php echo $_GET['fechaf']; ?>&d_habiles=<?php echo $_GET['d_habiles']; ?>&d_trans=<?php echo $_GET['d_trans']; ?>" class="card-link" id="btn_excel">
+                    Exportar a Excel
+                </a>
+
+                <a href="kpi_pdf.php?&fechai=<?php echo $_GET['fechai']; ?>&fechaf=<?php echo $_GET['fechaf']; ?>&d_habiles=<?php echo $_GET['d_habiles']; ?>&d_trans=<?php echo $_GET['d_trans']; ?>" class="card-link" id="btn_pdf" target="_blank">
+                    Exportar a PDF
+                </a>
             </div>
         </div>
 
@@ -158,7 +163,7 @@ require_once("../../config/conexion.php");
     <!-- MODAL  LISTA DETALLE DE DOCUMENTOS SEGUN OPCION A MOSTRAR (FACT REALIZADAS, NOTAS REALIZADAS, DEVOLUCIONES, COBRANZAS REBAJADAS) -->
     <?php include 'modales/lista_documentos.html' ?>
 
-
+    <input id="id" type="hidden" value="<?php echo $_SESSION['cedula']; ?>"/>
     <!-- Main Footer -->
     <?php require_once("../footer.php"); ?>
     <script src="<?php echo URL_HELPERS_JS; ?>Number.js" type="text/javascript"></script>

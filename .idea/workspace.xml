@@ -19,33 +19,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuaciones minimas y comenzado de permisologia">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="permisologia y redireccion de la aplicacion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chofer/chofer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarca.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarcas/kpimarca.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/permiso/permiso.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/permiso/permiso.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/roles/roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuario/usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuario/usuario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarca.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarca/kpimarca.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarca.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarca/kpimarca.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarca_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarca/kpimarca_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimarcas/kpimarca_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarca/kpimarca_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +171,8 @@
       <workItem from="1621884180624" duration="26390000" />
       <workItem from="1622117835381" duration="27086000" />
       <workItem from="1622465693067" duration="1175000" />
-      <workItem from="1622468874195" duration="82339000" />
+      <workItem from="1622468874195" duration="83415000" />
+      <workItem from="1623331677028" duration="10673000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -232,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623268395257</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="permisologia y redireccion de la aplicacion">
+      <created>1623330174714</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1623330174714</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,7 +246,8 @@
     <MESSAGE value="permisos culminacion tanto por rol como por usuario" />
     <MESSAGE value="Menu lateral dinamico" />
     <MESSAGE value="adecuaciones minimas y comenzado de permisologia" />
-    <option name="LAST_COMMIT_MESSAGE" value="adecuaciones minimas y comenzado de permisologia" />
+    <MESSAGE value="permisologia y redireccion de la aplicacion" />
+    <option name="LAST_COMMIT_MESSAGE" value="permisologia y redireccion de la aplicacion" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
