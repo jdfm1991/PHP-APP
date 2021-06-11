@@ -10,9 +10,9 @@ function init() {
     })
 
     //cambia el titulo de la ventana modal cuando se da click al boton
-    $("#btnGestion").click(function () {
+    /*$("#btnGestion").click(function () {
         window.location = ("../gestionsistema/gestionsistema.php");
-    });
+    });*/
 
     $("#btnVolver").click(function () {
         switch (parseInt($("#tipo").val())) {
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 function titulo_permisos() {
     let isError = false;
-    let id = $("#id").val();
+    let id = $("#tipoid").val();
     let tipo = $("#tipo").val();
     $.ajax({
         url: 'permiso_controlador.php?op=obtener_descripcion',
@@ -64,7 +64,7 @@ function titulo_permisos() {
 
 function listar_permisos() {
     let isError = false;
-    let id = $("#id").val();
+    let id = $("#tipoid").val();
     let tipo = $("#tipo").val();
     $.ajax({
         url: 'permiso_controlador.php?op=listar_permisos',
@@ -90,7 +90,7 @@ function listar_permisos() {
 }
 
 function guardar(modulo_id) {
-    let id = $("#id").val();
+    let id = $("#tipoid").val();
     let tipo = $("#tipo").val();
     let state = document.getElementById('modulo_'+modulo_id).checked === true;
     $.ajax({

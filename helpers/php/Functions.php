@@ -134,7 +134,7 @@ class Functions {
 
                  # verificamos si tiene modulos
                 $modulosMenu = array();
-                $existenModulos = Modulos::getByMenuId($hijo['id']);
+                $existenModulos = Modulos::getByMenuId($hijo['id'], $itsForSideMenu);
                 if (is_array($existenModulos) == true and count($existenModulos) > 0) {
                     $arr_permissions_by_typo = array();
 

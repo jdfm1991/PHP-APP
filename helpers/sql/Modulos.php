@@ -41,12 +41,14 @@ class Modulos extends Conectar
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getByMenuId($key)
+    public static function getByMenuId($key, $includeNoActive = false)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, nombre, icono, ruta, menu_id, estatus FROM Modulos1 WHERE menu_id=?";
+        $condition = $includeNoActive ? ' AND estatus=1' : '';
+
+        $sql= "SELECT id, nombre, icono, ruta, menu_id, estatus FROM Modulos1 WHERE menu_id=? $condition";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue(1,$key);

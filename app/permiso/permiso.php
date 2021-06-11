@@ -28,7 +28,7 @@ if (!isset($_SESSION['cedula'])) {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <input id="btnGestion" type="button" class="btn btn-outline-primary mr-3" value="Gestión permisos" />
+<!--                                <input id="btnGestion" type="button" class="btn btn-outline-primary mr-3" value="Gestión permisos" />-->
                                 <input id="btnVolver"  type="button" class="btn btn-outline-secondary" value="Volver" />
                             </ol>
                         </div>
@@ -61,7 +61,7 @@ if (!isset($_SESSION['cedula'])) {
                             <div class="text-left m-t-10">
                                 <!--tipo 0 es roles, tipo 1 es usuarios-->
                                 <input type="hidden" name="tipo" id="tipo" value="<?php echo $_GET['t'] ?>"/>
-                                <input type="hidden" name="id" id="id" value="<?php echo $_GET['i'] ?>"/>
+                                <input type="hidden" name="tipoid" id="tipoid" value="<?php echo $_GET['i'] ?>"/>
                             </div>
                         </form>
                     </div>

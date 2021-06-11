@@ -69,17 +69,47 @@ $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
 $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
 $objDrawing->setHeight(108);
 $objDrawing->setWidth(128);
-$objDrawing->setCoordinates('G1');
+$objDrawing->setCoordinates('P1');
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', 'REPORTE DE LISTADO DE PRECIOS E INVENTARIO');
-//$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
-//$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+$sheet->setCellValue('A1', 'REPORTE KPI (Key Performance Indicator)');
+
+$style_title = new Style();
+$style_title->applyFromArray(
+    Excel::styleHeadTable()
+);
+
+$sheet->setCellValue('C4', 'Desde:');
+$sheet->setCellValue('D4', date("d/m/Y", strtotime($fechai)));
+$spreadsheet->getActiveSheet()->mergeCells('D4:E4');
+$spreadsheet->getActiveSheet()->getStyle('C4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('D4:E4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+$sheet->setCellValue('G4', 'Hasta:');
+$sheet->setCellValue('H4', date("d/m/Y", strtotime($fechaf)));
+$spreadsheet->getActiveSheet()->mergeCells('H4:I4');
+$spreadsheet->getActiveSheet()->getStyle('G4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('H4:I4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+$sheet->setCellValue('K4', 'D. Habiles:');
+$sheet->setCellValue('L4', $d_habiles);
+$spreadsheet->getActiveSheet()->getStyle('K4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('L4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+$sheet->setCellValue('N4', 'D. Transc:');
+$sheet->setCellValue('O4', $d_trans);
+$spreadsheet->getActiveSheet()->getStyle('N4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('O4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
 
-$spreadsheet->getActiveSheet()->mergeCells('A1:E1');
+
+//estableceer el estilo de la cabecera de la tabla
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:T8');
+
+
+$spreadsheet->getActiveSheet()->mergeCells('A1:K1');
 
 
 
