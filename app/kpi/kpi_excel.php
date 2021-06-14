@@ -75,6 +75,7 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', 'REPORTE KPI (Key Performance Indicator)');
+$spreadsheet->getActiveSheet()->mergeCells('A1:K1');
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -93,29 +94,97 @@ $spreadsheet->getActiveSheet()->mergeCells('H4:I4');
 $spreadsheet->getActiveSheet()->getStyle('G4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle('H4:I4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-$sheet->setCellValue('K4', 'D. Habiles:');
-$sheet->setCellValue('L4', $d_habiles);
-$spreadsheet->getActiveSheet()->getStyle('K4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-$spreadsheet->getActiveSheet()->getStyle('L4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$sheet->setCellValue('L4', 'D. Habiles:');
+$sheet->setCellValue('M4', $d_habiles);
+$spreadsheet->getActiveSheet()->getStyle('L4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('M4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-$sheet->setCellValue('N4', 'D. Transc:');
-$sheet->setCellValue('O4', $d_trans);
-$spreadsheet->getActiveSheet()->getStyle('N4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-$spreadsheet->getActiveSheet()->getStyle('O4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-
-
-
-//estableceer el estilo de la cabecera de la tabla
-$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:T8');
-
-
-$spreadsheet->getActiveSheet()->mergeCells('A1:K1');
+$sheet->setCellValue('O4', 'D. Transc:');
+$sheet->setCellValue('P4', $d_trans);
+$spreadsheet->getActiveSheet()->getStyle('O4')->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('P4')->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'DCDCDC'],), 'borders' => array('bottom' => ['borderStyle' => Border::BORDER_THIN],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
 
 
 
+$lista_marcaskpi = array_map(function ($arr) { return $arr['descripcion']; }, KpiMarcas::todos('DESC'));
 
 
+$row = 7;
+$sheet->setCellValue('A'.$row, 'Rutas');
+$sheet->setCellValue('B'.$row, 'Activación');
+$sheet->setCellValue('F'.$row, 'Efectividad');
+$sheet->setCellValue('M'.$row, 'Ventas');
+$spreadsheet->getActiveSheet()->getStyle('A'.$row.':AA'.$row)->getFont()->setSize(14);
+
+$spreadsheet->getActiveSheet()->mergeCells('B'.$row.':'.getExcelCol(count($lista_marcaskpi)+4, true).$row);
+
+$spreadsheet->getActiveSheet()->getStyle( 'A'.$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '7abaff'],), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle( 'B'.$row.':'.getExcelCol(count($lista_marcaskpi)+4, true).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '7abaff'],), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
+
+
+
+$row = 8;
+$i = 0;
+$sheet->setCellValue(getExcelCol($i).$row, 'Rutas');
+$sheet->setCellValue(getExcelCol($i).$row, 'Maestro');
+$sheet->setCellValue(getExcelCol($i).$row, 'Clie Activados');
+#listado dinamico de las marcas
+foreach ($lista_marcaskpi as $marcakpi)
+    $sheet->setCellValue(getExcelCol($i).$row, $marcakpi);
+#fin de listado dinamico de las marcas
+$sheet->setCellValue(getExcelCol($i).$row, '%Act. Alcanzada');
+$sheet->setCellValue(getExcelCol($i).$row, 'Pendientes');
+$sheet->setCellValue(getExcelCol($i).$row, 'Visita');
+$sheet->setCellValue(getExcelCol($i).$row, 'Obj  Facturas mas notas Mensual');
+$sheet->setCellValue(getExcelCol($i).$row, 'Total Facturas Realizadas');
+$sheet->setCellValue(getExcelCol($i).$row, 'Total Notas Realizadas');
+$sheet->setCellValue(getExcelCol($i).$row, 'Devoluciones Realizadas (nt + fac)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Total Devoluciones Realizadas ($)');
+$sheet->setCellValue(getExcelCol($i).$row, '% Efectividad Alcanzada a la Fecha');
+$sheet->setCellValue(getExcelCol($i).$row, 'Objetivo (Bulto)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Logro (Bulto)');
+$sheet->setCellValue(getExcelCol($i).$row, '%Alcanzado (Bulto)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Objetivo (Kg)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Logro (Kg)');
+$sheet->setCellValue(getExcelCol($i).$row, '%Alcanzado (Kg)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Real Drop Size ($)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Objetivo Total Ventas ($)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Total Logro Ventas en ($)');
+$sheet->setCellValue(getExcelCol($i).$row, '%Alcanzado ($)');
+$sheet->setCellValue(getExcelCol($i).$row, 'Ventas PEPSICO ($)');
+$sheet->setCellValue(getExcelCol($i).$row, '% Venta PEPSICO');
+$sheet->setCellValue(getExcelCol($i).$row, 'Ventas Complementaria ($)');
+$sheet->setCellValue(getExcelCol($i).$row, '% Venta Complementaria');
+$sheet->setCellValue(getExcelCol($i).$row, 'Cobranza Rebajadas (Bs)');
+
+//obtenemos el ultimo valor de la celda y la guardamos en una variable auxiliar
+$aux = $i-1;
+//se itera la cantidad de celdas almacenadas en la variable axiliar y se situan AutoSize
+for($n=0; $n < $aux; $n++) {
+    if ($n >= 3 and $n < count($lista_marcaskpi)+3) {
+        $spreadsheet->getActiveSheet()->getColumnDimension(getExcelCol($n, true))->setWidth('6');
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->getAlignment()->setTextRotation(90);
+    } else {
+        $spreadsheet->getActiveSheet()->getColumnDimension(getExcelCol($n, true))->setWidth('13');
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->getAlignment()->setWrapText(true);
+        }
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE),'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+}
+$spreadsheet->getActiveSheet()->getStyle( 'A'.$row.':'.getExcelCol($aux-1, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'c8dcff'],), 'font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),));
+
+
+
+
+
+
+
+
+
+
+
+$spreadsheet->getActiveSheet()->getSheetView()->setZoomScale(80);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="Listado_de_precios_e_inventario_' . date('d/m/Y') . '.xlsx"');
