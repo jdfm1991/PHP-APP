@@ -34,7 +34,7 @@ $fechaf = $_GET['fecha_final'];
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
 foreach(range('A','F') as $columnID) {
     $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 }

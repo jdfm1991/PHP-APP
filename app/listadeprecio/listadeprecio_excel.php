@@ -41,7 +41,7 @@ function getExcelCol($num, $letra_temp = false) {
         $GLOBALS['i'] = $GLOBALS['i'] +1;
 
     if ($num2 > 0) {
-        return getExcelCol($num2 - 1) . $letra;
+        return getExcelCol($num2 - 1, true) . $letra;
     } else {
         return $letra;
     }
@@ -64,7 +64,7 @@ $pAux = '';
 //creamos la cabecera de la tabla
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
 
 // Logo
 $gdImage = imagecreatefrompng(PATH_LIBRARY.'build/images/logo.png');

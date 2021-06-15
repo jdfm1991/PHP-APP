@@ -63,7 +63,7 @@ function getExcelCol($num, $letra_temp = false) {
         $GLOBALS['i'] = $GLOBALS['i'] +1;
 
     if ($num2 > 0) {
-        return getExcelCol($num2 - 1) . $letra;
+        return getExcelCol($num2 - 1, true) . $letra;
     } else {
         return $letra;
     }

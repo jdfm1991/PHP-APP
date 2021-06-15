@@ -19,9 +19,25 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance reporte pdf y excel kpi">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance reporte excel kpi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_entregas_efectivas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_entregas_efectivas_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_oportunidad_despacho_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_rechazo_clientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/reporte_rechazo_clientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/kpi/kpi_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +181,9 @@
       <workItem from="1622117835381" duration="27086000" />
       <workItem from="1622465693067" duration="1175000" />
       <workItem from="1622468874195" duration="83415000" />
-      <workItem from="1623331677028" duration="32349000" />
+      <workItem from="1623331677028" duration="32543000" />
+      <workItem from="1623760670199" duration="10571000" />
+      <workItem from="1623771803416" duration="1782000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -230,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623439290308</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="avance reporte excel kpi">
+      <created>1623687045736</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1623687045736</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,7 +280,8 @@
     <MESSAGE value="adecuaciones minimas y comenzado de permisologia" />
     <MESSAGE value="permisologia y redireccion de la aplicacion" />
     <MESSAGE value="avance reporte pdf y excel kpi" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance reporte pdf y excel kpi" />
+    <MESSAGE value="avance reporte excel kpi" />
+    <option name="LAST_COMMIT_MESSAGE" value="avance reporte excel kpi" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

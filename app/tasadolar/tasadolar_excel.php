@@ -32,7 +32,7 @@ $tasa = new TasaDolar();
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+$spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
 //$spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
 $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
