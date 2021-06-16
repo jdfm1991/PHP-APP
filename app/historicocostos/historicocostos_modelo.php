@@ -1,5 +1,6 @@
 
 <?php
+set_time_limit(0);
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
 

@@ -69,6 +69,19 @@ $ancho_ventas = 15;
 $ancho_total = $ancho_rutas + $ancho_activacion + $ancho_efectividad + $ancho_ventas;
 
 
+# array con las celdas de porcentajes
+# (num_celda + cantidad_marcas)
+$arr_porc = [
+    3 + count($lista_marcaskpi),  // %Act. Alcanzada
+    11 + count($lista_marcaskpi), // % Efectividad Alcanzada a la Fecha
+    14 + count($lista_marcaskpi), // %Alcanzado (Bulto)
+    17 + count($lista_marcaskpi), // %Alcanzado (Kg)
+    21 + count($lista_marcaskpi), // %Alcanzado ($)
+    23 + count($lista_marcaskpi), // % Venta PEPSICO
+    25 + count($lista_marcaskpi), // % Venta Complementaria
+];
+
+
 # creamos la cabecera de la tabla
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
@@ -194,8 +207,6 @@ for($n=0; $n <= $aux; $n++) {
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE),'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
 }
 $spreadsheet->getActiveSheet()->getStyle( 'A'.$row.':'.getExcelCol($aux, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'c8dcff'],), 'font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),));
-
-
 
 
 //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
@@ -479,9 +490,7 @@ if (is_array($coordinadores) == true and count($coordinadores) > 0)
 }
 
 $row = 9;
-
-if (is_array($data)==true and count($data)>0)
-{
+if (is_array($data)==true and count($data)>0) {
     foreach ($data as $x) {
         $i = 0;
         $sheet = $spreadsheet->getActiveSheet();
@@ -524,19 +533,156 @@ if (is_array($data)==true and count($data)>0)
             $sheet->setCellValue(getExcelCol($i).$row, $item['porc_alcanzado_ventas_divisas_complementaria']);
             $sheet->setCellValue(getExcelCol($i).$row, $item['cobranzas_rebajadas']);
 
-            for ($n=0; $n<$ancho_total; $n++)
-                $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+
+            for ($n=0; $n<$ancho_total; $n++) {
+                if (in_array($n, $arr_porc)==true) {
+                    $value = intval(str_replace(".", ",",  $item[array_keys($item)[$n-count($lista_marcaskpi)+1]]));
+                    switch(true) {
+                        case $value > 80:
+                            //pinta la celda en verde
+                            $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '8028a745'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                            break;
+                        case $value > 50 and $value <= 80:
+                            //pinta la celda en amarillo
+                            $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ffc107'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                            break;
+                        case $value <= 50:
+                            //pinta la celda en rojo
+                            $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ff3939'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                            break;
+                    }
+                } else {
+                    //solo lo centra
+                    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                }
+            }
             $spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(18);
 
             $row++;
         }
 
-        #sub
-        #$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i, true).$row.':'.getExcelCol($ancho_total-1).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+        $i = 0;
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['ruta']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['maestro']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['activos']);
+        foreach ($x['subtotal']['marcas'] as $marca) {
+            $sheet->setCellValue(getExcelCol($i).$row, $marca['valor']);
+        }
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['porc_activacion']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['por_activar']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['visita']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['obj_documentos_mensual']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['facturas_realizadas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['notas_realizadas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['devoluciones_realizadas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['montoendivisa_devoluciones']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['efec_alcanzada_fecha']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['objetivo_bulto']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['logro_bulto']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['porc_alcanzado_bulto']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['objetivo_kg']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['logro_kg']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['porc_alcanzado_kg']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['drop_size_divisas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['objetivo_ventas_divisas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['logro_ventas_divisas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['porc_alcanzado_ventas_divisas']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['logro_ventas_divisas_pepsico']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['porc_alcanzado_ventas_divisas_pepsico']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['logro_ventas_divisas_complementaria']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['porc_alcanzado_ventas_divisas_complementaria']);
+        $sheet->setCellValue(getExcelCol($i).$row, $x['subtotal']['cobranzas_rebajadas']);
 
+        for ($n=0; $n<$ancho_total; $n++) {
+            if (in_array($n, $arr_porc)==true) {
+                $value = intval(str_replace(".", ",",  $x['subtotal'][array_keys($item)[$n-count($lista_marcaskpi)+1]]));
+                switch(true) {
+                    case $value > 80:
+                        //pinta la celda en verde
+                        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '8028a745'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                        break;
+                    case $value > 50 and $value <= 80:
+                        //pinta la celda en amarillo
+                        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ffc107'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                        break;
+                    case $value <= 50:
+                        //pinta la celda en rojo
+                        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ff3939'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                        break;
+                }
+            } else {
+                //solo lo centra
+                $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+            }
+        }
+        $spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(28);
+
+        $row++;
     }
 }
 
+$i = 0;
+$spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(25);
+$spreadsheet->getActiveSheet()->mergeCells(getExcelCol($i, true).$row.':'.getExcelCol($ancho_total-1, true).$row);
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i, true).$row.':'.getExcelCol($ancho_total-1).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_JUSTIFY, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+
+$row++;
+$i = 0;
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['ruta']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['maestro']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['activos']);
+foreach ($total_general['marcas'] as $marca) {
+    $sheet->setCellValue(getExcelCol($i).$row, $marca['valor']);
+}
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['porc_activacion']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['por_activar']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['visita']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['obj_documentos_mensual']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['facturas_realizadas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['notas_realizadas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['devoluciones_realizadas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['montoendivisa_devoluciones']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['efec_alcanzada_fecha']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['objetivo_bulto']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['logro_bulto']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['porc_alcanzado_bulto']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['objetivo_kg']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['logro_kg']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['porc_alcanzado_kg']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['drop_size_divisas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['objetivo_ventas_divisas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['logro_ventas_divisas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['porc_alcanzado_ventas_divisas']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['logro_ventas_divisas_pepsico']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['porc_alcanzado_ventas_divisas_pepsico']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['logro_ventas_divisas_complementaria']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['porc_alcanzado_ventas_divisas_complementaria']);
+$sheet->setCellValue(getExcelCol($i).$row, $total_general['cobranzas_rebajadas']);
+
+for ($n=0; $n<$ancho_total; $n++) {
+    if (in_array($n, $arr_porc)==true) {
+        $value = intval(str_replace(".", ",",  $total_general[array_keys($item)[$n-count($lista_marcaskpi)+1]]));
+        switch(true) {
+            case $value > 80:
+                //pinta la celda en verde
+                $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '8028a745'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                break;
+            case $value > 50 and $value <= 80:
+                //pinta la celda en amarillo
+                $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ffc107'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                break;
+            case $value <= 50:
+                //pinta la celda en rojo
+                $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ff3939'],), 'font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+                break;
+        }
+    } else {
+        //solo lo centra
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => false, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE), 'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
+    }
+}
+$spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(28);
+$spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
 
 
 
