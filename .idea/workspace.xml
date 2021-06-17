@@ -20,9 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance reporte excel kpi">
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Empresa.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/kpi/kpi_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +169,7 @@
       <workItem from="1622468874195" duration="83415000" />
       <workItem from="1623331677028" duration="32543000" />
       <workItem from="1623760670199" duration="10571000" />
-      <workItem from="1623771803416" duration="13050000" />
+      <workItem from="1623771803416" duration="21196000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -247,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623773672063</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="avance reporte excel kpi">
+      <created>1623860422391</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1623860422391</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
