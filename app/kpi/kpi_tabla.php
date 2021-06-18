@@ -141,9 +141,9 @@ require_once("../../config/conexion.php");
                     Exportar a Excel
                 </a>
 
-                <a href="kpi_pdf.php?&fechai=<?php echo $_GET['fechai']; ?>&fechaf=<?php echo $_GET['fechaf']; ?>&d_habiles=<?php echo $_GET['d_habiles']; ?>&d_trans=<?php echo $_GET['d_trans']; ?>" class="card-link" id="btn_pdf" target="_blank">
+               <!-- <a href="kpi_pdf.php?&fechai=<?php /*echo $_GET['fechai']; */?>&fechaf=<?php /*echo $_GET['fechaf']; */?>&d_habiles=<?php /*echo $_GET['d_habiles']; */?>&d_trans=<?php /*echo $_GET['d_trans']; */?>" class="card-link" id="btn_pdf" target="_blank">
                     Exportar a PDF
-                </a>
+                </a>-->
             </div>
         </div>
 

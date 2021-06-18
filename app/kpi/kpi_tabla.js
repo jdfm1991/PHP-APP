@@ -367,32 +367,4 @@ function semaforo(valor) {
     return bg;
 }
 
-//ACCION AL PRECIONAR EL BOTON EXCEL.
-$(document).on("click","#btn_excel", function(){
-    // var depos = sessionStorage.getItem("depos");
-    // var marcas = sessionStorage.getItem("marcas");
-    // var orden = sessionStorage.getItem("orden");
-    // var p1 = sessionStorage.getItem("p1");
-    // var p2 = sessionStorage.getItem("p2");
-    // var p3 = sessionStorage.getItem("p3");
-    // var iva = sessionStorage.getItem("iva");
-    // var cubi = sessionStorage.getItem("cubi");
-    // var exis = sessionStorage.getItem("exis");
-    // window.location = "listadeprecio_excel.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis;
-});
-
-//ACCION AL PRECIONAR EL BOTON PDF.
-$(document).on("click","#btn_pdf", function(){
-    // var depos = sessionStorage.getItem("depos");
-    // var marcas = sessionStorage.getItem("marcas");
-    // var orden = sessionStorage.getItem("orden");
-    // var p1 = sessionStorage.getItem("p1");
-    // var p2 = sessionStorage.getItem("p2");
-    // var p3 = sessionStorage.getItem("p3");
-    // var iva = sessionStorage.getItem("iva");
-    // var cubi = sessionStorage.getItem("cubi");
-    // var exis = sessionStorage.getItem("exis");
-    // window.open("listadeprecio_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
-});
-
 init();
