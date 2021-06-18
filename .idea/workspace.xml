@@ -19,10 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance reporte excel kpi">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="reporte excel kpi">
+      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +173,7 @@
       <workItem from="1622468874195" duration="83415000" />
       <workItem from="1623331677028" duration="32543000" />
       <workItem from="1623760670199" duration="10571000" />
-      <workItem from="1623771803416" duration="22927000" />
+      <workItem from="1623771803416" duration="32693000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -261,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623946766830</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="reporte excel kpi">
+      <created>1624020547742</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1624020547742</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,7 +299,8 @@
     <MESSAGE value="permisologia y redireccion de la aplicacion" />
     <MESSAGE value="avance reporte pdf y excel kpi" />
     <MESSAGE value="avance reporte excel kpi" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance reporte excel kpi" />
+    <MESSAGE value="reporte excel kpi" />
+    <option name="LAST_COMMIT_MESSAGE" value="reporte excel kpi" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
