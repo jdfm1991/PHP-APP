@@ -52,11 +52,11 @@ else { ?>
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="form-check form-check-inline">
-                                    <label for="vutil" class="col-form-label col-sm-4">Desde</label>
+                                    <label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_i')?></label>
                                     <input type="date" class="form-control col-sm-9"  id="fechai" name="fechai" required>
                                 </div>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <div class="form-check form-check-inline">
-                                    <label for="vutil" class="col-form-label col-sm-4">Hasta</label>
+                                    <label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_f')?></label>
                                     <input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@ else { ?>
                     <h3 class="card-title">Productos no Vendidos</h3>
                 </div>
                 <div class="card-body" style="width:auto;">
-                    <table class="table table-sm table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="skunovendidos_data">
+                    <table class="table table-sm table-hover table-condensed table-bordered table-striped table-responsive text-center" style="width:100%;" id="skunovendidos_data">
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>

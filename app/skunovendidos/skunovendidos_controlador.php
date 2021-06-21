@@ -40,11 +40,11 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["descrip1"];
             $sub_array[] = $row["marca"];
             $sub_array[] = $esunid;
-            $sub_array[] = $row["cantidad"];
+            $sub_array[] = Strings::rdecimal($row["cantidad"], 1);
             $sub_array[] = Strings::rdecimal($row["totalitem"], 2);
             $sub_array[] = Strings::rdecimal($row["bultos"], 2);
             $sub_array[] = Strings::rdecimal($row["paquetes"], 2);
-            $sub_array[] = $row["fechae"];
+            $sub_array[] = date("d/m/Y", strtotime($row['fechae']));
 
             $data[] = $sub_array;
         }

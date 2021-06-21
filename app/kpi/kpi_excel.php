@@ -709,7 +709,7 @@ $spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(28);
 $spreadsheet->getActiveSheet()->getSheetView()->setZoomScale(80);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Listado_de_precios_e_inventario_' . date('d/m/Y') . '.xlsx"');
+header('Content-Disposition: attachment;filename="kpi_de_'.$fechai.'_al_'.$fechaf.'.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);

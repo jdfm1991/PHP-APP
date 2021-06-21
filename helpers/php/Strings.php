@@ -23,7 +23,7 @@ class Strings {
     }
 
     public static function titleFromJson($name = '') {
-        $string = file_get_contents("../../public/strings.json");
+        $string = file_get_contents("../../config/strings.json");
         $json = json_decode($string, true);
         if ($string != false and $json != null)
             return $json[strtolower($name)]['title'];
@@ -31,7 +31,7 @@ class Strings {
     }
 
     public static function DescriptionFromJson($name = '') {
-        $string = file_get_contents("../../public/strings.json");
+        $string = file_get_contents("../../config/strings.json");
         $json = json_decode($string, true);
         if ($string != false and $json != null)
             return $json[strtolower($name)]['description'];

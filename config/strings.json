@@ -15,7 +15,9 @@
   "inv_bultos"    : {"title": "Inv. Bultos",        "description": ""},
   "inv_paquetes"  : {"title": "Inv. Paquetes",      "description": ""},
   "fecha"         : {"title": "Fecha",              "description": ""},
+  "fecha_i"       : {"title": "Desde",              "description": ""},
+  "fecha_f"       : {"title": "Hasta",              "description": ""},
 
-  "exportar_excel"  : {"title": "Exportar a Excel", "description": ""},
-  "exportar_pdf"    : {"title": "Exportar a PDF",   "description": ""}
+  "exportar_excel" : {"title": "Exportar a Excel", "description": ""},
+  "exportar_pdf"   : {"title": "Exportar a PDF",   "description": ""}
 }

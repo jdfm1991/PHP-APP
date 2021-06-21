@@ -20,11 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="sku no vendidos">
-      <change afterPath="$PROJECT_DIR$/public/strings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,8 +102,8 @@
       <recent name="C:\Apache24\htdocs\appweb\Services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Apache24\htdocs\appweb\public" />
       <recent name="C:\Apache24\htdocs\appweb\config" />
+      <recent name="C:\Apache24\htdocs\appweb\public" />
       <recent name="C:\Apache24\htdocs\appweb\app\auth\modales" />
       <recent name="C:\Apache24\htdocs\appweb\helpers\php" />
       <recent name="C:\Apache24\htdocs\appweb\app" />
@@ -171,6 +174,7 @@
       <workItem from="1623331677028" duration="32543000" />
       <workItem from="1623760670199" duration="10571000" />
       <workItem from="1623771803416" duration="43056000" />
+      <workItem from="1624296638417" duration="6634000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
