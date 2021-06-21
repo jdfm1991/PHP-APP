@@ -15,7 +15,7 @@ $marca = $_GET['marca'];
 $n = $_GET['n'];
 $v = $_GET['v'];
 
-$hoy = date("d-m-Y");
+$hoy = date(FORMAT_DATE);
 
 $i = 0;
 $j = 0;
@@ -174,9 +174,9 @@ foreach ($v as $key=>$coditem)
                 Strings::rdecimal($row[0]["costodisplay"], 2),
                 Strings::rdecimal($row[0]["costobultos"], 2),
                 Strings::rdecimal($row[0]["rentabilidad"], 2) . "  %",
-                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : '-',
+                (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechapenultimacompra"])) : '-',
                 (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0,
-                (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : '-',
+                (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechaultimacompra"])) : '-',
                 (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0,
                 number_format($row[0]["semana1"], 0),
                 number_format($row[0]["semana2"], 0),

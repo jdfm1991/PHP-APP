@@ -29,7 +29,7 @@ switch ($_GET["op"]) {
                 $sub_array = array();
 
                 $sub_array[] = str_pad($row["Correlativo"], 8, 0, STR_PAD_LEFT);
-                $sub_array[] = date("d/m/Y",strtotime($row["fechae"]));
+                $sub_array[] = date(FORMAT_DATE,strtotime($row["fechae"]));
                 $sub_array[] = $row["Nomper"];
                 $sub_array[] = $row["cantFact"];
                 $sub_array[] = $row["Destino"] . " - " . $row["NomperChofer"];
@@ -80,7 +80,7 @@ switch ($_GET["op"]) {
             //si tiene se asignan a variables de salida
             $output["correl"] = str_pad($correlativo, 8, 0, STR_PAD_LEFT);
             $output["Destino"] = $cabecera_despacho[0]["Destino"]." - ".$cabecera_despacho[0]["NomperChofer"];
-            $output["fechad"] = date("d/m/Y", strtotime($cabecera_despacho[0]['fechad']));
+            $output["fechad"] = date(FORMAT_DATE, strtotime($cabecera_despacho[0]['fechad']));
             $output["vehiculo"] = $cabecera_despacho[0]['Placa']." ".$cabecera_despacho[0]['Modelo']." ".$cabecera_despacho[0]['Capacidad']." Kg";
             $output["cantFacturas"] = $cabecera_despacho[0]['cantFacturas'];
 
@@ -99,7 +99,7 @@ switch ($_GET["op"]) {
                 $sub_array[] = $row["Numerod"];
                 $sub_array[] = $row["codclie"];
                 $sub_array[] = $row["descrip"];
-                $sub_array[] = date("d/m/Y h:i A",strtotime($row["fechae"]));
+                $sub_array[] = date(FORMAT_DATETIME2,strtotime($row["fechae"]));
                 $sub_array[] = number_format($row["monto"], 2, ",", ".");
                 $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 

@@ -55,7 +55,7 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', 'REPORTE DE CLIENTES NO ACTIVOS');
-$sheet->setCellValue('A5', 'fecha tope:  '. date("d/m/Y", strtotime($fechaf)));
+$sheet->setCellValue('A5', 'fecha tope:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
@@ -80,7 +80,7 @@ $query = $actclientes->lista_busca_activacionclientes($fechaf);
 $row = 8;
 foreach ($query as $i) {
     $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue('A' . $row, date("d/m/Y", strtotime($i['fechauv'])));
+    $sheet->setCellValue('A' . $row, date(FORMAT_DATE, strtotime($i['fechauv'])));
     $sheet->setCellValue('B' . $row, $i['codclie']);
     $sheet->setCellValue('C' . $row, utf8_encode($i['descrip']));
     $sheet->setCellValue('D' . $row, $i['id3']);

@@ -59,7 +59,7 @@ foreach ($datos as $key=>$i) {
     $pdf->Row(
         array(
             $key+1,
-            date("d/m/Y", strtotime($i["fechae"])),
+            date(FORMAT_DATE, strtotime($i["fechae"])),
             Strings::rdecimal($i["tasa"], 2)
         )
     );

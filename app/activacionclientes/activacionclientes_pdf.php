@@ -60,7 +60,7 @@ foreach ($query as $i) {
 
     $pdf->Row(
         array(
-            date("d/m/Y", strtotime($i['fechauv'])),
+            date(FORMAT_DATE, strtotime($i['fechauv'])),
             $i['codclie'],
             utf8_decode($i['descrip']),
             $i['id3'],

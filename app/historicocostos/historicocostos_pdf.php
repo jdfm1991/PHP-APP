@@ -67,7 +67,7 @@ foreach ($datos as $i) {
             $i['codprod'],
             utf8_decode($i['descrip']),
             $i['marca'],
-            date("d/m/Y", strtotime($i['fechae'])),
+            date(FORMAT_DATE, strtotime($i['fechae'])),
             Strings::rdecimal($i['costo'], 2),
             $i['cantidad']
         )

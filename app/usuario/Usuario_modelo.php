@@ -20,8 +20,8 @@ class Usuario extends Conectar
         $sql->bindValue($i+=1, strtolower($data["email"]));
         $sql->bindValue($i+=1, md5($data["clave"]));
         $sql->bindValue($i+=1, $data["rol"]);
-        $sql->bindValue($i+=1, date("d/m/Y h:i:s"));
-        $sql->bindValue($i+=1, date("d/m/Y h:i:s"));
+        $sql->bindValue($i+=1, date(FORMAT_DATETIME));
+        $sql->bindValue($i+=1, date(FORMAT_DATETIME));
         $sql->bindValue($i+=1, $data["estado"]);
 
         return $sql->execute();

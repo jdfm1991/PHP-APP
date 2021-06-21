@@ -33,9 +33,9 @@ switch ($_GET["op"]) {
             $sub_array['costodisplay'] = Strings::rdecimal($row[0]["costodisplay"], 2);
             $sub_array['costobultos'] = Strings::rdecimal($row[0]["costobultos"], 2);
             $sub_array['rentabilidad'] = Strings::rdecimal($row[0]["rentabilidad"], 2);
-            $sub_array['fechapenultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : '-';
+            $sub_array['fechapenultimacompra'] = (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechapenultimacompra"])) : '-';
             $sub_array['bultospenultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0;
-            $sub_array['fechaultimacompra'] = (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : '-';
+            $sub_array['fechaultimacompra'] = (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechaultimacompra"])) : '-';
             $sub_array['bultosultimacompra'] = (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0;
             $sub_array['semana1'] = number_format($row[0]["semana1"], 0);
             $sub_array['semana2'] = number_format($row[0]["semana2"], 0);

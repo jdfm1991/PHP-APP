@@ -56,8 +56,8 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', 'REPORTE DE CLIENTES NUEVOS');
-$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
-$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+$sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
+$sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
@@ -88,7 +88,7 @@ foreach ($query as $i) {
     $sheet->setCellValue('A' . $row, $i['codclie']);
     $sheet->setCellValue('B' . $row, $i['descrip']);
     $sheet->setCellValue('C' . $row, $i['id3']);
-    $sheet->setCellValue('D' . $row, date("d/m/Y", strtotime($i['fechae'])));
+    $sheet->setCellValue('D' . $row, date(FORMAT_DATE, strtotime($i['fechae'])));
     $sheet->setCellValue('E' . $row, $i['codvend']);
 
     /** centrarlas las celdas **/

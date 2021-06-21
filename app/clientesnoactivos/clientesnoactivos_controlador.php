@@ -22,7 +22,7 @@ switch ($_GET["op"]) {
     foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
         $sub_array = array();
-        /*$sub_array[] = date("d-m-Y",strtotime($row["fechauv"]));*/
+        /*$sub_array[] = date(FORMAT_DATE,strtotime($row["fechauv"]));*/
 
         if ($row['escredito'] == 1) {
             $estado = "SOLVENTE";

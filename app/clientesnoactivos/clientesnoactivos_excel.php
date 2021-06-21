@@ -57,8 +57,8 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', 'REPORTE DE CLIENTES NO ACTIVADOS');
-$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
-$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+$sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
+$sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');

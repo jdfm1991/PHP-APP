@@ -30,7 +30,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["codprod"];
             $sub_array[] = $row["descrip"];
             $sub_array[] = $row["marca"];
-            $sub_array[] = date("d/m/Y", strtotime($row['fechae']));
+            $sub_array[] = date(FORMAT_DATE, strtotime($row['fechae']));
             $sub_array[] = Strings::rdecimal($row['costo'], 2);
             $sub_array[] = $row["cantidad"];
 

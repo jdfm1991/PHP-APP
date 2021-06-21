@@ -21,13 +21,52 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="sku no vendidos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/kpi/kpi_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/usuario/Usuario_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuario/Usuario_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +213,7 @@
       <workItem from="1623331677028" duration="32543000" />
       <workItem from="1623760670199" duration="10571000" />
       <workItem from="1623771803416" duration="43056000" />
-      <workItem from="1624296638417" duration="6634000" />
+      <workItem from="1624296638417" duration="8223000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -281,7 +320,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624033201454</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="sku no vendidos">
+      <created>1624303995283</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1624303995283</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -18,6 +18,7 @@
   "fecha_i"       : {"title": "Desde",              "description": ""},
   "fecha_f"       : {"title": "Hasta",              "description": ""},
 
-  "exportar_excel" : {"title": "Exportar a Excel", "description": ""},
-  "exportar_pdf"   : {"title": "Exportar a PDF",   "description": ""}
+  "boton_consultar" : {"title": " Consultar",       "description": ""},
+  "exportar_excel"  : {"title": "Exportar a Excel", "description": ""},
+  "exportar_pdf"    : {"title": "Exportar a PDF",   "description": ""}
 }

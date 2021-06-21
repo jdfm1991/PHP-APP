@@ -50,14 +50,14 @@ if (!isset($_SESSION['cedula'])) {
 				<div  class="card-body" id="minimizar">
 					<form class="form-horizontal" >
 						<div class="form-check form-check-inline">
-							<label for="fecha" class="col-sm-7 col-form-label" >Indique una Fecha</label>
+							<label for="fecha" class="col-sm-7 col-form-label" ><?=Strings::titleFromJson('fecha_f')?></label>
 							<input type="date" class="form-control col-sm-8"  id="fechaf" name="fechaf" required="required">
 						</div>
 					</form>
 				</div>
 				<!-- BOX BOTON DE PROCESO -->
 				<div class="card-footer">
-					<button type="submit" class="btn btn-success" id="btn_activacionclientes"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+					<button type="submit" class="btn btn-success" id="btn_activacionclientes"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
 				</div>
 			</div>
 

@@ -44,7 +44,7 @@ switch ($_GET["op"]) {
             $sub_array[] = Strings::rdecimal($row["totalitem"], 2);
             $sub_array[] = Strings::rdecimal($row["bultos"], 2);
             $sub_array[] = Strings::rdecimal($row["paquetes"], 2);
-            $sub_array[] = date("d/m/Y", strtotime($row['fechae']));
+            $sub_array[] = date(FORMAT_DATE, strtotime($row['fechae']));
 
             $data[] = $sub_array;
         }

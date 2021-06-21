@@ -141,9 +141,9 @@ foreach ($v as $key=>$coditem) {
         $sheet->setCellValue('E' . $i, Strings::rdecimal($row[0]["costodisplay"], 2));
         $sheet->setCellValue('F' . $i, Strings::rdecimal($row[0]["costobultos"], 2));
         $sheet->setCellValue('G' . $i, Strings::rdecimal($row[0]["rentabilidad"], 2) . "  %");
-        $sheet->setCellValue('H' . $i, (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechapenultimacompra"])) : '------------');
+        $sheet->setCellValue('H' . $i, (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechapenultimacompra"])) : '------------');
         $sheet->setCellValue('I' . $i, (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0);
-        $sheet->setCellValue('J' . $i, (count($compra) > 0) ? date("d/m/Y",strtotime($compra[0]["fechaultimacompra"])) : '------------');
+        $sheet->setCellValue('J' . $i, (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechaultimacompra"])) : '------------');
         $sheet->setCellValue('K' . $i, (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0);
         $sheet->setCellValue('L' . $i, number_format($row[0]["semana1"], 0));
         $sheet->setCellValue('M' . $i, number_format($row[0]["semana2"], 0));

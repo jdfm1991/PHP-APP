@@ -168,7 +168,7 @@ class KpiManager extends Conectar {
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1,$idusuario);
-        $sql->bindValue(2,date("d/m/Y h:i:s"));
+        $sql->bindValue(2,date(FORMAT_DATETIME));
         $sql->bindValue(3,$edv);
         $resultado = $sql->execute();
 

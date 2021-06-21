@@ -28,7 +28,7 @@ switch ($_GET["op"]) {
         $convend = $_POST['vendedores'];
         $tipo = $_POST['tipo'];
         $check = hash_equals("true", $_POST['check']);
-        $hoy = date("d-m-Y");
+        $hoy = date(FORMAT_DATE);
 
         $datos = $factsindes->getFacturas($tipo, $fechai, $fechaf, $convend, $check);
         $num = count($datos);
@@ -67,8 +67,8 @@ switch ($_GET["op"]) {
 
             if($check) {
                 $calcula = 0;
-                if (round(Dates::daysEnterDates(date("d-m-Y", strtotime($row["FechaE"])),date("d-m-Y", strtotime($row["fechad"])))) != 0)
-                    $calcula = (2 / round(Dates::daysEnterDates(date("d-m-Y", strtotime($row["FechaE"])),date("d-m-Y", strtotime($row["fechad"])))))*100;
+                if (round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])),date(FORMAT_DATE, strtotime($row["fechad"])))) != 0)
+                    $calcula = (2 / round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])),date(FORMAT_DATE, strtotime($row["fechad"])))))*100;
 
                 if ($calcula > 100)
                     $calcula = 100;
@@ -78,14 +78,14 @@ switch ($_GET["op"]) {
 
             $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['NumeroD'].'\', \''.$row['TipoFac'].'\')" data-target="#detallefactura" href="#"> '.$row['NumeroD'].'</div>';
 
-            $sub_array[] = date("d/m/Y", strtotime($row["FechaE"]));
+            $sub_array[] = date(FORMAT_DATE, strtotime($row["FechaE"]));
             if ($check) {
-                $sub_array[] = date("d/m/Y", strtotime($row["fechad"]));
-                $sub_array[] = round(Dates::daysEnterDates(date("d-m-Y", strtotime($row["FechaE"])),date("d-m-Y", strtotime($row["fechad"]))));
+                $sub_array[] = date(FORMAT_DATE, strtotime($row["fechad"]));
+                $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])),date(FORMAT_DATE, strtotime($row["fechad"]))));
             }
             $sub_array[] = $row["CodClie"];
             $sub_array[] = $row["Descrip"];
-            $sub_array[] = round(Dates::daysEnterDates(date("d-m-Y", strtotime($row["FechaE"])), $hoy));
+            $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])), $hoy));
             $sub_array[] = round($row['Bult']);
             $sub_array[] = round($row['Paq']);
             $sub_array[] = number_format($row["Monto"], 1, ",", "."); $suma_monto += $row["Monto"];
@@ -126,7 +126,7 @@ switch ($_GET["op"]) {
 
         $factura_despachada = $despachos->get_existe_factura_despachada_por_id($numerod);
         if (is_array($factura_despachada) == true and count($factura_despachada) > 0) {
-            $output["factura_despachada"] = "Factura Despachada: " . date("d/m/Y", strtotime($factura_despachada[0]['fechad'])) .
+            $output["factura_despachada"] = "Factura Despachada: " . date(FORMAT_DATE, strtotime($factura_despachada[0]['fechad'])) .
                 '</br> Por:'. $factura_despachada[0]['nomper'] .
                 '</br>En el Despacho nro: '. str_pad($factura_despachada[0]['correlativo'], 8, 0, STR_PAD_LEFT);
         } else {

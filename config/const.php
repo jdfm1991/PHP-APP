@@ -17,3 +17,9 @@ define("PATH_HELPERS_PHP", $_SERVER['DOCUMENT_ROOT'] ."/appweb/helpers/");
 define("PATH_SERVICE_PHP", $_SERVER['DOCUMENT_ROOT'] ."/appweb/services/");
 define("PATH_LIBRARY",     $_SERVER['DOCUMENT_ROOT'] ."/appweb/public/");
 define("PATH_VENDOR",      $_SERVER['DOCUMENT_ROOT'] ."/appweb/vendor/");
+
+
+# Constantes de fecha
+const FORMAT_DATE     = "d/m/Y";
+const FORMAT_DATETIME = "d/m/Y h:i:s";
+const FORMAT_DATETIME2 = "d/m/Y h:i A";

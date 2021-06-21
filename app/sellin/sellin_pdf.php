@@ -37,7 +37,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(80);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE SELL IN COMPRAS DE ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
+        $this->Cell(40, 10, 'REPORTE DE SELL IN COMPRAS DE ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         $this->SetFillColor(200,220,255);

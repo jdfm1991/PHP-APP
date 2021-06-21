@@ -74,7 +74,7 @@ $row = 5;
 foreach ($query as $key=>$i) {
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue('B' . $row, $key+1);
-    $sheet->setCellValue('C' . $row, date("d/m/Y", strtotime($i["fechae"])));
+    $sheet->setCellValue('C' . $row, date(FORMAT_DATE, strtotime($i["fechae"])));
     $sheet->setCellValue('D' . $row, Strings::rdecimal($i["tasa"], 2));
 
     /** centrarlas las celdas **/

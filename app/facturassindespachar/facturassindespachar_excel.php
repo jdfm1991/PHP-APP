@@ -52,7 +52,7 @@ $fechaf = $_GET['fechaf'];
 $convend = $_GET['vendedores'];
 $tipo = $_GET['tipo'];
 $check = hash_equals("true", $_GET['check']);
-$hoy = date("d-m-Y");
+$hoy = date(FORMAT_DATE);
 
 
 //creamos la cabecera de la tabla
@@ -84,8 +84,8 @@ switch ($GLOBALS['check']) {
 }
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', $titulo);
-//$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
-//$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+//$sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
+//$sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:H1');
@@ -136,8 +136,8 @@ foreach ($query as $x) {
 
     if($check) {
         $calcula = 0;
-        if (round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))) != 0)
-            $calcula = (2 / round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))))*100;
+        if (round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])),date(FORMAT_DATE, strtotime($x["fechad"])))) != 0)
+            $calcula = (2 / round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])),date(FORMAT_DATE, strtotime($x["fechad"])))))*100;
 
         if ($calcula > 100)
             $calcula = 100;
@@ -149,14 +149,14 @@ foreach ($query as $x) {
     $sheet->setCellValue(getExcelCol($i, true) . $row, $x['NumeroD']);
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-    $sheet->setCellValue(getExcelCol($i, true) . $row, date("d/m/Y", strtotime($x["FechaE"])));
+    $sheet->setCellValue(getExcelCol($i, true) . $row, date(FORMAT_DATE, strtotime($x["FechaE"])));
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
     if ($check) {
-        $sheet->setCellValue(getExcelCol($i, true) . $row, date("d/m/Y", strtotime($x["fechad"])));
+        $sheet->setCellValue(getExcelCol($i, true) . $row, date(FORMAT_DATE, strtotime($x["fechad"])));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-        $sheet->setCellValue(getExcelCol($i, true) . $row, round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))));
+        $sheet->setCellValue(getExcelCol($i, true) . $row, round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])),date(FORMAT_DATE, strtotime($x["fechad"])))));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
     }
@@ -166,7 +166,7 @@ foreach ($query as $x) {
     $sheet->setCellValue(getExcelCol($i, true) . $row, utf8_decode($x['Descrip']));
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-    $sheet->setCellValue(getExcelCol($i, true) . $row, round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])), $hoy)));
+    $sheet->setCellValue(getExcelCol($i, true) . $row, round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])), $hoy)));
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
     $sheet->setCellValue(getExcelCol($i, true) . $row, number_format($x["Bult"], 0));

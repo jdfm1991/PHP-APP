@@ -26,7 +26,7 @@ switch ($_GET["op"]) {
         $sub_array[] = $row["codclie"];
         $sub_array[] = $row["descrip"];
         $sub_array[] = $row["id3"];
-        $sub_array[] = date("d-m-Y", strtotime($row["fechae"]));
+        $sub_array[] = date(FORMAT_DATE, strtotime($row["fechae"]));
         $sub_array[] = $row["codvend"];
 
         $data[] = $sub_array;

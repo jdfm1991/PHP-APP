@@ -24,7 +24,7 @@ switch ($_GET["op"]) {
             $sub_array = array();
 
             $sub_array[] = $key+1;
-            $sub_array[] = date("d/m/Y", strtotime($row["fechae"]));
+            $sub_array[] = date(FORMAT_DATE, strtotime($row["fechae"]));
             $sub_array[] = Strings::rdecimal($row["tasa"], 2);
 
             $data[] = $sub_array;

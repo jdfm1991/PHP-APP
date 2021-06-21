@@ -36,7 +36,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(80);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE CLIENTES NUEVOS DE ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 1, 'C');
+        $this->Cell(40, 10, 'REPORTE DE CLIENTES NUEVOS DE ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 1, 'C');
 
         // Salto de línea
         $this->Ln(20);
@@ -68,7 +68,7 @@ foreach ($query as $i) {
             $i['codclie'],
             $i['descrip'],
             $i['id3'],
-            date("d/m/Y", strtotime($i['fechae'])),
+            date(FORMAT_DATE, strtotime($i['fechae'])),
             $i['codvend']
         )
     );

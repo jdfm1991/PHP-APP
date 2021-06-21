@@ -15,7 +15,7 @@ $fechaf = $_GET['fechaf'];
 $convend = $_GET['vendedores'];
 $tipo = $_GET['tipo'];
 $check = hash_equals("true", $_GET['check']);
-$hoy = date("d-m-Y");
+$hoy = date(FORMAT_DATE);
 
 $i = 0;
 $j = 0;
@@ -129,8 +129,8 @@ foreach ($query as $x) {
 
     if($check) {
         $calcula = 0;
-        if (round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))) != 0)
-            $calcula = (2 / round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))))*100;
+        if (round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])),date(FORMAT_DATE, strtotime($x["fechad"])))) != 0)
+            $calcula = (2 / round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])),date(FORMAT_DATE, strtotime($x["fechad"])))))*100;
 
         if ($calcula > 100)
             $calcula = 100;
@@ -139,14 +139,14 @@ foreach ($query as $x) {
     }
 
     addInfoInArray($x['NumeroD']);
-    addInfoInArray(date("d/m/Y", strtotime($x["FechaE"])));
+    addInfoInArray(date(FORMAT_DATE, strtotime($x["FechaE"])));
     if ($check) {
-        addInfoInArray(date("d/m/Y", strtotime($x["fechad"])));
-        addInfoInArray(round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])),date("d-m-Y", strtotime($x["fechad"])))));
+        addInfoInArray(date(FORMAT_DATE, strtotime($x["fechad"])));
+        addInfoInArray(round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])),date(FORMAT_DATE, strtotime($x["fechad"])))));
     }
     addInfoInArray($x['CodClie']);
     addInfoInArray(utf8_decode($x['Descrip']));
-    addInfoInArray(round(Dates::daysEnterDates(date("d-m-Y", strtotime($x["FechaE"])), $hoy)));
+    addInfoInArray(round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($x["FechaE"])), $hoy)));
     addInfoInArray(round($x['Bult']));
     addInfoInArray(round($x['Paq']));
     addInfoInArray(Strings::rdecimal($x["Monto"], 1)); $suma_monto += $x["Monto"];

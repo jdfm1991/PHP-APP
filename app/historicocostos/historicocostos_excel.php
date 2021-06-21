@@ -57,8 +57,8 @@ $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $spreadsheet->getActiveSheet()->getStyle('A3:F3')->getFont()->setSize(18);
 $spreadsheet->getActiveSheet()->getStyle('A5:F5')->getFont()->setSize(18);
 $sheet->setCellValue('A1', 'HISTORICO DE COSTOS');
-$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
-$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+$sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
+$sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
@@ -87,7 +87,7 @@ foreach ($query as $i) {
     $sheet->setCellValue('A' . $row, $i['codprod']);
     $sheet->setCellValue('B' . $row, $i['descrip']);
     $sheet->setCellValue('C' . $row, $i['marca']);
-    $sheet->setCellValue('E' . $row, date("d/m/Y", strtotime($i['fechae'])));
+    $sheet->setCellValue('E' . $row, date(FORMAT_DATE, strtotime($i['fechae'])));
     $sheet->setCellValue('D' . $row, Strings::rdecimal($i['costo'], 2));
     $sheet->setCellValue('F' . $row, $i['cantidad']);
 

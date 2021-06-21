@@ -131,7 +131,7 @@ switch ($_GET["op"]) {
             $sub_array = array();
 
             $sub_array[] = $datos[0]["numerod"];
-            $sub_array[] = date("d/m/Y", strtotime($datos[0]["fechae"]));
+            $sub_array[] = date(FORMAT_DATE, strtotime($datos[0]["fechae"]));
             $sub_array[] = $datos[0]["descrip"];
             $sub_array[] = $datos[0]["direc2"];
             $sub_array[] = $datos[0]["codvend"];
@@ -165,7 +165,7 @@ switch ($_GET["op"]) {
             $data = Array();
             $data['nrfactb'] = $_POST['nrfactb'];
             $data['Correlativo'] = str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT);
-            $data['fechae'] = date("d/m/Y h:i A", strtotime($datos[0]['fechae']));
+            $data['fechae'] = date(FORMAT_DATETIME2, strtotime($datos[0]['fechae']));
             $data['Destino'] = $datos[0]["Destino"]." - ".$datos[0]["NomperChofer"];
 
             //al terminar, se almacena en una variable de salida el array.
@@ -175,7 +175,7 @@ switch ($_GET["op"]) {
             if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])) {
                 //creamos un array para almacenar los datos procesados
                 $data1 = array();
-                $data1['fecha_liqui'] = date("d/m/Y", strtotime($datos[0]['fecha_liqui']));
+                $data1['fecha_liqui'] = date(FORMAT_DATE, strtotime($datos[0]['fecha_liqui']));
                 $data1['monto_cancelado'] = number_format($datos[0]['monto_cancelado'], 1, ",", ".") . " BsS";
 
                 //al terminar, se almacena en una variable de salida el array.

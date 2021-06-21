@@ -45,7 +45,7 @@ class PDF extends FPDF
         $this->Cell(90,7,'Nro de Despacho: '.str_pad($GLOBALS["correlativo"], 8, 0, STR_PAD_LEFT),0,0,'C');
         $this->Ln();
         $this->SetFont ('Arial','',7);
-        $this->Cell(90,7,'Fecha Despacho: '.date("d/m/Y", strtotime($cabeceraDespacho[0]['fechad'])),0,0,'L');
+        $this->Cell(90,7,'Fecha Despacho: '.date(FORMAT_DATE, strtotime($cabeceraDespacho[0]['fechad'])),0,0,'L');
         $this->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['Placa'].'  '.$vehiculo[0]['Modelo'].'  '.$vehiculo[0]['Capacidad'].'Kg',0,0,'L');
         $this->Ln();
 

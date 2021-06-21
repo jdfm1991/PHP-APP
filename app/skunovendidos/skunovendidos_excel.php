@@ -70,8 +70,8 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', 'REPORTE PRODUCTOS NO VENDIDOS');
-$sheet->setCellValue('A3', 'del: '. date("d/m/Y", strtotime($fechai)));
-$sheet->setCellValue('A5', 'al:  '. date("d/m/Y", strtotime($fechaf)));
+$sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
+$sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:F1');
 
@@ -131,7 +131,7 @@ foreach ($query as $x) {
     $sheet->setCellValue(getExcelCol($i) . $row, Strings::rdecimal($x['totalitem'], 2));
     $sheet->setCellValue(getExcelCol($i) . $row, Strings::rdecimal($x['bultos'], 2));
     $sheet->setCellValue(getExcelCol($i) . $row, Strings::rdecimal($x['paquetes'],2));
-    $sheet->setCellValue(getExcelCol($i) . $row, date("d/m/Y", strtotime($x['fechae'])));
+    $sheet->setCellValue(getExcelCol($i) . $row, date(FORMAT_DATE, strtotime($x['fechae'])));
 
     $i = 0;
     /** centrarlas las celdas **/

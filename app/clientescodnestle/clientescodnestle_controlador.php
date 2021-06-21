@@ -25,7 +25,7 @@ switch ($_GET["op"]) {
         $sub_array[] = $row["codvend"];
         $sub_array[] = $row["codclie"];
         $sub_array[] = $row["descrip"];
-        $sub_array[] = date("d-m-Y",strtotime($row["fecha"]));
+        $sub_array[] = date(FORMAT_DATE,strtotime($row["fecha"]));
         $sub_array[] = $row["rif"];
         $sub_array[] = $row["dvisita"];
         $sub_array[] = $row["codnestle"];

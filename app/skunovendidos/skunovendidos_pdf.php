@@ -39,7 +39,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(140);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE PRODUCTOS NO VENDIDOS DEL ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
+        $this->Cell(40, 10, 'REPORTE DE PRODUCTOS NO VENDIDOS DEL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         $this->SetFont('Arial', 'B', 9);
@@ -102,7 +102,7 @@ foreach ($query as $i) {
             Strings::rdecimal($i['totalitem'], 2),
             Strings::rdecimal($i['bultos'], 2),
             Strings::rdecimal($i['paquetes'],2),
-            date("d/m/Y", strtotime($i['fechae']))
+            date(FORMAT_DATE, strtotime($i['fechae']))
         )
     );
 }

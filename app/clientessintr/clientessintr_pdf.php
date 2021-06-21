@@ -39,7 +39,7 @@ class PDF extends FPDF
         // Título
         $this->Cell(40, 10, 'REPORTE DE CLIENTES SIN REALIZAR TRASACCIONES', 0, 1, 'C');
         $this->Cell(80);
-        $this->Cell(50, 10, 'DEL ' . date("d/m/Y", strtotime($GLOBALS['fechai'])) . ' AL ' . date("d/m/Y", strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
+        $this->Cell(50, 10, 'DEL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
 
         // Salto de línea
         $this->Ln(20);
