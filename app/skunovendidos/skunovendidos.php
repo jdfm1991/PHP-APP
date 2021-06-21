@@ -75,44 +75,43 @@ else { ?>
                     <h3 class="card-title">Productos no Vendidos</h3>
                 </div>
                 <div class="card-body" style="width:auto;">
-                    <table class="table table-sm table-hover table-condensed table-bordered table-striped table-responsive text-center" style="width:100%;" id="skunovendidos_data">
+                    <table class="table table-sm table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="skunovendidos_data">
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
-                            <th class="text-center" title="#">#</th>
-                            <th class="text-center" title="Numero">Numero</th>
-                            <th class="text-center" title="CodVend">CodVend</th>
-                            <th class="text-center" title="Vendedor">Vendedor</th>
-                            <th class="text-center" title="Codigo Cliente">Codigo Cliente</th>
-                            <th class="text-center" title="Cliente">Cliente</th>
-                            <th class="text-center" title="Codigo Producto">Codigo Producto</th>
-                            <th class="text-center" title="Descripcion">Descripcion</th>
-                            <th class="text-center" title="Marca">Marca</th>
-                            <th class="text-center" title="Unid. Empaque">Unid. Empaque</th>
-                            <th class="text-center" title="Cantidad">Cantidad</th>
-                            <th class="text-center" title="Sub Total">Sub Total</th>
-                            <th class="text-center" title="Inv. Bultos">Inv. Bultos</th>
-                            <th class="text-center" title="Inv. Paquetes">Inv. Paquetes</th>
-                            <th class="text-center" title="Fecha">Fecha</th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?=Strings::titleFromJson('codvend')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_clie')?>"><?=Strings::titleFromJson('descrip_clie')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_empaque')?>"><?=Strings::titleFromJson('tipo_empaque')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad')?>"><?=Strings::titleFromJson('cantidad')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('subtotal')?>"><?=Strings::titleFromJson('subtotal')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('inv_bultos')?>"><?=Strings::titleFromJson('inv_bultos')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('inv_paquetes')?>"><?=Strings::titleFromJson('inv_paquetes')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
                         </tr>
                         </thead>
                         <tfoot style="background-color: #ccc;color: white;">
                         <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Numero</th>
-                            <th class="text-center">CodVend </th>
-                            <th class="text-center">Vendedor</th>
-                            <th class="text-center">Codigo Cliente</th>
-                            <th class="text-center">Cliente</th>
-                            <th class="text-center">Codigo Producto</th>
-                            <th class="text-center">Descripcion</th>
-                            <th class="text-center">Marca</th>
-                            <th class="text-center">Unid. Empaque</th>
-                            <th class="text-center">Cantidad</th>
-                            <th class="text-center">Sub Total</th>
-                            <th class="text-center">Inv. Bultos</th>
-                            <th class="text-center">Inv. Paquetes</th>
-                            <th class="text-center">Fecha</th>
-
+                            <th class="text-center"><?=Strings::titleFromJson('#')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('codvend')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('descrip_vend')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('descrip_clie')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('tipo_empaque')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('cantidad')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('subtotal')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('inv_bultos')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('inv_paquetes')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -122,8 +121,8 @@ else { ?>
 
                     <!-- BOX BOTONES DE REPORTES-->
                     <div align="center">
-                        <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                        <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                        <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('exportar_excel')?></button>
+                        <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('exportar_pdf')?></button>
                     </div>
                 </div>
         </section>

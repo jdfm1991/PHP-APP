@@ -19,15 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="reporte excel kpi">
-      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="sku no vendidos">
+      <change afterPath="$PROJECT_DIR$/public/strings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,11 +99,11 @@
       <recent name="C:\Apache24\htdocs\appweb\Services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\public" />
+      <recent name="C:\Apache24\htdocs\appweb\config" />
       <recent name="C:\Apache24\htdocs\appweb\app\auth\modales" />
       <recent name="C:\Apache24\htdocs\appweb\helpers\php" />
       <recent name="C:\Apache24\htdocs\appweb\app" />
-      <recent name="C:\Apache24\htdocs\appweb" />
-      <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -173,7 +170,7 @@
       <workItem from="1622468874195" duration="83415000" />
       <workItem from="1623331677028" duration="32543000" />
       <workItem from="1623760670199" duration="10571000" />
-      <workItem from="1623771803416" duration="32693000" />
+      <workItem from="1623771803416" duration="43056000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -273,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624020547742</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="sku no vendidos">
+      <created>1624033201454</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1624033201454</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,7 +304,8 @@
     <MESSAGE value="avance reporte pdf y excel kpi" />
     <MESSAGE value="avance reporte excel kpi" />
     <MESSAGE value="reporte excel kpi" />
-    <option name="LAST_COMMIT_MESSAGE" value="reporte excel kpi" />
+    <MESSAGE value="sku no vendidos" />
+    <option name="LAST_COMMIT_MESSAGE" value="sku no vendidos" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

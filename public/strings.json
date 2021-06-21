@@ -1,0 +1,21 @@
+{
+  "" : {"title": "", "description": ""},
+  "#"             : {"title": "#",                  "description": "#"},
+  "numerod"       : {"title": "Documento",          "description": ""},
+  "codclie"       : {"title": "Código cliente",     "description": ""},
+  "codvend"       : {"title": "Código EDV",         "description": ""},
+  "descrip_clie"  : {"title": "Razón social",       "description": ""},
+  "descrip_vend"  : {"title": "Vendedor",           "description": ""},
+  "descrip_prod"  : {"title": "Producto",           "description": ""},
+  "marca_prod"    : {"title": "Marca",              "description": ""},
+  "tipo_empaque"  : {"title": "Unid. Empaque",      "description": ""},
+  "codigo_prod"   : {"title": "Código producto",    "description": ""},
+  "cantidad"      : {"title": "Cantidad",           "description": "Cantidad"},
+  "subtotal"      : {"title": "Sub Total",          "description": ""},
+  "inv_bultos"    : {"title": "Inv. Bultos",        "description": ""},
+  "inv_paquetes"  : {"title": "Inv. Paquetes",      "description": ""},
+  "fecha"         : {"title": "Fecha",              "description": ""},
+
+  "exportar_excel"  : {"title": "Exportar a Excel", "description": ""},
+  "exportar_pdf"    : {"title": "Exportar a PDF",   "description": ""}
+}

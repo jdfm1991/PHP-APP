@@ -1,6 +1,5 @@
 <?php
 
-
 class Strings {
 
     public static function addCero($num) {
@@ -21,6 +20,22 @@ class Strings {
             );
         }
         return $response;
+    }
+
+    public static function titleFromJson($name = '') {
+        $string = file_get_contents("../../public/strings.json");
+        $json = json_decode($string, true);
+        if ($string != false and $json != null)
+            return $json[strtolower($name)]['title'];
+        return '';
+    }
+
+    public static function DescriptionFromJson($name = '') {
+        $string = file_get_contents("../../public/strings.json");
+        $json = json_decode($string, true);
+        if ($string != false and $json != null)
+            return $json[strtolower($name)]['description'];
+        return '';
     }
 
 }
