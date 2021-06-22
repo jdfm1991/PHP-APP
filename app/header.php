@@ -12,7 +12,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<!--    <link rel="stylesheet" href="--><?php //echo URL_LIBRARY; ?><!--plugins/datatables-responsive/css/responsive.bootstrap4.min.css">-->
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugins/datatables/jquery.columntoggle.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugins/daterangepicker/daterangepicker.css">

@@ -36,18 +36,18 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="choferes_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                             <tr>
-                                                <td class="text-center" title="# Cedula"># Cedula</td>
-                                                <td class="text-center" title="Nombre y Apellido">Nombre y Apellido</td>
-                                                <td class="text-center" title="Fecha de Registro">Fecha de Registro</td>
-                                                <td class="text-center" title="Acción">Acciónes</td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('dni')?>"><?=Strings::titleFromJson('dni')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('nombre_apellido')?>"><?=Strings::titleFromJson('nombre_apellido')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('fecha_registro')?>"><?=Strings::titleFromJson('fecha_registro')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
                                             <tr>
-                                                <td class="text-center"># Cedula</td>
-                                                <td class="text-center">Nombre y Apellido</td>
-                                                <td class="text-center">Fecha de Registro</td>
-                                                <td class="text-center">Acciónes</td>
+                                                <td class="text-center"><?=Strings::titleFromJson('dni')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('nombre_apellido')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('fecha_registro')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </tfoot>
                                         <tbody>

@@ -49,7 +49,7 @@ class PDF extends FPDF
         $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('codvend')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('descrip_vend')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(23), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(38), 6, utf8_decode(Strings::titleFromJson('descrip_clie')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(38), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(27), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(35), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('marca_prod')), 1, 0, 'C', true);

@@ -64,13 +64,13 @@ $sheet->setCellValue('A1', 'REPORTE DE CLIENTES CON COD NESTLE');
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', 'EDV')
-    ->setCellValue('B7', 'Código Cliente')
-    ->setCellValue('C7', 'Nombre del Cliente')
-    ->setCellValue('D7', 'Rif')
-    ->setCellValue('E7', 'Cliente Desde')
-    ->setCellValue('F7', 'Día de Visita')
-    ->setCellValue('G7', 'Código Nestle');
+$sheet->setCellValue('A7', Strings::titleFromJson('ruta'))
+    ->setCellValue('B7', Strings::titleFromJson('codclie'))
+    ->setCellValue('C7', Strings::titleFromJson('razon_social'))
+    ->setCellValue('D7', Strings::titleFromJson('rif'))
+    ->setCellValue('E7', Strings::titleFromJson('fecha_apertura'))
+    ->setCellValue('F7', Strings::titleFromJson('dia_visita'))
+    ->setCellValue('G7', Strings::titleFromJson('codnestle'));
 
 $style_title = new Style();
 $style_title->applyFromArray(

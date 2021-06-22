@@ -69,17 +69,17 @@ class PDF extends FPDF
         $this->Ln(20);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(20), 6, 'Codprod', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(57), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(22), 6, 'Marca', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(29), 6, 'Costo Bultos', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(29), 6, 'Costo Unid.', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(29), 6, 'Precio', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(19), 6, 'Bultos', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(19), 6, 'Paq.', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(40), 6, 'Total Bs Costo Bultos', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(45), 6, 'Total Bs Costo Unidades', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(24), 6, 'Tara', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(31), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(57), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(22), 6, utf8_decode(Strings::titleFromJson('marca_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(29), 6, utf8_decode(Strings::titleFromJson('costo_bultos')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(29), 6, utf8_decode(Strings::titleFromJson('costo_paquete')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(29), 6, utf8_decode(Strings::titleFromJson('precio')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(19), 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(19), 6, utf8_decode(Strings::titleFromJson('paquetes')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(37), 6, utf8_decode(Strings::titleFromJson('totalcosto_bultos')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(45), 6, utf8_decode(Strings::titleFromJson('totalcosto_paquetes')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('tara')), 1, 1, 'C', true);
 
     }
 

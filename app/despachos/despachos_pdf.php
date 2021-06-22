@@ -27,7 +27,6 @@ class PDF extends FPDF
     {
         $despachos  = new Despachos();
 
-        $empresa = $despachos->getDatosEmpresa();
         $cabeceraDespacho = $despachos->getCabeceraDespacho($_GET['correlativo']);
         $chofer = Choferes::getByDni($cabeceraDespacho[0]['ID_Chofer']);
         $vehiculo = Vehiculos::getById($cabeceraDespacho[0]['ID_Vehiculo']);
@@ -38,7 +37,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(80);
         // Título
-        $this->Cell(30, 10, $empresa[0]['Descrip'], 0, 0, 'C');
+        $this->Cell(30, 10, Empresa::getName(), 0, 0, 'C');
         $this->Ln();
 
         $this->SetFont('Arial', 'B', 8);
@@ -46,7 +45,7 @@ class PDF extends FPDF
         $this->Ln();
         $this->SetFont ('Arial','',7);
         $this->Cell(90,7,'Fecha Despacho: '.date(FORMAT_DATE, strtotime($cabeceraDespacho[0]['fechad'])),0,0,'L');
-        $this->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['Placa'].'  '.$vehiculo[0]['Modelo'].'  '.$vehiculo[0]['Capacidad'].'Kg',0,0,'L');
+        $this->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['placa'].'  '.$vehiculo[0]['modelo'].'  '.$vehiculo[0]['capacidad'].'Kg',0,0,'L');
         $this->Ln();
 
         $this->Cell(150,7,'Destino : '.$cabeceraDespacho[0]['Destino']." - ".$chofer[0]['Nomper'],0,0,'L');

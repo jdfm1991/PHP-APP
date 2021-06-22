@@ -8,7 +8,7 @@ class Empresa extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "select descrip from SACONF";
+        $sql= "select descrip, direc1, telef, rif from SACONF";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->execute();

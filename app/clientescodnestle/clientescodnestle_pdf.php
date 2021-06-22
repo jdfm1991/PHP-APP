@@ -44,13 +44,13 @@ class PDF extends FPDF
 		$this->SetFillColor(200,220,255);
 		// titulo de columnas
 		$this->SetFont ('Arial','B',14);
-		$this->Cell(addWidthInArray(30),7,'EDV',1,0,'C',true);
-		$this->Cell(addWidthInArray(45),7, utf8_decode('Cód Cliente'),1,0,'C',true);
-		$this->Cell(addWidthInArray(100),7,'Nombre del Cliente',1,0,'C',true);
-		$this->Cell(addWidthInArray(35),7,'Rif',1,0,'C',true);
-		$this->Cell(addWidthInArray(40),7,'Cliente Desde',1,0,'C',true);
-		$this->Cell(addWidthInArray(40),7,utf8_decode('Día de Visita'),1,0,'C',true);
-		$this->Cell(addWidthInArray(40),7,utf8_decode('Código Nestle'),1,1,'C',true);
+		$this->Cell(addWidthInArray(30),7,utf8_decode(Strings::titleFromJson('ruta')),1,0,'C',true);
+		$this->Cell(addWidthInArray(45),7, utf8_decode(Strings::titleFromJson('codclie')),1,0,'C',true);
+		$this->Cell(addWidthInArray(90),7,utf8_decode(Strings::titleFromJson('razon_social')),1,0,'C',true);
+		$this->Cell(addWidthInArray(35),7,utf8_decode(Strings::titleFromJson('rif')),1,0,'C',true);
+		$this->Cell(addWidthInArray(45),7,utf8_decode(Strings::titleFromJson('fecha_apertura')),1,0,'C',true);
+		$this->Cell(addWidthInArray(40),7,utf8_decode(Strings::titleFromJson('dia_visita')),1,0,'C',true);
+		$this->Cell(addWidthInArray(46),7,utf8_decode(Strings::titleFromJson('codnestle')),1,1,'C',true);
 	}
 
 	function CheckPageBreak($h)

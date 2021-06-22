@@ -64,12 +64,12 @@ $sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', 'Codigo Cliente')
-    ->setCellValue('B7', 'Descripcion')
-    ->setCellValue('C7', 'Rif')
-    ->setCellValue('D7', 'Direccion')
-    ->setCellValue('E7', 'Estatus')
-    ->setCellValue('F7', 'Dias Visita');
+$sheet->setCellValue('A7', Strings::titleFromJson('codclie'))
+    ->setCellValue('B7', Strings::titleFromJson('razon_social'))
+    ->setCellValue('C7', Strings::titleFromJson('rif'))
+    ->setCellValue('D7', Strings::titleFromJson('direccion'))
+    ->setCellValue('E7', Strings::titleFromJson('estatus'))
+    ->setCellValue('F7', Strings::titleFromJson('dia_visita'));
 
 $style_title = new Style();
 $style_title->applyFromArray(

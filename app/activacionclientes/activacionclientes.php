@@ -70,22 +70,22 @@ if (!isset($_SESSION['cedula'])) {
 					<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="activacionclientes_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
-								<th class="text-center" title="Última Venta">Fecha Ultima Venta</th>
-								<th class="text-center" title="Codigo Cliente">Codigo Cliente</th>
-								<th class="text-center" title="Razón Social">Razón Social</th>
-								<th class="text-center" title="RIF">Rif</th>
-								<th class="text-center" title="Codigo Vendedor - Ruta">Ruta</th>
-								<th class="text-center" title="Saldo Pendiente">Pendiente</th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_ult_venta')?>"><?=Strings::titleFromJson('fecha_ult_venta')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('rif')?>"><?=Strings::titleFromJson('rif')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente')?>"><?=Strings::titleFromJson('saldo_pendiente')?></th>
 							</tr>
 						</thead>
 						<tfoot style="background-color: #ccc;color: white;">
 							<tr>
-								<th class="text-center">Fecha Ultima Venta</th>
-								<th class="text-center">Codigo Cliente</th>
-								<th class="text-center">Razón Social</th>
-								<th class="text-center">Rif</th>
-								<th class="text-center">Ruta</th>
-								<th class="text-center">Pendiente</th>
+								<th class="text-center"><?=Strings::titleFromJson('fecha_ult_venta')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('rif')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente')?></th>
 							</tr>
 						</tfoot>
 						<tbody>
@@ -94,8 +94,8 @@ if (!isset($_SESSION['cedula'])) {
 					</table>
 					<!-- BOX BOTONES DE REPORTES-->
 					<div align="center">
-						<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-						<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+						<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+						<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
 					</div>
 				</div>
             </div>

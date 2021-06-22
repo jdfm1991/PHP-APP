@@ -35,32 +35,32 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped" style="width:100%;" id="relacion_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                         <tr>
-                                            <th class="text-center" title="Despacho">Despacho</th>
-                                            <th class="text-center" title="Fecha">Fecha</th>
-                                            <th class="text-center" title="Usuario">Usuario</th>
-                                            <th class="text-center" title="Cant Fact">Cant Fact</th>
-                                            <th class="text-center" title="Destino">Destino</th>
-                                            <th class="text-center" title="Editar">Editar</th>
-                                            <th class="text-center" title="Borrar">Borrar</th>
-                                            <th class="text-center" title="Ver">Ver</th>
-                                            <th class="text-center" title="Cobros">Cobros</th>
-                                            <th class="text-center" title="Pdf">Pdf</th>
-                                            <th class="text-center" title="Detalle">Detalle</th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('despacho')?>"><?=Strings::titleFromJson('despacho')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('usuario')?>"><?=Strings::titleFromJson('usuario')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_numerod')?>"><?=Strings::titleFromJson('cantidad_numerod')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('destino')?>"><?=Strings::titleFromJson('destino')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('editar')?>"><?=Strings::titleFromJson('editar')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('borrar')?>"><?=Strings::titleFromJson('borrar')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('ver')?>"><?=Strings::titleFromJson('ver')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('cobros')?>"><?=Strings::titleFromJson('cobros')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('pdf')?>"><?=Strings::titleFromJson('pdf')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('detalle')?>"><?=Strings::titleFromJson('detalle')?></th>
                                         </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
                                         <tr>
-                                            <th class="text-center">Despacho</th>
-                                            <th class="text-center">Fecha</th>
-                                            <th class="text-center">Usuario</th>
-                                            <th class="text-center">Cant Fact</th>
-                                            <th class="text-center">Destino</th>
-                                            <th class="text-center">Editar</th>
-                                            <th class="text-center">Borrar</th>
-                                            <th class="text-center">Ver</th>
-                                            <th class="text-center">Cobros</th>
-                                            <th class="text-center">Pdf</th>
-                                            <th class="text-center">Detalle</th>
+                                            <th class="text-center"><?=Strings::titleFromJson('despacho')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('usuario')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('cantidad_numerod')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('destino')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('editar')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('borrar')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('ver')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('cobros')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('pdf')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('detalle')?></th>
                                         </tr>
                                         </tfoot>
                                         <tbody>

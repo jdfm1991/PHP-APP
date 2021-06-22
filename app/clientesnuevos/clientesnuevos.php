@@ -53,11 +53,11 @@ if (!isset($_SESSION['cedula'])) {
 							<div class="col-sm-12">
 								<!-- radio -->
 								<div class="form-check form-check-inline">
-									<label for="vutil" class="col-form-label col-sm-4">Inicial</label>
+									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_i')?></label>
 									<input type="date" class="form-control col-sm-9"  id="fechai" name="fechai" required>
 								</div>&nbsp;&nbsp;&nbsp;
 								<div class="form-check form-check-inline">
-									<label for="vutil" class="col-form-label col-sm-4">Final</label>
+									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_f')?></label>
 									<input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
 								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 							</div>
@@ -66,7 +66,7 @@ if (!isset($_SESSION['cedula'])) {
 				</div>
 				<!-- BOX BOTON DE PROCESO -->
 				<div class="card-footer">
-					<button type="submit" class="btn btn-success" id="btn_clientesnuevos"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+					<button type="submit" class="btn btn-success" id="btn_clientesnuevos"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
 				</div>
 			</div>
 
@@ -79,20 +79,20 @@ if (!isset($_SESSION['cedula'])) {
 					<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="clientesnuevos_data">
 						<thead style="background-color: #17A2B8;color: white;">
 							<tr>
-								<th class="text-center" title="Codigo Cliente">Codigo Cliente</th>
-								<th class="text-center" title="Razón Social">Razón Social</th>
-								<th class="text-center" title="RIF">Rif</th>
-								<th class="text-center" title="Cliente desde - Ruta">Fecha</th>
-								<th class="text-center" title="Pertenece a la Ruta">Ruta</th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('rif')?>"><?=Strings::titleFromJson('rif')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
 							</tr>
 						</thead>
 						<tfoot style="background-color: #ccc;color: white;">
 							<tr>
-								<th class="text-center">Codigo Cliente</th>
-								<th class="text-center">Razón Social</th>
-								<th class="text-center">Rif</th>
-								<th class="text-center">Fecha</th>
-								<th class="text-center">Ruta</th>
+								<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('rif')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
 							</tr>
 						</tfoot>
 						<tbody>
@@ -106,8 +106,8 @@ if (!isset($_SESSION['cedula'])) {
 					</div>
 					<!-- BOX BOTONES DE REPORTES-->
 					<div align="center">
-						<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-						<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+						<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+						<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
 					</div>
 				</div>
 			</section>

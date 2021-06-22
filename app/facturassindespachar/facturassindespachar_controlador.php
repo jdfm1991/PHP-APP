@@ -39,22 +39,22 @@ switch ($_GET["op"]) {
 
         /** TITULO DE LAS COLUMNAS DE LA TABLA **/
         $thead = Array();
-        $thead[] = "Documento";
-        $thead[] = "Fecha Emisión";
+        $thead[] = Strings::titleFromJson('numerod');
+        $thead[] = Strings::titleFromJson('fecha_emision');
         if($check) {
-            $thead[] = "Fecha Despacho";
-            $thead[] = "Dias Transcurridos";
+            $thead[] = Strings::titleFromJson('fecha_despacho');
+            $thead[] = Strings::titleFromJson('dias_transcurridos');
         }
-        $thead[] = "Código";
-        $thead[] = "Cliente";
-        $thead[] = "Días Transcurridos Hasta Hoy";
-        $thead[] = "Cantidad Bultos";
-        $thead[] = "Cantidad Paquetes";
-        $thead[] = "Monto Bs";
-        $thead[] = "EDV";
+        $thead[] = Strings::titleFromJson('codigo');
+        $thead[] = Strings::titleFromJson('cliente');
+        $thead[] = Strings::titleFromJson('dias_transcurridos_hoy');
+        $thead[] = Strings::titleFromJson('cantidad_bultos');
+        $thead[] = Strings::titleFromJson('cantidad_paquetes');
+        $thead[] = Strings::titleFromJson('monto');
+        $thead[] = Strings::titleFromJson('descrip_vend');
         if($check) {
-            $thead[] = "Tiempo Promedio Estimado";
-            $thead[] = "%Oportunidad";
+            $thead[] = Strings::titleFromJson('tiempo_prom_estimado');
+            $thead[] = Strings::titleFromJson('porcentaje_oportunidad');
         }
 
 
@@ -106,7 +106,7 @@ switch ($_GET["op"]) {
             "columns" => $thead,
             'totalDoc' => $num,
             'Mtototal' => number_format($suma_monto, 2, ",", "."),
-            'oportunidad' => ($check) ? number_format(($porcent / count($datos)), 2, ",", ".") . ' %' : '',
+            'oportunidad' => ($check and count($datos)>0) ? number_format(($porcent / count($datos)), 2, ",", ".") . ' %' : '',
             "aaData" => $data);
         echo json_encode($output);
 

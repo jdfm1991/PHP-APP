@@ -39,14 +39,15 @@ class PDF extends FPDF
         $this->Cell(40, 10, 'REPORTE DE CLIENTES NUEVOS DE ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 1, 'C');
 
         // Salto de línea
-        $this->Ln(20);
+        $this->Ln(10);
+        $this->SetFont('Arial', '', 9);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(25), 6, 'Cod CLiente', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(80), 6, 'Cliente', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, 'Rif', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(20), 6, 'Fecha', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, 'Ruta', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(80), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(30), 6, utf8_decode(Strings::titleFromJson('rif')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(30), 6, utf8_decode(Strings::titleFromJson('ruta')), 1, 1, 'C', true);
 
     }
 }

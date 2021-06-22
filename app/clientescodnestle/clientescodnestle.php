@@ -78,7 +78,7 @@ if (!isset($_SESSION['cedula'])) {
 					</div>
 					<!-- BOX BOTON DE PROCESO -->
 					<div class="card-footer">
-						<button type="submit" class="btn btn-success" id="btn_clientescodnestle"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+						<button type="submit" class="btn btn-success" id="btn_clientescodnestle"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
 					</div>
 				</div>
 
@@ -91,24 +91,24 @@ if (!isset($_SESSION['cedula'])) {
 						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="clientescodnestle_data">
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
-									<th class="text-center" title="Ruta">Ruta</th>
-									<th class="text-center" title="Codigo del Cliente">Codigo Cliente</th>
-									<th class="text-left" title="Razón Social">Razón Social</th>
-									<th class="text-center" title="Rif">Rif</th>
-									<th class="text-center" title="Fecha de Apertura">Fecha de Apertura</th>
-									<th class="text-center" title="Dia de Visita">Dia de Visita</th>
-									<th class="text-center" title="Codificación Nestle">Codigo Nestle</th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('rif')?>"><?=Strings::titleFromJson('rif')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_apertura')?>"><?=Strings::titleFromJson('fecha_apertura')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('dia_visita')?>"><?=Strings::titleFromJson('dia_visita')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codnestle')?>"><?=Strings::titleFromJson('codnestle')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
-									<th class="text-center">Ruta</th>
-									<th class="text-center">Codigo Cliente</th>
-									<th class="text-center">Razón Social</th>
-									<th class="text-center">Rif</th>
-									<th class="text-center">Fecha de Apertura</th>
-									<th class="text-center">Dia de Visita</th>
-									<th class="text-center">Codigo Nestle</th>
+									<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('rif')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('fecha_apertura')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('dia_visita')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('codnestle')?></th>
 								</tr>
 							</tfoot>
 							<tbody>
@@ -117,8 +117,8 @@ if (!isset($_SESSION['cedula'])) {
 						</table>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
-							<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-							<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
 						</div>
 					</div>
 				</section>

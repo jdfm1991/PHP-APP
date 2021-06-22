@@ -40,12 +40,12 @@ class PDF extends FPDF
         $this->Ln(20);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(18), 6, 'CodClient', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(60), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(18), 6, 'Rif', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(50), 6, 'Direccion', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(21), 6, 'Estatus', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(24), 6, 'Dias Visita', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(60), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('rif')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(50), 6, utf8_decode(Strings::titleFromJson('direccion')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('estatus')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(24), 6, utf8_decode(Strings::titleFromJson('dia_visita')), 1, 1, 'C', true);
     }
 }
 

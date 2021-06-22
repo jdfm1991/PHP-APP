@@ -60,12 +60,12 @@ $sheet->setCellValue('A5', 'fecha tope:  '. date(FORMAT_DATE, strtotime($fechaf)
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', 'Ultima Venta')
-    ->setCellValue('B7', 'Codigo Cliente')
-    ->setCellValue('C7', 'Descripcion')
-    ->setCellValue('D7', 'Rif')
-    ->setCellValue('E7', 'CodVend')
-    ->setCellValue('F7', 'Pendiente');
+$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('fecha_ult_venta')))
+    ->setCellValue('B7', Strings::titleFromJson('codclie'))
+    ->setCellValue('C7', Strings::titleFromJson('razon_social'))
+    ->setCellValue('D7', Strings::titleFromJson('rif'))
+    ->setCellValue('E7', Strings::titleFromJson('ruta'))
+    ->setCellValue('F7', Strings::titleFromJson('saldo_pendiente'));
 
 $style_title = new Style();
 $style_title->applyFromArray(

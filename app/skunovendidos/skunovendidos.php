@@ -83,7 +83,7 @@ else { ?>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?=Strings::titleFromJson('codvend')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_clie')?>"><?=Strings::titleFromJson('descrip_clie')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
@@ -102,7 +102,7 @@ else { ?>
                             <th class="text-center"><?=Strings::titleFromJson('codvend')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('descrip_clie')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
@@ -121,8 +121,8 @@ else { ?>
 
                     <!-- BOX BOTONES DE REPORTES-->
                     <div align="center">
-                        <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('exportar_excel')?></button>
-                        <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('exportar_pdf')?></button>
+                        <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+                        <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                     </div>
                 </div>
         </section>

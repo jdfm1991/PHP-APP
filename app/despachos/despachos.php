@@ -67,23 +67,23 @@ if (!isset($_SESSION['cedula'])) {
 
                                 <div class="col-md-12">
                                     <h3> Datos de Translado</h3>
-                                    <label>Fecha del Despacho</label>
+                                    <label><?=Strings::titleFromJson('fecha_despacho')?></label>
                                     <input type="date" class="form-control" id="fecha" name="fecha" >
-                                    <label>Chofer</label>
+                                    <label><?=Strings::titleFromJson('chofer')?></label>
                                     <select class="form-control custom-select" id="chofer" name="chofer" style="width: 100%;" >
                                         <!-- los choferes se cargan por ajax -->
                                     </select>
-                                    <label>Vehiculo</label>
+                                    <label><?=Strings::titleFromJson('vehiculo')?></label>
                                     <select class="form-control custom-select" id="vehiculo" name="vehiculo" style="width: 100%;" >
                                         <!-- los vehiculos se cargan por ajax -->
                                     </select>
-                                    <label>Destino</label>
+                                    <label><?=Strings::titleFromJson('destino')?></label>
                                     <input type="text" class="form-control input-sm" maxlength="120" id="destino" name="destino" >
                                     <br />
-                                    <button class="btn btn-primary pull-left verFactura" id="buscarxfact_button"  onclick="limpiar_campo_factura_modal()" data-toggle="modal" data-target="#buscarxfacturaModal" type="button">Ver Factura</button>
-                                    <button class="btn btn-primary porDespachar" type="button">Por Despachar</button>
+                                    <button class="btn btn-primary pull-left verFactura" id="buscarxfact_button"  onclick="limpiar_campo_factura_modal()" data-toggle="modal" data-target="#buscarxfacturaModal" type="button"><?=Strings::titleFromJson('boton_verfactura')?></button>
+                                    <button class="btn btn-primary porDespachar" type="button"><?=Strings::titleFromJson('boton_pordespachar')?></button>
 
-                                    <button class="btn btn-success nextBtn  float-right" type="button">Siguiente</button>
+                                    <button class="btn btn-success nextBtn  float-right" type="button"><?=Strings::titleFromJson('boton_siguiente')?></button>
                                 </div>
 
                             </div>
@@ -96,7 +96,7 @@ if (!isset($_SESSION['cedula'])) {
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <button class="btn btn-primary pull-left anadir" type="button">Añadir</button>
+                                    <button class="btn btn-primary pull-left anadir" type="button"><?=Strings::titleFromJson('boton_anadir')?></button>
                                 </div>
                                 <div class="col-6">
                                     <div class="container text-center  justify-content-center align-items-center" id="containerProgress">
@@ -123,7 +123,7 @@ if (!isset($_SESSION['cedula'])) {
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <button class="btn btn-success float-right generar" type="button">Generar!</button>
+                                    <button class="btn btn-success float-right generar" type="button"><?=Strings::titleFromJson('boton_generar')?></button>
                                 </div>
                             </div>
 
@@ -139,28 +139,28 @@ if (!isset($_SESSION['cedula'])) {
                         <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="fact_por_despachar_data">
                             <thead style="background-color: #17A2B8;color: white;">
                             <tr>
-                                <th class="text-center" title="Factura">Factura</th>
-                                <th class="text-center" title="Fecha">Fecha</th>
-                                <th class="text-center" title="Razón Social">Razón Social</th>
-                                <th class="text-center" title="Zona">Zona</th>
-                                <th class="text-center" title="Ruta O EDV">Ruta</th>
-                                <th class="text-center" title="Monto">Monto</th>
-                                <th class="text-center" title="Peso (Kg)">Peso (Kg)</th>
-                                <th class="text-center" title="Volumen (cm3)">Volumen (cm3)</th>
-                                <th class="text-center" title="Acción">Acción</th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('zona')?>"><?=Strings::titleFromJson('zona')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('monto')?>"><?=Strings::titleFromJson('monto')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('peso')?>"><?=Strings::titleFromJson('peso')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('volumen')?>"><?=Strings::titleFromJson('volumen')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></th>
                             </tr>
                             </thead>
                             <tfoot style="background-color: #ccc;color: white;">
                             <tr>
-                                <th class="text-center">Factura</th>
-                                <th class="text-center">Fecha</th>
-                                <th class="text-center">Razón Social</th>
-                                <th class="text-center">Zona</th>
-                                <th class="text-center">Ruta</th>
-                                <th class="text-center">Monto</th>
-                                <th class="text-center">Peso (Kg)</th>
-                                <th class="text-center">Volulem (cm3)</th>
-                                <th class="text-center">Acción</th>
+                                <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('zona')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('monto')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('peso')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('volumen')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('botones_accion')?></th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -179,18 +179,18 @@ if (!isset($_SESSION['cedula'])) {
                         <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="despacho_general_data">
                             <thead style="background-color: #17A2B8;color: white;">
                             <tr>
-                                <th class="text-center" title="Codigo del Producto">Codigo del Producto</th>
-                                <th class="text-center" title="Descripción">Descripción</th>
-                                <th class="text-center" title="Cantidad de Bultos">Cantidad de Bultos</th>
-                                <th class="text-center" title="Cantidad de Paquetes">Cantidad de Paquetes</th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_bultos')?>"><?=Strings::titleFromJson('cantidad_bultos')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquetes')?>"><?=Strings::titleFromJson('cantidad_paquetes')?></th>
                             </tr>
                             </thead>
                             <tfoot style="background-color: #aaa;color: white;">
                             <tr>
                                 <th class="text-center"></th>
                                 <th class="text-center">TOTAL = </th>
-                                <th id="cantBul_tfoot" class="text-center">Cantidad de Bultos</th>
-                                <th id="cantPaq_tfoot" class="text-center">Cantidad de Paquetes</th>
+                                <th id="cantBul_tfoot" class="text-center"><?=Strings::titleFromJson('cantidad_bultos')?></th>
+                                <th id="cantPaq_tfoot" class="text-center"><?=Strings::titleFromJson('cantidad_paquetes')?></th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -205,7 +205,7 @@ if (!isset($_SESSION['cedula'])) {
                         </div>
                         <div align="center">
                             <button type="button" class="btn btn-info" id="btn_newdespacho">Crear Otro Despacho</button>
-                            <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                            <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                         </div>
                     </div>
             </section>

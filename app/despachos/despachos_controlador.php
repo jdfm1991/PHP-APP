@@ -16,8 +16,13 @@ switch ($_GET["op"]) {
 
         $peso_max_vehiculo = Vehiculos::getById($_POST["id"]);
 
-        $output["capacidad"] = $peso_max_vehiculo[0]["Capacidad"];
-        $output["cubicajeMax"] = $peso_max_vehiculo[0]["Volumen"];
+        if (is_array($peso_max_vehiculo)==true and count($peso_max_vehiculo)) {
+            $output["capacidad"] = $peso_max_vehiculo[0]["capacidad"];
+            $output["cubicajeMax"] = $peso_max_vehiculo[0]["volumen"];
+        } else {
+            $output["capacidad"] = 0;
+            $output["cubicajeMax"] = 0;
+        }
 
         echo json_encode($output);
 

@@ -35,14 +35,15 @@ class PDF extends FPDF
         $this->Cell(30, 10, 'REPORTE DE CLIENTES NO ACTIVOS', 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
+        $this->SetFont('Arial', '', 9);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(17), 6, 'Ult Venta', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(22), 6, 'Cod Cliente', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(76), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(22), 6, 'Rif', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(21), 6, 'CodVend', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(27), 6, 'Pendiente', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(32), 6, utf8_decode(Strings::titleFromJson('fecha_ult_venta')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(27), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(66), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20), 6, Strings::titleFromJson('rif'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(19), 6, Strings::titleFromJson('ruta'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(25), 6, Strings::titleFromJson('saldo_pendiente'), 1, 1, 'C', true);
 
     }
 }
