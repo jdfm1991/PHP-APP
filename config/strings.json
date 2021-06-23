@@ -42,7 +42,7 @@
   "direccion"       : {"title": "Dirección",          "description": "Dirección Fiscal"},
   "dia_visita"      : {"title": "Día de Visita",      "description": ""},
   "dias_transcurridos"     : {"title": "Días Transcurridos", "description": ""},
-  "dias_transcurridos_hoy" : {"title": "Días Transcurridos Hasta Hoy", "description": ""},
+  "dias_transcurridos_hoy" : {"title": "Días Transc. Hasta Hoy", "description": ""},
   "tiempo_prom_estimado"   : {"title": "Tiempo Promedio Estimado", "description": ""},
   "porcentaje_oportunidad" : {"title": "%Oportunidad", "description": ""},
   "estatus"         : {"title": "Estatus",            "description": ""},
@@ -69,6 +69,14 @@
   "tipo"            : {"title": "Tipo",               "description": ""},
   "codigo"          : {"title": "Código",             "description": ""},
   "cliente"         : {"title": "Cliente",            "description": ""},
+  "ruta_modulo"     : {"title": "Ruta",               "description": "Codigo Vendedor - Ruta"},
+  "menu"            : {"title": "Menú",               "description": "Codigo Vendedor - Ruta"},
+  "menu_nombre"     : {"title": "Nombre menú",               "description": "Codigo Vendedor - Ruta"},
+  "menu_padre"      : {"title": "Menú padre",               "description": "Codigo Vendedor - Ruta"},
+  "menu_hijo"       : {"title": "Menú hijo",               "description": "Codigo Vendedor - Ruta"},
+  "nombre"          : {"title": "Nombre",               "description": "Codigo Vendedor - Ruta"},
+  "icono"           : {"title": "Icono",               "description": "Codigo Vendedor - Ruta"},
+  "orden"           : {"title": "Orden",               "description": "Codigo Vendedor - Ruta"},
 
 
   "botones_accion"     : {"title": "Acciónes",         "description": ""},

@@ -81,24 +81,25 @@ class PDF extends FPDF
         $this->Cell(40, 10, $titulo, 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
+        $this->SetFont('Arial', '', 9);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(24 + ($anchoAdicional*0.05)), 6, 'Documento', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.05)), 6, utf8_decode('Fecha Emisión'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18 + ($anchoAdicional*0.05)), 6, utf8_decode(Strings::titleFromJson('numerod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(22 + ($anchoAdicional*0.05)), 6, utf8_decode(Strings::titleFromJson('fecha_emision')), 1, 0, 'C', true);
         if($GLOBALS['check']) {
-            $this->Cell(addWidthInArray(34), 6, 'Fecha Despacho', 1, 0, 'C', true);
-            $this->Cell(addWidthInArray(21), 6, utf8_decode('DíasTrans'), 1, 0, 'C', true);
+            $this->Cell(addWidthInArray(30), 6, utf8_decode(Strings::titleFromJson('fecha_despacho')), 1, 0, 'C', true);
+            $this->Cell(addWidthInArray(19), 6, utf8_decode('DíasTrans'), 1, 0, 'C', true);
         }
-        $this->Cell(addWidthInArray(24 + ($anchoAdicional*0.10)), 6, utf8_decode('Código'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(38 + ($anchoAdicional*0.40)), 6, 'Cliente', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(26 + ($anchoAdicional*0.05)), 6, utf8_decode('DíasHastHoy'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(19 + ($anchoAdicional*0.05)), 6, 'Cant Bult', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(19 + ($anchoAdicional*0.05)), 6, 'Cant Paq', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, 'Monto Bs', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(14 + ($anchoAdicional*0.05)), 6, 'EDV', 1, ($GLOBALS['check']) ? 0 : 1, 'C', true);
+        $this->Cell(addWidthInArray(19 + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('codigo')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(40 + ($anchoAdicional*0.40)), 6, utf8_decode(Strings::titleFromJson('cliente')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(35 + ($anchoAdicional*0.05)), 6, utf8_decode(Strings::titleFromJson('dias_transcurridos_hoy')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.05)), 6, utf8_decode(Strings::titleFromJson('cantidad_bultos')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(34 + ($anchoAdicional*0.05)), 6, utf8_decode(Strings::titleFromJson('cantidad_paquetes')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20 + ($anchoAdicional*0.20)), 6, utf8_decode(Strings::titleFromJson('monto')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(19 + ($anchoAdicional*0.05)), 6, utf8_decode(Strings::titleFromJson('descrip_vend')), 1, ($GLOBALS['check']) ? 0 : 1, 'C', true);
         if($GLOBALS['check']) {
-            $this->Cell(addWidthInArray(23), 6, 'TPromEsti', 1, 0, 'C', true);
-            $this->Cell(addWidthInArray(28), 6, '%Oportunidad', 1, 1, 'C', true);
+            $this->Cell(addWidthInArray(20), 6, utf8_decode('TPromEsti'), 1, 0, 'C', true);
+            $this->Cell(addWidthInArray(28), 6, utf8_decode(Strings::titleFromJson('porcentaje_oportunidad')), 1, 1, 'C', true);
         }
     }
 

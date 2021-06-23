@@ -78,20 +78,20 @@ if (!isset($_SESSION['cedula'])) {
                                                 <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="modulo_data">
                                                     <thead style="background-color: #17A2B8;color: white;">
                                                     <tr>
-                                                        <td class="text-center" title="Ruta">Ruta</td>
-                                                        <td class="text-center" title="Menú">Menú</td>
-                                                        <td class="text-center" title="Nombre">Nombre</td>
-                                                        <td class="text-center" title="Icono">Icono</td>
-                                                        <td class="text-center" title="Acción">Acciónes</td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('ruta_modulo')?>"><?=Strings::titleFromJson('ruta_modulo')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu')?>"><?=Strings::titleFromJson('menu')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('nombre')?>"><?=Strings::titleFromJson('nombre')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('icono')?>"><?=Strings::titleFromJson('icono')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                                     </tr>
                                                     </thead>
                                                     <tfoot style="background-color: #ccc;color: white;">
                                                     <tr>
-                                                        <td class="text-center">Ruta</td>
-                                                        <td class="text-center">Menú</td>
-                                                        <td class="text-center">Nombre</td>
-                                                        <td class="text-center">Icono</td>
-                                                        <td class="text-center">Acciónes</td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('ruta_modulo')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('menu')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('nombre')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('icono')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                                     </tr>
                                                     </tfoot>
                                                     <tbody>
@@ -116,22 +116,22 @@ if (!isset($_SESSION['cedula'])) {
                                                 <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="menu_data">
                                                     <thead style="background-color: #17A2B8;color: white;">
                                                     <tr>
-                                                        <td class="text-center" title="Nombre menú">Nombre menú</td>
-                                                        <td class="text-center" title="Icono">Icono</td>
-                                                        <td class="text-center" title="Menú padre">Menú padre</td>
-                                                        <td class="text-center" title="Menú hijo">Menú hijo</td>
-                                                        <td class="text-center" title="orden">orden</td>
-                                                        <td class="text-center" title="Acción">Acciónes</td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu_nombre')?>"><?=Strings::titleFromJson('menu_nombre')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('icono')?>"><?=Strings::titleFromJson('icono')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu_padre')?>"><?=Strings::titleFromJson('menu_padre')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu_hijo')?>"><?=Strings::titleFromJson('menu_hijo')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('orden')?>"><?=Strings::titleFromJson('orden')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                                     </tr>
                                                     </thead>
                                                     <tfoot style="background-color: #ccc;color: white;">
                                                     <tr>
-                                                        <td class="text-center">Nombre menú</td>
-                                                        <td class="text-center">Icono</td>
-                                                        <td class="text-center">Menú padre</td>
-                                                        <td class="text-center">Menú hijo</td>
-                                                        <td class="text-center">orden</td>
-                                                        <td class="text-center">Acciónes</td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('menu_nombre')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('icono')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('menu_padre')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('menu_hijo')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('orden')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                                     </tr>
                                                     </tfoot>
                                                     <tbody>

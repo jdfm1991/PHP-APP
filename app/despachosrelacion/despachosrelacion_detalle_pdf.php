@@ -2,7 +2,7 @@
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
 
-require('../public/fpdf/fpdf.php');
+require(PATH_LIBRARY.'fpdf/fpdf.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
 require_once ("despachosrelacion_modelo.php");
@@ -19,17 +19,14 @@ class PDF extends FPDF
     // Cabecera de página
     function Header()
     {
-        $despachos  = new Despachos();
-        $empresa = $despachos->getDatosEmpresa();
-
         // Logo
-        $this->Image('../public/build/images/logo.png', 10, 8, 33);
+        $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15
         $this->SetFont('Arial', 'B', 11);
         // Movernos a la derecha
         $this->Cell(80);
         // Título
-        $this->Cell(30, 10, $empresa[0]['Descrip'], 0, 0, 'C');
+        $this->Cell(30, 10, Empresa::getName(), 0, 0, 'C');
         $this->Ln();
 
     }
@@ -43,18 +40,6 @@ class PDF extends FPDF
         $this->SetFont('Arial', 'I', 8);
         // Número de página
         $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
-    }
-
-    function SetWidths($w)
-    {
-        //Set the array of column widths
-        $this->widths = $w;
-    }
-
-    function SetAligns($a)
-    {
-        //Set the array of column alignments
-        $this->aligns = $a;
     }
 
     function Row($data)
@@ -162,7 +147,7 @@ $pdf->Cell(90,7,'Nro de Despacho: '.str_pad($correlativo, 8, 0, STR_PAD_LEFT),0,
 $pdf->Ln();
 $pdf->SetFont ('Arial','',7);
 $pdf->Cell(90,7,'Fecha Despacho: '.date(FORMAT_DATE, strtotime($cabeceraDespacho[0]['fechad'])),0,0,'L');
-$pdf->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['Placa'].'  '.$vehiculo[0]['Modelo'].'  '.$vehiculo[0]['Capacidad'].'Kg',0,0,'L');
+$pdf->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['placa'].'  '.$vehiculo[0]['modelo'].'  '.$vehiculo[0]['capacidad'].'Kg',0,0,'L');
 $pdf->Ln();
 
 $pdf->Cell(150,7,'Destino : '.$cabeceraDespacho[0]['Destino']." - ".$chofer[0]['Nomper'],0,0,'L');
@@ -179,24 +164,24 @@ $pdf->Ln();
 $pdf->SetFillColor(200,220,255);
 // titulo de columnas
 $pdf->SetFont ('Arial','B',8);
-$pdf->Cell(20,7,'Nro Fact',1,0,'C',true);
-$pdf->Cell(30,7,'Fecha E',1,0,'C',true);
-$pdf->Cell(10,7,'Ruta',1,0,'C',true);
-$pdf->Cell(30,7,'CodCliente',1,0,'C',true);
-$pdf->Cell(75,7,'Cliente',1,0,'C',true);
-$pdf->Cell(20,7,'Peso(Kg)',1,0,'C',true);
+$pdf->Cell(20,7, utf8_decode(Strings::titleFromJson('numerod')),1,0,'C',true);
+$pdf->Cell(23,7, utf8_decode(Strings::titleFromJson('fecha_emision')),1,0,'C',true);
+$pdf->Cell(15,7, utf8_decode(Strings::titleFromJson('ruta')),1,0,'C',true);
+$pdf->Cell(30,7, utf8_decode(Strings::titleFromJson('codclie')),1,0,'C',true);
+$pdf->Cell(77,7, utf8_decode(Strings::titleFromJson('razon_social')),1,0,'C',true);
+$pdf->Cell(20,7, utf8_decode(Strings::titleFromJson('peso')),1,0,'C',true);
 $pdf->SetFont ('Arial','',7);
 $pdf->Ln();
 
 
 $facturas_en_despacho = $relacion->get_factura_de_un_despacho_por_correlativo($correlativo);
 
-$pdf->SetWidths(array(20,30,10,30,75,20));
+$pdf->SetWidths(array(20,23,15,30,77,20));
 foreach ($facturas_en_despacho AS $item){
     $pdf->Row(
         array(
             $item["NumeroD"],
-            date("d M Y   h:m A", strtotime($item["FechaE"])),
+            date(FORMAT_DATE, strtotime($item["FechaE"])),
             $item["CodVend"],
             $item["CodClie"],
             $item["Descrip"],
@@ -238,14 +223,14 @@ $pdf->Ln();
 $pdf->SetFillColor(200,220,255);
 // titulo de columnas
 $pdf->SetFont ('Arial','B',8);
-$pdf->Cell(20,7,'Cod Prod',1,0,'C',true);
-$pdf->Cell(75,7, utf8_decode('Descripción'),1,0,'C',true);
-$pdf->Cell(30,7,'Cant Bultos',1,0,'C',true);
-$pdf->Cell(30,7,'Cant Paquetes',1,0,'C',true);
-$pdf->Cell(30,7,'Peso',1,1,'C',true);
+$pdf->Cell(25,7, utf8_decode(Strings::titleFromJson('codigo_prod')),1,0,'C',true);
+$pdf->Cell(70,7, utf8_decode(Strings::titleFromJson('descrip_prod')),1,0,'C',true);
+$pdf->Cell(30,7, utf8_decode(Strings::titleFromJson('cantidad_bultos')),1,0,'C',true);
+$pdf->Cell(32,7, utf8_decode(Strings::titleFromJson('cantidad_paquetes')),1,0,'C',true);
+$pdf->Cell(28,7, utf8_decode(Strings::titleFromJson('peso')),1,1,'C',true);
 $pdf->SetFont ('Arial','',8);
 
-$pdf->SetWidths(array(20,75,30,30,30));
+$pdf->SetWidths(array(25,70,30,32,28));
 foreach ($query as $i) {
 
     $bultos = 0;
@@ -308,8 +293,8 @@ $pdf->SetFillColor(200,220,255);
 $pdf->SetFont ('Arial','B',8);
 $pdf->Cell(95,7,'Total = ',1,0,'C');
 $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
-$pdf->Cell(30,7,$total_paq.' Paq',1,0,'C',true);
-$pdf->Cell(30,7,rdecimal($total_peso).'Kg'.' - '.rdecimal($total_peso/1000).'TN',1,0,'C',true);
+$pdf->Cell(32,7,$total_paq.' Paq',1,0,'C',true);
+$pdf->Cell(28,7,rdecimal($total_peso).'Kg'.' - '.rdecimal($total_peso/1000).'TN',1,0,'C',true);
 $pdf->Ln();
 $pdf->Cell(62,7,'FACTURAS DESPACHADAS '.$num,0,0,'C');
 $pdf->Ln();

@@ -81,17 +81,17 @@ $sheet->setCellValue('A1', 'REPORTE DE COSTOS E INVENTARIO');
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', 'Codigo')
-    ->setCellValue('B7', 'Producto')
-    ->setCellValue('C7', 'Marca')
-    ->setCellValue('D7', 'Costo Bultos')
-    ->setCellValue('E7', 'Costo Unidad')
-    ->setCellValue('F7', 'Precio')
-    ->setCellValue('G7', 'Bultos')
-    ->setCellValue('H7', 'Paquetes')
-    ->setCellValue('I7', 'Total Costo Bultos')
-    ->setCellValue('J7', 'Total Costo Unidades')
-    ->setCellValue('K7', 'Peso');
+$sheet->setCellValue('A7', Strings::titleFromJson('codigo_prod'))
+    ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
+    ->setCellValue('C7', Strings::titleFromJson('marca_prod'))
+    ->setCellValue('D7', Strings::titleFromJson('costo_bultos'))
+    ->setCellValue('E7', Strings::titleFromJson('costo_paquete'))
+    ->setCellValue('F7', Strings::titleFromJson('precio'))
+    ->setCellValue('G7', Strings::titleFromJson('bultos'))
+    ->setCellValue('H7', Strings::titleFromJson('paquetes'))
+    ->setCellValue('I7', Strings::titleFromJson('totalcosto_bultos'))
+    ->setCellValue('J7', Strings::titleFromJson('totalcosto_paquetes'))
+    ->setCellValue('K7', Strings::titleFromJson('tara'));
 
 $style_title = new Style();
 $style_title->applyFromArray(

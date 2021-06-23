@@ -56,11 +56,11 @@ class PDF extends FPDF
         $this->SetFillColor(200,220,255);
         // titulo de columnas
         $this->SetFont ('Arial','B',8);
-        $this->Cell(20,7,'Cod Prod',1,0,'C',true);
-        $this->Cell(75,7, utf8_decode('Descripción'),1,0,'C',true);
-        $this->Cell(30,7,'Cant Bultos',1,0,'C',true);
-        $this->Cell(30,7,'Cant Paquetes',1,0,'C',true);
-        $this->Cell(30,7,'Peso',1,1,'C',true);
+        $this->Cell(25,7,utf8_decode(Strings::titleFromJson('codigo_prod')),1,0,'C',true);
+        $this->Cell(70,7, utf8_decode(Strings::titleFromJson('descrip_prod')),1,0,'C',true);
+        $this->Cell(30,7,utf8_decode(Strings::titleFromJson('cantidad_bultos')),1,0,'C',true);
+        $this->Cell(32,7,utf8_decode(Strings::titleFromJson('cantidad_paquetes')),1,0,'C',true);
+        $this->Cell(30,7,utf8_decode(Strings::titleFromJson('peso')),1,1,'C',true);
     }
 
 }
@@ -71,7 +71,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 8);
 
-$pdf->SetWidths(array(20,75,30,30,30));
+$pdf->SetWidths(array(25,70,30,32,30));
 $lote = "";
 
 //obtener los productos por despacho creado
@@ -158,7 +158,7 @@ $pdf->SetFillColor(200,220,255);
 $pdf->SetFont ('Arial','B',8);
 $pdf->Cell(95,7,'Total = ',1,0,'C');
 $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
-$pdf->Cell(30,7,$total_paq.' Paq',1,0,'C',true);
+$pdf->Cell(32,7,$total_paq.' Paq',1,0,'C',true);
 $pdf->Cell(30,7,Strings::rdecimal($total_peso).'Kg'.' - '.Strings::rdecimal($total_peso/1000).'TN',1,0,'C',true);
 $pdf->Ln();
 $pdf->Cell(62,7,'FACTURAS DESPACHADAS '.$num,0,0,'C');

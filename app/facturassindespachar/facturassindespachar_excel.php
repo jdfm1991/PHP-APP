@@ -91,22 +91,22 @@ $sheet->setCellValue('A1', $titulo);
 $spreadsheet->getActiveSheet()->mergeCells('A1:H1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue(getExcelCol($i).'7', 'Documento');
-$sheet->setCellValue(getExcelCol($i).'7', 'Fecha Emisión');
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('numerod'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('fecha_emision'));
 if($check) {
-    $sheet->setCellValue(getExcelCol($i).'7', 'Fecha Despacho');
-    $sheet->setCellValue(getExcelCol($i).'7', 'DíasTrans');
+    $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('fecha_despacho'));
+    $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('dias_transcurridos'));
 }
-$sheet->setCellValue(getExcelCol($i).'7', 'Código');
-$sheet->setCellValue(getExcelCol($i).'7', 'Cliente');
-$sheet->setCellValue(getExcelCol($i).'7', 'DíasHastHoy');
-$sheet->setCellValue(getExcelCol($i).'7', 'Cant Bult');
-$sheet->setCellValue(getExcelCol($i).'7', 'Cant Paq');
-$sheet->setCellValue(getExcelCol($i).'7', 'Monto Bs');
-$sheet->setCellValue(getExcelCol($i).'7', 'EDV');
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('codigo'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('cliente'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('dias_transcurridos_hoy'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('cantidad_bultos'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('cantidad_paquetes'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('monto'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('descrip_vend'));
 if($check) {
-    $sheet->setCellValue(getExcelCol($i).'7', 'TPromEsti');
-    $sheet->setCellValue(getExcelCol($i).'7', '%Oportunidad');
+    $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('tiempo_prom_estimado'));
+    $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('porcentaje_oportunidad'));
 }
 
 //obtenemos el ultimo valor de la celda y la guardamos en una variable auxiliar

@@ -19,44 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="estandarizacion format_date y format_datetime">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="estandarizacion titulos y descripcion tabla">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chofer/chofer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Empresa.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Empresa.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +90,7 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -203,7 +174,8 @@
       <workItem from="1623331677028" duration="32543000" />
       <workItem from="1623760670199" duration="10571000" />
       <workItem from="1623771803416" duration="43056000" />
-      <workItem from="1624296638417" duration="26509000" />
+      <workItem from="1624296638417" duration="35012000" />
+      <workItem from="1624472741901" duration="4413000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -324,7 +296,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624305610389</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="estandarizacion titulos y descripcion tabla">
+      <created>1624389518588</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1624389518588</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -353,7 +332,8 @@
     <MESSAGE value="reporte excel kpi" />
     <MESSAGE value="sku no vendidos" />
     <MESSAGE value="estandarizacion format_date y format_datetime" />
-    <option name="LAST_COMMIT_MESSAGE" value="estandarizacion format_date y format_datetime" />
+    <MESSAGE value="estandarizacion titulos y descripcion tabla" />
+    <option name="LAST_COMMIT_MESSAGE" value="estandarizacion titulos y descripcion tabla" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
