@@ -49,7 +49,7 @@ $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
 $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
 $objDrawing->setHeight(108);
 $objDrawing->setWidth(128);
-$objDrawing->setCoordinates('E2');
+$objDrawing->setCoordinates('E1');
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
@@ -63,12 +63,12 @@ $sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', 'Codprod')
-    ->setCellValue('B7', 'Descripción')
-    ->setCellValue('C7', 'Marca')
-    ->setCellValue('D7', 'Fecha')
-    ->setCellValue('E7', 'Costos')
-    ->setCellValue('F7', 'Cantidad');
+$sheet->setCellValue('A7', Strings::titleFromJson('codigo_prod'))
+    ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
+    ->setCellValue('C7', Strings::titleFromJson('marca_prod'))
+    ->setCellValue('D7', Strings::titleFromJson('fecha'))
+    ->setCellValue('E7', Strings::titleFromJson('costos'))
+    ->setCellValue('F7', Strings::titleFromJson('cantidad'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -87,8 +87,8 @@ foreach ($query as $i) {
     $sheet->setCellValue('A' . $row, $i['codprod']);
     $sheet->setCellValue('B' . $row, $i['descrip']);
     $sheet->setCellValue('C' . $row, $i['marca']);
-    $sheet->setCellValue('E' . $row, date(FORMAT_DATE, strtotime($i['fechae'])));
-    $sheet->setCellValue('D' . $row, Strings::rdecimal($i['costo'], 2));
+    $sheet->setCellValue('D' . $row, date(FORMAT_DATE, strtotime($i['fechae'])));
+    $sheet->setCellValue('E' . $row, Strings::rdecimal($i['costo'], 2));
     $sheet->setCellValue('F' . $row, $i['cantidad']);
 
     /** centrarlas las celdas **/

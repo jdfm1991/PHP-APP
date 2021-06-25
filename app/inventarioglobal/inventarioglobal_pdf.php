@@ -62,17 +62,18 @@ class PDF extends FPDF
         // Título
         $this->Cell(40, 10, 'REPORTE DE INVENTARIO GLOBAL DEL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
         // Salto de línea
-        $this->Ln(20);
+        $this->Ln(15);
+        $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(25), 6, 'Codprod', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(86), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(36), 6, 'Cant Bultos X Desp', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(36), 6, 'Cant Paq X Desp', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(36), 6, 'Cant Bultos Sistema', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(36), 6, 'Cant Paq Sistema', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(36), 6, 'Total Invent Bultos', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(36), 6, 'Total Invent Paq', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(24), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(68), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(47), 6, utf8_decode(Strings::titleFromJson('cantidad_bultos_despachar')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(52), 6, utf8_decode(Strings::titleFromJson('cantidad_paquetes_despachar')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(38), 6, utf8_decode(Strings::titleFromJson('cantidad_bultos_sistema')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(42), 6, utf8_decode(Strings::titleFromJson('cantidad_paquetes_sistema')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(32), 6, utf8_decode(Strings::titleFromJson('total_inv_bultos')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(35), 6, utf8_decode(Strings::titleFromJson('total_inv_paquetes')), 1, 1, 'C', true);
     }
 
     function CheckPageBreak($h)

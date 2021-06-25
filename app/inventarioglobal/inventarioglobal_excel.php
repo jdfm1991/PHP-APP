@@ -84,14 +84,14 @@ $sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
 $spreadsheet->getActiveSheet()->mergeCells('A1:F1');
 //$sheet->getStyle('A:H')->getAlignment()->setHorizontal('center');
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', 'Codigo')
-    ->setCellValue('B7', 'Producto')
-    ->setCellValue('C7', 'Cant Bultos X Desp')
-    ->setCellValue('D7', 'Cant Paq X Desp')
-    ->setCellValue('E7', 'Cant Bultos Sistema')
-    ->setCellValue('F7', 'Cant Paq Sistema')
-    ->setCellValue('G7', 'Total Invent Bultos')
-    ->setCellValue('H7', 'Total Invent Paq');
+$sheet->setCellValue('A7', Strings::titleFromJson('codigo_prod'))
+    ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
+    ->setCellValue('C7', Strings::titleFromJson('cantidad_bultos_despachar'))
+    ->setCellValue('D7', Strings::titleFromJson('cantidad_paquetes_despachar'))
+    ->setCellValue('E7', Strings::titleFromJson('cantidad_bultos_sistema'))
+    ->setCellValue('F7', Strings::titleFromJson('cantidad_paquetes_sistema'))
+    ->setCellValue('G7', Strings::titleFromJson('total_inv_bultos'))
+    ->setCellValue('H7', Strings::titleFromJson('total_inv_paquetes'));
 
 $style_title = new Style();
 $style_title->applyFromArray(

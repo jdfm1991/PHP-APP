@@ -21,12 +21,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="estandarizacion titulos y descripcion tabla">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/historicocostos/historicocostos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/historicocostos/historicocostos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,7 +177,8 @@
       <workItem from="1623760670199" duration="10571000" />
       <workItem from="1623771803416" duration="43056000" />
       <workItem from="1624296638417" duration="35012000" />
-      <workItem from="1624472741901" duration="4413000" />
+      <workItem from="1624472741901" duration="12215000" />
+      <workItem from="1624634728780" duration="1273000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -303,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624389518588</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="estandarizacion titulos y descripcion tabla">
+      <created>1624478508382</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1624478508397</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

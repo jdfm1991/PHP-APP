@@ -70,7 +70,7 @@ if (!isset($_SESSION['cedula'])) {
                                 <form id="efectivas_form" class="form-horizontal" method="post">
                                     <div class="form-group row">
                                         <div class="form-group col-sm-6">
-                                            <label for="chofer">Chofer</label>
+                                            <label for="chofer"><?=Strings::titleFromJson('chofer')?></label>
                                             <select class="form-control custom-select" name="chofer" id="chofer" style="width: 100%;" required>
                                                 <!-- la lista de tipo se carga por ajax -->
                                             </select>
@@ -98,7 +98,7 @@ if (!isset($_SESSION['cedula'])) {
                                 <form id="rechazo_form" class="form-horizontal" method="post">
                                     <div class="form-group row">
                                         <div class="form-group col-sm-6">
-                                            <label for="chofer">Chofer</label>
+                                            <label for="chofer"><?=Strings::titleFromJson('chofer')?></label>
                                             <select class="form-control custom-select" name="chofer" id="chofer" style="width: 100%;" required>
                                                 <!-- la lista de tipo se carga por ajax -->
                                             </select>
@@ -134,7 +134,7 @@ if (!isset($_SESSION['cedula'])) {
                                 <form id="oportunidad_form" class="form-horizontal" method="post">
                                 <div class="form-group row">
                                         <div class="form-group col-sm-6">
-                                            <label for="chofer">Chofer</label>
+                                            <label for="chofer"><?=Strings::titleFromJson('chofer')?></label>
                                             <select class="form-control custom-select" name="chofer" id="chofer" style="width: 100%;" required>
                                                 <!-- la lista de tipo se carga por ajax -->
                                             </select>
@@ -163,7 +163,8 @@ if (!isset($_SESSION['cedula'])) {
                     <!-- BOX BOTON DE PROCESO -->
                     <div class="card-footer">
                         <button type="submit" class="btn btn-success" id="btn_consultar">
-                            <i class="fa fa-search" aria-hidden="true"></i> Consultar
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <?=Strings::titleFromJson('boton_consultar')?>
                         </button>
                     </div>
                 </div>
@@ -221,8 +222,8 @@ if (!isset($_SESSION['cedula'])) {
                                 <!-- BOX BOTONES DE REPORTES-->
                                 <div align="center">
                                     <br><p><span id="total_registros"></span></p><br>
-                                    <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                                    <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                                    <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+                                    <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                                 </div>
                             </div>
                         </div>

@@ -51,11 +51,11 @@ if (!isset($_SESSION['cedula'])) {
                         <form class="form-horizontal" >
                             <div class="form-group row">
                                 <div class="form-group col-sm-2">
-                                    <label for="fechai">Desde</label>
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha_i')?></label>
                                     <input type="date" class="form-control" id="fechai" name="fechai" required>
                                 </div>
                                 <div class="form-group col-sm-2">
-                                    <label for="fechaf">Hasta</label>
+                                    <label for="fechaf"><?=Strings::titleFromJson('fecha_f')?></label>
                                     <input type="date" class="form-control" id="fechaf" name="fechaf" required>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@ if (!isset($_SESSION['cedula'])) {
                     </div>
                     <!-- BOX BOTON DE PROCESO -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success" id="btn_consultar"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+                        <button type="submit" class="btn btn-success" id="btn_consultar"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
                     </div>
                 </div>
 
@@ -76,24 +76,24 @@ if (!isset($_SESSION['cedula'])) {
                         <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="historicocostos_data">
                             <thead style="background-color: #17A2B8;color: white;">
                             <tr>
-                                <th class="text-center" title="#">#</th>
-                                <th class="text-center" title="Codigo Producto">Codigo Producto</th>
-                                <th class="text-center" title="Descripción">Descripción</th>
-                                <th class="text-center" title="Marca">Marca</th>
-                                <th class="text-center" title="Fecha">Fecha</th>
-                                <th class="text-center" title="Costos">Costos</th>
-                                <th class="text-center" title="Cantidad">Cantidad</th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costos')?>"><?=Strings::titleFromJson('costos')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costos')?>"><?=Strings::titleFromJson('cantidad')?></th>
                             </tr>
                             </thead>
                             <tfoot style="background-color: #ccc;color: white;">
                             <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">Codigo Producto</th>
-                                <th class="text-center">Descripción</th>
-                                <th class="text-center">Marca</th>
-                                <th class="text-center">Fecha</th>
-                                <th class="text-center">Costos</th>
-                                <th class="text-center">Cantidad</th>
+                                <th class="text-center"><?=Strings::titleFromJson('#')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('costos')?></th>
+                                <th class="text-center"><?=Strings::titleFromJson('cantidad')?></th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -103,8 +103,8 @@ if (!isset($_SESSION['cedula'])) {
                         <!-- BOX BOTONES DE REPORTES-->
                         <div align="center">
                             <br><p><span id="total_registros"></span></p><br>
-                            <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                            <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                            <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+                            <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                         </div>
                     </div>
                 </div>
