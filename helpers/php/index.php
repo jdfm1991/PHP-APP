@@ -1,4 +1,5 @@
 <?php
+include_once 'ArraysHelpers.php';
 include_once 'Colors.php';
 include_once 'Dates.php';
 include_once 'Email.php';

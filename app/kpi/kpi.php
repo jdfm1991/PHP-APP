@@ -51,25 +51,25 @@ if (!isset($_SESSION['cedula'])) {
                         <form class="form-horizontal" id="kpi_form">
                             <div class="form-group row">
                                 <div class="form-group col-sm-3">
-                                    <label>Desde</label>
+                                    <label><?=Strings::titleFromJson('fecha_i')?></label>
                                     <input type="date" class="form-control" id="fechai" name="fechai" required>
                                 </div>
                                 <div class="form-group col-sm-3">
-                                    <label>Hasta</label>
+                                    <label><?=Strings::titleFromJson('fecha_f')?></label>
                                     <input type="date" class="form-control" id="fechaf" name="fechaf" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-sm-2">
-                                    <label>DIAS HABILES</label>
+                                    <label><?=Strings::titleFromJson('dias_habiles')?></label>
                                     <input type="number" class="form-control" id="d_habiles" name="d_habiles" value="1" min="1" required>
                                 </div>
                                 <div class="form-group col-sm-2">
-                                    <label>DIAS TRANSC.</label>
+                                    <label><?=Strings::titleFromJson('dias_transcurridos')?></label>
                                     <input type="number" class="form-control" id="d_transcurridos" name="d_transcurridos" value="0" min="0" required>
                                 </div>
                                 <div class="form-group col-sm-2">
-                                    <label>Proyección </label>
+                                    <label><?=Strings::titleFromJson('porcentaje_proyeccion')?></label>
                                     <input type="text" class="form-control" id="proyeccion" name="proyeccion" value="0%" disabled>
                                 </div>
                             </div>
@@ -78,7 +78,8 @@ if (!isset($_SESSION['cedula'])) {
                     <!-- BOX BOTON DE PROCESO -->
                     <div class="card-footer">
                         <button type="submit" class="btn btn-success" id="btn_consultar">
-                            <i class="fa fa-search" aria-hidden="true"></i> Consultar
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <?=Strings::titleFromJson('boton_consultar')?>
                         </button>
                     </div>
                 </div>

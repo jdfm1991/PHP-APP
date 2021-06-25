@@ -77,26 +77,26 @@ class KpiHelpers
 
         switch ($tipo) {
             case "KG":
-                $logro_kg_a = KpiLogro::Kg_fact($ruta, $fechai, $fechaf, 'A')[0]['kg'];
-                $logro_kg_b = KpiLogro::Kg_fact($ruta, $fechai, $fechaf, 'B')[0]['kg'] * (-1);
-                $logro_kg_c = KpiLogro::Kg_nota($ruta, $fechai, $fechaf, 'C')[0]['kg'];
-                $logro_kg_d = KpiLogro::Kg_nota($ruta, $fechai, $fechaf, 'D')[0]['kg'] * (-1);
+                $logro_kg_a = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Kg_fact($ruta, $fechai, $fechaf, 'A'),0,'kg');
+                $logro_kg_b = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Kg_fact($ruta, $fechai, $fechaf, 'B'),0,'kg') * (-1);
+                $logro_kg_c = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Kg_nota($ruta, $fechai, $fechaf, 'C'),0,'kg');
+                $logro_kg_d = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Kg_nota($ruta, $fechai, $fechaf, 'D'),0,'kg') * (-1);
 
                 $logrado = $logro_kg_a + $logro_kg_b + $logro_kg_c + $logro_kg_d;
                 break;
             case "UNI":
-                $logro_unid_a = KpiLogro::Unid_fact($ruta, $fechai, $fechaf, 'A')[0]['paq'];
-                $logro_unid_b = KpiLogro::Unid_fact($ruta, $fechai, $fechaf, 'B')[0]['paq'] * (-1);
-                $logro_unid_c = KpiLogro::Unid_nota($ruta, $fechai, $fechaf, 'C')[0]['paq'];
-                $logro_unid_d = KpiLogro::Unid_nota($ruta, $fechai, $fechaf, 'D')[0]['paq'] * (-1);
+                $logro_unid_a = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Unid_fact($ruta, $fechai, $fechaf, 'A'),0,'paq');
+                $logro_unid_b = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Unid_fact($ruta, $fechai, $fechaf, 'B'),0,'paq') * (-1);
+                $logro_unid_c = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Unid_nota($ruta, $fechai, $fechaf, 'C'),0,'paq');
+                $logro_unid_d = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Unid_nota($ruta, $fechai, $fechaf, 'D'),0,'paq') * (-1);
 
                 $logrado = $logro_unid_a + $logro_unid_b + $logro_unid_c + $logro_unid_d;
                 break;
             case "BUL":
-                $logro_bul_a = KpiLogro::Bul_fact($ruta, $fechai, $fechaf, 'A')[0]['bul'];
-                $logro_bul_b = KpiLogro::Bul_fact($ruta, $fechai, $fechaf, 'B')[0]['bul'] * (-1);
-                $logro_bul_c = KpiLogro::Bul_nota($ruta, $fechai, $fechaf, 'C')[0]['bul'];
-                $logro_bul_d = KpiLogro::Bul_nota($ruta, $fechai, $fechaf, 'D')[0]['bul'] * (-1);
+                $logro_bul_a = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Bul_fact($ruta, $fechai, $fechaf, 'A'),0,'bul');
+                $logro_bul_b = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Bul_fact($ruta, $fechai, $fechaf, 'B'),0,'bul') * (-1);
+                $logro_bul_c = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Bul_nota($ruta, $fechai, $fechaf, 'C'),0,'bul');
+                $logro_bul_d = ArraysHelpers::validateWithPosAndParameter(KpiLogro::Bul_nota($ruta, $fechai, $fechaf, 'D'),0,'bul') * (-1);
 
                 $logrado = $logro_bul_a + $logro_bul_b + $logro_bul_c + $logro_bul_d;
                 break;

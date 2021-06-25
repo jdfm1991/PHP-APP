@@ -17,7 +17,7 @@ require_once("../../config/conexion.php");
                 <img src="<?php echo URL_LIBRARY; ?>dist/img/AdminLTELogo.png " alt="AdminLTE Logo"
                      class="brand-image img-circle elevation-3"
                      style="opacity: .8">
-                <span class="brand-text font-weight-light">Logística y Despacho</span>
+                <span class="brand-text font-weight-light"><?=Strings::titleFromJson('nombre_app')?></span>
             </a>
 
             <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -138,11 +138,11 @@ require_once("../../config/conexion.php");
             <!-- /.container-fluid -->
             <div class="container">
                 <a href="kpi_excel.php?&fechai=<?php echo $_GET['fechai']; ?> &fechaf=<?php echo $_GET['fechaf']; ?>&d_habiles=<?php echo $_GET['d_habiles']; ?>&d_trans=<?php echo $_GET['d_trans']; ?>" class="card-link" id="btn_excel">
-                    Exportar a Excel
+                    <?=Strings::titleFromJson('boton_excel')?>
                 </a>
 
                <!-- <a href="kpi_pdf.php?&fechai=<?php /*echo $_GET['fechai']; */?>&fechaf=<?php /*echo $_GET['fechaf']; */?>&d_habiles=<?php /*echo $_GET['d_habiles']; */?>&d_trans=<?php /*echo $_GET['d_trans']; */?>" class="card-link" id="btn_pdf" target="_blank">
-                    Exportar a PDF
+                    <?=Strings::titleFromJson('boton_pdf')?>
                 </a>-->
             </div>
         </div>
