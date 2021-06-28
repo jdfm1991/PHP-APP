@@ -51,11 +51,11 @@ if (!isset($_SESSION['cedula'])) {
                         <form class="form-horizontal" id="frmCompras">
                             <div class="form-group row">
                                 <div class="form-group col-2">
-                                    <label for="fechai">Fecha inicial</label>
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha_inicial')?></label>
                                     <input type="date" class="form-control" id="fechai" name="fechai" required>
                                 </div>
                                 <div class="form-group col-3 col-sm-3">
-                                    <label for="marca">Marca</label>
+                                    <label for="marca"><?=Strings::titleFromJson('descrip_prod')?></label>
                                     <select class="custom-select" name="marca" id="marca" style="width: 100%;" required>
                                         <!-- la lista de marcas se carga por ajax -->
                                     </select>
@@ -65,7 +65,7 @@ if (!isset($_SESSION['cedula'])) {
                     </div>
                     <!-- BOX BOTON DE PROCESO -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success" id="btn_reportecompra"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+                        <button type="submit" class="btn btn-success" id="btn_reportecompra"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
                     </div>
                 </div>
 
@@ -79,28 +79,28 @@ if (!isset($_SESSION['cedula'])) {
                             <table class="table table-sm table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="reportecompras_data">
                                 <thead style="background-color: #17A2B8;color: white;">
                                 <tr>
-                                    <th style="width: 10px" rowspan="2">#</th>
-                                    <th rowspan="2">Codigo</th>
-                                    <th rowspan="2">Descripción</th>
-                                    <th rowspan="2">Display x Bulto</th>
-                                    <th colspan="2">Último precio de compra</th>
-                                    <th rowspan="2">% RENT</th>
-                                    <th colspan="2">Fecha penúltima compra</th>
-                                    <th colspan="2">Fecha última compra</th>
-                                    <th colspan="4">Ventas mes anterior</th>
-                                    <th rowspan="2">Venta total último mes</th>
-                                    <th rowspan="2">Existencia Actual Bultos</th>
-                                    <th rowspan="2">Días de Inventarios</th>
-                                    <th rowspan="2">Sugerido</th>
-                                    <th rowspan="2">Pedido</th>
+                                    <th style="width: 10px" rowspan="2"><?=Strings::titleFromJson('#')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('codigo_prod')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('descrip_prod')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('display_por_bulto')?></th>
+                                    <th colspan="2"><?=Strings::titleFromJson('ultimo_precio_compra')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('porcentaje_rentabilidad')?></th>
+                                    <th colspan="2"><?=Strings::titleFromJson('fecha_penultima_compra')?></th>
+                                    <th colspan="2"><?=Strings::titleFromJson('fecha_ultima_compra')?></th>
+                                    <th colspan="4"><?=Strings::titleFromJson('ventas_mes_anterior')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('ventas_total_ult_mes')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('existencia_actual_bultos')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('dias_inventario')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('sugerido')?></th>
+                                    <th rowspan="2"><?=Strings::titleFromJson('pedido')?></th>
                                 </tr>
                                 <tr>
-                                    <th>Display</th>
-                                    <th>Bulto</th>
-                                    <th>Fecha</th>
-                                    <th>Bultos</th>
-                                    <th>Fecha</th>
-                                    <th>Bultos</th>
+                                    <th><?=Strings::titleFromJson('display')?></th>
+                                    <th><?=Strings::titleFromJson('bulto')?></th>
+                                    <th><?=Strings::titleFromJson('fecha')?></th>
+                                    <th><?=Strings::titleFromJson('bultos')?></th>
+                                    <th><?=Strings::titleFromJson('fecha')?></th>
+                                    <th><?=Strings::titleFromJson('bultos')?></th>
                                     <th>1</th>
                                     <th>2</th>
                                     <th>3</th>
@@ -118,8 +118,8 @@ if (!isset($_SESSION['cedula'])) {
                     <div align="center">
                         <br>
                         <br><p id="total_items">Total de Item:<code> <span id="total_registros"></span> </code></p><br>
-                        <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                        <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                        <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+                        <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                         <br>
                         <br>
                     </div>

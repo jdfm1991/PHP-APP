@@ -75,23 +75,23 @@ if (!isset($_SESSION['cedula'])) {
                             <div class="form-group row">
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="p1" value="checkbox" name="checkbox">
-                                    <label for="p1" class="custom-control-label">Precio 1</label>
+                                    <label for="p1" class="custom-control-label"><?=Strings::titleFromJson('precio_1')?></label>
                                 </div>
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="p2" value="checkbox" name="checkbox">
-                                    <label for="p2" class="custom-control-label">Precio 2</label>
+                                    <label for="p2" class="custom-control-label"><?=Strings::titleFromJson('precio_2')?></label>
                                 </div>
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="p3" value="checkbox" name="checkbox">
-                                    <label for="p3" class="custom-control-label">Precio 3</label>
+                                    <label for="p3" class="custom-control-label"><?=Strings::titleFromJson('precio_3')?></label>
                                 </div>
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="iva" value="checkbox" name="checkbox" checked="checked">
-                                    <label for="iva" class="custom-control-label">IVA (16%)</label>
+                                    <label for="iva" class="custom-control-label"><?=Strings::titleFromJson('iva')?></label>
                                 </div>
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="cubi" value="checkbox" name="checkbox">
-                                    <label for="cubi" class="custom-control-label">Cubicaje</label>
+                                    <label for="cubi" class="custom-control-label"><?=Strings::titleFromJson('cubicaje')?></label>
                                 </div>
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="exis" value="checkbox" name="checkbox" checked="checked">
@@ -102,7 +102,7 @@ if (!isset($_SESSION['cedula'])) {
                     </div>
                     <!-- BOX BOTON DE PROCESO -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success" id="btn_listadeprecio"><i class="fa fa-search" aria-hidden="true"></i>Consultar</button>
+                        <button type="submit" class="btn btn-success" id="btn_listadeprecio"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
                     </div>
                 </div>
 
@@ -112,23 +112,23 @@ if (!isset($_SESSION['cedula'])) {
                         <h3 class="card-title">Clientes</h3>
                     </div>
                     <div class="card-body" style="width:auto;">
-                        <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tablaprecios">
+                        <table class="table table-sm table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tablaprecios">
                             <thead style="background-color: #17A2B8;color: white;">
                                 <tr>
-                                    <th class="text-center" title="Código">Código</th>
-                                    <th class="text-center" title="Producto">Producto</th>
-                                    <th class="text-center" title="Marca">Marca</th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
 
-                                    <th class="text-center" title="Bultos">Bultos</th>
-                                    <th class="text-center" title="Precio 1">Precio 1 Bulto</th>
-                                    <th class="text-center" title="Precio 2">Precio 2 Bulto</th>
-                                    <th class="text-center" title="Precio 3">Precio 3 Bulto</th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('bultos')?>"><?=Strings::titleFromJson('bultos')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio1_bulto')?>"><?=Strings::titleFromJson('precio1_bulto')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio2_bulto')?>"><?=Strings::titleFromJson('precio2_bulto')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio3_bulto')?>"><?=Strings::titleFromJson('precio3_bulto')?></th>
 
-                                    <th class="text-center" title="Código">Paquete</th>
-                                    <th class="text-center" title="Precio 1">Precio 1 Paquete</th>
-                                    <th class="text-center" title="Precio 2">Precio 2 Paquete</th>
-                                    <th class="text-center" title="Precio 3">Precio 3 Paquete</th>
-                                    <th class="text-center" title="Cubicaje">Cubicaje</th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('paquetes')?>"><?=Strings::titleFromJson('paquetes')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio1_paquete')?>"><?=Strings::titleFromJson('precio1_paquete')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio2_paquete')?>"><?=Strings::titleFromJson('precio2_paquete')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio3_paquete')?>"><?=Strings::titleFromJson('precio3_paquete')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cubicaje')?>"><?=Strings::titleFromJson('cubicaje')?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,8 +137,8 @@ if (!isset($_SESSION['cedula'])) {
                         </table>
                         <!-- BOX BOTONES DE REPORTES-->
                         <div align="center">
-                            <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                            <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                            <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+                            <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                         </div>
                     </div>
                 </div>

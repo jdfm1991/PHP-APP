@@ -46,20 +46,21 @@ if (!isset($_SESSION['cedula'])) {
                         <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tabla">
                             <thead style="background-color: #17A2B8;color: white;">
                             <tr>
-                                <td class="text-center" title="Ruta">Ruta</td>
-                                <td class="text-center" title="Nombre">Nombre</td>
-                                <td class="text-center" title="Clase">Clase</td>
-                                <td class="text-center" title="Depósito">Ubicación</td>
-                                <td class="text-center" title="Acción">Acciónes</td>
+                                <td class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></td>
+                                <td class="text-center" title="<?=Strings::DescriptionFromJson('nombre')?>"><?=Strings::titleFromJson('nombre')?></td>
+                                <td class="text-center" title="<?=Strings::DescriptionFromJson('clase')?>"><?=Strings::titleFromJson('clase')?></td>
+                                <td class="text-center" title="<?=Strings::DescriptionFromJson('direccion')?>"><?=Strings::titleFromJson('direccion')?></td>
+                                <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
+                            </tr>
                             </tr>
                             </thead>
                             <tfoot style="background-color: #ccc;color: white;">
                             <tr>
-                                <td class="text-center">Ruta</td>
-                                <td class="text-center">Nombre</td>
-                                <td class="text-center">Clase</td>
-                                <td class="text-center">Depósito</td>
-                                <td class="text-center">Acciónes</td>
+                                <td class="text-center"><?=Strings::titleFromJson('ruta')?></td>
+                                <td class="text-center"><?=Strings::titleFromJson('nombre')?></td>
+                                <td class="text-center"><?=Strings::titleFromJson('clase')?></td>
+                                <td class="text-center"><?=Strings::titleFromJson('direccion')?></td>
+                                <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                             </tr>
                             </tfoot>
                             <tbody>

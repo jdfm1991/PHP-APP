@@ -98,13 +98,14 @@ class PDF extends FPDF
         $this->Cell(40, 10, 'REPORTE DE LISTADO DE PRECIOS E INVENTARIO', 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
+        $this->SetFont('Arial', 'B', 8.5);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(18 + ($anchoAdicional*0.20)), 6, 'Codigo', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(65 + ($anchoAdicional*0.40)), 6, utf8_decode('Descripción'), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, 'Marca', 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20 + ($anchoAdicional*0.20)), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(65 + ($anchoAdicional*0.40)), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, utf8_decode(Strings::titleFromJson('marca_prod')), 1, 0, 'C', true);
         //BULTOS
-        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, 'Bultos', 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
         switch ($GLOBALS['sumap']) {
             case 1:
                 $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Bul', 1, 0, 'C', true);
@@ -116,12 +117,12 @@ class PDF extends FPDF
                 $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', true);
                 break;
             default: /** 0 || 3**/
-                $this->Cell(addWidthInArray(25), 6, 'Pre 1 Bul', 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 2 Bul', 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 3 Bul', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio1_bulto')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio2_bulto')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio3_bulto')), 1, 0, 'C', true);
         }
         //PAQUETES
-        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, 'Paquete', 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('paquetes')), 1, 0, 'C', true);
         switch ($GLOBALS['sumap']) {
             case 1:
                 $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Paq', 1, $aux, 'C', true);
@@ -133,12 +134,12 @@ class PDF extends FPDF
                 $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, $aux, 'C', true);
                 break;
             default: /** 0 || 3**/
-                $this->Cell(addWidthInArray(25), 6, 'Pre 1 Paq', 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 2 Paq', 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, 'Pre 3 Paq', 1, $aux, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio1_paquete')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio2_paquete')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio3_paquete')), 1, $aux, 'C', true);
         }
         if ($GLOBALS['cubi'] == 1) {
-            $this->Cell(addWidthInArray(24), 6, 'Cubicaje', 1, 1, 'C', true);
+            $this->Cell(addWidthInArray(24), 6, utf8_decode(Strings::titleFromJson('cubicaje')), 1, 1, 'C', true);
         }
     }
 

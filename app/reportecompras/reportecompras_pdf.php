@@ -51,55 +51,56 @@ class PDF extends FPDF
         // Logo
         $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15
-        $this->SetFont('Arial', 'B', 10);
+        $this->SetFont('Arial', 'B', 12);
         // Movernos a la derecha
         $this->Cell(140);
         // Título
         $this->Cell(40, 10, 'REPORTE DE COMPRAS DE ' . strtoupper($GLOBALS['meses'][intval($GLOBALS['mes'])]) ." " . $GLOBALS['ano'], 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
+        $this->SetFont('Arial', 'B', 10);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(6, 18, '#', 1, 0, 'C', true);
-        $this->Cell(20, 18, 'Codigo', 1, 0, 'C', true);
-        $this->Cell(38, 18, 'Descripcion', 1, 0, 'C', true);
-        $this->MultiCell2(20, 9, 'Display x Bulto', 1, 0, 'C', true);
+        $this->Cell(6, 18, utf8_decode(Strings::titleFromJson('#')), 1, 0, 'C', true);
+        $this->Cell(20, 18, substr(utf8_decode(Strings::titleFromJson('codigo_prod')), 0, 7), 1, 0, 'C', true);
+        $this->Cell(38, 18, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->MultiCell2(20, 9, utf8_decode(Strings::titleFromJson('display_por_bulto')), 1, 0, 'C', true);
         $this->Ln(-9);
         $this->Cell(84);
-        $this->MultiCell2(44, 12, 'Ultimo precio de compra', 1, 0, 'C', true);
+        $this->MultiCell2(44, 12, utf8_decode(Strings::titleFromJson('ultimo_precio_compra')), 1, 0, 'C', true);
 //        $this->Ln(-6);
         $this->Cell(128);
-        $this->Cell(13, 18, '% Rent', 1, 0, 'C', true);
-        $this->MultiCell2(34, 6, 'Fecha penultima compra', 1, 0, 'C', true);
+        $this->Cell(13, 18, substr(utf8_decode(Strings::titleFromJson('porcentaje_rentabilidad')),0,5), 1, 0, 'C', true);
+        $this->MultiCell2(34, 6, utf8_decode(Strings::titleFromJson('fecha_penultima_compra')), 1, 0, 'C', true);
         $this->Ln(-6);
         $this->Cell(175);
-        $this->MultiCell2(34, 6, 'Fecha ultima compra', 1, 0, 'C', true);
+        $this->MultiCell2(34, 6, utf8_decode(Strings::titleFromJson('fecha_ultima_compra')), 1, 0, 'C', true);
         $this->Ln(-6);
         $this->Cell(209);
-        $this->MultiCell2(30, 6, 'Ventas mes aterior', 1, 0, 'C', true);
+        $this->MultiCell2(30, 6, utf8_decode(Strings::titleFromJson('ventas_mes_anterior')), 1, 0, 'C', true);
         $this->Ln(-6);
         $this->Cell(239);
-        $this->MultiCell2(15, 4.5, 'Venta total ultimo mes', 1, 0, 'C', true);
+        $this->MultiCell2(15, 4.5, utf8_decode(Strings::titleFromJson('ventas_total_ult_mes')), 1, 0, 'C', true);
         $this->Ln(-13.5);
         $this->Cell(254);
-        $this->MultiCell2(20, 6, 'Existencia Actual Bultos', 1, 0, 'C', true);
+        $this->MultiCell2(20, 6, utf8_decode(Strings::titleFromJson('existencia_actual_bultos')), 1, 0, 'C', true);
         $this->Ln(-12);
         $this->Cell(274);
-        $this->MultiCell2(20, 9, 'Dias de Inventario', 1, 0, 'C', true);
+        $this->MultiCell2(20, 9, utf8_decode(Strings::titleFromJson('dias_inventario')), 1, 0, 'C', true);
         $this->Ln(-9);
         $this->Cell(294);
-        $this->Cell(20, 18, 'Sugerido', 1, 0, 'C', true);
-        $this->Cell(14, 18, 'Pedido', 1, 1, 'C', true);
+        $this->Cell(20, 18, utf8_decode(Strings::titleFromJson('sugerido')), 1, 0, 'C', true);
+        $this->Cell(14, 18, utf8_decode(Strings::titleFromJson('pedido')), 1, 1, 'C', true);
 
         $this->Ln(-6);
         $this->Cell(84);
-        $this->Cell(22, 6, 'Display', 1, 0, 'C', true);
-        $this->Cell(22, 6, 'Bulto', 1, 0, 'C', true);
+        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('display')), 1, 0, 'C', true);
+        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('bulto')), 1, 0, 'C', true);
         $this->Cell(13);
-        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', true);
-        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', true);
-        $this->Cell(22, 6, 'Fecha', 1, 0, 'C', true);
-        $this->Cell(12, 6, 'Bultos', 1, 0, 'C', true);
+        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
+        $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
+        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
+        $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
         $this->Cell(7.5, 6, '1', 1, 0, 'C', true);
         $this->Cell(7.5, 6, '2', 1, 0, 'C', true);
         $this->Cell(7.5, 6, '3', 1, 0, 'C', true);

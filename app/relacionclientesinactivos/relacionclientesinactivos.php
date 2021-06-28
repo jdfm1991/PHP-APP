@@ -33,18 +33,18 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="cliente_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                         <tr>
-                                            <th class="text-center" title="Codigo Cliente">Codigo Cliente</th>
-                                            <th class="text-center" title="Razón Social">Razón Social</th>
-                                            <th class="text-center" title="Rif">Rif</th>
-                                            <th class="text-center" title="Acción">Acción</th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('rif')?>"><?=Strings::titleFromJson('rif')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></th>
                                         </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
                                         <tr>
-                                            <th class="text-center">Codigo Cliente</th>
-                                            <th class="text-center">Razón Social</th>
-                                            <th class="text-center">Rif</th>
-                                            <th class="text-center">Acción</th>
+                                            <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('rif')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('botones_accion')?></th>
                                         </tr>
                                         </tfoot>
                                         <tbody>

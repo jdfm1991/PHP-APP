@@ -30,11 +30,11 @@ switch ($_GET["op"]) {
 
         /** TITULO DE LAS COLUMNAS DE LA TABLA **/
         $thead = Array();
-        $thead[] = "Codigos";
-        $thead[] = "Producto";
-        $thead[] = "Marca";
+        $thead[] = Strings::titleFromJson('codigo_prod');
+        $thead[] = Strings::titleFromJson('descrip_prod');
+        $thead[] = Strings::titleFromJson('marca_prod');
         //<!--BULTOS-->
-        $thead[] = "Bultos";
+        $thead[] = Strings::titleFromJson('bultos');
         switch ($sumap) {
             case 1:
                 $thead[] = "Precio $sumap2 Bulto";
@@ -46,12 +46,12 @@ switch ($_GET["op"]) {
                 $thead[] = "Precio $aux2 Bulto";
                 break;
             default: /** 0 || 3**/
-                $thead[] = "Precio 1 Bulto";
-                $thead[] = "Precio 2 Bulto";
-                $thead[] = "Precio 3 Bulto";
+                $thead[] = Strings::titleFromJson('precio1_bulto');
+                $thead[] = Strings::titleFromJson('precio2_bulto');
+                $thead[] = Strings::titleFromJson('precio3_bulto');
         }
         //<!--PAQUETES-->
-        $thead[] = "Paquete";
+        $thead[] = Strings::titleFromJson('paquetes');
         switch ($sumap) {
             case 1:
                 $thead[] = "Precio $sumap2 Paquete";
@@ -63,12 +63,12 @@ switch ($_GET["op"]) {
                 $thead[] = "Precio $aux2 Paquete";
                 break;
             default: /** 0 || 3**/
-                $thead[] = "Precio 1 Paquete";
-                $thead[] = "Precio 2 Paquete";
-                $thead[] = "Precio 3 Paquete";
+                $thead[] = Strings::titleFromJson('precio1_paquete');
+                $thead[] = Strings::titleFromJson('precio2_paquete');
+                $thead[] = Strings::titleFromJson('precio3_paquete');
         }
         if ($cubi == 1) {
-            $thead[] = "Cubicaje";
+            $thead[] = Strings::titleFromJson('cubicaje');
         }
 
         /** CONTENIDO DE LA TABLA **/

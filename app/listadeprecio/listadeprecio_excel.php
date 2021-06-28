@@ -89,47 +89,47 @@ $sheet->setCellValue('A1', 'REPORTE DE LISTADO DE PRECIOS E INVENTARIO');
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue(getExcelCol($i).'7', 'Codigo');
-$sheet->setCellValue(getExcelCol($i).'7', 'Descripción');
-$sheet->setCellValue(getExcelCol($i).'7', 'Marca');
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('codigo_prod'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('descrip_prod'));
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('marca_prod'));
 //BULTOS
-$sheet->setCellValue(getExcelCol($i).'7', 'Bultos');
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('bultos'));
 switch ($sumap) {
     case 1:
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre '.$sumap2.' Bul');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Bulto');
         break;
     case 2:
         if($p1 == 1){ $pAux = $p1; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre '.$pAux.' Bul');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Bulto');
         if ($p3 == 3){ $pAux = $p3; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre '.$pAux.' Bul');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Bulto');
         $pAux = '';
         break;
     default: /** 0 || 3**/
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre 1 Bul');
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre 2 Bul');
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre 3 Bul');
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_bulto'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_bulto'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_bulto'));
 }
 //PAQUETES
-$sheet->setCellValue(getExcelCol($i).'7', 'Paquete');
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('paquetes'));
 switch ($sumap) {
     case 1:
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre '.$sumap2.' Paq');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Paquete');
         break;
     case 2:
         if($p1 == 1){ $pAux = $p1; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre '.$pAux.' Paq');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Paquete');
         if ($p3 == 3){ $pAux = $p3; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre '.$pAux.' Paq');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Paquete');
         $pAux = '';
         break;
     default: /** 0 || 3**/
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre 1 Paq');
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre 2 Paq');
-        $sheet->setCellValue(getExcelCol($i).'7', 'Pre 3 Paq');
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_paquete'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_paquete'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_paquete'));
 }
 if ($cubi == 1) {
-    $sheet->setCellValue(getExcelCol($i).'7', 'Cubicaje');
+    $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('cubicaje'));
 }
 //obtenemos el ultimo valor de la celda y la guardamos en una variable auxiliar
 $aux = $i-1;
