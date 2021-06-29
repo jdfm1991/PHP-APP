@@ -1,7 +1,7 @@
 <?php
 
 
-class Vehiculos extends Conectar
+class Vehiculo extends Conectar
 {
     public static function todos()
     {

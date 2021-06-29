@@ -14,7 +14,7 @@ switch ($_GET["op"]) {
 
     case "obtener_pesomaxvehiculo":
 
-        $peso_max_vehiculo = Vehiculos::getById($_POST["id"]);
+        $peso_max_vehiculo = Vehiculo::getById($_POST["id"]);
 
         if (is_array($peso_max_vehiculo)==true and count($peso_max_vehiculo)) {
             $output["capacidad"] = $peso_max_vehiculo[0]["capacidad"];
@@ -210,7 +210,7 @@ switch ($_GET["op"]) {
     case "listar_chofer_vehiculo":
 
         $output["lista_choferes"] = Choferes::todos();
-        $output["lista_vehiculos"] = Vehiculos::todos();
+        $output["lista_vehiculos"] = Vehiculo::todos();
 
         echo json_encode($output);
         break;

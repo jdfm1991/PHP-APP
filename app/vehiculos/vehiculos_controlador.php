@@ -6,7 +6,7 @@ require_once("../../config/conexion.php");
 //llamar a el modelo vehiculo
 require_once("vehiculos_modelo.php");
 
-$vehiculo = new Vehiculo();
+$vehiculo = new Vehiculos();
 
 switch ($_GET["op"]) {
 
@@ -29,7 +29,7 @@ switch ($_GET["op"]) {
         if (empty($id_vehiculo)) {
 
             /*verificamos si existe la placa y correo en la base de datos, si ya existe un registro con la placa o correo entonces no se registra el usuario*/
-            $datos = Vehiculos::getByRegistration($data["placa"]);
+            $datos = Vehiculo::getByRegistration($data["placa"]);
 
             if (is_array($datos) == true and count($datos) == 0) {
                 //no existe el usuario por lo tanto hacemos el registros
@@ -64,7 +64,7 @@ switch ($_GET["op"]) {
 
         //selecciona el id del usuario
         //el parametro id_vehiculo se envia por AJAX cuando se edita el usuario
-        $datos = Vehiculos::getById($_POST["id_vehiculo"]);
+        $datos = Vehiculo::getById($_POST["id_vehiculo"]);
 
         foreach ($datos as $row) {
             $output["id_vehiculo"] = $row["id"];
@@ -82,7 +82,7 @@ switch ($_GET["op"]) {
         $id = $_POST["id"];
         $activo  = $_POST["est"];
         //los parametros id_vehiculo y est vienen por via ajax
-        $datos = Vehiculos::getById($id);
+        $datos = Vehiculo::getById($id);
         //valida el id del usuario
         if (is_array($datos) == true and count($datos) > 0) {
             //si esta activo(1) lo situamos cero(0), y viceversa
@@ -97,7 +97,7 @@ switch ($_GET["op"]) {
         break;
 
     case "listar":
-        $datos = Vehiculos::todos();
+        $datos = Vehiculo::todos();
 
         //declaramos el array
         $data = Array();
@@ -147,7 +147,7 @@ switch ($_GET["op"]) {
         $eliminar = false;
         $id = $_POST["id"];
 
-        $datos = Vehiculos::getById($id);
+        $datos = Vehiculo::getById($id);
         if(is_array($datos) == true and count($datos) > 0) {
             $eliminar = $vehiculo->eliminar_vehiculo($id);
         }

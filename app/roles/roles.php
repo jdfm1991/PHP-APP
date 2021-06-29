@@ -35,18 +35,18 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="roles_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                             <tr>
-                                                <td class="text-center" title="ID del Rol">ID</td>
-                                                <td class="text-center" title="Rol de Usuario">Rol de Usuario</td>
-                                                <td class="text-center" title="Permisos">Permisos</td>
-                                                <td class="text-center" title="Acción">Acciónes</td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('id_rol')?>"><?=Strings::titleFromJson('id_rol')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('rol')?>"><?=Strings::titleFromJson('rol')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('permisos')?>"><?=Strings::titleFromJson('permisos')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
                                             <tr>
-                                                <td class="text-center">ID</td>
-                                                <td class="text-center">Rol de Usuario</td>
-                                                <td class="text-center">Permisos</td>
-                                                <td class="text-center">Acciónes</td>
+                                                <td class="text-center"><?=Strings::titleFromJson('id_rol')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('rol')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('permisos')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </tfoot>
                                         <tbody>

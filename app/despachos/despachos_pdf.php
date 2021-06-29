@@ -29,7 +29,7 @@ class PDF extends FPDF
 
         $cabeceraDespacho = $despachos->getCabeceraDespacho($_GET['correlativo']);
         $chofer = Choferes::getByDni($cabeceraDespacho[0]['ID_Chofer']);
-        $vehiculo = Vehiculos::getById($cabeceraDespacho[0]['ID_Vehiculo']);
+        $vehiculo = Vehiculo::getById($cabeceraDespacho[0]['ID_Vehiculo']);
         // Logo
         $this->Image(PATH_LIBRARY.'build/images/logo.png', 10, 8, 33);
         // Arial bold 15

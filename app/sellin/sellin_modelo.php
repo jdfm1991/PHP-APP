@@ -16,15 +16,15 @@ class sellin extends Conectar{
 		$sql = "SELECT DISTINCT(SAITEMCOM.CodItem) AS coditem,
 
 		SUM(CASE WHEN TipoCom = 'H' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
-		SUM(CASE WHEN TipoCom = 'H' AND Esunid = '1' THEN SAITEMCOM.Cantidad/SAPROD.CantEmpaq ELSE 0 END) AS compras,
-		SUM(CASE WHEN TipoCom = 'I' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
-		SUM(CASE WHEN TipoCom = 'I' AND Esunid = '1' THEN SAITEMCOM.Cantidad/SAPROD.CantEmpaq ELSE 0 END) AS devol,
+        SUM(CASE WHEN TipoCom = 'H' AND Esunid = '1' THEN COALESCE(SAITEMCOM.Cantidad/NULLIF(SAPROD.CantEmpaq, 0), 0) ELSE 0 END) AS compras,
+        SUM(CASE WHEN TipoCom = 'I' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
+        SUM(CASE WHEN TipoCom = 'I' AND Esunid = '1' THEN COALESCE(SAITEMCOM.Cantidad/NULLIF(SAPROD.CantEmpaq, 0), 0) ELSE 0 END) AS devol,
 
-		(SUM(CASE WHEN TipoCom = 'H' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
-		SUM(CASE WHEN TipoCom = 'H' AND Esunid = '1' THEN SAITEMCOM.Cantidad/SAPROD.CantEmpaq ELSE 0 END)) -
+       (SUM(CASE WHEN TipoCom = 'H' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
+        SUM(CASE WHEN TipoCom = 'H' AND Esunid = '1' THEN COALESCE(SAITEMCOM.Cantidad/NULLIF(SAPROD.CantEmpaq, 0), 0) ELSE 0 END)) -
 
-		(SUM(CASE WHEN TipoCom = 'I' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
-		SUM(CASE WHEN TipoCom = 'I' AND Esunid = '1' THEN SAITEMCOM.Cantidad/SAPROD.CantEmpaq ELSE 0 END)) AS total,
+       (SUM(CASE WHEN TipoCom = 'I' AND Esunid = '0' THEN SAITEMCOM.Cantidad ELSE 0 END) +
+        SUM(CASE WHEN TipoCom = 'I' AND Esunid = '1' THEN COALESCE(SAITEMCOM.Cantidad/NULLIF(SAPROD.CantEmpaq, 0), 0) ELSE 0 END)) AS total,
 
 		(SELECT SAPROD.Descrip FROM SAPROD WHERE SAPROD.CodProd = SAITEMCOM.CodItem) AS producto,
 		(SELECT SAPROD.Marca FROM SAPROD WHERE SAPROD.CodProd = SAITEMCOM.CodItem) AS marca

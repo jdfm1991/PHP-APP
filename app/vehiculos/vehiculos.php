@@ -35,12 +35,12 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="vehiculo_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                             <tr>
-                                                <td class="text-center" title="# Placa"># Placa</td>
-                                                <td class="text-center" title="Modelo">Modelo</td>
-                                                <td class="text-center" title="Capacidad Kg">Capacidad Kg</td>
-                                                <td class="text-center" title="Volumen Cm3">Volumen Cm3</td>
-                                                <td class="text-center" title="Fecha de Registro">Fecha de Registro</td>
-                                                <td class="text-center" title="Acción">Acciónes</td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('vehiculo_placa')?>"><?=Strings::titleFromJson('vehiculo_placa')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('vehiculo_modelo')?>"><?=Strings::titleFromJson('vehiculo_modelo')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('capacidad')?>"><?=Strings::titleFromJson('capacidad')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('volumen')?>"><?=Strings::titleFromJson('volumen')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('fecha_registro')?>"><?=Strings::titleFromJson('fecha_registro')?></td>
+                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
@@ -49,8 +49,8 @@ if (!isset($_SESSION['cedula'])) {
                                                 <td class="text-center">Modelo</td>
                                                 <td class="text-center">Capacidad Kg</td>
                                                 <td class="text-center">Volumen Cm3</td>
-                                                <td class="text-center">Fecha de Registro</td>
-                                                <td class="text-center">Acciónes</td>
+                                                <td class="text-center"><?=Strings::titleFromJson('fecha_registro')?></td>
+                                                <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </tfoot>
                                         <tbody>

@@ -35,12 +35,13 @@ class PDF extends FPDF
         // Título
         $this->Cell(40, 10, 'HISTORICO DE TASA DOLAR COMPRA', 0, 0, 'C');
         // Salto de línea
-        $this->Ln(20);
+        $this->Ln(15);
+        $this->SetFont('Arial', 'B', 9);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(35), 6, '#', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(75), 6, 'Fecha', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(75), 6, 'Tasa', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(20), 6, Strings::titleFromJson('#'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(45), 6, Strings::titleFromJson('fecha'), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(120), 6, Strings::titleFromJson('tasa'), 1, 1, 'C', true);
     }
 }
 

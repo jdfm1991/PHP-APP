@@ -3,7 +3,7 @@
 //conexion a la base de datos
 require_once("../../config/conexion.php");
 
-class Vehiculo extends Conectar
+class Vehiculos extends Conectar
 {
     public function registrar_vehiculo($data)
     {

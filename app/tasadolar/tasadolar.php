@@ -50,16 +50,16 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tasa_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                         <tr>
-                                            <th class="text-center" title="#">#</th>
-                                            <th class="text-center" title="Fecha">Fecha</th>
-                                            <th class="text-center" title="Tasa">Tasa</th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('tasa')?>"><?=Strings::titleFromJson('tasa')?></th>
                                         </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
                                         <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">Fecha</th>
-                                            <th class="text-center">Tasa</th>
+                                            <th class="text-center"><?=Strings::titleFromJson('#')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('tasa')?></th>
                                         </tr>
                                         </tfoot>
                                         <tbody>
@@ -68,8 +68,8 @@ if (!isset($_SESSION['cedula'])) {
                                     </table>
                                     <!-- BOX BOTONES DE REPORTES-->
                                     <div align="center">
-                                        <button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-                                        <button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+                                        <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+                                        <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                                     </div>
                                 </div>
                             </div>

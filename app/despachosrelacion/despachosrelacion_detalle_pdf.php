@@ -140,7 +140,7 @@ $pdf->SetFont('Arial', '', 8);
     /*******************************************/
 $cabeceraDespacho = $despachos->getCabeceraDespacho($correlativo);
 $chofer = Choferes::getByDni($cabeceraDespacho[0]['ID_Chofer']);
-$vehiculo = Vehiculos::getById($cabeceraDespacho[0]['ID_Vehiculo']);
+$vehiculo = Vehiculo::getById($cabeceraDespacho[0]['ID_Vehiculo']);
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(90,7,'Nro de Despacho: '.str_pad($correlativo, 8, 0, STR_PAD_LEFT),0,0,'C');

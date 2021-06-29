@@ -128,7 +128,7 @@ switch ($_GET["op"]) {
         //consultamos el despacho y la lista de choferes y vehiculos
         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
         $output["lista_choferes"] = Choferes::todos();
-        $output["lista_vehiculos"] = Vehiculos::todos();
+        $output["lista_vehiculos"] = Vehiculo::todos();
 
         if(is_array($despacho) == true and count($despacho) > 0) {
             //asignamos en una variable de salida los datos necesarios del despacho

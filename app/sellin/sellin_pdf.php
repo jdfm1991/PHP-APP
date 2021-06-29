@@ -39,15 +39,16 @@ class PDF extends FPDF
         // Título
         $this->Cell(40, 10, 'REPORTE DE SELL IN COMPRAS DE ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
         // Salto de línea
-        $this->Ln(20);
+        $this->Ln(15);
+        $this->SetFont('Arial', 'B', 9);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(20), 6, 'CODPROD', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(60), 6, 'PRODUCTO', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(20), 6, 'COMPRA', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, 'DEVOLCOMP', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, 'TOTAL', 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, 'MARCA', 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(32), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(60), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('compra')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(36), 6, utf8_decode(Strings::titleFromJson('devolucion_compra')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(23), 6, utf8_decode(Strings::titleFromJson('total')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('marca_prod')), 1, 1, 'C', true);
     }
 }
 

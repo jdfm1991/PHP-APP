@@ -52,11 +52,11 @@ if (!isset($_SESSION['cedula'])) {
 						<div class="form-group row">
 							<div class="col-sm-12">
 								<div class="form-check form-check-inline">
-									<label for="vutil" class="col-form-label col-sm-4">Desde</label>
+									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_i')?></label>
 									<input type="date" class="form-control col-sm-9"  id="fechai" name="fechai" required>
 								</div>&nbsp;&nbsp;&nbsp;&nbsp;
 								<div class="form-check form-check-inline">
-									<label for="vutil" class="col-form-label col-sm-4">Hasta</label>
+									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_f')?></label>
 									<input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
 								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 								<div class="form-check form-check-inline">
@@ -70,7 +70,7 @@ if (!isset($_SESSION['cedula'])) {
                 </div>
 					<!-- BOX BOTON DE PROCESO -->
 					<div class="card-footer">
-						<button type="submit" class="btn btn-success" id="btn_sellin"><i class="fa fa-search" aria-hidden="true"></i> Consultar</button>
+						<button type="submit" class="btn btn-success" id="btn_sellin"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
 					</div>
 				</div>
 
@@ -83,22 +83,22 @@ if (!isset($_SESSION['cedula'])) {
 						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="sellin_data">
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
-									<th class="text-center" title="Codigo del Prducto">Codigo</th>
-									<th class="text-center" title="Descripción del Producto">Producto</th>
-									<th class="text-center" title="Marca del Producto">Marca</th>
-									<th class="text-center" title="Cantidad Comprada">Compra</th>
-									<th class="text-center" title="Cantidad Devuelta">Devolución de Compra</th>
-									<th class="text-center" title="Total">Total</th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('compra')?>"><?=Strings::titleFromJson('compra')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('devolucion_compra')?>"><?=Strings::titleFromJson('devolucion_compra')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('total')?>"><?=Strings::titleFromJson('total')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
-									<th class="text-center">Codigo</th>
-									<th class="text-center">Producto </th>
-									<th class="text-center">Marca</th>
-									<th class="text-center">Compra</th>
-									<th class="text-center">Devolución de Compra</th>
-									<th class="text-center">Total</th>
+									<th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('compra')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('devolucion_compra')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('total')?></th>
 
 								</tr>
 							</tfoot>
@@ -113,8 +113,8 @@ if (!isset($_SESSION['cedula'])) {
 						</div>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
-							<button type="button" class="btn btn-info" id="btn_excel">Exportar a Excel</button>
-							<button type="button" class="btn btn-info" id="btn_pdf">Exportar a PDF</button>
+							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
 						</div>
 					</div>
 				</section>

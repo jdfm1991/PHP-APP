@@ -56,9 +56,9 @@ $sheet->setCellValue('A1', 'HISTORICO DE TASA DOLAR COMPRA');
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('B4', '#')
-    ->setCellValue('C4', 'Fecha')
-    ->setCellValue('D4', 'Tasa');
+$sheet->setCellValue('B4', Strings::titleFromJson('#'))
+    ->setCellValue('C4', Strings::titleFromJson('fecha'))
+    ->setCellValue('D4', Strings::titleFromJson('tasa'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
