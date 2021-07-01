@@ -20,27 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="estandarizacion titulos y descripcion tabla">
+      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/roles/roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/roles/roles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasadolar/tasadolar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasadolar/tasadolar_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuario/usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuario/usuario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Vehiculos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Vehiculo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +89,10 @@
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
@@ -190,7 +182,8 @@
       <workItem from="1624296638417" duration="35012000" />
       <workItem from="1624472741901" duration="12215000" />
       <workItem from="1624634728780" duration="8785000" />
-      <workItem from="1624882331868" duration="19802000" />
+      <workItem from="1624882331868" duration="21534000" />
+      <workItem from="1625147089011" duration="7031000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -346,7 +339,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624896174742</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="estandarizacion titulos y descripcion tabla">
+      <created>1624982016736</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1624982016736</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
