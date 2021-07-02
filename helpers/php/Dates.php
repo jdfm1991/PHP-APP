@@ -31,8 +31,21 @@ class Dates {
         return false;
     }
 
-    public static function daysEnterDates($date_start, $date_end){
+    public static function daysEnterDates($date_start, $date_end)
+    {
         // Da igual el formato de las fechas (dd-mm-aaaa o aaaa-mm-dd)
         return ((strtotime($date_end)-strtotime($date_start))/86400);
+    }
+
+    public static function normalize_date($date)
+    {
+        $string = '';
+
+        if (!empty($date)) {
+            $var = explode('/',str_replace('-','/',$date));
+            $string = "$var[2]-$var[1]-$var[0]";
+        }
+
+        return $string;
     }
 }

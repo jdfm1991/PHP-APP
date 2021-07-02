@@ -38,7 +38,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["codclie"];
             $sub_array[] = $row["descrip"];
             $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="cambiarEstado(\'' . $row["codclie"] . '\',\'' . $row["activo"] . '\');" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
+                                <button type="button" onClick="#" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
                             </div>';
             $sub_array[] = $row["codvend"];
 

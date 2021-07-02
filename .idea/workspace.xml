@@ -19,16 +19,23 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="estandarizacion titulos y descripcion tabla">
-      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_pdf.php" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="Maestro de clientes por Ruta">
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_pdf.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Dates.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Dates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Menu.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +190,7 @@
       <workItem from="1624472741901" duration="12215000" />
       <workItem from="1624634728780" duration="8785000" />
       <workItem from="1624882331868" duration="21534000" />
-      <workItem from="1625147089011" duration="7031000" />
+      <workItem from="1625147089011" duration="16732000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -346,7 +353,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624982016736</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Maestro de clientes por Ruta">
+      <created>1625154956965</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1625154956965</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +390,8 @@
     <MESSAGE value="sku no vendidos" />
     <MESSAGE value="estandarizacion format_date y format_datetime" />
     <MESSAGE value="estandarizacion titulos y descripcion tabla" />
-    <option name="LAST_COMMIT_MESSAGE" value="estandarizacion titulos y descripcion tabla" />
+    <MESSAGE value="Maestro de clientes por Ruta" />
+    <option name="LAST_COMMIT_MESSAGE" value="Maestro de clientes por Ruta" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

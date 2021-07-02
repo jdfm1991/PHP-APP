@@ -64,7 +64,7 @@ $(document).ready(function(){
 });
 
 //ACCION AL PRECIONAR EL BOTON.
-$(document).on("click", "#btn_clientesnoactivos", function () {
+$(document).on("click", "#btn_consultar", function () {
 
     var fechai = $("#fechai").val();
     var fechaf = $("#fechaf").val();

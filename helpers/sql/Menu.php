@@ -33,7 +33,7 @@ class Menu extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, nombre, menu_orden, menu_padre, menu_hijo, icono, estatus FROM Menu1 WHERE menu_padre = -1";
+        $sql= "SELECT id, nombre, menu_orden, menu_padre, menu_hijo, icono, estatus FROM Menu1 WHERE menu_padre = -1 ORDER BY menu_orden ASC";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->execute();
@@ -45,7 +45,7 @@ class Menu extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT id, nombre, menu_orden, menu_padre, menu_hijo, icono, estatus FROM Menu1 WHERE menu_padre=?";
+        $sql= "SELECT id, nombre, menu_orden, menu_padre, menu_hijo, icono, estatus FROM Menu1 WHERE menu_padre=? ORDER BY menu_orden ASC";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue(1,$key);
