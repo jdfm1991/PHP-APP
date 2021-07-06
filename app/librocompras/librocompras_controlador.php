@@ -20,7 +20,7 @@ switch ($_GET["op"]) {
         $datos = $librocompra->getLibroPorFecha($fechai, $fechaf);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        $data = Array();
+        $data = $totales = Array();
 
         if (is_array($datos)==true and count($datos)>0)
         {
@@ -37,33 +37,41 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $sub_array[] = date(FORMAT_DATE, $row["fechacompra"]);
-                $sub_array[] = $row["id3ex"];
-                $sub_array[] = utf8_encode($row["descripex"]);
-                $sub_array[] = $row["tipodoc"];
-                $sub_array[] = $row["nroretencion"];
-                $sub_array[] = $row["numerodoc"];
-                $sub_array[] = $row["nroctrol"];
-                $sub_array[] = $row["tiporeg"];
-                $sub_array[] = $row["docafectado"];
-                $sub_array[] = Strings::rdecimal($row["totalcompraconiva"], 2);
-                $sub_array[] = Strings::rdecimal($row["mtoexento"], 2);
-                $sub_array[] = Strings::rdecimal($row["totalcompra"], 2);
-                $sub_array[] = Strings::rdecimal($row["alicuota_iva"], 0);
-                $sub_array[] = Strings::rdecimal($row["monto_iva"], 2);
-                $sub_array[] = Strings::rdecimal($row["retencioniva"], 2);
-                $sub_array[] = Strings::rdecimal($row["porctreten"], 0);
+                $sub_array['fechacompra']  = date(FORMAT_DATE, strtotime($row["fechacompra"]));
+                $sub_array['id3ex']        = $row["id3ex"];
+                $sub_array['descripex']    = utf8_encode($row["descripex"]);
+                $sub_array['tipodoc']      = $row["tipodoc"];
+                $sub_array['nroretencion'] = Strings::avoidNull($row["nroretencion"]);
+                $sub_array['numerodoc']    = $row["numerodoc"];
+                $sub_array['nroctrol']     = Strings::avoidNull($row["nroctrol"]);
+                $sub_array['tiporeg']      = $row["tiporeg"];
+                $sub_array['docafectado']  = Strings::avoidNull($row["docafectado"]);
+                $sub_array['totalcompraconiva'] = Strings::rdecimal($row["totalcompraconiva"], 2);
+                $sub_array['mtoexento']    = Strings::rdecimal($row["mtoexento"], 2);
+                $sub_array['totalcompra']  = Strings::rdecimal($row["totalcompra"], 2);
+                $sub_array['alicuota_iva'] = Strings::rdecimal($row["alicuota_iva"], 0);
+                $sub_array['monto_iva']    = Strings::rdecimal($row["monto_iva"], 2);
+                $sub_array['retencioniva'] = Strings::rdecimal($row["retencioniva"], 2);
+                $sub_array['porctreten']   = Strings::rdecimal($row["porctreten"], 0);
 
                 $data[] = $sub_array;
             }
 
-            //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-            $results = array(
-                "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-                "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-                "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-                "aaData" => $data);
+            $totales = array(
+                "tcci" => $tcci,
+                "mtoex" => $mtoex,
+                "totcom" => $totcom,
+                "mtoiva" => $mtoiva,
+                "retiva" => $retiva
+            );
+
         }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $results = array(
+            "data" => $data,
+            "totales" => $totales
+        );
 
         echo json_encode($results);
         break;

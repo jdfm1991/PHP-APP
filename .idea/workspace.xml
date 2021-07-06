@@ -20,22 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="Maestro de clientes por Ruta">
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_pdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Dates.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Dates.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,6 +179,7 @@
       <workItem from="1624634728780" duration="8785000" />
       <workItem from="1624882331868" duration="21534000" />
       <workItem from="1625147089011" duration="16732000" />
+      <workItem from="1625575309029" duration="3716000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
