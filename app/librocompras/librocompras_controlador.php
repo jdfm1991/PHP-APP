@@ -20,13 +20,16 @@ switch ($_GET["op"]) {
         $datos = $librocompra->getLibroPorFecha($fechai, $fechaf);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        $data = $totales = Array();
+        $data = $totales = $resumen = Array();
+
+        $tcci = $mtoex = $totcom = $mtoiva = $retiva = 0;
 
         if (is_array($datos)==true and count($datos)>0)
         {
-            $tcci = $mtoex = $totcom = $mtoiva = $retiva = 0;
-
-            foreach ($datos as $i => $row) {
+            foreach ($datos as $key => $row)
+            {
+                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+                $sub_array = array();
 
                 $tcci += $row['totalcompraconiva'];
                 $mtoex += $row['mtoexento'];
@@ -34,9 +37,7 @@ switch ($_GET["op"]) {
                 $mtoiva += $row['monto_iva'];
                 $retiva += $row['retencioniva'];
 
-                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
-                $sub_array = array();
-
+                $sub_array['num']  = $key+1;
                 $sub_array['fechacompra']  = date(FORMAT_DATE, strtotime($row["fechacompra"]));
                 $sub_array['id3ex']        = $row["id3ex"];
                 $sub_array['descripex']    = utf8_encode($row["descripex"]);
@@ -53,24 +54,101 @@ switch ($_GET["op"]) {
                 $sub_array['monto_iva']    = Strings::rdecimal($row["monto_iva"], 2);
                 $sub_array['retencioniva'] = Strings::rdecimal($row["retencioniva"], 2);
                 $sub_array['porctreten']   = Strings::rdecimal($row["porctreten"], 0);
+                $sub_array['fecharetencion'] = Strings::avoidNull($row["fecharetencion"]);
 
                 $data[] = $sub_array;
             }
-
-            $totales = array(
-                "tcci" => $tcci,
-                "mtoex" => $mtoex,
-                "totcom" => $totcom,
-                "mtoiva" => $mtoiva,
-                "retiva" => $retiva
-            );
-
         }
+
+        $totales = array(
+            "tcci"   => Strings::rdecimal($tcci, 2),
+            "mtoex"  => Strings::rdecimal($mtoex, 2),
+            "totcom" => Strings::rdecimal($totcom, 2),
+            "mtoiva" => Strings::rdecimal($mtoiva, 2),
+            "retiva" => Strings::rdecimal($retiva, 2)
+        );
+
+        $resumen = array(
+            array(
+                "descripcion"    => 'Total Compras Exentas y/o sin derecho a crédito Fiscal',
+                "base_imponible" => Strings::rdecimal($mtoex, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Total Compras Importación Afectas solo Alícuota General',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Total Compras Importación Afectas en Alícuota General + Adicional',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Total Compras Importación Afectas en Alícuota Reducida',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Total Compras Internas Afectas solo Alícuota General (16%): ',
+                "base_imponible" => Strings::rdecimal($totcom, 2),
+                "credito_fiscal" => Strings::rdecimal($mtoiva, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Total Compras Internas Afectas solo Alícuota General + Adicional',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Total Compras Internas Afectas solo Alícuota Reducida',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+
+                "descripcion"    => 'Total Compras y créditos fiscales del período',
+                "base_imponible" => Strings::rdecimal(($totcom+$mtoex), 2),
+                "credito_fiscal" => Strings::rdecimal($mtoiva, 2),
+                "isBold" => true, "isColored" => true,
+            ),
+            array(
+                "descripcion"    => 'Créditos Fiscales producto de la aplicación del porcentaje de la prorrata',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Excedente de Crédito Fiscal del Periodo Anterior',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Ajustes a los créditos fiscales de periodos anteriores',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => false, "isColored" => false,
+            ),
+            array(
+                "descripcion"    => 'Compras no gravadas y/o sin derecho a credito fiscal',
+                "base_imponible" => Strings::rdecimal(0, 2),
+                "credito_fiscal" => Strings::rdecimal(0, 2),
+                "isBold" => true, "isColored" => true,
+            ),
+        );
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $results = array(
-            "data" => $data,
-            "totales" => $totales
+            "tabla"   => $data,
+            "totales" => $totales,
+            "resumen" => $resumen
         );
 
         echo json_encode($results);

@@ -73,16 +73,17 @@ require_once("../../config/conexion.php");
         <div class="content">
             <!--            <div class="container">-->
             <table id="tabla" class="table table-sm text-center table-condensed table-bordered table-striped table-responsive table-primary" style="width:100%;">
-                <thead style="color: white;">
+                <thead style="color: white; font-weight: bold">
                 <tr id="cells">
+                    <th class="small align-middle">Nro. Ope</th>
                     <th class="small align-middle">Fecha Documento</th>
                     <th class="small align-middle">Rif</th>
-                    <th class="small align-middle">Nombre o Razón Social</th>
+                    <th class="small align-middle">Razón Social</th>
                     <th class="small align-middle">Tip. Doc.</th>
                     <th class="small align-middle">Nro. Comprobante Retención</th>
                     <th class="small align-middle">Nro. Documento</th>
                     <th class="small align-middle">Nro. Control</th>
-                    <th class="small align-middle">Tipo Tran.</th>
+                    <th class="small align-middle">Tipo Transacción</th>
                     <th class="small align-middle">Nro Fac. Afectada</th>
                     <th class="small align-middle">Total Compras</th>
                     <th class="small align-middle">Compras Exentas</th>
@@ -99,17 +100,20 @@ require_once("../../config/conexion.php");
                 </tbody>
             </table>
 
-            <div class="row text-center">
-                <div class="col-sm-1">
-                    <div class="bg-danger color-palette"><span>ROJO: 0 - 50% </span></div>
-                </div>
-                <div class="col-sm-1">
-                    <div class="bg-warning color-palette"><span>AMARILLO: 51 - 80%</span></div>
-                </div>
-                <div class="col-sm-1">
-                    <div class="bg-success color-palette"><span>VERDE: 81 - 100% </span></div>
-                </div>
-            </div>
+            <hr>
+
+            <table id="tabla1" class="table table-sm text-center table-condensed table-bordered table-striped table-primary" style="width:40%;">
+                <thead style="color: white; font-weight: bold">
+                <tr id="cells">
+                    <th class="small align-middle">RESUMEN DE CRÉDITOS FISCALES</th>
+                    <th class="small align-middle">BASE IMPONIBLE</th>
+                    <th class="small align-middle">CRÉDITO FISCAL</th>
+                </tr>
+                </thead>
+                <tbody style="background-color: aliceblue">
+                <!-- TD TABLA LLEGAN POR AJAX -->
+                </tbody>
+            </table>
 
             <hr>
             <!--</div>-->
@@ -118,11 +122,8 @@ require_once("../../config/conexion.php");
                 <a href="librocompras_excel.php?&fechai=<?php echo $_GET['fechai']; ?> &fechaf=<?php echo $_GET['fechaf']; ?>" class="card-link" id="btn_excel">
                     <?=Strings::titleFromJson('boton_excel')?>
                 </a>
-
-                 <a href="librocompras_pdf.php?&fechai=<?php echo $_GET['fechai']; ?>&fechaf=<?php echo $_GET['fechaf']; ?>" class="card-link" id="btn_pdf" target="_blank">
-                    <?=Strings::titleFromJson('boton_pdf')?>
-                </a>
             </div>
+            <br>
         </div>
 
         <!-- /.content -->

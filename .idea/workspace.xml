@@ -23,7 +23,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,6 +181,7 @@
       <workItem from="1624882331868" duration="21534000" />
       <workItem from="1625147089011" duration="16732000" />
       <workItem from="1625575309029" duration="3716000" />
+      <workItem from="1625660764098" duration="10408000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>

@@ -15,7 +15,7 @@ class LibroCompra extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT fechacompra, id3ex, descripex, tipodoc, nroretencion, numerodoc, nroctrol, tiporeg, docafectado, totalcompraconiva, mtoexento, totalcompra, alicuota_iva, monto_iva, retencioniva, porctreten 
+        $sql= "SELECT fechacompra, id3ex, descripex, tipodoc, nroretencion, numerodoc, nroctrol, tiporeg, docafectado, totalcompraconiva, mtoexento, totalcompra, alicuota_iva, monto_iva, retencioniva, porctreten, fecharetencion 
                 FROM DBO.VW_ADM_LIBROIVACOMPRAS WHERE ( ? <=FECHATRAN) AND (FECHATRAN<= ? ) 
                 ORDER BY (YEAR(FechaCompra)*10000)+(MONTH(FechaCompra)*100)+DAY(FechaCompra),FECHAT";
 
