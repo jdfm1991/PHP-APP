@@ -19,12 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="Maestro de clientes por Ruta">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="Libro de compras">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_pdf.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Numbers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Numbers.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +184,7 @@
       <workItem from="1624882331868" duration="21534000" />
       <workItem from="1625147089011" duration="16732000" />
       <workItem from="1625575309029" duration="3716000" />
-      <workItem from="1625660764098" duration="10408000" />
+      <workItem from="1625660764098" duration="17731000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -351,7 +354,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625154956965</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Libro de compras">
+      <created>1625674272834</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1625674272834</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -382,7 +392,8 @@
     <MESSAGE value="estandarizacion format_date y format_datetime" />
     <MESSAGE value="estandarizacion titulos y descripcion tabla" />
     <MESSAGE value="Maestro de clientes por Ruta" />
-    <option name="LAST_COMMIT_MESSAGE" value="Maestro de clientes por Ruta" />
+    <MESSAGE value="Libro de compras" />
+    <option name="LAST_COMMIT_MESSAGE" value="Libro de compras" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -7,6 +7,26 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class Excel
 {
+    private int $i = 0;
+
+    public function getCol($num, $letra_temp = false) {
+        $numero = $num % 26;
+        $letra = chr(65 + $numero);
+        $num2 = intval($num / 26);
+        if(!$letra_temp)
+            $this->i = $this->i +1;
+
+        if ($num2 > 0) {
+            return getExcelCol($num2 - 1, true) . $letra;
+        } else {
+            return $letra;
+        }
+    }
+
+    public function reset() {
+        $this->i = 0;
+    }
+
     public static function styleHeadTable()
     {
         return array(

@@ -89,7 +89,6 @@ function tablalibrocompras(data) {
                 '<td align="center" class="small align-middle">' + opt.fecharetencion + '</td>' +
                 '</tr>'
             );
-
         });
     }
 
@@ -112,7 +111,6 @@ function tablalibrocompras(data) {
 function tablaresumen(data) {
     let { resumen } = data;
 
-
     if (!jQuery.isEmptyObject(resumen))
     {
         $.each(resumen, function(idx, opt) {
@@ -126,7 +124,6 @@ function tablaresumen(data) {
                     '<td align="center" class="small align-middle '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.credito_fiscal + '</td>' +
                 '</tr>'
             );
-
         });
     }
 }
