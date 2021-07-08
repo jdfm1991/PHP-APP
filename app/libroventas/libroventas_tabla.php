@@ -42,12 +42,12 @@ require_once("../../config/conexion.php");
             <div class="container">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Libro de Compras</h1>
+                        <h1 class="m-0 text-dark">Libro de Ventas</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">Inicio</li>
-                            <li class="breadcrumb-item">Libro de Compras</li>
+                            <li class="breadcrumb-item">Libro de Ventas</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -75,24 +75,22 @@ require_once("../../config/conexion.php");
             <table id="tabla" class="table table-sm text-center table-condensed table-bordered table-striped table-responsive table-primary" style="width:100%;">
                 <thead style="color: white; font-weight: bold">
                 <tr id="cells">
-                    <th class="small align-middle"><?=Strings::titleFromJson('#')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('numero_operacion')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('fecha_documento')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('rif')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('razon_social')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('tipo_documento')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('numero_comprobante_retencion')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('numerod')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('numero_control')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('tipo_transaccion')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('numerod_afectado')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('total_compras')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('compras_exentas')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('numero_comprobante_retencion')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('total_ventas')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('ventas_exentas')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('base_imponible')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('porcentaje_alicuota')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('monto_iva')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('monto_retenido')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('porcentaje_retenido')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('fecha_comprobante')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('iva_retenido')?></th>
                 </tr>
                 </thead>
                 <tbody style="background-color: aliceblue">
@@ -102,12 +100,37 @@ require_once("../../config/conexion.php");
 
             <hr>
 
+            <h2 class="m-0 text-dark">Retenciones Aplicadas a Otros Periodos</h2>
             <table id="tabla1" class="table table-sm text-center table-condensed table-bordered table-striped table-primary" style="width:40%;">
                 <thead style="color: white; font-weight: bold">
                 <tr id="cells">
-                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('resumen_credito_fiscal') )?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('numero_operacion')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('fecha_comprobante_retencion')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('id_fiscal')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('razon_social')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('tipo_documento')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('numero_comprobante_retencion')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('tipo_transaccion')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('numerod_afectado')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('fecha_documento_afectado')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('base_retencion')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('iva')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('iva_retenido')?></th>
+                </tr>
+                </thead>
+                <tbody style="background-color: aliceblue">
+                <!-- TD TABLA LLEGAN POR AJAX -->
+                </tbody>
+            </table>
+
+            <hr>
+
+            <table id="tabla2" class="table table-sm text-center table-condensed table-bordered table-striped table-primary" style="width:40%;">
+                <thead style="color: white; font-weight: bold">
+                <tr id="cells">
+                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('resumen_libro_ventas') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('base_imponible') )?></th>
-                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('credito_fiscal') )?></th>
+                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('debito_fiscal') )?></th>
                 </tr>
                 </thead>
                 <tbody style="background-color: aliceblue">
@@ -119,7 +142,7 @@ require_once("../../config/conexion.php");
             <!--</div>-->
             <!-- /.container-fluid -->
             <div class="container">
-                <a href="librocompras_excel.php?&fechai=<?php echo $_GET['fechai']; ?> &fechaf=<?php echo $_GET['fechaf']; ?>" class="card-link" id="btn_excel">
+                <a href="libroventas_excel.php?&fechai=<?php echo $_GET['fechai']; ?> &fechaf=<?php echo $_GET['fechaf']; ?>" class="card-link" id="btn_excel">
                     <?=Strings::titleFromJson('boton_excel')?>
                 </a>
             </div>
@@ -135,7 +158,7 @@ require_once("../../config/conexion.php");
     <?php require_once("../footer.php"); ?>
     <script src="<?php echo URL_HELPERS_JS; ?>Number.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="librocompras_tabla.js"></script>
+    <script type="text/javascript" src="libroventas_tabla.js"></script>
 </div>
 <!-- ./wrapper -->
 

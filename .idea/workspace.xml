@@ -20,8 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="Libro de compras">
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas_tabla.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/libroventas/libroventas_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/librocompras/librocompras_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +92,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/libroventas" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -88,16 +100,16 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="database.data.views" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\libroventas" />
       <recent name="C:\Apache24\htdocs\appweb\app" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
       <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
       <recent name="C:\Apache24\htdocs\appweb\app\facturassindespachar\modales" />
-      <recent name="C:\Apache24\htdocs\appweb\Services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\config" />
@@ -179,7 +191,7 @@
       <workItem from="1625147089011" duration="16732000" />
       <workItem from="1625575309029" duration="3716000" />
       <workItem from="1625660764098" duration="17731000" />
-      <workItem from="1625747237180" duration="7534000" />
+      <workItem from="1625747237180" duration="15866000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -356,7 +368,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625674272834</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Libro de compras">
+      <created>1625757373109</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1625757373109</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

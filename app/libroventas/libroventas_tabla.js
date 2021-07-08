@@ -1,20 +1,20 @@
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    listar_librocompras();
+    listar_libroventas();
 }
 
 $(document).ready(function(){
 
 });
 
-function listar_librocompras(){
+function listar_libroventas(){
 
     let fechai    = $('#fechai').val();
     let fechaf    = $('#fechaf').val();
 
     $.ajax({
-        url: "librocompras_controlador.php?op=listar_librocompras",
+        url: "libroventas_controlador.php?op=listar_libroventas",
         method: "POST",
         data: {fechai: fechai, fechaf: fechaf},
         dataType: "json", // Formato de datos que se espera en la respuesta
@@ -27,13 +27,14 @@ function listar_librocompras(){
         },
         success: function (datos) {
 
-            tablalibrocompras(datos);
+            tablalibroventas(datos);
+            tablaliretencionesotrosperiodos(datos);
             tablaresumen(datos);
 
         },
         complete: function () {
-            SweetAlertSuccessLoading();
-            const arr = ['#tabla','#tabla1'];
+            SweetAlertSuccessLoading()
+            const arr = ['#tabla','#tabla1','#tabla2'];
 
             arr.forEach(val => {
                 $(val).columntoggle({
@@ -52,7 +53,7 @@ function listar_librocompras(){
     });
 }
 
-function tablalibrocompras(data) {
+function tablalibroventas(data) {
     let { tabla, totales } = data;
 
     if (!jQuery.isEmptyObject(tabla))
@@ -97,6 +98,10 @@ function tablalibrocompras(data) {
         '<td align="center" class="small align-middle" colspan="2" '+bold+'></td>' +
         '</tr>'
     );
+}
+
+function tablaliretencionesotrosperiodos(data) {
+
 }
 
 function tablaresumen(data) {

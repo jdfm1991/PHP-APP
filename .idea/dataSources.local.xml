@@ -34,5 +34,25 @@
         <substitutions use-mini-cat="false" />
       </schema-mapping>
     </data-source>
+    <data-source name="@192.168.7.31" uuid="adb4ad80-027f-45e6-bc22-125fb9b6a6db">
+      <database-info product="Microsoft SQL Server" version="11.00.5388" jdbc-version="4.2" driver-name="Microsoft JDBC Driver 9.2 for SQL Server" driver-version="9.2.0.0" dbms="MSSQL" exact-version="11.0.5388" exact-driver-version="9.2">
+        <extra-name-characters>$#@</extra-name-characters>
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>sa</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="database">
+            <name qname="AJ" />
+            <name qname="AUAJ" />
+            <name qname="COAJ" />
+            <name qname="CONFIGUAYANA_PZO" />
+            <node kind="schema" qname="dbo" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
   </component>
 </project>
