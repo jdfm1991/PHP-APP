@@ -15,12 +15,16 @@ class LibroVenta extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT fechacompra, id3ex, descripex, tipodoc, nroretencion, numerodoc, nroctrol, tiporeg, docafectado, totalcompraconiva, mtoexento, totalcompra, alicuota_iva, monto_iva, retencioniva, porctreten, fecharetencion 
-                FROM DBO.VW_ADM_LIBROIVACOMPRAS WHERE ( ? <=FECHATRAN) AND (FECHATRAN<= ? ) 
-                ORDER BY (YEAR(FechaCompra)*10000)+(MONTH(FechaCompra)*100)+DAY(FechaCompra),FECHAT";
+        $sql= "SELECT totalventas, montoiva_contribuyeiva, mtoexento, fechaemision, rifcliente, nombre, tipodoc, numerodoc, nroctrol, tiporeg, factafectada, alicuota_contribuyeiva
+                FROM DBO.VW_ADM_LIBROIVAVENTAS
+                WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND ((FECHARETENCION IS NULL)
+                    OR (( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND TIPODOC != 'RET'
+                ORDER BY (YEAR(FECHAFACTURA)*10000)+(MONTH(FECHAFACTURA)*100)+DAY(FECHAFACTURA),FECHAT";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1,$fechai);
+        $sql->bindValue($i+=1,$fechaf);
         $sql->bindValue($i+=1,$fechai);
         $sql->bindValue($i+=1,$fechaf);
         $sql->execute();
@@ -37,12 +41,16 @@ class LibroVenta extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT fechacompra, id3ex, descripex, tipodoc, nroretencion, numerodoc, nroctrol, tiporeg, docafectado, totalcompraconiva, mtoexento, totalcompra, alicuota_iva, monto_iva, retencioniva, porctreten, fecharetencion 
-                FROM DBO.VW_ADM_LIBROIVACOMPRAS WHERE ( ? <=FECHATRAN) AND (FECHATRAN<= ? ) 
-                ORDER BY (YEAR(FechaCompra)*10000)+(MONTH(FechaCompra)*100)+DAY(FechaCompra),FECHAT";
+        $sql= "SELECT retencioniva, fechaemision, rifcliente, nombre, tipodoc, numerodoc, tiporeg, factafectada, fecharetencion, totalgravable_contribuye, totalivacontribuye
+                FROM DBO.VW_ADM_LIBROIVAVENTAS
+                WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND (NOT(FECHARETENCION IS NULL)
+                    AND NOT(( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND TIPO='81'
+                ORDER BY FECHAT";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1,$fechai);
+        $sql->bindValue($i+=1,$fechaf);
         $sql->bindValue($i+=1,$fechai);
         $sql->bindValue($i+=1,$fechaf);
         $sql->execute();
@@ -59,11 +67,10 @@ class LibroVenta extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT *
+        $sql= "SELECT retencioniva, nroretencion, retencioniva
                 FROM DBO.VW_ADM_LIBROIVAVENTAS
                 WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND ((FECHARETENCION IS NULL)
-                    OR (( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) 
-                    AND factafectada = ? AND tipodoc = 'RET'";
+                    OR (( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND factafectada = ? AND tipodoc = 'RET'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

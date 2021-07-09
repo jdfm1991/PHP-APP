@@ -54,7 +54,7 @@ function listar_libroventas(){
 }
 
 function tablalibroventas(data) {
-    let { tabla, totales } = data;
+    let { tabla, totales_libro } = data;
 
     if (!jQuery.isEmptyObject(tabla))
     {
@@ -62,23 +62,21 @@ function tablalibroventas(data) {
             $('#tabla').append(
                 '<tr>' +
                 '<td align="center" class="small align-middle">' + opt.num + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.fechacompra + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.id3ex + '</td>' +
-                '<td align="center" class="small text-left">' + opt.descripex + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.fechaemision + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.rifcliente + '</td>' +
+                '<td align="center" class="small text-left">' + opt.nombre + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.tipodoc + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.nroretencion + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.numerodoc + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.nroctrol + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.tiporeg + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.docafectado + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.totalcompraconiva + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.mtoexento + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.totalcompra + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.alicuota_iva + '%</td>' +
-                '<td align="center" class="small align-middle">' + opt.monto_iva + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.factafectada + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.nroretencion + '</td>' +
+                '<td align="center" class="small text-right">' + opt.totalventasconiva + '</td>' +
+                '<td align="center" class="small text-right">' + opt.mtoexento + '</td>' +
+                '<td align="center" class="small text-right">' + opt.base_imponible + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.alicuota_contribuyeiva+ '%</td>' +
+                '<td align="center" class="small text-right">' + opt.montoiva_contribuyeiva + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.retencioniva + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.porctreten + '%</td>' +
-                '<td align="center" class="small align-middle">' + opt.fecharetencion + '</td>' +
                 '</tr>'
             );
         });
@@ -88,20 +86,69 @@ function tablalibroventas(data) {
     $('#tabla').append('<tr><td colspan="18">'+ "" +'</td></tr>');
     $('#tabla').append(
         '<tr>' +
-        '<td align="center" class="small text-right" colspan="10" '+bold+'>Totales</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.tcci + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.mtoex + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.totcom + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'></td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.mtoiva + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.retiva + '</td>' +
-        '<td align="center" class="small align-middle" colspan="2" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'>Totales</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales_libro.tvii + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales_libro.ve + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales_libro.magbi16c + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales_libro.mag16c + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales_libro.ivare + '</td>' +
         '</tr>'
     );
 }
 
 function tablaliretencionesotrosperiodos(data) {
+    let { otros_periodos, totales_otros_periodos } = data;
 
+    if (!jQuery.isEmptyObject(otros_periodos))
+    {
+        $.each(otros_periodos, function(idx, opt) {
+            $('#tabla1').append(
+                '<tr>' +
+                '<td align="center" class="small align-middle">' + opt.num + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.fechaemision + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.rifcliente + '</td>' +
+                '<td align="center" class="small text-left">' + opt.nombre + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.tipodoc + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.numerodoc + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.tiporeg + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.factafectada + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.fecharetencion + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.totalgravable_contribuye + '</td>' +
+                '<td align="center" class="small text-right">' + opt.totalivacontribuye + '%</td>' +
+                '<td align="center" class="small text-right">' + opt.retencioniva + '</td>' +
+                '</tr>'
+            );
+        });
+    }
+
+    bold  = 'style="font-weight: bold"';
+    $('#tabla1').append('<tr><td colspan="12">'+ "" +'</td></tr>');
+    $('#tabla1').append(
+        '<tr>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'>Totales</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales_otros_periodos.ivare + '</td>' +
+        '</tr>'
+    );
 }
 
 function tablaresumen(data) {
@@ -113,11 +160,11 @@ function tablaresumen(data) {
             let { isBold, isColored } = opt;
             isBold  = (isBold) ? 'style="font-weight: bold"' : "";
 
-            $('#tabla1').append(
+            $('#tabla2').append(
                 '<tr>' +
                     '<td align="center" class="small text-left '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.descripcion + '</td>' +
-                    '<td align="center" class="small align-middle '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.base_imponible + '</td>' +
-                    '<td align="center" class="small align-middle '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.credito_fiscal + '</td>' +
+                    '<td align="center" class="small text-right '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.base_imponible + '</td>' +
+                    '<td align="center" class="small text-right '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.credito_fiscal + '</td>' +
                 '</tr>'
             );
         });

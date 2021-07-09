@@ -72,7 +72,7 @@ require_once("../../config/conexion.php");
         <!-- Main content -->
         <div class="content">
             <!--            <div class="container">-->
-            <table id="tabla" class="table table-sm text-center table-condensed table-bordered table-striped table-responsive table-primary" style="width:100%;">
+            <table id="tabla" class="table table-sm text-center table-condensed table-bordered table-striped table-primary" style="width:100%;">
                 <thead style="color: white; font-weight: bold">
                 <tr id="cells">
                     <th class="small align-middle"><?=Strings::titleFromJson('#')?></th>

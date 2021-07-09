@@ -70,12 +70,12 @@ function tablalibrocompras(data) {
                 '<td align="center" class="small align-middle">' + opt.nroctrol + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.tiporeg + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.docafectado + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.totalcompraconiva + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.mtoexento + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.totalcompra + '</td>' +
+                '<td align="center" class="small text-right">' + opt.totalcompraconiva + '</td>' +
+                '<td align="center" class="small text-right">' + opt.mtoexento + '</td>' +
+                '<td align="center" class="small text-right">' + opt.totalcompra + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.alicuota_iva + '%</td>' +
-                '<td align="center" class="small align-middle">' + opt.monto_iva + '</td>' +
-                '<td align="center" class="small align-middle">' + opt.retencioniva + '</td>' +
+                '<td align="center" class="small text-right">' + opt.monto_iva + '</td>' +
+                '<td align="center" class="small text-right">' + opt.retencioniva + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.porctreten + '%</td>' +
                 '<td align="center" class="small align-middle">' + opt.fecharetencion + '</td>' +
                 '</tr>'
@@ -87,14 +87,24 @@ function tablalibrocompras(data) {
     $('#tabla').append('<tr><td colspan="18">'+ "" +'</td></tr>');
     $('#tabla').append(
         '<tr>' +
-        '<td align="center" class="small text-right" colspan="10" '+bold+'>Totales</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.tcci + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.mtoex + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.totcom + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'></td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.mtoiva + '</td>' +
-        '<td align="center" class="small align-middle" '+bold+'>' + totales.retiva + '</td>' +
-        '<td align="center" class="small align-middle" colspan="2" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'>Totales</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales.tcci + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales.mtoex + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales.totcom + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales.mtoiva + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'>' + totales.retiva + '</td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
+        '<td align="center" class="small text-right" '+bold+'></td>' +
         '</tr>'
     );
 }
@@ -111,8 +121,8 @@ function tablaresumen(data) {
             $('#tabla1').append(
                 '<tr>' +
                     '<td align="center" class="small text-left '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.descripcion + '</td>' +
-                    '<td align="center" class="small align-middle '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.base_imponible + '</td>' +
-                    '<td align="center" class="small align-middle '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.credito_fiscal + '</td>' +
+                    '<td align="center" class="small text-right '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.base_imponible + '</td>' +
+                    '<td align="center" class="small text-right '+(isColored?'bg-secondary':'')+'" '+isBold+'>' + opt.credito_fiscal + '</td>' +
                 '</tr>'
             );
         });
