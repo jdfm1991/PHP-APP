@@ -39,6 +39,8 @@
 <script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 <!-- OrgChart Plugin -->
 <script src="<?php echo URL_LIBRARY;?>plugins/jquery-orgchart/js/jquery.orgchart.js"></script>
+<!-- JQuery MoneyMask -->
+<script src="<?php echo URL_LIBRARY; ?>plugins/jquery-maskmoney/jquery.maskMoney.min.js"></script>
 <!-- Page script -->
 <script src="<?php echo URL_HELPERS_JS; ?>SweetAlerts.js" type="text/javascript"></script>
 <script src="<?php echo URL_HELPERS_JS; ?>Permissions.js" type="text/javascript"></script>

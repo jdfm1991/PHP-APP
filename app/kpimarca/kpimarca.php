@@ -60,7 +60,7 @@ if (!isset($_SESSION['cedula'])) {
                     </div>
                     <!-- BOX BOTON DE PROCESO -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success" id="btn_guardar"><i class="fa fa-check" aria-hidden="true"></i> Guardar</button>
+                        <button type="submit" class="btn btn-success" id="btn_guardar"><i class="fa fa-check" aria-hidden="true"></i><?=Strings::titleFromJson('boton_guardar')?></button>
                     </div>
                 </div>
 

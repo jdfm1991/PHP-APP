@@ -159,7 +159,8 @@
   "boton_siguiente"    : {"title": "Siguiente",        "description": ""},
   "boton_anadir"       : {"title": "Añadir",           "description": ""},
   "boton_generar"      : {"title": "Generar!",         "description": ""},
-  "boton_guardar"      : {"title": "Guardar",          "description": ""},
+  "boton_guardar"      : {"title": " Guardar",          "description": ""},
+  "boton_actualizar"   : {"title": " Actualizar",       "description": ""},
   "boton_excel"        : {"title": "Exportar a Excel", "description": ""},
   "boton_pdf"          : {"title": "Exportar a PDF",   "description": ""}
 }

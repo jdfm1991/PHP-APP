@@ -3,7 +3,7 @@
 
 class ArraysHelpers
 {
-    public static function validate(array $arr) {
+    public static function validate($arr) {
         return (is_array($arr) == true and count($arr) > 0);
     }
 
