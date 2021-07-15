@@ -20,19 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="Libro de ventas">
-      <change afterPath="$PROJECT_DIR$/app/factorcambiario/factorcambiario.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/factorcambiario/factorcambiario.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/factorcambiario/factorcambiario_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/factorcambiario/factorcambiario_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/plugins/jquery-maskmoney/jquery.maskMoney.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/plugins/jquery-maskmoney/jquery.maskMoney.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimarca/kpimarca.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarca/kpimarca.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Menu.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +188,7 @@
       <workItem from="1625747237180" duration="15866000" />
       <workItem from="1625833094265" duration="13155000" />
       <workItem from="1626092573236" duration="12406000" />
+      <workItem from="1626358267947" duration="4267000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>

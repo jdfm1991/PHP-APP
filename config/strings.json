@@ -151,6 +151,7 @@
   "devolucion_compra"           : {"title": "Devolución de Compra",               "description": "Cantidad Devuelta"},
   "tasa"                        : {"title": "Tasa",                               "description": ""},
   "tipo_documento"              : {"title": "Tipo Documento",                     "description": ""},
+  "causa"                       : {"title": "Causa",                              "description": ""},
 
   "botones_accion"     : {"title": "Acciónes",         "description": ""},
   "boton_consultar"    : {"title": " Consultar",       "description": ""},
