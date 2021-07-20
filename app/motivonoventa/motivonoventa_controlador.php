@@ -29,6 +29,7 @@ switch ($_GET["op"]) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
 
+            $motivo = '';
             switch (intval($row["motivo"])) {
                 case 1: $motivo = "Cliente Cerrado"; break;
                 case 2: $motivo = "Cliente con Inventario"; break;

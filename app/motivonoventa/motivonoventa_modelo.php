@@ -29,7 +29,8 @@ class MotivoNoVenta extends Conectar{
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data['fechai']);
         $sql->bindValue($i+=1, $data['fechaf']);
-        $sql->bindValue($i+=1, $data['edv']);
+        if (!hash_equals("-", $data['edv']))
+            $sql->bindValue($i+=1, $data['edv']);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 

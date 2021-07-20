@@ -51,25 +51,25 @@ $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
 $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
 $objDrawing->setHeight(108);
 $objDrawing->setWidth(128);
-$objDrawing->setCoordinates('F1');
+$objDrawing->setCoordinates('E1');
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
-$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', 'REPORTE DE CLIENTES NO ACTIVADOS');
+$spreadsheet->getActiveSheet()->getStyle('A1:D1')->getFont()->setSize(25);
+$sheet->setCellValue('A1', 'REPORTE DE MOTIVO DE NO VENTA');
 $sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
 $sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
+$sheet->setCellValue('D3', 'EDV: '. (!hash_equals('-', $codvend) ? $codvend : 'Todos'));
 
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', Strings::titleFromJson('codclie'))
-    ->setCellValue('B7', Strings::titleFromJson('razon_social'))
-    ->setCellValue('C7', Strings::titleFromJson('rif'))
-    ->setCellValue('D7', Strings::titleFromJson('direccion'))
-    ->setCellValue('E7', Strings::titleFromJson('estatus'))
-    ->setCellValue('F7', Strings::titleFromJson('dia_visita'));
+$sheet->setCellValue('A7', Strings::titleFromJson('fecha'))
+    ->setCellValue('B7', Strings::titleFromJson('ruta'))
+    ->setCellValue('C7', Strings::titleFromJson('codclie'))
+    ->setCellValue('D7', Strings::titleFromJson('razon_social'))
+    ->setCellValue('E7', Strings::titleFromJson('causa'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -77,38 +77,50 @@ $style_title->applyFromArray(
 );
 
 //estableceer el estilo de la cabecera de la tabla
-$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:F7');
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:E7');
 
+$data = array(
+    'edv'    => $codvend,
+    'fechai' => $fechai,
+    'fechaf' => $fechaf
+);
 
-$query = $clientesnoactivos->getClientesNoactivos($codvend, $fechai, $fechaf);
+$query = $motivonoventa->getMotivoNoVenta($data);
 $row = 8;
 foreach ($query as $i) {
-    $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue('A' . $row, $i['codclie']);
-    $sheet->setCellValue('B' . $row, $i['descrip']);
-    $sheet->setCellValue('C' . $row, $i['id3']);
-    $sheet->setCellValue('D' . $row, utf8_encode($i['direc1'])." ".utf8_encode($i['direc2']));
-    if($i['escredito'] == 1){
-        $sheet->setCellValue('E' . $row, "SOLVENTE" );
-    }else{
-        $sheet->setCellValue('E' . $row, "BLOQUEADO: ".utf8_encode($i['observa']) );
+
+    $motivo = '';
+    switch (intval($i["motivo"])) {
+        case 1: $motivo = "Cliente Cerrado"; break;
+        case 2: $motivo = "Cliente con Inventario"; break;
+        case 3: $motivo = "Cliente a la espera de pedido anterior"; break;
+        case 4: $motivo = "Cliente no visitado"; break;
+        case 5: $motivo = "Cliente fuera de ruta"; break;
+        case 6: $motivo = "Cliente con deuda y sin pago"; break;
+        case 7: $motivo = "Cliente compra a la competencia"; break;
+        case 8: $motivo = "Cliente considera altos los precios"; break;
     }
-    $sheet->setCellValue('F' . $row, $i['diasvisita']);
+
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A' . $row, date(FORMAT_DATE, strtotime($i['fecha'])));
+    $sheet->setCellValue('B' . $row, $i['edv']);
+    $sheet->setCellValue('C' . $row, $i['codclie']);
+    $sheet->setCellValue('D' . $row, $i['descrip']);
+    $sheet->setCellValue('E' . $row, $motivo);
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('B'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('C'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle('D'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('D'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_JUSTIFY, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('E'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle('F'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
     $row++;
 }
-$sheet->setCellValue('B' . ($row+3), 'Clientes NO Activados: ' . count($query));
+$sheet->setCellValue('B' . ($row+3), 'Total de clientes: ' . count($query));
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Clientes_no_activados_de_'.$fechai.'_al_'.$fechaf.'.xlsx"');
+header('Content-Disposition: attachment;filename="motivo_no_venta_de_'.$fechai.'_al_'.$fechaf.'.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);
