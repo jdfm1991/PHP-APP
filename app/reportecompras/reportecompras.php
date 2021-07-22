@@ -55,7 +55,7 @@ if (!isset($_SESSION['cedula'])) {
                                     <input type="date" class="form-control" id="fechai" name="fechai" required>
                                 </div>
                                 <div class="form-group col-3 col-sm-3">
-                                    <label for="marca"><?=Strings::titleFromJson('descrip_prod')?></label>
+                                    <label for="marca"><?=Strings::titleFromJson('marca_prod')?></label>
                                     <select class="custom-select" name="marca" id="marca" style="width: 100%;" required>
                                         <!-- la lista de marcas se carga por ajax -->
                                     </select>

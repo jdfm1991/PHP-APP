@@ -19,12 +19,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="motivo no venta, falta excel y pdf">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="motivo no venta">
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +192,8 @@
       <workItem from="1626358267947" duration="4387000" />
       <workItem from="1626439438952" duration="334000" />
       <workItem from="1626440478238" duration="1321000" />
-      <workItem from="1626801518324" duration="4162000" />
+      <workItem from="1626801518324" duration="4804000" />
+      <workItem from="1626957999848" duration="9075000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -386,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626363000509</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="motivo no venta">
+      <created>1626807292395</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1626807292395</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,7 +432,8 @@
     <MESSAGE value="Libro de compras" />
     <MESSAGE value="Libro de ventas" />
     <MESSAGE value="motivo no venta, falta excel y pdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="motivo no venta, falta excel y pdf" />
+    <MESSAGE value="motivo no venta" />
+    <option name="LAST_COMMIT_MESSAGE" value="motivo no venta" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
