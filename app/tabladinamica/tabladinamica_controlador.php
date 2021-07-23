@@ -43,8 +43,6 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $cantidad = $paq = $bul = $kg = 0;
-
                 $multiplicador = in_array($row['tipo'], array('A','C'))
                     ? 1
                     : -1;
@@ -83,20 +81,21 @@ switch ($_GET["op"]) {
                 $sub_array['fechae']        = date(FORMAT_DATE, strtotime($row["fechae"]));
                 $sub_array['mes']           =  utf8_encode($row['MES']);
 
-//                $sub_array['nroretencion']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["nroretencion"]) : '';
-//                $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
+                $paqt  += $row["paq"] * $multiplicador;
+                $bult  += $row["bul"] * $multiplicador;
+                $kilo  += $row["kg"]  * $multiplicador;
+                $total += $row["montod"] * $multiplicador;
 
                 $data[] = $sub_array;
             }
         }
 
-        /*$totales_libro = array(
-            "tvii"     => Strings::rdecimal($tvii, 2),
-            "ve"       => Strings::rdecimal($ve, 2),
-            "magbi16c" => Strings::rdecimal($magbi16c, 2),
-            "mag16c"   => Strings::rdecimal($mag16c, 2),
-            "ivare"    => Strings::rdecimal($ivare, 2)
-        );*/
+        $totales_tabladinamica = array(
+            "paqt"  => Strings::rdecimal($paqt, 2),
+            "bult"  => Strings::rdecimal($bult, 2),
+            "kilo"  => Strings::rdecimal($kilo, 2),
+            "total" => Strings::rdecimal($total, 2),
+        );
 
         /*if (is_array($retenciones_otros_periodos)==true and count($retenciones_otros_periodos)>0)
         {
@@ -189,8 +188,8 @@ switch ($_GET["op"]) {
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $results = array(
             "tabla"   => $data,
-            /*"totales_libro" => $totales_libro,
-            "otros_periodos" => $otros_periodos,
+            "totales_tabladinamica" => $totales_tabladinamica,
+            /*"otros_periodos" => $otros_periodos,
             "totales_otros_periodos" => $totales_otros_periodos,
             "resumen" => $resumen*/
         );
