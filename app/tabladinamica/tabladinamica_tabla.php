@@ -52,24 +52,28 @@ require_once("../../config/conexion.php");
                     </div><!-- /.col -->
                 </div><!-- /.row -->
 
+                <input type="hidden" id="fechai" value="<?php echo $_GET['fechai']; ?>">
+                <input type="hidden" id="fechaf" value="<?php echo $_GET['fechaf']; ?>">
+                <input type="hidden" id="vendedor" value="<?php echo $_GET['vendedor']; ?>">
+                <input type="hidden" id="marca" value="<?php echo $_GET['marca']; ?>">
                 <input type="hidden" id="tipo" value="<?php echo $_GET['t']; ?>">
 
                 <div class="row mb-2">
                     <div class="col-sm-3 mt-4 form-check-inline">
                         <dt class="col-sm-3 text-gray">Desde:</dt>
-                        <input type="text" class="form-control-sm col-8 text-center" id="fechai" value="<?php echo $_GET['fechai']; ?>" readonly>
+                        <input type="text" class="form-control-sm col-8 text-center" id="fi" value="<?php echo date(FORMAT_DATE, strtotime($_GET['fechai'])); ?>" readonly>
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
                         <dt class="col-sm-4 text-gray">Hasta:</dt>
-                        <input type="text" class="form-control-sm col-sm-8 text-center" id="fechaf" value="<?php echo $_GET['fechaf']; ?>" readonly>
+                        <input type="text" class="form-control-sm col-sm-8 text-center" id="ff" value="<?php echo date(FORMAT_DATE, strtotime($_GET['fechaf'])); ?>" readonly>
                     </div><!-- /.col -->
                     <div class="col-sm-2 mt-4 form-check-inline">
                         <dt class="col-sm-7 text-gray">EDV:</dt>
-                        <input type="text" class="form-control-sm col-sm-5  text-center" id="vendedor" value="<?php echo $_GET['vendedor']; ?>" readonly>
+                        <input type="text" class="form-control-sm col-sm-5  text-center" id="edv" value="<?php echo (!hash_equals('-', $_GET['vendedor'])) ? $_GET['vendedor'] : 'Todos'; ?>" readonly>
                     </div><!-- /.col -->
                     <div class="col-sm-2 mt-4 form-check-inline">
                         <dt class="col-sm-7 text-gray">Marca:</dt>
-                        <input type="text" class="form-control-sm col-sm-5  text-center" id="marca" value="<?php echo $_GET['marca']; ?>" readonly>
+                        <input type="text" class="form-control-sm col-sm-5  text-center" id="m" value="<?php echo (!hash_equals('-', $_GET['marca'])) ? $_GET['marca'] : 'Todas'; ?>" readonly>
                     </div><!-- /.col -->
                 </div>
                 <!-- /.row -->

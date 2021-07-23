@@ -1,22 +1,25 @@
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    listar_librocompras();
+    listar_tabladinamica();
 }
 
 $(document).ready(function(){
 
 });
 
-function listar_librocompras(){
+function listar_tabladinamica(){
 
-    let fechai    = $('#fechai').val();
-    let fechaf    = $('#fechaf').val();
+    let fechai   = $('#fechai').val();
+    let fechaf   = $('#fechaf').val();
+    let vendedor = $('#vendedor').val();
+    let marca    = $('#marca').val();
+    let tipo     = $('#tipo').val();
 
     $.ajax({
-        url: "librocompras_controlador.php?op=listar_librocompras",
+        url: "tabladinamica_controlador.php?op=listar_tabladinamica",
         method: "POST",
-        data: {fechai: fechai, fechaf: fechaf},
+        data: {fechai: fechai, fechaf: fechaf, edv: vendedor, marca: marca, tipo: tipo},
         dataType: "json", // Formato de datos que se espera en la respuesta
         beforeSend: function () {
             SweetAlertLoadingShow("Procesando información, espere...");
@@ -28,7 +31,7 @@ function listar_librocompras(){
         success: function (datos) {
 
             tablalibrocompras(datos);
-            tablaresumen(datos);
+            // tablaresumen(datos);
 
         },
         complete: function () {

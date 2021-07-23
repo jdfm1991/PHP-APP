@@ -12,68 +12,93 @@ $tabladinamica = new Tabladinamica();
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "listar_libroventas":
+    case "listar_tabladinamica":
 
-        $fechai = Dates::normalize_date($_POST['fechai']).' 00:00:00';
-        $fechaf = Dates::normalize_date($_POST['fechaf']).' 23:59:59';
+        $data = array(
+            'fechai' => $_POST['fechai'],
+            'fechaf' => $_POST['fechaf'],
+            'marca'  => $_POST['marca'],
+            'edv'    => $_POST['edv'],
+        );
 
-        $datos = $libroventa->getLibroPorFecha($fechai, $fechaf);
-        $retenciones_otros_periodos = $libroventa->getRetencionesOtrosPeriodos($fechai, $fechaf);
+        $datos = array();
+        switch ($_POST['tipo']) {
+            case 'f':
+                $datos = $tabladinamica->getTabladinamicaFactura($data); break;
+            case 'n':
+                $datos = $tabladinamica->getTabladinamicaNotaDeEntrega($data); break;
+        }
+
+//        $retenciones_otros_periodos = $libroventa->getRetencionesOtrosPeriodos($fechai, $fechaf);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        $data = $totales_libro = $resumen = $otros_periodos = $totales_otros_periodos = Array();
+        $data = Array();
 
-        $tvii = $ve = $magbi16c = $mag16c = $ivare = $ivape = 0;
-        $ivare2 = $ivape2 = 0;
+        $paqt = $bult = $kilo = $total = 0;
 
         if (is_array($datos)==true and count($datos)>0)
         {
             foreach ($datos as $key => $row)
             {
-                $retencion_dato = $libroventa->getRetencionItem($fechai, $fechaf, $row['numerodoc']);
-
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $base_imponible = $row["totalventas"] - $row['mtoexento'];
-                $totalventasconiva = $base_imponible + $row['mtoexento'] + $row['montoiva_contribuyeiva'];
+                $cantidad = $paq = $bul = $kg = 0;
 
-                $tvii += $totalventasconiva;
-                $ve += $row['mtoexento'];
-                $magbi16c += $base_imponible;
-                $mag16c += $row['montoiva_contribuyeiva'];
-                $ivare += count($retencion_dato)>0 ? Numbers::avoidNull($retencion_dato[0]['retencioniva']) : 0;
+                $multiplicador = in_array($row['tipo'], array('A','C'))
+                    ? 1
+                    : -1;
+
+                $montod = (is_numeric($row["factor"]) and $row["factor"]>0)
+                    ? $row["montod"] / $row["factor"]
+                    : '';
+
+                $descuento = (is_numeric($row["factor"]) and $row["factor"]>0)
+                    ? $row["descuento"] / $row["factor"]
+                    : '';
 
                 $sub_array['num']  = $key+1;
-                $sub_array['fechaemision']  = date(FORMAT_DATE, strtotime($row["fechaemision"]));
-                $sub_array['rifcliente']    = $row["rifcliente"];
-                $sub_array['nombre']        = utf8_encode($row["nombre"]);
-                $sub_array['tipodoc']       = $row["tipodoc"];
-                $sub_array['numerodoc']     = $row["numerodoc"];
-                $sub_array['nroctrol']      = Strings::avoidNull($row["nroctrol"]);
-                $sub_array['tiporeg']       = $row["tiporeg"];
-                $sub_array['factafectada']  = Strings::avoidNull($row["factafectada"]);
-                $sub_array['nroretencion']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["nroretencion"]) : '';
-                $sub_array['totalventasconiva'] = Strings::rdecimal($totalventasconiva, 2);
-                $sub_array['mtoexento']      = Strings::rdecimal($row["mtoexento"], 2);
-                $sub_array['base_imponible'] = Strings::rdecimal($base_imponible, 2);
-                $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal($row["alicuota_contribuyeiva"], 0);
-                $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal($row["montoiva_contribuyeiva"], 2);
-                $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
+                $sub_array['codvend']       = $row["codvend"];
+                $sub_array['vendedor']      = $row["vendedor"];
+                $sub_array['clasevend']     = $row["clasevend"];
+                $sub_array['tipo']          = $row["tipo"];
+                $sub_array['numerod']       = $row["numerod"];
+                $sub_array['codclie']       = $row["codclie"];
+                $sub_array['cliente']       = utf8_encode($row["cliente"]);
+                $sub_array['codnestle']     = Strings::avoidNull($row["codnestle"]);
+                $sub_array['clasificacion'] = Strings::avoidNull($row["clasificacion"]);
+                $sub_array['coditem']       = $row["coditem"];
+                $sub_array['descripcion']   = utf8_encode($row["descripcion"]);
+                $sub_array['marca']         = $row["marca"];
+                $sub_array['cantidad']      = $row["cantidad"] * $multiplicador;
+                $sub_array['unid']          = $row["unid"];
+                $sub_array['paq']           = Strings::rdecimal($row["paq"] * $multiplicador, 1);
+                $sub_array['bul']           = Strings::rdecimal($row["bul"] * $multiplicador, 1);
+                $sub_array['kg']            = Strings::rdecimal($row["kg"] * $multiplicador, 1);
+                $sub_array['instancia']     = $row["instancia"];
+                $sub_array['montod']        =  Strings::rdecimal($montod  * $multiplicador, 2);
+                $sub_array['descuento']     =  Strings::rdecimal($descuento  * $multiplicador, 2);
+                $sub_array['factor']        =  Strings::rdecimal($row['factor'], 2);
+                $sub_array['montobs']       =  Strings::rdecimal($row['montod'] * $multiplicador, 2);
+                $sub_array['fechae']        = date(FORMAT_DATE, strtotime($row["fechae"]));
+                $sub_array['mes']           =  utf8_encode($row['MES']);
+
+//                $sub_array['nroretencion']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["nroretencion"]) : '';
+//                $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
 
                 $data[] = $sub_array;
             }
         }
 
-        $totales_libro = array(
+        /*$totales_libro = array(
             "tvii"     => Strings::rdecimal($tvii, 2),
             "ve"       => Strings::rdecimal($ve, 2),
             "magbi16c" => Strings::rdecimal($magbi16c, 2),
             "mag16c"   => Strings::rdecimal($mag16c, 2),
             "ivare"    => Strings::rdecimal($ivare, 2)
-        );
+        );*/
 
-        if (is_array($retenciones_otros_periodos)==true and count($retenciones_otros_periodos)>0)
+        /*if (is_array($retenciones_otros_periodos)==true and count($retenciones_otros_periodos)>0)
         {
             foreach ($retenciones_otros_periodos as $key => $row)
             {
@@ -101,9 +126,9 @@ switch ($_GET["op"]) {
 
         $totales_otros_periodos = array(
             "ivare" => Strings::rdecimal($ivare2, 2)
-        );
+        );*/
 
-        $resumen = array(
+        /*$resumen = array(
             array(
                 "descripcion"    => 'Total ventas internas no gravadas',
                 "base_imponible" => Strings::rdecimal($ve, 2),
@@ -159,15 +184,15 @@ switch ($_GET["op"]) {
                 "credito_fiscal" => Strings::rdecimal(($ivare2+$ivare), 2),
                 "isBold" => true, "isColored" => true,
             ),
-        );
+        );*/
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $results = array(
             "tabla"   => $data,
-            "totales_libro" => $totales_libro,
+            /*"totales_libro" => $totales_libro,
             "otros_periodos" => $otros_periodos,
             "totales_otros_periodos" => $totales_otros_periodos,
-            "resumen" => $resumen
+            "resumen" => $resumen*/
         );
 
         echo json_encode($results);

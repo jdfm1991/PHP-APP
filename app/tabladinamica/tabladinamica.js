@@ -74,7 +74,8 @@ function listar_vendedores() {
         success: function (data) {
             if(!jQuery.isEmptyObject(data.lista_vendedores)){
                 //lista de seleccion de vendedores
-                $('#vendedor').append('<option name="" value="">--Seleccione--</option>');
+                $('#vendedor').append('<option name="" value="">--Seleccione--</option>')
+                    .append('<option name="" value="-">TODOS</option>');
                 $.each(data.lista_vendedores, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
                     $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
