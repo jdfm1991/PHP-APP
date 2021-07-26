@@ -23,16 +23,12 @@ switch ($_GET["op"]) {
 
         $datos = array();
         switch ($_POST['tipo']) {
-            case 'f':
-                $datos = $tabladinamica->getTabladinamicaFactura($data); break;
-            case 'n':
-                $datos = $tabladinamica->getTabladinamicaNotaDeEntrega($data); break;
+            case 'f': $datos = $tabladinamica->getTabladinamicaFactura($data); break;
+            case 'n': $datos = $tabladinamica->getTabladinamicaNotaDeEntrega($data); break;
         }
 
-//        $retenciones_otros_periodos = $libroventa->getRetencionesOtrosPeriodos($fechai, $fechaf);
-
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        $data = Array();
+        $arr_data = Array();
 
         $paqt = $bult = $kilo = $total = 0;
 
@@ -43,17 +39,34 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
+                $montod = $montobs = $descuento = 0;
+
                 $multiplicador = in_array($row['tipo'], array('A','C'))
                     ? 1
                     : -1;
 
-                $montod = (is_numeric($row["factor"]) and $row["factor"]>0)
-                    ? $row["montod"] / $row["factor"]
-                    : '';
+                switch ($_POST['tipo']) {
+                    case 'f':
+                        $montod = (is_numeric($row["factor"]) and $row["factor"]>0)
+                            ? Numbers::avoidNull($row["montod"]) / $row["factor"]
+                            : 0;
 
-                $descuento = (is_numeric($row["factor"]) and $row["factor"]>0)
-                    ? $row["descuento"] / $row["factor"]
-                    : '';
+                        $montobs = $row['montod'];
+
+                        $descuento = (is_numeric($row["factor"]) and $row["factor"]>0)
+                            ? Numbers::avoidNull($row["descuento"]) / $row["factor"]
+                            : 0;
+                        break;
+                    case 'n':
+                        $montod = Numbers::avoidNull($row["montod"]);
+
+                        $montobs = (is_numeric($row["factor"]) and $row["factor"]>0)
+                            ? Numbers::avoidNull($row["montod"]) * $row["factor"]
+                            : 0;
+
+                        $descuento = Numbers::avoidNull($row["descuento"]);
+                        break;
+                }
 
                 $sub_array['num']  = $key+1;
                 $sub_array['codvend']       = $row["codvend"];
@@ -77,16 +90,16 @@ switch ($_GET["op"]) {
                 $sub_array['montod']        =  Strings::rdecimal($montod  * $multiplicador, 2);
                 $sub_array['descuento']     =  Strings::rdecimal($descuento  * $multiplicador, 2);
                 $sub_array['factor']        =  Strings::rdecimal($row['factor'], 2);
-                $sub_array['montobs']       =  Strings::rdecimal($row['montod'] * $multiplicador, 2);
+                $sub_array['montobs']       =  Strings::rdecimal($montobs * $multiplicador, 2);
                 $sub_array['fechae']        = date(FORMAT_DATE, strtotime($row["fechae"]));
                 $sub_array['mes']           =  utf8_encode($row['MES']);
 
                 $paqt  += $row["paq"] * $multiplicador;
                 $bult  += $row["bul"] * $multiplicador;
                 $kilo  += $row["kg"]  * $multiplicador;
-                $total += $row["montod"] * $multiplicador;
+                $total += $montod * $multiplicador;
 
-                $data[] = $sub_array;
+                $arr_data[] = $sub_array;
             }
         }
 
@@ -97,101 +110,60 @@ switch ($_GET["op"]) {
             "total" => Strings::rdecimal($total, 2),
         );
 
-        /*if (is_array($retenciones_otros_periodos)==true and count($retenciones_otros_periodos)>0)
+
+
+        switch ($_POST['tipo']) {
+            case 'f': $resumen = $tabladinamica->getResumenFactura($data); break;
+            case 'n': $resumen = $tabladinamica->getResumenNotaDeEntrega($data); break;
+        }
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $arr_data1 = Array();
+
+        if (is_array($resumen)==true and count($resumen)>0)
         {
-            foreach ($retenciones_otros_periodos as $key => $row)
+            foreach ($resumen as $key => $row)
             {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $ivare2 += Numbers::avoidNull($row['retencioniva']);
+                $descuentototal = $descuentototalbs = 0;
 
-                $sub_array['num']  = $key+1;
-                $sub_array['fechaemision']  = date(FORMAT_DATE, strtotime($row["fechaemision"]));
-                $sub_array['rifcliente']    = $row["rifcliente"];
-                $sub_array['nombre']        = utf8_encode($row["nombre"]);
-                $sub_array['tipodoc']       = $row["tipodoc"];
-                $sub_array['numerodoc']     = $row["numerodoc"];
-                $sub_array['tiporeg']       = $row["tiporeg"];
-                $sub_array['factafectada']  = Strings::avoidNull($row["factafectada"]);
-                $sub_array['fecharetencion'] = !is_null($row["fecharetencion"]) ? date(FORMAT_DATE, strtotime($row["fecharetencion"])) : '';
-                $sub_array['totalgravable_contribuye'] = Strings::rdecimal($row["totalgravable_contribuye"], 2);
-                $sub_array['totalivacontribuye'] = Strings::rdecimal($row["totalivacontribuye"], 2);
-                $sub_array['retencioniva']  = Strings::rdecimal($row["retencioniva"], 2);
+                switch ($_POST['tipo']) {
+                    case 'f':
+                        $descuentototal =  ($row["descto1"] > 0 & $row["descto2"] > 0)
+                            ? ($row["descto1"] + $row["descto2"]) / $row["tasa"]
+                            :  $row["descto1"] / $row["tasa"];
 
-                $otros_periodos[] = $sub_array;
+                        $descuentototalbs =  ($row["descto1"] > 0 & $row["descto2"] > 0)
+                            ? $row["descto1"] + $row["descto2"]
+                            : $row["descto1"];
+                        break;
+                    case 'n':
+                        $descuentototal   = $row["descuento"];
+
+                        $descuentototalbs = $row["descuento"] * $row["tasa"];
+                        break;
+                }
+
+                $sub_array['num']              = $key+1;
+                $sub_array['codvend']          = $row["codvend"];
+                $sub_array['descuentototal']   = Strings::rdecimal($descuentototal, 2);
+                $sub_array['tasa']             = Strings::rdecimal($row["tasa"], 2);
+                $sub_array['descuentototalbs'] = Strings::rdecimal($descuentototalbs, 2);
+                $sub_array['numerod']          = utf8_decode($row["numerod"]);
+                $sub_array['tipofac']          = $row["tipofac"];
+                $sub_array['fechae']           = date(FORMAT_DATE, strtotime($row["fechae"]));
+
+                $arr_data1[] = $sub_array;
             }
         }
 
-        $totales_otros_periodos = array(
-            "ivare" => Strings::rdecimal($ivare2, 2)
-        );*/
-
-        /*$resumen = array(
-            array(
-                "descripcion"    => 'Total ventas internas no gravadas',
-                "base_imponible" => Strings::rdecimal($ve, 2),
-                "credito_fiscal" => Strings::rdecimal(0, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-                "descripcion"    => 'Total ventas de Exportación',
-                "base_imponible" => Strings::rdecimal(0, 2),
-                "credito_fiscal" => Strings::rdecimal(0, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-                "descripcion"    => 'Total ventas internas Gravadas por Alicuota General (16%)',
-                "base_imponible" => Strings::rdecimal($magbi16c, 2),
-                "credito_fiscal" => Strings::rdecimal($mag16c, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-                "descripcion"    => 'Total ventas internas Gravadas por Alicuota General',
-                "base_imponible" => Strings::rdecimal(0, 2),
-                "credito_fiscal" => Strings::rdecimal(0, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-                "descripcion"    => 'Total ventas Gravadas por Alicuota reducida',
-                "base_imponible" => Strings::rdecimal(0, 2),
-                "credito_fiscal" => Strings::rdecimal(0, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-
-                "descripcion"    => 'Total Ventas y Débitos Fiscales para efectos de determinación',
-                "base_imponible" => Strings::rdecimal(($ve+$magbi16c), 2),
-                "credito_fiscal" => Strings::rdecimal($mag16c, 2),
-                "isBold" => true, "isColored" => true,
-            ),
-            array(
-                "descripcion"    => 'Iva Retenidos periodos anteriores',
-                "base_imponible" => Strings::rdecimal(0, 2),
-                "credito_fiscal" => Strings::rdecimal($ivare2, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-                "descripcion"    => 'Iva Retenidos en este periodo',
-                "base_imponible" => Strings::rdecimal(0, 2),
-                "credito_fiscal" => Strings::rdecimal($ivare, 2),
-                "isBold" => false, "isColored" => false,
-            ),
-            array(
-                "descripcion"    => 'Total IVA Retenido',
-                "base_imponible" => Strings::rdecimal(0, 2),
-                "credito_fiscal" => Strings::rdecimal(($ivare2+$ivare), 2),
-                "isBold" => true, "isColored" => true,
-            ),
-        );*/
-
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $results = array(
-            "tabla"   => $data,
-            "totales_tabladinamica" => $totales_tabladinamica,
-            /*"otros_periodos" => $otros_periodos,
-            "totales_otros_periodos" => $totales_otros_periodos,
-            "resumen" => $resumen*/
+            "tabla"   => $arr_data,
+            "totales" => $totales_tabladinamica,
+            "resumen" => $arr_data1
         );
 
         echo json_encode($results);

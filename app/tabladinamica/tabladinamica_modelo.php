@@ -114,7 +114,7 @@ class Tabladinamica extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getRetencionesOtrosPeriodos($fechai, $fechaf)
+    public function getResumenFactura($data)
     {
         $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -122,25 +122,25 @@ class Tabladinamica extends Conectar{
         $conectar= parent::conexion2();
         parent::set_names();
 
+        $edv = (!hash_equals('-', $data['edv'])) ? " AND codvend LIKE ?" : "";
+
         //QUERY
-        $sql= "SELECT retencioniva, fechaemision, rifcliente, nombre, tipodoc, numerodoc, tiporeg, factafectada, fecharetencion, totalgravable_contribuye, totalivacontribuye
-                FROM DBO.VW_ADM_LIBROIVAVENTAS
-                WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND (NOT(FECHARETENCION IS NULL)
-                    AND NOT(( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND TIPO='81'
-                ORDER BY FECHAT";
+        $sql= "SELECT codvend, descto1, descto2, tasa, numerod, tipofac, fechae 
+                FROM SAFACT WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
+                AND (tipofac = 'A' OR Tipofac = 'B')
+                AND (Descto1 > 0 OR Descto2 > 0) $edv";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1,$fechai);
-        $sql->bindValue($i+=1,$fechaf);
-        $sql->bindValue($i+=1,$fechai);
-        $sql->bindValue($i+=1,$fechaf);
+        $sql->bindValue($i+=1,$data['fechai']);
+        $sql->bindValue($i+=1,$data['fechaf']);
+        if (!hash_equals('-', $data['edv']))
+            $sql->bindValue($i+=1,$data['edv']);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-
     }
 
-    public function getRetencionItem($fechai, $fechaf, $numerodoc)
+    public function getResumenNotaDeEntrega($data)
     {
         $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -148,22 +148,30 @@ class Tabladinamica extends Conectar{
         $conectar= parent::conexion2();
         parent::set_names();
 
+        $edv = (!hash_equals('-', $data['edv'])) ? " AND sanota.codvend LIKE ?" : "";
+
         //QUERY
-        $sql= "SELECT retencioniva, nroretencion, retencioniva
-                FROM DBO.VW_ADM_LIBROIVAVENTAS
-                WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND ((FECHARETENCION IS NULL)
-                    OR (( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND factafectada = ? AND tipodoc = 'RET'";
+        $sql= "SELECT 
+                sanota.codvend, 
+                sanota.descuento,
+                (SELECT tasa FROM SAFACT WHERE SAFACT.numerod = sanota.numerod AND SAFACT.tipofac = sanota.tipofac AND (sanota.tipofac = 'C' OR sanota.Tipofac = 'D')) 
+                    AS tasa,
+                sanota.numerod, 
+                sanota.tipofac,
+                sanota.fechae
+                FROM sanota INNER JOIN SAFACT ON safact.numerod = sanota.numerod WHERE
+                DATEADD(dd, 0, DATEDIFF(dd, 0, sanota.FechaE)) BETWEEN ? AND ? $edv
+                AND (sanota.tipofac = 'C' OR sanota.Tipofac = 'D')
+                AND sanota.descuento > 0";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1,$fechai);
-        $sql->bindValue($i+=1,$fechaf);
-        $sql->bindValue($i+=1,$fechai);
-        $sql->bindValue($i+=1,$fechaf);
-        $sql->bindValue($i+=1,$numerodoc);
+        $sql->bindValue($i+=1,$data['fechai']);
+        $sql->bindValue($i+=1,$data['fechaf']);
+        if (!hash_equals('-', $data['edv']))
+            $sql->bindValue($i+=1,$data['edv']);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-
     }
 }
 
