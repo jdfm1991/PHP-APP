@@ -130,7 +130,7 @@ $spreadsheet->getActiveSheet()->getStyle( 'A'.$row.':'.getExcelCol($aux, true).$
 
 
 
-$datos = /*$libroventa->getLibroPorFecha($fechai, $fechaf)*/array();
+$datos = $libroventa->getLibroPorFecha($fechai, $fechaf);
 $retenciones_otros_periodos = $libroventa->getRetencionesOtrosPeriodos($fechai, $fechaf);
 
 //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.

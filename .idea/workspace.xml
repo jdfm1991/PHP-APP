@@ -20,12 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="tabladinamica">
+      <change afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/libroventas/libroventas_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/libroventas/libroventas_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +193,7 @@
       <workItem from="1626957999848" duration="9075000" />
       <workItem from="1627042650039" duration="12759000" />
       <workItem from="1627302065429" duration="13116000" />
+      <workItem from="1627390878761" duration="6946000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>

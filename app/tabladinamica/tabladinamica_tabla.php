@@ -149,7 +149,7 @@ require_once("../../config/conexion.php");
             <!--</div>-->
             <!-- /.container-fluid -->
             <div class="container">
-                <a href="librocompras_excel.php?&fechai=<?php echo $_GET['fechai']; ?> &fechaf=<?php echo $_GET['fechaf']; ?>" class="card-link" id="btn_excel">
+                <a href="tabladinamica_excel.php?&fechai=<?php echo $_GET['fechai']; ?>&fechaf=<?php echo $_GET['fechaf']; ?>&vendedor=<?php echo $_GET['vendedor']; ?>&marca=<?php echo $_GET['marca']; ?>&t=<?php echo $_GET['t']; ?>" class="card-link" id="btn_excel">
                     <?=Strings::titleFromJson('boton_excel')?>
                 </a>
             </div>

@@ -103,6 +103,10 @@ switch ($_GET["op"]) {
             }
         }
 
+        $total = (hash_equals('n', $_POST['tipo']))
+            ? Numbers::avoidNull($tabladinamica->getTotalNotaDeEntrega($data,'C')[0]['montod']) - Numbers::avoidNull($tabladinamica->getTotalNotaDeEntrega($data, 'D')[0]['montod'])
+            : $total;
+
         $totales_tabladinamica = array(
             "paqt"  => Strings::rdecimal($paqt, 2),
             "bult"  => Strings::rdecimal($bult, 2),

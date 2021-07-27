@@ -114,6 +114,35 @@ class Tabladinamica extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getTotalNotaDeEntrega($data, $tipo)
+    {
+        $i = 0;
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        $edv = (!hash_equals('-', $data['edv'])) ? " AND saitemnota.codvend = ?" : "";
+
+        //QUERY
+        $sql= "SELECT sum((CASE SAITEMNOTA.esexento WHEN 1  THEN SAITEMNOTA.total ELSE SAITEMNOTA.total / 1.16 END)) montod
+                FROM SAITEMNOTA INNER JOIN saprod ON SAITEMNOTA.coditem = saprod.codprod
+                INNER JOIN sanota ON saitemnota.numerod = sanota.numerod AND saitemnota.tipofac = sanota.tipofac
+                WHERE
+                DATEADD(dd, 0, DATEDIFF(dd, 0, SAITEMNOTA.FechaE)) BETWEEN ? AND ? $edv AND (SAITEMNOTA.tipofac = ?) AND  
+                SANOTA.numerof = (SELECT numerof FROM sanota WHERE sanota.numerod = SAITEMNOTA.numerod AND sanota.tipofac = SAITEMNOTA.tipofac AND sanota.numerof = 0)";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1,$data['fechai']);
+        $sql->bindValue($i+=1,$data['fechaf']);
+        if (!hash_equals('-', $data['edv']))
+            $sql->bindValue($i+=1,$data['edv']);
+        $sql->bindValue($i+=1,$tipo);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getResumenFactura($data)
     {
         $i = 0;
