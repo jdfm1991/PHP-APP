@@ -80,26 +80,33 @@ else { ?>
                     <h3 class="card-title">Relacion de Pedidos sin Facturar</h3>
                 </div>
                 <div class="card-body" style="width:auto;">
-                    <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="sellin_data">
+                    <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="pedidossinfacturar_data">
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('compra')?>"><?=Strings::titleFromJson('compra')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('devolucion_compra')?>"><?=Strings::titleFromJson('devolucion_compra')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('cliente')?>"><?=Strings::titleFromJson('cliente')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('unidad')?>"><?=Strings::titleFromJson('unidad')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad')?>"><?=Strings::titleFromJson('cantidad')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('total')?>"><?=Strings::titleFromJson('total')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
                         </tr>
                         </thead>
                         <tfoot style="background-color: #ccc;color: white;">
                         <tr>
+                            <th class="text-center"><?=Strings::titleFromJson('#')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('compra')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('devolucion_compra')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('cliente')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('unidad')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('cantidad')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('total')?></th>
-
+                            <th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -120,7 +127,7 @@ else { ?>
         </section>
     </div>
 <?php require_once("../footer.php");?>
-    <script type="text/javascript" src="sellin.js"></script><?php
+    <script type="text/javascript" src="pedidossinfacturar.js"></script><?php
 }
 ?>
 </body>

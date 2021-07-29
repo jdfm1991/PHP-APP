@@ -20,13 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="tabladinamica">
-      <change afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,6 +197,7 @@
       <workItem from="1627390878761" duration="7663000" />
       <workItem from="1627474691863" duration="3413000" />
       <workItem from="1627485727360" duration="1369000" />
+      <workItem from="1627562583860" duration="8230000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>

@@ -37,6 +37,7 @@
   "unidad"                      : {"title": "Unidad",                             "description": ""},
   "bulto"                       : {"title": "Bulto",                              "description": ""},
   "bultos"                      : {"title": "Bultos",                             "description": ""},
+  "paquete"                     : {"title": "Paquete",                            "description": ""},
   "paquetes"                    : {"title": "Paquetes",                           "description": ""},
   "factura"                     : {"title": "Factura",                            "description": ""},
   "nota_de_entrega"             : {"title": "Nota de Entrega",                    "description": ""},

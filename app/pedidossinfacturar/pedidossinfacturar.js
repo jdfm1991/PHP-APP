@@ -25,7 +25,7 @@ function validarCantidadRegistrosTabla() {
 function listar_marcas() {
     let isError = false;
     $.ajax({
-        url: "sellin_controlador.php?op=listar_marcas",
+        url: "pedidossinfacturar_controlador.php?op=listar_marcas",
         method: "POST",
         dataType: "json",
         beforeSend: function () {
@@ -82,11 +82,11 @@ $(document).on("click", "#btn_consultar", function () {
             sessionStorage.setItem("marca", marca);
             let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            tabla = $('#sellin_data').DataTable({
+            tabla = $('#pedidossinfacturar_data').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    url: "sellin_controlador.php?op=buscar_sellin",
+                    url: "pedidossinfacturar_controlador.php?op=listar_pedidossinfacturar",
                     type: "post",
                     dataType: "json",
                     data: {fechai: fechai, fechaf: fechaf, marca: marca},
@@ -108,7 +108,10 @@ $(document).on("click", "#btn_consultar", function () {
                 "responsive": true,
                 "bInfo": true,
                 "iDisplayLength": 10,
-                "order": [[0, "desc"]],
+                'columnDefs' : [{
+                    'visible': false, 'targets': [0]
+                }],
+                "order": [[0, "asc"]],
                 "language": texto_español_datatables
             });
             estado_minimizado = true;
@@ -126,7 +129,7 @@ $(document).on("click","#btn_excel", function(){
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     var marca = sessionStorage.getItem("marca", marca);
     if (fechai !== "" && fechaf !== "" && marca !== "") {
-        window.location = "sellin_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&marca="+marca;
+        window.location = "pedidossinfacturar_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&marca="+marca;
     }
 });
 
@@ -136,15 +139,8 @@ $(document).on("click","#btn_pdf", function(){
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     var marca = sessionStorage.getItem("marca", marca);
     if (fechai !== "" && fechaf !== "" && marca !== "") {
-        window.open('sellin_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&marca='+marca, '_blank');
+        window.open('pedidossinfacturar_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&marca='+marca, '_blank');
     }
 });
-
-function mostrar() {
-
-    var texto= 'Clientes Sin Transacción:  ';
-    var cuenta =(tabla.rows().count());
-    $("#cuenta").html(texto + cuenta);
-}
 
 init();
