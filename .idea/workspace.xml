@@ -19,10 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="tabladinamica">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="reporte de pedidos sin facturar">
+      <change afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +198,8 @@
       <workItem from="1627474691863" duration="3413000" />
       <workItem from="1627485727360" duration="1369000" />
       <workItem from="1627562583860" duration="8230000" />
-      <workItem from="1627646660994" duration="6979000" />
+      <workItem from="1627646660994" duration="10827000" />
+      <workItem from="1627906539792" duration="7762000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -420,7 +425,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627401168861</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="reporte de pedidos sin facturar">
+      <created>1627656366915</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1627656366915</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +468,8 @@
     <MESSAGE value="motivo no venta, falta excel y pdf" />
     <MESSAGE value="motivo no venta" />
     <MESSAGE value="tabladinamica" />
-    <option name="LAST_COMMIT_MESSAGE" value="tabladinamica" />
+    <MESSAGE value="reporte de pedidos sin facturar" />
+    <option name="LAST_COMMIT_MESSAGE" value="reporte de pedidos sin facturar" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

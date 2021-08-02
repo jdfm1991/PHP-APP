@@ -14,6 +14,7 @@
   "numero_operacion"            : {"title": "Nro. Operación",                     "description": ""},
   "numero_comprobante_retencion": {"title": "Nro. Comprobante Retención",         "description": ""},
   "numero_control"              : {"title": "Nro. Control",                       "description": ""},
+  "numero_devolucion"           : {"title": "Nro. Devolucion",                    "description": ""},
   "tipo_transaccion"            : {"title": "Tipo Transacción",                   "description": ""},
   "resumen_credito_fiscal"      : {"title": "Resumen de Créditos Fiscales",       "description": ""},
   "resumen_libro_ventas"        : {"title": "Resumen del Libro de Ventas",        "description": ""},
@@ -84,6 +85,7 @@
   "fecha_comprobante"           : {"title": "Fecha Comprobante",                  "description": ""},
   "fecha_comprobante_retencion" : {"title": "Fecha del comprobante de Retención", "description": ""},
   "fecha_documento_afectado"    : {"title": "Fecha Documento Afectado",           "description": ""},
+  "fecha_devolucion"            : {"title": "Fecha Devolución",                   "description": ""},
   "saldo"                       : {"title": "Saldo",                              "description": ""},
   "saldo_pendiente"             : {"title": "Saldo Pendiente",                    "description": ""},
   "direccion"                   : {"title": "Dirección",                          "description": "Dirección Fiscal"},
@@ -162,6 +164,7 @@
   "instancia"                   : {"title": "Instancia",                          "description": ""},
   "mes"                         : {"title": "Mes",                                "description": ""},
   "anio"                        : {"title": "Año",                                "description": ""},
+  "motivo"                      : {"title": "Motivo",                             "description": ""},
 
   "botones_accion"     : {"title": "Acciónes",         "description": ""},
   "boton_consultar"    : {"title": " Consultar",       "description": ""},

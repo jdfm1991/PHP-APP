@@ -136,17 +136,17 @@ class Functions {
                 $modulosMenu = array();
                 $existenModulos = Modulos::getByMenuId($hijo['id'], $itsForSideMenu);
                 if (is_array($existenModulos) == true and count($existenModulos) > 0) {
-                    $arr_permissions_by_typo = array();
+                    $arr_permissions_by_type = array();
 
                     # el parametro tipo:
                     #        0 el tipo es rol
                     #        1 el tipo es usuario
                     switch ($type) {
-                        case 0: $arr_permissions_by_typo = Permisos::getRolesGrupoPorRolID($type_id); break;
-                        case 1: $arr_permissions_by_typo = Permisos::getPermisosPorUsuarioID($type_id); break;
+                        case 0: $arr_permissions_by_type = Permisos::getRolesGrupoPorRolID($type_id); break;
+                        case 1: $arr_permissions_by_type = Permisos::getPermisosPorUsuarioID($type_id); break;
                     }
 
-                    $modulosInDB = array_map(function ($arr) { return $arr['id_modulo']; }, $arr_permissions_by_typo);
+                    $modulosInDB = array_map(function ($arr) { return $arr['id_modulo']; }, $arr_permissions_by_type);
                     foreach ($existenModulos as $key1 => $modulo) {
                         $isSelected = in_array($modulo['id'], $modulosInDB);
 
@@ -168,7 +168,7 @@ class Functions {
 
                 # hacemos una condicion que:
                 #   si es para el menu lateral, preguntamos si tiene al menos un modulo seleccionado, si no tiene, no muestra dicho menu
-                #   sino es para menu lateral, es para el modulo de permisos y lista los seleccionados y no seleccionados
+                #   si no es para menu lateral, es para el modulo de permisos de usuario, lista los seleccionados y no seleccionados
                 if($itsForSideMenu==true)
                 {
                     #si tiene al menos modulo seleccinado, agregamos al array
