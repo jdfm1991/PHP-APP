@@ -14,21 +14,47 @@ switch ($_GET["op"]) {
 
     case "buscar_devolucionessinmotivo":
 
-        $datos = $sellin->getsellin($_POST["fechai"], $_POST["fechaf"], $_POST["marca"]);
+        $data = array(
+            'fechai'        => $_POST["fechai"],
+            'fechaf'        => $_POST["fechaf"],
+            'tipodespacho'  => $_POST["tipodespacho"],
+            'tipodoc'       => $_POST["tipodoc"],
+        );
+
+        $datos = $sinmotivo->getDevoluciones($data);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
-        foreach ($datos as $row) {
+        $suma_monto = $suma_peso = $tipo = 0;
+
+        foreach ($datos as $key => $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
 
-            $sub_array[] = $row["coditem"];
-            $sub_array[] = $row["producto"];
-            $sub_array[] = $row["marca"];
-            $sub_array[] = Strings::rdecimal($row["compras"],2);
-            $sub_array[] = Strings::rdecimal($row["devol"],2);
-            $sub_array[] = Strings::rdecimal($row["total"],2);
+            $op=0;
+
+            $columna_3 = ($row['numeror'] != null)
+                ? $row['numeror']
+                : '';
+
+            $sub_array[] = $row["code_vendedor"];
+            $sub_array[] = $row["numerod"];
+            $sub_array[] = $columna_3;
+            $sub_array[] = $row["tipofac"];
+            $sub_array[] = date(FORMAT_DATE, strtotime($row['fecha_fact']));
+            $sub_array[] = $row["cod_clie"];
+            $sub_array[] = $row["cliente"];
+            $sub_array[] = '<div align="text-center">
+								<div id="causa'.$key.'_div" class="input-group">
+									<select id="causa'.$key.'" name="causa'.$key.'" class="form-control custom-select" onchange="guardarCausaSeleccionada(\''. $row["id"] .'\',\''. $key .'\')">
+										'.Functions::selectListCausasRechazos().'
+									</select>
+								</div>
+							</div>';
+            $sub_array[] = Strings::rdecimal($row["Monto"],2);
+
+            $suma_monto += $row['Monto'];
 
             $data[] = $sub_array;
         }

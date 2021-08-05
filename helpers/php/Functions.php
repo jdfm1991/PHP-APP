@@ -73,6 +73,21 @@ class Functions {
         return $output;
     }
 
+    public static function selectListCausasRechazos()
+    {
+        $output = '';
+        $datos = CausasRechazos::todos();
+
+        $output .= '<option value="">--Seleccione--</option>';
+        if (is_array($datos) == true and count($datos) > 0)
+        {
+            foreach ($datos as $key => $row)
+                $output .= '<option value="' . $row['descripcion'] .'">'. ucwords($row['descripcion']) .'</option>';
+        }
+
+        return $output;
+    }
+
     public static function listModulesAvailable($id_modulo)
     {
         $output = array();
