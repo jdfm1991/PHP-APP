@@ -164,7 +164,7 @@
   "instancia"                   : {"title": "Instancia",                          "description": ""},
   "mes"                         : {"title": "Mes",                                "description": ""},
   "anio"                        : {"title": "Año",                                "description": ""},
-  "motivo"                      : {"title": "Motivo",                             "description": ""},
+  "motivo_devolucion"           : {"title": "Motivo Devolucion",                  "description": ""},
 
   "botones_accion"     : {"title": "Acciónes",         "description": ""},
   "boton_consultar"    : {"title": " Consultar",       "description": ""},

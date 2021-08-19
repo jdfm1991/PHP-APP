@@ -20,8 +20,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de Devoluciones sin motivo">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AJ.KQgAAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/APPWEBAJ._PSMdQ/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/AUAJ.XdMeAA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/BCONFISUR.rYS2RQ/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/CONFIGUAYANA.CdUBzw/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/SUCRE.FEi5BA/schema/dbo.sYMBAA.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/devolucionessinmotivo/devolucionessinmotivo_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +99,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/plugins/jquery-maskmoney" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/devolucionessinmotivo" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -94,11 +112,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\devolucionessinmotivo" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins\jquery-maskmoney" />
       <recent name="C:\Apache24\htdocs\appweb\app\libroventas" />
       <recent name="C:\Apache24\htdocs\appweb\app" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
-      <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\config" />
@@ -197,7 +215,10 @@
       <workItem from="1627646660994" duration="10827000" />
       <workItem from="1627906539792" duration="8119000" />
       <workItem from="1627996261028" duration="10203000" />
-      <workItem from="1628166279544" duration="1184000" />
+      <workItem from="1628166279544" duration="1227000" />
+      <workItem from="1629212051770" duration="2041000" />
+      <workItem from="1629289639956" duration="4555000" />
+      <workItem from="1629375576986" duration="11294000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -437,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627933802366</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="avance de Devoluciones sin motivo">
+      <created>1628170655587</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1628170655587</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

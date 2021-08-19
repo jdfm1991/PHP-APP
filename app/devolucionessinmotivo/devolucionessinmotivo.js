@@ -129,6 +129,10 @@ $(document).on("click", "#btn_consultar", function () {
                 "bInfo": true,
                 "iDisplayLength": 10,
                 "order": [[0, "desc"]],
+                'columnDefs':[{
+                    "targets": [7],
+                    "width": "30%"
+                }],
                 "language": texto_español_datatables
             });
             estado_minimizado = true;
@@ -139,6 +143,31 @@ $(document).on("click", "#btn_consultar", function () {
 
     }
 });
+
+function guardarCausaRechazoSeleccionada(num, tipo, numeror, op, key) {
+
+    const motivo = $('#causa' + key).val();
+
+    $.ajax({
+        url: `devolucionessinmotivo_controlador.php?op=insertar_motivo`,
+        dataType: "json",
+        type: "POST",
+        data: {num_nota : num, tipo_nota : tipo, numeror : numeror, op : op, motivo : motivo},
+        error: function(e){
+            $('#causa'+key).val('');
+            SweetAlertError(e.responseText, "Error!")
+        },
+        success: function (data) {
+            let {icono, mensaje} = data;
+            ToastSweetMenssage(icono, mensaje)
+
+            if (!icono.includes('error'))
+                $('#devolucionessinmotivo_data').DataTable().ajax.reload();
+            else
+                $('#causa'+key).val('');
+        }
+    });
+}
 
 function mostrar() {
 

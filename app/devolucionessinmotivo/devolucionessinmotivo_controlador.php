@@ -21,42 +21,56 @@ switch ($_GET["op"]) {
             'tipodoc'       => $_POST["tipodoc"],
         );
 
-        $datos = $sinmotivo->getDevoluciones($data);
+        $datos = Array();
+        switch ($data['tipodoc']) {
+            case 2: $datos = $sinmotivo->getDevolucionesFactura($data); break;
+            case 3: $datos = Array(); break;
+        }
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
-        $suma_monto = $suma_peso = $tipo = 0;
+        if (is_array($datos)==true and count($datos)>0)
+        {
+            $list_rechazos = Functions::selectListCausasRechazos();
+            $suma_monto = $suma_peso = $tipo = 0;
 
-        foreach ($datos as $key => $row) {
-            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
-            $sub_array = array();
+            foreach ($datos as $key => $row) {
+                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+                $sub_array = array();
 
-            $op=0;
+                $op = ($row['numeror'] != null) ? 1 : 2;
 
-            $columna_3 = ($row['numeror'] != null)
-                ? $row['numeror']
-                : '';
+                $columna_3 = ($row['numeror'] != null)
+                    ? $row['numeror']
+                    : '';
 
-            $sub_array[] = $row["code_vendedor"];
-            $sub_array[] = $row["numerod"];
-            $sub_array[] = $columna_3;
-            $sub_array[] = $row["tipofac"];
-            $sub_array[] = date(FORMAT_DATE, strtotime($row['fecha_fact']));
-            $sub_array[] = $row["cod_clie"];
-            $sub_array[] = $row["cliente"];
-            $sub_array[] = '<div align="text-center">
+                $tipofac = '';
+                switch ($row["tipofac"]) {
+                    case 'B': $tipofac = 'Devolución Factura'; break;
+                    case 'D': $tipofac = 'Devolución Nota de Entrega'; break;
+                }
+
+                $sub_array[] = $row["code_vendedor"];
+                $sub_array[] = $row["numerod"];
+                $sub_array[] = $columna_3;
+                $sub_array[] = $tipofac;
+                $sub_array[] = date(FORMAT_DATE, strtotime($row['fecha_fact']));
+                $sub_array[] = $row["cod_clie"];
+                $sub_array[] = $row["cliente"];
+                $sub_array[] = Strings::rdecimal($row["monto"],2);
+                $sub_array[] = '<div align="text-center">
 								<div id="causa'.$key.'_div" class="input-group">
-									<select id="causa'.$key.'" name="causa'.$key.'" class="form-control custom-select" onchange="guardarCausaSeleccionada(\''. $row["id"] .'\',\''. $key .'\')">
-										'.Functions::selectListCausasRechazos().'
+									<select id="causa'.$key.'" name="causa'.$key.'" class="form-control custom-select" onchange="guardarCausaRechazoSeleccionada(\''. $row["numerod"] .'\',\''. $row["tipofac"] .'\',\''. $columna_3 .'\',\''. $op .'\',\''. $key .'\')">
+										'.$list_rechazos.'
 									</select>
 								</div>
 							</div>';
-            $sub_array[] = Strings::rdecimal($row["Monto"],2);
 
-            $suma_monto += $row['Monto'];
+                $suma_monto += $row['monto'];
 
-            $data[] = $sub_array;
+                $data[] = $sub_array;
+            }
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -68,6 +82,33 @@ switch ($_GET["op"]) {
         );
 
         echo json_encode($results);
+        break;
+
+    case 'insertar_motivo':
+        $output = array();
+        $motivo = false;
+
+        //consultamos si existe
+        /*$datos = $this->personaldepartamentogrupo_model->getRelacionGerenciaPersonalPorId($data['gerencia_id']);
+        //si existe entonces se elimina las coincidencias
+        if (is_array($datos) == true and count($datos) > 0) {
+            //elimina por id
+            $eliminar_dpg = $this->personaldepartamentogrupo_model->borrar_relacion_gerenciapersonal($data['gerencia_id']);
+        }
+        //insertamos el registro si el personal_id existe y no esta vacio
+        if (isset($data['personal_id']) and $data['personal_id'] != '') {
+            $responsable = $this->personaldepartamentogrupo_model->registrar_relacion_gerenciapersonal($data);
+        }*/
+
+        if ($motivo) {
+            $output["mensaje"] = "Se registró correctamente";
+            $output["icono"] = "success";
+        } else {
+            $output["mensaje"] = "Error al insertar";
+            $output["icono"] = "error";
+        }
+
+        echo json_encode($output);
         break;
 
     case "listar_tipodespacho":

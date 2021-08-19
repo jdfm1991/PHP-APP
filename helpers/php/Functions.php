@@ -78,7 +78,7 @@ class Functions {
         $output = '';
         $datos = CausasRechazos::todos();
 
-        $output .= '<option value="">--Seleccione--</option>';
+        $output .= '<option value="">Seleccione</option>';
         if (is_array($datos) == true and count($datos) > 0)
         {
             foreach ($datos as $key => $row)

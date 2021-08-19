@@ -95,8 +95,8 @@ else { ?>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_devolucion')?>"><?=Strings::titleFromJson('fecha_devolucion')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('motivo')?>"><?=Strings::titleFromJson('motivo')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('monto')?>"><?=Strings::titleFromJson('monto')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('motivo_devolucion')?>">Seleccione <?=Strings::titleFromJson('motivo_devolucion')?></th>
                         </tr>
                         </thead>
                         <tfoot style="background-color: #ccc;color: white;">
@@ -108,8 +108,8 @@ else { ?>
                             <th class="text-center"><?=Strings::titleFromJson('fecha_devolucion')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('motivo')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('monto')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('motivo_devolucion')?></th>
                         </tr>
                         </tfoot>
                         <tbody>

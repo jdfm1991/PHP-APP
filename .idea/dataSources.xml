@@ -6,6 +6,7 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://localhost</jdbc-url>
+      <vm-options>&quot;-Djdk.tls.disabledAlgorithms=SSLv3, TLSv1.1, RC4, DES, MD5withRSA, DH keySize &lt; 1024, EC keySize &lt; 224, 3DES_EDE_CBC, anon, NULL, include jdk.disabled.namedCurves&quot;</vm-options>
     </data-source>
     <data-source source="LOCAL" name="@192.168.7.31" uuid="adb4ad80-027f-45e6-bc22-125fb9b6a6db">
       <driver-ref>sqlserver.ms</driver-ref>
