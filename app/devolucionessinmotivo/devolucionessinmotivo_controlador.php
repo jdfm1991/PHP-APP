@@ -24,7 +24,7 @@ switch ($_GET["op"]) {
         $datos = Array();
         switch ($data['tipodoc']) {
             case 2: $datos = $sinmotivo->getDevolucionesFactura($data); break;
-            case 3: $datos = Array(); break;
+            case 3: $datos = $sinmotivo->getDevolucionesNotadeEntrega($data); break;
         }
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
@@ -51,10 +51,11 @@ switch ($_GET["op"]) {
                     case 'D': $tipofac = 'Devolución Nota de Entrega'; break;
                 }
 
+                $tipoBadge = ($row["tipofac"]=='B' ? 'badge-primary' : 'badge-secondary');
+
                 $sub_array[] = $row["code_vendedor"];
                 $sub_array[] = $row["numerod"];
-                $sub_array[] = $columna_3;
-                $sub_array[] = $tipofac;
+                $sub_array[] = $columna_3 .'<br><span class="right badge '.$tipoBadge.'">'.$tipofac.'</span>';
                 $sub_array[] = date(FORMAT_DATE, strtotime($row['fecha_fact']));
                 $sub_array[] = $row["cod_clie"];
                 $sub_array[] = $row["cliente"];

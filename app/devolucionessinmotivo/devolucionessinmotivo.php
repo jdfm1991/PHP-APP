@@ -91,7 +91,6 @@ else { ?>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('numero_devolucion')?>"><?=Strings::titleFromJson('numero_devolucion')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_transaccion')?>"><?=Strings::titleFromJson('tipo_transaccion')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_devolucion')?>"><?=Strings::titleFromJson('fecha_devolucion')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
@@ -104,7 +103,6 @@ else { ?>
                             <th class="text-center"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('numero_devolucion')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('tipo_transaccion')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('fecha_devolucion')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
