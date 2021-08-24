@@ -89,6 +89,14 @@ switch ($_GET["op"]) {
         $output = array();
         $motivo = false;
 
+        $data = array(
+            'num_nota'  => $_POST["num_nota"],
+            'tipo_nota' => $_POST["tipo_nota"],
+            'numeror'   => $_POST["numeror"],
+            'op'        => $_POST["op"],
+            'motivo'    => $_POST["motivo"],
+        );
+
         //consultamos si existe
         /*$datos = $this->personaldepartamentogrupo_model->getRelacionGerenciaPersonalPorId($data['gerencia_id']);
         //si existe entonces se elimina las coincidencias
@@ -100,6 +108,30 @@ switch ($_GET["op"]) {
         if (isset($data['personal_id']) and $data['personal_id'] != '') {
             $responsable = $this->personaldepartamentogrupo_model->registrar_relacion_gerenciapersonal($data);
         }*/
+
+        $disable = " alter table appfacturas_det DISABLE trigger TIPODOC_DESPACHOS;";
+        $resultado_disable = mssql_query($disable);
+        $enable = " alter table appfacturas_det ENABLE trigger TIPODOC_DESPACHOS;";
+
+
+        $sql = mssql_query("select numeros from appfacturas_det where numeros = '$numeror' or numeros = '$numerod' ");
+        if ((mssql_num_rows($sql)!=0) ) {
+            $lista = mssql_query("update appfacturas_det set observacion = '$motivo' where numeros = '$numerod' or numeros = '$numeror'");
+            $output["mensaje"] = "Motivo de devolución de Factura numerod actualizado";
+            $resultado_enable = mssql_query($enable);
+        }elseif((mssql_num_rows($sql)==0) and (($op == 2) or ($op == 1))){
+            if ($op == 2) {
+                $lista = mssql_query("insert into appfacturas_det (numeros, observacion, nnotacre, fecha_liqui, fecha_entre, TipoFac) values ('$numerod', '$motivo', '$numerod', CONVERT(date, GETDATE()), CONVERT(date, GETDATE()), '$tipo_nota')");
+                $output["mensaje"] = "Motivo de devolución de Factura $numerod insertado";
+                $resultado_enable = mssql_query($enable);
+            }elseif ($op == 1) {
+                $lista = mssql_query("insert into appfacturas_det (numeros, observacion, nnotacre, fecha_liqui, fecha_entre, TipoFac) values ('$numeror', '$motivo', '$numerod', CONVERT(date, GETDATE()), CONVERT(date, GETDATE()), '$tipo_nota')");
+                $output["mensaje"] = "Motivo de devolución de Factura $numeror insertado";
+                $resultado_enable = mssql_query($enable);
+            }
+        }else{
+            $output["mensaje"] = "Ya está actualizada";
+        }
 
         if ($motivo) {
             $output["mensaje"] = "Se registró correctamente";
