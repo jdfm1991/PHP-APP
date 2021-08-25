@@ -80,5 +80,43 @@ class Devolucionessinmotivo extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     }
+
+    public function getDocumentoEnDespacho($data) {
+        $i = 0;
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT numerod FROM Despachos_Det WHERE Numerod = ? or Numerod = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1,$data['numeror']);
+        $sql->bindValue($i+=1,$data['numerod']);
+
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+    public function editar_motivo($data)
+    {
+        $i=0;
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $sql = "UPDATE Despachos_Det SET  Observacion=? WHERE Numerod = ? or Numerod = ?";
+
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1, $data["motivo"]);
+        $sql->bindValue($i+=1, $data["numerod"]);
+        $sql->bindValue($i+=1, $data["numeror"]);
+
+        return $sql->execute();
+    }
+
+
 }
 
