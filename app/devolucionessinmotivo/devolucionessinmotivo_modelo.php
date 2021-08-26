@@ -1,5 +1,7 @@
 
 <?php
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
 
@@ -113,6 +115,34 @@ class Devolucionessinmotivo extends Conectar{
         $sql->bindValue($i+=1, $data["motivo"]);
         $sql->bindValue($i+=1, $data["numerod"]);
         $sql->bindValue($i+=1, $data["numeror"]);
+
+        return $sql->execute();
+    }
+
+    public function insertar_motivo($data)
+    {
+        $i=0;
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $numerod = hash_equals('1', $data['op'])
+            ? $data['numeror']
+            : $data['numerod'];
+
+        $usuario_id = (is_array($_SESSION)==true and count($_SESSION)>0)
+            ? $_SESSION['cedula']
+            : '';
+
+        $sql = "INSERT INTO Despachos_Det (Numerod, Observacion, Nnotacre, Fecha_Liqui, Fecha_Entre, ID_Usuario, Tipofac) VALUES (?,?,?,?,?,?,?)";
+
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1, $numerod);
+        $sql->bindValue($i+=1, $data["motivo"]);
+        $sql->bindValue($i+=1, $data["numerod"]);
+        $sql->bindValue($i+=1, date(FORMAT_DATETIME_FOR_INSERT));
+        $sql->bindValue($i+=1, date(FORMAT_DATETIME_FOR_INSERT));
+        $sql->bindValue($i+=1, $usuario_id);
+        $sql->bindValue($i+=1, $data["tipo_nota"]);
 
         return $sql->execute();
     }

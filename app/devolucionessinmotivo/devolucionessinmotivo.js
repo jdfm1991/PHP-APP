@@ -129,10 +129,12 @@ $(document).on("click", "#btn_consultar", function () {
                 "bInfo": true,
                 "iDisplayLength": 10,
                 "order": [[0, "desc"]],
-                'columnDefs':[{
-                    "targets": [7],
-                    "width": "30%"
-                }],
+                'columnDefs':[
+                    {
+                        'visible': false,
+                        'targets': [0]
+                    }
+                ],
                 "language": texto_español_datatables
             });
             estado_minimizado = true;

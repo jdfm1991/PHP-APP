@@ -88,6 +88,7 @@ else { ?>
                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="devolucionessinmotivo_data">
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('numero_devolucion')?>"><?=Strings::titleFromJson('numero_devolucion')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
@@ -100,6 +101,7 @@ else { ?>
                         </thead>
                         <tfoot style="background-color: #ccc;color: white;">
                         <tr>
+                            <th class="text-center"><?=Strings::titleFromJson('#')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('numero_devolucion')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>

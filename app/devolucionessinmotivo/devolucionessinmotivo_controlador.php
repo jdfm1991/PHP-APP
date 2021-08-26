@@ -53,6 +53,7 @@ switch ($_GET["op"]) {
 
                 $tipoBadge = ($row["tipofac"]=='B' ? 'badge-primary' : 'badge-secondary');
 
+                $sub_array[] = $key+1;
                 $sub_array[] = $row["code_vendedor"];
                 $sub_array[] = $row["numerod"];
                 $sub_array[] = $columna_3 .'<br><span class="right badge '.$tipoBadge.'">'.$tipofac.'</span>';
@@ -98,37 +99,28 @@ switch ($_GET["op"]) {
         );
 
         //consultamos si existe
-        /*$datos = $this->personaldepartamentogrupo_model->getRelacionGerenciaPersonalPorId($data['gerencia_id']);
-        //si existe entonces se elimina las coincidencias
-        if (is_array($datos) == true and count($datos) > 0) {
-            //elimina por id
-            $eliminar_dpg = $this->personaldepartamentogrupo_model->borrar_relacion_gerenciapersonal($data['gerencia_id']);
-        }
-        //insertamos el registro si el personal_id existe y no esta vacio
-        if (isset($data['personal_id']) and $data['personal_id'] != '') {
-            $responsable = $this->personaldepartamentogrupo_model->registrar_relacion_gerenciapersonal($data);
-        }*/
-
-        //consultamos si existe
         $datos = $sinmotivo->getDocumentoEnDespacho($data);
-        //si existe entonces se actualiza
+
         if (is_array($datos) == true and count($datos) > 0) {
-            $lista = $sinmotivo->editar_motivo($data);
-            $output["mensaje"] = "Motivo de devolución de Factura numerod actualizado";
-        }elseif((mssql_num_rows($sql)==0) and (($op == 2) or ($op == 1))){
-            if ($op == 2) {
-                $lista = mssql_query("insert into appfacturas_det (numeros, observacion, nnotacre, fecha_liqui, fecha_entre, TipoFac) values ('$numerod', '$motivo', '$numerod', CONVERT(date, GETDATE()), CONVERT(date, GETDATE()), '$tipo_nota')");
-                $output["mensaje"] = "Motivo de devolución de Factura $numerod insertado";
-            }elseif ($op == 1) {
-                $lista = mssql_query("insert into appfacturas_det (numeros, observacion, nnotacre, fecha_liqui, fecha_entre, TipoFac) values ('$numeror', '$motivo', '$numerod', CONVERT(date, GETDATE()), CONVERT(date, GETDATE()), '$tipo_nota')");
-                $output["mensaje"] = "Motivo de devolución de Factura $numeror insertado";
-            }
-        }else{
+
+            //si existe entonces se actualiza
+            $motivo = $sinmotivo->editar_motivo($data);
+            $output["mensaje"] = "Motivo de devolución " . $data['numerod'] . " actualizado correctamente";
+
+        } elseif(count($datos)==0 and ($data['op'] == 2 or $data['op'] == 1)) {
+
+            //sino entoces insertamos el documento con el motivo
+            $motivo = $sinmotivo->insertar_motivo($data);
+            $output["mensaje"] = hash_equals('1', $data['op'])
+                ? "Motivo de devolución " . $data['numeror'] . " insertado correctamente"
+                : "Motivo de devolución " . $data['numerod'] . " insertado correctamente";
+
+        } else {
             $output["mensaje"] = "Ya está actualizada";
         }
 
         if ($motivo) {
-            $output["mensaje"] = "Se registró correctamente";
+//            $output["mensaje"] = "Se registró correctamente";
             $output["icono"] = "success";
         } else {
             $output["mensaje"] = "Error al insertar";

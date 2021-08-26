@@ -24,3 +24,4 @@ define("PATH_CONFIG",      $_SERVER['DOCUMENT_ROOT'] ."/appweb/config/");
 const FORMAT_DATE     = "d/m/Y";
 const FORMAT_DATETIME = "d/m/Y h:i:s";
 const FORMAT_DATETIME2 = "d/m/Y h:i A";
+const FORMAT_DATETIME_FOR_INSERT = "Y-m-d h:i:s";
