@@ -25,7 +25,6 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
 
 
@@ -106,7 +105,6 @@ switch ($_GET["op"]) {
         $output["bgProgreso"] = $bgProgress;
 
         echo json_encode($output);
-
         break;
 
 
@@ -155,7 +153,6 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
         echo json_encode($results);
-
         break;
 
 
@@ -188,7 +185,6 @@ switch ($_GET["op"]) {
             }
         }
         echo json_encode($output);
-
         break;
 
 
@@ -203,7 +199,6 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
 
 
@@ -247,7 +242,6 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
 
 
@@ -286,7 +280,6 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
 
 
@@ -355,7 +348,6 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
         echo json_encode($results);
-
         break;
 
     case "listar_totales_paq_bul_despacho":
@@ -369,6 +361,12 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
+        break;
 
+    case "listar_depositos":
+
+        $output['lista_depositos'] = Almacen::todos();
+
+        echo json_encode($output);
         break;
 }

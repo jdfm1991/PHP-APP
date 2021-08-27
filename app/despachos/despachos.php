@@ -80,8 +80,22 @@ if (!isset($_SESSION['cedula'])) {
                                     <label><?=Strings::titleFromJson('destino')?></label>
                                     <input type="text" class="form-control input-sm" maxlength="120" id="destino" name="destino" >
                                     <br />
-                                    <button class="btn btn-primary pull-left verFactura" id="buscarxfact_button"  onclick="limpiar_campo_factura_modal()" data-toggle="modal" data-target="#buscarxfacturaModal" type="button"><?=Strings::titleFromJson('boton_verfactura')?></button>
-                                    <button class="btn btn-primary porDespachar" type="button"><?=Strings::titleFromJson('boton_pordespachar')?></button>
+
+                                    <button id="buscarxfact_button"
+                                            class="btn btn-primary pull-left verFactura"
+                                            onclick="limpiar_campo_factura_modal()"
+                                            data-toggle="modal"
+                                            data-target="#buscarxfacturaModal"
+                                            type="button"><?=Strings::titleFromJson('boton_verfactura')?>
+                                    </button>
+
+                                    <button id="buscarmercanciapordespachar_button"
+                                            class="btn btn-primary porDespachar"
+                                            onclick="limpiar_modal_mercancia()"
+                                            data-toggle="modal"
+                                            data-target="#buscarpordespacharModal"
+                                            type="button"><?=Strings::titleFromJson('boton_pordespachar')?>
+                                    </button>
 
                                     <button class="btn btn-success nextBtn  float-right" type="button"><?=Strings::titleFromJson('boton_siguiente')?></button>
                                 </div>
@@ -213,9 +227,13 @@ if (!isset($_SESSION['cedula'])) {
             <!-- Modal bucar factura -->
             <?php include 'modales/buscar_factura_modal.html' ?>
 
+            <!-- Modal bucar mercancia por despachar -->
+            <?php include 'modales/mercancia_por_despachar.html' ?>
+
         </div>
         <?php require_once("../footer.php"); ?>
         <script type="text/javascript" src="<?php echo URL_HELPERS_JS ?>Number.js"></script>
+        <script type="text/javascript" src="mercancia_por_despachar.js"></script>
         <script type="text/javascript" src="despachos.js"></script><?php
     }
     ?>
