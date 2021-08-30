@@ -5,55 +5,28 @@ require_once("../../config/conexion.php");
 
 class InventarioGlobal extends Conectar
 {
-	public function getDevolucionesDeFactura($alm, $fechai, $fechaf, $numero)
-	{
-        $i = 0;
-		//LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-		//CUANDO ES APPWEB ES CONEXION.
-		$conectar = parent::conexion2();
-		parent::set_names();
-
-        //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
-        $depo = "(" . substr($alm, 4, strlen($alm)) . ")";
-        if ($depo != "()") {
-            $cond = "AND " . $depo;
-        } else {
-            $cond = "";
-        }
-
-		//QUERY
-		$sql = "SELECT CodItem AS coditem, Cantidad AS cantidad, esunid AS esunid FROM SAITEMFAC WHERE NumeroD IN (SELECT fa.NumeroR FROM SAFACT AS fa WHERE TipoFac= 'A' AND NumeroR IS NOT NULL " . $cond . " AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
-                        AND (NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT) < CAST(fa.Monto AS INT)))
-                        AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det) AND NumeroD NOT IN (SELECT numerof FROM sanota)) AND tipofac = 'B'";
-		//PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-		$sql = $conectar->prepare($sql);
-        if ($depo != "()") {
-            foreach ($numero AS $num) {
-                $sql->bindValue($i+=1, $num);
-            }
-        }
-        $sql->bindValue($i+=1, $fechai);
-        $sql->bindValue($i+=1, $fechaf);
-        $sql->bindValue($i+=1, $fechai);
-        $sql->bindValue($i+=1, $fechaf);
-		$sql->execute();
-		return $sql->fetchAll(PDO::FETCH_ASSOC);
-	}
-
-    public function getInventarioGlobal($alm, $fechai, $fechaf, $numero)
+    public function getInventarioGlobal($fechai, $fechaf, $alm=array())
     {
         $i = 0;
+        $cond = $depo = "";
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar = parent::conexion2();
         parent::set_names();
 
-        //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
-        $depo = "(" . substr($alm, 4, strlen($alm)) . ")";
-        if ($depo != "()") {
-            $cond = "AND " . $depo;
-        } else {
-            $cond = "";
+        if (count($alm) > 0) {
+            $aux = "";
+            //se contruye un string para listar los depositvos seleccionados
+            //en caso que no haya ninguno, sera vacio
+            foreach ($alm as $num)
+                $aux .= " OR CodUbic = ?";
+
+            //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
+            $depo = "(" . substr($aux, 4, strlen($aux)) . ")";
+
+            $cond = ($depo != "()")
+                ? ("AND ".$depo)
+                : "";
         }
 
         $sql = "SELECT CodProd, Descrip, CantEmpaq,
@@ -79,7 +52,7 @@ class InventarioGlobal extends Conectar
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         if ($depo != "()") {
-            foreach ($numero AS $num)
+            foreach ($alm AS $num)
                 $sql->bindValue($i+=1, $num);
         }
         $sql->bindValue($i+=1, $fechai);
@@ -88,7 +61,7 @@ class InventarioGlobal extends Conectar
         $sql->bindValue($i+=1, $fechaf);
 
         if ($depo != "()") {
-            foreach ($numero AS $num)
+            foreach ($alm AS $num)
                 $sql->bindValue($i+=1, $num);
         }
         $sql->bindValue($i+=1, $fechai);
@@ -98,13 +71,13 @@ class InventarioGlobal extends Conectar
 
         if ($depo != "()") {
             for($aux=1; $aux<=4; $aux++) {
-                foreach ($numero as $num)
+                foreach ($alm as $num)
                     $sql->bindValue($i += 1, $num);
             }
         }
 
         if ($depo != "()") {
-            foreach ($numero AS $num)
+            foreach ($alm AS $num)
                 $sql->bindValue($i+=1, $num);
         }
         $sql->bindValue($i+=1, $fechai);
@@ -113,7 +86,7 @@ class InventarioGlobal extends Conectar
         $sql->bindValue($i+=1, $fechaf);
 
         if ($depo != "()") {
-            foreach ($numero AS $num)
+            foreach ($alm AS $num)
                 $sql->bindValue($i+=1, $num);
         }
         $sql->bindValue($i+=1, $fechai);
@@ -123,13 +96,13 @@ class InventarioGlobal extends Conectar
 
         if ($depo != "()") {
             for($aux=1; $aux<=2; $aux++) {
-                foreach ($numero as $num)
+                foreach ($alm as $num)
                     $sql->bindValue($i += 1, $num);
             }
         }
 
         if ($depo != "()") {
-            foreach ($numero AS $num)
+            foreach ($alm AS $num)
                 $sql->bindValue($i+=1, $num);
         }
         $sql->bindValue($i+=1, $fechai);
@@ -138,7 +111,7 @@ class InventarioGlobal extends Conectar
         $sql->bindValue($i+=1, $fechaf);
 
         if ($depo != "()") {
-            foreach ($numero AS $num)
+            foreach ($alm AS $num)
                 $sql->bindValue($i+=1, $num);
         }
         $sql->bindValue($i+=1, $fechai);

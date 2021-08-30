@@ -25,20 +25,13 @@ function limpiar() {
     $('[name="depo[]"]').attr("disabled", false);
     $('#btn_excel').attr("disabled", false);
     $('#btn_pdf').attr("disabled", false);
-    $('#tfoot_cantbul_x_des').html("");
-    $('#tfoot_cantpaq_x_des').html("");
-    $('#tfoot_cantbul_sistema').html("");
-    $('#tfoot_cantpaq_sistema').html("");
-    $('#tfoot_totalbul_inv').html("");
-    $('#tfoot_totalpaq_inv').html("");
+    $('#tfoot_cantbul_x_des').text("");
+    $('#tfoot_cantpaq_x_des').text("");
+    $('#tfoot_cantbul_sistema').text("");
+    $('#tfoot_cantpaq_sistema').text("");
+    $('#tfoot_totalbul_inv').text("");
+    $('#tfoot_totalpaq_inv').text("");
     $('#cuenta').text("");
-}
-
-function validarCantidadRegistrosTabla() {
-    (tabla.rows().count() === 0)
-        ? estado = true : estado = false;
-    $('#btn_excel').attr("disabled", estado);
-    $('#btn_pdf').attr("disabled", estado);
 }
 
 var no_puede_estar_vacio = function () {
@@ -101,6 +94,7 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                 data: datos,
                 dataType: "json",
                 beforeSend: function () {
+                    limpiar();//LIMPIAMOS EL SELECTOR.
                     SweetAlertLoadingShow();
                 },
                 error: function (e) {
@@ -108,41 +102,42 @@ $(document).on("click", "#btn_inventarioglobal", function () {
                     console.log(e.responseText);
                 },
                 success: function(data) {
-                    let {contenido_tabla, totales_tabla} = data;
-                    //TABLA
-                    tabla = $('#inventarioglobal_data').dataTable({
-                        "aProcessing": true,//Activamos el procesamiento del datatables
-                        "aServerSide": true,//Paginación y filtrado realizados por el servidor
-
-                        "sEcho": contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                        "iTotalRecords": contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                        "iTotalDisplayRecords": contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                        "aaData": contenido_tabla.aaData, // informacion por registro
-
-                        "bDestroy": true,
-                        "responsive": true,
-                        "bInfo": true,
-                        "iDisplayLength": 8,//Por cada 8 registros hace una paginación
-                        'columnDefs' : [{
-                            'visible': false, 'targets': [0]
-                        }],
-                        "language": texto_español_datatables
-                    }).DataTable();
-                    $('#tfoot_cantbul_x_des').val(totales_tabla.tbulto);
-                    $('#tfoot_cantpaq_x_des').val(totales_tabla.tpaq);
-                    $('#tfoot_cantbul_sistema').val(totales_tabla.tbultsaint);
-                    $('#tfoot_cantpaq_sistema').val(totales_tabla.tpaqsaint);
-                    $('#tfoot_totalbul_inv').val(totales_tabla.tbultoinv);
-                    $('#tfoot_totalpaq_inv').val(totales_tabla.tpaqinv);
-                    $('#cuenta').text("Total Facturas sin Despachar: " + totales_tabla.facturas_sin_despachar);
-
-                    validarCantidadRegistrosTabla();
-                    limpiar();//LIMPIAMOS EL SELECTOR.
-                    estado_minimizado = true;
+                    if(!jQuery.isEmptyObject(data)) {
+                        let {contenido_tabla, totales_tabla} = data;
+                        //TABLA
+                        $.each(contenido_tabla, function (idx, opt) {
+                            $('#inventarioglobal_data')
+                                .append(
+                                    '<tr>' +
+                                        '<td align="center" class="align-middle">' + opt.codprod + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.descrip + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.cant_bul + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.cant_paq + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.invbut + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.invpaq + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.tinvbult + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.tinvpaq + '</td>' +
+                                    '</tr>'
+                                );
+                        });
+                        $('#tfoot_cantbul_x_des').text(totales_tabla.tbulto);
+                        $('#tfoot_cantpaq_x_des').text(totales_tabla.tpaq);
+                        $('#tfoot_cantbul_sistema').text(totales_tabla.tbultsaint);
+                        $('#tfoot_cantpaq_sistema').text(totales_tabla.tpaqsaint);
+                        $('#tfoot_totalbul_inv').text(totales_tabla.tbultoinv);
+                        $('#tfoot_totalpaq_inv').text(totales_tabla.tpaqinv);
+                        $('#cuenta').text("Total Facturas sin Despachar: " + totales_tabla.facturas_sin_despachar);
+                    } else {
+                        //en caso de consulta vacia, mostramos un mensaje de vacio
+                        $('#inventarioglobal_data').append('<tr><td colspan="8" align="center">Sin registros para esta Consulta</td></tr>');
+                    }
                 },
                 complete: function () {
-                    if(!isError) SweetAlertLoadingClose();
                     $("#tabla").show('');//MOSTRAMOS LA TABLA.
+                    if(!isError) {
+                        estado_minimizado = true;
+                        SweetAlertLoadingClose();
+                    }
                 }
             });
 

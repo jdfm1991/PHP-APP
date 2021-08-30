@@ -72,11 +72,11 @@ if (!isset($_SESSION['cedula'])) {
                     <div class="card-header">
                         <h3 class="card-title">Inventario Global</h3>
                     </div>
-                    <div class="card-body" style="width:auto;">
-                        <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="inventarioglobal_data">
-                            <thead style="background-color: #17A2B8;color: white;">
+                    <div class="card-body">
+                        <div class="row table-responsive p-0"  style="height: 300px;">
+                            <table class="table table-hover table-condensed table-bordered table-striped table-sm table-head-fixed text-nowrap text-center" style="width:100%;" id="inventarioglobal_data">
+                                <thead >
                                 <tr>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_bultos_despachar')?>"><?=Strings::titleFromJson('cantidad_bultos_despachar')?></th>
@@ -86,10 +86,9 @@ if (!isset($_SESSION['cedula'])) {
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('total_inv_bultos')?>"><?=Strings::titleFromJson('total_inv_bultos')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('total_inv_paquetes')?>"><?=Strings::titleFromJson('total_inv_paquetes')?></th>
                                 </tr>
-                            </thead>
-                            <tfoot style="background-color: #ccc;color: white;">
+                                </thead>
+                                <tfoot style="background-color: #ccc;color: white;">
                                 <tr>
-                                    <th class="text-center"><?=Strings::titleFromJson('#')?></th>
                                     <th colspan="2" class="text-right">Total=</th>
                                     <th class="text-center" id="tfoot_cantbul_x_des"><?=Strings::titleFromJson('cantidad_bultos_despachar')?></th>
                                     <th class="text-center" id="tfoot_cantpaq_x_des"><?=Strings::titleFromJson('cantidad_paquetes_despachar')?></th>
@@ -98,12 +97,13 @@ if (!isset($_SESSION['cedula'])) {
                                     <th class="text-center" id="tfoot_totalbul_inv"><?=Strings::titleFromJson('total_inv_bultos')?></th>
                                     <th class="text-center" id="tfoot_totalpaq_inv"><?=Strings::titleFromJson('total_inv_paquetes')?></th>
                                 </tr>
-                            </tfoot>
-                            <tbody>
+                                </tfoot>
+                                <tbody>
                                 <!-- TD TABLA LLEGAN POR AJAX -->
-                            </tbody>
-                        </table>
-                        <!-- BOX BOTONES DE REPORTES-->
+                                </tbody>
+                            </table>
+                        </div>
+                         <!-- BOX BOTONES DE REPORTES-->
                         <div align="center">
                             <br>
                             <p id="cuenta"></p>

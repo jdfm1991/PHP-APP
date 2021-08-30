@@ -15,25 +15,19 @@ switch ($_GET["op"]) {
 
         //verificamos si existe al menos 1 deposito selecionado
         //y se crea el array.
-        $numero = $_POST['depo'] ?? array();
+        $depos = $_POST['depo'] ?? array();
 
-        //se contruye un string para listar los depositvos seleccionados
-        //en caso que no haya ninguno, sera vacio
-        $edv = "";
-        if (count($numero) > 0) {
-            foreach ($numero as $num)
-                $edv .= " OR CodUbic = ?";
-        }
-        $coditem = $cantidad = $tipo = array();
         $fechaf = date('Y-m-d');
         $dato = explode("-", $fechaf); //Hasta
         $aniod = $dato[0]; //año
         $mesd = $dato[1]; //mes
         $diad = "01"; //dia
         $fechai = $aniod . "-01-01";
+
+        $coditem = $cantidad = $tipo = array();
         $t = 0;
 
-        $devolucionesDeFactura = $invglobal->getDevolucionesDeFactura($edv, $fechai, $fechaf, $numero);
+        $devolucionesDeFactura = Factura::getInvoiceReturns($fechai, $fechaf, $depos);
         if(count($devolucionesDeFactura) > 0) {
             foreach ($devolucionesDeFactura as $devol) {
                 $coditem[] = $devol['coditem'];
@@ -43,7 +37,7 @@ switch ($_GET["op"]) {
             }
         }
 
-        $relacion_inventarioglobal = $invglobal->getInventarioGlobal($edv, $fechai, $fechaf, $numero);
+        $relacion_inventarioglobal = $invglobal->getInventarioGlobal($fechai, $fechaf, $depos);
         $tbulto = $tpaq = $tbultoinv = $tpaqinv = $tbultsaint = $tpaqsaint = 0;
         $cant_paq = 0;
         $cant_bul = 0;
@@ -106,15 +100,15 @@ switch ($_GET["op"]) {
             }
 
             //ASIGNAMOS EN EL SUB_ARRAY LOS DATOS PROCESADOS
-            $sub_array[] = $key;
-            $sub_array[] = $row["CodProd"];
-            $sub_array[] = $row["Descrip"];
-            $sub_array[] = Strings::rdecimal($cant_bul,0);
-            $sub_array[] = Strings::rdecimal($cant_paq,0);
-            $sub_array[] = Strings::rdecimal($invbut,0);
-            $sub_array[] = Strings::rdecimal($invpaq,0);
-            $sub_array[] = Strings::rdecimal($tinvbult,0);
-            $sub_array[] = Strings::rdecimal($tinvpaq, 0);
+//            $sub_array[] = $key;
+            $sub_array['codprod']  = $row["CodProd"];
+            $sub_array['descrip']  = $row["Descrip"];
+            $sub_array['cant_bul'] = Strings::rdecimal($cant_bul,0);
+            $sub_array['cant_paq'] = Strings::rdecimal($cant_paq,0);
+            $sub_array['invbut']   = Strings::rdecimal($invbut,0);
+            $sub_array['invpaq']   = Strings::rdecimal($invpaq,0);
+            $sub_array['tinvbult'] = Strings::rdecimal($tinvbult,0);
+            $sub_array['tinvpaq']  = Strings::rdecimal($tinvpaq, 0);
 
             //ACUMULAMOS LOS TOTALES
             $tbulto     += $cant_bul;
@@ -129,25 +123,21 @@ switch ($_GET["op"]) {
         }
 
         //CREAMOS UN SUB_ARRAY PARA ALMACENAR LOS DATOS ACUMULADOS
-        $sub_array1 = array();
-        $sub_array1['tbulto']     = Strings::rdecimal($tbulto,0);
-        $sub_array1['tpaq']       = Strings::rdecimal($tpaq,0);
-        $sub_array1['tbultsaint'] = Strings::rdecimal($tbultsaint,0);
-        $sub_array1['tpaqsaint']  = Strings::rdecimal($tpaqsaint,0);
-        $sub_array1['tbultoinv']  = Strings::rdecimal($tbultoinv,0);
-        $sub_array1['tpaqinv']    = Strings::rdecimal($tpaqinv,0);
-        $sub_array1['facturas_sin_despachar'] = count($devolucionesDeFactura);
+        $totales = array();
+        $totales['tbulto']     = Strings::rdecimal($tbulto,0);
+        $totales['tpaq']       = Strings::rdecimal($tpaq,0);
+        $totales['tbultsaint'] = Strings::rdecimal($tbultsaint,0);
+        $totales['tpaqsaint']  = Strings::rdecimal($tpaqsaint,0);
+        $totales['tbultoinv']  = Strings::rdecimal($tbultoinv,0);
+        $totales['tpaqinv']    = Strings::rdecimal($tpaqinv,0);
+        $totales['facturas_sin_despachar'] = count($devolucionesDeFactura);
 
 
         //al terminar, se almacena en una variable de salida el array.
-        $output['contenido_tabla'] = array(
-            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-            "aaData" => $data);
+        $output['contenido_tabla'] = $data;
 
         //de igual forma, se almacena en una variable de salida el array de totales.
-        $output['totales_tabla'] = $sub_array1;
+        $output['totales_tabla'] = $totales;
 
         echo json_encode($output);
         break;
