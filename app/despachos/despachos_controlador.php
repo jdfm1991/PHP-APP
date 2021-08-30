@@ -27,7 +27,6 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-
     case "obtener_pesoporfactura":
 
         $peso_acum = str_replace(",", ".", $_POST["peso_acum_facturas"]);
@@ -50,8 +49,8 @@ switch ($_GET["op"]) {
             }
         }
         //agrega formato a el peso y al cubicaje
-        $peso = number_format($peso, 2, ".", "");
-        $cubicaje = number_format($cubicaje, 2, ".", "");
+        $peso = Strings::rdecimal($peso, 2, ".", "");
+        $cubicaje = Strings::rdecimal($cubicaje, 2, ".", "");
         $porcentajePeso = "1";
 
         //consulta si deseamos eliminar el peso de la factura actual
@@ -107,7 +106,6 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-
     case "obtener_facturasporcargardespacho":
 
         $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
@@ -141,7 +139,9 @@ switch ($_GET["op"]) {
             $sub_array[] = Strings::rdecimal($datos[0]["mtototal"], 2);
             $sub_array[] = Strings::rdecimal($peso, 2);
             $sub_array[] = Strings::rdecimal($cubicaje, 2);
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="eliminar(\''.$datos[0]["numerod"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+            $sub_array[] = '<div class="col text-center">
+                                <button type="button" onClick="eliminar(\''.$datos[0]["numerod"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                            </div>';
 
             $data[] = $sub_array;
         }
@@ -154,7 +154,6 @@ switch ($_GET["op"]) {
             "aaData" => $data);
         echo json_encode($results);
         break;
-
 
     case "buscar_facturaEnDespachos_modal":
 
@@ -178,7 +177,7 @@ switch ($_GET["op"]) {
                 //creamos un array para almacenar los datos procesados
                 $data1 = array();
                 $data1['fecha_liqui'] = date(FORMAT_DATE, strtotime($datos[0]['fecha_liqui']));
-                $data1['monto_cancelado'] = number_format($datos[0]['monto_cancelado'], 1, ",", ".") . " BsS";
+                $data1['monto_cancelado'] = Strings::rdecimal($datos[0]['monto_cancelado'], 1) . " BsS";
 
                 //al terminar, se almacena en una variable de salida el array.
                 $output['datos_pago'] = $data1;
@@ -186,7 +185,6 @@ switch ($_GET["op"]) {
         }
         echo json_encode($output);
         break;
-
 
     case "buscar_facturaendespacho":
 
@@ -201,7 +199,6 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-
     case "listar_chofer_vehiculo":
 
         $output["lista_choferes"] = Choferes::todos();
@@ -209,7 +206,6 @@ switch ($_GET["op"]) {
 
         echo json_encode($output);
         break;
-
 
     case "buscar_existefactura":
 
@@ -243,7 +239,6 @@ switch ($_GET["op"]) {
 
         echo json_encode($output);
         break;
-
 
     case "registrar_despacho":
 
@@ -281,7 +276,6 @@ switch ($_GET["op"]) {
 
         echo json_encode($output);
         break;
-
 
     case "listar_despacho":
 
@@ -359,6 +353,130 @@ switch ($_GET["op"]) {
             unset($_SESSION['total_bultos']);
             unset($_SESSION['total_paq']);
         }
+
+        echo json_encode($output);
+        break;
+
+    case "listar_mercancia_por_despachar":
+
+        //verificamos si existe al menos 1 deposito selecionado
+        $depos = $_POST['depo'] ?? array();
+
+        $fechaf = date('Y-m-d');
+        $dato = explode("-", $fechaf); //Hasta
+        $aniod = $dato[0]; //año
+        $mesd = $dato[1]; //mes
+        $diad = "01"; //dia
+        $fechai = $aniod . "-01-01";
+
+
+        $coditem = $cantidad = $tipo = array();
+        $t = 0;
+
+        $devolucionesDeFactura = Factura::getInvoiceReturns($fechai, $fechaf, $depos);
+        if(count($devolucionesDeFactura) > 0) {
+            foreach ($devolucionesDeFactura as $devol) {
+                $coditem[] = $devol['coditem'];
+                $cantidad[] = $devol['cantidad'];
+                $tipo[] = $devol['esunid'];
+                $t += 1;
+            }
+        }
+
+        $datos = $despachos->getMercanciaSinDespachar($fechai, $fechaf, $depos);
+        $tbulto = $tpaq = $tbultoinv = $tpaqinv = 0;
+        $cant_paq = 0;
+        $cant_bul = 0;
+        $i=0;
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        $totales = Array();
+
+        foreach ($datos as $key => $row) {
+
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            $sub_array = array();
+
+            if($t > 0) {
+                for($e = 0; $e < $t; $e++)
+                {
+                    if($coditem[$e] == $row['CodProd']) {
+                        switch ($tipo[$e]) {
+                            case '0':
+                                $cant_bul = $row['todob'] - $cantidad[$e];
+                                break;
+                            case '1':
+                                $cant_paq = $row['todop'] - $cantidad[$e];
+                                break;
+                        }
+//                        $e = $t + 2;
+                        break;
+                    }else{
+                        $cant_bul = $row['todob'];
+                        $cant_paq = $row['todop'];
+                    }
+                }
+            } else {
+                $cant_bul = $row['todob'];
+                $cant_paq = $row['todop'];
+            }
+            ////conversión de bultos a paquetes
+            $cantemp = $row['CantEmpaq'];
+            $invbut  = $row['exis'];
+            $invpaq  = $row['exunid'];
+
+            $i++;
+            if($cant_paq >= $cantemp){
+                $conv = floor($cant_paq / $cantemp);
+                $cant_paq -= ($conv * $cantemp);
+                $cant_bul += $conv;
+            }
+            if($invpaq >= $cantemp){
+                $conv = floor($invpaq / $cantemp);
+                $invpaq -= ($conv * $cantemp);
+                $invbut += $conv;
+            }
+            $tinvbult = $invbut + $cant_bul;
+            $tinvpaq = $invpaq + $cant_paq;
+
+            if($tinvpaq >= $cantemp){
+                $conv1 = floor($tinvpaq / $cantemp);
+                $tinvpaq -= ($conv1 * $cantemp);
+                $tinvbult += $conv1;
+            }
+
+            //ASIGNAMOS EN EL SUB_ARRAY LOS DATOS PROCESADOS
+//            $sub_array[] = $key;
+            $sub_array['codprod'] = $row["CodProd"];
+            $sub_array['descrip'] = $row["Descrip"];
+            $sub_array['cant_bul'] = Strings::rdecimal($cant_bul,0);
+            $sub_array['cant_paq'] = Strings::rdecimal($cant_paq,0);
+            $sub_array['tinvbult'] = Strings::rdecimal($tinvbult,0);
+            $sub_array['tinvpaq'] = Strings::rdecimal($tinvpaq, 0);
+
+            //ACUMULAMOS LOS TOTALES
+            $tbulto     += $cant_bul;
+            $tpaq       += $cant_paq;
+            $tbultoinv  += $tinvbult;
+            $tpaqinv    += $tinvpaq;
+
+            $data[] = $sub_array;
+        }
+
+        //CREAMOS UN SUB_ARRAY PARA ALMACENAR LOS DATOS ACUMULADOS
+        $totales = array();
+        $totales['tbulto']     = Strings::rdecimal($tbulto,0);
+        $totales['tpaq']       = Strings::rdecimal($tpaq,0);
+        $totales['tbultoinv']  = Strings::rdecimal($tbultoinv,0);
+        $totales['tpaqinv']    = Strings::rdecimal($tpaqinv,0);
+        $totales['facturas_sin_despachar'] = count($devolucionesDeFactura);
+
+
+        //al terminar, se almacena en una variable de salida el array.
+        $output['contenido_tabla'] = $data;
+
+        //de igual forma, se almacena en una variable de salida el array de totales.
+        $output['totales_tabla'] = $totales;
 
         echo json_encode($output);
         break;

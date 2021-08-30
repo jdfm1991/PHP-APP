@@ -83,14 +83,14 @@ function listar_almacenes() {
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click", "#btn_inventarioglobal", function () {
 
-    var depo = $('[name="depo[]"]').val();
+    let depo = $('[name="depo[]"]').val();
 
     if (estado_minimizado) {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
         if (depo.length > 0) {
-            var datos = $('#frminventario').serialize();
+            let datos = $('#frminventario').serialize();
             //almacenamos en sesion una variable
             sessionStorage.setItem("datos", datos);
             let isError = false;

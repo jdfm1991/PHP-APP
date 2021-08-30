@@ -39,4 +39,43 @@ class Factura extends Conectar {
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getInvoiceReturns($fechai, $fechaf, $alm=array())
+    {
+        $i=0;
+        $cond = $depo = "";
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+
+        if (count($alm) > 0) {
+            $aux = "";
+            //se contruye un string para listar los depositvos seleccionados
+            //en caso que no haya ninguno, sera vacio
+            foreach ($alm as $num)
+                $aux .= " OR CodUbic = ?";
+
+            //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
+            $depo = "(" . substr($aux, 4, strlen($aux)) . ")";
+
+            $cond = ($depo != "()")
+                ? ("AND ".$depo)
+                : "";
+        }
+
+        $sql= "SELECT CodItem AS coditem, Cantidad AS cantidad, esunid AS esunid FROM SAITEMFAC WHERE NumeroD IN (SELECT fa.NumeroR FROM SAFACT AS fa WHERE TipoFac= 'A' AND NumeroR IS NOT NULL " . $cond . " AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
+               AND (NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT) < CAST(fa.Monto AS INT)))
+               AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det) AND NumeroD NOT IN (SELECT numerof FROM sanota)) AND tipofac = 'B'";
+
+        $result = (new Conectar)->conexion2()->prepare($sql);
+
+        if ($depo != "()")
+            foreach ($alm AS $num)
+                $result->bindValue($i+=1, $num);
+        $result->bindValue($i+=1, $fechai);
+        $result->bindValue($i+=1, $fechaf);
+        $result->bindValue($i+=1, $fechai);
+        $result->bindValue($i+=1, $fechaf);
+        $result->execute();
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

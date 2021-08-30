@@ -29,7 +29,19 @@ function limpiar_modal_mercancia() {
     $('#relacion_mercancia tbody').empty();
     $('[name="depo[]"]').empty().trigger("change");
     $("#tabla_mercancia_por_despachar").slideUp();
+    $('#tfoot_tbulto').text('Cant. Bultos');
+    $('#tfoot_tpaq').text('Cant. Paquetes');
+    $('#tfoot_tbultoinv').text('Inv. Bultos');
+    $('#tfoot_tpaqinv').text('Inv. Paquetes');
+    $('#factsindes').text('0');
     listar_almacenes();
+}
+
+function validarCantidadRegistrosTabla() {
+    (tabla_mercancia.rows().count() === 0)
+        ? estado = true : estado = false;
+    $('#btn_excel').attr("disabled", estado);
+    $('#btn_pdf').attr("disabled", estado);
 }
 
 function listar_almacenes() {
@@ -79,6 +91,7 @@ $(document).on("click", "#btnBuscarmercanciaModal", function () {
         estado_minimizado_tabla_modal = false;
         if (depo.length > 0) {
             const datos = $('#frminventario').serialize();
+            sesionStorageItems(datos);
             let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             $.ajax({
@@ -96,36 +109,37 @@ $(document).on("click", "#btnBuscarmercanciaModal", function () {
                     console.log(e.responseText);
                 },
                 success: function(data) {
-                    let {contenido_tabla, totales_tabla} = data;
-                    //TABLA
-                    tabla_mercancia = $('#relacion_mercancia').dataTable({
-                        "aProcessing": true,//Activamos el procesamiento del datatables
-                        "aServerSide": true,//Paginación y filtrado realizados por el servidor
-
-                        "sEcho": contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                        "iTotalRecords": contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                        "iTotalDisplayRecords": contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                        "aaData": contenido_tabla.aaData, // informacion por registro
-
-                        "bDestroy": true,
-                        "responsive": true,
-                        "bInfo": true,
-                        "iDisplayLength": 8,//Por cada 8 registros hace una paginación
-                        'columnDefs' : [{
-                            'visible': false, 'targets': [0]
-                        }],
-                        "language": texto_español_datatables
-                    }).DataTable();
-
-                    //$('#cuenta').text("Total Facturas sin Despachar: " + totales_tabla.facturas_sin_despachar);
-
-                    limpiar_campo_almacenes_modal();//LIMPIAMOS EL SELECTOR.
-                    estado_minimizado_tabla_modal = true;
+                    if(!jQuery.isEmptyObject(data)) {
+                        let {contenido_tabla, totales_tabla} = data;
+                        //TABLA
+                        $.each(contenido_tabla, function (idx, opt) {
+                            $('#relacion_mercancia')
+                                .append(
+                                    '<tr>' +
+                                    '<td align="center" class="small align-middle">' + opt.codprod + '</td>' +
+                                    '<td align="center" class="small align-middle">' + opt.descrip + '</td>' +
+                                    '<td align="center" class="small align-middle">' + opt.cant_bul + '</td>' +
+                                    '<td align="center" class="small align-middle">' + opt.cant_paq + '</td>' +
+                                    '<td align="center" class="small align-middle">' + opt.tinvbult + '</td>' +
+                                    '<td align="center" class="small align-middle">' + opt.tinvpaq + '</td>' +
+                                    '</tr>'
+                                );
+                        });
+                        tabla_mercancia = $('#relacion_mercancia')
+                        $('#tfoot_tbulto').text(totales_tabla.tbulto);
+                        $('#tfoot_tpaq').text(totales_tabla.tpaq);
+                        $('#tfoot_tbultoinv').text(totales_tabla.tbultoinv);
+                        $('#tfoot_tpaqinv').text(totales_tabla.tpaqinv);
+                        $('#factsindes').text(totales_tabla.facturas_sin_despachar);
+                    }
                 },
                 complete: function () {
                     if(!isError) {
+                        limpiar_campo_almacenes_modal();//LIMPIAMOS EL SELECTOR.
+                        estado_minimizado_tabla_modal = true;
                         SweetAlertLoadingClose();
                         $("#tabla_mercancia_por_despachar").slideDown();//MOSTRAMOS LA TABLA.
+                        validarCantidadRegistrosTabla();
                     }
                 }
             });
@@ -137,5 +151,16 @@ $(document).on("click", "#btnBuscarmercanciaModal", function () {
     }
 });
 
+function sesionStorageItems(datos){
+    sessionStorage.setItem("datos", datos);
+}
+
+//ACCION AL PRECIONAR EL BOTON EXCEL.
+$(document).on("click","#modalExportarExcel", function(){
+    var datos = sessionStorage.getItem("datos");
+    if (datos !== "") {
+        window.location = 'mercancia_por_despachar_excel.php?&'+datos;
+    }
+});
 
 init();

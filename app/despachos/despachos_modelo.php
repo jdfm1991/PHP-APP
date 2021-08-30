@@ -93,22 +93,6 @@ class Despachos extends Conectar{
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /*public function getNuevoCorrelativo() {
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion();
-        parent::set_names();
-
-        //QUERY
-        $sql = "SELECT TOP(1) Correlativo AS correl FROM Despachos ORDER BY Correlativo DESC";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }*/
-
     public function insertarDespacho($values) {
         $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -333,6 +317,81 @@ class Despachos extends Conectar{
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $documento);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+    public function getMercanciaSinDespachar($fechai, $fechaf, $alm=array()){
+        $i=0;
+        $cond = $depo = "";
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        if (count($alm) > 0) {
+            $aux = "";
+            //se contruye un string para listar los depositvos seleccionados
+            //en caso que no haya ninguno, sera vacio
+            foreach ($alm as $num)
+                $aux .= " OR CodUbic = ?";
+
+            //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
+            $depo = "(" . substr($aux, 4, strlen($aux)) . ")";
+
+            $cond = ($depo != "()")
+                ? ("AND ".$depo)
+                : "";
+        }
+
+        //QUERY
+        $sql= "SELECT CodProd, Descrip, CantEmpaq,
+                    (SELECT SUM(cantidad) FROM SAITEMFAC WHERE esunid='0' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac='A' AND
+                    DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING cast(SUM(x.Monto) AS BIGINT)<cast(fa.Monto AS BIGINT))) AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det)))
+                    AS todob,
+                    (SELECT SUM(cantidad) FROM SAITEMFAC WHERE esunid='1' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac='A' AND
+                    DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING cast(SUM(x.Monto) AS BIGINT)<cast(fa.Monto AS BIGINT))) AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det)))
+                    AS todop,
+                    (SELECT SUM(Existen) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.")
+                    AS exis,
+                    (SELECT SUM(ExUnidad) FROM SAEXIS WHERE CodProd=SAPROD.CodProd  ".$cond.")
+                    AS exunid
+                FROM SAPROD WHERE CodProd IN (SELECT coditem FROM SAITEMFAC WHERE TipoFac='A' ".$cond."
+                AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?) ORDER BY CodProd";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        if ($depo != "()") {
+            foreach ($alm as $num)
+                $sql->bindValue($i += 1, $num);
+        }
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
+        if ($depo != "()") {
+            foreach ($alm as $num)
+                $sql->bindValue($i += 1, $num);
+        }
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
+        if ($depo != "()") {
+            foreach ($alm as $num)
+                $sql->bindValue($i += 1, $num);
+        }
+        if ($depo != "()") {
+            foreach ($alm as $num)
+                $sql->bindValue($i += 1, $num);
+        }
+        if ($depo != "()") {
+            foreach ($alm as $num)
+                $sql->bindValue($i += 1, $num);
+        }
+        $sql->bindValue($i+=1, $fechai);
+        $sql->bindValue($i+=1, $fechaf);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
