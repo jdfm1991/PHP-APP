@@ -98,7 +98,7 @@ switch ($_GET["op"]) {
 
                 $ordenes_despacho_string .= ($row['correlativo'] . "(" . Strings::addCero($row['cant_documentos']) . "), ");
 
-                $porcentaje = number_format(($row['cant_documentos'] / $totaldespacho) * 100, 1);
+                $porcentaje = Strings::rdecimal(($row['cant_documentos'] / $totaldespacho) * 100, 1);
 
                 /** entregas efectivas **/
                 if ($row['tipo_pago'] !='N/C' and $row['tipo_pago'] !='N/C/P'
@@ -153,7 +153,7 @@ switch ($_GET["op"]) {
             "totaldespacho" => $totaldespacho,
             "total_ped" => $total_ped_entregados,
             "total_ped_porliquidar" => $total_ped_porliquidar,
-            "promedio_diario_despacho" => number_format($promedio_diario_despacho,0),
+            "promedio_diario_despacho" => Strings::rdecimal($promedio_diario_despacho,0),
             "fechai" => $fechai,
             "fechaf" => $fechaf,
             "tabla" => $data
@@ -415,7 +415,7 @@ switch ($_GET["op"]) {
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
             "chofer"     => $chofer,
-            "oportunidad_promedio" => number_format($oportunidad_promedio,2,',','.'),
+            "oportunidad_promedio" => Strings::rdecimal($oportunidad_promedio,2),
             "ordenes_despacho" => $ordenes_despacho_string,
             "total_ped"  => $total_ped,
             "fechai"     => $fechai,

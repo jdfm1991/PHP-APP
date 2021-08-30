@@ -246,9 +246,9 @@ if(count(explode(",", $ordenes_despacho_string)) > 300) {
         }
         if($i==21){
             $pdf->Cell(18,5,'% Oportunidad','TLBR',0,'C');
-            $pdf->Cell(13,5,number_format($oportunidad[$j], 2, ",", ".")." %",'TLBR',0,'C');
+            $pdf->Cell(13,5,Strings::rdecimal($oportunidad[$j], 2)." %",'TLBR',0,'C');
         }else{
-            $pdf->Cell(13,5,number_format($oportunidad[$j], 2, ",", ".")." %",'TLBR',0,'C');
+            $pdf->Cell(13,5,Strings::rdecimal($oportunidad[$j], 2)." %",'TLBR',0,'C');
         }
     }
 

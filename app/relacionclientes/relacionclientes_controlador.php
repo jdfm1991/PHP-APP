@@ -196,9 +196,13 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["codclie"];
             $sub_array[] = $row["descrip"];
             $sub_array[] = $row["id3"];
-            $sub_array[] = number_format($row['saldo'], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row['saldo'], 2);
             $sub_array[] = $row['saldo'];
-            $sub_array[] = '<div class="col text-center"><button type="button" onClick="cambiarEstado(\''.$row["codclie"].'\',\''.$row["idactivo"].'\');" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '</button>'." ".'<button type="button" onClick="mostrarModalDatosCliente(\''.$row["codclie"].'\',\''.$row["idtid3"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="mostrarModalDetalleCliente(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button></div>';
+            $sub_array[] = '<div class="col text-center">
+                                <button type="button" onClick="cambiarEstado(\''.$row["codclie"].'\',\''.$row["idactivo"].'\');" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '</button>'." ".'
+                                <button type="button" onClick="mostrarModalDatosCliente(\''.$row["codclie"].'\',\''.$row["idtid3"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'
+                                <button type="button" onClick="mostrarModalDetalleCliente(\''.$row["codclie"].'\');"  id="'.$row["codclie"].'" class="btn btn-info btn-sm ver_detalles">Ver Detalles</button>
+                            </div>';
 
             $data[] = $sub_array;
         }
@@ -314,11 +318,11 @@ switch ($_GET["op"]) {
             //si existe idnestle en saclie_ext, llenar, sino vacio
             (isset($cliente[0]['idnestle'])) ? $output["idnestle"] = $cliente[0]['idnestle'] : $output["idnestle"] = "";
             $output["escredito"] = $cliente[0]['credito'];
-            $output["LimiteCred"] = number_format($cliente[0]['lcred'], 2, ",", ".");
+            $output["LimiteCred"] = Strings::rdecimal($cliente[0]['lcred'], 2);
             $output["diascred"] = $cliente[0]['dcred'];
             $output["estoleran"] = $cliente[0]['toleran'];
             $output["diasTole"] = $cliente[0]['dtoleran'];
-            $output["descto"] = number_format($cliente[0]['descto'], 2, ",", ".");
+            $output["descto"] = Strings::rdecimal($cliente[0]['descto'], 2);
             //si existe observa en saclie_ext, llenar, sino vacio
             (isset($cliente[0]['observa'])) ? $output["observa"] = $cliente[0]['observa'] : $output["observa"] = "";
         }
@@ -351,12 +355,12 @@ switch ($_GET["op"]) {
             $output["codvend"] = $cliente[0]['idvend'];
             $output["direc1"] = $cliente[0]['direc1'];
             $output["direc2"] = $cliente[0]['direc2'];
-            $output["saldo"] = number_format($cliente[0]['saldo'], 2, ",", ".");
+            $output["saldo"] = Strings::rdecimal($cliente[0]['saldo'], 2);
             $output["telef"] = $cliente[0]['telef'];
             $output["movil"] = $cliente[0]['movil'];
-            $output["LimiteCred"] = number_format($cliente[0]['lcred'], 2, ",", ".");
+            $output["LimiteCred"] = Strings::rdecimal($cliente[0]['lcred'], 2);
             $output["diascred"] = $cliente[0]['dcred'];
-            $output["descto"] = number_format($cliente[0]['descto'], 0, ",", ".");
+            $output["descto"] = Strings::rdecimal($cliente[0]['descto'], 0);
         }
 
         $existe = $relacion->get_existe_factura_pendiente($codclie);
@@ -365,7 +369,7 @@ switch ($_GET["op"]) {
 
             $ultimaventa = $relacion->get_ultima_venta($codclie);
             $output["cod_documento_ultvent"] = $ultimaventa[0]['numerod'];
-            $output["MtoTotal_ultvent"]      = number_format($ultimaventa[0]['MtoTotal'], 2, ",", ".");
+            $output["MtoTotal_ultvent"]      = Strings::rdecimal($ultimaventa[0]['MtoTotal'], 2);
             $output["codusua_ultvent"]       = $ultimaventa[0]['codusua'];
             (date('d/m/Y', strtotime($ultimaventa[0]['fechae'])) == '31/12/1969')
                 ? $output["fechae_ultvent"] = " " : $output["fechae_ultvent"] = date('d/m/Y', strtotime($ultimaventa[0]['fechae']));
@@ -373,7 +377,7 @@ switch ($_GET["op"]) {
             $ultimopago  = $relacion->get_ultimo_pago($codclie);
             if(is_array($ultimopago) == true and count($ultimopago) > 0){
                 $output["cod_documento_ultpago"] = $ultimopago[0]['numerod'];
-                $output["monto_ultpago"]         = number_format($ultimopago[0]['monto'], 2, ",", ".");
+                $output["monto_ultpago"]         = Strings::rdecimal($ultimopago[0]['monto'], 2);
                 $output["codusua_ultpago"]       = $ultimopago[0]['codusua'];
                 (date('d/m/Y', strtotime($ultimopago[0]['fechae'])) == '31/12/1969')
                     ? $output["fechae_ultpago"] = " " : $output["fechae_ultpago"] = date('d/m/Y', strtotime($ultimopago[0]['fechae']));
@@ -406,7 +410,7 @@ switch ($_GET["op"]) {
             $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['numerod'].'\', \''.$row['tipofac'].'\')" data-target="#detallefactura" href="#"> '.$row['numerod'].'</div>';
             $sub_array[] = $row["codvend"];
             $sub_array[] = date('d/m/Y', strtotime($row['fechae']));
-            $sub_array[] = number_format($row['saldo'], 2, ",", ".");
+            $sub_array[] = Strings::rdecimal($row['saldo'], 2);
             $sub_array[] = $row["DiasTransHoy"];
 
             $data[] = $sub_array;

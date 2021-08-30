@@ -347,7 +347,7 @@ for ($j=0; $j<count($cant_documentos); $j++) {
     $temp_letra = getExcelCol($i);
     $sheet->setCellValue($temp_letra . ($row + 1), $tipoPeriodo!="Anual" ? $fecha_entrega[$j] : $nombre_mes[$j]);
     $sheet->setCellValue($temp_letra . ($row + 2), $cant_documentos[$j]);
-    $sheet->setCellValue($temp_letra . ($row + 3), number_format($porc[$j], 2, ",", ".") . ' %');
+    $sheet->setCellValue($temp_letra . ($row + 3), Strings::rdecimal($porc[$j], 2) . ' %');
     if ($tipoPeriodo != "Anual") {
         $sheet->setCellValue($temp_letra . ($row + 4), $correlativo[$j]);
     }

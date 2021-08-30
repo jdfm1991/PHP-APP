@@ -301,9 +301,9 @@ if(count(explode(",", $ordenes_despacho_string)) > 300) {
         }
         if ($i == 21) {
             $pdf->Cell(18, 5, '% Rechazos', 'TLBR', 0, 'C');
-            $pdf->Cell(13, 5, number_format($porc[$i], 2, ",", ".") . " %", 'TLBR', 0, 'C');
+            $pdf->Cell(13, 5, Strings::rdecimal($porc[$i], 2) . " %", 'TLBR', 0, 'C');
         } else {
-            $pdf->Cell(13, 5, number_format($porc[$i], 2, ",", ".") . " %", 'TLBR', 0, 'C');
+            $pdf->Cell(13, 5, Strings::rdecimal($porc[$i], 2) . " %", 'TLBR', 0, 'C');
         }
     }
     if ($tipoPeriodo != "Anual") {

@@ -100,7 +100,7 @@ switch ($_GET["op"]) {
                 $sub_array[] = $row["codclie"];
                 $sub_array[] = $row["descrip"];
                 $sub_array[] = date(FORMAT_DATETIME2,strtotime($row["fechae"]));
-                $sub_array[] = number_format($row["monto"], 2, ",", ".");
+                $sub_array[] = Strings::rdecimal($row["monto"], 2);
                 $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
 
                 $data[] = $sub_array;

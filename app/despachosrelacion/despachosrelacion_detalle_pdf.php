@@ -125,7 +125,7 @@ class PDF extends FPDF
 
 function rdecimal($valor) {
     //$float_redondeado=round($valor * 10) / 10;
-    $float_redondeado = number_format($valor, 2, ",", ".");
+    $float_redondeado = Strings::rdecimal($valor, 2);
     return $float_redondeado;
 }
 

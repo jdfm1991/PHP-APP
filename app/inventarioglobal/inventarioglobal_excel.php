@@ -170,12 +170,12 @@ foreach ($relacion_inventarioglobal as $i) {
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue('A' . $row, $i['CodProd']);
     $sheet->setCellValue('B' . $row, $i['Descrip']);
-    $sheet->setCellValue('C' . $row, number_format($cant_bul,0));
-    $sheet->setCellValue('D' . $row, number_format($cant_paq,0));
-    $sheet->setCellValue('E' . $row, number_format($invbut,0));
-    $sheet->setCellValue('F' . $row, number_format($invpaq,0));
-    $sheet->setCellValue('G' . $row, number_format($tinvbult,0));
-    $sheet->setCellValue('H' . $row, number_format($tinvpaq,0));
+    $sheet->setCellValue('C' . $row, Strings::rdecimal($cant_bul,0));
+    $sheet->setCellValue('D' . $row, Strings::rdecimal($cant_paq,0));
+    $sheet->setCellValue('E' . $row, Strings::rdecimal($invbut,0));
+    $sheet->setCellValue('F' . $row, Strings::rdecimal($invpaq,0));
+    $sheet->setCellValue('G' . $row, Strings::rdecimal($tinvbult,0));
+    $sheet->setCellValue('H' . $row, Strings::rdecimal($tinvpaq,0));
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -199,12 +199,12 @@ foreach ($relacion_inventarioglobal as $i) {
 $spreadsheet->getActiveSheet()->getStyle('A'.$row.':H'.$row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('17a2b8');
 $sheet = $spreadsheet->getActiveSheet()->mergeCells('A'.$row.':B'.$row);
 $sheet->setCellValue('A' . $row, 'Totales: ');
-$sheet->setCellValue('C' . $row, number_format($tbulto,0));
-$sheet->setCellValue('D' . $row, number_format($tpaq,0));
-$sheet->setCellValue('E' . $row, number_format($tbultsaint,0));
-$sheet->setCellValue('F' . $row, number_format($tpaqsaint,0));
-$sheet->setCellValue('G' . $row, number_format($tbultoinv,0));
-$sheet->setCellValue('H' . $row, number_format($tpaqinv,0));
+$sheet->setCellValue('C' . $row, Strings::rdecimal($tbulto,0));
+$sheet->setCellValue('D' . $row, Strings::rdecimal($tpaq,0));
+$sheet->setCellValue('E' . $row, Strings::rdecimal($tbultsaint,0));
+$sheet->setCellValue('F' . $row, Strings::rdecimal($tpaqsaint,0));
+$sheet->setCellValue('G' . $row, Strings::rdecimal($tbultoinv,0));
+$sheet->setCellValue('H' . $row, Strings::rdecimal($tpaqinv,0));
 
 /** centrarlas las celdas **/
 $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));

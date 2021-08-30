@@ -15,11 +15,7 @@ switch ($_GET["op"]) {
 
         //verificamos si existe al menos 1 deposito selecionado
         //y se crea el array.
-        if(isset($_POST['depo'])){
-            $numero = $_POST['depo'];
-        } else {
-            $numero = array();
-        }
+        $numero = $_POST['depo'] ?? array();
 
         //se contruye un string para listar los depositvos seleccionados
         //en caso que no haya ninguno, sera vacio
@@ -113,12 +109,12 @@ switch ($_GET["op"]) {
             $sub_array[] = $key;
             $sub_array[] = $row["CodProd"];
             $sub_array[] = $row["Descrip"];
-            $sub_array[] = number_format($cant_bul,0);
-            $sub_array[] = number_format($cant_paq,0);
-            $sub_array[] = number_format($invbut,0);
-            $sub_array[] = number_format($invpaq,0);
-            $sub_array[] = number_format($tinvbult,0);
-            $sub_array[] = number_format($tinvpaq, 0);
+            $sub_array[] = Strings::rdecimal($cant_bul,0);
+            $sub_array[] = Strings::rdecimal($cant_paq,0);
+            $sub_array[] = Strings::rdecimal($invbut,0);
+            $sub_array[] = Strings::rdecimal($invpaq,0);
+            $sub_array[] = Strings::rdecimal($tinvbult,0);
+            $sub_array[] = Strings::rdecimal($tinvpaq, 0);
 
             //ACUMULAMOS LOS TOTALES
             $tbulto     += $cant_bul;
@@ -134,12 +130,12 @@ switch ($_GET["op"]) {
 
         //CREAMOS UN SUB_ARRAY PARA ALMACENAR LOS DATOS ACUMULADOS
         $sub_array1 = array();
-        $sub_array1['tbulto']     = number_format($tbulto,0);
-        $sub_array1['tpaq']       = number_format($tpaq,0);
-        $sub_array1['tbultsaint'] = number_format($tbultsaint,0);
-        $sub_array1['tpaqsaint']  = number_format($tpaqsaint,0);
-        $sub_array1['tbultoinv']  = number_format($tbultoinv,0);
-        $sub_array1['tpaqinv']    = number_format($tpaqinv,0);
+        $sub_array1['tbulto']     = Strings::rdecimal($tbulto,0);
+        $sub_array1['tpaq']       = Strings::rdecimal($tpaq,0);
+        $sub_array1['tbultsaint'] = Strings::rdecimal($tbultsaint,0);
+        $sub_array1['tpaqsaint']  = Strings::rdecimal($tpaqsaint,0);
+        $sub_array1['tbultoinv']  = Strings::rdecimal($tbultoinv,0);
+        $sub_array1['tpaqinv']    = Strings::rdecimal($tpaqinv,0);
         $sub_array1['facturas_sin_despachar'] = count($devolucionesDeFactura);
 
 

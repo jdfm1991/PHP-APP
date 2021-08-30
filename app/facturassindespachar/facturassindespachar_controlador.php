@@ -88,11 +88,11 @@ switch ($_GET["op"]) {
             $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])), $hoy));
             $sub_array[] = round($row['Bult']);
             $sub_array[] = round($row['Paq']);
-            $sub_array[] = number_format($row["Monto"], 1, ",", "."); $suma_monto += $row["Monto"];
+            $sub_array[] = Strings::rdecimal($row["Monto"], 1); $suma_monto += $row["Monto"];
             $sub_array[] = $row['CodVend'];
             if ($check) {
                 $sub_array[] = 2;
-                $sub_array[] = number_format($calcula, 1, ",", ".") . "%";
+                $sub_array[] = Strings::rdecimal($calcula, 1) . "%";
             }
 
             $data[] = $sub_array;
@@ -105,8 +105,8 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "columns" => $thead,
             'totalDoc' => $num,
-            'Mtototal' => number_format($suma_monto, 2, ",", "."),
-            'oportunidad' => ($check and count($datos)>0) ? number_format(($porcent / count($datos)), 2, ",", ".") . ' %' : '',
+            'Mtototal' => Strings::rdecimal($suma_monto, 2),
+            'oportunidad' => ($check and count($datos)>0) ? Strings::rdecimal(($porcent / count($datos)), 2) . ' %' : '',
             "aaData" => $data);
         echo json_encode($output);
 

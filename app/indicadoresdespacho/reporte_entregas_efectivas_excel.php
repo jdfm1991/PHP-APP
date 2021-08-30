@@ -137,7 +137,7 @@ foreach ($query as $key => $item)
 {
     $ordenes_despacho_string .= ($item['correlativo'] . "(" . Strings::addCero($item['cant_documentos']) . "),");
 
-    $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
+    $porcentaje = Strings::rdecimal(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
     if ($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P'
@@ -360,7 +360,7 @@ $sheet->setCellValue('B' . ($row+3), 'Promedio Diario de Despachos:');
 $sheet->setCellValue('E' . ($row+0), $totaldespacho);
 $sheet->setCellValue('E' . ($row+1), $total_ped_entregados);
 $sheet->setCellValue('E' . ($row+2), $total_ped_porliquidar);
-$sheet->setCellValue('E' . ($row+3), number_format($promedio_diario_despacho,2, ",", ".").' %');
+$sheet->setCellValue('E' . ($row+3), Strings::rdecimal($promedio_diario_despacho,2).' %');
 $spreadsheet->getActiveSheet()->mergeCells('B'.($row+0).':D'.($row+0));
 $spreadsheet->getActiveSheet()->mergeCells('B'.($row+1).':D'.($row+1));
 $spreadsheet->getActiveSheet()->mergeCells('B'.($row+2).':D'.($row+2));
@@ -384,7 +384,7 @@ $aWidth = 1080; $aHeight = 450;
 
 $promedio_despacho = array();
 for($d=0;$d<count($ordenes_despacho);$d++)
-    $promedio_despacho[] = number_format($promedio_diario_despacho,0);
+    $promedio_despacho[] = Strings::rdecimal($promedio_diario_despacho,0);
 
 $valorMasAlto = 0;
 foreach($cant_documentos as $item)

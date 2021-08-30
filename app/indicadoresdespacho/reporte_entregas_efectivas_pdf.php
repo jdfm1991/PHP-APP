@@ -129,7 +129,7 @@ foreach ($query as $key => $item)
 {
     $ordenes_despacho_string .= ($item['correlativo'] . "(" . Strings::addCero($item['cant_documentos']) . "), ");
 
-    $porcentaje = number_format(($item['cant_documentos'] / $totaldespacho) * 100, 1);
+    $porcentaje = Strings::rdecimal(($item['cant_documentos'] / $totaldespacho) * 100, 1);
 
     /** entregas efectivas **/
     if ($item['tipo_pago'] !='N/C' and $item['tipo_pago'] !='N/C/P'
@@ -284,11 +284,11 @@ if(count(explode(",", $ordenes_despacho_string)) > 300) {
     $pdf->Cell(50,4,utf8_decode("Total de Pedidos en el camión: ".$totaldespacho),'',0,'L');
     $pdf->Cell(50,4,utf8_decode("Total de Pedidos entregados: ".$total_ped_entregados),'',1,'L');
     $pdf->Cell(50,4,utf8_decode("Pedidos pendientes por liquidar: ".$total_ped_porliquidar),'',0,'L');
-    $pdf->Cell(50,4,utf8_decode("Promedio Diario de Despachos: ".number_format($promedio_diario_despacho,0)),'',1,'L');
+    $pdf->Cell(50,4,utf8_decode("Promedio Diario de Despachos: ".Strings::rdecimal($promedio_diario_despacho,0)),'',1,'L');
 
     $promedio_despacho = array();
     for($d=0;$d<count($ordenes_despacho);$d++)
-        $promedio_despacho[] = number_format($promedio_diario_despacho,0);
+        $promedio_despacho[] = Strings::rdecimal($promedio_diario_despacho,0);
 
 
     /************************************* */

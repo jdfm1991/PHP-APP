@@ -137,51 +137,51 @@ foreach ($v as $key=>$coditem) {
         $sheet->setCellValue('A' . $i, $num+1);
         $sheet->setCellValue('B' . $i, $row[0]["codproducto"]);
         $sheet->setCellValue('C' . $i, $row[0]["descrip"]);
-        $sheet->setCellValue('D' . $i, number_format($row[0]["displaybultos"], 0));
+        $sheet->setCellValue('D' . $i, Strings::rdecimal($row[0]["displaybultos"], 0));
         $sheet->setCellValue('E' . $i, Strings::rdecimal($row[0]["costodisplay"], 2));
         $sheet->setCellValue('F' . $i, Strings::rdecimal($row[0]["costobultos"], 2));
         $sheet->setCellValue('G' . $i, Strings::rdecimal($row[0]["rentabilidad"], 2) . "  %");
         $sheet->setCellValue('H' . $i, (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechapenultimacompra"])) : '------------');
-        $sheet->setCellValue('I' . $i, (count($compra) > 0) ? number_format($compra[0]["bultospenultimacompra"], 0) : 0);
+        $sheet->setCellValue('I' . $i, (count($compra) > 0) ? Strings::rdecimal($compra[0]["bultospenultimacompra"], 0) : 0);
         $sheet->setCellValue('J' . $i, (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechaultimacompra"])) : '------------');
-        $sheet->setCellValue('K' . $i, (count($compra) > 0) ? number_format($compra[0]["bultosultimacompra"], 0) : 0);
-        $sheet->setCellValue('L' . $i, number_format($row[0]["semana1"], 0));
-        $sheet->setCellValue('M' . $i, number_format($row[0]["semana2"], 0));
-        $sheet->setCellValue('N' . $i, number_format($row[0]["semana3"], 0));
-        $sheet->setCellValue('O' . $i, number_format($row[0]["semana4"], 0));
-        $sheet->setCellValue('P' . $i, number_format($row[0]["totalventasmesanterior"], 0));
+        $sheet->setCellValue('K' . $i, (count($compra) > 0) ? Strings::rdecimal($compra[0]["bultosultimacompra"], 0) : 0);
+        $sheet->setCellValue('L' . $i, Strings::rdecimal($row[0]["semana1"], 0));
+        $sheet->setCellValue('M' . $i, Strings::rdecimal($row[0]["semana2"], 0));
+        $sheet->setCellValue('N' . $i, Strings::rdecimal($row[0]["semana3"], 0));
+        $sheet->setCellValue('O' . $i, Strings::rdecimal($row[0]["semana4"], 0));
+        $sheet->setCellValue('P' . $i, Strings::rdecimal($row[0]["totalventasmesanterior"], 0));
         $sheet->setCellValue('Q' . $i, Strings::rdecimal($row[0]["bultosexistentes"], 2));
-        $sheet->setCellValue('R' . $i, number_format($row[0]["diasdeinventario"], 0));
+        $sheet->setCellValue('R' . $i, Strings::rdecimal($row[0]["diasdeinventario"], 0));
         $sheet->setCellValue('S' . $i, Strings::rdecimal($row[0]["sugerido"], 2));
         $sheet->setCellValue('T' . $i, $n[$key]);
 
 
         /** centrarlas las celdas **/
-        $spreadsheet->getActiveSheet()->getStyle('A'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('B'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('C'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('D'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('E'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('F'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('A'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('B'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('C'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('D'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('E'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('F'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         if($row[0]["rentabilidad"] > 30){
             //pinta la celda en rojo
-            $spreadsheet->getActiveSheet()->getStyle('G'.$i)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ff3939'],), 'alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+            $spreadsheet->getActiveSheet()->getStyle('G'.$i)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => '80ff3939'],), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         }else {//solo lo centra
-            $spreadsheet->getActiveSheet()->getStyle('G'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+            $spreadsheet->getActiveSheet()->getStyle('G'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         }
-        $spreadsheet->getActiveSheet()->getStyle('H'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('I'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('J'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('K'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('L'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('M'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('N'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('O'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('P'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('Q'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('R'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('S'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-        $spreadsheet->getActiveSheet()->getStyle('T'.$i)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('H'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('I'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('J'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('K'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('L'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('M'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('N'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('O'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('P'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('Q'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('R'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('S'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle('T'.$i)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
         $i++;
         $num++;

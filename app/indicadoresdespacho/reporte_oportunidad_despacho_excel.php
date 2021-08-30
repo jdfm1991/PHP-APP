@@ -294,7 +294,7 @@ for ($j=0; $j<count($cant_documentos); $j++) {
     $temp_letra = getExcelCol($i);
     $sheet->setCellValue($temp_letra . ($row+1), $tipoPeriodo!="Anual" ? $fecha_entrega[$j] : $nombre_mes[$j]);
     $sheet->setCellValue($temp_letra . ($row+2), $cant_documentos[$j]);
-    $sheet->setCellValue($temp_letra . ($row+3), number_format($oportunidad[$j], 2, ",", ".") . ' %');
+    $sheet->setCellValue($temp_letra . ($row+3), Strings::rdecimal($oportunidad[$j], 2) . ' %');
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->duplicateStyle($style_subtitle, $temp_letra . ($row+1));
