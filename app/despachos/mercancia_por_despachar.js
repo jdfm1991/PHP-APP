@@ -37,13 +37,6 @@ function limpiar_modal_mercancia() {
     listar_almacenes();
 }
 
-function validarCantidadRegistrosTabla() {
-    (tabla_mercancia.rows().count() === 0)
-        ? estado = true : estado = false;
-    $('#btn_excel').attr("disabled", estado);
-    $('#btn_pdf').attr("disabled", estado);
-}
-
 function listar_almacenes() {
     let isError = false;
     $.ajax({
@@ -125,12 +118,14 @@ $(document).on("click", "#btnBuscarmercanciaModal", function () {
                                     '</tr>'
                                 );
                         });
-                        tabla_mercancia = $('#relacion_mercancia')
                         $('#tfoot_tbulto').text(totales_tabla.tbulto);
                         $('#tfoot_tpaq').text(totales_tabla.tpaq);
                         $('#tfoot_tbultoinv').text(totales_tabla.tbultoinv);
                         $('#tfoot_tpaqinv').text(totales_tabla.tpaqinv);
                         $('#factsindes').text(totales_tabla.facturas_sin_despachar);
+                    }else {
+                        //en caso de consulta vacia, mostramos un mensaje de vacio
+                        $('#relacion_mercancia').append('<tr><td colspan="8" align="center">Sin registros para esta Consulta</td></tr>');
                     }
                 },
                 complete: function () {
@@ -139,7 +134,6 @@ $(document).on("click", "#btnBuscarmercanciaModal", function () {
                         estado_minimizado_tabla_modal = true;
                         SweetAlertLoadingClose();
                         $("#tabla_mercancia_por_despachar").slideDown();//MOSTRAMOS LA TABLA.
-                        validarCantidadRegistrosTabla();
                     }
                 }
             });
@@ -157,10 +151,8 @@ function sesionStorageItems(datos){
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#modalExportarExcel", function(){
-    var datos = sessionStorage.getItem("datos");
-    if (datos !== "") {
-        window.location = 'mercancia_por_despachar_excel.php?&'+datos;
-    }
+    const datos = sessionStorage.getItem("datos");
+    window.location = 'mercancia_por_despachar_excel.php?&'+datos;
 });
 
 init();
