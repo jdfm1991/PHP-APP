@@ -161,7 +161,7 @@ $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
 $pdf->Cell(32,7,$total_paq.' Paq',1,0,'C',true);
 $pdf->Cell(30,7,Strings::rdecimal($total_peso).'Kg'.' - '.Strings::rdecimal($total_peso/1000).'TN',1,0,'C',true);
 $pdf->Ln();
-$pdf->Cell(62,7,'FACTURAS DESPACHADAS '.$num,0,0,'C');
+$pdf->Cell(62,7,'DOCUMENTOS DESPACHADOS '.$num,0,0,'C');
 $pdf->Ln();
 $pdf->Cell(20,7,' ',0,0,'C');
 //$lote = str_replace(";"," ",$lote);
