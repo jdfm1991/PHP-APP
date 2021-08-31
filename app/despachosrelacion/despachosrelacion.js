@@ -108,6 +108,7 @@ function modalMostrarEditarDespacho(correlativo) {
         },
         success: function (data) {
             //lista de seleccion de chofer
+            $('#chofer_editar').html('');
             $('#chofer_editar').append('<option name="" value="">Seleccione</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
@@ -115,10 +116,11 @@ function modalMostrarEditarDespacho(correlativo) {
             });
 
             //lista de seleccion de vehiculos
+            $('#vehiculo_editar').html('');
             $('#vehiculo_editar').append('<option name="" value="">Seleccione</option>');
             $.each(data.lista_vehiculos, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
-                $('#vehiculo_editar').append('<option name="" value="' + opt.ID +'">' + opt.Modelo + '  ' + opt.Capacidad + ' Kg' + '</option>');
+                $('#vehiculo_editar').append('<option name="" value="' + opt.id +'">' + opt.modelo + '  ' + opt.capacidad + ' Kg' + '</option>');
             });
 
             $("#destino_editar").val(data.destino);
@@ -373,6 +375,16 @@ function modalVerDetalleDespacho(correlativo) {
             }
         });
     }
+}
+
+function modalTipoReporte(correlativo) {
+    $('#verTipoReporteModal').modal('show');
+
+    $('#btnConsolidado').removeAttr('onclick');
+    $('#btnConsolidado').attr('onClick', 'abrirReporteProductosDeUnDepacho('+correlativo+');');
+
+    $('#btnDetallado').removeAttr('onclick');
+    $('#btnDetallado').attr('onClick', 'abrirReporteDetalleCompletoDeUnDepacho('+correlativo+');');
 }
 
 function abrirReporteProductosDeUnDepacho(correlativo) {

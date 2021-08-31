@@ -28,12 +28,16 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $sub_array[] = str_pad($row["Correlativo"], 8, 0, STR_PAD_LEFT);
-                $sub_array[] = date(FORMAT_DATE,strtotime($row["fechae"]));
+                $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalTipoReporte(\''.$row["Correlativo"].'\');" class="nav-link">
+                                <i class="far fa-file-pdf fa-2x" style="color:red"></i>
+                            </a></div>';
+                $sub_array[] = str_pad($row["Correlativo"], 8, 0, STR_PAD_LEFT)
+                                .'<br><span class="right badge badge-secondary mt-1">'.date(FORMAT_DATE,strtotime($row["fechae"])).'</span>';
+//                $sub_array[] = date(FORMAT_DATE,strtotime($row["fechae"]));
                 $sub_array[] = $row["Nomper"];
                 $sub_array[] = $row["cantFact"];
                 $sub_array[] = $row["Destino"] . " - " . $row["NomperChofer"];
-                $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalEditarDespachos(\''.$row["Correlativo"].'\');" class="nav-link">
+                /*$sub_array[] = '<div class="col text-center"><a href="#" onclick="modalEditarDespachos(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="far fa-edit fa-2x" style="color:green"></i>
                             </a></div>';
                 $sub_array[] = '<div class="col text-center"><a href="#" onclick="EliminarUnDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
@@ -41,16 +45,21 @@ switch ($_GET["op"]) {
                             </a></div>';
                 $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalVerDetalleDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="fas fa-search fa-2x" style="color:cornflowerblue"></i>
-                            </a></div>';
+                            </a></div>';*/
                 $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <img src="../../public/build/images/bs.png" width="25" height="25" border="0" />
                             </a></div>';
-                $sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteProductosDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
+                /*$sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteProductosDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="far fa-file-pdf fa-2x" style="color:red"></i>
                             </a></div>';
                 $sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteDetalleCompletoDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
                                 <i class="fas fa-info-circle fa-2x" style="color:darkgrey"></i>
-                            </a></div>';
+                            </a></div>';*/
+                $sub_array[] = '<div class="col text-center">
+                                    <button type="button" onClick="modalVerDetalleDespacho(\''.$row["Correlativo"].'\');" id="'.$row["Correlativo"].'" class="btn btn-info btn-sm ver_detalles">Detalle</button>'." ".'
+                                    <button type="button" onClick="modalEditarDespachos(\''.$row["Correlativo"].'\');"    id="'.$row["Correlativo"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'
+                                    <button type="button" onClick="EliminarUnDespacho(\''.$row["Correlativo"].'\');"      id="'.$row["Correlativo"] .'" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                </div>';
 
                 $data[] = $sub_array;
             }
