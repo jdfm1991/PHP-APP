@@ -19,11 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de mercancia por despachar">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion inventario global">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inventarioglobal/inventarioglobal_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/mercancia_por_despachar_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/mercancia_por_despachar_excel.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +206,7 @@
       <workItem from="1629980675296" duration="8504000" />
       <workItem from="1630071547781" duration="6556000" />
       <workItem from="1630326200663" duration="19947000" />
-      <workItem from="1630411861612" duration="4005000" />
+      <workItem from="1630411861612" duration="6316000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -476,7 +474,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630351405860</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="adecuacion inventario global">
+      <created>1630422847157</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1630422847157</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -517,7 +522,8 @@
     <MESSAGE value="final de Devoluciones sin motivo" />
     <MESSAGE value="adecuacion de number_format a Strings:rdecimal()" />
     <MESSAGE value="avance de mercancia por despachar" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance de mercancia por despachar" />
+    <MESSAGE value="adecuacion inventario global" />
+    <option name="LAST_COMMIT_MESSAGE" value="adecuacion inventario global" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
