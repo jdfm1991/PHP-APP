@@ -73,7 +73,7 @@ if (!isset($_SESSION['cedula'])) {
                         <h3 class="card-title">Inventario Global</h3>
                     </div>
                     <div class="card-body">
-                        <div class="row table-responsive p-0"  style="height: 300px;">
+                        <div class="row table-responsive"  style="height: 300px;">
                             <table class="table table-hover table-condensed table-bordered table-striped table-sm table-head-fixed text-nowrap text-center" style="width:100%;" id="inventarioglobal_data">
                                 <thead >
                                 <tr>

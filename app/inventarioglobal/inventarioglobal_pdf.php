@@ -12,27 +12,16 @@ $invglobal = new InventarioGlobal();
 
 //verificamos si existe al menos 1 deposito selecionado
 //y se crea el array.
-if(isset($_GET['depo'])){
-    $numero = $_GET['depo'];
-} else {
-    $numero = array();
-}
+$depos = $_GET['depo'] ?? array();
 
-//se contruye un string para listar los depositvos seleccionados
-//en caso que no haya ninguno, sera vacio
-$edv = "";
-if (count($numero) > 0) {
-    foreach ($numero as $i)
-        $edv .= " OR CodUbic = ?";
-}
-
-$coditem = $cantidad = $tipo = array();
 $fechaf = date('Y-m-d');
 $dato = explode("-", $fechaf); //Hasta
 $aniod = $dato[0]; //año
 $mesd = $dato[1]; //mes
 $diad = "01"; //dia
 $fechai = $aniod . "-01-01";
+
+$coditem = $cantidad = $tipo = array();
 $t = 0;
 
 //array of space in cells
@@ -91,7 +80,7 @@ $pdf->SetFont('Arial', '', 8);
 
 $pdf->SetWidths($width);
 
-$devolucionesDeFactura = $invglobal->getDevolucionesDeFactura($edv, $fechai, $fechaf, $numero);
+$devolucionesDeFactura = Factura::getInvoiceReturns($fechai, $fechaf, $depos);
 if(count($devolucionesDeFactura) > 0) {
     foreach ($devolucionesDeFactura as $devol) {
         $coditem[] = $devol['coditem'];
@@ -101,7 +90,7 @@ if(count($devolucionesDeFactura) > 0) {
     }
 }
 
-$relacion_inventarioglobal = $invglobal->getInventarioGlobal($edv, $fechai, $fechaf, $numero);
+$relacion_inventarioglobal = $invglobal->getInventarioGlobal($fechai, $fechaf, $depos);
 $tbulto = $tpaq = $tbultoinv = $tpaqinv = $tbultsaint = $tpaqsaint = 0;
 $cant_paq = 0;
 $cant_bul = 0;
