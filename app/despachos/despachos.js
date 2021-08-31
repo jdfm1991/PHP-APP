@@ -192,25 +192,6 @@ function validarExistenciaFactura(numero_fact){
     }
 }
 
-function totales() {
-    $.ajax({
-        url: "despachos_controlador.php?op=listar_totales_paq_bul_despacho",
-        method: "post",
-        dataType: "json",
-        error: function (e) {
-            SweetAlertError(e.responseText, "Error!")
-            console.log(e.responseText);
-        },
-        success: function (data) {
-            var texto= "Total Bultos: "+data.total_bultos+"  Total Pag: "+data.total_paq;
-            $("#cuenta").html(texto);
-
-            $("#cantBul_tfoot").text(data.total_bultos);
-            $("#cantPaq_tfoot").text(data.total_paq);
-        }
-    });
-}
-
 function buscarFacturaEnDespachos(nrofact){
     if (nrofact !== "") {
         nrofact = addZeros(nrofact);
@@ -496,7 +477,6 @@ $(document).on("click", ".generar", function () {
                     },
                     success: function (data) {
                         let {icono, mensaje} = data;
-                        sessionStorage.setItem("correl", data.correl);
                         ToastSweetMenssage(icono, mensaje);
 
                         //verifica si el mensaje de insercion contiene error
@@ -504,7 +484,7 @@ $(document).on("click", ".generar", function () {
                             return (false);
                         } else {
                             //en caso de no contener error, muestra la tabla
-                            cargarTabladeProductosEnDespachoCreado();
+                            cargarTabladeProductosEnDespachoCreado(data.correl);
                         }
                     }
                 });
@@ -597,41 +577,56 @@ function cargarTabladeFacturasporDespachar() {
     }
 }
 
-function cargarTabladeProductosEnDespachoCreado() {
-    //obtenemos el nuevo correlativo
-    var correlativo = sessionStorage.getItem("correl");
+function cargarTabladeProductosEnDespachoCreado(correlativo) {
+
     let isError = false;
     //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-    tabla_despachos = $('#despacho_general_data').dataTable({
-        "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
-        "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
-        "ajax": {
-            url: "despachos_controlador.php?op=listar_despacho",
-            type: "post",
-            dataType: "json",
-            data: {correlativo: correlativo},
-            beforeSend: function () {
-                SweetAlertLoadingShow();
-            },
-            error: function (e) {
-                isError = SweetAlertError(e.responseText, "Error!")
-                console.log(e.responseText);
-            },
-            complete: function () {
+    $.ajax({
+        url: "despachos_controlador.php?op=listar_despacho",
+        type: "POST",
+        data: {correlativo: correlativo},
+        dataType: "json",
+        beforeSend: function () {
+            SweetAlertLoadingShow();
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function(data) {
+            if(!jQuery.isEmptyObject(data)) {
+                let {contenido_tabla, totales_tabla} = data;
+                //TABLA
+                tabla_despachos = $('#despacho_general_data').dataTable({
+                    "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
+                    "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
 
-                $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
-                if(!isError) SweetAlertLoadingClose();
-                totales();
-                validarCantidadRegistrosTabla();
+                    "sEcho": contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
+                    "iTotalRecords": contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
+                    "iTotalDisplayRecords": contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
+                    "aaData": contenido_tabla.aaData, // informacion por registro
 
+
+                    "bDestroy": true,
+                    "responsive": true,
+                    "bInfo": true,
+                    "iDisplayLength": 10,
+                    "order": [[0, "desc"]],
+                    "language": texto_español_datatables
+                });
+
+                const texto = "Total Bultos: " + totales_tabla.total_bultos + "  Total Pag: " + totales_tabla.total_paq;
+                $("#cuenta").html(texto);
+
+                $("#cantBul_tfoot").text(totales_tabla.total_bultos);
+                $("#cantPaq_tfoot").text(totales_tabla.total_paq);
             }
-        },//TRADUCCION DEL DATATABLE.
-        "bDestroy": true,
-        "responsive": true,
-        "bInfo": true,
-        "iDisplayLength": 10,
-        "order": [[0, "desc"]],
-        "language": texto_español_datatables
+        },
+        complete: function () {
+            $("#tabla_detalle_despacho").show('');//MOSTRAMOS LA TABLA.
+            if(!isError) SweetAlertLoadingClose();
+            validarCantidadRegistrosTabla();
+        }
     });
 }
 

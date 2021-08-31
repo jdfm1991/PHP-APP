@@ -332,27 +332,20 @@ switch ($_GET["op"]) {
             $data[] = $sub_array;
         }
 
-        $_SESSION["total_bultos"] = $total_bultos;
-        $_SESSION["total_paq"] = $total_paq;
+        $totales = array(
+            "total_bultos"  => $total_bultos,
+            "total_paq"     => $total_paq,
+        );
 
-        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-        $results = array(
+        //al terminar, se almacena en una variable de salida el array.
+        $output['contenido_tabla'] = array(
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
-        echo json_encode($results);
-        break;
 
-    case "listar_totales_paq_bul_despacho":
-
-        if( isset($_SESSION["total_bultos"]) && isset($_SESSION["total_paq"]) ) {
-            $output["total_bultos"] = $_SESSION["total_bultos"];
-            $output["total_paq"] = $_SESSION["total_paq"];
-
-            unset($_SESSION['total_bultos']);
-            unset($_SESSION['total_paq']);
-        }
+        //de igual forma, se almacena en una variable de salida el array de totales.
+        $output['totales_tabla'] = $totales;
 
         echo json_encode($output);
         break;
