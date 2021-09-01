@@ -46,7 +46,6 @@ function modalEditarDespachos(correlativo) { //editar
                 console.log(e.responseText);
             },
             success: function (data) {
-
                 //CABECERA DEL DESPACHO
                 $("#correlativo").val(correlativo);
                 $("#correl").text(data.correl);
@@ -56,38 +55,39 @@ function modalEditarDespachos(correlativo) { //editar
                 $("#cantFacturas").text(data.cantFacturas);
                 $('#modalMostrarEditarDespacho').show();
 
-                if (!jQuery.isEmptyObject(data.tabla))
-                {
-                    //TABLA DE DETALLE DE DESPACHO
-                    $('#tabla_editar_despacho').dataTable({
-                        "aProcessing": true,//Activamos el procesamiento del datatables
-                        "aServerSide": true,//Paginación y filtrado realizados por el servidor
-
-                        "sEcho": data.tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                        "iTotalRecords": data.tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                        "iTotalDisplayRecords": data.tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                        "aaData": data.tabla.aaData, // informacion por registro
-
-                        "bDestroy": true,
-                        "responsive": true,
-                        "bInfo": true,
-                        "iDisplayLength": 5,//Por cada 5 registros hace una paginación
-                        "order": [[0, "desc"]],//Ordenar (columna,orden)
-                        'columnDefs':[{
-                            "targets": 3, // your case first column
-                            "className": "text-center"
-                        }],
-                        "language": texto_español_datatables
-                    }).DataTable();
-                }
-
                 $('#relacion_despacho_editar').show();
-                $("#loader_editar_despacho").hide('');
             },
             complete: function () {
                 if(!isError) SweetAlertLoadingClose();
             }
         });
+
+        $('#tabla_editar_despacho').dataTable({
+            "aProcessing": true,//Activamos el procesamiento del datatables
+            "aServerSide": true,//Paginación y filtrado realizados por el servidor
+            "ajax":
+                {
+                    url: 'despachosrelacion_controlador.php?op=buscar_destalle_despacho_por_correlativo',
+                    method: "POST",
+                    dataType: "json",
+                    data: { correlativo: correlativo },
+                    error: function (e) {
+                        SweetAlertError(e.responseText, "Error!")
+                        console.log(e.responseText);
+                    },
+                },
+
+            "bDestroy": true,
+            "responsive": true,
+            "bInfo": true,
+            "iDisplayLength": 10,//Por cada 10 registros hace una paginación
+            "order": [[0, "desc"]],//Ordenar (columna,orden)
+            'columnDefs':[{
+                "targets": 3, // your case first column
+                "className": "text-center"
+            }],
+            "language": texto_español_datatables
+        }).DataTable();
     }
 }
 

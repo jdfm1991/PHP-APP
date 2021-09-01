@@ -33,28 +33,12 @@ switch ($_GET["op"]) {
                             </a></div>';
                 $sub_array[] = str_pad($row["Correlativo"], 8, 0, STR_PAD_LEFT)
                                 .'<br><span class="right badge badge-secondary mt-1">'.date(FORMAT_DATE,strtotime($row["fechae"])).'</span>';
-//                $sub_array[] = date(FORMAT_DATE,strtotime($row["fechae"]));
                 $sub_array[] = $row["Nomper"];
                 $sub_array[] = $row["cantFact"];
                 $sub_array[] = $row["Destino"] . " - " . $row["NomperChofer"];
-                /*$sub_array[] = '<div class="col text-center"><a href="#" onclick="modalEditarDespachos(\''.$row["Correlativo"].'\');" class="nav-link">
-                                <i class="far fa-edit fa-2x" style="color:green"></i>
-                            </a></div>';
-                $sub_array[] = '<div class="col text-center"><a href="#" onclick="EliminarUnDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
-                                <i class="fas fa-minus-circle fa-2x" style="color:darkred"></i>
-                            </a></div>';
-                $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalVerDetalleDespacho(\''.$row["Correlativo"].'\');" class="nav-link">
-                                <i class="fas fa-search fa-2x" style="color:cornflowerblue"></i>
-                            </a></div>';*/
                 $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
                                 <img src="../../public/build/images/bs.png" width="25" height="25" border="0" />
                             </a></div>';
-                /*$sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteProductosDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
-                                <i class="far fa-file-pdf fa-2x" style="color:red"></i>
-                            </a></div>';
-                $sub_array[] = '<div class="col text-center"><a href="#" onclick="abrirReporteDetalleCompletoDeUnDepacho(\''.$row["Correlativo"].'\');" class="nav-link">
-                                <i class="fas fa-info-circle fa-2x" style="color:darkgrey"></i>
-                            </a></div>';*/
                 $sub_array[] = '<div class="col text-center">
                                     <button type="button" onClick="modalVerDetalleDespacho(\''.$row["Correlativo"].'\');" id="'.$row["Correlativo"].'" class="btn btn-info btn-sm ver_detalles">Detalle</button>'." ".'
                                     <button type="button" onClick="modalEditarDespachos(\''.$row["Correlativo"].'\');"    id="'.$row["Correlativo"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'
@@ -80,9 +64,8 @@ switch ($_GET["op"]) {
         //obtenemos el valor enviado por ajax
         $correlativo = $_POST['correlativo'];
 
-        //buscamos en la bd la cabecera del despacho y el detalle(facturas)
+        //buscamos en la bd la cabecera del despacho
         $cabecera_despacho = $relacion->get_despacho_por_correlativo($correlativo);
-        $detalle_despacho = $relacion->get_detalle_despacho_por_correlativo($correlativo);
 
         //validamos que la consulta de la cabecera tenga registro
         if(is_array($cabecera_despacho) == true and count($cabecera_despacho) > 0) {
@@ -95,11 +78,22 @@ switch ($_GET["op"]) {
 
         }
 
+        echo json_encode($output);
+        break;
+
+    case "buscar_destalle_despacho_por_correlativo":
+
+        //obtenemos el valor enviado por ajax
+        $correlativo = $_POST['correlativo'];
+
+        //buscamos en la bd la el detalle
+        $detalle_despacho = $relacion->get_detalle_despacho_por_correlativo($correlativo);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+
         //validamos que la consulta del detalle de despacho tenga registros
         if(is_array($detalle_despacho) == true and count($detalle_despacho) > 0) {
-
-            //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-            $data = Array();
 
             foreach ($detalle_despacho as $row) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
@@ -108,25 +102,26 @@ switch ($_GET["op"]) {
                 $sub_array[] = $row["Numerod"];
                 $sub_array[] = $row["codclie"];
                 $sub_array[] = $row["descrip"];
-                $sub_array[] = date(FORMAT_DATETIME2,strtotime($row["fechae"]));
-                $sub_array[] = Strings::rdecimal($row["monto"], 2);
-                $sub_array[] = '<div class="col text-center"></button>'." ".'<button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'<button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button></div>';
+                $sub_array[]  = date(FORMAT_DATETIME2,strtotime($row["fechae"]));
+                $sub_array[]   = Strings::rdecimal($row["monto"], 2);
+                $sub_array[] = '<div class="col text-center">
+                                      <button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"   id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'
+                                      <button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                </div>';
 
                 $data[] = $sub_array;
             }
-
-            //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-            $output['tabla'] = array(
-                "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-                "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-                "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-                "aaData" => $data);
-        } else {
-            $output['tabla'] = array();
         }
 
-        echo json_encode($output);
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $output = array(
+            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data
+        );
 
+        echo json_encode($output);
         break;
 
     case "buscar_cabeceraDespacho_para_editar":
