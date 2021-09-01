@@ -19,13 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/crear_o_editar_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/crear_o_editar_cliente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +210,7 @@
       <workItem from="1630499043135" duration="964000" />
       <workItem from="1630502072310" duration="6587000" />
       <workItem from="1630509598641" duration="2731000" />
-      <workItem from="1630512414903" duration="646000" />
+      <workItem from="1630512414903" duration="2107000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -538,7 +534,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630504670654</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion">
+      <created>1630513126013</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1630513126013</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,7 +560,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="avance reporte pdf y excel kpi" />
     <MESSAGE value="avance reporte excel kpi" />
     <MESSAGE value="reporte excel kpi" />
     <MESSAGE value="sku no vendidos" />
@@ -582,7 +584,8 @@
     <MESSAGE value="revisar editar despacho" />
     <MESSAGE value="clientes:" />
     <MESSAGE value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
-    <option name="LAST_COMMIT_MESSAGE" value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
+    <MESSAGE value="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion" />
+    <option name="LAST_COMMIT_MESSAGE" value="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
