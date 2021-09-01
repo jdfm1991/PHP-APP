@@ -436,11 +436,11 @@ switch ($_GET["op"]) {
 
         $factura_despachada = $despachos->get_existe_factura_despachada_por_id($numerod);
         if (is_array($factura_despachada) == true and count($factura_despachada) > 0) {
-            $output["factura_despachada"] = "Factura Despachada: " . date(FORMAT_DATE, strtotime($factura_despachada[0]['fechad'])) .
+            $output["factura_despachada"] = "Documento Despachado: " . date(FORMAT_DATE, strtotime($factura_despachada[0]['fechad'])) .
                                             '</br> Por:'. $factura_despachada[0]['nomper'] .
                                             '</br>En el Despacho nro: '. str_pad($factura_despachada[0]['correlativo'], 8, 0, STR_PAD_LEFT);
         } else {
-            $output["factura_despachada"] = "Factura Sin Despachar";
+            $output["factura_despachada"] = "Documento Sin Despachar";
         }
 
 

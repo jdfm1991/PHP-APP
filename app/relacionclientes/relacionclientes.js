@@ -530,7 +530,7 @@ function mostrarModalDetalleFactura(numerod, tipofac) {
                         '</tr>' +
                         '<tr>' +
                         '<td colspan="5"></td>' +
-                        '<td align="center" class="small align-middle"><div align="right">Impuestos ' + data.iva + ' %</div></td>' +
+                        '<td align="center" class="small align-middle"><div align="right">Impuestos ' + totales.iva + ' %</div></td>' +
                         '<td align="center" class="small align-middle"><div align="center">' + totales.impuesto + '</div></td>' +
                         '</tr>' +
                         '<tr>' +

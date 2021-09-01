@@ -21,8 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="revisar editar despacho">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_cliente.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +211,7 @@
       <workItem from="1630326200663" duration="19947000" />
       <workItem from="1630411861612" duration="14033000" />
       <workItem from="1630499043135" duration="964000" />
-      <workItem from="1630502072310" duration="1760000" />
+      <workItem from="1630502072310" duration="2378000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -519,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630503658098</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="revisar editar despacho">
+      <created>1630504012175</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1630504012175</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
