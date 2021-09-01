@@ -1,5 +1,6 @@
 
 <?php
+set_time_limit(0);
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
 
@@ -42,7 +43,7 @@ class RelacionClientes extends Conectar
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $codclie, PDO::PARAM_STR);
+        $sql->bindValue(1, $codclie);
         $sql->execute();
         $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 

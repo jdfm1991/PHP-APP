@@ -42,7 +42,7 @@ switch ($_GET["op"]) {
 
         /** DATOS PRINCIPALES **/
         $tipo_cliente = $_POST["tipo_cliente"];
-        $codclie = $_POST["codclie"];
+        $codclie = str_replace('-', '', $_POST["codclie"]);
         if($tipo_cliente == "0")
         { //juridico
             $descrip = $_POST["descrip"];
@@ -59,7 +59,7 @@ switch ($_GET["op"]) {
             $ruc = "";
             $descorder = 1234;
         }
-        $id3 = $_POST["id3"];
+        $id3 = str_replace('-', '', $_POST["id3"]);
         $clase = $_POST["clase"];
         $represent = $_POST["represent"];
         $direc1 = $_POST["direc1"];
@@ -165,9 +165,7 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
-
 
     case "listar":
 
@@ -310,13 +308,21 @@ switch ($_GET["op"]) {
             $output["tipocli"] = $cliente[0]['idtcli'];
             $output["idtpvp"] = $cliente[0]['idtpvp'];
             //si existe dvisitas en saclie_ext, llenar, sino vacio
-            (isset($cliente[0]['dvisitas'])) ? $output["diasvisita"] = $cliente[0]['dvisitas'] : $output["diasvisita"] = "";
+            (isset($cliente[0]['dvisitas']))
+                ? $output["diasvisita"] = $cliente[0]['dvisitas']
+                : $output["diasvisita"] = "";
             //si existe latitud en saclie_ext, llenar, sino vacio
-            (isset($cliente[0]['latitud'])) ? $output["latitud"] = $cliente[0]['latitud'] : $output["latitud"] = "";
+            (isset($cliente[0]['latitud']))
+                ? $output["latitud"] = $cliente[0]['latitud']
+                : $output["latitud"] = "";
             //si existe longitud en saclie_ext, llenar, sino vacio
-            (isset($cliente[0]['longitud'])) ? $output["longitud"] = $cliente[0]['longitud'] : $output["longitud"] = "";
+            (isset($cliente[0]['longitud']))
+                ? $output["longitud"] = $cliente[0]['longitud']
+                : $output["longitud"] = "";
             //si existe idnestle en saclie_ext, llenar, sino vacio
-            (isset($cliente[0]['idnestle'])) ? $output["idnestle"] = $cliente[0]['idnestle'] : $output["idnestle"] = "";
+            (isset($cliente[0]['idnestle']))
+                ? $output["idnestle"] = $cliente[0]['idnestle']
+                : $output["idnestle"] = "";
             $output["escredito"] = $cliente[0]['credito'];
             $output["LimiteCred"] = Strings::rdecimal($cliente[0]['lcred'], 2);
             $output["diascred"] = $cliente[0]['dcred'];

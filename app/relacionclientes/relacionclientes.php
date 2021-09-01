@@ -76,6 +76,9 @@ if (!isset($_SESSION['cedula'])) {
         </div>
         <!-- /.content-wrapper -->
         <?php require_once("../footer.php");?>
+        <!-- InputMask -->
+        <script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
         <script type="text/javascript" src="relacionclientes.js"></script><?php
     }
     ?>

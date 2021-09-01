@@ -19,12 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="revisar editar despacho">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_cliente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/crear_o_editar_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/crear_o_editar_cliente.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +84,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/devolucionessinmotivo" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/plugins" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -91,16 +92,16 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="database.data.views" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
       <recent name="C:\Apache24\htdocs\appweb\app\devolucionessinmotivo" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins\jquery-maskmoney" />
       <recent name="C:\Apache24\htdocs\appweb\app\libroventas" />
       <recent name="C:\Apache24\htdocs\appweb\app" />
-      <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\config" />
@@ -211,7 +212,9 @@
       <workItem from="1630326200663" duration="19947000" />
       <workItem from="1630411861612" duration="14033000" />
       <workItem from="1630499043135" duration="964000" />
-      <workItem from="1630502072310" duration="2378000" />
+      <workItem from="1630502072310" duration="6587000" />
+      <workItem from="1630509598641" duration="2731000" />
+      <workItem from="1630512414903" duration="646000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -528,7 +531,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630504012175</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura">
+      <created>1630504670654</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1630504670654</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -547,8 +557,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adecuaciones minimas y comenzado de permisologia" />
-    <MESSAGE value="permisologia y redireccion de la aplicacion" />
     <MESSAGE value="avance reporte pdf y excel kpi" />
     <MESSAGE value="avance reporte excel kpi" />
     <MESSAGE value="reporte excel kpi" />
@@ -572,7 +580,9 @@
     <MESSAGE value="reemplazar la palabra factura por documentos (pdf despachos)" />
     <MESSAGE value="agrupar reportes(consolidado y detalle),&#10;analizar estructura de botones y&#10;revisar editar despacho" />
     <MESSAGE value="revisar editar despacho" />
-    <option name="LAST_COMMIT_MESSAGE" value="revisar editar despacho" />
+    <MESSAGE value="clientes:" />
+    <MESSAGE value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
+    <option name="LAST_COMMIT_MESSAGE" value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -26,12 +26,12 @@
                     <h2 class="card-title">Datos Principales</h2> <br><br>
 
                     <label for="codclie">Codigo del Cliente *</label>
-                    <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo J311768773" required >
+                    <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="codclie" name="codclie" placeholder="indique el RIF Ejemplo J311768773" data-inputmask='"mask": "A-99999999[-9]"' data-mask>
                     <br />
                     <div id="div_descrip"></div>
 
                     <label for="id3">RIF *</label>
-                    <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo J311768773" required>
+                    <input type="text" class="form-control input-sm" minlength="5" maxlength="15" id="id3" name="id3" placeholder="RIF Ejemplo J311768773" data-inputmask='"mask": "A-99999999[-9]"' data-mask>
                     <br />
                     <label for="clase">Clase *</label>
                     <input type="text" class="form-control input-sm" minlength="2" maxlength="10" id="clase" name="clase" placeholder="tipo de canal" required>
@@ -58,13 +58,13 @@
                     <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="municipio" name="municipio" placeholder="municipio" required>
                     <br />
                     <label for="email">Email</label>
-                    <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="email" name="email" placeholder="correo electrónico" required>
+                    <input type="text" class="form-control input-sm" minlength="3" maxlength="60" id="email" name="email" placeholder="correo electrónico" data-inputmask="'alias': 'email'" data-mask>
                     <br />
-                    <label for="telef">Teléfono *</label>
-                    <input type="tel" class="form-control input-sm" minlength="5" maxlength="30" id="telef" name="telef" placeholder="teléfono fijo">
+                    <label for="telef">Teléfono Fijo*</label>
+                    <input type="tel" class="form-control input-sm" minlength="5" maxlength="30" id="telef" name="telef" placeholder="teléfono fijo"  data-inputmask='"mask": "9999-9999999"' data-mask>
                     <br />
-                    <label for="movil">Movil</label>
-                    <input type="tel" class="form-control input-sm" minlength="5" maxlength="15" id="movil" name="movil" placeholder="teléfono movil">
+                    <label for="movil">Teléfono Movil</label>
+                    <input type="tel" class="form-control input-sm" minlength="5" maxlength="15" id="movil" name="movil" placeholder="teléfono movil" data-inputmask='"mask": "9999-9999999"' data-mask>
                     <br />
                     <label for="activo">Estatus *</label>
                     <select class="form-control custom-select" id="activo" name="activo" style="width: 100%;" required>

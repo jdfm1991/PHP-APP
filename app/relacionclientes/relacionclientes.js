@@ -9,6 +9,7 @@ function init() {
     $("#btnGuardarUsuario").on("click", function (e) {
         guardaryeditar(e);
     });
+    $('[data-mask]').inputmask()
 
 }
 
@@ -36,6 +37,8 @@ $(document).ready(function () {
                     console.log(e.responseText);
                 },
                 success: function (data) {
+
+
 
                     $("#div_descrip").html(data.descrip);
                     $("#div_ruc").html(data.ruc);
@@ -293,7 +296,7 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
                 //lista de seleccion de codigos nestle
                 $('#codnestle').append('<option name="" value="">Seleccione</option>');
                 $.each(data.lista_codnestle, function(idx, opt) {
-                    $('#codnestle').append('<option name="" value="' + opt.codnestle +'">' + opt.descrip + '</option>');
+                    $('#codnestle').append('<option name="" value="' + opt.codnestle +'">'+  opt.codnestle +' - '+ opt.descrip +'</option>');
                 });
             },
             complete: function () {
@@ -342,7 +345,7 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
                 //lista de seleccion de codigos nestle
                 $('#codnestle').append('<option name="" value="">Seleccione</option>');
                 $.each(data.lista_codnestle, function(idx, opt) {
-                    $('#codnestle').append('<option name="" value="' + opt.codnestle +'">' + opt.descrip + '</option>');
+                    $('#codnestle').append('<option name="" value="' + opt.codnestle +'">'+  opt.codnestle +' - '+ opt.descrip +'</option>');
                 });
 
                 $("#id_cliente").val(id_cliente);
