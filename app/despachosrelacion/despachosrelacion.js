@@ -207,6 +207,7 @@ function modalGuardarDocumentoEnDespacho() {
                 if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
                     $('#editarFacturaEnDespachoModal').modal('hide');
                     $('#tabla_editar_despacho').DataTable().ajax.reload();
+                    $('#relacion_data').DataTable().ajax.reload();
                 } else {
                     $('#alert_editar_documento').show();
                     $('#text_alert_editar_documento').text(data.mensaje);
@@ -246,6 +247,7 @@ function modalEliminarDocumentoEnDespacho(nro_documento, correlativo) {
                 success: function (data) {
                     SweetAlertSuccessLoading(data.mensaje);
                     $('#tabla_editar_despacho').DataTable().ajax.reload();
+                    $('#relacion_data').DataTable().ajax.reload();
                 }
             });
         }

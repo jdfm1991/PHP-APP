@@ -19,11 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="agrupar reportes(consolidado y detalle),&#10;analizar estructura de botones y&#10;revisar editar despacho">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="revisar editar despacho">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +209,7 @@
       <workItem from="1630326200663" duration="19947000" />
       <workItem from="1630411861612" duration="14033000" />
       <workItem from="1630499043135" duration="964000" />
-      <workItem from="1630502072310" duration="1524000" />
+      <workItem from="1630502072310" duration="1760000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>
@@ -513,7 +512,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630438733250</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="revisar editar despacho">
+      <created>1630503658098</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1630503658098</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -532,7 +538,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Menu lateral dinamico" />
     <MESSAGE value="adecuaciones minimas y comenzado de permisologia" />
     <MESSAGE value="permisologia y redireccion de la aplicacion" />
     <MESSAGE value="avance reporte pdf y excel kpi" />
@@ -557,7 +562,8 @@
     <MESSAGE value="validar tfood dspachos generados (total)" />
     <MESSAGE value="reemplazar la palabra factura por documentos (pdf despachos)" />
     <MESSAGE value="agrupar reportes(consolidado y detalle),&#10;analizar estructura de botones y&#10;revisar editar despacho" />
-    <option name="LAST_COMMIT_MESSAGE" value="agrupar reportes(consolidado y detalle),&#10;analizar estructura de botones y&#10;revisar editar despacho" />
+    <MESSAGE value="revisar editar despacho" />
+    <option name="LAST_COMMIT_MESSAGE" value="revisar editar despacho" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
