@@ -20,16 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="clientes:&#10;validar la creacion de clientes para no duplicar">
-      <change afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/plugins/ionicons/2.0.1/css/ionicons.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/appweb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/appweb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/principal/grafico.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +41,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -88,7 +85,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/plugins" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../confimania" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -96,7 +93,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -219,6 +216,10 @@
       <workItem from="1630502072310" duration="6587000" />
       <workItem from="1630509598641" duration="2731000" />
       <workItem from="1630512414903" duration="8107000" />
+      <workItem from="1630671996462" duration="3216000" />
+      <workItem from="1630676287673" duration="1020000" />
+      <workItem from="1630677732251" duration="3695000" />
+      <workItem from="1630681517620" duration="13133000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>

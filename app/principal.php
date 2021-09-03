@@ -60,7 +60,7 @@ require_once("../config/conexion.php");
 
                             <div class="inner">
                                 <h3>
-                                    <span class="pedPorFacturar">0</span>
+                                    <span id="pedsPorFacturar">0</span>
                                 </h3>
                                 <p>Pedidos por facturar</p>
                             </div>
@@ -80,10 +80,13 @@ require_once("../config/conexion.php");
                             </div>
 
                             <div class="inner">
-                                <h3>
-                                    <span class="cxc_in_dolar">0</span><sup style="font-size: 20px">$</sup> /
-                                    <span class="cxc_in_bs">0</span><sup style="font-size: 20px">BS</sup>
-                                </h3>
+                                <h5 style="font-weight: 700">
+                                    <span id="cxc_in_bs">0,0</span><sup style="font-size: 16px">BS</sup>
+                                    <br>
+                                    <span id="cxc_in_dolar">0,0</span><sup style="font-size: 16px">$</sup>
+
+                                </h5>
+
                                 <p>Cuentas por Cobrar</p>
                             </div>
                             <div class="icon">
@@ -102,10 +105,11 @@ require_once("../config/conexion.php");
                             </div>
 
                             <div class="inner">
-                                <h3>
-                                    <span class="cxp_in_dolar">0</span><sup style="font-size: 20px">$</sup> /
-                                    <span class="cxp_in_bs">0</span><sup style="font-size: 20px">BS</sup>
-                                </h3>
+                                <h5 style="font-weight: 700">
+                                    <span id="cxp_in_bs">0,0</span><sup style="font-size: 16px">BS</sup>
+                                    <br>
+                                    <span id="cxp_in_dolar">0,0</span><sup style="font-size: 16px">$</sup>
+                                </h5>
                                 <p>Cuentas por Pagar</p>
                             </div>
                             <div class="icon">
@@ -117,6 +121,7 @@ require_once("../config/conexion.php");
                     </div>
 
                 </div>
+
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
@@ -128,28 +133,27 @@ require_once("../config/conexion.php");
                             </div>
                             <div class="card-body">
                                 <div class="d-flex">
+
                                     <p class="d-flex flex-column">
                                         <span class="text-bold text-lg">$18,230.00</span>
                                         <span>Ventas a lo largo del tiempo</span>
                                     </p>
-                                    <p class="ml-auto d-flex flex-column text-right">
-                      <span class="text-success">
-                        <i class="fas fa-arrow-up"></i> 33.1%
-                      </span>
+                                    <!--<p class="ml-auto d-flex flex-column text-right">
+                                        <span class="text-success">
+                                            <i class="fas fa-arrow-up"></i> 33.1%
+                                        </span>
                                         <span class="text-muted">Desde el mes pasado</span>
-                                    </p>
+                                    </p>-->
                                 </div>
                                 <div class="position-relative mb-4">
                                     <canvas id="sales-chart" height="200"></canvas>
                                 </div>
+
                                 <div class="d-flex flex-row justify-content-end">
-                    <span class="mr-2">
-                      <i class="fas fa-square text-primary"></i> Este Año
-                    </span>
-                                    <span>
-                      <i class="fas fa-square text-gray"></i> El año pasado
-                    </span>
+                                    <span class="mr-2"><i class="fas fa-square text-primary"></i> Este Año</span>
+                                    <span><i class="fas fa-square text-gray"></i> El año pasado</span>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -256,6 +260,7 @@ require_once("../config/conexion.php");
 <!-- ChartJS -->
 <script src="<?php echo URL_LIBRARY; ?>plugins/chart.js/Chart.min.js"></script>
 <!-- Custom -->
+<script type="text/javascript" src="principal/grafico.js"></script>
 <script type="text/javascript" src="principal/principal.js"></script>
 </body>
 
