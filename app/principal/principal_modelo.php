@@ -128,25 +128,44 @@ class Principal extends Conectar{
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function get_inventario_valorizado($depo) {
+    public function get_inventario_valorizado($alm) {
         $i = 0;
+        $cond = $depo = "";
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion2();
         parent::set_names();
 
+        if (count($alm) > 0) {
+            $aux = "";
+            //se contruye un string para listar los depositvos seleccionados
+            //en caso que no haya ninguno, sera vacio
+            foreach ($alm as $num)
+                $aux .= " OR exis.codubic = ?";
+
+            //armamos una lista de los depositos, si no existe ninguno seleccionado no se considera para realizar la consulta
+            $depo = "(" . substr($aux, 4, strlen($aux)) . ")";
+
+            $cond = ($depo != "()")
+                ? ("AND ".$depo)
+                : "";
+        }
+
         //QUERY
-        $sql = "SELECT depo.CodUbic AS almacen, SUM(exis.Existen * prod02.Precio1_B) AS total
+        $sql = "SELECT depo.CodUbic AS almacen, SUM(exis.Existen * prod02.Precio1_B) AS total_b, SUM(exis.exunidad * prod02.Precio1_P) AS total_p
                 FROM SADEPO depo
                     INNER JOIN SAEXIS exis ON depo.CodUbic = exis.CodUbic
                     INNER JOIN SAPROD prod ON exis.CodProd = prod.CodProd
                     INNER JOIN SAPROD_02 prod02 ON exis.CodProd = prod02.CodProd
-                WHERE (exis.existen > 0 OR exis.exunidad > 0) AND len(prod.marca) > 0 AND exis.codubic IN (?)
+                WHERE (exis.existen > 0 OR exis.exunidad > 0) AND len(prod.marca) > 0 $cond
                 GROUP BY depo.CodUbic ORDER BY depo.CodUbic ASC";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1, $depo);
+        if ($depo != "()") {
+            foreach ($alm AS $num)
+                $sql->bindValue($i+=1, $num);
+        }
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }

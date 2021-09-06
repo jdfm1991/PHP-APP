@@ -8,8 +8,8 @@ require_once("../config/conexion.php");
 <?php require_once("header.php"); ?>
 
 <body class="hold-transition sidebar-mini">
-<?php require_once("menu_lateral.php"); ?>
 <div class="wrapper">
+    <?php require_once("menu_lateral.php"); ?>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -46,7 +46,7 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-ios-copy"></i>
                             </div>
-                            <a href="#" class="small-box-footer">ver reporte <i
+                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
                                         class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -67,7 +67,7 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">ver reporte <i
+                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
                                         class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -92,7 +92,7 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-cash"></i>
                             </div>
-                            <a href="#" class="small-box-footer">ver reporte <i
+                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
                                         class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -115,11 +115,77 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-cash"></i>
                             </div>
-                            <a href="#" class="small-box-footer">ver reporte <i
+                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
                                         class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_clientes_n" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-info"><i class="far fa-user"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Clientes Naturales</span>
+                                <span id="cliente_n" class="info-box-number">0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_clientes_j" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-info"><i class="fa fa-user-tie"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Clientes Jurídicos</span>
+                                <span id="cliente_j" class="info-box-number">0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Uploads</span>
+                                <span class="info-box-number">13,648</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Likes</span>
+                                <span class="info-box-number">93,139</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
                 </div>
 
                 <div class="row">
@@ -160,92 +226,19 @@ require_once("../config/conexion.php");
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header border-0">
-                                <h3 class="card-title">Costo de Productos en Almacenes</h3>
-                                <div class="card-tools">
-                                    <a href="#" class="btn btn-tool btn-sm">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-tool btn-sm">
-                                        <i class="fas fa-bars"></i>
-                                    </a>
-                                </div>
+                                <h3 class="card-title">Valorización de Inventario</h3>
                             </div>
-                            <div class="card-body table-responsive p-0">
-                                <table class="table table-striped table-valign-middle">
+                            <div class="card-body table-responsive p-0" style="height: 350px;">
+                                <table id="inventario_valorizado" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
                                     <thead>
                                     <tr>
-                                        <th>Ubicación</th>
-                                        <th>Valorización</th>
-                                        <th>Detalle</th>
+                                        <th><?=Strings::titleFromJson('ubicacion')?></th>
+                                        <th><?=Strings::titleFromJson('valoracion')?></th>
+                                        <th><?=Strings::titleFromJson('detalle')?></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>
-                                            Almacen 1
-                                        </td>
-                                        <td>$ 5000 USD</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Almacen 2
-                                        </td>
-                                        <td>$ 29880 USD</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Almacen 4
-                                        </td>
-                                        <td>$ 29880 USD</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Almacen 4
-                                        </td>
-                                        <td>$ 29880 USD</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Almacen 5
-                                        </td>
-                                        <td>$ 29880 USD</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Almacen 6
-                                        </td>
-                                        <td>$ 29880 USD</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <!--el contenido llega por ajax-->
                                     </tbody>
                                 </table>
                             </div>
@@ -255,8 +248,10 @@ require_once("../config/conexion.php");
             </div>
         </section>
     </div>
+
+    <?php require_once("footer.php"); ?>
 </div>
-<?php require_once("footer.php"); ?>
+
 <!-- ChartJS -->
 <script src="<?php echo URL_LIBRARY; ?>plugins/chart.js/Chart.min.js"></script>
 <!-- Custom -->

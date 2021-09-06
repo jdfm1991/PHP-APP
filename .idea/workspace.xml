@@ -20,13 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="clientes:&#10;validar la creacion de clientes para no duplicar">
-      <change afterPath="$PROJECT_DIR$/app/principal/grafico.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/grafico.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/grafico.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/plugins/chart.js/Chart.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/plugins/chart.js/Chart.min.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +221,7 @@
       <workItem from="1630676287673" duration="1020000" />
       <workItem from="1630677732251" duration="3695000" />
       <workItem from="1630681517620" duration="13133000" />
+      <workItem from="1630930989053" duration="10576000" />
     </task>
     <task id="LOCAL-00001" summary="permisos avance">
       <created>1622562909710</created>

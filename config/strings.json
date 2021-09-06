@@ -152,6 +152,7 @@
   "iva"                         : {"title": "IVA (16%)",                          "description": ""},
   "iva_retenido"                : {"title": "I.V.A. Retenido",                    "description": ""},
   "cubicaje"                    : {"title": "Cubicaje",                           "description": ""},
+  "ubicacion"                   : {"title": "Ubicación",                          "description": ""},
   "sugerido"                    : {"title": "Sugerido",                           "description": ""},
   "pedido"                      : {"title": "Pedido",                             "description": ""},
   "permisos"                    : {"title": "Permisos",                           "description": ""},
@@ -165,6 +166,7 @@
   "mes"                         : {"title": "Mes",                                "description": ""},
   "anio"                        : {"title": "Año",                                "description": ""},
   "motivo_devolucion"           : {"title": "Motivo Devolucion",                  "description": ""},
+  "valoracion"                  : {"title": "Valorización",                       "description": ""},
 
   "botones_accion"     : {"title": "Acciónes",         "description": ""},
   "boton_consultar"    : {"title": " Consultar",       "description": ""},
@@ -175,6 +177,7 @@
   "boton_generar"      : {"title": "Generar!",         "description": ""},
   "boton_guardar"      : {"title": " Guardar",         "description": ""},
   "boton_actualizar"   : {"title": " Actualizar",      "description": ""},
+  "boton_ver_reporte"  : {"title": "ver reporte ",     "description": ""},
   "boton_excel"        : {"title": "Exportar a Excel", "description": ""},
   "boton_pdf"          : {"title": "Exportar a PDF",   "description": ""}
 }

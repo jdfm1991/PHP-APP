@@ -85,4 +85,37 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case "listar_inventario_valorizado":
+
+        $depos = [
+            '01',
+//            '13',
+        ];
+//        $depos =  array_map(function($val) { return $val['codubi']; }, Almacen::todos());
+
+        $datos = $principal->get_inventario_valorizado($depos);
+
+        //DECLARAMOS ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = Array();
+        foreach ($datos as $key => $row) {
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            $sub_array = array();
+
+            //ASIGNAMOS EN EL SUB_ARRAY LOS DATOS PROCESADOS
+            $sub_array['almacen']   = $row["almacen"];
+            $sub_array['total']     = Strings::rdecimal(floatval($row["total_b"]) + floatval($row["total_p"]),2);
+            $sub_array['acciones']  = '<a href="#" class="text-muted">
+                                         <i class="fas fa-search"></i>
+                                       </a>';
+
+            //AGREGAMOS AL ARRAY DE CONTENIDO DE LA TABLA
+            $data[] = $sub_array;
+        }
+
+        //al terminar, se almacena en una variable de salida el array.
+        $output['contenido_tabla'] = $data;
+
+        echo json_encode($output);
+        break;
+
 }

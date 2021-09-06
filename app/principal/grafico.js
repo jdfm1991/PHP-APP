@@ -2,6 +2,7 @@
 
 function graficar(labels, values, highscore = 100, offset = 5, symbol = '', id='', tipo_grafica = 'line') {
 
+    console.log([...values])
     const ticksStyle = {
         fontColor: '#495057',
         fontStyle: 'bold'
@@ -14,7 +15,7 @@ function graficar(labels, values, highscore = 100, offset = 5, symbol = '', id='
         data: {
             labels: labels,
             datasets: [{
-                data: [values],
+                data: [...values],
                 backgroundColor: 'transparent',
                 borderColor: '#007bff',
                 pointBorderColor: '#007bff',

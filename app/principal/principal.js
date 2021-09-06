@@ -3,9 +3,10 @@
 function init() {
     fetch_pordespachar();
     fetch_porfacturar();
-    fetch_cxc()
-    fetch_cxp()
-    cargar_grafica_ventasXmesdivisas()
+    fetch_cxc();
+    fetch_cxp();
+    cargar_grafica_ventasXmesdivisas();
+    fetch_inventario_valorizado();
 }
 
 function fetch_pordespachar() {
@@ -119,7 +120,7 @@ function cargar_grafica_ventasXmesdivisas() {
         cache: false,
         async: false,
         url: "principal/principal_controlador.php?op=buscar_ventasPormesdivisas",
-        type: "get",
+        type: "post",
         dataType: "json",
         error: function (e) {
             console.log(e.responseText);
@@ -140,10 +141,116 @@ function cargar_grafica_ventasXmesdivisas() {
                     values = [];
                 }
 
-                graficar(labels, values, (parseInt(valor_mas_alto) * 1.05), 5, '$', '.ventasmesdivisas', 'line');
+                // graficar(labels, values, (parseInt(valor_mas_alto) * 1.05), 5, '$', '#sales-chart', 'line');
+
+                const ticksStyle = {
+                    fontColor: '#495057',
+                    fontStyle: 'bold'
+                };
+                const mode = 'index';
+                const intersect = true;
+                var visitorsChart  = new Chart('#sales-chart', {
+                    data   : {
+                        labels  : ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+                        datasets: [{
+                            type                : 'line',
+                            data                : [100, 120, 170, 167, 180, 177, 160],
+                            backgroundColor     : 'transparent',
+                            borderColor         : '#007bff',
+                            pointBorderColor    : '#007bff',
+                            pointBackgroundColor: '#007bff',
+                            fill                : false
+                            // pointHoverBackgroundColor: '#007bff',
+                            // pointHoverBorderColor    : '#007bff'
+                        },
+                            {
+                                type                : 'line',
+                                data                : [60, 80, 70, 67, 80, 77, 100],
+                                backgroundColor     : 'tansparent',
+                                borderColor         : '#ced4da',
+                                pointBorderColor    : '#ced4da',
+                                pointBackgroundColor: '#ced4da',
+                                fill                : false
+                                // pointHoverBackgroundColor: '#ced4da',
+                                // pointHoverBorderColor    : '#ced4da'
+                            }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips           : {
+                            mode     : mode,
+                            intersect: intersect
+                        },
+                        hover              : {
+                            mode     : mode,
+                            intersect: intersect
+                        },
+                        legend             : {
+                            display: false
+                        },
+                        scales             : {
+                            yAxes: [{
+                                // display: false,
+                                gridLines: {
+                                    display      : true,
+                                    lineWidth    : '4px',
+                                    color        : 'rgba(0, 0, 0, .2)',
+                                    zeroLineColor: 'transparent'
+                                },
+                                ticks    : $.extend({
+                                    beginAtZero : true,
+                                    suggestedMax: 200
+                                }, ticksStyle)
+                            }],
+                            xAxes: [{
+                                display  : true,
+                                gridLines: {
+                                    display: false
+                                },
+                                ticks    : ticksStyle
+                            }]
+                        }
+                    }
+                })
+
             } else {
-                $('.amp-pxl').html('<div class="alert alert-warning">No existe datos para el grafico. </div>');
+                $('#sales-chart').html('<div class="alert alert-warning">No existe datos para el grafico. </div>');
             }
+        }
+    });
+}
+
+function fetch_inventario_valorizado() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=listar_inventario_valorizado",
+        method: "get",
+        dataType: "json",
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { contenido_tabla } = data;
+                $.each(contenido_tabla, function (idx, opt) {
+                    $('#inventario_valorizado')
+                        .append(
+                            '<tr>' +
+                                '<td class="align-middle">' + opt.almacen + '</td>' +
+                                '<td class="align-middle">' + opt.total + ' $</td>' +
+                                '<td class="align-middle">' + opt.acciones + '</td>' +
+                            '</tr>'
+                        );
+                });
+            } else {
+                //en caso de consulta vacia, mostramos un mensaje de vacio
+                $('#inventario_valorizado').append('<tr><td colspan="3" align="center">Sin registros para esta Consulta</td></tr>');
+            }
+        },
+        complete: function () {
+            // if(!isError) $('#loader_cxp').hide();
         }
     });
 }
