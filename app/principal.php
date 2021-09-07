@@ -130,11 +130,11 @@ require_once("../config/conexion.php");
                                 <i class="fas fa-3x fa-sync-alt"></i>
                             </div>
 
-                            <span class="info-box-icon bg-info"><i class="far fa-user"></i></span>
+                            <span class="info-box-icon bg-primary"><i class="far fa-user"></i></span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Clientes Naturales</span>
-                                <span id="cliente_n" class="info-box-number">0</span>
+                                <span id="clientes_n" class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -149,11 +149,11 @@ require_once("../config/conexion.php");
                                 <i class="fas fa-3x fa-sync-alt"></i>
                             </div>
 
-                            <span class="info-box-icon bg-info"><i class="fa fa-user-tie"></i></span>
+                            <span class="info-box-icon bg-primary"><i class="fa fa-user-tie"></i></span>
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Clientes Jurídicos</span>
-                                <span id="cliente_j" class="info-box-number">0</span>
+                                <span id="clientes_j" class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -162,11 +162,16 @@ require_once("../config/conexion.php");
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_tasa_dolar" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Uploads</span>
-                                <span class="info-box-number">13,648</span>
+                            <span class="info-box-icon bg-primary"><i class="far fa-money-bill-alt"></i></span>
+
+                            <div class="info-box-content inner">
+                                <span class="info-box-text">Tasa dolar</span>
+                                <span id="tasa_dolar" class="info-box-number">0,0<sup style="font-size: 16px">$</sup></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -175,11 +180,16 @@ require_once("../config/conexion.php");
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_devoluciones_sin_motivo" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-primary"><i class="fa fa-sort-amount-down-alt"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Likes</span>
-                                <span class="info-box-number">93,139</span>
+                                <span class="info-box-text">Devoluciones sin motivo</span>
+                                <span id="devoluciones_sin_motivo" class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -191,6 +201,11 @@ require_once("../config/conexion.php");
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_ventas_por_mes" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="card-title">Ventas</h3>
@@ -201,7 +216,7 @@ require_once("../config/conexion.php");
                                 <div class="d-flex">
 
                                     <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">$18,230.00</span>
+                                        <span class="text-bold text-lg">$ 0.00</span>
                                         <span>Ventas a lo largo del tiempo</span>
                                     </p>
                                     <!--<p class="ml-auto d-flex flex-column text-right">
@@ -225,6 +240,11 @@ require_once("../config/conexion.php");
                     </div>
                     <div class="col-lg-6">
                         <div class="card">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_inventario_valorizado" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
                             <div class="card-header border-0">
                                 <h3 class="card-title">Valorización de Inventario</h3>
                             </div>
@@ -232,7 +252,7 @@ require_once("../config/conexion.php");
                                 <table id="inventario_valorizado" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
                                     <thead>
                                     <tr>
-                                        <th><?=Strings::titleFromJson('ubicacion')?></th>
+                                        <th><?=Strings::titleFromJson('almacen')?></th>
                                         <th><?=Strings::titleFromJson('valoracion')?></th>
                                         <th><?=Strings::titleFromJson('detalle')?></th>
                                     </tr>

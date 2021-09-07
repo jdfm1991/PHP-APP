@@ -169,5 +169,104 @@ class Principal extends Conectar{
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function get_clientes_por_tipo($tipo = 0){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT codclie, descrip, id3, codvend, fechae, tipoid3, activo FROM SACLIE WHERE activo ='1' AND TipoID3 = ? AND codvend NOT IN ('99')";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $tipo);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_tasa_dolar(){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT TOP(1) FechaE AS fechae, Tasa AS tasa FROM SACOMP WHERE Tasa IS NOT NULL ORDER BY FechaE DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function get_devoluciones_sin_motivo_Factura($tipodespacho) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        $parameter = hash_equals('1', $tipodespacho)
+            ? ', saclie.fechae as fecha_ini_clie, desp.numerod, ID_Correlativo as correl,notas1, notas2, observacion as motivo'
+            : '';
+
+        $relation = hash_equals('1', $tipodespacho)
+            ? ' inner join APPWEBAJ.dbo.Despachos_Det desp on desp.numerod = NumeroR '
+            : '';
+
+        $condition = hash_equals('0', $tipodespacho)
+            ? " AND (numerod NOT IN (SELECT numerod FROM APPWEBAJ.dbo.Despachos_Det) AND NumeroR NOT IN (SELECT numerod FROM APPWEBAJ.dbo.Despachos_Det)) "
+            : " AND (observacion IS NULL OR observacion = '') ";
+
+        //QUERY
+        $sql = "SELECT safact.codvend AS code_vendedor, safact.tipofac, safact.numerod, numeror, safact.fechae AS fecha_fact,
+                       safact.codclie AS cod_clie, safact.descrip AS cliente, monto $parameter
+                FROM SAFACT
+                        INNER JOIN saclie ON safact.codclie = saclie.codclie
+                        $relation
+                WHERE safact.TipoFac = 'B' $condition
+                ORDER BY fecha_fact DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+    public function get_devoluciones_sin_motivo_NotadeEntrega($tipodespacho) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        $parameter = hash_equals('1', $tipodespacho)
+            ? ', saclie.fechae AS fecha_ini_clie, nt.observacion AS motivo, ID_Correlativo, desp.numerod, notas1'
+            : '';
+
+        $relation = hash_equals('1', $tipodespacho)
+            ? ' INNER JOIN APPWEBAJ.dbo.Despachos_Det AS desp ON desp.numerod = numerof'
+            : '';
+
+        $condition = hash_equals('0', $tipodespacho)
+            ? " AND (numerod NOT IN (SELECT numerod FROM APPWEBAJ.dbo.Despachos_Det) AND numerof NOT IN (select numerod FROM APPWEBAJ.dbo.Despachos_Det))"
+            : " AND (nt.observacion IS NULL or nt.observacion = '')";
+
+        //QUERY
+        $sql = "SELECT nt.codvend AS code_vendedor, nt.tipofac, numerof AS numeror, nt.numerod, nt.fechae AS fecha_fact, nt.codclie AS cod_clie,
+                       nt.rsocial AS cliente, total AS monto $parameter
+                FROM SANOTA nt
+                         INNER JOIN saclie ON nt.codclie = saclie.codclie
+                         $relation
+                WHERE nt.TipoFac = 'D' $condition
+                ORDER BY fecha_fact DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }
 

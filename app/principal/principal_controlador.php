@@ -49,10 +49,14 @@ switch ($_GET["op"]) {
         $fechaf = date('Y-m-d');
         $dato = explode("-", $fechaf); //Hasta
         $aniod = $dato[0]; //año
-        $mesd = $dato[1]; //mes
-        $diad = "01"; //dia
         $fechai = $aniod . "-01-01";
 
+        $fechaf_ant = ($dato[0]-1).'-'.$dato[1].'-'.$dato[2];
+        $fechai_ant = ($dato[0]-1)."-01-01";
+
+        //datos del año anterior
+        $ventas_nt_anterior = $principal->get_ventas_por_mes_nota($fechai_ant, $fechaf_ant);
+        //datos del año en curso
         $ventas_nt = $principal->get_ventas_por_mes_nota($fechai, $fechaf);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
@@ -60,6 +64,7 @@ switch ($_GET["op"]) {
         if (is_array($ventas_nt)==true and count($ventas_nt)>0)
         {
             $valor_mas_alto = 0;
+            $cant_meses = $dato[1];
             $output['anio'] = $ventas_nt[0]['anio'];
 
             $data=array();
@@ -67,6 +72,7 @@ switch ($_GET["op"]) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
+                $sub_array["num_mes"] = intval($row["mes"]);
                 $sub_array["mes"] = Dates::month_name(Strings::addCero($row["mes"]), true);
                 $sub_array["valor"] = number_format($row["total"], 2, ".", "");
 
@@ -75,10 +81,29 @@ switch ($_GET["op"]) {
                     $valor_mas_alto = floatval($row['total']);
                 }
 
-                $data[] = $sub_array;
+                $data['ventas_ano_actual'][] = $sub_array;
             }
+
+            $data1=array();
+            foreach ($ventas_nt_anterior as $row) {
+                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+                $sub_array = array();
+
+                $sub_array["num_mes"] = intval($row["mes"]);
+                $sub_array["mes"] = Dates::month_name(Strings::addCero($row["mes"]), true);
+                $sub_array["valor"] = number_format($row["total"], 2, ".", "");
+
+                //aqui obtenemos el valor mas alto
+                if($valor_mas_alto<floatval($row['total'])) {
+                    $valor_mas_alto = floatval($row['total']);
+                }
+
+                $data1['ventas_ano_anterior'][] = $sub_array;
+            }
+
+            $output['cantidad_meses_evaluar'] = intval($cant_meses);
             $output['valor_mas_alto'] = number_format($valor_mas_alto, 2, ".", "");
-            $output['datos'] = $data;
+            $output['datos']=array(); array_push($output['datos'], $data, $data1);
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -115,6 +140,41 @@ switch ($_GET["op"]) {
         //al terminar, se almacena en una variable de salida el array.
         $output['contenido_tabla'] = $data;
 
+        echo json_encode($output);
+        break;
+
+    case "buscar_clientes_naturales":
+
+        $output["cant_naturales"] = Strings::rdecimal(count($principal->get_clientes_por_tipo(1)),0);
+        echo json_encode($output);
+        break;
+
+    case "buscar_clientes_juridicos":
+
+        $output["cant_juridico"] = Strings::rdecimal(count($principal->get_clientes_por_tipo(0)),0);
+        echo json_encode($output);
+        break;
+
+    case "buscar_tasa_dolar":
+
+        $output["tasa"] = Strings::rdecimal($principal->get_tasa_dolar()['tasa'],2);
+        echo json_encode($output);
+        break;
+
+    case "buscar_devoluciones_sin_motivo":
+
+        $data = array(
+            'sin_despacho_fact' => Numbers::avoidNull(count($principal->get_devoluciones_sin_motivo_Factura('0'))),
+            'con_despacho_fact' => Numbers::avoidNull(count($principal->get_devoluciones_sin_motivo_Factura('1'))),
+            'sin_despacho_nota' => Numbers::avoidNull(count($principal->get_devoluciones_sin_motivo_NotadeEntrega('0'))),
+            'con_despacho_nota' => Numbers::avoidNull(count($principal->get_devoluciones_sin_motivo_NotadeEntrega('1'))),
+        );
+
+        $sumatoria_devoluciones_fact = (intval($data['sin_despacho_fact']) + intval($data['con_despacho_fact']));
+        $sumatoria_devoluciones_nota = (intval($data['sin_despacho_nota']) + intval($data['con_despacho_nota']));
+        $total = ($sumatoria_devoluciones_fact + $sumatoria_devoluciones_nota);
+
+        $output["devoluciones_sin_motivo"] = Strings::rdecimal($total,0);
         echo json_encode($output);
         break;
 

@@ -7,6 +7,10 @@ function init() {
     fetch_cxp();
     cargar_grafica_ventasXmesdivisas();
     fetch_inventario_valorizado();
+    fetch_clientes_naturales();
+    fetch_clientes_juridicos();
+    fetch_tasa_dolar();
+    fetch_devoluciones_sin_motivo();
 }
 
 function fetch_pordespachar() {
@@ -116,20 +120,31 @@ function fetch_cxp() {
 }
 
 function cargar_grafica_ventasXmesdivisas() {
+    let isError = false;
     $.ajax({
         cache: false,
         async: false,
         url: "principal/principal_controlador.php?op=buscar_ventasPormesdivisas",
         type: "post",
         dataType: "json",
+        beforeSend: function () {
+            $('#loader_ventas_por_mes').show()
+        },
         error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
             console.log(e.responseText);
         },
         success: function (data) {
             if (!jQuery.isEmptyObject(data)) {
-                let { anio, datos, valor_mas_alto } = data;
+                let { anio, cantidad_meses_evaluar, datos, valor_mas_alto } = data;
 
-                let labels, values;
+                let arr_temp =[];
+                for (let i=1;i<=cantidad_meses_evaluar;i++) {
+                    arr_temp.push({num_mes:i, mes:'', valor:0});
+                }
+                console.log(arr_temp);
+
+                /*let labels, values;
                 if(!jQuery.isEmptyObject(datos)) {
                     //titulos de las barras
                     labels = datos.map( val => { return val.mes; });
@@ -141,81 +156,13 @@ function cargar_grafica_ventasXmesdivisas() {
                     values = [];
                 }
 
-                // graficar(labels, values, (parseInt(valor_mas_alto) * 1.05), 5, '$', '#sales-chart', 'line');
-
-                const ticksStyle = {
-                    fontColor: '#495057',
-                    fontStyle: 'bold'
-                };
-                const mode = 'index';
-                const intersect = true;
-                var visitorsChart  = new Chart('#sales-chart', {
-                    data   : {
-                        labels  : ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
-                        datasets: [{
-                            type                : 'line',
-                            data                : [100, 120, 170, 167, 180, 177, 160],
-                            backgroundColor     : 'transparent',
-                            borderColor         : '#007bff',
-                            pointBorderColor    : '#007bff',
-                            pointBackgroundColor: '#007bff',
-                            fill                : false
-                            // pointHoverBackgroundColor: '#007bff',
-                            // pointHoverBorderColor    : '#007bff'
-                        },
-                            {
-                                type                : 'line',
-                                data                : [60, 80, 70, 67, 80, 77, 100],
-                                backgroundColor     : 'tansparent',
-                                borderColor         : '#ced4da',
-                                pointBorderColor    : '#ced4da',
-                                pointBackgroundColor: '#ced4da',
-                                fill                : false
-                                // pointHoverBackgroundColor: '#ced4da',
-                                // pointHoverBorderColor    : '#ced4da'
-                            }]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        tooltips           : {
-                            mode     : mode,
-                            intersect: intersect
-                        },
-                        hover              : {
-                            mode     : mode,
-                            intersect: intersect
-                        },
-                        legend             : {
-                            display: false
-                        },
-                        scales             : {
-                            yAxes: [{
-                                // display: false,
-                                gridLines: {
-                                    display      : true,
-                                    lineWidth    : '4px',
-                                    color        : 'rgba(0, 0, 0, .2)',
-                                    zeroLineColor: 'transparent'
-                                },
-                                ticks    : $.extend({
-                                    beginAtZero : true,
-                                    suggestedMax: 200
-                                }, ticksStyle)
-                            }],
-                            xAxes: [{
-                                display  : true,
-                                gridLines: {
-                                    display: false
-                                },
-                                ticks    : ticksStyle
-                            }]
-                        }
-                    }
-                })
-
+                graficar(labels, values, (parseInt(valor_mas_alto) * 1.05), 5, '$', $('#sales-chart'), 'line');*/
             } else {
                 $('#sales-chart').html('<div class="alert alert-warning">No existe datos para el grafico. </div>');
             }
+        },
+        complete: function () {
+            if(!isError) $('#loader_ventas_por_mes').hide();
         }
     });
 }
@@ -227,6 +174,9 @@ function fetch_inventario_valorizado() {
         url: "principal/principal_controlador.php?op=listar_inventario_valorizado",
         method: "get",
         dataType: "json",
+        beforeSend: function () {
+            $('#loader_inventario_valorizado').show()
+        },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
             console.log(e.responseText);
@@ -250,7 +200,111 @@ function fetch_inventario_valorizado() {
             }
         },
         complete: function () {
-            // if(!isError) $('#loader_cxp').hide();
+            if(!isError) $('#loader_inventario_valorizado').hide();
+        }
+    });
+}
+
+function fetch_clientes_naturales() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=buscar_clientes_naturales",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_clientes_n').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { cant_naturales } = data;
+                $('#clientes_n').text(cant_naturales);
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_clientes_n').hide();
+        }
+    });
+}
+
+function fetch_clientes_juridicos() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=buscar_clientes_juridicos",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_clientes_j').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { cant_juridico } = data;
+                $('#clientes_j').text(cant_juridico);
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_clientes_j').hide();
+        }
+    });
+}
+
+function fetch_tasa_dolar() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=buscar_tasa_dolar",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_tasa_dolar').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { tasa } = data;
+                $('#tasa_dolar').html(tasa + '<sup style="font-size: 16px">$</sup>');
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_tasa_dolar').hide();
+        }
+    });
+}
+
+function fetch_devoluciones_sin_motivo() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=buscar_devoluciones_sin_motivo",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_devoluciones_sin_motivo').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { devoluciones_sin_motivo } = data;
+                $('#devoluciones_sin_motivo').text(devoluciones_sin_motivo);
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_devoluciones_sin_motivo').hide();
         }
     });
 }

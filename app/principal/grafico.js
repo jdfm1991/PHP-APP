@@ -1,6 +1,6 @@
 
 
-function graficar(labels, values, highscore = 100, offset = 5, symbol = '', id='', tipo_grafica = 'line') {
+function graficar(labels, values, highscore = 100, offset = 5, symbol = '', $id, tipo_grafica = 'line') {
 
     console.log([...values])
     const ticksStyle = {
@@ -10,18 +10,26 @@ function graficar(labels, values, highscore = 100, offset = 5, symbol = '', id='
     const mode = 'index';
     const intersect = true;
 
-    const chart = new Chart(id, {
+    const chart = new Chart($id, {
         type: tipo_grafica,
         data: {
             labels: labels,
-            datasets: [{
-                data: [...values],
-                backgroundColor: 'transparent',
-                borderColor: '#007bff',
-                pointBorderColor: '#007bff',
-                pointBackgroundColor: '#007bff',
-                fill: false
-            }]
+            datasets: [
+                {
+                    data                : [...values],
+                    backgroundColor     : 'transparent',
+                    borderColor         : '#007bff',
+                    pointBorderColor    : '#007bff',
+                    pointBackgroundColor: '#007bff',
+                    fill                : false
+                }, {
+                    data                : [...values],
+                    backgroundColor     : 'tansparent',
+                    borderColor         : '#ced4da',
+                    pointBorderColor    : '#ced4da',
+                    pointBackgroundColor: '#ced4da',
+                    fill                : false
+                }]
         },
         options: {
             maintainAspectRatio: false,
