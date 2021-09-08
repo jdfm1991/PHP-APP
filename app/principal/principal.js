@@ -138,25 +138,31 @@ function cargar_grafica_ventasXmesdivisas() {
             if (!jQuery.isEmptyObject(data)) {
                 let { anio, cantidad_meses_evaluar, datos, valor_mas_alto } = data;
 
-                let arr_temp =[];
-                for (let i=1;i<=cantidad_meses_evaluar;i++) {
-                    arr_temp.push({num_mes:i, mes:'', valor:0});
-                }
-                console.log(arr_temp);
+                $('#title_ventas').text('del año ' + anio);
 
-                /*let labels, values;
+                let labels=[], values=[];
                 if(!jQuery.isEmptyObject(datos)) {
                     //titulos de las barras
-                    labels = datos.map( val => { return val.mes; });
+                    labels = datos[0].ventas_ano_actual.map( val => { return val.mes; });
+
+                    //acumulado de ventas
+                    $('#acum_ventas_anio_actual').text(`$ ${
+                        sum(datos[0].ventas_ano_actual.map( val => {return parseFloat(val.valor);}))
+                            .format_money(2, 3, '.', ',')}`
+                    );
+
+                    //simbolizacion ventas desde mes pasado
+                    const porcentaje = incremento_porcentual_ventas(datos[0].ventas_ano_actual);
+                    console.log(porcentaje)
+                    $('.incremento_ventas').removeClass('text-success').addClass((porcentaje>=0)?'text-success':'text-danger')
+                    $('.incremento_ventas').html(`<i class="fas fa-arrow-${(porcentaje>=0)?'up':'dowm'}"></i> ${porcentaje.format_money(2, 3, '.', ',')} %`);
 
                     //valores de las barras
-                    values = datos.map( val => { return parseInt(val.valor); });
-                } else {
-                    labels = [];
-                    values = [];
+                    values[0] = get_values(datos[0].ventas_ano_actual, cantidad_meses_evaluar);
+                    values[1] = get_values(datos[1].ventas_ano_anterior, cantidad_meses_evaluar);
                 }
 
-                graficar(labels, values, (parseInt(valor_mas_alto) * 1.05), 5, '$', $('#sales-chart'), 'line');*/
+                graficar(labels, values, (parseInt(valor_mas_alto) * 1.05), 1000, '$', $('#sales-chart'), 'line');
             } else {
                 $('#sales-chart').html('<div class="alert alert-warning">No existe datos para el grafico. </div>');
             }

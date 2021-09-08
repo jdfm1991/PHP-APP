@@ -2,11 +2,7 @@
 
 function graficar(labels, values, highscore = 100, offset = 5, symbol = '', $id, tipo_grafica = 'line') {
 
-    console.log([...values])
-    const ticksStyle = {
-        fontColor: '#495057',
-        fontStyle: 'bold'
-    };
+    const ticksStyle = { fontColor: '#495057', fontStyle: 'bold' };
     const mode = 'index';
     const intersect = true;
 
@@ -16,14 +12,14 @@ function graficar(labels, values, highscore = 100, offset = 5, symbol = '', $id,
             labels: labels,
             datasets: [
                 {
-                    data                : [...values],
+                    data                : [...values[0]],
                     backgroundColor     : 'transparent',
                     borderColor         : '#007bff',
                     pointBorderColor    : '#007bff',
                     pointBackgroundColor: '#007bff',
                     fill                : false
                 }, {
-                    data                : [...values],
+                    data                : [...values[1]],
                     backgroundColor     : 'tansparent',
                     borderColor         : '#ced4da',
                     pointBorderColor    : '#ced4da',
@@ -63,7 +59,7 @@ function graficar(labels, values, highscore = 100, offset = 5, symbol = '', $id,
                                 value /= 1000
                                 value += 'k'
                             }*/
-                            return '$' + value
+                            return '$' + value.format_money(2, 3, '.', ',');
                         }
                     }, ticksStyle)
                 }],
@@ -78,6 +74,22 @@ function graficar(labels, values, highscore = 100, offset = 5, symbol = '', $id,
         }
     });
 
+}
+
+function get_values(data, cantidad_meses_evaluar) {
+    let values_ventas = [];
+
+    //array inicializado en 0 en base a la cantidad de meses a evaluar
+    for (let i=1;i<cantidad_meses_evaluar;i++)
+        values_ventas.push(parseFloat(0.0).toString());
+
+    //llenamos el array con la data necesaria para ser procesada en el reporte.
+    data.forEach( value => {
+        const { num_mes, valor } = value;
+        values_ventas[parseInt(num_mes-1)] = valor;
+    });
+
+    return values_ventas;
 }
 
 

@@ -208,7 +208,7 @@ require_once("../config/conexion.php");
 
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Ventas</h3>
+                                    <h3 class="card-title">Ventas <span id="title_ventas"></span></h3>
                                     <a href="javascript:void(0);">Ver Reporte</a>
                                 </div>
                             </div>
@@ -216,23 +216,23 @@ require_once("../config/conexion.php");
                                 <div class="d-flex">
 
                                     <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">$ 0.00</span>
+                                        <span id="acum_ventas_anio_actual" class="text-bold text-lg">$ 0.00</span>
                                         <span>Ventas a lo largo del tiempo</span>
                                     </p>
-                                    <!--<p class="ml-auto d-flex flex-column text-right">
-                                        <span class="text-success">
-                                            <i class="fas fa-arrow-up"></i> 33.1%
+                                    <p class="ml-auto d-flex flex-column text-right">
+                                        <span class="text-success incremento_ventas">
+                                            <i class="fas fa-arrow-up"></i> 0.0 %
                                         </span>
                                         <span class="text-muted">Desde el mes pasado</span>
-                                    </p>-->
+                                    </p>
                                 </div>
                                 <div class="position-relative mb-4">
                                     <canvas id="sales-chart" height="200"></canvas>
                                 </div>
 
                                 <div class="d-flex flex-row justify-content-end">
-                                    <span class="mr-2"><i class="fas fa-square text-primary"></i> Este Año</span>
-                                    <span><i class="fas fa-square text-gray"></i> El año pasado</span>
+                                    <span class="mr-2"><i class="fas fa-square text-primary"></i> Ventas Este Año</span>
+                                    <span><i class="fas fa-square text-gray"></i> Ventas del Año Pasado</span>
                                 </div>
 
                             </div>
@@ -275,6 +275,7 @@ require_once("../config/conexion.php");
 <!-- ChartJS -->
 <script src="<?php echo URL_LIBRARY; ?>plugins/chart.js/Chart.min.js"></script>
 <!-- Custom -->
+<script type="text/javascript" src="<?php echo URL_HELPERS_JS ?>Number.js"></script>
 <script type="text/javascript" src="principal/grafico.js"></script>
 <script type="text/javascript" src="principal/principal.js"></script>
 </body>
