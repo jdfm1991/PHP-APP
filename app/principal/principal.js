@@ -146,14 +146,13 @@ function cargar_grafica_ventasXmesdivisas() {
                     labels = datos[0].ventas_ano_actual.map( val => { return val.mes; });
 
                     //acumulado de ventas
-                    $('#acum_ventas_anio_actual').text(`$ ${
-                        sum(datos[0].ventas_ano_actual.map( val => {return parseFloat(val.valor);}))
-                            .format_money(2, 3, '.', ',')}`
+                    $('#acum_ventas_anio_actual')
+                        .html(`${sum(datos[0].ventas_ano_actual.map( val => {return parseFloat(val.valor);}))
+                            .format_money(2, 3, '.', ',')}</span><sup style="font-size: 18px">$</sup>`
                     );
 
                     //simbolizacion ventas desde mes pasado
                     const porcentaje = incremento_porcentual_ventas(datos[0].ventas_ano_actual);
-                    console.log(porcentaje)
                     $('.incremento_ventas').removeClass('text-success').addClass((porcentaje>=0)?'text-success':'text-danger')
                     $('.incremento_ventas').html(`<i class="fas fa-arrow-${(porcentaje>=0)?'up':'dowm'}"></i> ${porcentaje.format_money(2, 3, '.', ',')} %`);
 

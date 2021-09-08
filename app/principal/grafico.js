@@ -84,9 +84,10 @@ function get_values(data, cantidad_meses_evaluar) {
         values_ventas.push(parseFloat(0.0).toString());
 
     //llenamos el array con la data necesaria para ser procesada en el reporte.
-    data.forEach( value => {
+    data.forEach( (value, index) => {
         const { num_mes, valor } = value;
-        values_ventas[parseInt(num_mes-1)] = valor;
+        if (num_mes <= cantidad_meses_evaluar)
+            values_ventas[parseInt(num_mes-1)] = valor;
     });
 
     return values_ventas;

@@ -248,7 +248,7 @@ require_once("../config/conexion.php");
                             <div class="card-header border-0">
                                 <h3 class="card-title">Valorización de Inventario</h3>
                             </div>
-                            <div class="card-body table-responsive p-0" style="height: 350px;">
+                            <div class="card-body table-responsive p-0" style="height: 360px;">
                                 <table id="inventario_valorizado" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
                                     <thead>
                                     <tr>

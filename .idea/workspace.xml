@@ -19,7 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;cantidad de clientes(naturales/juridicos),&#10;tasa dolar,&#10;devoluciones sin motivo">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/grafico.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/grafico.js" afterDir="false" />
@@ -220,14 +220,7 @@
       <workItem from="1630681517620" duration="13133000" />
       <workItem from="1630930989053" duration="10576000" />
       <workItem from="1631017691190" duration="11641000" />
-      <workItem from="1631103926005" duration="8434000" />
-    </task>
-    <task id="LOCAL-00001" summary="permisos avance">
-      <created>1622562909710</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1622562909710</updated>
+      <workItem from="1631103926005" duration="9644000" />
     </task>
     <task id="LOCAL-00002" summary="permisos avance">
       <created>1622649489129</created>
@@ -565,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631030437563</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes">
+      <created>1631115199778</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1631115199780</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,7 +584,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="sku no vendidos" />
     <MESSAGE value="estandarizacion format_date y format_datetime" />
     <MESSAGE value="estandarizacion titulos y descripcion tabla" />
     <MESSAGE value="Maestro de clientes por Ruta" />
@@ -609,7 +608,8 @@
     <MESSAGE value="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion" />
     <MESSAGE value="clientes:&#10;validar la creacion de clientes para no duplicar" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;cantidad de clientes(naturales/juridicos),&#10;tasa dolar,&#10;devoluciones sin motivo" />
-    <option name="LAST_COMMIT_MESSAGE" value="dashboard:&#10;graficos:&#10;cantidad de clientes(naturales/juridicos),&#10;tasa dolar,&#10;devoluciones sin motivo" />
+    <MESSAGE value="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

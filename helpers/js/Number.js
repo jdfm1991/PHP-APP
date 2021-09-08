@@ -33,9 +33,9 @@ function sum(arr_number) {
 }
 
 function incremento_porcentual_ventas(arr_ventas) {
-    if (arr_ventas.length > 1) {
-        const valor_final = arr_ventas[arr_ventas.length-1].valor;
-        const valor_inicial = arr_ventas[arr_ventas.length-2].valor;
+    if (arr_ventas.length > 2) {
+        const valor_final = arr_ventas[arr_ventas.length-2].valor;
+        const valor_inicial = arr_ventas[arr_ventas.length-3].valor;
         //Incremento porcentual = (Valor final – Valor inicial)/Valor inicial *100
         return (valor_final-valor_inicial)/valor_inicial*100;
     }
