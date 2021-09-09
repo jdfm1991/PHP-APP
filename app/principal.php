@@ -265,6 +265,59 @@ require_once("../config/conexion.php");
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_ventas_por_marca" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <div class="card-header border-0">
+                                <h3 class="card-title">TOP 10 - Ventas por Marca <span id="title_ventas_marca"></span></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0" style="height: 360px;">
+                                <table id="ventas_por_marca" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
+                                    <thead>
+                                    <tr>
+                                        <th><?=Strings::titleFromJson('marca_prod')?></th>
+                                        <th><?=Strings::titleFromJson('valoracion')?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--el contenido llega por ajax-->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_top_clientes" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <div class="card-header border-0">
+                                <h3 class="card-title">TOP 10 Clientes <span id="title_top_clientes">JULIO 2021</span></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0" style="height: 360px;">
+                                <table id="top_clientes" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
+                                    <thead>
+                                    <tr>
+                                        <th><?=Strings::titleFromJson('razon_social')?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--el contenido llega por ajax-->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </div>

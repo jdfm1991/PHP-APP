@@ -178,4 +178,44 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case 'listar_ventas_por_marca':
+
+        $fechaf = date('Y-m-d');
+        $dato = explode("-", $fechaf); //Hasta
+        $aniod = $dato[0]; //año
+        $fechai = $aniod . "-01-01";
+
+        //datos del año en curso
+        $datos_fact = $principal->get_ventas_por_marca_fact($fechai, $fechaf);
+        $datos_nota = $principal->get_ventas_por_marca_nota($fechai, $fechaf);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $output = Array();
+        if (is_array($datos_fact)==true and count($datos_fact)>0
+            and
+            is_array($datos_nota)==true and count($datos_nota)>0)
+        {
+            //primero obtenemos todas las marcas y las inicializamos en cero
+            $marcas = array();
+            foreach (array($datos_fact, $datos_nota) as $datos) {
+                foreach ($datos as $row)
+                    $marcas[$row['marca']] = 0;
+
+            }
+
+            //ahora acumulamos los montod en sus marcas con el objetivo de hacer top 10 marcas mas vendidas
+            foreach (array($datos_fact, $datos_nota) as $datos) {
+                foreach ($datos as $row)
+                    $marcas[$row['marca']] += $row['montod'];
+            }
+            array_multisort($marcas, SORT_DESC); //ordena descendientemente por el monto
+            $marcas = array_slice($marcas, 0, 10); //trunca el array con los primero 10
+
+            $output['anio'] = $aniod;
+            $output['marcas'] = $marcas;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        echo json_encode($output);
+        break;
 }

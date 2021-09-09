@@ -266,7 +266,54 @@ class Principal extends Conectar{
         $sql = $conectar->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function get_ventas_por_marca_fact($fechai, $fechaf){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT marca,
+                       SUM(COALESCE((TotalItem/NULLIF(Tasai,0)) * (CASE WHEN itemfact.TipoFac = 'A' THEN 1 ELSE -1 END), 0)) as montod
+                FROM SAFACT fact
+                    INNER JOIN SAITEMFAC itemfact ON itemfact.NumeroD = fact.NumeroD
+                    INNER JOIN SAPROD prod ON prod.CodProd = itemfact.CodItem
+                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fact.FechaE)) BETWEEN ? AND ? AND itemfact.tipofac IN ('A','B')
+                  AND fact.NumeroD NOT IN (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac = 'A' AND x.NumeroR IS NOT NULL AND CAST(X.Monto AS BIGINT) = CAST((SELECT Z.Monto FROM SAFACT AS Z WHERE Z.NumeroD = x.NumeroR AND Z.TipoFac = 'B') AS BIGINT))
+                GROUP BY marca
+                ORDER BY montod DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $fechai);
+        $sql->bindValue(2, $fechaf);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_ventas_por_marca_nota($fechai, $fechaf){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT marca, SUM(COALESCE(itemnota.total * (CASE WHEN itemnota.TipoFac = 'C' THEN 1 ELSE -1 END), 0)) AS montod
+                FROM SANOTA nota
+                    INNER JOIN SAITEMNOTA itemnota ON itemnota.numerod = nota.numerod
+                    INNER JOIN SAPROD prod ON prod.CodProd = itemnota.coditem
+                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, itemnota.FechaE)) BETWEEN ? AND ? AND nota.tipofac IN ('C','D') AND numerof = '0'
+                GROUP BY marca
+                ORDER BY montod DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $fechai);
+        $sql->bindValue(2, $fechaf);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

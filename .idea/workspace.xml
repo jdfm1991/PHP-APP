@@ -22,9 +22,9 @@
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal/grafico.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/grafico.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/js/Number.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/js/Number.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,14 +220,8 @@
       <workItem from="1630681517620" duration="13133000" />
       <workItem from="1630930989053" duration="10576000" />
       <workItem from="1631017691190" duration="11641000" />
-      <workItem from="1631103926005" duration="9644000" />
-    </task>
-    <task id="LOCAL-00002" summary="permisos avance">
-      <created>1622649489129</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1622649489129</updated>
+      <workItem from="1631103926005" duration="10197000" />
+      <workItem from="1631190013284" duration="12954000" />
     </task>
     <task id="LOCAL-00003" summary="permisos culminacion tanto por rol como por usuario">
       <created>1622737711537</created>
@@ -565,7 +559,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631115199780</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes">
+      <created>1631116438496</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1631116438497</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

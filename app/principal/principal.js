@@ -11,6 +11,7 @@ function init() {
     fetch_clientes_juridicos();
     fetch_tasa_dolar();
     fetch_devoluciones_sin_motivo();
+    fetch_top_marcas();
 }
 
 function fetch_pordespachar() {
@@ -310,6 +311,46 @@ function fetch_devoluciones_sin_motivo() {
         },
         complete: function () {
             if(!isError) $('#loader_devoluciones_sin_motivo').hide();
+        }
+    });
+}
+
+function fetch_top_marcas() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=listar_ventas_por_marca",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_ventas_por_marca').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { anio, marcas } = data;
+
+                $('#title_ventas_marca').text('del año ' + anio);
+
+                $.each(marcas, function (idx, opt) {
+                    $('#ventas_por_marca')
+                        .append(
+                            '<tr>' +
+                            '<td class="align-middle">' + idx + '</td>' +
+                            '<td class="align-middle">' + opt.format_money(2, 3, '.', ',') + ' $</td>' +
+                            '</tr>'
+                        );
+                });
+            } else {
+                //en caso de consulta vacia, mostramos un mensaje de vacio
+                $('#ventas_por_marca').append('<tr><td colspan="2" align="center">Sin registros para esta Consulta</td></tr>');
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_ventas_por_marca').hide();
         }
     });
 }
