@@ -126,15 +126,15 @@ require_once("../config/conexion.php");
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <!-- Loading (remove the following to stop the loading)-->
-                            <div id="loader_clientes_n" class="overlay dark">
+                            <div id="loader_clientes" class="overlay dark">
                                 <i class="fas fa-3x fa-sync-alt"></i>
                             </div>
 
                             <span class="info-box-icon bg-primary"><i class="far fa-user"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Clientes Naturales</span>
-                                <span id="clientes_n" class="info-box-number">0</span>
+                                <span class="info-box-text  text-center">Naturales / Jurídicos</span>
+                                <span id="clientes" class="info-box-number text-center">0 / 0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -145,15 +145,15 @@ require_once("../config/conexion.php");
                         <div class="info-box">
 
                             <!-- Loading (remove the following to stop the loading)-->
-                            <div id="loader_clientes_j" class="overlay dark">
+                            <div id="loader_total_ventas_mes_encurso" class="overlay dark">
                                 <i class="fas fa-3x fa-sync-alt"></i>
                             </div>
 
-                            <span class="info-box-icon bg-primary"><i class="fa fa-user-tie"></i></span>
+                            <span class="info-box-icon bg-primary"><i class="fa fa-money-check-alt"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Clientes Jurídicos</span>
-                                <span id="clientes_j" class="info-box-number">0</span>
+                                <span class="info-box-text">Total Ventas mes <span id="ventas_mes_text"></span></span>
+                                <span id="ventas_mes_encurso" class="info-box-number">0</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -167,7 +167,7 @@ require_once("../config/conexion.php");
                                 <i class="fas fa-3x fa-sync-alt"></i>
                             </div>
 
-                            <span class="info-box-icon bg-primary"><i class="far fa-money-bill-alt"></i></span>
+                            <span class="info-box-icon bg-primary"><i class="fa fa-hand-holding-usd"></i></span>
 
                             <div class="info-box-content inner">
                                 <span class="info-box-text">Tasa dolar</span>

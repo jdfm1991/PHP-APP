@@ -7,8 +7,8 @@ function init() {
     fetch_cxp();
     cargar_grafica_ventasXmesdivisas();
     fetch_inventario_valorizado();
-    fetch_clientes_naturales();
-    fetch_clientes_juridicos();
+    fetch_clientes();
+    fetch_total_ventas_mes_encurso();
     fetch_tasa_dolar();
     fetch_devoluciones_sin_motivo();
     fetch_top_marcas();
@@ -212,15 +212,15 @@ function fetch_inventario_valorizado() {
     });
 }
 
-function fetch_clientes_naturales() {
+function fetch_clientes() {
     let isError = false;
     $.ajax({
         cache: true,
-        url: "principal/principal_controlador.php?op=buscar_clientes_naturales",
+        url: "principal/principal_controlador.php?op=buscar_clientes",
         method: "get",
         dataType: "json",
         beforeSend: function () {
-            $('#loader_clientes_n').show()
+            $('#loader_clientes').show()
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
@@ -228,25 +228,25 @@ function fetch_clientes_naturales() {
         },
         success: function (data) {
             if(!jQuery.isEmptyObject(data)){
-                let { cant_naturales } = data;
-                $('#clientes_n').text(cant_naturales);
+                let { cant_naturales, cant_juridico } = data;
+                $('#clientes').text(cant_naturales + ' / ' + cant_juridico);
             }
         },
         complete: function () {
-            if(!isError) $('#loader_clientes_n').hide();
+            if(!isError) $('#loader_clientes').hide();
         }
     });
 }
 
-function fetch_clientes_juridicos() {
+function fetch_total_ventas_mes_encurso() {
     let isError = false;
     $.ajax({
         cache: true,
-        url: "principal/principal_controlador.php?op=buscar_clientes_juridicos",
+        url: "principal/principal_controlador.php?op=buscar_total_ventas_mes_encurso",
         method: "get",
         dataType: "json",
         beforeSend: function () {
-            $('#loader_clientes_j').show()
+            $('#loader_total_ventas_mes_encurso').show()
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
@@ -254,12 +254,13 @@ function fetch_clientes_juridicos() {
         },
         success: function (data) {
             if(!jQuery.isEmptyObject(data)){
-                let { cant_juridico } = data;
-                $('#clientes_j').text(cant_juridico);
+                let { total, fecha } = data;
+                $('#ventas_mes_encurso').html(total + '<sup style="font-size: 16px">$</sup>');
+                $('#ventas_mes_text').text(fecha);
             }
         },
         complete: function () {
-            if(!isError) $('#loader_clientes_j').hide();
+            if(!isError) $('#loader_total_ventas_mes_encurso').hide();
         }
     });
 }
@@ -392,32 +393,6 @@ function fetch_top_clientes() {
         },
         complete: function () {
             if(!isError) $('#loader_top_clientes').hide();
-        }
-    });
-}
-
-function fetch_total_ventas_mes_encurso() {
-    let isError = false;
-    $.ajax({
-        cache: true,
-        url: "principal/principal_controlador.php?op=buscar_total_ventas_mes_encurso",
-        method: "get",
-        dataType: "json",
-        beforeSend: function () {
-            $('#loader_tasa_dolar').show()
-        },
-        error: function (e) {
-            isError = SweetAlertError(e.responseText, "Error!")
-            console.log(e.responseText);
-        },
-        success: function (data) {
-            if(!jQuery.isEmptyObject(data)){
-                let { total } = data;
-                $('#tasa_dolar').html(total + '<sup style="font-size: 16px">$</sup>');
-            }
-        },
-        complete: function () {
-            if(!isError) $('#loader_tasa_dolar').hide();
         }
     });
 }

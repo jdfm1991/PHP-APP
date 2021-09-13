@@ -143,15 +143,12 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "buscar_clientes_naturales":
+    case "buscar_clientes":
 
+        #tipo 1 = naturales
+        #tipo 0 = juridicos
         $output["cant_naturales"] = Strings::rdecimal(count($principal->get_clientes_por_tipo(1)),0);
-        echo json_encode($output);
-        break;
-
-    case "buscar_clientes_juridicos":
-
-        $output["cant_juridico"] = Strings::rdecimal(count($principal->get_clientes_por_tipo(0)),0);
+        $output["cant_juridico"]  = Strings::rdecimal(count($principal->get_clientes_por_tipo(0)),0);
         echo json_encode($output);
         break;
 
@@ -298,6 +295,7 @@ switch ($_GET["op"]) {
         $mesd = $dato[1]; //mes
         $fechai = $aniod . "-" .$mesd. "-01";
 
+        $output['fecha'] = ucwords(strtolower(Dates::month_name($mesd)));
         $output["total"] = Strings::rdecimal($principal->get_total_ventas($fechai, $fechaf)[0]['montod'],2);
         echo json_encode($output);
         break;
