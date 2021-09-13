@@ -25,6 +25,7 @@
       <change beforePath="$PROJECT_DIR$/app/principal/principal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,6 +223,7 @@
       <workItem from="1631017691190" duration="11641000" />
       <workItem from="1631103926005" duration="10197000" />
       <workItem from="1631190013284" duration="12954000" />
+      <workItem from="1631535666106" duration="10344000" />
     </task>
     <task id="LOCAL-00003" summary="permisos culminacion tanto por rol como por usuario">
       <created>1622737711537</created>

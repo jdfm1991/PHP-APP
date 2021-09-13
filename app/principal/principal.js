@@ -12,6 +12,7 @@ function init() {
     fetch_tasa_dolar();
     fetch_devoluciones_sin_motivo();
     fetch_top_marcas();
+    fetch_top_clientes();
 }
 
 function fetch_pordespachar() {
@@ -280,7 +281,7 @@ function fetch_tasa_dolar() {
         success: function (data) {
             if(!jQuery.isEmptyObject(data)){
                 let { tasa } = data;
-                $('#tasa_dolar').html(tasa + '<sup style="font-size: 16px">$</sup>');
+                $('#tasa_dolar').html(tasa + '<sup style="font-size: 16px">BS</sup>');
             }
         },
         complete: function () {
@@ -331,9 +332,9 @@ function fetch_top_marcas() {
         },
         success: function (data) {
             if(!jQuery.isEmptyObject(data)){
-                let { anio, marcas } = data;
+                let { fecha, marcas } = data;
 
-                $('#title_ventas_marca').text('del año ' + anio);
+                $('#title_ventas_marca').text(fecha);
 
                 $.each(marcas, function (idx, opt) {
                     $('#ventas_por_marca')
@@ -351,6 +352,72 @@ function fetch_top_marcas() {
         },
         complete: function () {
             if(!isError) $('#loader_ventas_por_marca').hide();
+        }
+    });
+}
+
+function fetch_top_clientes() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=listar_ventas_por_clientes",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_top_clientes').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { fecha, clientes } = data;
+
+                $('#title_top_clientes').text(fecha);
+
+                $.each(clientes, function (idx, opt) {
+                    $('#top_clientes')
+                        .append(
+                            '<tr>' +
+                            '<td class="text-left">' + opt.descrip + '</td>' +
+                            '<td class="align-middle">' + opt.montod.format_money(2, 3, '.', ',') + ' $</td>' +
+                            '</tr>'
+                        );
+                });
+            } else {
+                //en caso de consulta vacia, mostramos un mensaje de vacio
+                $('#top_clientes').append('<tr><td colspan="2" align="center">Sin registros para esta Consulta</td></tr>');
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_top_clientes').hide();
+        }
+    });
+}
+
+function fetch_total_ventas_mes_encurso() {
+    let isError = false;
+    $.ajax({
+        cache: true,
+        url: "principal/principal_controlador.php?op=buscar_total_ventas_mes_encurso",
+        method: "get",
+        dataType: "json",
+        beforeSend: function () {
+            $('#loader_tasa_dolar').show()
+        },
+        error: function (e) {
+            isError = SweetAlertError(e.responseText, "Error!")
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)){
+                let { total } = data;
+                $('#tasa_dolar').html(total + '<sup style="font-size: 16px">$</sup>');
+            }
+        },
+        complete: function () {
+            if(!isError) $('#loader_tasa_dolar').hide();
         }
     });
 }

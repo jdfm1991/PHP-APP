@@ -300,7 +300,8 @@ class Principal extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT marca, SUM(COALESCE(itemnota.total * (CASE WHEN itemnota.TipoFac = 'C' THEN 1 ELSE -1 END), 0)) AS montod
+        $sql = "SELECT marca,
+                       SUM(COALESCE(itemnota.total * (CASE WHEN itemnota.TipoFac = 'C' THEN 1 ELSE -1 END), 0)) AS montod
                 FROM SANOTA nota
                     INNER JOIN SAITEMNOTA itemnota ON itemnota.numerod = nota.numerod
                     INNER JOIN SAPROD prod ON prod.CodProd = itemnota.coditem
@@ -312,6 +313,90 @@ class Principal extends Conectar{
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $fechai);
         $sql->bindValue(2, $fechaf);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_ventas_clientes_fact($fechai, $fechaf){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT clie.codclie, clie.Descrip,
+                       SUM(COALESCE((TotalItem/NULLIF(Tasai,0)) * (CASE WHEN itemfact.TipoFac = 'A' THEN 1 ELSE -1 END), 0)) as montod
+                FROM SAFACT fact
+                         INNER JOIN SAITEMFAC itemfact ON itemfact.NumeroD = fact.NumeroD
+                         INNER JOIN SAPROD prod ON prod.CodProd = itemfact.CodItem
+                         INNER JOIN SACLIE clie ON clie.CodClie = fact.codclie
+                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fact.FechaE)) BETWEEN ? AND ? AND itemfact.tipofac IN ('A','B')
+                  AND fact.NumeroD NOT IN (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac = 'A' AND x.NumeroR IS NOT NULL AND CAST(X.Monto AS BIGINT) = CAST((SELECT Z.Monto FROM SAFACT AS Z WHERE Z.NumeroD = x.NumeroR AND Z.TipoFac = 'B') AS BIGINT))
+                GROUP BY clie.codclie, clie.Descrip
+                ORDER BY montod DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $fechai);
+        $sql->bindValue(2, $fechaf);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_ventas_cliente_nota($fechai, $fechaf){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT clie.codclie, clie.Descrip,
+                       SUM(COALESCE(itemnota.total * (CASE WHEN itemnota.TipoFac = 'C' THEN 1 ELSE -1 END), 0)) AS montod
+                FROM SANOTA nota
+                         INNER JOIN SAITEMNOTA itemnota ON itemnota.numerod = nota.numerod
+                         INNER JOIN SAPROD prod ON prod.CodProd = itemnota.coditem
+                         INNER JOIN SACLIE clie ON clie.CodClie = nota.codclie
+                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, itemnota.FechaE)) BETWEEN ? AND ? AND nota.tipofac IN ('C','D') AND numerof = '0'
+                GROUP BY clie.codclie, clie.Descrip
+                ORDER BY montod DESC";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $fechai);
+        $sql->bindValue(2, $fechaf);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_total_ventas($fechai, $fechaf){
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT SUM(montod) as montod FROM
+                (
+                    SELECT SUM(COALESCE(itemnota.total * (CASE WHEN itemnota.TipoFac = 'C' THEN 1 ELSE -1 END), 0)) AS montod
+                    FROM SANOTA nota
+                             INNER JOIN SAITEMNOTA itemnota ON itemnota.numerod = nota.numerod
+                             INNER JOIN SAPROD prod ON prod.CodProd = itemnota.coditem
+                    WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, itemnota.FechaE)) BETWEEN ? AND ? AND nota.tipofac IN ('C','D') AND numerof = '0'
+                    UNION
+                    SELECT SUM(COALESCE((TotalItem/NULLIF(Tasai,0)) * (CASE WHEN itemfact.TipoFac = 'A' THEN 1 ELSE -1 END), 0)) as montod
+                    FROM SAFACT fact
+                             INNER JOIN SAITEMFAC itemfact ON itemfact.NumeroD = fact.NumeroD
+                             INNER JOIN SAPROD prod ON prod.CodProd = itemfact.CodItem
+                    WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fact.FechaE)) BETWEEN ? AND ? AND itemfact.tipofac IN ('A','B')
+                      AND fact.NumeroD NOT IN (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac = 'A' AND x.NumeroR IS NOT NULL AND CAST(X.Monto AS BIGINT) = CAST((SELECT Z.Monto FROM SAFACT AS Z WHERE Z.NumeroD = x.NumeroR AND Z.TipoFac = 'B') AS BIGINT))
+                ) AS ventas";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $fechai);
+        $sql->bindValue(2, $fechaf);
+        $sql->bindValue(3, $fechai);
+        $sql->bindValue(4, $fechaf);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }

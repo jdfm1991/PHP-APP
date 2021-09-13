@@ -300,13 +300,14 @@ require_once("../config/conexion.php");
                             </div>
 
                             <div class="card-header border-0">
-                                <h3 class="card-title">TOP 10 Clientes <span id="title_top_clientes">JULIO 2021</span></h3>
+                                <h3 class="card-title">TOP 10 - Clientes <span id="title_top_clientes"></span></h3>
                             </div>
                             <div class="card-body table-responsive p-0" style="height: 360px;">
                                 <table id="top_clientes" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
                                     <thead>
                                     <tr>
                                         <th><?=Strings::titleFromJson('razon_social')?></th>
+                                        <th><?=Strings::titleFromJson('valoracion')?></th>
                                     </tr>
                                     </thead>
                                     <tbody>

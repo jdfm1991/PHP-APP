@@ -183,7 +183,8 @@ switch ($_GET["op"]) {
         $fechaf = date('Y-m-d');
         $dato = explode("-", $fechaf); //Hasta
         $aniod = $dato[0]; //año
-        $fechai = $aniod . "-01-01";
+        $mesd = $dato[1]; //mes
+        $fechai = $aniod . "-" .$mesd. "-01";
 
         //datos del año en curso
         $datos_fact = $principal->get_ventas_por_marca_fact($fechai, $fechaf);
@@ -211,11 +212,93 @@ switch ($_GET["op"]) {
             array_multisort($marcas, SORT_DESC); //ordena descendientemente por el monto
             $marcas = array_slice($marcas, 0, 10); //trunca el array con los primero 10
 
-            $output['anio'] = $aniod;
+            $output['fecha'] = Dates::month_name($mesd)." ".$aniod;
             $output['marcas'] = $marcas;
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        echo json_encode($output);
+        break;
+
+    case 'listar_ventas_por_clientes':
+
+        $fechaf = date('Y-m-d');
+        $dato = explode("-", $fechaf); //Hasta
+        $aniod = $dato[0]; //año
+        $mesd = $dato[1]; //mes
+        $fechai = $aniod . "-" .$mesd. "-01";
+
+        //datos del año en curso
+        $datos_fact = $principal->get_ventas_clientes_fact($fechai, $fechaf);
+        $datos_nota = $principal->get_ventas_cliente_nota($fechai, $fechaf);
+
+        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $output = Array();
+        if (is_array($datos_fact)==true and count($datos_fact)>0
+            and
+            is_array($datos_nota)==true and count($datos_nota)>0)
+        {
+            //primero obtenemos todas las marcas y las inicializamos en cero
+            $clientes = $temp = array();
+            foreach (array($datos_fact, $datos_nota) as $datos) {
+                foreach ($datos as $row)
+                    $temp[$row['codclie']] = 0;
+            }
+
+            //ahora acumulamos los montod en sus marcas con el objetivo de hacer top 10 marcas mas vendidas
+            foreach (array($datos_fact, $datos_nota) as $datos) {
+                foreach ($datos as $row)
+                    $temp[$row['codclie']] += $row['montod'];
+            }
+            array_multisort($temp, SORT_DESC); //ordena descendientemente por el monto
+            $temp = array_slice($temp, 0, 10); //trunca el array con los primero 10
+
+            # hasta este punto el array $temp posee un array asociativo array(codclie => montod), como nos falta obtener la descripcion
+            # se reprocesara la data para obtenerlo en el orden del top 10
+
+            # recorremos todo el top10
+            foreach ($temp as $codclie => $montod) {
+                #creamos una variable de bandera(flag) que funcionara para frenar
+                #la iteracion de los 2 foreach a continuacion cuando coincida los codclie
+                $flag_break = false;
+                foreach (array($datos_fact, $datos_nota) as $datos) {
+                    foreach ($datos as $row) {
+                        # condicion para optener el registro
+                        if ($row['codclie'] == $codclie) {
+                            #en caso que lo encuentre se situa en true
+                            $flag_break = true;
+
+                            # vamos creando el nuevo array con la data de $temp
+                            # conservando el orden del top10
+                            $clientes[$codclie] = array(
+                                'descrip' => $row['Descrip'],
+                                'montod'  => $montod,
+                            );
+                        }
+                        if ($flag_break) break;
+                    }
+                    if ($flag_break) break;
+                }
+            }
+
+
+            $output['fecha'] = Dates::month_name($mesd)." ".$aniod;
+            $output['clientes'] = $clientes;
+        }
+
+        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        echo json_encode($output);
+        break;
+
+    case "buscar_total_ventas_mes_encurso":
+
+        $fechaf = date('Y-m-d');
+        $dato = explode("-", $fechaf); //Hasta
+        $aniod = $dato[0]; //año
+        $mesd = $dato[1]; //mes
+        $fechai = $aniod . "-" .$mesd. "-01";
+
+        $output["total"] = Strings::rdecimal($principal->get_total_ventas($fechai, $fechaf)[0]['montod'],2);
         echo json_encode($output);
         break;
 }
