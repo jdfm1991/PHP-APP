@@ -90,11 +90,13 @@ class Principal extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT YEAR(CAST(FechaE AS DATETIME)) anio, MONTH(CAST(FechaE AS DATETIME)) mes,
-                       SUM((TGravable/Tasa) * (CASE WHEN TipoFac = 'A' THEN 1 ELSE -1 END)) AS total
-                FROM SAFACT
-                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND TipoFac in ('A','B')
-                GROUP BY YEAR(CAST(FechaE AS DATETIME)), MONTH(CAST(FechaE AS DATETIME))
+        $sql = "SELECT YEAR(CAST(itemfact.FechaE AS DATETIME)) anio, MONTH(CAST(itemfact.FechaE AS DATETIME)) mes,
+                       SUM(COALESCE((TotalItem/NULLIF(Tasai,0)) * (CASE WHEN itemfact.TipoFac = 'A' THEN 1 ELSE -1 END), 0)) as total
+                FROM SAFACT fact
+                         INNER JOIN SAITEMFAC itemfact ON itemfact.NumeroD = fact.NumeroD
+                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fact.FechaE)) BETWEEN ? AND ? AND itemfact.tipofac IN ('A','B')
+                  AND fact.NumeroD NOT IN (SELECT X.NumeroD FROM SAFACT AS X WHERE X.TipoFac = 'A' AND x.NumeroR IS NOT NULL AND CAST(X.Monto AS BIGINT) = CAST((SELECT Z.Monto FROM SAFACT AS Z WHERE Z.NumeroD = x.NumeroR AND Z.TipoFac = 'B') AS BIGINT))
+                GROUP BY YEAR(CAST(itemfact.FechaE AS DATETIME)), MONTH(CAST(itemfact.FechaE AS DATETIME))
                 ORDER BY mes ASC";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
@@ -113,11 +115,12 @@ class Principal extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT YEAR(CAST(FechaE AS DATETIME)) anio, MONTH(CAST(FechaE AS DATETIME)) mes,
-                       SUM(total * (CASE WHEN TipoFac = 'C' THEN 1 ELSE -1 END)) as total
-                FROM SANOTA
-                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND tipofac in ('C','D')
-                GROUP BY YEAR(CAST(FechaE AS DATETIME)), MONTH(CAST(FechaE AS DATETIME))
+        $sql = "SELECT YEAR(CAST(itemnota.FechaE AS DATETIME)) anio, MONTH(CAST(itemnota.FechaE AS DATETIME)) mes,
+                       SUM(itemnota.total * (CASE WHEN itemnota.TipoFac = 'C' THEN 1 ELSE -1 END)) as total
+                FROM SANOTA nota
+                    INNER JOIN SAITEMNOTA itemnota ON itemnota.numerod = nota.numerod
+                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, itemnota.FechaE)) BETWEEN ? AND ? AND nota.tipofac in ('C','D') AND numerof = '0'
+                GROUP BY YEAR(CAST(itemnota.FechaE AS DATETIME)), MONTH(CAST(itemnota.FechaE AS DATETIME))
                 ORDER BY mes ASC";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

@@ -55,47 +55,74 @@ switch ($_GET["op"]) {
         $fechai_ant = ($dato[0]-1)."-01-01";
 
         //datos del año anterior
+        $ventas_fact_anterior = $principal->get_ventas_por_mes_fact($fechai_ant, $fechaf_ant);
         $ventas_nt_anterior = $principal->get_ventas_por_mes_nota($fechai_ant, $fechaf_ant);
         //datos del año en curso
+        $ventas_fact = $principal->get_ventas_por_mes_fact($fechai, $fechaf);
         $ventas_nt = $principal->get_ventas_por_mes_nota($fechai, $fechaf);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $output = Array();
-        if (is_array($ventas_nt)==true and count($ventas_nt)>0)
+        if ((is_array($ventas_fact)==true and count($ventas_fact)>0) and
+            (is_array($ventas_nt)==true and count($ventas_nt)>0))
         {
             $valor_mas_alto = 0;
             $cant_meses = $dato[1];
-            $output['anio'] = $ventas_nt[0]['anio'];
+            $output['anio'] = $aniod;
+
+            //primero obtenemos todas los meses y las inicializamos en cero en una variable temporal
+            $temp = array();
+            foreach (array($ventas_fact, $ventas_nt) as $datos) {
+                foreach ($datos as $row)
+                    $temp[$row['mes']] = 0;
+            }
+
+            $ventas_actual = $temp;
+            $ventas_anterior = $temp;
+
+            //ahora acumulamos los total ventas de año actual en sus meses
+            foreach (array($ventas_fact, $ventas_nt) as $datos) {
+                foreach ($datos as $row)
+                    $ventas_actual[$row['mes']] += $row['total'];
+            }
+
+
+            //asi mismo, acumulamos los total ventas del año anterior en sus meses
+            foreach (array($ventas_fact_anterior, $ventas_nt_anterior) as $datos) {
+                foreach ($datos as $row)
+                    $ventas_anterior[$row['mes']] += $row['total'];
+            }
+
 
             $data=array();
-            foreach ($ventas_nt as $row) {
+            foreach ($ventas_actual as $mes => $total) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $sub_array["num_mes"] = intval($row["mes"]);
-                $sub_array["mes"] = Dates::month_name(Strings::addCero($row["mes"]), true);
-                $sub_array["valor"] = number_format($row["total"], 2, ".", "");
+                $sub_array["num_mes"] = intval($mes);
+                $sub_array["mes"] = Dates::month_name(Strings::addCero($mes), true);
+                $sub_array["valor"] = number_format($total, 2, ".", "");
 
                 //aqui obtenemos el valor mas alto
-                if($valor_mas_alto<floatval($row['total'])) {
-                    $valor_mas_alto = floatval($row['total']);
+                if($valor_mas_alto<floatval($total)) {
+                    $valor_mas_alto = floatval($total);
                 }
 
                 $data['ventas_ano_actual'][] = $sub_array;
             }
 
             $data1=array();
-            foreach ($ventas_nt_anterior as $row) {
+            foreach ($ventas_anterior as $mes => $total) {
                 //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $sub_array["num_mes"] = intval($row["mes"]);
-                $sub_array["mes"] = Dates::month_name(Strings::addCero($row["mes"]), true);
-                $sub_array["valor"] = number_format($row["total"], 2, ".", "");
+                $sub_array["num_mes"] = intval($mes);
+                $sub_array["mes"] = Dates::month_name(Strings::addCero($mes), true);
+                $sub_array["valor"] = number_format($total, 2, ".", "");
 
                 //aqui obtenemos el valor mas alto
-                if($valor_mas_alto<floatval($row['total'])) {
-                    $valor_mas_alto = floatval($row['total']);
+                if($valor_mas_alto<floatval($total)) {
+                    $valor_mas_alto = floatval($total);
                 }
 
                 $data1['ventas_ano_anterior'][] = $sub_array;

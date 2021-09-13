@@ -19,12 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;topten de clientes">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;total ventas mes en curso">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal/principal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,14 +220,7 @@
       <workItem from="1631017691190" duration="11641000" />
       <workItem from="1631103926005" duration="10197000" />
       <workItem from="1631190013284" duration="12954000" />
-      <workItem from="1631535666106" duration="11486000" />
-    </task>
-    <task id="LOCAL-00004" summary="Menu lateral dinamico">
-      <created>1623251793997</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1623251793997</updated>
+      <workItem from="1631535666106" duration="15716000" />
     </task>
     <task id="LOCAL-00005" summary="Menu lateral dinamico">
       <created>1623251868272</created>
@@ -567,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631548341186</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="dashboard:&#10;graficos:&#10;total ventas mes en curso">
+      <created>1631549523946</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1631549523946</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -586,7 +584,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="estandarizacion titulos y descripcion tabla" />
     <MESSAGE value="Maestro de clientes por Ruta" />
     <MESSAGE value="Libro de compras" />
     <MESSAGE value="Libro de ventas" />
@@ -611,7 +608,8 @@
     <MESSAGE value="dashboard:&#10;graficos:&#10;cantidad de clientes(naturales/juridicos),&#10;tasa dolar,&#10;devoluciones sin motivo" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;topten de clientes" />
-    <option name="LAST_COMMIT_MESSAGE" value="dashboard:&#10;graficos:&#10;topten de clientes" />
+    <MESSAGE value="dashboard:&#10;graficos:&#10;total ventas mes en curso" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard:&#10;graficos:&#10;total ventas mes en curso" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
