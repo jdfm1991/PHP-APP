@@ -51,4 +51,38 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case 'exists_user':
+
+        $user = $_POST["user"];
+
+        if (!empty($user)) {
+            $resultado = Usuarios::byUserName($user);
+
+            if (is_array($resultado) and count($resultado) > 0)
+            {
+                "El codigo de Seguridad es: <b>12345</b> 
+                <p>Desarrollado Por equipo de IT. </b>Grupo Confisur IT -> The Innovation is our's priority..</p>";
+                //enviar correo
+
+                $output = array(
+                    'status'  => true,
+                    'message' => 'ok'
+                );
+
+            } else {
+                $output = array(
+                    'status'  => false,
+                    'message' => 'El usuario no existe !'
+                );
+            }
+        } else {
+            $output = array(
+                'status'  => false,
+                'message' => 'campo vacios.'
+            );
+        }
+
+        echo json_encode($output);
+        break;
+
 }

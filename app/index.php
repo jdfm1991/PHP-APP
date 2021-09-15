@@ -87,6 +87,9 @@ if (isset($_SESSION['cedula'])) {
 <!-- MODAL LOGIN -->
 <?php include 'auth/modales/login.html' ?>
 
+<!-- MODAL RECUPERAR CONTRASEÑA -->
+<?php include 'auth/modales/recuperar_contrasena.html' ?>
+
 <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
 <div id="preloader"></div>
 
@@ -112,6 +115,7 @@ if (isset($_SESSION['cedula'])) {
 <script src="<?php echo URL_LANDINGPAGE; ?>js/main.js"></script>
 
 <script src="<?php echo URL_APP; ?>auth/auth.js"></script>
+<script src="<?php echo URL_APP; ?>auth/recuperar_contrasena.js"></script>
 <script src="<?php echo URL_HELPERS_JS; ?>SweetAlerts.js" type="text/javascript"></script>
 
 </body>

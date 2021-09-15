@@ -19,10 +19,17 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;total ventas mes en curso">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="dashboard:&#10;graficos:&#10;adecuacion comportamiento de ventas por mes">
+      <change afterPath="$PROJECT_DIR$/app/auth/modales/recuperar_contrasena.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/recuperar_contrasena.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/email.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal/principal_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/auth_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/modales/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/modales/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Email.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Email.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Usuarios.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +43,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -220,14 +227,10 @@
       <workItem from="1631017691190" duration="11641000" />
       <workItem from="1631103926005" duration="10197000" />
       <workItem from="1631190013284" duration="12954000" />
-      <workItem from="1631535666106" duration="15716000" />
-    </task>
-    <task id="LOCAL-00005" summary="Menu lateral dinamico">
-      <created>1623251868272</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1623251868272</updated>
+      <workItem from="1631535666106" duration="16994000" />
+      <workItem from="1631622142763" duration="1794000" />
+      <workItem from="1631627510868" duration="8208000" />
+      <workItem from="1631708900841" duration="11068000" />
     </task>
     <task id="LOCAL-00006" summary="adecuaciones minimas y comenzado de permisologia">
       <created>1623268395257</created>
@@ -565,7 +568,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631549523946</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="dashboard:&#10;graficos:&#10;adecuacion comportamiento de ventas por mes">
+      <created>1631559569586</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1631559569586</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,7 +594,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Maestro de clientes por Ruta" />
     <MESSAGE value="Libro de compras" />
     <MESSAGE value="Libro de ventas" />
     <MESSAGE value="motivo no venta, falta excel y pdf" />
@@ -609,7 +618,8 @@
     <MESSAGE value="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;topten de clientes" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;total ventas mes en curso" />
-    <option name="LAST_COMMIT_MESSAGE" value="dashboard:&#10;graficos:&#10;total ventas mes en curso" />
+    <MESSAGE value="dashboard:&#10;graficos:&#10;adecuacion comportamiento de ventas por mes" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard:&#10;graficos:&#10;adecuacion comportamiento de ventas por mes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

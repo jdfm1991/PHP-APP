@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('America/Caracas');
 include_once "const.php";
+include_once "email.php";
 //if (is_array($_SESSION)) {
     include_once (PATH_HELPERS_PHP . "php/index.php");
     include_once (PATH_HELPERS_PHP . "sql/index.php");
