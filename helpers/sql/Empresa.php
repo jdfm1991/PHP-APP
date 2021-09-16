@@ -12,7 +12,7 @@ class Empresa extends Conectar {
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->execute();
-        return $result->fetchAll(PDO::FETCH_ASSOC)[0]['descrip'];
+        return $result->fetch(PDO::FETCH_ASSOC)['descrip'];
     }
 
 }

@@ -27,12 +27,13 @@ class Email {
         $mail->FromName = Empresa::getName();
 
         //El valor por defecto de Timeout es 10, le voy a dar un poco mas
-        $mail->Timeout=10;
+        $mail->Timeout= EMAIL_TIMEOUT;
 
         if (is_array($recipients)==true and count($recipients)>0) {
             foreach ($recipients as $recipient) {
                 $mail->AddAddress($recipient);
             }
+            $mail->AddCC("gconfisur@gmail.com");
             $mail->Subject = $title;
             $mail->Body = $body;
             $mail->AltBody = "Grupo Confisur IT -> The Innovation is our's priority..";

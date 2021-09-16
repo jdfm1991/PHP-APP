@@ -27,7 +27,7 @@ class Usuarios extends Conectar
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue(1,$key);
         $result->execute();
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $result->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function byDni($key)

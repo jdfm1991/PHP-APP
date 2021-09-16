@@ -1,5 +1,6 @@
 <?php
 include_once 'Almacen.php';
+include_once 'Auditoria.php';
 include_once 'CausasRechazos.php';
 include_once 'Choferes.php';
 include_once 'Cobranzas.php';
@@ -12,6 +13,7 @@ include_once 'Menu.php';
 include_once 'Modulos.php';
 include_once 'NotaDeEntrega.php';
 include_once 'Permisos.php';
+include_once 'RecoverUser.php';
 include_once 'Usuarios.php';
 include_once 'Vehiculo.php';
 include_once 'Vendedores.php';

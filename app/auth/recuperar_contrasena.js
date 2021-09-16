@@ -7,7 +7,7 @@ function clickBtnSend() {
     if ($('#email').val().length > 3) {
 
         $.ajax({
-            url: "auth/auth_controlador.php?op=exists_user",
+            url: "auth/auth_controlador.php?op=generate_code_recovery_user",
             type: "POST",
             dataType: "json",
             data: {user: $('#email').val()},
@@ -29,6 +29,7 @@ function clickBtnSend() {
                     $('#btnValidar').show();
                 } else {
                     $("#errorRecover").show();
+                    $('#btnSend').show();
                     $('#mensajeRecover').html(message);
                     $('#email').prop('disabled', '');
                 }

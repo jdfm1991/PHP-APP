@@ -47,4 +47,18 @@ class Strings {
         return '';
     }
 
+    public static function randomString($length = 10)
+    {
+        $salt = '1234567890';
+        $rand = '';
+        for ($i = 0; $i < $length; $i++) {
+            //Loop hasta que el string aleatorio contenga la longitud ingresada.
+            $num = rand() % strlen($salt);
+            $tmp = substr($salt, $num, 1);
+            $rand = $rand . $tmp;
+        }
+        //Retorno del string aleatorio.
+        return $rand;
+    }
+
 }

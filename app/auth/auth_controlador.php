@@ -51,23 +51,49 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case 'exists_user':
+    case 'generate_code_recovery_user':
 
         $user = $_POST["user"];
 
         if (!empty($user)) {
-            $resultado = Usuarios::byUserName($user);
+            $datosUser = Usuarios::byUserName($user);
 
-            if (is_array($resultado) and count($resultado) > 0)
+            if (is_array($datosUser) and count($datosUser) > 0)
             {
-                "El codigo de Seguridad es: <b>12345</b> 
-                <p>Desarrollado Por equipo de IT. </b>Grupo Confisur IT -> The Innovation is our's priority..</p>";
-                //enviar correo
+                $status_send = $insert_recover = false;
 
-                $output = array(
-                    'status'  => true,
-                    'message' => 'ok'
+                //extrae los codigos de seguridad para evitar que se repitan
+                $except_codes = array_map(function($arr) { return $arr['codigo_recuperacion']; }, RecoverUser::all());
+
+                //genera un codigo de seguridad
+                $securityRandomNumber = Numbers::generateRandomNumber(4, $except_codes);
+
+                //obtinene los datos para enviar el correo
+                $dataEmail = EmailData::DataRecoverPassword($datosUser['email'], $securityRandomNumber);
+
+                //enviar correo
+                $status_send = Email::send_email(
+                    $dataEmail['title'],
+                    $dataEmail['body'],
+                    $dataEmail['recipients'],
                 );
+
+                //almacenar en la bd
+                $insert_recover = (count(RecoverUser::getByUser($datosUser['login']))==0)
+                    ? RecoverUser::insert($datosUser['login'], $securityRandomNumber)
+                    : RecoverUser::update($datosUser['login'], $securityRandomNumber);
+
+                if ($status_send and $insert_recover) {
+                    $output = array(
+                        'status'  => true,
+                        'message' => 'ok'
+                    );
+                } else {
+                    $output = array(
+                        'status'  => false,
+                        'message' => 'Error al Generar el Código de recuperacion !.'
+                    );
+                }
 
             } else {
                 $output = array(
