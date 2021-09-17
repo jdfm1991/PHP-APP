@@ -19,14 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance recuperar contraseña y actualizacion de librerias con composer">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance recuperar contraseña">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/auth/auth_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/auth/modales/recuperar_contrasena.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/modales/recuperar_contrasena.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/auth/recuperar_contrasena.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/recuperar_contrasena.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Email.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Email.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/RecoverUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/RecoverUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Usuarios.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +101,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -242,14 +241,8 @@
       <workItem from="1631804407637" duration="312000" />
       <workItem from="1631805729383" duration="1008000" />
       <workItem from="1631814313621" duration="7809000" />
-      <workItem from="1631881288283" duration="7505000" />
-    </task>
-    <task id="LOCAL-00009" summary="avance reporte pdf y excel kpi">
-      <created>1623439290308</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1623439290308</updated>
+      <workItem from="1631881288283" duration="10355000" />
+      <workItem from="1631902400509" duration="1374000" />
     </task>
     <task id="LOCAL-00010" summary="avance reporte excel kpi">
       <created>1623687045736</created>
@@ -587,7 +580,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631822775648</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="avance recuperar contraseña">
+      <created>1631893482733</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1631893482734</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +606,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Libro de ventas" />
     <MESSAGE value="motivo no venta, falta excel y pdf" />
     <MESSAGE value="motivo no venta" />
     <MESSAGE value="tabladinamica" />
@@ -631,7 +630,8 @@
     <MESSAGE value="dashboard:&#10;graficos:&#10;total ventas mes en curso" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;adecuacion comportamiento de ventas por mes" />
     <MESSAGE value="avance recuperar contraseña y actualizacion de librerias con composer" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance recuperar contraseña y actualizacion de librerias con composer" />
+    <MESSAGE value="avance recuperar contraseña" />
+    <option name="LAST_COMMIT_MESSAGE" value="avance recuperar contraseña" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

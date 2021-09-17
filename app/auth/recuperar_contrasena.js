@@ -4,6 +4,9 @@ $(document).ready(function () {
 });
 
 function limpiarRecover() {
+    $('#btnSend').show();
+    $('#btnValidar').hide();
+    $('#btnGuardar').hide();
     $('#loginModal').modal('hide')
     $("#errorRecover").hide();
     $("#mensajeRecover").html('');
@@ -119,12 +122,75 @@ function clickBtnValidar() {
                     $('[data-mask]').inputmask();
                 } else {
                     $("#errorRecover").show();
-                    $('#btnSend').show();
+                    $('#btnValidar').show();
                     $('#mensajeRecover').html(message);
                     $('#codigo').prop('disabled', '');
                 }
             }
         });
+    } else {
+        $('#codigo').prop('disabled', '');
+        $('#div_clave1').html('');
+        $('#div_clave2').html('');
+        $("#errorRecover").show();
+        $('#mensajeRecover').html('Ingrese codigo de seguridad !');
+    }
+}
+
+function clickBtnGuardar() {
+    let flag = false;
+    $('#email').prop('disabled', '');
+    let user = $('#email').val();
+    let clave1 = $('#clave1').val();
+    let clave2 = $('#clave2').val();
+    $('#email').prop('disabled', 'disabled');
+
+    if (clave1.length > 3 && clave2.length > 3) {
+
+        $.ajax({
+            url: "auth/auth_controlador.php?op=change_password_user",
+            type: "POST",
+            dataType: "json",
+            data: {
+                user: user,
+                clave1: clave1,
+                clave2: clave2
+            },
+            beforeSend: function () {
+                $('#clave1').prop('disabled', 'disabled');
+                $('#clave2').prop('disabled', 'disabled');
+            },
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                console.log(e.responseText);
+            },
+            success: function (callback) {
+                let {  status, message } = callback
+                flag = (status);
+            }
+        });
+
+        if (flag) {
+            $.ajax({
+                url: "auth/auth_controlador.php?op=login_in",
+                type: "POST",
+                dataType: "json",
+                data: {login: user, clave: clave1},
+                error: function (e) {
+                    SweetAlertError(e.responseText, "Error!")
+                    console.log(e.responseText);
+                },
+                success: function (callback) {
+                    let {  status, message, data } = callback
+
+                    if (status) {
+                        window.location = 'principal.php'
+                    }
+                }
+            });
+        } else {
+            SweetAlertError('Error.');
+        }
     } else {
         $('#codigo').prop('disabled', '');
         $('#div_clave1').html('');

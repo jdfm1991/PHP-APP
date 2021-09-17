@@ -57,4 +57,19 @@ class Usuarios extends Conectar
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function updatePassword($user, $password)
+    {
+        $i = 0;
+        date_default_timezone_set('America/Caracas');
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+
+        $sql = "UPDATE Usuarios SET Clave=? WHERE Login=?";
+
+        $result = (new Conectar)->conexion()->prepare($sql);
+        $result->bindValue($i+=1, $password);
+        $result->bindValue($i+=1, $user);
+        return $result->execute();
+    }
 }
