@@ -21,11 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance recuperar contraseña">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/auth_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/modales/recuperar_contrasena.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/modales/recuperar_contrasena.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/recuperar_contrasena.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/recuperar_contrasena.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Usuarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Usuarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/Documents.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/Documents.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,14 +241,7 @@
       <workItem from="1631805729383" duration="1008000" />
       <workItem from="1631814313621" duration="7809000" />
       <workItem from="1631881288283" duration="10355000" />
-      <workItem from="1631902400509" duration="1374000" />
-    </task>
-    <task id="LOCAL-00010" summary="avance reporte excel kpi">
-      <created>1623687045736</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1623687045736</updated>
+      <workItem from="1631902400509" duration="6004000" />
     </task>
     <task id="LOCAL-00011" summary="avance reporte excel kpi">
       <created>1623773672063</created>
@@ -587,7 +579,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631893482734</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="avance recuperar contraseña">
+      <created>1631903825044</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1631903825045</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

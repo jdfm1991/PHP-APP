@@ -184,7 +184,6 @@ switch ($_GET["op"]) {
             }
             if ($change > 0) {
                 # insertamos el dato de historico y obtenemos el codigo de insersion
-                print_r($_SESSION);
                 $hist_cambio_kpi = $kpiManager->insertar_historico_cambio_kpi($_SESSION['cedula'], $values['ruta']);
                 if ($hist_cambio_kpi != -1) {
                     for($i=0; $i < count(array_keys($antesActualizar[0])); $i++) {

@@ -70,7 +70,7 @@ class Documents
                 'descuento' => Strings::rdecimal($head[0]['descuento'],2),
                 'exento'    => Strings::rdecimal($head[0]['excento'],2),
                 'base'      => Strings::rdecimal($head[0]['base_imponible'],2),
-                'iva'       => Strings::rdecimal($head[0]['iva'], 0),
+                'iva'       => Strings::rdecimal($head[0]['iva'], 2),
                 'impuesto'  => Strings::rdecimal($head[0]['impuesto'],2),
                 'total'     => Strings::rdecimal($head[0]['total'],2),
             );
