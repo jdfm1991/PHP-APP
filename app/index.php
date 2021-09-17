@@ -104,6 +104,8 @@ if (isset($_SESSION['cedula'])) {
 <script src="<?php echo URL_LIBRARY; ?>plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- sweetalert2 -->
 <script src="<?php echo URL_LIBRARY; ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- InputMask -->
+<script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 
 <script src="<?php echo URL_LANDINGPAGE; ?>vendor/waypoints/jquery.waypoints.min.js"></script>
 <script src="<?php echo URL_LANDINGPAGE; ?>vendor/isotope-layout/isotope.pkgd.min.js"></script>

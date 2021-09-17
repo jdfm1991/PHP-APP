@@ -11,7 +11,8 @@ class Email {
     public static function send_email($title = 'empty', $body = '', $recipients=array())
     {
         require (PATH_VENDOR.'autoload.php');
-        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+
 
         $mail->PluginDir = "";
         $mail->Mailer = "smtp";
@@ -19,6 +20,8 @@ class Email {
         $mail->Port= EMAIL_PORT;
         $mail->SMTPAuth = true;
         $mail->CharSet="utf-8";
+        $mail->isSMTP();                                           //SMTP password
+        $mail->SMTPSecure = $mail::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
 
         $mail->Username = EMAIL_USER;
         $mail->Password = EMAIL_PASSWORD;
@@ -33,7 +36,8 @@ class Email {
             foreach ($recipients as $recipient) {
                 $mail->AddAddress($recipient);
             }
-            $mail->AddCC("gconfisur@gmail.com");
+//            $mail->AddCC("gconfisur@gmail.com");
+            $mail->isHTML(true);
             $mail->Subject = $title;
             $mail->Body = $body;
             $mail->AltBody = "Grupo Confisur IT -> The Innovation is our's priority..";

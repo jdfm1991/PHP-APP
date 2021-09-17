@@ -38,7 +38,7 @@ class RecoverUser extends Conectar {
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->bindValue($i+=1, $usuario);
-        $result->bindValue($i+=1, date(FORMAT_DATETIME2));
+        $result->bindValue($i+=1, date(FORMAT_DATETIME_FOR_INSERT));
         $result->bindValue($i+=1, $codigo);
         return $result->execute();
     }
@@ -53,7 +53,7 @@ class RecoverUser extends Conectar {
         $sql = "UPDATE RecuperarUsuario SET fecha=?, codigo_recuperacion=? WHERE usuario=?";
 
         $result = (new Conectar)->conexion()->prepare($sql);
-        $result->bindValue($i+=1, date(FORMAT_DATETIME2));
+        $result->bindValue($i+=1, date(FORMAT_DATETIME_FOR_INSERT));
         $result->bindValue($i+=1, $codigo);
         $result->bindValue($i+=1, $usuario);
         return $result->execute();

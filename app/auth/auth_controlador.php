@@ -111,4 +111,44 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case 'validate_code_recovery_user':
+
+        $user = $_POST["user"];
+        $code = $_POST["code"];
+
+        if (!empty($user) or !empty($code)) {
+           $recovery_code_in_bd = RecoverUser::getByUser($user);
+
+           if (is_array($recovery_code_in_bd)==true and count($recovery_code_in_bd)>0)
+           {
+               if (hash_equals($code, $recovery_code_in_bd[0]['codigo_recuperacion']))
+               {
+                   $output = array(
+                       'status'  => true,
+                       'message' => 'ok'
+                   );
+
+               } else {
+                   $output = array(
+                       'status'  => false,
+                       'message' => 'Código de seguridad inválido !.'
+                   );
+               }
+
+           } else {
+               $output = array(
+                   'status'  => false,
+                   'message' => 'Error al validar código de seguridad'
+               );
+           }
+        } else {
+            $output = array(
+                'status'  => false,
+                'message' => 'campos vacios.'
+            );
+        }
+
+        echo json_encode($output);
+        break;
+
 }
