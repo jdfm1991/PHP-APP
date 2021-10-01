@@ -1,27 +1,14 @@
-var tabla;
-
-var estado_minimizado;
+let estado_vacio;
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
-    $("#tabla").hide();
-    estado_minimizado = false;
+    estado_vacio = true;
     listar_marcas();
 }
 
 function limpiar() {
     $("#fechai").val("");
     $("#marca").val("");
-    $('#total_items').show();
-    $('#total_registros').text("");
-    $('#tabla tbody').empty();
-}
-
-function validarCantidadRegistrosTabla() {
-    (tabla.rows().count() === 0)
-        ? estado = true  : estado = false ;
-    $('#btn_excel').attr("disabled", estado);
-    $('#btn_pdf').attr("disabled", estado);
 }
 
 function listar_marcas() {
@@ -57,8 +44,10 @@ function listar_marcas() {
     });
 }
 
-var no_puede_estar_vacio = function () {
-    ($("#fechai").val().length > 0  &&  $("#marca").val().length > 0) ? estado_minimizado = true : estado_minimizado = false;
+var no_puede_estar_vacio = function ()
+{
+    ($("#fechai").val() !== ""  &&  $("#marca").val() !== "")
+        ? estado_vacio = false : estado_vacio = true;
 };
 
 $(document).ready(function () {
@@ -67,116 +56,24 @@ $(document).ready(function () {
 });
 
 //ACCION AL PRECIONAR EL BOTON.
-$(document).on("click", "#btn_reportecompra", function () {
+$(document).on("click", "#btn_consultar", function () {
 
-    var fechai = $("#fechai").val();
-    var marca = $("#marca").val();
+    let fechai = $("#fechai").val();
+    let marca = $("#marca").val();
+    if (!estado_vacio && fechai !== "" && marca !== "") {
+        window.open("reportecompras_tabla.php?&fechai="+fechai+"&marca="+marca, '_blank');
+        limpiar();
+        estado_vacio = true;
+    }else {
 
-    if (estado_minimizado) {
-        $("#tabla").hide();
-        $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
-        estado_minimizado = false;
-        if (fechai !== "" && marca !== "") {
-            sessionStorage.setItem("fechai", fechai);
-            sessionStorage.setItem("marca", marca);
-            //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
-            $.ajax({
-                cache:true,
-                url: "reportecompras_controlador.php?op=listar",
-                type: "POST",
-                dataType: "json",
-                data: {fechai: fechai, marca: marca},
-                beforeSend: function () {
-                    SweetAlertLoadingShow("Procesando información, espere...");
-                },
-                error: function (e) {
-                    SweetAlertError(e.responseText, "Error!")
-                    console.log(e.responseText);
-                },
-                success: function(data) {
-                    limpiar();//LIMPIAMOS EL SELECTOR.
-                    imprimir_tabla(data);
-                },
-                complete: function () {
-                    SweetAlertSuccessLoading()
-                    $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                }
-            });
-            estado_minimizado = true;
+        if (fechai === "") {
+            SweetAlertError('Debe seleccionar la fecha!');
+            return false;
         }
-    } else {
-        SweetAlertError('Debe seleccionar fecha y marca valido!');
-        return (false);
-    }
-});
-
-function imprimir_tabla(data) {
-    if(!jQuery.isEmptyObject(data.contenido_tabla)){
-
-        //contenido de costos e inventario se itera con el comando $.each
-        $.each(data.contenido_tabla, function(idx, opt) {
-            //se va llenando cada registo en el tbody
-            var bg_alert = (parseInt(opt.rentabilidad) >= 30) ? "#ff3939" : ""
-            if(opt.rentabilidad > 30)
-                console.log(bg_alert)
-
-            $('#reportecompras_data')
-                .append(
-                    '<tr>' +
-                    '<td>' + opt.num + '</td>' +
-                    '<td>' + opt.codproducto + '</td>' +
-                    '<td>' + opt.descrip + '</td>' +
-                    '<td>' + opt.displaybultos + '</td>' +
-                    '<td>' + opt.costodisplay + '</td>' +
-                    '<td>' + opt.costobultos + '</td>' +
-                    '<td BGCOLOR="'+bg_alert+'" >' + opt.rentabilidad + '%</td>' +
-                    '<td>' + opt.fechapenultimacompra + '</td>' +
-                    '<td>' + opt.bultospenultimacompra + '</td>' +
-                    '<td>' + opt.fechaultimacompra + '</td>' +
-                    '<td>' + opt.bultosultimacompra + '</td>' +
-                    '<td>' + opt.semana1 + '</td>' +
-                    '<td>' + opt.semana2 + '</td>' +
-                    '<td>' + opt.semana3 + '</td>' +
-                    '<td>' + opt.semana4 + '</td>' +
-                    '<td>' + opt.totalventasmesanterior + '</td>' +
-                    '<td>' + opt.bultosexistentes + '</td>' +
-                    '<td>' + opt.diasdeinventario + '</td>' +
-                    '<td>' + opt.sugerido + '</td>' +
-                    '<td>' + opt.pedido + '</td>' +
-                    '</tr>'
-                );
-        });
-
-        //se asigna la totalidad de los registros
-        $('#total_registros').text(data.cantidad_registros);
-    } else {
-        //en caso de consulta vacia, mostramos un mensaje de vacio
-        $('#reportecompras_data').append('<tr><td colspan="20" align="center">Sin registros para esta Consulta</td></tr>');
-        //inhabilitamos visualmente los botones
-        $('#btn_excel').attr("disabled", true);
-        $('#btn_pdf').attr("disabled", true);
-        $('#total_items').hide();
-    }
-}
-
-//ACCION AL PRECIONAR EL BOTON EXCEL.
-$(document).on("click","#btn_excel", function(){
-    var fechai = sessionStorage.getItem("fechai");
-    var marca = sessionStorage.getItem("marca");
-    var datos=$('#form_reportecompras').serialize();
-    if (fechai !== "" && marca !== "") {
-        window.location = "reportecompras_excel.php?&fechai="+fechai+"&marca="+marca+"&"+datos;
-        // window.open('reportecompras_excel.php?&fechai='+fechai+'&marca='+marca+'&'+datos, '_blank');
-    }
-});
-
-//ACCION AL PRECIONAR EL BOTON PDF.
-$(document).on("click","#btn_pdf", function(){
-    var fechai = sessionStorage.getItem("fechai");
-    var marca = sessionStorage.getItem("marca");
-    var datos=$('#form_reportecompras').serialize();
-    if (fechai !== "" && marca !== "") {
-        window.open('reportecompras_pdf.php?&fechai='+fechai+'&marca='+marca+'&'+datos, '_blank');
+        if (marca === "" ) {
+            SweetAlertError('Debe seleccionar una Marca!');
+            return false;
+        }
     }
 });
 

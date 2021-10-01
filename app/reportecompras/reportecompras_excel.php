@@ -124,13 +124,13 @@ $style_title->applyFromArray(
 //estableceer el estilo de la cabecera de la tabla
 $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:T8');
 
+$codidos_producto = $reporte->get_codprod_por_marca($marca);
 $i = 9;
 $num=0;
-foreach ($v as $key=>$coditem) {
-    if(!hash_equals("", $n[$key] ))
-    {
-        $row = $reporte->get_reportecompra_por_codprod($coditem, $fechai);
-        $compra = $reporte->get_ultimascompras_por_codprod($coditem);
+foreach ($codidos_producto/*$v*/ as $key=>$coditem) {
+//    if(!hash_equals("", $n[$key] )) {
+        $row = $reporte->get_reportecompra_por_codprod($coditem["codprod"], $fechai);
+        $compra = $reporte->get_ultimascompras_por_codprod($coditem["codprod"]);
 
         /** cargado de las filas **/
         $sheet = $spreadsheet->getActiveSheet();
@@ -185,7 +185,7 @@ foreach ($v as $key=>$coditem) {
 
         $i++;
         $num++;
-    }
+//    }
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -20,11 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance recuperar contraseña">
+      <change afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/modales/detalle_factura.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/Documents.php" beforeDir="false" afterPath="$PROJECT_DIR$/services/Documents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,6 +249,17 @@
       <workItem from="1631814313621" duration="7809000" />
       <workItem from="1631881288283" duration="10355000" />
       <workItem from="1631902400509" duration="6004000" />
+      <workItem from="1632227921050" duration="8012000" />
+      <workItem from="1632313602936" duration="7799000" />
+      <workItem from="1632400122531" duration="653000" />
+      <workItem from="1632406367499" duration="999000" />
+      <workItem from="1632407910705" duration="518000" />
+      <workItem from="1632412022943" duration="718000" />
+      <workItem from="1632488629151" duration="8218000" />
+      <workItem from="1632745302127" duration="1393000" />
+      <workItem from="1632755984345" duration="1329000" />
+      <workItem from="1632769267826" duration="151000" />
+      <workItem from="1633092994936" duration="12709000" />
     </task>
     <task id="LOCAL-00011" summary="avance reporte excel kpi">
       <created>1623773672063</created>

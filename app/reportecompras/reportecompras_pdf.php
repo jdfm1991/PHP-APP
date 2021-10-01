@@ -157,13 +157,13 @@ $pdf->SetFont('Arial', '', 8);
 
 $pdf->SetWidths(array(6, 20, 38, 20, 22, 22, 13, 22, 12, 22, 12, 7.5, 7.5, 7.5, 7.5, 15, 20, 20, 20, 14));
 
+$codidos_producto = $reporte->get_codprod_por_marca($marca);
 $num=0;
-foreach ($v as $key=>$coditem)
+foreach ($codidos_producto/*$v*/ as $key=>$coditem)
 {
-    if(!hash_equals("", $n[$key] ))
-    {
-        $row = $reporte->get_reportecompra_por_codprod($coditem, $fechai);
-        $compra = $reporte->get_ultimascompras_por_codprod($coditem);
+//    if(!hash_equals("", $n[$key] )) {
+        $row = $reporte->get_reportecompra_por_codprod($coditem["codprod"], $fechai);
+        $compra = $reporte->get_ultimascompras_por_codprod($coditem["codprod"]);
 
         /** cargado de las filas **/
         $pdf->Row(
@@ -187,12 +187,12 @@ foreach ($v as $key=>$coditem)
                 Strings::rdecimal($row[0]["bultosexistentes"], 2),
                 Strings::rdecimal($row[0]["diasdeinventario"], 0),
                 Strings::rdecimal($row[0]["sugerido"], 2),
-                $n[$key]
+                (!is_null($n[$key])) ? $n[$key] : ''
             ),
             [6],
             ($row[0]["rentabilidad"] > 30) ? true : false
         );
         $num++;
-    }
+//    }
 }
 $pdf->Output();
