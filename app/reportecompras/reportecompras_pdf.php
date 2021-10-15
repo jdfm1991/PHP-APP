@@ -11,6 +11,7 @@ require_once("reportecompras_modelo.php");
 $reporte = new ReporteCompras();
 
 $fechai = $_GET['fechai'];
+$fechaf = $_GET['fechaf'];
 $marca = $_GET['marca'];
 $n = $_GET['n'];
 $v = $_GET['v'];
@@ -35,9 +36,12 @@ function addInfoInArray($info){
 }
 
 $separa = explode("-", $fechai);
-$ano = $separa[0];
+$dia = $separa[2];
 $mes = $separa[1];
-$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+$anio = $separa[0];
+
+$fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, date('Y')));
+$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, date('Y'))-1);
 
 
 class PDF extends FPDF
@@ -55,51 +59,55 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(140);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE COMPRAS DE ' . strtoupper($GLOBALS['meses'][intval($GLOBALS['mes'])]) ." " . $GLOBALS['ano'], 0, 0, 'C');
+        $this->Cell(40, 10, 'REPORTE DE COMPRAS DE ' . date(FORMAT_DATE, strtotime($_GET['fechai'])) ." AL " . date(FORMAT_DATE, strtotime($_GET['fechaf'])), 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         $this->SetFont('Arial', 'B', 10);
         $this->SetFillColor(200,220,255);
+        $acumulador_espaciado = 0;
         // titulo de columnas
         $this->Cell(6, 18, utf8_decode(Strings::titleFromJson('#')), 1, 0, 'C', true);
         $this->Cell(20, 18, substr(utf8_decode(Strings::titleFromJson('codigo_prod')), 0, 7), 1, 0, 'C', true);
-        $this->Cell(38, 18, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
-        $this->MultiCell2(20, 9, utf8_decode(Strings::titleFromJson('display_por_bulto')), 1, 0, 'C', true);
+        $this->Cell(30, 18, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->MultiCell2(16, 9, utf8_decode(Strings::titleFromJson('display_por_bulto')), 1, 0, 'C', true);
         $this->Ln(-9);
-        $this->Cell(84);
+        $this->Cell($acumulador_espaciado += 72);
         $this->MultiCell2(44, 12, utf8_decode(Strings::titleFromJson('ultimo_precio_compra')), 1, 0, 'C', true);
-//        $this->Ln(-6);
-        $this->Cell(128);
+        /*$this->Ln(-6);*/
+        $this->Cell($acumulador_espaciado += 44);
         $this->Cell(13, 18, substr(utf8_decode(Strings::titleFromJson('porcentaje_rentabilidad')),0,5), 1, 0, 'C', true);
-        $this->MultiCell2(34, 6, utf8_decode(Strings::titleFromJson('fecha_penultima_compra')), 1, 0, 'C', true);
+        $this->MultiCell2(31, 6, utf8_decode(Strings::titleFromJson('fecha_penultima_compra')), 1, 0, 'C', true);
         $this->Ln(-6);
-        $this->Cell(175);
-        $this->MultiCell2(34, 6, utf8_decode(Strings::titleFromJson('fecha_ultima_compra')), 1, 0, 'C', true);
+        $this->Cell($acumulador_espaciado += 44);
+        $this->MultiCell2(31, 6, utf8_decode(Strings::titleFromJson('fecha_ultima_compra')), 1, 0, 'C', true);
         $this->Ln(-6);
-        $this->Cell(209);
+        $this->Cell($acumulador_espaciado += 31);
         $this->MultiCell2(30, 6, utf8_decode(Strings::titleFromJson('ventas_mes_anterior')), 1, 0, 'C', true);
         $this->Ln(-6);
-        $this->Cell(239);
-        $this->MultiCell2(15, 4.5, utf8_decode(Strings::titleFromJson('ventas_total_ult_mes')), 1, 0, 'C', true);
+        $this->Cell($acumulador_espaciado += 30);
+        $this->MultiCell2(13, 4.5, utf8_decode(Strings::titleFromJson('ventas_total_ult_mes')), 1, 0, 'C', true);
         $this->Ln(-13.5);
-        $this->Cell(254);
+        $this->Cell($acumulador_espaciado += 13);
         $this->MultiCell2(20, 6, utf8_decode(Strings::titleFromJson('existencia_actual_bultos')), 1, 0, 'C', true);
         $this->Ln(-12);
-        $this->Cell(274);
+        $this->Cell($acumulador_espaciado += 20);
         $this->MultiCell2(20, 9, utf8_decode(Strings::titleFromJson('dias_inventario')), 1, 0, 'C', true);
         $this->Ln(-9);
-        $this->Cell(294);
+        $this->Cell($acumulador_espaciado += 20);
+        $this->MultiCell2(24, 9, utf8_decode(Strings::titleFromJson('prod_no_vendidos')), 1, 0, 'C', true);
+        $this->Ln(-9);
+        $this->Cell($acumulador_espaciado += 24);
         $this->Cell(20, 18, utf8_decode(Strings::titleFromJson('sugerido')), 1, 0, 'C', true);
         $this->Cell(14, 18, utf8_decode(Strings::titleFromJson('pedido')), 1, 1, 'C', true);
 
         $this->Ln(-6);
-        $this->Cell(84);
+        $this->Cell(72);
         $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('display')), 1, 0, 'C', true);
         $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('bulto')), 1, 0, 'C', true);
         $this->Cell(13);
-        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
+        $this->Cell(19, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
         $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
-        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
+        $this->Cell(19, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
         $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
         $this->Cell(7.5, 6, '1', 1, 0, 'C', true);
         $this->Cell(7.5, 6, '2', 1, 0, 'C', true);
@@ -155,44 +163,60 @@ $pdf->AliasNbPages();
 $pdf->AddPage('L', $documentsize);
 $pdf->SetFont('Arial', '', 8);
 
-$pdf->SetWidths(array(6, 20, 38, 20, 22, 22, 13, 22, 12, 22, 12, 7.5, 7.5, 7.5, 7.5, 15, 20, 20, 20, 14));
+$pdf->SetWidths(array(6, 20, 30, 16, 22, 22, 13, 19, 12, 19, 12, 7.5, 7.5, 7.5, 7.5, 13, 20, 20, 24, 20, 14));
 
-$codidos_producto = $reporte->get_codprod_por_marca($marca);
+$codidos_producto = $reporte->get_codprod_por_marca(ALMACEN_PRINCIPAL, $marca);
 $num=0;
-foreach ($codidos_producto/*$v*/ as $key=>$coditem)
+foreach ($codidos_producto as $key => $coditem)
 {
-//    if(!hash_equals("", $n[$key] )) {
-        $row = $reporte->get_reportecompra_por_codprod($coditem["codprod"], $fechai);
-        $compra = $reporte->get_ultimascompras_por_codprod($coditem["codprod"]);
+    #Obtencion de datos
+    $producto    = $reporte->get_datos_producto($coditem["codprod"]);
+    $costos      = $reporte->get_costos($coditem["codprod"]);
+    $ult_compras = $reporte->get_ultimas_compras($coditem["codprod"]);
+    $ventas      = $reporte->get_ventas_mes_anterior($coditem["codprod"], $fechaiA, $fechafA);
+    $bultosExis  = $reporte->get_bultos_existentes(ALMACEN_PRINCIPAL, $coditem["codprod"]);
+    $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechai, $fechaf);
 
-        /** cargado de las filas **/
-        $pdf->Row(
-            array(
-                $num+1,
-                $row[0]["codproducto"],
-                $row[0]["descrip"],
-                Strings::rdecimal($row[0]["displaybultos"], 0),
-                Strings::rdecimal($row[0]["costodisplay"], 2),
-                Strings::rdecimal($row[0]["costobultos"], 2),
-                Strings::rdecimal($row[0]["rentabilidad"], 2) . "  %",
-                (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechapenultimacompra"])) : '-',
-                (count($compra) > 0) ? Strings::rdecimal($compra[0]["bultospenultimacompra"], 0) : 0,
-                (count($compra) > 0) ? date(FORMAT_DATE,strtotime($compra[0]["fechaultimacompra"])) : '-',
-                (count($compra) > 0) ? Strings::rdecimal($compra[0]["bultosultimacompra"], 0) : 0,
-                Strings::rdecimal($row[0]["semana1"], 0),
-                Strings::rdecimal($row[0]["semana2"], 0),
-                Strings::rdecimal($row[0]["semana3"], 0),
-                Strings::rdecimal($row[0]["semana4"], 0),
-                Strings::rdecimal($row[0]["totalventasmesanterior"], 0),
-                Strings::rdecimal($row[0]["bultosexistentes"], 2),
-                Strings::rdecimal($row[0]["diasdeinventario"], 0),
-                Strings::rdecimal($row[0]["sugerido"], 2),
-                (!is_null($n[$key])) ? $n[$key] : ''
-            ),
-            [6],
-            ($row[0]["rentabilidad"] > 30) ? true : false
-        );
-        $num++;
-//    }
+    #Calculos
+    $rentabilidad = ReporteComprasHelpers::rentabilidad($producto[0]["precio1"], $producto[0]["costoactual"]);
+    $fechapenultimacompra  = (count($ult_compras) > 1) ? date(FORMAT_DATE, strtotime($ult_compras[1]["fechae"])) : '-----';
+    $bultospenultimacompra = (count($ult_compras) > 1) ? Strings::rdecimal($ult_compras[1]["cantBult"], 0) : 0;
+    $fechaultimacompra   = (count($ult_compras) > 0) ? date(FORMAT_DATE,strtotime($ult_compras[0]["fechae"])) : '-----';
+    $bultosultimacompra  = (count($ult_compras) > 0) ? Strings::rdecimal($ult_compras[0]["cantBult"], 0) : 0;
+    $ventas_mes_anterior = ReporteComprasHelpers::ventasMesAnterior($ventas, $mes, $anio);
+    $totalventasmesanterior = $ventas_mes_anterior["semana1"] + $ventas_mes_anterior["semana2"] + $ventas_mes_anterior["semana3"] + $ventas_mes_anterior["semana4"];
+    $diasinventario = ($totalventasmesanterior > 0) ? ($bultosExis[0]["bultosexis"]/$totalventasmesanterior) : 0;
+    $sugerido = ($totalventasmesanterior*1.2) - $bultosExis[0]["bultosexis"];
+    $sugerido = ($sugerido > 0) ? $sugerido : 0;
+
+    /** cargado de las filas **/
+    $pdf->Row(
+        array(
+            $key+1,
+            $producto[0]["codprod"],
+            $producto[0]["descrip"],
+            Strings::rdecimal($producto[0]["displaybultos"], 0),
+            Strings::rdecimal((count($costos) > 0) ? (floatval($costos[0]["costodisplay"])) : 0, 2),
+            Strings::rdecimal((count($costos) > 0) ? (floatval($costos[0]["costobultos"])) : 0, 2),
+            Strings::rdecimal($rentabilidad, 2) . "%",
+            $fechapenultimacompra,
+            $bultospenultimacompra,
+            $fechaultimacompra,
+            $bultosultimacompra,
+            Strings::rdecimal($ventas_mes_anterior["semana1"], 2),
+            Strings::rdecimal($ventas_mes_anterior["semana2"], 2),
+            Strings::rdecimal($ventas_mes_anterior["semana3"], 2),
+            Strings::rdecimal($ventas_mes_anterior["semana4"], 2),
+            Strings::rdecimal($totalventasmesanterior, 2),
+            Strings::rdecimal(floatval($bultosExis[0]["bultosexis"]), 2),
+            Strings::rdecimal(floatval($no_vendidos[0]["cantidadBult"]), 2),
+            Strings::rdecimal($diasinventario, 2),
+            Strings::rdecimal($sugerido, 2),
+            array_key_exists($key, $n) ? $n[$key] : ''
+        ),
+        [6],
+        ($rentabilidad > 30) ? true : false
+    );
+    $num++;
 }
 $pdf->Output();

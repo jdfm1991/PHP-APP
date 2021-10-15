@@ -8,6 +8,7 @@ function init() {
 
 function limpiar() {
     $("#fechai").val("");
+    $("#fechaf").val("");
     $("#marca").val("");
 }
 
@@ -46,12 +47,13 @@ function listar_marcas() {
 
 var no_puede_estar_vacio = function ()
 {
-    ($("#fechai").val() !== ""  &&  $("#marca").val() !== "")
+    ($("#fechai").val() !== ""  && $("#fechaf").val() !== ""  &&  $("#marca").val() !== "")
         ? estado_vacio = false : estado_vacio = true;
 };
 
 $(document).ready(function () {
     $("#fechai").change(() => no_puede_estar_vacio());
+    $("#fechaf").change(() => no_puede_estar_vacio());
     $("#marca").change(() => no_puede_estar_vacio());
 });
 
@@ -59,15 +61,20 @@ $(document).ready(function () {
 $(document).on("click", "#btn_consultar", function () {
 
     let fechai = $("#fechai").val();
+    let fechaf = $("#fechaf").val();
     let marca = $("#marca").val();
-    if (!estado_vacio && fechai !== "" && marca !== "") {
-        window.open("reportecompras_tabla.php?&fechai="+fechai+"&marca="+marca, '_blank');
+    if (!estado_vacio && fechai !== "" && fechaf !== "" && marca !== "") {
+        window.open("reportecompras_tabla.php?&fechai="+fechai+"&fechaf="+fechaf+"&marca="+marca, '_blank');
         limpiar();
         estado_vacio = true;
     }else {
 
         if (fechai === "") {
-            SweetAlertError('Debe seleccionar la fecha!');
+            SweetAlertError('Debe seleccionar la fecha inicial!');
+            return false;
+        }
+        if (fechaf === "") {
+            SweetAlertError('Debe seleccionar la fecha final!');
             return false;
         }
         if (marca === "" ) {

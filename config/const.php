@@ -3,6 +3,9 @@
 #ROUTE
 const SERVER = ("localhost");
 
+# Constantes de la APP
+const ALMACEN_PRINCIPAL = '01';
+
 
 # URL  (principalmente para cargar librerias por url)
 const URL_APP         = ("http://". SERVER ."/appweb/app/");
@@ -26,3 +29,4 @@ const FORMAT_DATE_TO_EVALUATE = "Y-m-d";
 const FORMAT_DATETIME         = "d/m/Y h:i:s";
 const FORMAT_DATETIME2        = "d/m/Y h:i A";
 const FORMAT_DATETIME_FOR_INSERT = "Y-m-d h:i:s";
+

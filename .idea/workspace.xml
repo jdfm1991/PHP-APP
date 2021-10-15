@@ -20,17 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion reporte compras">
-      <change afterPath="$PROJECT_DIR$/helpers/php/ReporteComprasHelpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_excel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/ReporteComprasHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ReporteComprasHelpers.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,6 +269,13 @@
       <workItem from="1633349554325" duration="2363000" />
       <workItem from="1633522546571" duration="6905000" />
       <workItem from="1633695318544" duration="11447000" />
+      <workItem from="1633955054990" duration="11297000" />
+      <workItem from="1634041904026" duration="319000" />
+      <workItem from="1634042274718" duration="1190000" />
+      <workItem from="1634225822053" duration="796000" />
+      <workItem from="1634238444170" duration="2993000" />
+      <workItem from="1634301144121" duration="8732000" />
+      <workItem from="1634310852509" duration="2263000" />
     </task>
     <task id="LOCAL-00012" summary="avance reporte excel kpi">
       <created>1623860422391</created>

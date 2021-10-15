@@ -5,18 +5,20 @@ function init() {
 
     $("#btn_excel").on("click", function (e) {
         const fechai = $("#fechai").val();
+        const fechaf = $("#fechaf").val();
         const marca = $("#marca").val();
         const datos=$('#form_reportecompras').serialize();
 
-        window.location = "reportecompras_excel.php?&fechai="+fechai+"&marca="+marca+"&"+datos;
+        window.location = "reportecompras_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&marca="+marca+"&"+datos;
     });
 
     $("#btn_pdf").on("click", function (e) {
         const fechai = $("#fechai").val();
+        const fechaf = $("#fechaf").val();
         const marca = $("#marca").val();
         const datos=$('#form_reportecompras').serialize();
 
-        window.open('reportecompras_pdf.php?&fechai='+fechai+'&marca='+marca+'&'+datos, '_blank');
+        window.open('reportecompras_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&marca='+marca+'&'+datos, '_blank');
     });
 }
 
@@ -27,12 +29,13 @@ $(document).ready(function(){
 function listar_reportecompras(){
 
     let fechai    = $('#fechai').val();
+    let fechaf    = $('#fechaf').val();
     let marca    = $('#marca').val();
 
     $.ajax({
         url: "reportecompras_controlador.php?op=listar",
         method: "POST",
-        data: {fechai: fechai, marca: marca},
+        data: {fechai: fechai, fechaf: fechaf, marca: marca},
         dataType: "json", // Formato de datos que se espera en la respuesta
         beforeSend: function () {
             SweetAlertLoadingShow("Procesando información, espere...");
@@ -81,8 +84,8 @@ function tablareportecompras(data) {
                     '<td  align="center" class="small align-middle">' + opt.codproducto + '</td>' +
                     '<td  align="center" class="small text-left">' + opt.descrip + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.displaybultos + '</td>' +
-                    '<td  align="center" class="small text-right">' + opt.costodisplay + '</td>' +
-                    '<td  align="center" class="small text-right">' + opt.costobultos + '</td>' +
+                    '<td  align="center" class="small align-middle">' + opt.costodisplay + '</td>' +
+                    '<td  align="center" class="small align-middle">' + opt.costobultos + '</td>' +
                     '<td  align="center" class="small align-middle" BGCOLOR="'+bg_alert+'" >' + opt.rentabilidad + '%</td>' +
                     '<td  align="center" class="small align-middle">' + opt.fechapenultimacompra + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.bultospenultimacompra + '</td>' +
@@ -94,6 +97,7 @@ function tablareportecompras(data) {
                     '<td  align="center" class="small align-middle">' + opt.semana4 + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.totalventasmesanterior + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.bultosexistentes + '</td>' +
+                    '<td  align="center" class="small align-middle">' + opt.productonovendidos + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.diasdeinventario + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.sugerido + '</td>' +
                     '<td  align="center" class="small align-middle">' + opt.pedido + '</td>' +

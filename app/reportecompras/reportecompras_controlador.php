@@ -13,17 +13,18 @@ switch ($_GET["op"]) {
 
     case "listar":
         $fechai = $_POST['fechai'];
+        $fechaf = $_POST['fechaf'];
         $marca = $_POST['marca'];
 
         $separa = explode("-",$fechai);
-        $dia = $separa[0];
+        $dia = $separa[2];
         $mes = $separa[1];
-        $ano = $separa[2];
+        $anio = $separa[0];
 
         $fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, date('Y')));
         $fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, date('Y'))-1);
 
-        $codidos_producto = $reporte->get_codprod_por_marca($marca);
+        $codidos_producto = $reporte->get_codprod_por_marca(ALMACEN_PRINCIPAL, $marca);
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = array();
@@ -34,16 +35,16 @@ switch ($_GET["op"]) {
             $costos      = $reporte->get_costos($coditem["codprod"]);
             $ult_compras = $reporte->get_ultimas_compras($coditem["codprod"]);
             $ventas      = $reporte->get_ventas_mes_anterior($coditem["codprod"], $fechaiA, $fechafA);
-            $bultosExis  = $reporte->get_bultos_existentes($coditem["codprod"]);
-            $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechaiA, $fechafA);
+            $bultosExis  = $reporte->get_bultos_existentes(ALMACEN_PRINCIPAL, $coditem["codprod"]);
+            $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechai, $fechaf);
 
             #Calculos
             $rentabilidad = ReporteComprasHelpers::rentabilidad($producto[0]["precio1"], $producto[0]["costoactual"]);
-            $fechapenultimacompra  = (count($ult_compras) > 1) ? date(FORMAT_DATE, strtotime($ult_compras[1]["fechae"])) : '-';
+            $fechapenultimacompra  = (count($ult_compras) > 1) ? date(FORMAT_DATE, strtotime($ult_compras[1]["fechae"])) : '-----';
             $bultospenultimacompra = (count($ult_compras) > 1) ? Strings::rdecimal($ult_compras[1]["cantBult"], 0) : 0;
-            $fechaultimacompra   = (count($ult_compras) > 0) ? date(FORMAT_DATE,strtotime($ult_compras[0]["fechae"])) : '-';
+            $fechaultimacompra   = (count($ult_compras) > 0) ? date(FORMAT_DATE,strtotime($ult_compras[0]["fechae"])) : '-----';
             $bultosultimacompra  = (count($ult_compras) > 0) ? Strings::rdecimal($ult_compras[0]["cantBult"], 0) : 0;
-            $ventas_mes_anterior = ReporteComprasHelpers::ventasMesAnterior($ventas, $mes);
+            $ventas_mes_anterior = ReporteComprasHelpers::ventasMesAnterior($ventas, $mes, $anio);
             $totalventasmesanterior = $ventas_mes_anterior["semana1"] + $ventas_mes_anterior["semana2"] + $ventas_mes_anterior["semana3"] + $ventas_mes_anterior["semana4"];
             $diasinventario = ($totalventasmesanterior > 0) ? ($bultosExis[0]["bultosexis"]/$totalventasmesanterior) : 0;
             $sugerido = ($totalventasmesanterior*1.2) - $bultosExis[0]["bultosexis"];
@@ -68,7 +69,7 @@ switch ($_GET["op"]) {
             $sub_array['semana4'] = Strings::rdecimal($ventas_mes_anterior["semana4"], 2);
             $sub_array['totalventasmesanterior'] = Strings::rdecimal($totalventasmesanterior, 2);
             $sub_array['bultosexistentes']   = Strings::rdecimal(floatval($bultosExis[0]["bultosexis"]), 2);
-            $sub_array['productonovendidos'] = Strings::rdecimal($no_vendidos[0]["cantidadBult"], 0);
+            $sub_array['productonovendidos'] = Strings::rdecimal(floatval($no_vendidos[0]["cantidadBult"]), 2);
             $sub_array['diasdeinventario']   = Strings::rdecimal($diasinventario, 2);
             $sub_array['sugerido'] = Strings::rdecimal($sugerido, 2);
             $sub_array['pedido'] = '<input type="text" name="n[]" style="text-align: right; width: 90%;">

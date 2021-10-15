@@ -53,11 +53,15 @@ require_once("../../config/conexion.php");
                 </div><!-- /.row -->
 
                 <div class="row mb-2">
-                    <div class="col-sm-3 mt-4 form-check-inline">
+                    <div class="col-sm-1 mt-4 form-check-inline">
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
-                        <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha_inicial')?>:</dt>
+                        <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha_i')?>:</dt>
                         <input type="text" class="form-control-sm col-8 text-center" id="fechai" value="<?php echo $_GET['fechai']; ?>" readonly>
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 mt-4 form-check-inline">
+                        <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha_f')?>:</dt>
+                        <input type="text" class="form-control-sm col-8 text-center" id="fechaf" value="<?php echo $_GET['fechaf']; ?>" readonly>
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
                         <dt class="col-sm-4 text-gray"><?=Strings::titleFromJson('marca_prod')?>:</dt>
@@ -87,6 +91,7 @@ require_once("../../config/conexion.php");
                         <th colspan="4"><?=Strings::titleFromJson('ventas_mes_anterior')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('ventas_total_ult_mes')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('existencia_actual_bultos')?></th>
+                        <th rowspan="2"><?=Strings::titleFromJson('prod_no_vendidos')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('dias_inventario')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('sugerido')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('pedido')?></th>

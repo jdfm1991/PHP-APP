@@ -31,6 +31,7 @@
   "marca_prod"                  : {"title": "Marca",                              "description": "Marca del Producto"},
   "tipo_empaque"                : {"title": "Unid. Empaque",                      "description": ""},
   "codigo_prod"                 : {"title": "Código producto",                    "description": ""},
+  "prod_no_vendidos"            : {"title": "Productos No Vendidos",              "description": ""},
   "cantidad"                    : {"title": "Cantidad",                           "description": "Cantidad"},
   "precio"                      : {"title": "Precio",                             "description": ""},
   "subtotal"                    : {"title": "Sub Total",                          "description": ""},

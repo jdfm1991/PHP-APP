@@ -51,8 +51,12 @@ if (!isset($_SESSION['cedula'])) {
                         <form class="form-horizontal" id="frmCompras">
                             <div class="form-group row">
                                 <div class="form-group col-2">
-                                    <label for="fechai"><?=Strings::titleFromJson('fecha_inicial')?></label>
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha_i')?></label>
                                     <input type="date" class="form-control" id="fechai" name="fechai" required>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha_f')?></label>
+                                    <input type="date" class="form-control" id="fechaf" name="fechaf" required>
                                 </div>
                                 <div class="form-group col-3 col-sm-3">
                                     <label for="marca"><?=Strings::titleFromJson('marca_prod')?></label>
