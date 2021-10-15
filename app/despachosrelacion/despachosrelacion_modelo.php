@@ -75,11 +75,29 @@ class DespachosRelacion extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT * FROM Despachos_Det where ID_Correlativo = ? AND estado = '1'";
+        $sql = "SELECT * FROM Despachos_Det where ID_Correlativo = ? AND Activo = '1'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_factura_en_despacho($correlativo, $nro_documento) {
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT * FROM Despachos_Det where ID_Correlativo = ?  AND Numerod = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->bindValue(2,$nro_documento, PDO::PARAM_STR);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

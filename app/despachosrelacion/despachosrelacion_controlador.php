@@ -244,20 +244,52 @@ switch ($_GET["op"]) {
             $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
 
             //validamos si el documento ingresado no exista en otro despacho
-            if(count($existe_en_despacho) == 0)
+            if (count($existe_en_despacho) == 0)
             {
                 $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
 
-                if(count($factura_estado_1) != 0)
+                if(count($factura_estado_1) == 0)
                 {
+                    //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
+                    /*$insertar_documento = $despachos->insertarDetalleDespacho(
+                        $correlativo, $nro_documento, 'A'
+                    );
+
+                } else {*/
+                    //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
+                    $insertar_documento = $despachos->insertarDetalleDespacho(
+                        $correlativo, $nro_documento, 'A', '1'
+                    );
+
+                    $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+
                     /**  enviar correo: despachos_edita_4 **/
+                    if ($insertar_documento) {
+                        # preparamos los datos a enviar
+                        $dataEmail = EmailData::DataDespachoAgregarDocumento(
+                            array(
+                                'usuario' => /*$_SESSION['login']*/'USUARIO_PRUEBA',
+                                'correl_despacho' => $correlativo,
+                                'nroplanilla' => '0', #PENDIENTE
+                                'destino' => $despacho[0]['Destino'],
+                                'chofer' => $despacho[0]['NomperChofer'],
+                                'doc' => $nro_documento,
+                            )
+                        );
+
+                        # enviar correo
+                        $status_send = Email::send_email(
+                            $dataEmail['title'],
+                            $dataEmail['body'],
+                            $dataEmail['recipients'],
+                        );
+                    }
                 }
 
-                //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
-                $insertar_documento = $despachos->insertarDetalleDespacho($correlativo, $nro_documento, 'A');
-
                 //verificamos que se haya realizado la insercion correctamente y devolvemos el mensaje
-                ($insertar_documento) ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL INSERTAR") ;
+                ($insertar_documento)
+                    ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE ")
+                    : ($output["mensaje"] = "ERROR AL INSERTAR") ;
 
             } else {
                 ($output["mensaje"] = 'ATENCION! el numero de documento: '.$documento_nuevo.', ya fue despachado');

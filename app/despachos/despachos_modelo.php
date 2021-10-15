@@ -84,7 +84,7 @@ class Despachos extends Conectar{
 
         //QUERY
         $sql = "SELECT NumeroD AS numerod, FechaE AS fechae, Descrip AS descrip, Direc2 AS direc2, CodVend AS codvend, MtoTotal AS mtototal 
-                FROM SAFACT WHERE NumeroD = ? AND TipoFac = 'A'";
+                FROM SAFACT WHERE NumeroD = ? AND TipoFac IN ('A','C')";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -143,21 +143,28 @@ class Despachos extends Conectar{
         return ($delete1 && $delete2);
     }
 
-    public function insertarDetalleDespacho($correlativo, $numero_documento, $tipo_documento) {
-
+    public function insertarDetalleDespacho($correlativo, $numero_documento, $tipo_documento, $estado = null) {
+        $i=0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "INSERT INTO Despachos_Det (ID_Correlativo, Numerod, Tipofac) VALUES (?, ?, ?)";
+        if (is_null($estado)) {
+            $sql = "INSERT INTO Despachos_Det (ID_Correlativo, Numerod, Tipofac) VALUES (?, ?, ?)";
+        } else {
+            $sql = "INSERT INTO Despachos_Det (ID_Correlativo, Numerod, Estado, Tipofac) VALUES (?, ?, ?, ?)";
+        }
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo);
-        $sql->bindValue(2,$numero_documento);
-        $sql->bindValue(3,$tipo_documento);
+        $sql->bindValue($i+=1,$correlativo);
+        $sql->bindValue($i+=1,$numero_documento);
+        if (!is_null($estado)) {
+            $sql->bindValue($i += 1, $estado);
+        }
+        $sql->bindValue($i+=1,$tipo_documento);
         return $sql->execute();
     }
 

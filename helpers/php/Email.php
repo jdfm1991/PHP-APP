@@ -1,5 +1,8 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class Email {
 
@@ -11,39 +14,40 @@ class Email {
     public static function send_email($title = 'empty', $body = '', $recipients=array())
     {
         require (PATH_VENDOR.'autoload.php');
-        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        $mail = new PHPMailer(true);
 
+        try {
+            //Server settings
+            //$mail->SMTPDebug  = SMTP::DEBUG_SERVER;                     //Enable verbose debug output
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->Host       = EMAIL_HOST;                             //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Username   = EMAIL_USER;                             //SMTP username
+            $mail->Password   = EMAIL_PASSWORD;                         //SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            $mail->Port       = EMAIL_PORT;                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-        $mail->PluginDir = "";
-        $mail->Mailer = "smtp";
-        $mail->Host = EMAIL_HOST;
-        $mail->Port= EMAIL_PORT;
-        $mail->SMTPAuth = true;
-        $mail->CharSet="utf-8";
-        $mail->isSMTP();                                           //SMTP password
-        $mail->SMTPSecure = $mail::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            //Recipients
+            $mail->setFrom(EMAIL_EMAILFROM, Empresa::getName());
+            if (is_array($recipients)==true and count($recipients)>0) {
+                foreach ($recipients as $recipient) {
+                    $mail->addAddress($recipient);
+                }
 
-        $mail->Username = EMAIL_USER;
-        $mail->Password = EMAIL_PASSWORD;
+                # $mail->addReplyTo('pdegenaro@gconfisur.com');
+                # $mail->addCC('gconfisur@gmail.com');
 
-        $mail->From = EMAIL_EMAILFROM;
-        $mail->FromName = Empresa::getName();
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = $title;
+                $mail->Body    = $body;
+                $mail->AltBody = "Grupo Confisur IT -> The Innovation is our's priority..";
 
-        //El valor por defecto de Timeout es 10, le voy a dar un poco mas
-        $mail->Timeout= EMAIL_TIMEOUT;
-
-        if (is_array($recipients)==true and count($recipients)>0) {
-            foreach ($recipients as $recipient) {
-                $mail->AddAddress($recipient);
+                $mail->send();
             }
-//            $mail->AddCC("gconfisur@gmail.com");
-            $mail->isHTML(true);
-            $mail->Subject = $title;
-            $mail->Body = $body;
-            $mail->AltBody = "Grupo Confisur IT -> The Innovation is our's priority..";
-
-            return $mail->Send();
+        } catch (Exception $e) {
+            return false;
         }
-        return false;
+        return true;
     }
 }
