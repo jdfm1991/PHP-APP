@@ -28,6 +28,7 @@ require_once("../config/conexion.php");
         </div>
         <section class="content">
             <div class="container-fluid">
+                <?php echo var_dump($_SESSION) ?>
                 <div class="row">
 
                     <div class="col-lg-3 col-6">

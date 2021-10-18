@@ -1,5 +1,6 @@
 <?php
-
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
 
@@ -158,6 +159,8 @@ switch ($_GET["op"]) {
 
     case "actualizar_factura_en_despacho":
 
+        $actualizar_documento = false;
+
         $correlativo = $_POST["correlativo"];
         $documento_nuevo = $_POST["documento_nuevo"];
         $documento_viejo = $_POST["documento_viejo"];
@@ -179,13 +182,38 @@ switch ($_GET["op"]) {
                 {
                     $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
 
-                    if(count($factura_estado_1) != 0)
+                    if(count($factura_estado_1) == 0)
                     {
-                        /**  enviar correo: despachos_edita_3 **/
-                    }
+                        //si cumple con todas las condiciones ACTUALIZA la factura en un despacho en especifico
+                        $actualizar_documento = $despachos->updateDetalleDespacho($correlativo, $documento_nuevo, $documento_viejo);
 
-                    //si cumple con todas las condiciones ACTUALIZA la factura en un despacho en especifico
-                    $actualizar_documento = $despachos->updateDetalleDespacho($correlativo, $documento_nuevo, $documento_viejo);
+
+                        $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+
+                        /**  enviar correo: despachos_edita_3 **/
+                        if ($actualizar_documento) {
+                            # preparamos los datos a enviar
+                            $dataEmail = EmailData::DataDespachoEditarDocumento(
+                                array(
+                                    'usuario' => $_SESSION['login'],
+                                    'correl_despacho' => $correlativo,
+                                    'nroplanilla' => '0', #PENDIENTE
+                                    'destino' => $despacho[0]['Destino'],
+                                    'chofer' => $despacho[0]['NomperChofer'],
+                                    'doc_viejo' => $documento_viejo,
+                                    'doc_nuevo' => $documento_nuevo,
+                                )
+                            );
+
+                            # enviar correo
+                            $status_send = Email::send_email(
+                                $dataEmail['title'],
+                                $dataEmail['body'],
+                                $dataEmail['recipients'],
+                            );
+                        }
+
+                    }
 
                     //verificamos que se haya realizado la actualizacion correctamente y devolvemos el mensaje
                     ($actualizar_documento) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL ACTUALIZAR") ;
@@ -231,6 +259,8 @@ switch ($_GET["op"]) {
 
     case "agregar_factura_en_despacho":
 
+        $insertar_documento = false;
+
         $correlativo = $_POST["correlativo"];
         $nro_documento = $_POST["documento_agregar"];
 
@@ -251,12 +281,6 @@ switch ($_GET["op"]) {
                 if(count($factura_estado_1) == 0)
                 {
                     //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
-                    /*$insertar_documento = $despachos->insertarDetalleDespacho(
-                        $correlativo, $nro_documento, 'A'
-                    );
-
-                } else {*/
-                    //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
                     $insertar_documento = $despachos->insertarDetalleDespacho(
                         $correlativo, $nro_documento, 'A', '1'
                     );
@@ -268,7 +292,7 @@ switch ($_GET["op"]) {
                         # preparamos los datos a enviar
                         $dataEmail = EmailData::DataDespachoAgregarDocumento(
                             array(
-                                'usuario' => /*$_SESSION['login']*/'USUARIO_PRUEBA',
+                                'usuario' => $_SESSION['login'],
                                 'correl_despacho' => $correlativo,
                                 'nroplanilla' => '0', #PENDIENTE
                                 'destino' => $despacho[0]['Destino'],

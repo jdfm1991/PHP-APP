@@ -256,6 +256,7 @@ function modalEliminarDocumentoEnDespacho(nro_documento, correlativo) {
 
 function modalAgregarDocumentoEnDespacho() {
     $('#alert_agregar_documento').hide();
+    $('#agregarFacturaEnDespachoModal #documento_agregar').val("");
     $('#agregarFacturaEnDespachoModal').modal('show');
 }
 
