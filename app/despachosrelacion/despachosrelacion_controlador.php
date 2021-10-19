@@ -149,7 +149,65 @@ switch ($_GET["op"]) {
 
     case "actualizar_cabeceraDespacho_para_editar":
 
-        $actualizar_despacho = $despachos->updateDespacho($_POST["correlativo"], $_POST["destino"], $_POST["chofer"], $_POST["vehiculo"], $_POST["fechad"]);
+        $actualizar_despacho = false;
+
+        $fecha_ant = $destino_ant = $cedula_ant = $placa_ant = "";
+
+        $correlativo = $_POST["correlativo"];
+        $id_vehiculo = $_POST["vehiculo"];
+        $destino   = $_POST["destino"];
+        $id_chofer = $_POST["chofer"];
+        $fechad    = $_POST["fechad"];
+
+        //consultamos si existe el despacho en la bd
+        $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+        //validamos si el despacho existe
+        if(ArraysHelpers::validate($despacho))
+        {
+            $despacho = ArraysHelpers::validateWithPos($despacho, 0);
+            $id_vehiculo_ant = $despacho['ID_Vehiculo'];
+            $destino_ant   = $despacho['Destino'];
+            $id_chofer_ant = $despacho['ID_Chofer'];
+            $fechad_ant    = $despacho['fechad'];
+
+            # datos anterior
+            $vehiculo_ant = ArraysHelpers::validateWithPos(Vehiculo::getById($id_vehiculo_ant), 0);
+            $chofer_ant   = ArraysHelpers::validateWithPos(Choferes::getByDni($id_chofer_ant), 0);
+            # datos nuevo
+            $vehiculo = ArraysHelpers::validateWithPos(Vehiculo::getById($id_vehiculo), 0);
+            $chofer   = ArraysHelpers::validateWithPos(Choferes::getByDni($id_chofer), 0);
+
+            # actualizar despacho
+            $actualizar_despacho = $despachos->updateDespacho(
+                $correlativo, $destino, $id_chofer, $id_vehiculo, $fechad
+            );
+
+            /**  enviar correo: despachos_edita_2 **/
+            if ($actualizar_despacho) {
+                # preparamos los datos a enviar
+                $dataEmail = EmailData::DataEditarChoferesyDestinoDeDespacho(
+                    array(
+                        'usuario' => $_SESSION['login'],
+                        'correl_despacho' => $correlativo,
+                        'vehiculo_ant' => $vehiculo_ant['placa']." ".$vehiculo_ant['modelo']." ".$vehiculo_ant['capacidad']."Kg",
+                        'destino_ant'  => $destino_ant,
+                        'chofer_ant'   => $chofer_ant['Nomper'],
+                        'fechad_ant'   => $fechad_ant,
+                        'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".$vehiculo['capacidad']."Kg",
+                        'destino'  => $destino,
+                        'chofer'   => $chofer['Nomper'],
+                        'fechad'   => $fechad,
+                    )
+                );
+
+                # enviar correo
+                $status_send = Email::send_email(
+                    $dataEmail['title'],
+                    $dataEmail['body'],
+                    $dataEmail['recipients'],
+                );
+            }
+        }
 
         ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR") ;
 
@@ -326,7 +384,6 @@ switch ($_GET["op"]) {
         echo json_encode($output);
 
         break;
-
 
     case "eliminar_un_despacho":
 

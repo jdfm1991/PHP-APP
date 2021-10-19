@@ -10,7 +10,7 @@ class ArraysHelpers
     public static function validateWithPos(array $arr, int $position) {
         if (is_array($arr) == true and count($arr) > 0 and array_key_exists($position, $arr))
             return $arr[$position];
-        return 0;
+        return array();
     }
 
     public static function validateWithPosAndParameter(array $arr, int $position, string $parameter) {

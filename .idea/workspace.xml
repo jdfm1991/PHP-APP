@@ -21,11 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion reporte compras">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/modales/buscar_factura_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/modales/buscar_factura_modal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -266,6 +263,7 @@
       <workItem from="1634301144121" duration="8732000" />
       <workItem from="1634310852509" duration="11013000" />
       <workItem from="1634560537819" duration="7568000" />
+      <workItem from="1634646932385" duration="7824000" />
     </task>
     <task id="LOCAL-00013" summary="avance reporte excel kpi">
       <created>1623946766830</created>
