@@ -19,11 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion reporte compras">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="envio de correo Editar despacho (destino y chofer y vehiculo)">
+      <change afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/agregar_documento_despacho.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_chofer_destino_despacho.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_principal_despachos_modal.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_despachos_modal.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +43,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -263,14 +266,7 @@
       <workItem from="1634301144121" duration="8732000" />
       <workItem from="1634310852509" duration="11013000" />
       <workItem from="1634560537819" duration="7568000" />
-      <workItem from="1634646932385" duration="7824000" />
-    </task>
-    <task id="LOCAL-00013" summary="avance reporte excel kpi">
-      <created>1623946766830</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1623946766830</updated>
+      <workItem from="1634646932385" duration="8675000" />
     </task>
     <task id="LOCAL-00014" summary="reporte excel kpi">
       <created>1624020547742</created>
@@ -608,7 +604,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634313409138</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="envio de correo Editar despacho (destino y chofer y vehiculo)">
+      <created>1634655097564</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1634655097564</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,7 +630,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="motivo no venta" />
     <MESSAGE value="tabladinamica" />
     <MESSAGE value="reporte de pedidos sin facturar" />
     <MESSAGE value="avance de Devoluciones sin motivo" />
@@ -652,7 +654,8 @@
     <MESSAGE value="avance recuperar contraseña y actualizacion de librerias con composer" />
     <MESSAGE value="avance recuperar contraseña" />
     <MESSAGE value="adecuacion reporte compras" />
-    <option name="LAST_COMMIT_MESSAGE" value="adecuacion reporte compras" />
+    <MESSAGE value="envio de correo Editar despacho (destino y chofer y vehiculo)" />
+    <option name="LAST_COMMIT_MESSAGE" value="envio de correo Editar despacho (destino y chofer y vehiculo)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

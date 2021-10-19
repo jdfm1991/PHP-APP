@@ -41,7 +41,7 @@ if (!isset($_SESSION['cedula'])) {
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_numerod')?>"><?=Strings::titleFromJson('cantidad_numerod')?></th>
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('destino')?>"><?=Strings::titleFromJson('destino')?></th>
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('cobros')?>"><?=Strings::titleFromJson('cobros')?></th>
-                                            <th  class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></th>
+                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></th>
                                         </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
@@ -52,7 +52,7 @@ if (!isset($_SESSION['cedula'])) {
                                             <th class="text-center"><?=Strings::titleFromJson('cantidad_numerod')?></th>
                                             <th class="text-center"><?=Strings::titleFromJson('destino')?></th>
                                             <th class="text-center"><?=Strings::titleFromJson('cobros')?></th>
-                                            <th  class="text-center"><?=Strings::titleFromJson('botones_accion')?></th>
+                                            <th class="text-center"><?=Strings::titleFromJson('botones_accion')?></th>
                                         </tr>
                                         </tfoot>
                                         <tbody>
@@ -69,8 +69,17 @@ if (!isset($_SESSION['cedula'])) {
             <!-- Modal bucar factura -->
             <?php include '../despachos/modales/buscar_factura_modal.html' ?>
 
-            <!-- Modal editar despachos -->
-            <?php include 'modales/editar_despachos_modal.html' ?>
+            <!-- Modal principal editar despachos -->
+            <?php include 'modales/editar_principal_despachos_modal.html' ?>
+
+            <!-- Modal editar chofer, destino y vehiculo despachos -->
+            <?php include 'modales/editar_chofer_destino_despacho.html' ?>
+
+            <!-- Modal editar documento de un despachos -->
+            <?php include 'modales/editar_documento_despacho.html' ?>
+
+            <!-- Modal agregar documento despachos -->
+            <?php include 'modales/agregar_documento_despacho.html' ?>
 
             <!-- Modal ver productos de un despcho -->
             <?php include 'modales/ver_productos_factura_modal.html' ?>
