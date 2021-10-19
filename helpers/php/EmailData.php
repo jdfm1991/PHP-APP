@@ -101,6 +101,26 @@ class EmailData
         );
     }
 
+    public static function DataEliminarDocumentoDespacho($data) {
+        $usuario = strtoupper($data['usuario']);
+        $correl_despacho = str_pad($data['correl_despacho'], 8, 0, STR_PAD_LEFT);
+        $correl_numero_pla = str_pad($data['nroplanilla'], 8, 0, STR_PAD_LEFT);
+        $documento = $data['doc'];
+
+        return array(
+            'title'      => "SE HA ELIMINADO EL DESPACHO NRO $correl_despacho",
+            'body'       => "<p>$usuario, HA ELIMINADO LA FACTURA NRO: $documento, PERTENECIENTE AL DESPAHO NRO: </p> 
+                             <p>POR ENDE TAMBIEN SE HA ELIMINADO LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_chofer.</p></b>",
+            'recipients' => array(
+                'dvilla@gconfisur.com',
+                'rpenaloza@gconfisur.com',
+                'jcaraballo@gconfisur.com',
+                'cjimenez@gconfisur.com',
+                'ctrujillo@gconfisur.com',
+            ), // puede ser mas de un destinatario
+        );
+    }
+
     public static function DataDespachoEliminado($data) {
         $usuario = strtoupper($data['usuario']);
         $correl_despacho = $data['correl_despacho'];

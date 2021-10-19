@@ -59,7 +59,6 @@ switch ($_GET["op"]) {
         }
         break;
 
-
     case "buscar_despacho_por_correlativo":
 
         //obtenemos el valor enviado por ajax
@@ -144,7 +143,6 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
 
     case "actualizar_cabeceraDespacho_para_editar":
@@ -212,7 +210,6 @@ switch ($_GET["op"]) {
         ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR") ;
 
         echo json_encode($output);
-
         break;
 
     case "actualizar_factura_en_despacho":
@@ -230,7 +227,7 @@ switch ($_GET["op"]) {
             $existe_factura = $despachos->getFactura($documento_nuevo);
 
             //validamos si la factura existe
-            if(count($existe_factura) > 0)
+            if (ArraysHelpers::validate($existe_factura))
             {
                 //consultamos si la factura existe en un despacho
                 $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($documento_nuevo);
@@ -244,7 +241,6 @@ switch ($_GET["op"]) {
                     {
                         //si cumple con todas las condiciones ACTUALIZA la factura en un despacho en especifico
                         $actualizar_documento = $despachos->updateDetalleDespacho($correlativo, $documento_nuevo, $documento_viejo);
-
 
                         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
 
@@ -294,26 +290,59 @@ switch ($_GET["op"]) {
 
     case "eliminar_factura_en_despacho":
 
+        $eliminar_documento = false;
+
         $correlativo = $_POST["correlativo"];
         $nro_documento = $_POST["nro_documento"];
 
-        $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
-
-        if(count($factura_estado_1) != 0)
+        //consultamos si existe el despacho en la bd
+        $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+        //validamos si el despacho existe
+        if(ArraysHelpers::validate($despacho))
         {
-            /**  enviar correo: despachos_elimina_fact **/
-        }
+            //consultamos si la factura existe en un despacho
+            $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
 
-        //eliminamos de un despacho en especifico
-        $eliminar_documento = $despachos->deleteDetalleDespacho($correlativo, $nro_documento);
+            if(ArraysHelpers::validate($factura_estado_1))
+            {
+                //eliminamos de un despacho en especifico
+                $eliminar_documento = /*$despachos->deleteDetalleDespacho(
+                    $correlativo, $nro_documento
+                )*/true;
+
+                /**  enviar correo: despachos_elimina_fact **/
+                if ($eliminar_documento) {
+                    # preparamos los datos a enviar
+                    $dataEmail = EmailData::DataEditarChoferesyDestinoDeDespacho(
+                        array(
+                            'usuario' => $_SESSION['login'],
+                            'correl_despacho' => $correlativo,
+                            'vehiculo_ant' => $vehiculo_ant['placa']." ".$vehiculo_ant['modelo']." ".$vehiculo_ant['capacidad']."Kg",
+                            'destino_ant'  => $destino_ant,
+                            'chofer_ant'   => $chofer_ant['Nomper'],
+                            'fechad_ant'   => $fechad_ant,
+                            'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".$vehiculo['capacidad']."Kg",
+                            'destino'  => $destino,
+                            'chofer'   => $chofer['Nomper'],
+                            'fechad'   => $fechad,
+                        )
+                    );
+
+                    # enviar correo
+                    $status_send = Email::send_email(
+                        $dataEmail['title'],
+                        $dataEmail['body'],
+                        $dataEmail['recipients'],
+                    );
+                }
+            }
+        }
 
         //verificamos que se haya realizado la eliminacion del documento correctamente y devolvemos el mensaje
         ($eliminar_documento) ? $output["mensaje"] = 'ELIMINADO EXITOSAMENTE' : $output["mensaje"] = 'ERROR AL ELIMINAR';
 
         echo json_encode($output);
-
         break;
-
 
     case "agregar_factura_en_despacho":
 
@@ -382,7 +411,6 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
 
     case "eliminar_un_despacho":
@@ -409,9 +437,7 @@ switch ($_GET["op"]) {
         }
 
         echo json_encode($output);
-
         break;
-
 
     case "listar_productos_de_un_despacho":
 

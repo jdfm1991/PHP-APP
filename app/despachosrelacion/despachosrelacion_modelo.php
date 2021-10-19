@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
 
@@ -61,7 +62,7 @@ class DespachosRelacion extends Conectar{
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->bindValue(1,$correlativo);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -79,7 +80,7 @@ class DespachosRelacion extends Conectar{
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->bindValue(1,$correlativo);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -96,8 +97,8 @@ class DespachosRelacion extends Conectar{
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
-        $sql->bindValue(2,$nro_documento, PDO::PARAM_STR);
+        $sql->bindValue(1,$correlativo);
+        $sql->bindValue(2,$nro_documento);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -117,7 +118,7 @@ class DespachosRelacion extends Conectar{
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->bindValue(1,$correlativo);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -148,9 +149,9 @@ class DespachosRelacion extends Conectar{
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
-        $sql->bindValue(2,$correlativo, PDO::PARAM_STR);
-        $sql->bindValue(3,$correlativo, PDO::PARAM_STR);
+        $sql->bindValue(1,$correlativo);
+        $sql->bindValue(2,$correlativo);
+        $sql->bindValue(3,$correlativo);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -170,7 +171,7 @@ class DespachosRelacion extends Conectar{
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo, PDO::PARAM_STR);
+        $sql->bindValue(1,$correlativo);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
