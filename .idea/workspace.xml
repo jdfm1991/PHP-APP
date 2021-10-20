@@ -19,9 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="cambio en distribucion de los modales">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="notificacion eliminar una factura de un despacho y eliminar un despacho">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -263,14 +263,7 @@
       <workItem from="1634310852509" duration="11013000" />
       <workItem from="1634560537819" duration="7568000" />
       <workItem from="1634646932385" duration="11438000" />
-      <workItem from="1634732311210" duration="3902000" />
-    </task>
-    <task id="LOCAL-00015" summary="sku no vendidos">
-      <created>1624033201454</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1624033201454</updated>
+      <workItem from="1634732311210" duration="8115000" />
     </task>
     <task id="LOCAL-00016" summary="sku no vendidos">
       <created>1624303995283</created>
@@ -608,7 +601,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634655712478</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="notificacion eliminar una factura de un despacho y eliminar un despacho">
+      <created>1634737973658</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1634737973659</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,7 +627,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="reporte de pedidos sin facturar" />
     <MESSAGE value="avance de Devoluciones sin motivo" />
     <MESSAGE value="final de Devoluciones sin motivo" />
     <MESSAGE value="adecuacion de number_format a Strings:rdecimal()" />
@@ -652,7 +651,8 @@
     <MESSAGE value="adecuacion reporte compras" />
     <MESSAGE value="envio de correo Editar despacho (destino y chofer y vehiculo)" />
     <MESSAGE value="cambio en distribucion de los modales" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambio en distribucion de los modales" />
+    <MESSAGE value="notificacion eliminar una factura de un despacho y eliminar un despacho" />
+    <option name="LAST_COMMIT_MESSAGE" value="notificacion eliminar una factura de un despacho y eliminar un despacho" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

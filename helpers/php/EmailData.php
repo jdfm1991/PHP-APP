@@ -10,6 +10,35 @@ class EmailData
         );
     }
 
+    public static function DataCreacionDeDespacho($data) {
+        $usuario = strtoupper($data['usuario']);
+        $correl_despacho = str_pad($data['correl_despacho'], 8, 0, STR_PAD_LEFT);
+        $vehiculo = $data['vehiculo'];
+        $destino = $data['destino'];
+        $chofer = $data['chofer'];
+        $fechad = $data['fechad'];
+
+        return array(
+            'title'      => "SE HA CREADO UN NUEVO DESPACHO NRO: $correl_despacho",
+            'body'       => "<strong>$usuario</strong>, HA CREADO EL DESPACHO NRO: <strong>$correl_despacho</strong>.</p> <br>
+                             <p>
+                                 <strong>CON LA SIGUIENTE INFORMACION:</strong>  <br>
+                                 PARA SER DESPACHADO FECHA: $fechad <br>
+                                 DESTINO: $destino <br>
+                                 CHOFER: $chofer <br>
+                                 VEHICULO: $vehiculo
+                             </p>",
+            'recipients' => array(
+                /*'dvilla@gconfisur.com',
+                'rpenaloza@gconfisur.com',
+                'jcaraballo@gconfisur.com',
+                'cjimenez@gconfisur.com',
+                'ctrujillo@gconfisur.com',*/
+                'llopez@gconfisur.com'
+            ),
+        );
+    }
+
     public static function DataDespachoAgregarDocumento($data) {
         $usuario = strtoupper($data['usuario']);
         $correl_despacho = str_pad($data['correl_despacho'], 8, 0, STR_PAD_LEFT);
@@ -80,7 +109,7 @@ class EmailData
                                  <strong>LA SIGUIENTE INFORMACION:</strong>  <br>
                                  FECHA DESPACHO: $fechad_ant <br>
                                  DESTINO: $destino_ant <br>
-                                 CHOFE:R $chofer_ant <br>
+                                 CHOFER: $chofer_ant <br>
                                  VEHICULO: $vehiculo_ant
                              </p>
                              <p>

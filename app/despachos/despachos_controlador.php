@@ -242,6 +242,9 @@ switch ($_GET["op"]) {
 
     case "registrar_despacho":
 
+        $creacionDespacho = false;
+        $creacionDetalleDespacho = true;
+
         if(isset($_POST["documentos"])) {
             $array = explode(";", substr($_POST["documentos"], 0, -1));
         }
@@ -256,16 +259,47 @@ switch ($_GET["op"]) {
 
         $creacionDespacho = $despachos->insertarDespacho($values);
 
-        if($creacionDespacho != -1){
+        if ($creacionDespacho != -1) {
+            foreach ($array AS $item) {
+                $insertDet = $despachos->insertarDetalleDespacho($creacionDespacho, $item, 'A');
+                if (!$insertDet) {
+                    $creacionDetalleDespacho = false;
+                }
+            }
+        }
 
-            foreach ($array AS $item)
-                $despachos->insertarDetalleDespacho($creacionDespacho, $item, 'A');
+        # datos
+        $vehiculo = ArraysHelpers::validateWithPos(Vehiculo::getById($values['vehiculo']), 0);
+        $chofer   = ArraysHelpers::validateWithPos(Choferes::getByDni($values['chofer']), 0);
 
-            $cad_cero = "";
+        if ($creacionDespacho && $creacionDetalleDespacho)
+        {
+            /**  enviar correo: despachos_visual **/
+            # preparamos los datos a enviar
+            $dataEmail = EmailData::DataCreacionDeDespacho(
+                array(
+                    'usuario' => $_SESSION['login'],
+                    'correl_despacho' => $correlativo,
+                    'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".$vehiculo['capacidad']."Kg",
+                    'destino'  => $values['destino'],
+                    'chofer'   => $chofer['Nomper'],
+                    'fechad'   => $values['fechad'],
+                )
+            );
+
+            # enviar correo
+            $status_send = Email::send_email(
+                $dataEmail['title'],
+                $dataEmail['body'],
+                $dataEmail['recipients'],
+            );
+
+            /*$cad_cero = "";
             for($i=0; $i<(8-intval($creacionDespacho)); $i++)
-                $cad_cero.='0';
+                $cad_cero.='0';*/
 
-            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . ($cad_cero.$creacionDespacho);
+//            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . ($cad_cero.$creacionDespacho);
+            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . (str_pad($creacionDespacho, 8, 0, STR_PAD_LEFT));
             $output["icono"] = "success";
             $output["correl"] = $creacionDespacho;
         } else {
