@@ -20,7 +20,7 @@ class EmailData
 
         return array(
             'title'      => "SE HA AGREGADO UN DOCUMENTO AL DESPACHO NRO: $correl_despacho",
-            'body'       => "$usuario, HA AGREGADO EL DOCUMENTO NRO: $documento, AL DESPACHO NRO: $correl_despacho, CON DESTINO AH: $destino, A CARGO DEL CHOFER: $chofer. </p>
+            'body'       => "<strong>$usuario</strong>, HA AGREGADO EL DOCUMENTO NRO: <strong>$documento</strong>, AL DESPACHO NRO: <strong>$correl_despacho</strong>, CON DESTINO AH: $destino, A CARGO DEL CHOFER: $chofer. </p>
                              ESTE DESPACHO YA SE ENCONTRABA RELACIONADO, POR ENDE ES NECESARIO QUE SE REIMPRIMA LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_numero_pla.</b> </p> 
                              </p>",
             'recipients' => array(
@@ -45,8 +45,8 @@ class EmailData
 
         return array(
             'title'      => "SE HA EDITADO UNA FACTURA EN EL DESPACHO NRO: $correl_despacho",
-            'body'       => "$usuario, HA EDITADO EL NUMERO DE FACTURA: $documento_viejo, POR LA FACTURA NRO: $documento_nuevo 
-                             EN EL DESPACHO NRO: $correl_despacho, CON DESTINO AH: $destino, A CARGO DEL CHOFER: $chofer </p>
+            'body'       => "<strong>$usuario</strong>, HA EDITADO EL NUMERO DE FACTURA: $documento_viejo, POR LA FACTURA NRO: $documento_nuevo 
+                             EN EL DESPACHO NRO: <strong>$correl_despacho</strong>, CON DESTINO AH: $destino, A CARGO DEL CHOFER: $chofer </p>
                              ESTE DESPACHO YA SE ENCONTRABA RELACIONADO, POR ENDE ES NECESARIO QUE SE REIMPRIMA LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_numero_pla. </p>
                              YA QUE ESTA PLANILLA HA SIDO AFECTADA POR DICHA EDICION DE FACTURA</b> </p>
                              </p>",
@@ -108,34 +108,37 @@ class EmailData
         $documento = $data['doc'];
 
         return array(
-            'title'      => "SE HA ELIMINADO EL DESPACHO NRO $correl_despacho",
-            'body'       => "<p>$usuario, HA ELIMINADO LA FACTURA NRO: $documento, PERTENECIENTE AL DESPAHO NRO: </p> 
-                             <p>POR ENDE TAMBIEN SE HA ELIMINADO LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_chofer.</p></b>",
+            'title'      => "SE HA ELIMINADO UNA FACTURA DEL DESPACHO NRO: $correl_despacho",
+            'body'       => "<strong>$usuario</strong>, HA ELIMINADO LA FACTURA NRO: <strong>$documento</strong>, PERTENECIENTE AL DESPACHO NRO: <strong>$correl_despacho</strong></p> <br>
+                             ESTE DESPACHO YA SE ENCONTRABA RELACIONADO, POR ENDE ES NECESARIO QUE SE REIMPRIMA LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_numero_pla.  
+                             YA QUE ESTA PLANILLA HA SIDO AFECTADA POR LA ELIMINACION DE DICHA FACTURA</p>",
             'recipients' => array(
-                'dvilla@gconfisur.com',
+                /*'dvilla@gconfisur.com',
                 'rpenaloza@gconfisur.com',
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
-                'ctrujillo@gconfisur.com',
+                'ctrujillo@gconfisur.com',*/
+                'llopez@gconfisur.com'
             ), // puede ser mas de un destinatario
         );
     }
 
-    public static function DataDespachoEliminado($data) {
+    public static function DataEliminarDespacho($data) {
         $usuario = strtoupper($data['usuario']);
-        $correl_despacho = $data['correl_despacho'];
-        $correl_chofer = $data['correl_chofer'];
+        $correl_despacho = str_pad($data['correl_despacho'], 8, 0, STR_PAD_LEFT);
+        $correl_numero_pla = str_pad($data['nroplanilla'], 8, 0, STR_PAD_LEFT);
 
         return array(
             'title'      => "SE HA ELIMINADO EL DESPACHO NRO $correl_despacho",
-            'body'       => "<p>$usuario, HA ELIMINADO EL DESPACHO NRO: $correl_despacho</p> 
-                             <p>POR ENDE TAMBIEN SE HA ELIMINADO LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_chofer.</p></b>",
+            'body'       => "<strong>$usuario</strong>, HA ELIMINADO EL DESPACHO NRO: <strong>$correl_despacho</strong></p> <br>
+                             POR ENDE TAMBIEN SE HA ELIMINADO LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_numero_pla.</p>",
             'recipients' => array(
-                'dvilla@gconfisur.com',
+                /*'dvilla@gconfisur.com',
                 'rpenaloza@gconfisur.com',
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
-                'ctrujillo@gconfisur.com',
+                'ctrujillo@gconfisur.com',*/
+                'llopez@gconfisur.com'
             ), // puede ser mas de un destinatario
         );
     }

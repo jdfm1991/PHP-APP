@@ -301,30 +301,24 @@ switch ($_GET["op"]) {
         if(ArraysHelpers::validate($despacho))
         {
             //consultamos si la factura existe en un despacho
-            $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
+            $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
 
-            if(ArraysHelpers::validate($factura_estado_1))
+            if(ArraysHelpers::validate($existe_en_despacho))
             {
                 //eliminamos de un despacho en especifico
-                $eliminar_documento = /*$despachos->deleteDetalleDespacho(
+                $eliminar_documento = $despachos->deleteDetalleDespacho(
                     $correlativo, $nro_documento
-                )*/true;
+                );
 
                 /**  enviar correo: despachos_elimina_fact **/
                 if ($eliminar_documento) {
                     # preparamos los datos a enviar
-                    $dataEmail = EmailData::DataEditarChoferesyDestinoDeDespacho(
+                    $dataEmail = EmailData::DataEliminarDocumentoDespacho(
                         array(
                             'usuario' => $_SESSION['login'],
                             'correl_despacho' => $correlativo,
-                            'vehiculo_ant' => $vehiculo_ant['placa']." ".$vehiculo_ant['modelo']." ".$vehiculo_ant['capacidad']."Kg",
-                            'destino_ant'  => $destino_ant,
-                            'chofer_ant'   => $chofer_ant['Nomper'],
-                            'fechad_ant'   => $fechad_ant,
-                            'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".$vehiculo['capacidad']."Kg",
-                            'destino'  => $destino,
-                            'chofer'   => $chofer['Nomper'],
-                            'fechad'   => $fechad,
+                            'nroplanilla' => '0', #PENDIENTE
+                            'doc' => $nro_documento,
                         )
                     );
 
@@ -415,17 +409,34 @@ switch ($_GET["op"]) {
 
     case "eliminar_un_despacho":
 
+        $eliminar_despacho = false;
         $correlativo = $_POST["correlativo"];
 
-        $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
-
-        if(count($factura_estado_1) != 0)
+        $existe_despacho = $despachos->get_despacho_por_id($correlativo);
+        if(ArraysHelpers::validate($existe_despacho))
         {
-            /**  enviar correo: despachos_elimina **/
-        }
+            //eliminamos de un despacho en especifico
+            $eliminar_despacho = $despachos->deleteDespacho($correlativo);
 
-        //eliminamos de un despacho en especifico
-        $eliminar_despacho = $despachos->deleteDespacho($correlativo);
+            /**  enviar correo: despachos_elimina **/
+            if ($eliminar_despacho) {
+                # preparamos los datos a enviar
+                $dataEmail = EmailData::DataEliminarDespacho(
+                    array(
+                        'usuario' => $_SESSION['login'],
+                        'correl_despacho' => $correlativo,
+                        'nroplanilla' => '0', #PENDIENTE
+                    )
+                );
+
+                # enviar correo
+                $status_send = Email::send_email(
+                    $dataEmail['title'],
+                    $dataEmail['body'],
+                    $dataEmail['recipients'],
+                );
+            }
+        }
 
         //verificamos que se haya realizado la eliminacion del documento correctamente y devolvemos el mensaje
         if($eliminar_despacho) {
