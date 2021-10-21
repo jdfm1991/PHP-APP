@@ -17,7 +17,7 @@ switch ($_GET["op"]) {
 
         $data = array(
             'id_vehiculo'   => $id_vehiculo,
-            'placa'         => strtoupper(str_replace("-","",$_POST['placa'])),
+            'placa'         => strtoupper($_POST['placa']),
             'modelo'        =>strtoupper($_POST['modelo']),
             'capacidad'     => str_replace(".","", str_replace(",","", $_POST['capacidad'])),
             'volumen'       => $_POST["volumen"],

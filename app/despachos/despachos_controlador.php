@@ -1,5 +1,6 @@
 <?php
-
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
 
@@ -279,8 +280,8 @@ switch ($_GET["op"]) {
             $dataEmail = EmailData::DataCreacionDeDespacho(
                 array(
                     'usuario' => $_SESSION['login'],
-                    'correl_despacho' => $correlativo,
-                    'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".$vehiculo['capacidad']."Kg",
+                    'correl_despacho' => $creacionDespacho,
+                    'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".Strings::rdecimal($vehiculo['capacidad'],0)."Kg",
                     'destino'  => $values['destino'],
                     'chofer'   => $chofer['Nomper'],
                     'fechad'   => $values['fechad'],

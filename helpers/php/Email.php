@@ -26,6 +26,7 @@ class Email {
             $mail->Password   = EMAIL_PASSWORD;                         //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = EMAIL_PORT;                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Timeout    = EMAIL_TIMEOUT;
 
             //Recipients
             $mail->setFrom(EMAIL_EMAILFROM, Empresa::getName());
@@ -34,11 +35,11 @@ class Email {
                     $mail->addAddress($recipient);
                 }
 
-                # $mail->addReplyTo('pdegenaro@gconfisur.com');
-                # $mail->addCC('gconfisur@gmail.com');
+                $mail->addReplyTo(EMAIL_REPLY_TO);
+                # $mail->addCC(EMAIL_ADDCC);
 
                 //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->isHTML(true);                             //Set email format to HTML
                 $mail->Subject = $title;
                 $mail->Body    = $body;
                 $mail->AltBody = "Grupo Confisur IT -> The Innovation is our's priority..";

@@ -82,15 +82,22 @@ switch ($_GET["op"]) {
 
             //ahora acumulamos los total ventas de año actual en sus meses
             foreach (array($ventas_fact, $ventas_nt) as $datos) {
-                foreach ($datos as $row)
-                    $ventas_actual[$row['mes']] += $row['total'];
+                foreach ($datos as $row) {
+                    if (array_key_exists($row['mes'], $ventas_actual)) {
+                        $ventas_actual[$row['mes']] += $row['total'];
+                    }
+                }
+
             }
 
 
             //asi mismo, acumulamos los total ventas del año anterior en sus meses
             foreach (array($ventas_fact_anterior, $ventas_nt_anterior) as $datos) {
-                foreach ($datos as $row)
-                    $ventas_anterior[$row['mes']] += $row['total'];
+                foreach ($datos as $row) {
+                    if (array_key_exists($row['mes'], $ventas_anterior)) {
+                        $ventas_anterior[$row['mes']] += $row['total'];
+                    }
+                }
             }
 
 

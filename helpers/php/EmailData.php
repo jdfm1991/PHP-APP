@@ -104,7 +104,7 @@ class EmailData
 
         return array(
             'title'      => "MODIFICACION DE CHOFERES Y DESTINOS EN EL DESPACHO NRO $correl_despacho",
-            'body'       => "<strong>$usuario</strong>, HA REALIZADO UNA MODIFICACION EN EL DESPACHO NRO: $correl_despacho.</p> <br>
+            'body'       => "<strong>$usuario</strong>, HA REALIZADO UNA MODIFICACION EN EL DESPACHO NRO: <strong>$correl_despacho</strong>.</p> <br>
                              <p>
                                  <strong>LA SIGUIENTE INFORMACION:</strong>  <br>
                                  FECHA DESPACHO: $fechad_ant <br>

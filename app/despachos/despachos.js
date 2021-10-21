@@ -40,6 +40,8 @@ function limpiar() {
     $("#fecha").val("");
     $("#chofer").val("");
     $("#vehiculo").val("");
+    $('#chofer').html("");
+    $('#vehiculo').html("");
     $("#destino").val("");
     $("#factura").val("");
     registros_por_despachar = "";
@@ -483,6 +485,7 @@ $(document).on("click", ".generar", function () {
                         if(mensaje.includes('ERROR')) {
                             return (false);
                         } else {
+                            sessionStorage.setItem("correl", data.correl);
                             //en caso de no contener error, muestra la tabla
                             cargarTabladeProductosEnDespachoCreado(data.correl);
                         }
@@ -510,7 +513,7 @@ $(document).on("click", "#btn_newdespacho", function () {
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click", "#btn_pdf", function () {
-    var correl = sessionStorage.getItem("correl");
+    const correl = sessionStorage.getItem("correl");
     if (correl !== "") {
         window.open('despachos_pdf.php?&correlativo=' + correl, '_blank');
     }
@@ -518,7 +521,7 @@ $(document).on("click", "#btn_pdf", function () {
 
 //ACCION AL PRECIONAR EL BOTON BUSCAR.
 $(document).on("click", "#btnBuscarFactModal", function () {
-    var fact = $("#nrodocumento").val();
+    const fact = $("#nrodocumento").val();
     buscarFacturaEnDespachos(fact);
 });
 

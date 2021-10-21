@@ -6,3 +6,6 @@ const EMAIL_USER = 'gconfisur@gmail.com';
 const EMAIL_PASSWORD = '44za3yt84n';
 const EMAIL_EMAILFROM = 'gconfisur@gmail.com';
 const EMAIL_TIMEOUT = '10';
+
+const EMAIL_REPLY_TO = 'pdegenaro@gconfisur.com';
+const EMAIL_ADDCC = 'gconfisur@gmail.com';

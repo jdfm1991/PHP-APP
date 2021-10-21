@@ -21,7 +21,13 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="notificacion eliminar una factura de un despacho y eliminar un despacho">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/principal/principal_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/email.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/email.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Email.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Email.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -264,6 +270,7 @@
       <workItem from="1634560537819" duration="7568000" />
       <workItem from="1634646932385" duration="11438000" />
       <workItem from="1634732311210" duration="8115000" />
+      <workItem from="1634819947106" duration="7139000" />
     </task>
     <task id="LOCAL-00016" summary="sku no vendidos">
       <created>1624303995283</created>
