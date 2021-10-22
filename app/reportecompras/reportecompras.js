@@ -25,6 +25,7 @@ function listar_marcas() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function(data) {

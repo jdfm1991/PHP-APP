@@ -142,6 +142,7 @@ function listar_modulos() {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -173,6 +174,7 @@ function listar_menus() {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -259,6 +261,7 @@ function mostrar_modulo(id_modulo= -1) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -307,6 +310,7 @@ function mostrar_menu(id_menu= -1) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -364,6 +368,7 @@ function guardaryeditarModulo(e) {
             processData: false,
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -402,6 +407,7 @@ function guardaryeditarMenu(e) {
         processData: false,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -447,8 +453,9 @@ function guardarMenuSeleccionado(id, key, tipo) {
         type: "POST",
         dataType: "json",
         data: {id: id, tipo: tipo, tipo_value: tipo_value},
-        error: function(X){
+        error: function(e){
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             $tipo.val(tipo_value);
         },
         success: function (data) {
@@ -486,6 +493,7 @@ function eliminar_modulo(id, modulo) {
                 data: {id: id},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {
@@ -517,6 +525,7 @@ function eliminar_menu(id, menu) {
                 data: {id: id},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {

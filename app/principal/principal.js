@@ -27,6 +27,7 @@ function fetch_pordespachar() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -53,6 +54,7 @@ function fetch_porfacturar() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -79,6 +81,7 @@ function fetch_cxc() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -106,6 +109,7 @@ function fetch_cxp() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -134,6 +138,7 @@ function cargar_grafica_ventasXmesdivisas() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -186,6 +191,7 @@ function fetch_inventario_valorizado() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -224,6 +230,7 @@ function fetch_clientes() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -250,6 +257,7 @@ function fetch_total_ventas_mes_encurso() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -277,6 +285,7 @@ function fetch_tasa_dolar() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -303,6 +312,7 @@ function fetch_devoluciones_sin_motivo() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -329,6 +339,7 @@ function fetch_top_marcas() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -369,6 +380,7 @@ function fetch_top_clientes() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {

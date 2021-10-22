@@ -10,6 +10,25 @@ class EmailData
         );
     }
 
+    public static function DataErrorConexion($data) {
+        $usuario = strtoupper($data['usuario']);
+        $mensaje = utf8_decode($data['mensaje']);
+
+        return array(
+            'title'      => "SE HA GENERADO UN ERROR DE CONEXION",
+            'body'       => "<strong>$usuario</strong>, HA TENIDO UN ERROR DE CONEXION.</p> <br>
+                             <p>$mensaje</p>",
+            'recipients' => array(
+                /*'dvilla@gconfisur.com',
+                'rpenaloza@gconfisur.com',
+                'jcaraballo@gconfisur.com',
+                'cjimenez@gconfisur.com',
+                'ctrujillo@gconfisur.com',*/
+                'llopez@gconfisur.com'
+            ), // puede ser mas de un destinatario
+        );
+    }
+
     public static function DataCreacionDeDespacho($data) {
         $usuario = strtoupper($data['usuario']);
         $correl_despacho = str_pad($data['correl_despacho'], 8, 0, STR_PAD_LEFT);

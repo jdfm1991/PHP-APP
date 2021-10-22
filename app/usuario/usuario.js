@@ -60,6 +60,7 @@ function listar() {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -118,6 +119,7 @@ function mostrar(id_usuario= -1) {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -145,6 +147,7 @@ function mostrar(id_usuario= -1) {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -194,6 +197,7 @@ function guardaryeditar(e) {
         processData: false,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -228,6 +232,7 @@ function eliminar(cedula, usuario) {
                 data: {cedula: cedula},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {

@@ -43,6 +43,7 @@ function modalEditarDespachos(correlativo) { //editar
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -73,6 +74,7 @@ function modalEditarDespachos(correlativo) { //editar
                     data: { correlativo: correlativo },
                     error: function (e) {
                         SweetAlertError(e.responseText, "Error!")
+                        send_notification_error(e.responseText);
                         console.log(e.responseText);
                     },
                 },
@@ -104,6 +106,7 @@ function modalMostrarEditarDespacho(correlativo) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -156,6 +159,7 @@ function modalGuardarEditarDespacho() {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -201,6 +205,7 @@ function modalGuardarDocumentoEnDespacho() {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -242,6 +247,7 @@ function modalEliminarDocumentoEnDespacho(nro_documento, correlativo) {
                 data: {correlativo: correlativo, nro_documento: nro_documento},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {
@@ -273,6 +279,7 @@ function modalGuardarNuevoDocumentoEnDespacho() {
             data: {correlativo: correlativo, documento_agregar: documento_agregar},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -312,6 +319,7 @@ function EliminarUnDespacho(correlativo) {
                 data: {correlativo: correlativo},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {
@@ -343,6 +351,7 @@ function modalVerDetalleDespacho(correlativo) {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -417,6 +426,7 @@ function listarRelacionDespachos() {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -449,6 +459,7 @@ function buscarFacturaEnDespachos(nrofact){
             data: {nrfactb: nrofact},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {

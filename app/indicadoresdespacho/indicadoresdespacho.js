@@ -135,6 +135,7 @@ function listar_choferes(){
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -164,6 +165,7 @@ function listar_causas_rechazo(){
         dataType: "json",
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -195,6 +197,7 @@ function listar_periodos(){
         data: {tipoPeriodo: tipoPeriodo, chofer_id: chofer_id},
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -276,6 +279,7 @@ $(document).on("click", "#btn_consultar", function () {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {

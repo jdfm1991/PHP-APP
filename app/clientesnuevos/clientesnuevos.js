@@ -57,6 +57,7 @@ $(document).on("click", "#btn_clientesnuevos", function () {
                     },
                     error: function (e) {
                         isError = SweetAlertError(e.responseText, "Error!")
+                        send_notification_error(e.responseText);
                         console.log(e.responseText);
                     },
                     complete: function () {

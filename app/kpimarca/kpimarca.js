@@ -31,6 +31,7 @@ function listar_marcas() {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -61,6 +62,7 @@ $(document).on("click", "#btn_guardar", function () {
         data: form,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {

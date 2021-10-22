@@ -84,6 +84,7 @@ function listar_marcas() {
         type: "GET",
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -118,6 +119,7 @@ function mostrarDetalleEdv(edv) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -175,6 +177,7 @@ function mostrarListaClientes(edv, flag) {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -213,6 +216,7 @@ function mostrarActivacionPorMarca(edv, marca) {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {

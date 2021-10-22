@@ -34,6 +34,7 @@ $(document).ready(function () {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {
@@ -66,6 +67,7 @@ $(document).ready(function () {
             data: { idestado: $("#estado").val() },
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -99,6 +101,7 @@ function guardaryeditar(e) {
         processData: false,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -136,6 +139,7 @@ function cambiarEstado(id, est) {
                 data: {codclie: id, est: est},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {
@@ -206,6 +210,7 @@ function listar() {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             complete: function () {
@@ -236,6 +241,7 @@ function listar_cxc(codclie) {
             data: {codclie: codclie},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             complete: function () {
@@ -271,6 +277,7 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -318,6 +325,7 @@ function mostrarModalDatosCliente(id_cliente = -1, tipoid3 = "") {
             },
             error: function (e) {
                 isError = SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -411,6 +419,7 @@ function mostrarModalDetalleCliente(codclie) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -468,6 +477,7 @@ function mostrarModalDetalleFactura(numerod, tipofac) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {

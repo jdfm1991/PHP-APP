@@ -92,6 +92,7 @@ function listar() {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -127,6 +128,7 @@ function cambiarEstado(id, est) {
                 data: {id: id, est: est},
                 error: function (e) {
                     SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 success: function (data) {
@@ -153,6 +155,7 @@ function mostrar(edv) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -216,6 +219,7 @@ function guardaryeditar() {
         processData: false,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {

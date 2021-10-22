@@ -25,6 +25,7 @@ function getFactorActual(){
         dataType: "json",
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -52,6 +53,7 @@ $(document).on("click", "#btn_guardar", function () {
         processData: false,
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {

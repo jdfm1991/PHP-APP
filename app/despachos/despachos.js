@@ -104,6 +104,7 @@ function cargarCapacidadVehiculo(id) {
         data: {id: id},
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -125,6 +126,7 @@ function validarPesoporFactura(numero_fact){
             data: {numero_fact: numero_fact, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -152,6 +154,7 @@ function validarFacturaEnDespachos(numero_fact){
             data: {numero_fact: numero_fact},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -179,6 +182,7 @@ function validarExistenciaFactura(numero_fact){
             data: {numero_fact: numero_fact, registros_por_despachar: registros_por_despachar},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -205,6 +209,7 @@ function buscarFacturaEnDespachos(nrofact){
             data: {nrfactb: nrofact},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -245,6 +250,7 @@ function listar_chofer_vehiculo(){
         dataType: "json",
         error: function (e) {
             SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
@@ -357,6 +363,7 @@ function eliminar(documento) {
             data: {numero_fact: documento, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo: peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo, eliminarPeso: "si"},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -431,6 +438,7 @@ function anadirFactPorDespachar() {
             data: {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
@@ -475,6 +483,7 @@ $(document).on("click", ".generar", function () {
                     data: {fechad: fecha, chofer: chofer, vehiculo: vehiculo, destino: destino, usuario: usuario, documentos: registros_por_despachar},
                     error: function (e) {
                         SweetAlertError(e.responseText, "Error!")
+                        send_notification_error(e.responseText);
                         console.log(e.responseText);
                     },
                     success: function (data) {
@@ -546,6 +555,7 @@ function cargarTabladeFacturasporDespachar() {
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
                     console.log(e.responseText);
                 },
                 complete: function () {
@@ -594,6 +604,7 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
         },
         error: function (e) {
             isError = SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function(data) {

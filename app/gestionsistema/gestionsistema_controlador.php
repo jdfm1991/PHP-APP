@@ -1,5 +1,6 @@
 <?php
-
+session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_start();
 //llamar a la conexion de la base de datos
 require_once("../../config/conexion.php");
 
@@ -389,6 +390,34 @@ switch ($_GET["op"]) {
                 "icono"   => "error"
             ];
         }
+
+        echo json_encode($output);
+        break;
+
+    case "enviar_correo_error":
+        $status_send = false;
+        $mensaje = $_POST['message'];
+
+        if (!empty($mensaje)) {
+            # preparamos los datos a enviar
+            $dataEmail = EmailData::DataErrorConexion(
+                array(
+                    'usuario' => $_SESSION['login'],
+                    'mensaje' => $mensaje,
+                )
+            );
+
+            # enviar correo
+            $status_send = Email::send_email(
+                $dataEmail['title'],
+                $dataEmail['body'],
+                $dataEmail['recipients'],
+            );
+        }
+
+        $output["mensaje"] = ($status_send)
+            ? "Correo de error enviado exitosamente"
+            : "Error al enviar correo de error.";
 
         echo json_encode($output);
         break;

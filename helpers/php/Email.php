@@ -1,5 +1,4 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -28,8 +27,12 @@ class Email {
             $mail->Port       = EMAIL_PORT;                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             $mail->Timeout    = EMAIL_TIMEOUT;
 
+            $empresa = (isset($_SESSION['empresa']) == true)
+                ? $_SESSION['empresa']
+                : "GRUPO CONFISUR C.A.";
+
             //Recipients
-            $mail->setFrom(EMAIL_EMAILFROM, Empresa::getName());
+            $mail->setFrom(EMAIL_EMAILFROM,  $empresa);
             if (is_array($recipients)==true and count($recipients)>0) {
                 foreach ($recipients as $recipient) {
                     $mail->addAddress($recipient);
