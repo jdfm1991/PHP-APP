@@ -125,7 +125,9 @@ class ReporteCompras extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT sum(existen) bultosexis FROM SAEXIS WHERE CodUbic = ? AND CodProd = ?";
+        $sql = "SELECT exis.Existen + COALESCE(exis.ExUnidad / NULLIF(prod.cantempaq, 0), 0) as  bultosexis
+                FROM SAEXIS exis INNER JOIN SAPROD prod ON prod.CodProd = exis.CodProd
+                WHERE CodUbic = ? AND exis.CodProd = ?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $almacen_principal);

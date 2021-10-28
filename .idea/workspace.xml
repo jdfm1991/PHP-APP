@@ -20,44 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion de notificacion despacho y correccion de data vista principal">
-      <change afterPath="$PROJECT_DIR$/helpers/js/SendNotifications.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/activacionclientes/activacionclientes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesbloqueados/clientesbloqueados.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientescodnestle/clientescodnestle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnoactivos/clientesnoactivos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientesnuevos/clientesnuevos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clientessintr/clientessintr.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/clientessintr/clientessintr.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/costodeinventario/costodeinventario.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/factorcambiario/factorcambiario.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/factorcambiario/factorcambiario.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/facturassindespachar/facturassindespachar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/indicadoresdespacho/indicadoresdespacho.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimanager/kpimanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimanager/kpimanager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/kpimarca/kpimarca.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpimarca/kpimarca.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/motivonoventa/motivonoventa.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/motivonoventa/motivonoventa.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/pedidossinfacturar/pedidossinfacturar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/permiso/permiso.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/permiso/permiso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/principal/principal.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/principal/principal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/relacionclientes/relacionclientes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sellin/sellin.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/sellin/sellin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuario/usuario.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuario/usuario.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Email.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Email.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Session.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Session.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Menu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Modulos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Modulos.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,6 +267,11 @@
       <workItem from="1634819947106" duration="11263000" />
       <workItem from="1634831875537" duration="73000" />
       <workItem from="1634906281200" duration="10676000" />
+      <workItem from="1635183920485" duration="2833000" />
+      <workItem from="1635251088987" duration="5341000" />
+      <workItem from="1635344888432" duration="586000" />
+      <workItem from="1635426135216" duration="4924000" />
+      <workItem from="1635450362961" duration="657000" />
     </task>
     <task id="LOCAL-00017" summary="estandarizacion format_date y format_datetime">
       <created>1624305610389</created>
