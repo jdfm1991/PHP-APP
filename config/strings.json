@@ -43,6 +43,8 @@
   "paquetes"                    : {"title": "Paquetes",                           "description": ""},
   "factura"                     : {"title": "Factura",                            "description": ""},
   "nota_de_entrega"             : {"title": "Nota de Entrega",                    "description": ""},
+  "und_kg"                      : {"title": "Kg. (Kilos)",                        "description": ""},
+  "und_bultos"                  : {"title": "Und. (Bultos)",                      "description": ""},
   "inv_bultos"                  : {"title": "Inv. Bultos",                        "description": ""},
   "inv_paquetes"                : {"title": "Inv. Paquetes",                      "description": ""},
   "costo_bultos"                : {"title": "Costo Bultos",                       "description": ""},
@@ -168,6 +170,7 @@
   "anio"                        : {"title": "Año",                                "description": ""},
   "motivo_devolucion"           : {"title": "Motivo Devolucion",                  "description": ""},
   "valoracion"                  : {"title": "Valorización",                       "description": ""},
+  "categoria"                   : {"title": "Categoría",                          "description": ""},
 
   "botones_accion"     : {"title": "Acciónes",         "description": ""},
   "boton_consultar"    : {"title": " Consultar",       "description": ""},

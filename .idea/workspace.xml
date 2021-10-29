@@ -20,9 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion de notificacion despacho y correccion de data vista principal">
+      <change afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/listadeprecio/listadeprecio_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/skunovendidos/skunovendidos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,6 +280,8 @@
       <workItem from="1635344888432" duration="586000" />
       <workItem from="1635426135216" duration="4924000" />
       <workItem from="1635450362961" duration="657000" />
+      <workItem from="1635510468228" duration="9261000" />
+      <workItem from="1635534493956" duration="2919000" />
     </task>
     <task id="LOCAL-00017" summary="estandarizacion format_date y format_datetime">
       <created>1624305610389</created>

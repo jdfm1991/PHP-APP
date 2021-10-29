@@ -24,8 +24,8 @@ class Conectar {
 
 	protected function conexion2() {
 		try {
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
-//			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=aj","sa","Confisur1");
+//			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=aj","sa","Confisur1");
 			return $conectar;
 		} catch (Exception $e) {
 //            $this->send_email_error( $e->getMessage() );
@@ -41,24 +41,6 @@ class Conectar {
 	public function ruta(){
 		return URL_APP;
 	}
-
-    private function send_email_error($message)
-    {
-        # preparamos los datos a enviar
-        $dataEmail = EmailData::DataErrorConexion(
-            array(
-                'usuario' => $_SESSION['login'],
-                'mensaje' => $message,
-            )
-        );
-
-        # enviar correo
-        $status_send = Email::send_email(
-            $dataEmail['title'],
-            $dataEmail['body'],
-            $dataEmail['recipients'],
-        );
-    }
 
     protected function limpiar_cadena($cadena){
         $cadena=trim($cadena);
