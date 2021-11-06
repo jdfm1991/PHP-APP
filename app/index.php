@@ -54,7 +54,7 @@ if (isset($_SESSION['cedula'])) {
 <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center">
 
-        <h1 class="logo mr-auto"><a href="index.php">Despacho y Logística</a></h1>
+        <h1 class="logo mr-auto"><a href="index.php">Logística y Despacho</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo mr-auto"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -69,12 +69,12 @@ if (isset($_SESSION['cedula'])) {
     <div class="container">
         <div class="row">
             <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                <h1>Mejores soluciones para su negocio </h1>
-                <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, totam. </h2>
-                <div class="d-lg-flex">
+                <h1>Tecnología avanzada para tus necesidades.</h1>
+                <h2> La innovación distingue a los líderes de los seguidores. </h2>
+                <!-- <div class="d-lg-flex">
                     <a href="#" class="btn-get-started scrollto">Empezar</a>
                     <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox btn-watch-video" data-vbtype="video" data-autoplay="true"> Watch Video <i class="icofont-play-alt-2"></i></a>
-                </div>
+                </div> -->
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
                 <img src="<?php echo URL_LANDINGPAGE; ?>img/hero-img.png" class="img-fluid animated" alt="">
