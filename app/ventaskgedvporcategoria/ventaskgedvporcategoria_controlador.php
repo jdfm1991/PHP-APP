@@ -15,90 +15,54 @@ switch ($_GET["op"]) {
 
     case "listar":
 
-        $data = array(
+        $datos = array(
             'fechai'    => $_POST['fechai'],
             'fechaf'    => $_POST['fechaf'],
             'vendedor'  => $_POST['vendedor'],
-            'marca'     => $_POST['marca'],
+            'instancia' => $_POST['marca'],
         );
 
-        $instancias_data = $ventaskg->getinstancias($data);
-
-        if (ArraysHelpers::validate($instancias_data)) {
-
-        }
-
-
-
-
-
-
-        $datos = $factsindes->getFacturas($tipo, $fechai, $fechaf, $convend, $check);
-        $num = count($datos);
-        $suma_bulto = 0;
-        $suma_paq = 0;
-        $suma_monto = 0;
-        $porcent = 0;
-
-        /** TITULO DE LAS COLUMNAS DE LA TABLA **/
-        $thead = Array();
-        $thead[] = Strings::titleFromJson('numerod');
-        $thead[] = Strings::titleFromJson('fecha_emision');
-        if($check) {
-            $thead[] = Strings::titleFromJson('fecha_despacho');
-            $thead[] = Strings::titleFromJson('dias_transcurridos');
-        }
-        $thead[] = Strings::titleFromJson('codigo');
-        $thead[] = Strings::titleFromJson('cliente');
-        $thead[] = Strings::titleFromJson('dias_transcurridos_hoy');
-        $thead[] = Strings::titleFromJson('cantidad_bultos');
-        $thead[] = Strings::titleFromJson('cantidad_paquetes');
-        $thead[] = Strings::titleFromJson('monto');
-        $thead[] = Strings::titleFromJson('descrip_vend');
-        if($check) {
-            $thead[] = Strings::titleFromJson('tiempo_prom_estimado');
-            $thead[] = Strings::titleFromJson('porcentaje_oportunidad');
-        }
-
-
-        /** CONTENIDO DE LA TABLA **/
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        $data = Array();
-        foreach ($datos as $row) {
-            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
-            $sub_array = array();
+        $data = array();
 
-            if($check) {
-                $calcula = 0;
-                if (round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])),date(FORMAT_DATE, strtotime($row["fechad"])))) != 0)
-                    $calcula = (2 / round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])),date(FORMAT_DATE, strtotime($row["fechad"])))))*100;
+        $total_monto = $total_peso = $total_cant = 0;
+        $instancias_data = $ventaskg->getinstancias($datos);
+        if (ArraysHelpers::validate($instancias_data)) {
+            foreach ($instancias_data as $key => $instancia) {
 
-                if ($calcula > 100)
-                    $calcula = 100;
+                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+                $sub_array = array();
 
-                $porcent += $calcula;
+                $peso = $cant = $monto = 0;
+                $notas_debitos = $ventaskg->getNotaDebitos($datos);
+                if (ArraysHelpers::validate($notas_debitos)) {
+                    foreach ($notas_debitos as $row)
+                    {
+                        $monto += $row["monto"];
+                        if ($row['unidad'] == 0) {
+                            $peso += $row["peso"];
+                            $cant += $row["cantidad"];
+                        } else {
+                            $peso += (($row["peso"]/$row["paquetes"]) * $row["cantidad"]);
+                            $cant += ($row["cantidad"] / $row["paquetes"]);
+                        }
+                    }
+                }
+
+                $descuento = Functions::find_discount($datos['fechai'], $datos['fechaf'], $instancia["codinst"]);
+                $monto -= $descuento;
+
+                $sub_array[] = $instancia["descrip"];
+                $sub_array[] = Strings::rdecimal($cant, 2);
+                $sub_array[] = Strings::rdecimal($peso, 2);
+                $sub_array[] = Strings::rdecimal($monto, 2);
+
+                $total_cant  += $cant;
+                $total_peso  += $peso;
+                $total_monto += $monto;
+
+                $data[] = $sub_array;
             }
-
-            $sub_array[] = '<div class="col text-center"><a id="numerod" data-toggle="modal" onclick="mostrarModalDetalleFactura(\''.$row['NumeroD'].'\', \''.$row['TipoFac'].'\')" data-target="#detallefactura" href="#"> '.$row['NumeroD'].'</div>';
-
-            $sub_array[] = date(FORMAT_DATE, strtotime($row["FechaE"]));
-            if ($check) {
-                $sub_array[] = date(FORMAT_DATE, strtotime($row["fechad"]));
-                $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])),date(FORMAT_DATE, strtotime($row["fechad"]))));
-            }
-            $sub_array[] = $row["CodClie"];
-            $sub_array[] = $row["Descrip"];
-            $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])), $hoy));
-            $sub_array[] = round($row['Bult']);
-            $sub_array[] = round($row['Paq']);
-            $sub_array[] = Strings::rdecimal($row["Monto"], 1); $suma_monto += $row["Monto"];
-            $sub_array[] = $row['CodVend'];
-            if ($check) {
-                $sub_array[] = 2;
-                $sub_array[] = Strings::rdecimal($calcula, 1) . "%";
-            }
-
-            $data[] = $sub_array;
         }
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
@@ -106,13 +70,11 @@ switch ($_GET["op"]) {
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-            "columns" => $thead,
-            'totalDoc' => $num,
-            'Mtototal' => Strings::rdecimal($suma_monto, 2),
-            'oportunidad' => ($check and count($datos)>0) ? Strings::rdecimal(($porcent / count($datos)), 2) . ' %' : '',
+            'totalCant'  => Strings::rdecimal($total_cant, 2),
+            'totalPeso'  => Strings::rdecimal($total_peso, 2),
+            'totalMonto' => Strings::rdecimal($total_monto, 2),
             "aaData" => $data);
         echo json_encode($output);
-
         break;
 
     case "listar_vendedores":

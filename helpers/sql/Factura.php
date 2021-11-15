@@ -3,6 +3,23 @@
 
 class Factura extends Conectar {
 
+    public static function getById($numerod)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+
+        $sql= "SELECT numerod, tipofac, fechae, codusua, codvend, descrip, Tasa AS tasa,
+                       monto AS subtotal,  TExento AS excento, MtoTax AS impuesto,
+                       TGravable AS base_imponible, Descto1 AS descuento, MtoTotal as total
+                FROM safact WHERE numerod = ?";
+
+        $result = (new Conectar)->conexion2()->prepare($sql);
+        $result->bindValue(1, $numerod);
+        $result->execute();
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public static function getHeaderById($numerod)
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2

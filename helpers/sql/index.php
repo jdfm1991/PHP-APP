@@ -17,3 +17,4 @@ include_once 'RecoverUser.php';
 include_once 'Usuarios.php';
 include_once 'Vehiculo.php';
 include_once 'Vendedores.php';
+include_once 'VentasKg.php';

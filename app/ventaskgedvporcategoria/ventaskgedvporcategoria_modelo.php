@@ -29,7 +29,6 @@ class VentasKgEdvPorCategoria extends Conectar{
     }
 
     public function getNotaDebitos($data){
-
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion2();
@@ -42,14 +41,16 @@ class VentasKgEdvPorCategoria extends Conectar{
                         INNER JOIN saprod ON saitemfac.coditem = saprod.codprod 
                         INNER JOIN sainsta ON saprod.codinst = sainsta.codinst 
                         INNER JOIN safact ON saitemfac.numerod = safact.numerod 
-                    WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND saprod.codinst = ? AND safact.codvend = ? AND (saitemfac.tipofac = 'A' OR saitemfac.tipofac = 'B') 
+                    WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND saprod.codinst = ? 
+                      AND safact.codvend = ? AND (saitemfac.tipofac = 'A' OR saitemfac.tipofac = 'B') 
                     ORDER BY sainsta.descrip, saitemfac.tipofac";
         } else {
             $sql = "SELECT saprod.tara AS peso, saitemfac.esunid AS unidad, saprod.cantempaq AS paquetes, saitemfac.cantidad AS cantidad, saitemfac.totalitem AS monto, saitemfac.tipofac AS tipo
                     FROM saitemfac
                         INNER JOIN saprod ON saitemfac.coditem = saprod.codprod
                         INNER JOIN sainsta ON saprod.codinst = sainsta.codinst
-                    WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? AND saprod.codinst = ? AND (saitemfac.tipofac = 'A' OR saitemfac.tipofac = 'B')
+                    WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, saitemfac.FechaE)) BETWEEN ? AND ? 
+                      AND saprod.codinst = ? AND (saitemfac.tipofac = 'A' OR saitemfac.tipofac = 'B')
                     ORDER BY sainsta.descrip, saitemfac.tipofac";
         }
 

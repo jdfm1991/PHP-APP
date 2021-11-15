@@ -44,6 +44,7 @@ function listar_vendedores() {
             if(!jQuery.isEmptyObject(data.lista_vendedores)){
                 //lista de seleccion
                 $('#vendedor').append('<option name="" value="">--Seleccione vendedor--</option>');
+                $('#vendedor').append('<option name="" value="-">TODOS</option>');
                 $.each(data.lista_vendedores, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
                     $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
@@ -66,6 +67,7 @@ function listar_marcas() {
             if(!jQuery.isEmptyObject(data.lista_marcas)){
                 //lista de seleccion
                 $('#marca').append('<option name="" value="">--Seleccione marca--</option>');
+                $('#marca').append('<option name="" value="-">TODAS</option>');
                 $.each(data.lista_marcas, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
                     $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
@@ -128,10 +130,10 @@ $(document).on("click", "#btn_consultar", function () {
                 "responsive": true,
                 "bInfo": true,
                 "iDisplayLength": 10,
-                "order": [[0, "desc"]],
+                "order": [[0, "asc"]],
                 'columnDefs':[
                     {
-                        'visible': false,
+                        'visible': true,
                         'targets': [0]
                     }
                 ],

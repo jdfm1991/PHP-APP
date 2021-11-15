@@ -16,7 +16,6 @@ class Conectar {
 			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=appwebaj","sa","merumbd4z");
 			return $conectar;
 		} catch (Exception $e) {
-//            $this->send_email_error( $e->getMessage() );
 			print "¡Error!: " . $e->getMessage() . "<br/>";
 			die();
 		}
@@ -24,11 +23,10 @@ class Conectar {
 
 	protected function conexion2() {
 		try {
-//			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=aj","sa","Confisur1");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
+//			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=aj","sa","Confisur1");
 			return $conectar;
 		} catch (Exception $e) {
-//            $this->send_email_error( $e->getMessage() );
             print "¡Error!: " . $e->getMessage() . "<br/>";
 			die();
 		}

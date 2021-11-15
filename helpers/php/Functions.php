@@ -88,6 +88,20 @@ class Functions {
         return $output;
     }
 
+    public static function find_discount($datei, $datef, $code){
+        $aux = 0;
+        $consulta = VentasKg::getNumerodOfDiscounts($datei, $datef, $code);
+        foreach ($consulta as $row) {
+            $consul_facturas = Factura::getById($row['numerod']);
+            if ($consul_facturas[0]["tipofac"] == "A") {
+                $aux += $consul_facturas[0]["descuento"];
+            } else {
+                $aux -= $consul_facturas[0]["descuento"];
+            }
+        }
+        return $aux;
+    }
+
     public static function listModulesAvailable($id_modulo)
     {
         $output = array();
