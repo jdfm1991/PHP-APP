@@ -7,14 +7,14 @@ function init() {
     $("#tabla").hide();
     estado_minimizado = false;
     listar_vendedores();
-    listar_marcas();
+    listar_instancias();
 }
 
 function limpiar() {
     $("#fechai").val("");
     $("#fechaf").val("");
     $("#vendedor").val("");
-    $("#marca").val("");
+    $("#instancia").val("");
 }
 
 function validarCantidadRegistrosTabla() {
@@ -54,9 +54,9 @@ function listar_vendedores() {
     });
 }
 
-function listar_marcas() {
+function listar_instancias() {
     $.ajax({
-        url: "ventaskgedvporcategoria_controlador.php?op=listar_marcas",
+        url: "ventaskgedvporcategoria_controlador.php?op=listar_instancias",
         method: "POST",
         dataType: "json",
         error: function (e) {
@@ -64,13 +64,13 @@ function listar_marcas() {
             console.log(e.responseText);
         },
         success: function (data) {
-            if(!jQuery.isEmptyObject(data.lista_marcas)){
+            if(!jQuery.isEmptyObject(data.lista_instancias)){
                 //lista de seleccion
-                $('#marca').append('<option name="" value="">--Seleccione marca--</option>');
-                $('#marca').append('<option name="" value="-">TODAS</option>');
-                $.each(data.lista_marcas, function(idx, opt) {
+                $('#instancia').append('<option name="" value="">--Seleccione instancia--</option>');
+                $('#instancia').append('<option name="" value="-">TODAS</option>');
+                $.each(data.lista_instancias, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
-                    $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
+                    $('#instancia').append('<option name="" value="' + opt.codinst +'">' + opt.descrip + '</option>');
                 });
             }
         }
@@ -81,7 +81,7 @@ $(document).ready(function(){
     $("#fechai").change( () => no_puede_estar_vacio() );
     $("#fechaf").change( () => no_puede_estar_vacio() );
     $("#vendedor").change( () => no_puede_estar_vacio() );
-    $("#marca").change( () => no_puede_estar_vacio() );
+    $("#instancia").change( () => no_puede_estar_vacio() );
 });
 
 //ACCION AL PRECIONAR EL BOTON.
@@ -90,17 +90,17 @@ $(document).on("click", "#btn_consultar", function () {
     var fechai = $("#fechai").val();
     var fechaf = $("#fechaf").val();
     var vendedor = $("#vendedor").val();
-    var marca = $("#marca").val();
+    var instancia = $("#instancia").val();
 
     if (estado_minimizado) {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if (fechai !== "" && fechaf !== "" && vendedor !== "" && marca !== "") {
+        if (fechai !== "" && fechaf !== "" && vendedor !== "" && instancia !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
             sessionStorage.setItem("vendedor", vendedor);
-            sessionStorage.setItem("marca", marca);
+            sessionStorage.setItem("instancia", instancia);
             let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
             tabla = $('#ventaskgedvporcategoria_data').DataTable({
@@ -110,7 +110,7 @@ $(document).on("click", "#btn_consultar", function () {
                     url: "ventaskgedvporcategoria_controlador.php?op=listar",
                     type: "post",
                     dataType: "json",
-                    data: {fechai: fechai, fechaf: fechaf, vendedor: vendedor, marca: marca},
+                    data: {fechai: fechai, fechaf: fechaf, vendedor: vendedor, instancia: instancia},
                     beforeSend: function () {
                         SweetAlertLoadingShow();
                     },
@@ -122,8 +122,8 @@ $(document).on("click", "#btn_consultar", function () {
                         if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         validarCantidadRegistrosTabla();
-                        mostrar()
                         limpiar();//LIMPIAMOS EL SELECTOR.
+                        mostrar()
                     }
                 },//TRADUCCION DEL DATATABLE.
                 "bDestroy": true,
@@ -142,7 +142,7 @@ $(document).on("click", "#btn_consultar", function () {
             estado_minimizado = true;
         }
     } else {
-        SweetAlertError('Debe seleccionar un rango de fecha, marca y un vendedor.');
+        SweetAlertError('Debe seleccionar un rango de fecha, instancia y un vendedor.');
         return (false);
 
     }
@@ -153,9 +153,9 @@ $(document).on("click","#btn_excel", function(){
     var fechai = sessionStorage.getItem("fechai", fechai);
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     var vendedor = sessionStorage.getItem("vendedor", vendedor);
-    var marca = sessionStorage.getItem("marca", marca);
-    if (fechai !== "" && fechaf !== "" && vendedor !== "" && marca !== "") {
-        window.location = "ventaskgedvporcategoria_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor+"&vendedor="+vendedor;
+    var instancia = sessionStorage.getItem("instancia", instancia);
+    if (fechai !== "" && fechaf !== "" && vendedor !== "" && instancia !== "") {
+        window.location = "ventaskgedvporcategoria_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor+"&instancia="+instancia;
     }
 });
 
@@ -164,9 +164,9 @@ $(document).on("click","#btn_pdf", function(){
     var fechai = sessionStorage.getItem("fechai", fechai);
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     var vendedor = sessionStorage.getItem("vendedor", vendedor);
-    var marca = sessionStorage.getItem("marca", marca);
-    if (fechai !== "" && fechaf !== "" && vendedor !== "" && marca !== "") {
-        window.open('ventaskgedvporcategoria_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&marca='+marca+"&marca="+marca, '_blank');
+    var instancia = sessionStorage.getItem("instancia", instancia);
+    if (fechai !== "" && fechaf !== "" && vendedor !== "" && instancia !== "") {
+        window.open('ventaskgedvporcategoria_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor+"&instancia="+instancia, '_blank');
     }
 });
 

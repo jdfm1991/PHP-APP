@@ -6,6 +6,7 @@ include_once 'Choferes.php';
 include_once 'Cobranzas.php';
 include_once 'Empresa.php';
 include_once 'Factura.php';
+include_once 'Instancias.php';
 include_once 'KpiLogro.php';
 include_once 'KpiMarcas.php';
 include_once 'Marcas.php';

@@ -28,7 +28,7 @@ class VentasKgEdvPorCategoria extends Conectar{
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getNotaDebitos($data){
+    public function getNotaDebitos($data, $instancia){
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion2();
@@ -58,7 +58,7 @@ class VentasKgEdvPorCategoria extends Conectar{
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $data['fechai']);
         $sql->bindValue(2, $data['fechaf']);
-        $sql->bindValue(3, $data['instancia']);
+        $sql->bindValue(3, $instancia);
         if ($data['vendedor'] != "-")
             $sql->bindValue(4, $data['vendedor']);
         $sql->execute();

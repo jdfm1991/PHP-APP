@@ -19,7 +19,7 @@ switch ($_GET["op"]) {
             'fechai'    => $_POST['fechai'],
             'fechaf'    => $_POST['fechaf'],
             'vendedor'  => $_POST['vendedor'],
-            'instancia' => $_POST['marca'],
+            'instancia' => $_POST['instancia'],
         );
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
@@ -34,17 +34,29 @@ switch ($_GET["op"]) {
                 $sub_array = array();
 
                 $peso = $cant = $monto = 0;
-                $notas_debitos = $ventaskg->getNotaDebitos($datos);
+                $notas_debitos = $ventaskg->getNotaDebitos($datos, $instancia["codinst"]);
                 if (ArraysHelpers::validate($notas_debitos)) {
-                    foreach ($notas_debitos as $row)
-                    {
-                        $monto += $row["monto"];
+                    foreach ($notas_debitos as $row) {
                         if ($row['unidad'] == 0) {
-                            $peso += $row["peso"];
-                            $cant += $row["cantidad"];
+                            if ($row['tipo'] == 'A') {
+                                $monto += $row["monto"];
+                                $peso  += $row["peso"];
+                                $cant  += $row["cantidad"];
+                            } else {
+                                $monto -= $row["monto"];
+                                $peso  -= $row["peso"];
+                                $cant  -= $row["cantidad"];
+                            }
                         } else {
-                            $peso += (($row["peso"]/$row["paquetes"]) * $row["cantidad"]);
-                            $cant += ($row["cantidad"] / $row["paquetes"]);
+                            if ($row['tipo'] == 'A') {
+                                $monto += $row["monto"];
+                                $peso  += (($row["peso"]/$row["paquetes"]) * $row["cantidad"]);
+                                $cant  += ($row["cantidad"] / $row["paquetes"]);
+                            } else {
+                                $monto -= $row["monto"];
+                                $peso  -= (($row["peso"]/$row["paquetes"]) * $row["cantidad"]);
+                                $cant  -= ($row["cantidad"] / $row["paquetes"]);
+                            }
                         }
                     }
                 }
@@ -52,10 +64,10 @@ switch ($_GET["op"]) {
                 $descuento = Functions::find_discount($datos['fechai'], $datos['fechaf'], $instancia["codinst"]);
                 $monto -= $descuento;
 
-                $sub_array[] = $instancia["descrip"];
-                $sub_array[] = Strings::rdecimal($cant, 2);
-                $sub_array[] = Strings::rdecimal($peso, 2);
-                $sub_array[] = Strings::rdecimal($monto, 2);
+                $sub_array[] = strtoupper($instancia["descrip"]);
+                $sub_array[] = number_format($cant, 2, ",", ".");
+                $sub_array[] = number_format($peso, 2, ",", ".");
+                $sub_array[] = number_format($monto, 2, ",", ".");
 
                 $total_cant  += $cant;
                 $total_peso  += $peso;
@@ -70,9 +82,9 @@ switch ($_GET["op"]) {
             "sEcho" => 1, //INFORMACION PARA EL DATATABLE
             "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
             "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-            'totalCant'  => Strings::rdecimal($total_cant, 2),
-            'totalPeso'  => Strings::rdecimal($total_peso, 2),
-            'totalMonto' => Strings::rdecimal($total_monto, 2),
+            'totalCant'  => number_format($total_cant, 2, ",", "."),
+            'totalPeso'  => number_format($total_peso, 2, ",", "."),
+            'totalMonto' => number_format($total_monto, 2, ",", "."),
             "aaData" => $data);
         echo json_encode($output);
         break;
@@ -84,9 +96,9 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "listar_marcas":
+    case "listar_instancias":
 
-        $output["lista_marcas"] = Marcas::todos();
+        $output["lista_instancias"] = Instancias::todos();
 
         echo json_encode($output);
         break;

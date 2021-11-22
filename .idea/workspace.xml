@@ -19,15 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion de notificacion despacho y correccion de data vista principal">
-      <change afterPath="$PROJECT_DIR$/helpers/sql/VentasKg.php" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de ventas kg edv por categoria">
+      <change afterPath="$PROJECT_DIR$/helpers/sql/Instancias.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Factura.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Factura.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -280,14 +278,9 @@
       <workItem from="1635510468228" duration="9261000" />
       <workItem from="1635534493956" duration="2919000" />
       <workItem from="1636980202329" duration="1959000" />
-      <workItem from="1636987395740" duration="9705000" />
-    </task>
-    <task id="LOCAL-00017" summary="estandarizacion format_date y format_datetime">
-      <created>1624305610389</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1624305610389</updated>
+      <workItem from="1636987395740" duration="10348000" />
+      <workItem from="1637582671494" duration="3272000" />
+      <workItem from="1637591778044" duration="8735000" />
     </task>
     <task id="LOCAL-00018" summary="estandarizacion titulos y descripcion tabla">
       <created>1624389518588</created>
@@ -625,7 +618,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634827975003</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="avance de ventas kg edv por categoria">
+      <created>1637003921872</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1637003921873</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -644,7 +644,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="final de Devoluciones sin motivo" />
     <MESSAGE value="adecuacion de number_format a Strings:rdecimal()" />
     <MESSAGE value="avance de mercancia por despachar" />
     <MESSAGE value="adecuacion inventario global" />
@@ -669,7 +668,8 @@
     <MESSAGE value="cambio en distribucion de los modales" />
     <MESSAGE value="notificacion eliminar una factura de un despacho y eliminar un despacho" />
     <MESSAGE value="adecuacion de notificacion despacho y correccion de data vista principal" />
-    <option name="LAST_COMMIT_MESSAGE" value="adecuacion de notificacion despacho y correccion de data vista principal" />
+    <MESSAGE value="avance de ventas kg edv por categoria" />
+    <option name="LAST_COMMIT_MESSAGE" value="avance de ventas kg edv por categoria" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

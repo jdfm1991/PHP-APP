@@ -65,8 +65,8 @@ else { ?>
                                 </select>
                             </div>
                             <div class="form-group col-sm-3">
-                                <label for="marca"><?=Strings::titleFromJson('marca_prod')?></label>
-                                <select class="form-control custom-select" name="marca" id="marca" style="width: 100%;" required>
+                                <label for="marca"><?=Strings::titleFromJson('instancia')?></label>
+                                <select class="form-control custom-select" name="instancia" id="instancia" style="width: 100%;" required>
                                     <!-- la lista se carga por ajax -->
                                 </select>
                             </div>
