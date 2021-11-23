@@ -20,13 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de ventas kg edv por categoria">
-      <change afterPath="$PROJECT_DIR$/helpers/sql/Instancias.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ventaskgedvporcategoria/ventaskgedvporcategoria_pdf.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,6 +277,10 @@
       <workItem from="1636987395740" duration="10348000" />
       <workItem from="1637582671494" duration="3272000" />
       <workItem from="1637591778044" duration="8735000" />
+      <workItem from="1637668868460" duration="1064000" />
+      <workItem from="1637671740238" duration="2778000" />
+      <workItem from="1637677788833" duration="5949000" />
+      <workItem from="1637695772697" duration="1697000" />
     </task>
     <task id="LOCAL-00018" summary="estandarizacion titulos y descripcion tabla">
       <created>1624389518588</created>
