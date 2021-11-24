@@ -135,6 +135,8 @@ function tablaresumen(data) {
             $('#tabla1').append(
                 '<tr>' +
                 '<td align="center" class="small align-middle">' + opt.codvend + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.codclie + '</td>' +
+                '<td align="center" class="small align-middle">' + opt.descrip + '</td>' +
                 '<td align="center" class="small text-right">' + opt.descuentototal + '</td>' +
                 '<td align="center" class="small text-right">' + opt.tasa + '</td>' +
                 '<td align="center" class="small text-right">' + opt.descuentototalbs + '</td>' +

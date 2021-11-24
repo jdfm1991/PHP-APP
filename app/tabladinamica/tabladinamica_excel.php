@@ -292,6 +292,8 @@ if (is_array($resumen)==true and count($resumen)>0)
 
         $sub_array['num']              = $key+1;
         $sub_array['codvend']          = $row["codvend"];
+        $sub_array['codclie']          = $row["codclie"];
+        $sub_array['descrip']          = $row["descrip"];
         $sub_array['descuentototal']   = Strings::rdecimal($descuentototal, 2);
         $sub_array['tasa']             = Strings::rdecimal($row["tasa"], 2);
         $sub_array['descuentototalbs'] = Strings::rdecimal($descuentototalbs, 2);
@@ -399,6 +401,8 @@ $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray
 $row += 5;
 $i = 0;
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('ruta'));
+$sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('codclie'));
+$sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('razon_social'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('descuento_dolars'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('tasa'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('monto_bs'));
@@ -419,6 +423,8 @@ if (is_array($arr_data1)==true and count($arr_data1)>0) {
         $i = 0;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue(getExcelCol($i) . $row, $x['codvend']);
+        $sheet->setCellValue(getExcelCol($i) . $row, $x['codclie']);
+        $sheet->setCellValue(getExcelCol($i) . $row, $x['descrip']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['descuentototal']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['tasa']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['descuentototalbs']);
@@ -428,6 +434,8 @@ if (is_array($arr_data1)==true and count($arr_data1)>0) {
 
         $i = 0;
         /** centrarlas las celdas **/
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));

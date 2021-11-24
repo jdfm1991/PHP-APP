@@ -132,6 +132,8 @@ require_once("../../config/conexion.php");
                 <thead style="color: white; font-weight: bold">
                 <tr id="cells">
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('ruta') )?></th>
+                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('codclie') )?></th>
+                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('razon_social') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('descuento_dolars') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('tasa') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('monto_bs') )?></th>

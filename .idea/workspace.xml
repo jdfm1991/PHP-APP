@@ -19,14 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de ventas kg edv por categoria">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion maestro de clientes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/maestroclientes/maestroclientes_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,14 +284,7 @@
       <workItem from="1637671740238" duration="2778000" />
       <workItem from="1637677788833" duration="5949000" />
       <workItem from="1637695772697" duration="1697000" />
-      <workItem from="1637762977715" duration="3466000" />
-    </task>
-    <task id="LOCAL-00018" summary="estandarizacion titulos y descripcion tabla">
-      <created>1624389518588</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1624389518588</updated>
+      <workItem from="1637762977715" duration="4635000" />
     </task>
     <task id="LOCAL-00019" summary="estandarizacion titulos y descripcion tabla">
       <created>1624478508382</created>
@@ -630,7 +622,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637003921873</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="adecuacion maestro de clientes">
+      <created>1637783670597</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1637783670599</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -649,7 +648,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adecuacion de number_format a Strings:rdecimal()" />
     <MESSAGE value="avance de mercancia por despachar" />
     <MESSAGE value="adecuacion inventario global" />
     <MESSAGE value="reporte excel de mercancia por despachar" />
@@ -674,7 +672,8 @@
     <MESSAGE value="notificacion eliminar una factura de un despacho y eliminar un despacho" />
     <MESSAGE value="adecuacion de notificacion despacho y correccion de data vista principal" />
     <MESSAGE value="avance de ventas kg edv por categoria" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance de ventas kg edv por categoria" />
+    <MESSAGE value="adecuacion maestro de clientes" />
+    <option name="LAST_COMMIT_MESSAGE" value="adecuacion maestro de clientes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

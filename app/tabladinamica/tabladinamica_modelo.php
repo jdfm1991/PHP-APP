@@ -154,7 +154,7 @@ class Tabladinamica extends Conectar{
         $edv = (!hash_equals('-', $data['edv'])) ? " AND codvend LIKE ?" : "";
 
         //QUERY
-        $sql= "SELECT codvend, descto1, descto2, tasa, numerod, tipofac, fechae 
+        $sql= "SELECT codvend, descto1, descto2, tasa, numerod, tipofac, fechae, codclie, descrip
                 FROM SAFACT WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
                 AND (tipofac = 'A' OR Tipofac = 'B')
                 AND (Descto1 > 0 OR Descto2 > 0) $edv";
@@ -187,7 +187,9 @@ class Tabladinamica extends Conectar{
                     AS tasa,
                 sanota.numerod, 
                 sanota.tipofac,
-                sanota.fechae
+                sanota.fechae,
+                sanota.codclie,
+                sanota.rsocial AS descrip
                 FROM sanota INNER JOIN SAFACT ON safact.numerod = sanota.numerod WHERE
                 DATEADD(dd, 0, DATEDIFF(dd, 0, sanota.FechaE)) BETWEEN ? AND ? $edv
                 AND (sanota.tipofac = 'C' OR sanota.Tipofac = 'D')

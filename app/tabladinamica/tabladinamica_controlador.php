@@ -152,6 +152,8 @@ switch ($_GET["op"]) {
 
                 $sub_array['num']              = $key+1;
                 $sub_array['codvend']          = $row["codvend"];
+                $sub_array['codclie']          = $row["codclie"];
+                $sub_array['descrip']          = $row["descrip"];
                 $sub_array['descuentototal']   = Strings::rdecimal($descuentototal, 2);
                 $sub_array['tasa']             = Strings::rdecimal($row["tasa"], 2);
                 $sub_array['descuentototalbs'] = Strings::rdecimal($descuentototalbs, 2);
