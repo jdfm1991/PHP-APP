@@ -37,13 +37,16 @@ class PDF extends FPDF
         $this->Cell(40, 10, 'REPORTE DE MAESTRO DE CLIENTES POR RUTA', 0, 0, 'C');
         // Salto de línea
         $this->Ln(15);
-        $this->SetFont('Arial', '', 9);
+        $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(34), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(95), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, utf8_decode(Strings::titleFromJson('estatus')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30), 6, utf8_decode(Strings::titleFromJson('ruta')), 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(22), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(57), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(14), 6, utf8_decode(Strings::titleFromJson('estatus')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(22), 6, utf8_decode(Strings::titleFromJson('ruta_principal')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(27), 6, utf8_decode(Strings::titleFromJson('ruta_alternativa_1')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(27), 6, utf8_decode(Strings::titleFromJson('ruta_alternativa_2')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('dia_visita')), 1, 1, 'C', true);
     }
 }
 
@@ -63,7 +66,10 @@ foreach ($query as $i) {
             $i['codclie'],
             utf8_decode($i['descrip']),
             ($i['activo'] == 1) ? "Activo" : "Inactivo",
-            $i['codvend']
+            $i['codvend'],
+            $i["Ruta_Alternativa"],
+            $i["Ruta_Alternativa_2"],
+            strtoupper($i["DiasVisita"]),
         )
     );
 }

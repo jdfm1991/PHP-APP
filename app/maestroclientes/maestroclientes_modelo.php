@@ -11,13 +11,19 @@ class Maestroclientes extends Conectar {
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT codclie, descrip, activo, codvend FROM saclie WHERE codvend = ? ORDER BY codclie ASC";
+        $sql= "SELECT a.codclie, a.descrip, a.activo, a.codvend, b.Ruta_Alternativa, b.Ruta_Alternativa_2, b.DiasVisita 
+               FROM saclie AS a 
+                   INNER JOIN SACLIE_01 AS b ON a.CodClie=b.CodClie  
+               WHERE a.CodVend = ? OR b.Ruta_Alternativa = ? OR b.Ruta_Alternativa_2 =  ?  
+               ORDER BY a.CodClie DESC";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1,$edv);
+        $sql->bindValue(2,$edv);
+        $sql->bindValue(3,$edv);
         $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
 
     }
 }

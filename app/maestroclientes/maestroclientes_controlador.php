@@ -41,6 +41,9 @@ switch ($_GET["op"]) {
                                 <button type="button" onClick="#" name="estado" id="' . $row["codclie"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
                             </div>';
             $sub_array[] = $row["codvend"];
+            $sub_array[] = $row["Ruta_Alternativa"];
+            $sub_array[] = $row["Ruta_Alternativa_2"];
+            $sub_array[] = strtoupper($row["DiasVisita"]);
 
             $data[] = $sub_array;
         }

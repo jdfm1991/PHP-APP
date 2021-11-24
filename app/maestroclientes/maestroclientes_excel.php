@@ -35,7 +35,7 @@ $codvend = $_GET['vendedor'];
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
-foreach(range('A','D') as $columnID) {
+foreach(range('A','G') as $columnID) {
     $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 }
 
@@ -63,7 +63,10 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 $sheet->setCellValue('A7', Strings::titleFromJson('codclie'))
     ->setCellValue('B7', Strings::titleFromJson('razon_social'))
     ->setCellValue('C7', Strings::titleFromJson('estatus'))
-    ->setCellValue('D7', Strings::titleFromJson('ruta'));
+    ->setCellValue('D7', Strings::titleFromJson('ruta_principal'))
+    ->setCellValue('E7', Strings::titleFromJson('ruta_alternativa_1'))
+    ->setCellValue('F7', Strings::titleFromJson('ruta_alternativa_2'))
+    ->setCellValue('G7', Strings::titleFromJson('dia_visita'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -71,7 +74,7 @@ $style_title->applyFromArray(
 );
 
 //estableceer el estilo de la cabecera de la tabla
-$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:D7');
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:G7');
 
 
 $query = $maestro->getMaestro($codvend);
@@ -82,6 +85,9 @@ foreach ($query as $i) {
     $sheet->setCellValue('B' . $row, utf8_decode($i['descrip']));
     $sheet->setCellValue('C' . $row, ($i['activo'] == 1) ? "Activo" : "Inactivo");
     $sheet->setCellValue('D' . $row, $i['codvend']);
+    $sheet->setCellValue('E' . $row, $i['Ruta_Alternativa']);
+    $sheet->setCellValue('F' . $row, $i['Ruta_Alternativa_2']);
+    $sheet->setCellValue('G' . $row, strtoupper($i["DiasVisita"]));
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -97,6 +103,9 @@ foreach ($query as $i) {
             break;
     }
     $spreadsheet->getActiveSheet()->getStyle('D'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('E'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('F'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('G'.$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
     $row++;
 }

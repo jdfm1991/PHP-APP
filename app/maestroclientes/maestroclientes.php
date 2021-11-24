@@ -77,8 +77,11 @@ else { ?>
                         <tr>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
-                           <th class="text-center" title="<?=Strings::DescriptionFromJson('estatus')?>"><?=Strings::titleFromJson('estatus')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('dia_visita')?>"><?=Strings::titleFromJson('ruta')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('estatus')?>"><?=Strings::titleFromJson('estatus')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta_principal')?>"><?=Strings::titleFromJson('ruta_principal')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta_alternativa_1')?>"><?=Strings::titleFromJson('ruta_alternativa_1')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta_alternativa_2')?>"><?=Strings::titleFromJson('ruta_alternativa_2')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('dia_visita')?>"><?=Strings::titleFromJson('dia_visita')?></th>
                         </tr>
                         </thead>
                         <tfoot style="background-color: #ccc;color: white;">
@@ -86,7 +89,10 @@ else { ?>
                             <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('estatus')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('ruta_principal')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('ruta_alternativa_1')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('ruta_alternativa_2')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('dia_visita')?></th>
                         </tr>
                         </tfoot>
                         <tbody>
