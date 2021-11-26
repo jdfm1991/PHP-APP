@@ -13,6 +13,12 @@ class ArraysHelpers
         return array();
     }
 
+    public static function validateWithParameter(array $arr, string $parameter) {
+        if (is_array($arr) == true and count($arr) > 0 and array_key_exists($parameter, $arr))
+            return $arr[$parameter];
+        return array();
+    }
+
     public static function validateWithPosAndParameter(array $arr, int $position, string $parameter) {
         if (is_array($arr) == true and count($arr) > 0)
             return $arr[$position][$parameter];

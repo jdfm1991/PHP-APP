@@ -28,6 +28,90 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
+    case "validar_documento_antesdeanadir":
+
+        $numeroD = $_POST["numero_fact"];
+        $peso_acum = str_replace(",", ".", $_POST["peso_acum_facturas"]);
+        $peso_max  = str_replace(",", ".", $_POST["peso_max_vehiculo"]);
+        $cubicaje_acum  = str_replace(",", ".", $_POST["cubicaje_acum_facturas"]);
+        $cubicaje_max  = str_replace(",", ".", $_POST["cubicaje_max_vehiculo"]);
+
+        isset($_POST["eliminarPeso"])
+            ? $eliminarPeso = true
+            : $eliminarPeso = false;
+
+        $datos = $despachos->getPesoTotalporFactura($numeroD);
+
+        $peso = 0;
+        $cubicaje = 0;
+        if (count($datos) != 0){
+            foreach ($datos as $dato) {
+                if($dato['tipofac'] == "A") {
+                    ($dato['unidad'] == 0)
+                        ? $peso += ($dato['peso'] * $dato['cantidad'])
+                        : $peso += (($dato['peso'] / $dato['paquetes']) * $dato['cantidad']);
+                }
+                $cubicaje += $dato['cubicaje'];
+            }
+        }
+        //agrega formato a el peso y al cubicaje
+        $peso = Strings::rdecimal($peso, 2, ".", "");
+        $cubicaje = Strings::rdecimal($cubicaje, 2, ".", "");
+        $porcentajePeso = "1";
+
+        //consulta si deseamos eliminar el peso de la factura actual
+        if($eliminarPeso){
+            //calcula el porcenaje del peso tras eliminar
+            $porcentajePeso = strval(( (floatval($peso_acum) - floatval($peso)) * 100) / floatval($peso_max) );
+
+            //calcula el porcentaje del cubicaje tras eliminar
+            $porcentajeCubicaje = strval(( (floatval($cubicaje_acum) - floatval($cubicaje)) * 100) / floatval($cubicaje_max) );
+
+            //asigna el peso y cubicaje acumulado eliminandole el peso y volumen de una factura especifica
+            $output["pesoNuevoAcum"] = strval(floatval($peso_acum) - floatval($peso));
+            $output["cubicajeNuevoAcum"] = strval(floatval($cubicaje_acum) - floatval($cubicaje));
+
+        }
+        //sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
+        else if( (floatval($peso) + floatval($peso_acum) ) < floatval($peso_max) ){
+
+            //calcula el porcentaje del peso a agregar
+            $porcentajePeso = strval(((floatval($peso) + floatval($peso_acum)) * 100) / floatval($peso_max) );
+
+            //calcula el porcentaje de cubicaje a agregar
+            $porcentajeCubicaje = strval(( (floatval($cubicaje_acum) + floatval($cubicaje)) * 100) / floatval($cubicaje_max) );
+
+            //asigna el peso y cubicaje nuevo + el acumulado
+            $output["pesoNuevoAcum"] = strval(floatval($peso) + floatval($peso_acum));
+            $output["cubicajeNuevoAcum"] = strval(floatval($cubicaje_acum) + floatval($cubicaje));
+            $output["pesoDeFactura"] = floatval($peso);
+            $output["cond"] = "true";
+        }
+        //sino, solo devuelve el acumulado anterior y avisa que el acumulado supera al maximo de carga con la cond
+        else {
+            $porcentajePeso = strval((floatval($peso_acum) * 100) / floatval($peso_max) );
+            $porcentajeCubicaje = strval((floatval($cubicaje_acum) * 100) / floatval($cubicaje_max) );
+            $output["pesoNuevoAcum"] = $peso_acum;
+            $output["cubicajeNuevoAcum"] = $cubicaje_acum;
+            $output["cond"] = "false";
+        }
+
+        //evaluacion del color de la barra de progreso del peso acumulado
+        $bgProgress = "";
+        if(floatval($porcentajePeso) >= 0 && floatval($porcentajePeso) <70){
+            $bgProgress = "bg-success";
+        } elseif(floatval($porcentajePeso) >= 70 && floatval($porcentajePeso) <90){
+            $bgProgress = "bg-warning";
+        }elseif (floatval($porcentajePeso) >= 90 && floatval($porcentajePeso) <=100){
+            $bgProgress = "bg-danger";
+        }
+        $output["porcentajePeso"] = $porcentajePeso;
+        $output["porcentajeCubicaje"] = $porcentajeCubicaje;
+        $output["bgProgreso"] = $bgProgress;
+
+        echo json_encode($output);
+        break;
+
     case "obtener_pesoporfactura":
 
         $peso_acum = str_replace(",", ".", $_POST["peso_acum_facturas"]);
@@ -196,14 +280,6 @@ switch ($_GET["op"]) {
         } else {
             ($output["mensaje"] = "");
         }
-
-        echo json_encode($output);
-        break;
-
-    case "listar_chofer_vehiculo":
-
-        $output["lista_choferes"] = Choferes::todos();
-        $output["lista_vehiculos"] = Vehiculo::todos();
 
         echo json_encode($output);
         break;
@@ -512,7 +588,18 @@ switch ($_GET["op"]) {
     case "listar_depositos":
 
         $output['lista_depositos'] = Almacen::todos();
+        echo json_encode($output);
+        break;
 
+    case "listar_vehiculo":
+
+        $output["lista_vehiculos"] = Vehiculo::todos();
+        echo json_encode($output);
+        break;
+
+    case "listar_choferes":
+
+        $output["lista_choferes"] = Choferes::todos();
         echo json_encode($output);
         break;
 }

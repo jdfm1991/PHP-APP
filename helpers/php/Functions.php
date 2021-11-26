@@ -119,6 +119,26 @@ class Functions {
         return $output;
     }
 
+    public static function listModulesAvailableJson($name_modulo)
+    {
+        $output = $directorios_en_json = array();
+        $directorios_en_db  = array_map(function ($arr) { return $arr['nombre']; }, Modulos::todosActivos());
+        $config_json = ConfigJson::get();
+        $directorio_seleccionado = Modulos::getByName($name_modulo);
+
+        if (is_array($directorio_seleccionado) == true and count($directorio_seleccionado) > 0)
+            $output[] = $directorio_seleccionado[0]['nombre'];
+
+        foreach ($config_json as $key => $value)
+            $directorios_en_json[] = $key;
+
+        foreach ($directorios_en_db as $directorio_db)
+            if (!in_array($directorio_db,  $directorios_en_json))
+                $output[] = $directorio_db;
+
+        return $output;
+    }
+
     public static function orgranigramaMenus($id = -1) {
         $output = array();
 

@@ -23,8 +23,8 @@ class Conectar {
 
 	protected function conexion2() {
 		try {
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
-//			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=aj","sa","Confisur1");
+//			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=aj","sa","merumbd4z");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=aj","sa","Confisur1");
 			return $conectar;
 		} catch (Exception $e) {
             print "¡Error!: " . $e->getMessage() . "<br/>";

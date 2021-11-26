@@ -19,13 +19,35 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion maestro de clientes">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion tabla dinamica">
+      <change afterPath="$PROJECT_DIR$/app/despachos/despachos_funciones.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionit/modales/crear_o_editar_modulo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/modales/detalle_parametros.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/strings_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/php/ConfigJson.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/tabladinamica/tabladinamica_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionit/modales/crear_o_editar_menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Modulos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Modulos.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +66,7 @@
         <option value="CSS File" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="tsconfig.json" />
       </list>
     </option>
   </component>
@@ -92,7 +115,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../confimania" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/gestionsistema/modales" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -100,16 +123,16 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
+      <recent name="C:\Apache24\htdocs\appweb\app\gestionit" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
       <recent name="C:\Apache24\htdocs\appweb\app\devolucionessinmotivo" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins\jquery-maskmoney" />
-      <recent name="C:\Apache24\htdocs\appweb\app\libroventas" />
-      <recent name="C:\Apache24\htdocs\appweb\app" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\public\plugins\ionicons\2.0.1\css" />
@@ -284,14 +307,9 @@
       <workItem from="1637671740238" duration="2778000" />
       <workItem from="1637677788833" duration="5949000" />
       <workItem from="1637695772697" duration="1697000" />
-      <workItem from="1637762977715" duration="4635000" />
-    </task>
-    <task id="LOCAL-00019" summary="estandarizacion titulos y descripcion tabla">
-      <created>1624478508382</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1624478508397</updated>
+      <workItem from="1637762977715" duration="5272000" />
+      <workItem from="1637841755323" duration="17638000" />
+      <workItem from="1637927659667" duration="22510000" />
     </task>
     <task id="LOCAL-00020" summary="estandarizacion titulos y descripcion tabla">
       <created>1624636498538</created>
@@ -629,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637783670599</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="adecuacion tabla dinamica">
+      <created>1637784817162</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1637784817163</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -648,7 +673,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="avance de mercancia por despachar" />
     <MESSAGE value="adecuacion inventario global" />
     <MESSAGE value="reporte excel de mercancia por despachar" />
     <MESSAGE value="validar tfood dspachos generados (total)" />
@@ -673,7 +697,8 @@
     <MESSAGE value="adecuacion de notificacion despacho y correccion de data vista principal" />
     <MESSAGE value="avance de ventas kg edv por categoria" />
     <MESSAGE value="adecuacion maestro de clientes" />
-    <option name="LAST_COMMIT_MESSAGE" value="adecuacion maestro de clientes" />
+    <MESSAGE value="adecuacion tabla dinamica" />
+    <option name="LAST_COMMIT_MESSAGE" value="adecuacion tabla dinamica" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

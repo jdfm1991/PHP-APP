@@ -45,13 +45,8 @@ if (!isset($_SESSION['cedula'])) {
                                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                     <li class="pt-2 px-3"><h3 class="card-title">Gestión</h3></li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="custom-tab-modulos" data-toggle="pill" href="#tab-modulos" role="tab" aria-controls="tab-modulos" aria-selected="true">
-                                            Módulos
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="custom-tab-menu" data-toggle="pill" href="#tab-menu" role="tab" aria-controls="tab-menu" aria-selected="false">
-                                            Menús
+                                        <a class="nav-link" id="custom-tab-parametros" data-toggle="pill" href="#tab-parametros" role="tab" aria-controls="tab-parametros" aria-selected="true">
+                                            Configuraciones de Parámetros
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -64,33 +59,29 @@ if (!isset($_SESSION['cedula'])) {
                             </div>
                             <div class="card-body">
                                 <div class="tab-content" id="custom-tabs-one-tabContent">
-                                    <div class="tab-pane fade show active" id="tab-modulos" role="tabpanel" aria-labelledby="custom-tab-modulos">
+                                    <div class="tab-pane fade show active" id="tab-parametros" role="tabpanel" aria-labelledby="custom-tab-modulos">
                                         <div class="row">
                                             <div class="col-10 text-gray">
-                                                se gestiona todos los módulos del sistema dependiendo de un menu
+                                                se gestiona las configuraciones de parámetros del sistema
                                             </div>
                                             <div class="col-2 text-right">
-                                                <button class="btn btn-primary" id="add_modulo_button" onclick="mostrar_modulo()" data-toggle="modal" data-target="#moduloModal"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo Módulo</button>
+                                                <button class="btn btn-primary" id="add_modulo_button" onclick="mostrar_modulo()" data-toggle="modal" data-target="#parametroModal"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo Módulo</button>
                                             </div>
                                         </div>
                                         <div class="row mt-5">
                                             <div class="col-12">
-                                                <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="modulo_data">
+                                                <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="parametro_data">
                                                     <thead style="background-color: #17A2B8;color: white;">
                                                     <tr>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('ruta_modulo')?>"><?=Strings::titleFromJson('ruta_modulo')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu')?>"><?=Strings::titleFromJson('menu')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('nombre')?>"><?=Strings::titleFromJson('nombre')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('icono')?>"><?=Strings::titleFromJson('icono')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('modulo_nombre')?>"><?=Strings::titleFromJson('modulo_nombre')?></td>
+                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_parametros')?>"><?=Strings::titleFromJson('cantidad_parametros')?></td>
                                                         <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                                     </tr>
                                                     </thead>
                                                     <tfoot style="background-color: #ccc;color: white;">
                                                     <tr>
-                                                        <td class="text-center"><?=Strings::titleFromJson('ruta_modulo')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('menu')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('nombre')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('icono')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('modulo_nombre')?></td>
+                                                        <td class="text-center"><?=Strings::titleFromJson('cantidad_parametros')?></td>
                                                         <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                                     </tr>
                                                     </tfoot>
@@ -101,48 +92,6 @@ if (!isset($_SESSION['cedula'])) {
                                             </div>
 
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab-menu" role="tabpanel" aria-labelledby="custom-tab-menu">
-                                        <div class="row">
-                                            <div class="col-10 text-gray">
-                                                se gestiona todos los Menús del sistema
-                                            </div>
-                                            <div class="col-2 text-right">
-                                                <button class="btn btn-primary" id="add_modulo_button" onclick="mostrar_menu()" data-toggle="modal" data-target="#menuModal"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo Menú</button>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-5 mb-5">
-                                            <div class="col-12">
-                                                <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="menu_data">
-                                                    <thead style="background-color: #17A2B8;color: white;">
-                                                    <tr>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu_nombre')?>"><?=Strings::titleFromJson('menu_nombre')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('icono')?>"><?=Strings::titleFromJson('icono')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu_padre')?>"><?=Strings::titleFromJson('menu_padre')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('menu_hijo')?>"><?=Strings::titleFromJson('menu_hijo')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('orden')?>"><?=Strings::titleFromJson('orden')?></td>
-                                                        <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
-                                                    </tr>
-                                                    </thead>
-                                                    <tfoot style="background-color: #ccc;color: white;">
-                                                    <tr>
-                                                        <td class="text-center"><?=Strings::titleFromJson('menu_nombre')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('icono')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('menu_padre')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('menu_hijo')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('orden')?></td>
-                                                        <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
-                                                    </tr>
-                                                    </tfoot>
-                                                    <tbody>
-                                                    <!-- TD de la tabla que se pasa por ajax -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                        <div id="chart-container"></div>
-
                                     </div>
                                     <div class="tab-pane fade" id="tab-notificaciones" role="tabpanel" aria-labelledby="custom-tab-notificaciones">
                                         Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
@@ -159,8 +108,8 @@ if (!isset($_SESSION['cedula'])) {
             <!-- MODAL CREAR O EDITAR MODULO -->
             <?php include 'modales/crear_o_editar_modulo.html' ?>
 
-            <!-- MODAL CREAR O EDITAR MODULO -->
-            <?php include 'modales/crear_o_editar_menu.html' ?>
+            <!-- MODAL DETALLES DE PARAMETROS -->
+            <?php include 'modales/detalle_parametros.html' ?>
 
         </div>
         <?php require_once("../footer.php");?>

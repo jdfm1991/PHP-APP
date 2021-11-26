@@ -105,8 +105,18 @@ if (!isset($_SESSION['cedula'])) {
                                 <div class="col-md-12">
                                     <h3> Inclusión de Facturas</h3>
                                     <div class="form-group">
-                                        <label class="control-label">Ingrese Número de Factura a Despachar</label>
+                                        <label for="factura" class="control-label">Ingrese Número de Factura a Despachar</label>
                                         <input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" />
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" id="tipo_fact" name="tipo" value="f" checked="">
+                                            <label for="tipo_fact" class="custom-control-label">Factura</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" id="tipo_not" name="tipo" value="n">
+                                            <label for="tipo_not" class="custom-control-label">Nota de Entrega</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
@@ -234,6 +244,7 @@ if (!isset($_SESSION['cedula'])) {
         <?php require_once("../footer.php"); ?>
         <script type="text/javascript" src="<?php echo URL_HELPERS_JS ?>Number.js"></script>
         <script type="text/javascript" src="mercancia_por_despachar.js"></script>
+        <script type="text/javascript" src="despachos_funciones.js"></script>
         <script type="text/javascript" src="despachos.js"></script><?php
     }
     ?>

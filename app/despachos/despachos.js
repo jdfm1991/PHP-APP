@@ -33,7 +33,8 @@ function init() {
     peso_acum_facturas = 0;
     estado_minimizado = false;
     valor_bg_progreso = "bg-success";
-    listar_chofer_vehiculo();
+    listar_choferes();
+    listar_vehiculo();
 }
 
 function limpiar() {
@@ -114,6 +115,41 @@ function cargarCapacidadVehiculo(id) {
     });
 }
 
+function validarDocumentoAntesDeAnadir(numero_fact){
+    var resultado = false;
+    if(numero_fact !== "") {
+        $.ajax({
+            async: false,
+            cache: true,
+            url: "despachos_controlador.php?op=validar_documento_antesdeanadir",
+            method: "POST",
+            dataType: "json",
+            data: {
+                numero_fact: numero_fact,
+                peso_acum_facturas: peso_acum_facturas,
+                peso_max_vehiculo:peso_max_vehiculo,
+                cubicaje_acum_facturas: cubicaje_acum_facturas,
+                cubicaje_max_vehiculo: cubicaje_max_vehiculo
+            },
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                if( data.cond === 'false' ){
+                    Swal.fire('Atención!', 'El Vehiculo esta al maximo de Capacidad!', 'error');
+                    Swal.fire('Atención!', data.mensaje, 'error');
+                    resultado = false;
+                } else {
+                    resultado = true;
+                }
+            }
+        });
+        return resultado;
+    }
+}
+
 function validarPesoporFactura(numero_fact){
     var resultado = false;
     if(numero_fact !== "") {
@@ -123,7 +159,13 @@ function validarPesoporFactura(numero_fact){
             url: "despachos_controlador.php?op=obtener_pesoporfactura",
             method: "POST",
             dataType: "json",
-            data: {numero_fact: numero_fact, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
+            data: {
+                numero_fact: numero_fact,
+                peso_acum_facturas: peso_acum_facturas,
+                peso_max_vehiculo:peso_max_vehiculo,
+                cubicaje_acum_facturas: cubicaje_acum_facturas,
+                cubicaje_max_vehiculo: cubicaje_max_vehiculo
+            },
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
                 send_notification_error(e.responseText);
@@ -243,9 +285,9 @@ function buscarFacturaEnDespachos(nrofact){
     }
 }
 
-function listar_chofer_vehiculo(){
+function listar_choferes(){
     $.ajax({
-        url: "despachos_controlador.php?op=listar_chofer_vehiculo",
+        url: "despachos_controlador.php?op=listar_choferes",
         type: "POST",
         dataType: "json",
         error: function (e) {
@@ -260,7 +302,21 @@ function listar_chofer_vehiculo(){
                 //se itera con each para llenar el select en la vista
                 $('#chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
             });
+        }
+    });
+}
 
+function listar_vehiculo(){
+    $.ajax({
+        url: "despachos_controlador.php?op=listar_vehiculo",
+        type: "POST",
+        dataType: "json",
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
+            console.log(e.responseText);
+        },
+        success: function (data) {
             //lista de seleccion de vehiculos
             $('#vehiculo').append('<option name="" value="">Seleccione</option>');
             $.each(data.lista_vehiculos, function(idx, opt) {
@@ -360,7 +416,14 @@ function eliminar(documento) {
             url: "despachos_controlador.php?op=obtener_pesoporfactura",
             type: "POST",
             dataType: "json",
-            data: {numero_fact: documento, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo: peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo, eliminarPeso: "si"},
+            data: {
+                numero_fact: documento,
+                peso_acum_facturas: peso_acum_facturas,
+                peso_max_vehiculo: peso_max_vehiculo,
+                cubicaje_acum_facturas: cubicaje_acum_facturas,
+                cubicaje_max_vehiculo: cubicaje_max_vehiculo,
+                eliminarPeso: "si"
+            },
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
                 send_notification_error(e.responseText);
@@ -422,7 +485,7 @@ $(document).on("click", ".anadir", function () {
 });
 
 function anadirFactPorDespachar() {
-    var factura = addZeros($("#factura").val());
+    const factura = addZeros($("#factura").val());
 
     validaciones = validarFacturaEnDespachos(factura) && validarPesoporFactura(factura) && validarExistenciaFactura(factura);
 

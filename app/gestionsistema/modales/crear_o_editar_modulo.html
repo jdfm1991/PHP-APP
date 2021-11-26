@@ -11,40 +11,15 @@
             </div>
             <div class="modal-body">
                 <form method="post" id="modulo_form">
-                    <label for="ruta">Ruta</label>
+                    <label for="modulo">Módulo</label>
                     <div class="input-group mb-3">
-                        <select class="form-control custom-select" id="ruta" name="ruta">
+                        <select class="form-control custom-select" id="modulo" name="modulo">
                             <option value="">--Seleccione--</option>
-                        </select>
-                    </div>
-                    <label for="nombre">Nombre</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control input-sm" maxlength="24" id="nombre" name="nombre" placeholder="Ingrese nombre del modulo" required >
-                    </div>
-                    <label for="icono">Icono del Módulo</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control input-sm" maxlength="50" id="icono" name="icono" placeholder="Si deja este campo vacío, se asignará un icono por default">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i id="icon" class=""></i></span>
-                        </div>
-                    </div>
-                    <label for="menu_id">Menu (opcional)</label>
-                    <div class="input-group mb-3">
-                        <select class="form-control custom-select" id="menu_id" name="menu_id">
-                            <option value="">--Seleccione--</option>
-                        </select>
-                    </div>
-                    <label for="estado">Estado</label>
-                    <div class="input-group mb-3">
-                        <select class="form-control custom-select" id="estado" name="estado">
-                            <option value="">Seleccione un Estado</option>
-                            <option value="1" selected>Activo</option>
-                            <option value="0">Inactivo</option>
                         </select>
                     </div>
                     <br />
                     <div class="modal-footer">
-                        <input type="hidden" name="id_modulo" id="id_modulo"/>
+                        <input type="hidden" name="name_modulo" id="name_modulo"/>
                         <button type="submit" name="action" id="btnGuardarModulo" class="btn btn-success pull-left" value="Add">Guardar</button>
                         <button type="button" onclick="limpiar_modulo()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
                     </div>

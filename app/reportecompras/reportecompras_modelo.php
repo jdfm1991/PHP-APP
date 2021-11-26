@@ -100,7 +100,9 @@ class ReporteCompras extends Conectar
         $sql = "SELECT fechae, COALESCE((CASE WHEN EsUnid=1 THEN cantidad/CantEmpaq ELSE Cantidad END), 0) AS cantidadBult
                 FROM SAITEMFAC INNER JOIN SAPROD prod ON prod.CodProd = saitemfac.CodItem
                 WHERE CodItem = ? AND DATEADD(dd, 0, DATEDIFF(dd, 0, fechaE)) between ? and ? AND TipoFac = 'A'
+
                 UNION
+
                 SELECT fechae, COALESCE((CASE WHEN esunidad=1 THEN cantidad/CantEmpaq ELSE Cantidad END), 0) AS cantidadBult
                 FROM SAITEMNOTA INNER JOIN SAPROD prod ON prod.CodProd = saitemnota.CodItem
                 WHERE CodItem = ? AND DATEADD(dd, 0, DATEDIFF(dd, 0, fechaE)) between ? and ? AND TipoFac = 'C'";

@@ -94,11 +94,7 @@ switch ($_GET["op"]) {
                 //no existe, por lo tanto hacemos el registro
                 $chofer_estatus = $chofer->registrar_chofer($data);
 
-            } else {
-
-
             }
-
         }  else {
             /*si ya existe entonces actualizamos */
             $chofer_estatus = $chofer->editar_chofer($data);
