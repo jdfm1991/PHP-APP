@@ -19,35 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion tabla dinamica">
-      <change afterPath="$PROJECT_DIR$/app/despachos/despachos_funciones.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/gestionit/gestionit_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/gestionit/modales/crear_o_editar_modulo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/gestionsistema/modales/detalle_parametros.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/strings_config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/php/ConfigJson.php" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="creacion de nuevo modulo gestion it y ConfigJson">
+      <change afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_parametro.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/chofer/chofer_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionit/modales/crear_o_editar_menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_o_editar_modulo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ArraysHelpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/Strings.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Strings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/sql/Modulos.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Modulos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/detalle_parametros.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/detalle_parametros.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings_config.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,14 +288,8 @@
       <workItem from="1637695772697" duration="1697000" />
       <workItem from="1637762977715" duration="5272000" />
       <workItem from="1637841755323" duration="17638000" />
-      <workItem from="1637927659667" duration="22510000" />
-    </task>
-    <task id="LOCAL-00020" summary="estandarizacion titulos y descripcion tabla">
-      <created>1624636498538</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1624636498538</updated>
+      <workItem from="1637927659667" duration="22623000" />
+      <workItem from="1638186777909" duration="8982000" />
     </task>
     <task id="LOCAL-00021" summary="estandarizacion titulos y descripcion tabla">
       <created>1624652307262</created>
@@ -654,7 +627,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637784817163</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="creacion de nuevo modulo gestion it y ConfigJson">
+      <created>1637958308769</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1637958308787</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -673,7 +653,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adecuacion inventario global" />
     <MESSAGE value="reporte excel de mercancia por despachar" />
     <MESSAGE value="validar tfood dspachos generados (total)" />
     <MESSAGE value="reemplazar la palabra factura por documentos (pdf despachos)" />
@@ -698,7 +677,8 @@
     <MESSAGE value="avance de ventas kg edv por categoria" />
     <MESSAGE value="adecuacion maestro de clientes" />
     <MESSAGE value="adecuacion tabla dinamica" />
-    <option name="LAST_COMMIT_MESSAGE" value="adecuacion tabla dinamica" />
+    <MESSAGE value="creacion de nuevo modulo gestion it y ConfigJson" />
+    <option name="LAST_COMMIT_MESSAGE" value="creacion de nuevo modulo gestion it y ConfigJson" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

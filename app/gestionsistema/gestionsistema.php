@@ -111,6 +111,9 @@ if (!isset($_SESSION['cedula'])) {
             <!-- MODAL DETALLES DE PARAMETROS -->
             <?php include 'modales/detalle_parametros.html' ?>
 
+            <!-- MODAL NUEVO PARAMETRO -->
+            <?php include 'modales/crear_parametro.html' ?>
+
         </div>
         <?php require_once("../footer.php");?>
         <script src="<?php echo URL_HELPERS_JS; ?>Icons.js" type="text/javascript"></script>

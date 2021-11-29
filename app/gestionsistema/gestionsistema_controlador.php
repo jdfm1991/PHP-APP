@@ -30,36 +30,41 @@ switch ($_GET["op"]) {
             $data[] = $sub_array;
         }
 
-        $results = array(
+        $output = array(
             "sEcho" => 1, //Información para el datatables
             "iTotalRecords" => count($data), //enviamos el total registros al datatable
             "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
             "aaData" => $data
         );
 
-        $output = array(
-            "contenido_tabla" => $results,
-            "array_data" => $datos,
-        );
-
         echo json_encode($output);
         break;
 
     case "mostrar_parametros_modal":
-
+        $i = 0;
         $name_modulo = $_POST["name_modulo"];
         $datos = ConfigJson::getParameters($name_modulo);
 
         //declaramos el array
         $data = array();
 
-        foreach ($datos as $key => $row) {
+        foreach ($datos as $parametro => $value) {
+
+            $i += 1;
             $sub_array = array();
 
-            $sub_array[] = $key;
-            $sub_array[] = $row;
+            $sub_array[] = $parametro;
             $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="eliminar_parametro(\'' . $name_modulo . '\',\'' . $key . '\');"  id="' . $key . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                <input type="text" maxlength="15"
+                                onkeyup="guardarParametro(\'' . $name_modulo . '\',\'' . $parametro . '\',\'' . $i . '\',\'' . "" . '\')" 
+                                class="form-control input-sm"  
+                                id="parametro_'.$i.'" 
+                                name="parametro_'.$i.'" 
+                                value="'. $value .'"
+                                placeholder="Valor de parámetro">
+                            </div>';
+            $sub_array[] = '<div class="col text-center">
+                                <button type="button" onClick="eliminar_parametro(\'' . $name_modulo . '\',\'' . $parametro . '\');"  id="' . $parametro . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                             </div>';
 
             $data[] = $sub_array;
@@ -76,17 +81,31 @@ switch ($_GET["op"]) {
         break;
 
     case "guardar_parametro_modal":
-        $modulo = false;
-        $name_modulo = $_POST["name_modulo"];
-        $datos = ConfigJson::getParameters($name_modulo);
+        $guardar = false;
 
-        if (!empty($name_modulo)) {
-            $arr_data[$name_modulo] = array();
-            $modulo = ConfigJson::set($arr_data);
+        $name_modulo = $_POST["name_modulo"];
+        $parameter = $_POST["parameter"];
+        $value = $_POST["value"];
+
+        $arr_data = ConfigJson::get();
+
+        if (!empty($name_modulo) and !empty($parameter)) {
+            # evalua el nuevo value
+            if (!empty($value)) {
+
+                # si no esta vacio setea el parametro
+                $arr_data[$name_modulo][$parameter] = $value;
+            } else {
+
+                #si esta vacio ingresa un nuevo parametro
+                $arr_data[$name_modulo] = array();
+            }
+
+            $guardar = ConfigJson::set($arr_data);
         }
 
         //mensaje
-        if($modulo){
+        if($guardar){
             $output = [
                 "mensaje" => "Guardado con Exito!",
                 "icono"   => "success"
@@ -94,6 +113,33 @@ switch ($_GET["op"]) {
         } else {
             $output = [
                 "mensaje" => "Ocurrió un error al Guardar!",
+                "icono"   => "error"
+            ];
+        }
+
+        echo json_encode($output);
+        break;
+
+    case "eliminar_parametro_modal":
+        $eliminar = false;
+        $name_modulo = $_POST['name_modulo'];
+        $parameter = $_POST['parameter'];
+        $arr_data = ConfigJson::get();
+
+        if (!empty($name_modulo)) {
+            unset($arr_data[$name_modulo][$parameter]);
+            $eliminar = ConfigJson::set($arr_data);
+        }
+
+        //mensaje
+        if($eliminar){
+            $output = [
+                "mensaje" => "Se eliminó exitosamente!",
+                "icono"   => "success"
+            ];
+        } else {
+            $output = [
+                "mensaje" => "Ocurrió un error al eliminar!",
                 "icono"   => "error"
             ];
         }

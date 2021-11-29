@@ -7,6 +7,15 @@ function init() {
         guardarModulo(e);
     });
 
+    //cuando se da click al boton submit entonces se ejecuta la funcion guardaryeditar(e);
+    $("#nuevoparametro_form").on("submit", function (e) {
+        e.preventDefault(); //No se activará la acción predeterminada del evento
+        const modulo = $('#nuevoparametro_form #name_modulo').val();
+        const parametro = $('#nuevoparametro_form #nuevo_parametro').val();
+        const valor = $('#nuevoparametro_form #valor').val();
+        guardarParametro(modulo, parametro, 0, valor);
+    });
+
     $("#custom-tabs-one-tab li a").on("click", function (e) {
 
         switch (this.id.substr(11, 35)) {
@@ -25,64 +34,69 @@ function init() {
 function limpiar_modulo() {
     $('#name_modulo').val('');
     $('#modulo_form')[0].reset();
-    $(".modal-title").text("Agregar Módulo");
     $('#modulo').html('<option value="">--Seleccione--</option>');
+}
+
+/*funcion para limpiar formulario de modal*/
+function limpiar_parametro() {
+    $('#details_parameters_name').val('');
+    $('#nuevoparametro_form')[0].reset();
 }
 
 $(document).ready(function () {
     //
 });
 
+function mostrar_nuevo_parametro() {
+    let isError = false;
+    limpiar_parametro();
+
+    let name_modulo = $('#detalleparametroModal #name_modulo').val();
+
+    $('#nuevoparametroModal').modal('show');
+    $("#modulo_name_title").text(name_modulo);
+    $("#nuevoparametroModal #name_modulo").val(name_modulo);
+}
+
 //function listar
 function listar_parametros() {
     let isError = false;
-    $.ajax({
-        url: "gestionsistema_controlador.php?op=listar_modulos_json",
-        type: "get",
-        dataType: "json",
-        beforeSend: function () {
-            SweetAlertLoadingShow();
-        },
-        error: function (e) {
-            isError = SweetAlertError(e.responseText, "Error!")
-            send_notification_error(e.responseText);
-            console.log(e.responseText);
-        },
-        success: function(data) {
-            if(!jQuery.isEmptyObject(data)) {
-                let { array_data, contenido_tabla } = data;
-
-                array_data_from_json = array_data;
-
-                //TABLA
-                tabla_parametros = $('#parametro_data').dataTable({
-                    "aProcessing": true,//Activamos el procesamiento del datatables
-                    "aServerSide": true,//Paginación y filtrado realizados por el servidor
-
-                    "sEcho": contenido_tabla.sEcho, //INFORMACION PARA EL DATATABLE
-                    "iTotalRecords": contenido_tabla.iTotalRecords, //TOTAL DE REGISTROS AL DATATABLE.
-                    "iTotalDisplayRecords": contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
-                    "aaData": contenido_tabla.aaData, // informacion por registro
-
-                    "bDestroy": true,
-                    "responsive": true,
-                    "bInfo": true,
-                    "iDisplayLength": 10,//Por cada 10 registros hace una paginación
-                    "order": [[0, "asc"]],//Ordenar (columna,orden)
-                    "language": texto_español_datatables
-                }).DataTable();
-            }
-        },
-        complete: function () {
-            if(!isError) SweetAlertLoadingClose();
-        },
-    });
+    //TABLA
+    tabla_parametros = $('#parametro_data').dataTable({
+        "aProcessing": true,//Activamos el procesamiento del datatables
+        "aServerSide": true,//Paginación y filtrado realizados por el servidor
+        "ajax":
+            {
+                url: 'gestionsistema_controlador.php?op=listar_modulos_json',
+                type: "get",
+                dataType: "json",
+                beforeSend: function () {
+                    SweetAlertLoadingShow();
+                },
+                error: function (e) {
+                    isError = SweetAlertError(e.responseText, "Error!")
+                    send_notification_error(e.responseText);
+                    console.log(e.responseText);
+                },
+                complete: function () {
+                    if(!isError) SweetAlertLoadingClose();
+                }
+            },
+        "bDestroy": true,
+        "responsive": true,
+        "bInfo": true,
+        "iDisplayLength": 10,//Por cada 10 registros hace una paginación
+        "order": [[0, "asc"]],//Ordenar (columna,orden)
+        "language": texto_español_datatables
+    }).DataTable();
 }
 
 function mostrar_parametros(name_modulo= "") {
     let isError = false;
 
     $('#detalleparametroModal').modal('show');
+    $("#details_module_name").text(name_modulo);
+    $("#detalleparametroModal #name_modulo").val(name_modulo);
 
     $('#relacion_detalle_parametros').dataTable({
         "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
@@ -111,6 +125,79 @@ function mostrar_parametros(name_modulo= "") {
         "order": [[0, "desc"]],
         "language": texto_español_datatables
     });
+}
+
+function guardarParametro(name_modulo= "", parameter = "", number = 0, valor = "") {
+
+    let value = (number !== 0)
+        ? $('#parametro_'+number).val()
+        : valor;
+
+    if (name_modulo !== "" && parameter !== "" && value !== "") {
+        $.ajax({
+            url: "gestionsistema_controlador.php?op=guardar_parametro_modal",
+            type: "POST",
+            data: {
+                name_modulo: name_modulo,
+                parameter: parameter,
+                value: value,
+            },
+            dataType: "json",
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                let { icono, mensaje } = data
+                ToastSweetMenssage(icono, mensaje);
+
+                //verifica si el mensaje de insercion contiene error
+                if(mensaje.includes('error')) {
+                    return (false);
+                } else {
+                    limpiar_parametro();
+                    $('#nuevoparametroModal').modal('hide');
+                    if (valor !== "") {
+                        $('#relacion_detalle_parametros').DataTable().ajax.reload();
+                        $('#parametro_data').DataTable().ajax.reload();
+                    }
+                }
+            }
+        });
+    }
+}
+
+function eliminar_parametro(name_modulo= "", parameter = "") {
+
+    if (name_modulo !== "" && parameter !== "") {
+        $.ajax({
+            url: "gestionsistema_controlador.php?op=eliminar_parametro_modal",
+            type: "POST",
+            data: {
+                name_modulo: name_modulo,
+                parameter: parameter
+            },
+            dataType: "json",
+            error: function (e) {
+                SweetAlertError(e.responseText, "Error!")
+                send_notification_error(e.responseText);
+                console.log(e.responseText);
+            },
+            success: function (data) {
+                let { icono, mensaje } = data
+                ToastSweetMenssage(icono, mensaje);
+
+                //verifica si el mensaje de insercion contiene error
+                if(mensaje.includes('error')) {
+                    return (false);
+                } else {
+                    $('#relacion_detalle_parametros').DataTable().ajax.reload();
+                    $('#parametro_data').DataTable().ajax.reload();
+                }
+            }
+        });
+    }
 }
 
 function mostrar_modulo(name_modulo= -1) {
@@ -183,7 +270,7 @@ function guardarModulo(e) {
                 } else {
                     $('#modulo_form')[0].reset();
                     $('#moduloModal').modal('hide');
-                    listar_parametros();
+                    $('#parametro_data').DataTable().ajax.reload();
                     limpiar_modulo();
                 }
             }
@@ -219,8 +306,7 @@ function eliminar_modulo(name_modulo) {
                 },
                 success: function (data) {
                     ToastSweetMenssage(data.icono, data.mensaje);
-                    // $('#modulo_data').DataTable().ajax.reload();
-                    listar_parametros();
+                    $('#parametro_data').DataTable().ajax.reload();
                 }
             });
         }
