@@ -116,7 +116,7 @@ if (!isset($_SESSION['cedula'])) {
 
         </div>
         <?php require_once("../footer.php");?>
-        <script src="<?php echo URL_HELPERS_JS; ?>Icons.js" type="text/javascript"></script>
+        <script type="text/javascript" src="<?php echo URL_HELPERS_JS ?>Times.js"></script>
 
         <script type="text/javascript" src="gestionsistema.js"></script><?php
     }

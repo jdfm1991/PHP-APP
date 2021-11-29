@@ -245,15 +245,11 @@ function guardarModulo(e) {
     let modulo = $('#modulo_form #modulo').val();
     const formData = new FormData($("#modulo_form")[0]);
 
-    console.log(modulo,formData)
     if (modulo !== "") {
         $.ajax({
             url: "gestionsistema_controlador.php?op=guardar_modulo",
             type: "POST",
-            data: {
-                name_modulo: modulo,
-                array_data: array_data_from_json,
-            },
+            data: {name_modulo: modulo},
             dataType: "json",
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")

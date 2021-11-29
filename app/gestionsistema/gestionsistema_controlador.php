@@ -56,7 +56,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $parametro;
             $sub_array[] = '<div class="col text-center">
                                 <input type="text" maxlength="15"
-                                onkeyup="guardarParametro(\'' . $name_modulo . '\',\'' . $parametro . '\',\'' . $i . '\',\'' . "" . '\')" 
+                                onchange="guardarParametro(\'' . $name_modulo . '\',\'' . $parametro . '\',\'' . $i . '\',\'' . "" . '\')" 
                                 class="form-control input-sm"  
                                 id="parametro_'.$i.'" 
                                 name="parametro_'.$i.'" 
@@ -167,7 +167,6 @@ switch ($_GET["op"]) {
     case "guardar_modulo":
         $modulo = false;
 
-        /**AQUI FALTA TERMINAR**/
         $name_modulo = $_POST['name_modulo'];
         $arr_data = ConfigJson::get();
 

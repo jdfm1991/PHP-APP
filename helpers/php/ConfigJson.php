@@ -10,11 +10,8 @@ class ConfigJson
     }
 
     public static function set(array $configJson) : bool {
-        if (ArraysHelpers::validate($configJson)) {
-            $json_string = json_encode($configJson);
-            return file_put_contents(PATH_CONFIG."strings_config.json", $json_string);
-        }
-        return false;
+        $json_string = json_encode($configJson);
+        return file_put_contents(PATH_CONFIG."strings_config.json", $json_string);
     }
 
     public static function getParameters($module) : array {

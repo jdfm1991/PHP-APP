@@ -48,4 +48,10 @@ class Dates {
 
         return $string;
     }
+
+    public static function validateDate($date, $format = FORMAT_DATETIME_FOR_INSERT)
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
 }

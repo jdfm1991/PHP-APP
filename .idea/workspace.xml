@@ -19,14 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="creacion de nuevo modulo gestion it y ConfigJson">
-      <change afterPath="$PROJECT_DIR$/app/gestionsistema/modales/crear_parametro.html" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="ConfigJson y gestion de parametros">
+      <change afterPath="$PROJECT_DIR$/helpers/js/Times.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/gestionsistema_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/gestionsistema/modales/detalle_parametros.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/gestionsistema/modales/detalle_parametros.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/strings_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/ConfigJson.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/ConfigJson.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/Dates.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/Dates.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +45,8 @@
       <list>
         <option value="CSS File" />
         <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="tsconfig.json" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -289,14 +290,7 @@
       <workItem from="1637762977715" duration="5272000" />
       <workItem from="1637841755323" duration="17638000" />
       <workItem from="1637927659667" duration="22623000" />
-      <workItem from="1638186777909" duration="8982000" />
-    </task>
-    <task id="LOCAL-00021" summary="estandarizacion titulos y descripcion tabla">
-      <created>1624652307262</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1624652307262</updated>
+      <workItem from="1638186777909" duration="12086000" />
     </task>
     <task id="LOCAL-00022" summary="estandarizacion titulos y descripcion tabla">
       <created>1624896174742</created>
@@ -634,7 +628,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637958308787</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="ConfigJson y gestion de parametros">
+      <created>1638197174815</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1638197174816</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,7 +654,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="reporte excel de mercancia por despachar" />
     <MESSAGE value="validar tfood dspachos generados (total)" />
     <MESSAGE value="reemplazar la palabra factura por documentos (pdf despachos)" />
     <MESSAGE value="agrupar reportes(consolidado y detalle),&#10;analizar estructura de botones y&#10;revisar editar despacho" />
@@ -678,7 +678,8 @@
     <MESSAGE value="adecuacion maestro de clientes" />
     <MESSAGE value="adecuacion tabla dinamica" />
     <MESSAGE value="creacion de nuevo modulo gestion it y ConfigJson" />
-    <option name="LAST_COMMIT_MESSAGE" value="creacion de nuevo modulo gestion it y ConfigJson" />
+    <MESSAGE value="ConfigJson y gestion de parametros" />
+    <option name="LAST_COMMIT_MESSAGE" value="ConfigJson y gestion de parametros" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
