@@ -230,19 +230,6 @@ switch ($_GET["op"]) {
         echo json_encode($results);
         break;
 
-    case "buscar_facturaendespacho":
-
-        $datos = $despachos->getExisteFacturaEnDespachos($_POST["numero_fact"]);
-
-        if(is_array($datos) == true && count($datos) > 0) {
-            ($output["mensaje"] = "El Numero de Factura: ". $datos[0]['Numerod'] . " Ya Fue Agregado en Otro Despacho");
-        } else {
-            ($output["mensaje"] = "");
-        }
-
-        echo json_encode($output);
-        break;
-
     case "registrar_despacho":
 
         $creacionDespacho = false;

@@ -8,7 +8,7 @@ class DespachosHelpers
         if(Strings::avoidNullOrEmpty($records_to_be_dispatched)) {
 
             # separa por cada ";" quedando el formato dispuesto:
-            #   numerod-tipofac-peso
+            #   numerod-tipofac-tara-cubicaje
             $records = explode(";", substr($records_to_be_dispatched, 0, -1));
 
             foreach ($records as $record) {
@@ -16,6 +16,7 @@ class DespachosHelpers
                 # [0] -> numerod
                 # [1] -> tipofac
                 # [2] -> peso (tara)
+                # [3] -> cubicaje
                 $data = explode("-", $record);
 
                 if ($data[0] == $numerod  and  $data[1] == $tipofac) {
