@@ -3,22 +3,99 @@ set_time_limit(0);
  //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
 
-class Despachos extends Conectar{
+class Despachos extends Conectar {
 
-    public function getDatosEmpresa() {
-
+    public function getFactura($numerod) {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion2();
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT Descrip, Direc1, telef, rif FROM SACONF";
+        $sql = "SELECT numerod, tipofac, fechae, descrip, direc2 as direccion, codvend, mtototal as total
+                FROM SAFACT WHERE NumeroD = ? AND TipoFac = 'A'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod);
         $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getNotaDeEntrega($numerod) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT numerod, tipofac, fechae, rsocial as descrip, direccion, codvend, total
+                FROM SANOTA WHERE numerod = ? AND TipoFac = 'C'";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCubicajeYPesoTotalporFactura($numerod) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT saitemfac.coditem, descrip, saprod.tara, saitemfac.esunid AS unidad, saprod.cantempaq AS paquetes, 
+                       saitemfac.cantidad, tipofac, COALESCE(cubicaje, 0) as cubicaje
+                FROM saitemfac
+                         INNER JOIN saprod ON saitemfac.coditem = saprod.codprod
+                         INNER JOIN SAPROD_01 ON SAPROD.CodProd = SAPROD_01.CodProd
+                WHERE numerod = ? AND tipofac = 'A' ORDER BY saitemfac.coditem";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCubicajeYPesoTotalporNotaDeEntrega($numerod) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT saitemnota.coditem, descrip, saprod.tara, saitemnota.esunidad AS unidad, saprod.cantempaq AS paquetes, 
+                       saitemnota.cantidad, tipofac, COALESCE(cubicaje, 0) as cubicaje
+                FROM saitemnota
+                         INNER JOIN saprod ON saitemnota.coditem = saprod.codprod
+                         INNER JOIN SAPROD_01 ON SAPROD.CodProd = SAPROD_01.CodProd
+                WHERE numerod = ? AND tipofac = 'C' ORDER BY saitemnota.coditem";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getExisteDocumentoEnDespachos($numerod, $tipodoc) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT Numerod FROM Despachos_Det WHERE Numerod = ? AND Tipofac = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $numerod);
+        $sql->bindValue(2, $tipodoc);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getCabeceraDespacho($correlativo) {
@@ -34,63 +111,6 @@ class Despachos extends Conectar{
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $correlativo);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getPesoTotalporFactura($numero_fact) {
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
-        parent::set_names();
-
-        //QUERY
-        $sql = "SELECT saitemfac.coditem AS cod_prod, saprod.tara AS peso, saitemfac.esunid AS unidad, saprod.cantempaq AS paquetes, saitemfac.cantidad AS cantidad, tipofac AS tipofac, Cubicaje AS cubicaje
-                FROM saitemfac 
-                    INNER JOIN saprod ON saitemfac.coditem = saprod.codprod 
-                    INNER JOIN SAPROD_01 ON SAPROD.CodProd = SAPROD_01.CodProd
-                WHERE numerod = ? AND TIPOFAC = 'A' ORDER BY saitemfac.coditem";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$numero_fact);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getExisteFacturaEnDespachos($numero_fact) {
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion();
-        parent::set_names();
-
-        //QUERY
-//        $sql = "SELECT numeros FROM appfacturas_det WHERE numeros = ?";
-        $sql = "SELECT Numerod FROM Despachos_Det WHERE Numerod = ?";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$numero_fact);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getFactura($numero_fact) {
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
-        parent::set_names();
-
-        //QUERY
-        $sql = "SELECT NumeroD AS numerod, FechaE AS fechae, Descrip AS descrip, Direc2 AS direc2, CodVend AS codvend, MtoTotal AS mtototal 
-                FROM SAFACT WHERE NumeroD = ? AND TipoFac IN ('A','C')";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$numero_fact);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

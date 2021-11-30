@@ -3,6 +3,7 @@ include_once 'ArraysHelpers.php';
 include_once 'Colors.php';
 include_once 'ConfigJson.php';
 include_once 'Dates.php';
+include_once 'DespachosHelpers.php';
 include_once 'Email.php';
 include_once 'EmailData.php';
 include_once 'Excel.php';

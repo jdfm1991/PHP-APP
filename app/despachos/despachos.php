@@ -105,17 +105,17 @@ if (!isset($_SESSION['cedula'])) {
                                 <div class="col-md-12">
                                     <h3> Inclusión de Facturas</h3>
                                     <div class="form-group">
-                                        <label for="factura" class="control-label">Ingrese Número de Factura a Despachar</label>
-                                        <input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="factura" name="factura" />
+                                        <label for="factura" class="control-label">Ingrese Número de Documento a Despachar</label>
+                                        <input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="numero_d" name="numero_d" />
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" type="radio" id="tipo_fact" name="tipo" value="f" checked="">
-                                            <label for="tipo_fact" class="custom-control-label">Factura</label>
+                                            <input class="custom-control-input" type="radio" id="tipo_fact" name="tipo" value="f" checked>
+                                            <label for="tipo_fact" class="custom-control-label"><?=Strings::titleFromJson('factura')?></label>
                                         </div>
                                         <div class="custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" id="tipo_not" name="tipo" value="n">
-                                            <label for="tipo_not" class="custom-control-label">Nota de Entrega</label>
+                                            <label for="tipo_not" class="custom-control-label"><?=Strings::titleFromJson('nota_de_entrega')?></label>
                                         </div>
                                     </div>
                                 </div>
