@@ -27,7 +27,32 @@ class DespachosHelpers
         return $aux;
     }
 
-    public static function validateWeightAndCubicCapacity($data) {
+    public static function getDocumentInString(string $records_to_be_dispatched, string $numerod, string $tipofac) : array {
+
+        # consultamos si el existe en el despacho por crear
+        if(Strings::avoidNullOrEmpty($records_to_be_dispatched)) {
+
+            # separa por cada ";" quedando el formato dispuesto:
+            #   numerod-tipofac-tara-cubicaje
+            $records = explode(";", substr($records_to_be_dispatched, 0, -1));
+
+            foreach ($records as $record) {
+                # separa por cada "-" quedando el formato anterior mencionado
+                # [0] -> numerod
+                # [1] -> tipofac
+                # [2] -> peso (tara)
+                # [3] -> cubicaje
+                $data = explode("-", $record);
+
+                if ($data[0] == $numerod  and  $data[1] == $tipofac) {
+                    return $data;
+                }
+            }
+        }
+        return array();
+    }
+
+    public static function validateWeightAndCubicCapacity($data, $delete_document = false) {
         $output = array(
             'peso_max'     => $data['peso_max'],
             'cubicaje_max' => $data['cubicaje_max'],
@@ -35,17 +60,29 @@ class DespachosHelpers
         $porcentajePeso = 1;
         $porcentajeCubicaje = 1;
 
-        # consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
-        if( (floatval($data['peso']) + floatval($data['peso_acum']) ) < floatval($data['peso_max']) ){
+        # consulta si deseamos eliminar el peso del documento actual
+        if( $delete_document ) {
+            # calcula el porcenaje del peso tras eliminar
+            $porcentajePeso = strval(( (floatval($data['peso_acum']) - floatval($data['peso'])) * 100) / floatval($data['peso_max']) );
+
+            # calcula el porcentaje del cubicaje tras eliminar
+            $porcentajeCubicaje = strval(( (floatval($data['cubicaje_acum']) - floatval($data['cubicaje'])) * 100) / floatval($data['cubicaje_max']) );
+
+            # asigna el peso y cubicaje acumulado eliminandole el peso y volumen de una factura especifica
+            $output["pesoNuevoAcum"] = strval(floatval($data['peso_acum']) - floatval($data['peso']));
+            $output["cubicajeNuevoAcum"] = strval(floatval($data['cubicaje_acum']) - floatval($data['cubicaje']));
+        }
+        # sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
+        elseif( (floatval($data['peso']) + floatval($data['peso_acum']) ) < floatval($data['peso_max']) ){
 
             # calcula el porcentaje del peso a agregar
-            $porcentajePeso = ((floatval($data['peso']) + floatval($data['peso_acum'])) * 100) / floatval($data['peso_max']);
+            $porcentajePeso = ((floatval($data['peso_acum']) + floatval($data['peso'])) * 100) / floatval($data['peso_max']);
 
             # calcula el porcentaje de cubicaje a agregar
-            $porcentajeCubicaje = ((floatval($data['cubicaje']) + floatval($data['cubicaje_acum'])) * 100) / floatval($data['cubicaje_max']);
+            $porcentajeCubicaje = ((floatval($data['cubicaje_acum']) + floatval($data['cubicaje'])) * 100) / floatval($data['cubicaje_max']);
 
             # asigna el peso y cubicaje nuevo + el acumulado
-            $output["pesoNuevoAcum"] = floatval($data['peso']) + floatval($data['peso_acum']);
+            $output["pesoNuevoAcum"] = floatval($data['peso_acum']) + floatval($data['peso']);
             $output["cubicajeNuevoAcum"] = floatval($data['cubicaje_acum']) + floatval($data['cubicaje']);
             $output["cond"] = true;
         }

@@ -12,9 +12,9 @@ var peso_max_vehiculo;
 
 var cubicaje_max_vehiculo;
 
-var cubicaje_acum_facturas;
+var cubicaje_acum_documentos;
 
-var peso_acum_facturas;
+var peso_acum_documentos;
 
 var valor_bg_progreso;
 
@@ -23,7 +23,7 @@ function init() {
     $("#step1").trigger("click");
     VistasDeFormulario();
     $("#minimizar").slideDown();
-    $("#tabla_facturas_por_despachar").hide();
+    $("#tabla_documentos_por_despachar").hide();
     $("#tabla_detalle_despacho").hide();
     $( "#containerProgress" ).hide();
     $('.nextBtn').attr("disabled", true);
@@ -31,8 +31,8 @@ function init() {
     registros_por_despachar = "";
     peso_max_vehiculo = 0;
     cubicaje_max_vehiculo = 0;
-    cubicaje_acum_facturas = 0;
-    peso_acum_facturas = 0;
+    cubicaje_acum_documentos = 0;
+    peso_acum_documentos = 0;
     estado_minimizado = false;
     valor_bg_progreso = "bg-success";
     listar_choferes();
@@ -50,12 +50,12 @@ function limpiar() {
     registros_por_despachar = "";
     peso_max_vehiculo = 0;
     cubicaje_max_vehiculo = 0;
-    cubicaje_acum_facturas = 0;
-    peso_acum_facturas = 0;
+    cubicaje_acum_documentos = 0;
+    peso_acum_documentos = 0;
     valor_bg_progreso = "bg-success";
 }
 
-function limpiar_campo_factura() {
+function limpiar_campo_documento() {
     $("#numero_d").val("");
 }
 
@@ -281,19 +281,19 @@ function anadir(documento, tipofac, tara, cubicaje) {
     }
 }
 
-function eliminar(documento) {
+function eliminar(documento, tipodoc) {
     if(documento.length > 0) {
         $.ajax({
-            url: "despachos_controlador.php?op=obtener_pesoporfactura",
+            url: "despachos_controlador.php?op=eliminar_documento_para_anadir",
             type: "POST",
             dataType: "json",
             data: {
-                numero_fact: documento,
-                peso_acum_facturas: peso_acum_facturas,
+                documento: documento, tipodoc: tipodoc,
+                registros_por_despachar: registros_por_despachar,
+                peso_acum_documentos: peso_acum_documentos,
                 peso_max_vehiculo: peso_max_vehiculo,
-                cubicaje_acum_facturas: cubicaje_acum_facturas,
-                cubicaje_max_vehiculo: cubicaje_max_vehiculo,
-                eliminarPeso: "si"
+                cubicaje_acum_documentos: cubicaje_acum_documentos,
+                cubicaje_max_vehiculo: cubicaje_max_vehiculo
             },
             error: function (e) {
                 SweetAlertError(e.responseText, "Error!")
@@ -301,18 +301,18 @@ function eliminar(documento) {
                 console.log(e.responseText);
             },
             success: function (data) {
-                //asignamos el peso acumulado restandole la factura a eliminar
-                peso_acum_facturas = data.pesoNuevoAcum.toString();
-                cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
+                // eliminamos la factura del string
+                registros_por_despachar = data.registros_por_despachar.toString();
 
-                //eliminamos la factura del string
-                registros_por_despachar = registros_por_despachar.replace((documento + ";"), '');
+                // asignamos el peso acumulado restandole la factura a eliminar
+                peso_acum_documentos = data.pesoNuevoAcum.toString();
+                cubicaje_acum_documentos = data.cubicajeNuevoAcum.toString();
 
-                //seteamos la barra de progreso
+                // cargar tabla de documentos por despachar
+                cargarTabladeDocumentosporDespachar();
+
+                // seteamos la barra de progreso
                 barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso, data.cubicajeNuevoAcum, data.porcentajeCubicaje);
-
-                //recargar la tabla
-                cargarTabladeFacturasporDespachar();
             }
         });
     }
@@ -323,7 +323,7 @@ function barraDeProgreso(colorFondo, pesoAcumulado, porcentajePeso, cubicajeAcum
     $( "#textoBarraProgreso" )
         .removeClass(valor_bg_progreso)
         .addClass(colorFondo)
-        .text(pesoAcumulado+" kg  /  "+peso_max_vehiculo+" kg"+"   ("+parseInt(porcentajePeso)+"%)");
+        .text(rounding2decimal(pesoAcumulado)+" kg  /  "+peso_max_vehiculo+" kg"+"   ("+parseInt(porcentajePeso)+"%)");
 
     //modifica la bara de progreso del peso acumulado
     $("#barraProgreso")
@@ -334,7 +334,7 @@ function barraDeProgreso(colorFondo, pesoAcumulado, porcentajePeso, cubicajeAcum
 
     //modifica el texto del cubicaje acumulado vs el maximo de volumen
     $( "#textoBarraProgresoCubicaje" )
-        .text(cubicajeAcumlulado+" cm3  /  "+cubicaje_max_vehiculo+" cm3"+"   ("+parseInt(porcentajeCubicaje)+"%)");
+        .text(rounding2decimal(cubicajeAcumlulado)+" cm3  /  "+cubicaje_max_vehiculo+" cm3"+"   ("+parseInt(porcentajeCubicaje)+"%)");
 
     //modifica la bara de progreso del cubicaje acumulado
     $("#barraProgresoCubicaje")
@@ -355,7 +355,7 @@ $(document).on("click", ".anadir", function () {
 });
 
 function anadirDocumentoPorDespachar() {
-
+    let isError = false;
     const tipodoc = $('input:radio[name=tipo]:checked').val()
     const documento = addZeros($("#numero_d").val());
 
@@ -366,61 +366,46 @@ function anadirDocumentoPorDespachar() {
         data: {
             documento: documento, tipodoc: tipodoc,
             registros_por_despachar: registros_por_despachar,
-            peso_acum_facturas: peso_acum_facturas,
+            peso_acum_documentos: peso_acum_documentos,
             peso_max_vehiculo: peso_max_vehiculo,
-            cubicaje_acum_facturas: cubicaje_acum_facturas,
+            cubicaje_acum_documentos: cubicaje_acum_documentos,
             cubicaje_max_vehiculo: cubicaje_max_vehiculo
         },
+        beforeSend: function () {
+            SweetAlertLoadingShow('Validando documento, espere...');
+            //inabilita el boton añadir
+            $('.anadir').attr("disabled", true);
+        },
         error: function (e) {
-            SweetAlertError(e.responseText, "Error!")
+            isError = SweetAlertError(e.responseText, "Error!")
             send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (data) {
-            if( data.cond === 'false' ){
+            if( data.cond === false ) {
+                isError = true; // hubo un error
                 SweetAlertError(data.mensaje);
             } else {
 
                 // agregar documento por despachar
                 anadir(data.numerod, data.tipodoc, data.peso, data.cubicaje);
 
-                peso_acum_facturas = data.pesoNuevoAcum.toString();
-                cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
+                peso_acum_documentos = data.pesoNuevoAcum.toString();
+                cubicaje_acum_documentos = data.cubicajeNuevoAcum.toString();
+
+                // cargar tabla de documentos por despachar
+                cargarTabladeDocumentosporDespachar();
 
                 // seteamos la barra de progreso
                 barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso, data.cubicajeNuevoAcum, data.porcentajeCubicaje);
             }
-
-        }
-    });
-
-
-
-    //cargar peso de la factura
-    $.ajax({
-        url: "despachos_controlador.php?op=obtener_pesoporfactura",
-        type: "POST",
-        dataType: "json",
-        data: {numero_fact: factura, peso_acum_facturas: peso_acum_facturas, peso_max_vehiculo:peso_max_vehiculo, cubicaje_acum_facturas: cubicaje_acum_facturas, cubicaje_max_vehiculo: cubicaje_max_vehiculo},
-        error: function (e) {
-            SweetAlertError(e.responseText, "Error!")
-            send_notification_error(e.responseText);
-            console.log(e.responseText);
         },
-        success: function (data) {
-            peso_acum_facturas = data.pesoNuevoAcum.toString();
-            cubicaje_acum_facturas = data.cubicajeNuevoAcum.toString();
-
-            //seteamos la barra de progreso
-            barraDeProgreso(data.bgProgreso, data.pesoNuevoAcum, data.porcentajePeso, data.cubicajeNuevoAcum, data.porcentajeCubicaje);
+        complete: function () {
+            if(!isError) SweetAlertLoadingClose();
+            //inabilita el boton añadir
+            $('.anadir').attr("disabled", false);
         }
     });
-
-    //cargar tabla de facturas por despachar
-    cargarTabladeFacturasporDespachar();
-
-    //inabilita el boton añadir
-    $('.anadir').attr("disabled", true);
 
 }
 
@@ -433,10 +418,10 @@ $(document).on("click", ".generar", function () {
     var destino = $("#destino").val().toUpperCase();
     var usuario = $("#ci_usuario").val();
 
-    if( parseFloat(peso_acum_facturas) <= parseFloat(peso_max_vehiculo) ){
+    if( parseFloat(peso_acum_documentos) <= parseFloat(peso_max_vehiculo) ){
 
         if (estado_minimizado) {
-            $("#tabla_facturas_por_despachar").hide();
+            $("#tabla_documentos_por_despachar").hide();
             $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
             // estado_minimizado = false;
             if (fecha !== "" && chofer !== "" && vehiculo !== "" && destino !== "" && registros_por_despachar.length > 0) {
@@ -505,14 +490,14 @@ $(document).on("click", "#btnBuscarFactModal", function () {
 /*************************************************************************************************************/
 
 
-function cargarTabladeFacturasporDespachar() {
+function cargarTabladeDocumentosporDespachar() {
     let isError = false;
     if(registros_por_despachar.toString().length > 0){
-        tabla_por_despachar = $('#fact_por_despachar_data').dataTable({
+        tabla_por_despachar = $('#docs_por_despachar_data').dataTable({
             "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
             "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
             "ajax": {
-                url: "despachos_controlador.php?op=obtener_facturasporcargardespacho",
+                url: "despachos_controlador.php?op=obtener_documentosporcargardespacho",
                 type: "post",
                 dataType: "json",
                 data: {registros_por_despachar: registros_por_despachar},
@@ -529,18 +514,18 @@ function cargarTabladeFacturasporDespachar() {
                     //Y HABILITA EL BOTON GENERAR DESPACHO
                     if(registros_por_despachar.length > 0){
                         $('.generar').attr("disabled", false);//boton generar habilitado
-                        $("#tabla_facturas_por_despachar").show();
+                        $("#tabla_documentos_por_despachar").show();
                         $( "#containerProgress" ).show();
                         estado_minimizado = true;
                     } else {
                         $('.generar').attr("disabled", true);//boton generar inabilitado
-                        $("#tabla_facturas_por_despachar").hide();
+                        $("#tabla_documentos_por_despachar").hide();
                         $( "#containerProgress" ).hide();
                         estado_minimizado = false;
                     }
 
                     if(!isError) SweetAlertLoadingClose();
-                    limpiar_campo_factura();//LIMPIAMOS EL INPUT.
+                    limpiar_campo_documento();//LIMPIAMOS EL INPUT.
                 }
             },//TRADUCCION DEL DATATABLE.
             "bDestroy": true,
@@ -551,7 +536,7 @@ function cargarTabladeFacturasporDespachar() {
             "language": texto_español_datatables
         });
     } else {
-        $("#tabla_facturas_por_despachar").hide();
+        $("#tabla_documentos_por_despachar").hide();
         $( "#containerProgress" ).hide();
     }
 }

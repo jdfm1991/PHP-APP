@@ -35,9 +35,9 @@ switch ($_GET["op"]) {
         $numerod = $_POST["documento"];
         $tipodoc = $_POST["tipodoc"];
         $registros_por_despachar = $_POST["registros_por_despachar"];
-        $peso_acum = str_replace(",", ".", $_POST["peso_acum_facturas"]);
+        $peso_acum = str_replace(",", ".", $_POST["peso_acum_documentos"]);
         $peso_max  = str_replace(",", ".", $_POST["peso_max_vehiculo"]);
-        $cubicaje_acum  = str_replace(",", ".", $_POST["cubicaje_acum_facturas"]);
+        $cubicaje_acum  = str_replace(",", ".", $_POST["cubicaje_acum_documentos"]);
         $cubicaje_max   = str_replace(",", ".", $_POST["cubicaje_max_vehiculo"]);
 
         # tipodoc 'f' es Factura
@@ -179,43 +179,114 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "obtener_facturasporcargardespacho":
+    case "eliminar_documento_para_anadir":
+        $datos = array();
+        $output = array("cond" => false);
+
+        $numerod = $_POST["documento"];
+        $tipodoc = $_POST["tipodoc"];
+        $registros_por_despachar = $_POST["registros_por_despachar"];
+        $peso_acum = str_replace(",", ".", $_POST["peso_acum_documentos"]);
+        $peso_max  = str_replace(",", ".", $_POST["peso_max_vehiculo"]);
+        $cubicaje_acum  = str_replace(",", ".", $_POST["cubicaje_acum_documentos"]);
+        $cubicaje_max   = str_replace(",", ".", $_POST["cubicaje_max_vehiculo"]);
+
+        # si existe el documento
+        # validamos que este en el formato antes de eliminar
+        if (DespachosHelpers::validateExistDocumentInString($registros_por_despachar, $numerod, $tipodoc) > 0)
+        {
+            $deleteDocument = true;
+            $data = DespachosHelpers::getDocumentInString(
+                $registros_por_despachar,
+                $numerod,
+                $tipodoc
+            );
+            # [2] -> peso (tara)
+            # [3] -> cubicaje
+            $peso = $data['2'];
+            $cubicaje = $data['3'];
+            if (ArraysHelpers::validate($data)) {
+                # valida el peso y obtinene el porcentaje
+                $response = DespachosHelpers::validateWeightAndCubicCapacity(
+                    array(
+                        'peso'      => $peso,
+                        'peso_acum' => $peso_acum,
+                        'peso_max'  => $peso_max,
+                        'cubicaje_acum' => $cubicaje_acum,
+                        'cubicaje'      => $cubicaje,
+                        'cubicaje_max'  => $cubicaje_max,
+                    ),
+                    $deleteDocument
+                );
+                $output = $response;
+
+                # verifica si el peso esta dentro del rango
+                if (isset($response['cond']))
+                {
+                    if ($response['cond'] == true)
+                    {
+                        # responde con todos los datos necesarios
+                        $output['peso']     = $peso;
+                        $output['cubicaje'] = $cubicaje;
+                        $output['numerod']  = $numerod;
+                        $output['tipodoc']  = $datos[0]['tipofac'];
+                    } else {
+                        $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                    }
+                } else {
+                    $formato_a_eliminar = $data[0]."-".$data[1]."-".$data[2]."-".$data[3].";";
+                    $output['registros_por_despachar'] = str_replace($formato_a_eliminar, "", $registros_por_despachar);
+                }
+            }
+        } else {
+            $output["mensaje"] = "Error intentando eliminar!";
+        }
+
+        echo json_encode($output);
+        break;
+
+    case "obtener_documentosporcargardespacho":
 
         $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
-        foreach ($array as $row){
+        foreach ($array as $row) {
+            # separa por cada "-" quedando el formato anterior mencionado
+            # [0] -> numerod
+            # [1] -> tipofac
+            # [2] -> peso (tara)
+            # [3] -> cubicaje
+            $documento_data = explode("-", $row);
 
-            $datos = $despachos->getFactura($row);
-            $pesodefact = $despachos->getPesoTotalporFactura($row);
+            $numerod  = $documento_data[0];
+            $tipofac  = $documento_data[1];
+            $peso     = $documento_data[2];
+            $cubicaje = $documento_data[3];
 
-            $peso = 0;
-            $cubicaje = 0;
-            if (count($pesodefact) != 0){
-                foreach ($pesodefact as $dato) {
-                    if($dato['tipofac'] == "A") {
-                        ($dato['unidad'] == 0)
-                            ? ($peso += ($dato['peso'] * $dato['cantidad']))
-                            : ($peso += (($dato['peso'] / $dato['paquetes']) * $dato['cantidad']));
-                    }
-                    $cubicaje += $dato['cubicaje'];
-                }
+            $datos = array();
+            switch ($tipofac) {
+                case 'A': $datos = $despachos->getFactura($numerod); break;
+                case 'C': $datos = $despachos->getNotaDeEntrega($numerod); break;
             }
+            $datos = ArraysHelpers::validateWithPos($datos, 0);
 
             $sub_array = array();
 
-            $sub_array[] = $datos[0]["numerod"];
-            $sub_array[] = date(FORMAT_DATE, strtotime($datos[0]["fechae"]));
-            $sub_array[] = $datos[0]["descrip"];
-            $sub_array[] = $datos[0]["direc2"];
-            $sub_array[] = $datos[0]["codvend"];
-            $sub_array[] = Strings::rdecimal($datos[0]["mtototal"], 2);
+            $tipoDocu  = ($tipofac=='A') ? 'Factura' : 'Nota de Entrega';
+            $tipoBadge = ($tipofac=='A') ? 'badge-primary' : 'badge-secondary';
+
+            $sub_array[] = $datos["numerod"] .'<br><span class="right badge '.$tipoBadge.'">'.$tipoDocu.'</span>';
+            $sub_array[] = date(FORMAT_DATE, strtotime($datos["fechae"]));
+            $sub_array[] = $datos["descrip"];
+            $sub_array[] = $datos["direccion"];
+            $sub_array[] = $datos["codvend"];
+            $sub_array[] = Strings::rdecimal($datos["total"], 2);
             $sub_array[] = Strings::rdecimal($peso, 2);
             $sub_array[] = Strings::rdecimal($cubicaje, 2);
             $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="eliminar(\''.$datos[0]["numerod"].'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                <button type="button" onClick="eliminar(\''.$datos["numerod"].'\',\''.$tipofac.'\');" name="eliminar" id="eliminar" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                             </div>';
 
             $data[] = $sub_array;

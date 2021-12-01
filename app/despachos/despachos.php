@@ -155,12 +155,12 @@ if (!isset($_SESSION['cedula'])) {
                     </div>
 
                 </div>
-                <div class="card card-info" id="tabla_facturas_por_despachar">
+                <div class="card card-info" id="tabla_documentos_por_despachar">
                     <div class="card-header">
                         <h3 class="card-title">Relación de Facturas a Despachar</h3>
                     </div>
                     <div class="card-body" style="width:auto;">
-                        <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="fact_por_despachar_data">
+                        <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="docs_por_despachar_data">
                             <thead style="background-color: #17A2B8;color: white;">
                             <tr>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
