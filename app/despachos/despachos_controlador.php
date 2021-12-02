@@ -463,7 +463,7 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "buscar_facturaEnDespachos_modal":
+    case "buscar_documentoEnDespachos_modal":
 
         $datos = $despachos->getFacturaEnDespachos($_POST['nrfactb']);
 

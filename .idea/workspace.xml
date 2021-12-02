@@ -19,16 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de adecuacion de Despachos, eliminar un documento antes de generar">
-      <change afterPath="$PROJECT_DIR$/app/despachos/despachos_documentos.json" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de adecuacion de Despachos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/modales/buscar_factura_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/modales/buscar_documento_modal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,14 +293,7 @@
       <workItem from="1638275496362" duration="22663000" />
       <workItem from="1638359802634" duration="620000" />
       <workItem from="1638361509886" duration="15743000" />
-      <workItem from="1638446691239" duration="14236000" />
-    </task>
-    <task id="LOCAL-00025" summary="Libro de compras">
-      <created>1625674272834</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1625674272834</updated>
+      <workItem from="1638446691239" duration="19217000" />
     </task>
     <task id="LOCAL-00026" summary="Libro de compras">
       <created>1625757373109</created>
@@ -640,7 +631,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638390025858</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="avance de adecuacion de Despachos">
+      <created>1638471045487</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1638471045489</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,9 +690,9 @@
     <MESSAGE value="creacion de nuevo modulo gestion it y ConfigJson" />
     <MESSAGE value="ConfigJson y gestion de parametros" />
     <MESSAGE value="gestion de parametros" />
-    <MESSAGE value="avance de adecuacion de Despachos" />
     <MESSAGE value="avance de adecuacion de Despachos, eliminar un documento antes de generar" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance de adecuacion de Despachos, eliminar un documento antes de generar" />
+    <MESSAGE value="avance de adecuacion de Despachos" />
+    <option name="LAST_COMMIT_MESSAGE" value="avance de adecuacion de Despachos" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -118,7 +118,7 @@ function buscarFacturaEnDespachos(nrofact){
         nrofact = addZeros(nrofact);
         $("#detalle_despacho").html("");
         $.ajax({
-            url: "despachos_controlador.php?op=buscar_facturaEnDespachos_modal",
+            url: "despachos_controlador.php?op=buscar_documentoEnDespachos_modal",
             type: "POST",
             dataType: "json",
             data: {nrfactb: nrofact},
@@ -423,7 +423,7 @@ $(document).on("click", ".generar", function () {
         if (estado_minimizado) {
             // estado_minimizado = false;
             if (fecha !== "" && chofer !== "" && vehiculo !== "" && destino !== "" && registros_por_despachar.length > 0) {
-
+                let isError = false;
                 //INSERTAR EL NUEVO DESPACHO
                 $.ajax({
                     url: "despachos_controlador.php?op=registrar_despacho",
@@ -437,8 +437,13 @@ $(document).on("click", ".generar", function () {
                         usuario: usuario,
                         registros_por_despachar: registros_por_despachar
                     },
+                   beforeSend: function () {
+                        SweetAlertLoadingShow('Generando Despachado, espere...');
+                        //inabilita el boton añadir
+                        $('.generar').attr("disabled", true);
+                    },
                     error: function (e) {
-                        SweetAlertError(e.responseText, "Error!")
+                        isError = SweetAlertError(e.responseText, "Error!")
                         send_notification_error(e.responseText);
                         console.log(e.responseText);
                     },
@@ -457,6 +462,11 @@ $(document).on("click", ".generar", function () {
                             //en caso de no contener error, muestra la tabla
                             cargarTabladeProductosEnDespachoCreado(data.correl);
                         }
+                    },
+                    complete: function () {
+                        if(!isError) SweetAlertLoadingClose();
+                        //inabilita el boton añadir
+                        $('.generar').attr("disabled", false);
                     }
                 });
 

@@ -12,7 +12,7 @@ class Despachos extends Conectar {
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT numerod, tipofac, fechae, descrip, CONCAT(direc1, ' ', direc2) as direccion, codvend, mtototal as total
+        $sql = "SELECT numerod, tipofac, fechae, descrip, CONCAT(direc1, ' ', direc2) as direccion, codvend, COALESCE(MtoTotal/NULLIF(Tasa,0), 0) as total
                 FROM SAFACT WHERE NumeroD = ? AND TipoFac = 'A'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

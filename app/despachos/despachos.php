@@ -86,7 +86,7 @@ if (!isset($_SESSION['cedula'])) {
                                             onclick="limpiar_campo_factura_modal()"
                                             data-toggle="modal"
                                             data-target="#buscarxfacturaModal"
-                                            type="button"><?=Strings::titleFromJson('boton_verfactura')?>
+                                            type="button"><?=Strings::titleFromJson('boton_buscardocumento')?>
                                     </button>
 
                                     <button id="buscarmercanciapordespachar_button"
@@ -103,7 +103,7 @@ if (!isset($_SESSION['cedula'])) {
                             </div>
                             <div class="row setup-content" id="step-2">
                                 <div class="col-md-12">
-                                    <h3> Inclusión de Facturas</h3>
+                                    <h3> Inclusión de Documentos</h3>
                                     <div class="form-group">
                                         <label for="factura" class="control-label">Ingrese Número de Documento a Despachar</label>
                                         <input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="numero_d" name="numero_d" />
@@ -235,7 +235,7 @@ if (!isset($_SESSION['cedula'])) {
             </section>
 
             <!-- Modal bucar factura -->
-            <?php include 'modales/buscar_factura_modal.html' ?>
+            <?php include 'modales/buscar_documento_modal.html' ?>
 
             <!-- Modal bucar mercancia por despachar -->
             <?php include 'modales/mercancia_por_despachar.html' ?>
