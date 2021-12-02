@@ -1,6 +1,11 @@
 <?php
 
-#ROUTE
+# BASES DE DATOS
+const NAME_BD_1 = "appwebaj";
+const NAME_BD_2 = "aj";
+
+
+# ROUTE
 const SERVER = ("localhost");
 
 # Constantes de la APP

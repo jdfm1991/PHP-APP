@@ -156,7 +156,7 @@ switch ($_GET["op"]) {
                             {
                                 # responde con todos los datos necesarios
                                 $output['peso']     = $peso;
-                                //$output['cubicaje'] = $cubicaje;
+                                $output['cubicaje'] = $cubicaje;
                                 $output['numerod']  = $numerod;
                                 $output['tipodoc']  = $datos[0]['tipofac'];
                             } else {
@@ -306,10 +306,6 @@ switch ($_GET["op"]) {
         $creacionDespacho = false;
         $creacionDetalleDespacho = true;
 
-        if(isset($_POST["documentos"])) {
-            $array = explode(";", substr($_POST["documentos"], 0, -1));
-        }
-
         $values = array(
             'fechad'   => $_POST["fechad"],
             'chofer'   => $_POST["chofer"],
@@ -318,13 +314,22 @@ switch ($_GET["op"]) {
             'usuario'  => $_POST["usuario"],
         );
 
-        $creacionDespacho = $despachos->insertarDespacho($values);
+        if(isset($_POST["registros_por_despachar"])) {
+            $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
 
-        if ($creacionDespacho != -1) {
-            foreach ($array AS $item) {
-                $insertDet = $despachos->insertarDetalleDespacho($creacionDespacho, $item, 'A');
-                if (!$insertDet) {
-                    $creacionDetalleDespacho = false;
+            $creacionDespacho = $despachos->insertarDespacho($values);
+            if ($creacionDespacho != -1) {
+                foreach ($array AS $item) {
+                    # separa por cada "-" quedando el formato anterior mencionado
+                    # [0] -> numerod
+                    # [1] -> tipofac
+                    # [2] -> peso (tara)
+                    # [3] -> cubicaje
+                    $data = explode("-", $item);
+                    $insertDet = $despachos->insertarDetalleDespacho($creacionDespacho, $data[0], $data[1]);
+                    if (!$insertDet) {
+                        $creacionDetalleDespacho = false;
+                    }
                 }
             }
         }
@@ -355,11 +360,6 @@ switch ($_GET["op"]) {
                 $dataEmail['recipients'],
             );
 
-            /*$cad_cero = "";
-            for($i=0; $i<(8-intval($creacionDespacho)); $i++)
-                $cad_cero.='0';*/
-
-//            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . ($cad_cero.$creacionDespacho);
             $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . (str_pad($creacionDespacho, 8, 0, STR_PAD_LEFT));
             $output["icono"] = "success";
             $output["correl"] = $creacionDespacho;
@@ -372,20 +372,38 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "listar_despacho":
+    case "listar_productos_despacho":
 
         //correlativo
         $correlativo = $_POST["correlativo"];
 
         //obtenemos los registros de los productos en dichos documentos
-        $datos = $despachos->getProductosDespachoCreado($correlativo);
+        $productosDespacho = Array();
+        $datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
+        $datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
+
+        foreach (array($datos_f, $datos_n) as $dato) {
+            foreach ($dato as $row) {
+                $arr = array_map(function ($arr) { return $arr['coditem']; }, $productosDespacho);
+
+                if (!in_array($row['coditem'], $arr)) {
+                    #no existe en el array
+                    $productosDespacho[] = $row;
+                } else {
+                    # si existe en el array
+                    $pos = array_search($row['coditem'], $arr);
+                    $productosDespacho[$pos]['bultos'] += intval($row['bultos']);
+                    $productosDespacho[$pos]['paquetes'] += intval($row['paquetes']);
+                }
+            }
+        }
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
         $total_bultos = 0;
         $total_paq = 0;
-        foreach ($datos as $row) {
+        foreach ($productosDespacho as $row) {
 
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
@@ -393,33 +411,33 @@ switch ($_GET["op"]) {
             //REALIZAMOS PROCESOS DE CALCULO
             $bultos = 0;
             $paq = 0;
-            if ($row["BULTOS"] > 0){
-                $bultos = $row["BULTOS"];
+            if ($row["bultos"] > 0){
+                $bultos = $row["bultos"];
             }
-            if ($row["PAQUETES"] > 0){
-                $paq = $row["PAQUETES"];
+            if ($row["paquetes"] > 0){
+                $paq = $row["paquetes"];
             }
 
-            if ($row["EsEmpaque"] != 0){
-                if ($row["PAQUETES"] > $row["CantEmpaq"]){
+            if ($row["esempaque"] != 0){
+                if ($row["paquetes"] > $row["cantempaq"]){
 
-                    if ($row["CantEmpaq"] != 0) {
-                        $bultos_total = $row["PAQUETES"] / $row["CantEmpaq"];
+                    if ($row["cantempaq"] != 0) {
+                        $bultos_total = $row["paquetes"] / $row["cantempaq"];
                     }else{
                         $bultos_total = 0;
                     }
-                    $decimales = explode(".",$bultos_total);
+                    $decimales = explode(".", $bultos_total);
                     $bultos_deci = $bultos_total - $decimales[0];
-                    $paq = $bultos_deci * $row["CantEmpaq"];
+                    $paq = $bultos_deci * $row["cantempaq"];
                     $bultos = $decimales[0] + $bultos;
                 }
             }
             $total_bultos += $bultos;
-            $total_paq += $paq;
+            $total_paq    += $paq;
 
             //agregamos al sub array
-            $sub_array[] = $row["CodItem"];
-            $sub_array[] = $row["Descrip"];
+            $sub_array[] = $row["coditem"];
+            $sub_array[] = $row["descrip"];
             $sub_array[] = round($bultos);
             $sub_array[] = round($paq);
 
@@ -428,8 +446,8 @@ switch ($_GET["op"]) {
         }
 
         $totales = array(
-            "total_bultos"  => $total_bultos,
-            "total_paq"     => $total_paq,
+            "total_bultos" => $total_bultos,
+            "total_paq"    => $total_paq,
         );
 
         //al terminar, se almacena en una variable de salida el array.

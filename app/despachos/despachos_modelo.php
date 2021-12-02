@@ -98,6 +98,50 @@ class Despachos extends Conectar {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getProductosDespachoCreadoEnFacturas($correlativo) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT DISTINCT coditem, descrip, cantempaq, esempaque, saprod.Tara as tara, codinst,
+                    SUM(CASE WHEN EsUnid=0 THEN cantidad ELSE 0 END) AS bultos,
+                    SUM(CASE WHEN EsUnid=1 THEN cantidad ELSE 0 END) AS paquetes
+                FROM SAITEMFAC
+                    INNER JOIN SAPROD ON SAITEMFAC.CodItem = SAPROD.CodProd
+                WHERE TipoFac = 'A' AND (numerod in ( SELECT Numerod FROM [".NAME_BD_1."].dbo.Despachos_Det WHERE ID_Correlativo = ? AND TipoFac = 'A'))
+                GROUP BY CodItem, Descrip, CantEmpaq, EsEmpaque, saprod.Tara, CodInst ORDER BY SAITEMFAC.CodItem";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $correlativo);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProductosDespachoCreadoEnNotaDeEntrega($correlativo) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion2();
+        parent::set_names();
+
+        //QUERY
+        $sql = "SELECT coditem, descrip, cantempaq, esempaque, saprod.Tara as tara, codinst,
+                    SUM(CASE WHEN esunidad=0 THEN cantidad ELSE 0 END) AS bultos,
+                    SUM(CASE WHEN esunidad=1 THEN cantidad ELSE 0 END) AS paquetes
+                FROM SAITEMNOTA INNER JOIN SAPROD ON SAITEMNOTA.CodItem = SAPROD.CodProd
+                WHERE SAITEMNOTA.TipoFac = 'C' AND (numerod in (SELECT Numerod FROM [".NAME_BD_1."].dbo.Despachos_Det WHERE ID_Correlativo = ? AND TipoFac = 'C'))
+                GROUP BY CodItem, Descrip, CantEmpaq, EsEmpaque, saprod.Tara, CodInst ORDER BY SAITEMNOTA.CodItem";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $correlativo);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function getCabeceraDespacho($correlativo) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -282,43 +326,14 @@ class Despachos extends Conectar {
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getProductosDespachoCreado($correlativo) {
-        $i = 0;
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
-        parent::set_names();
-
-        //QUERY
-        $sql = "SELECT DISTINCT CodItem, Descrip, CantEmpaq, EsEmpaque, saprod.Tara as tara, CodInst,
-                    COALESCE((SELECT SUM(Cantidad) FROM SAITEMFAC WHERE CodItem = SAPROD.CodProd
-                    AND TipoFac IN ('A','C') AND EsUnid = '0' AND (numerod in ( SELECT Numerod FROM [APPWEBAJ].dbo.Despachos_Det WHERE ID_Correlativo = ? ))), 0)
-                    AS BULTOS,
-                    COALESCE((SELECT SUM(Cantidad) FROM SAITEMFAC WHERE CodItem = SAPROD.CodProd
-                    AND TipoFac IN ('A','C') AND EsUnid = '1' AND (numerod in ( SELECT Numerod FROM [APPWEBAJ].dbo.Despachos_Det WHERE ID_Correlativo = ? ))), 0)
-                    AS PAQUETES
-                FROM SAITEMFAC INNER JOIN SAPROD ON SAITEMFAC.CodItem = SAPROD.CodProd 
-                WHERE TipoFac IN ('A','C') AND (numerod in ( SELECT Numerod FROM [APPWEBAJ].dbo.Despachos_Det WHERE ID_Correlativo = ? )) 
-                ORDER BY SAITEMFAC.CodItem";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1,$correlativo);
-        $sql->bindValue($i+=1,$correlativo);
-        $sql->bindValue($i+=1,$correlativo);
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getFacturasPorCorrelativo($correlativo) {
-
+    public function getDocumentosPorCorrelativo($correlativo) {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT Numerod FROM Despachos_Det WHERE ID_Correlativo = ?";
+        $sql = "SELECT numerod, tipofac FROM Despachos_Det WHERE ID_Correlativo = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

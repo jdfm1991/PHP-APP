@@ -204,7 +204,7 @@ $lote = "";
 $query = $despachos->getProductosDespachoCreado($correlativo);
 
 //facturas por correlativo
-$documentos = $despachos->getFacturasPorCorrelativo($correlativo);
+$documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
 $num = count($documentos);
 foreach ($documentos AS $item)
     $lote .= " ".$item['Numerod'].",";

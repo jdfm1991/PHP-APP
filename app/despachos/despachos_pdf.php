@@ -74,19 +74,38 @@ $pdf->SetFont('Arial', '', 8);
 $pdf->SetWidths(array(25,70,30,32,30));
 $lote = "";
 
-//obtener los productos por despacho creado
-$query = $despachos->getProductosDespachoCreado($correlativo);
-
 //facturas por correlativo
-$documentos = $despachos->getFacturasPorCorrelativo($correlativo);
+$documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
 $num = count($documentos);
-foreach ($documentos AS $item)
-    $lote .= " ".$item['Numerod'].",";
+foreach ($documentos AS $item) {
+    $tipodoc = ($item['tipofac']=='A') ? "FACT" : "N/E";
+    $lote .= " ".$item['numerod']." (".$tipodoc."),";
+}
+
 //le quitamos 1 caracter para quitarle la ultima coma
 $lote = substr($lote, 0, -1);
 
 
+//obtener los productos por despacho creado
+$productosDespacho = Array();
+$datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
+$datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
 
+foreach (array($datos_f, $datos_n) as $dato) {
+    foreach ($dato as $row) {
+        $arr = array_map(function ($arr) { return $arr['coditem']; }, $productosDespacho);
+
+        if (!in_array($row['coditem'], $arr)) {
+            #no existe en el array
+            $productosDespacho[] = $row;
+        } else {
+            # si existe en el array
+            $pos = array_search($row['coditem'], $arr);
+            $productosDespacho[$pos]['bultos'] += intval($row['bultos']);
+            $productosDespacho[$pos]['paquetes'] += intval($row['paquetes']);
+        }
+    }
+}
 
 $total_bultos = 0;
 $total_paq = 0;
@@ -96,38 +115,38 @@ $total_peso_azucar = 0;
 $total_peso_galleta = 0;
 $total_peso_chocolote = 0;
 
-foreach ($query as $i) {
+foreach ($productosDespacho as $i) {
 
     $bultos = 0;
     $paq = 0;
 
-    if ($i["BULTOS"] > 0){
-        $bultos = $i["BULTOS"];
+    if ($i["bultos"] > 0){
+        $bultos = $i["bultos"];
     }
-    if ($i["PAQUETES"] > 0){
-        $paq = $i["PAQUETES"];
+    if ($i["paquetes"] > 0){
+        $paq = $i["paquetes"];
     }
 
-    if ($i["EsEmpaque"] != 0){
-        if ($i["PAQUETES"] >= $i["CantEmpaq"]){
+    if ($i["esempaque"] != 0){
+        if ($i["paquetes"] >= $i["cantempaq"]){
 
-            if ($i["CantEmpaq"] != 0) {
-                $bultos_total = $i["PAQUETES"] / $i["CantEmpaq"];
+            if ($i["cantempaq"] != 0) {
+                $bultos_total = $i["paquetes"] / $i["cantempaq"];
             }else{
                 $bultos_total = 0;
             }
             $decimales = explode(".",$bultos_total);
             $bultos_deci = $bultos_total - $decimales[0];
-            $paq = $bultos_deci * $i["CantEmpaq"];
+            $paq = $bultos_deci * $i["cantempaq"];
             $bultos = $decimales[0] + $bultos;
         }
     }
     $peso = $bultos * $i['tara'];
-    if($i["CantEmpaq"] != 0) {
-        $peso += ($i['tara'] * $paq) / $i['CantEmpaq'];
+    if($i["cantempaq"] != 0) {
+        $peso += ($i['tara'] * $paq) / $i['cantempaq'];
     }
 
-    switch ($i["CodInst"]){
+    switch ($i["codinst"]){
         case "80":
             $total_peso_chocolote = $total_peso_chocolote + $peso;
             break;
@@ -145,8 +164,8 @@ foreach ($query as $i) {
 
     $pdf->Row(
         array(
-            $i["CodItem"],
-            strtoupper($i["Descrip"]),
+            $i["coditem"],
+            strtoupper($i["descrip"]),
             round($bultos),
             round($paq),
             Strings::rdecimal($peso)

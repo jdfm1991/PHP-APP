@@ -421,8 +421,6 @@ $(document).on("click", ".generar", function () {
     if( parseFloat(peso_acum_documentos) <= parseFloat(peso_max_vehiculo) ){
 
         if (estado_minimizado) {
-            $("#tabla_documentos_por_despachar").hide();
-            $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
             // estado_minimizado = false;
             if (fecha !== "" && chofer !== "" && vehiculo !== "" && destino !== "" && registros_por_despachar.length > 0) {
 
@@ -431,7 +429,14 @@ $(document).on("click", ".generar", function () {
                     url: "despachos_controlador.php?op=registrar_despacho",
                     method: "POST",
                     dataType: "json",
-                    data: {fechad: fecha, chofer: chofer, vehiculo: vehiculo, destino: destino, usuario: usuario, documentos: registros_por_despachar},
+                    data: {
+                        fechad: fecha,
+                        chofer: chofer,
+                        vehiculo: vehiculo,
+                        destino: destino,
+                        usuario: usuario,
+                        registros_por_despachar: registros_por_despachar
+                    },
                     error: function (e) {
                         SweetAlertError(e.responseText, "Error!")
                         send_notification_error(e.responseText);
@@ -445,6 +450,9 @@ $(document).on("click", ".generar", function () {
                         if(mensaje.includes('ERROR')) {
                             return (false);
                         } else {
+                            $("#tabla_documentos_por_despachar").hide();
+                            $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
+
                             sessionStorage.setItem("correl", data.correl);
                             //en caso de no contener error, muestra la tabla
                             cargarTabladeProductosEnDespachoCreado(data.correl);
@@ -546,7 +554,7 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
     let isError = false;
     //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
     $.ajax({
-        url: "despachos_controlador.php?op=listar_despacho",
+        url: "despachos_controlador.php?op=listar_productos_despacho",
         type: "POST",
         data: {correlativo: correlativo},
         dataType: "json",
@@ -571,7 +579,6 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
                     "iTotalDisplayRecords": contenido_tabla.iTotalDisplayRecords, //TOTAL DE REGISTROS A VISUALIZAR.
                     "aaData": contenido_tabla.aaData, // informacion por registro
 
-
                     "bDestroy": true,
                     "responsive": true,
                     "bInfo": true,
@@ -580,7 +587,7 @@ function cargarTabladeProductosEnDespachoCreado(correlativo) {
                     "language": texto_español_datatables
                 });
 
-                const texto = "Total Bultos: " + totales_tabla.total_bultos + "  Total Pag: " + totales_tabla.total_paq;
+                const texto = "Total Bultos: " + totales_tabla.total_bultos + "  Total Paq: " + totales_tabla.total_paq;
                 $("#cuenta").html(texto);
 
                 $("#cantBul_tfoot").text(totales_tabla.total_bultos);

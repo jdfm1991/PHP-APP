@@ -19,14 +19,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de adecuacion de Despachos">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de adecuacion de Despachos, eliminar un documento antes de generar">
+      <change afterPath="$PROJECT_DIR$/app/despachos/despachos_documentos.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/DespachosHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/DespachosHelpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/const.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +96,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/gestionsistema/modales" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/despachos" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -107,11 +109,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\despachos" />
+      <recent name="C:\Apache24\htdocs\appweb\config" />
       <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
       <recent name="C:\Apache24\htdocs\appweb\app\gestionit" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
-      <recent name="C:\Apache24\htdocs\appweb\app\devolucionessinmotivo" />
-      <recent name="C:\Apache24\htdocs\appweb\public\plugins\jquery-maskmoney" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\public\plugins\ionicons\2.0.1\css" />
@@ -292,14 +294,8 @@
       <workItem from="1638186777909" duration="17633000" />
       <workItem from="1638275496362" duration="22663000" />
       <workItem from="1638359802634" duration="620000" />
-      <workItem from="1638361509886" duration="15471000" />
-    </task>
-    <task id="LOCAL-00024" summary="Maestro de clientes por Ruta">
-      <created>1625154956965</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1625154956965</updated>
+      <workItem from="1638361509886" duration="15743000" />
+      <workItem from="1638446691239" duration="14236000" />
     </task>
     <task id="LOCAL-00025" summary="Libro de compras">
       <created>1625674272834</created>
@@ -637,7 +633,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638300324466</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="avance de adecuacion de Despachos, eliminar un documento antes de generar">
+      <created>1638390025857</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1638390025858</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -666,7 +669,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="agrupar reportes(consolidado y detalle),&#10;analizar estructura de botones y&#10;revisar editar despacho" />
     <MESSAGE value="revisar editar despacho" />
     <MESSAGE value="clientes:" />
     <MESSAGE value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
@@ -691,7 +693,8 @@
     <MESSAGE value="ConfigJson y gestion de parametros" />
     <MESSAGE value="gestion de parametros" />
     <MESSAGE value="avance de adecuacion de Despachos" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance de adecuacion de Despachos" />
+    <MESSAGE value="avance de adecuacion de Despachos, eliminar un documento antes de generar" />
+    <option name="LAST_COMMIT_MESSAGE" value="avance de adecuacion de Despachos, eliminar un documento antes de generar" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
