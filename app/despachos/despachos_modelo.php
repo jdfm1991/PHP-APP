@@ -82,6 +82,7 @@ class Despachos extends Conectar {
     }
 
     public function getExisteDocumentoEnDespachos($numerod, $tipodoc) {
+        $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
@@ -89,6 +90,28 @@ class Despachos extends Conectar {
 
         //QUERY
         $sql = "SELECT Numerod FROM Despachos_Det WHERE Numerod = ? AND Tipofac = ?";
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue($i+=1, $numerod);
+        $sql->bindValue($i+=1, $tipodoc);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getDocumentoEnDespachos($numerod, $tipodoc) {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+        $conectar= parent::conexion();
+        parent::set_names();
+
+        //QUERY
+        $sql= "SELECT correlativo, numerod, tipofac, fechae, destino, fecha_liqui, 
+                    COALESCE(monto_cancelado, 0) as monto_cancelado, Choferes.Nomper as NomperChofer
+                FROM Despachos
+                    INNER JOIN Despachos_Det ON Despachos.Correlativo = Despachos_Det.ID_Correlativo
+                    INNER JOIN Choferes ON Despachos.ID_Chofer = Choferes.Cedula
+                WHERE Despachos_Det.Numerod = ? AND Tipofac = ? ";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -340,26 +363,6 @@ class Despachos extends Conectar {
         $sql->bindValue(1,$correlativo);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getFacturaEnDespachos($documento){
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion();
-        parent::set_names();
-
-        //QUERY
-        $sql= "SELECT Correlativo, fechae, Destino, fecha_liqui, monto_cancelado,    
-                    (SELECT Nomper from Choferes where Choferes.Cedula = Despachos.ID_Chofer) AS NomperChofer 
-                    FROM Despachos INNER JOIN Despachos_Det ON Despachos.Correlativo = Despachos_Det.ID_Correlativo WHERE Despachos_Det.Numerod = ?";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $documento);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-
     }
 
     public function getMercanciaSinDespachar($fechai, $fechaf, $alm=array()){

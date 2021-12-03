@@ -59,9 +59,10 @@ function limpiar_campo_documento() {
     $("#numero_d").val("");
 }
 
-function limpiar_campo_factura_modal() {
+function limpiar_campo_documento_modal() {
     $("#nrodocumento").val("");
     $("#detalle_despacho").html("");
+    $("#detalle_despacho_liquidacion").html("");
 }
 
 /*************************************************************************************************************/
@@ -113,48 +114,67 @@ function cargarCapacidadVehiculo(id) {
     });
 }
 
-function buscarFacturaEnDespachos(nrofact){
-    if (nrofact !== "") {
-        nrofact = addZeros(nrofact);
+function buscarDocumentoEnDespachos(nro_documento, tipodoc) {
+    if (nro_documento !== "") {
+        nro_documento = addZeros(nro_documento);
         $("#detalle_despacho").html("");
+        $("#detalle_despacho_liquidacion").html("");
+        let isError = false;
         $.ajax({
             url: "despachos_controlador.php?op=buscar_documentoEnDespachos_modal",
             type: "POST",
             dataType: "json",
-            data: {nrfactb: nrofact},
+            data: {
+                documento: nro_documento,
+                tipodoc: tipodoc,
+            },
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
             error: function (e) {
-                SweetAlertError(e.responseText, "Error!")
+                isError = SweetAlertError(e.responseText, "Error!")
                 send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
-                if(!jQuery.isEmptyObject(data.factura_en_despacho)){
-                    $("#detalle_despacho").append(
-                        '<p>' +
-                        '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
-                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
-                        '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
-                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
-                        '</p>'
-                    );
-
-                    if(!jQuery.isEmptyObject(data.datos_pago)){
+                if( !jQuery.isEmptyObject(data.mensaje) ) {
+                    isError = true; // hubo un error
+                    SweetAlertError(data.mensaje);
+                } else {
+                    if(!jQuery.isEmptyObject(data.documento_en_despacho)) {
+                        let { numerod, tipofac, correlativo, fechae, destino } = data.documento_en_despacho;
                         $("#detalle_despacho").append(
                             '<p>' +
-                            '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
-                            '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                            '<strong>Nro de Documento: </strong>  ' + numerod + ' <br>' +
+                            '<strong>Tipo de Documento: </strong>  ' + tipofac + ' <br>' +
+                            '<strong>Despacho Nro: </strong>  ' + correlativo + '<br>' +
+                            '<strong>Fecha Emisión: </strong>  ' + fechae + '<br>' +
+                            '<strong>Destino: </strong>  ' + destino +
                             '</p>'
                         );
-                    }else{
-                        $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+
+                        if(!jQuery.isEmptyObject(data.datos_pago)){
+                            $("#detalle_despacho_liquidacion").append(
+                                '<p>' +
+                                '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
+                                '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                                '</p>'
+                            );
+                        }else{
+                            $("#detalle_despacho_liquidacion").append('<br>DOCUMENTO NO LIQUIDADO');
+                        }
+                    } else {
+                        $("#detalle_despacho_liquidacion").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
                     }
-                } else {
-                    $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
                 }
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
     } else {
         $("#detalle_despacho").html("");
+        $("#detalle_despacho_liquidacion").html("");
     }
 }
 
@@ -498,9 +518,10 @@ $(document).on("click", "#btn_pdf", function () {
 });
 
 //ACCION AL PRECIONAR EL BOTON BUSCAR.
-$(document).on("click", "#btnBuscarFactModal", function () {
-    const fact = $("#nrodocumento").val();
-    buscarFacturaEnDespachos(fact);
+$(document).on("click", "#btnBuscarDocModal", function () {
+    const documento = $("#nrodocumento").val();
+    const tipodoc = $('input:radio[name=tipo_doc_modal]:checked').val()
+    buscarDocumentoEnDespachos(documento, tipodoc);
 });
 
 /*************************************************************************************************************/

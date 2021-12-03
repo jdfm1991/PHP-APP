@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label>Nro de documento</label>
+                            <label for="nrodocumento">Nro de documento</label>
                             <input type="text" class="form-control input-sm" maxlength="20" id="nrodocumento" name="nrodocumento" placeholder="Ingrese numero de documento" required >
                         </div>
                         <div class="form-group">
@@ -29,13 +29,14 @@
                     </div>
                 </div>
 
-                <div id="detalle_despacho" class="col text-center"></div>
+                <div id="detalle_despacho"></div>
+                <div id="detalle_despacho_liquidacion" class="col text-center"></div>
 
                 <div class="col text-center">
 
                     <div class="modal-footer">
-                        <button type="button" onclick="limpiar_campo_factura()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
-                        <button type="button" name="action" id="btnBuscarFactModal" class="btn btn-success pull-right" value="Add">Buscar</button>
+                        <button type="button" onclick="limpiar_campo_documento_modal()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</button>
+                        <button type="button" name="action" id="btnBuscarDocModal" class="btn btn-success pull-right" value="Add">Buscar</button>
                     </div>
                 </div>
             </div>

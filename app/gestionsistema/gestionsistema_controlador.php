@@ -90,15 +90,16 @@ switch ($_GET["op"]) {
         $arr_data = ConfigJson::get();
 
         if (!empty($name_modulo) and !empty($parameter)) {
+
             # evalua el nuevo value
-            if (!empty($value)) {
+            if (strval($value) != '') {
 
                 # si no esta vacio setea el parametro
                 $arr_data[$name_modulo][$parameter] = $value;
             } else {
 
                 #si esta vacio ingresa un nuevo parametro
-                $arr_data[$name_modulo] = array();
+                $arr_data[$name_modulo][$parameter] = '';
             }
 
             $guardar = ConfigJson::set($arr_data);

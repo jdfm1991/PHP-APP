@@ -43,136 +43,150 @@ switch ($_GET["op"]) {
         # tipodoc 'f' es Factura
         if ($tipodoc == 'f')
         {
-            # valida el documento exista
-            $datos = $despachos->getFactura($numerod);
-            if (ArraysHelpers::validate($datos))
+            # obtenemos el parametros de la configJson para validar
+            $numerod_doc_json = ConfigJson::getParameterOfModule(Functions::getNameDirectory(), 'numerod_factura');
+            if ($numerod > $numerod_doc_json)
             {
-                # si existe el documento
-                # validamos que no este en el formato antes de ingresar
-                if (DespachosHelpers::validateExistDocumentInString($registros_por_despachar, $numerod, 'A') == 0)
+                # valida el documento exista
+                $datos = $despachos->getFactura($numerod);
+                if (ArraysHelpers::validate($datos))
                 {
-                    # validamos si existe la factura (tipo A) en despacho
-                    $existe_fact = $despachos->getExisteDocumentoEnDespachos($numerod, 'A');
-                    if(!ArraysHelpers::validate($existe_fact))
+                    # si existe el documento
+                    # validamos que no este en el formato antes de ingresar
+                    if (DespachosHelpers::validateExistDocumentInString($registros_por_despachar, $numerod, 'A') == 0)
                     {
-                        # si no existe el numerod en despacho
-                        # validamos el peso (tara) de la factura
-                        $arr_tara = $despachos->getCubicajeYPesoTotalporFactura($numerod);
-                        if (ArraysHelpers::validate($arr_tara)) {
-                            $peso = $cubicaje = 0;
-                            foreach ($arr_tara as $tara) {
-                                # valida que si es bulto (0) o paquete (1)
-                                if ($tara['unidad'] == 0) {
-                                    $peso += ($tara['tara'] * $tara['cantidad']);
-                                } else {
-                                    $peso += (($tara['tara'] / $tara['paquetes']) * $tara['cantidad']);
+                        # validamos si existe la factura (tipo A) en despacho
+                        $existe_fact = $despachos->getExisteDocumentoEnDespachos($numerod, 'A');
+                        if(!ArraysHelpers::validate($existe_fact))
+                        {
+                            # si no existe el numerod en despacho
+                            # validamos el peso (tara) de la factura
+                            $arr_tara = $despachos->getCubicajeYPesoTotalporFactura($numerod);
+                            if (ArraysHelpers::validate($arr_tara)) {
+                                $peso = $cubicaje = 0;
+                                foreach ($arr_tara as $tara) {
+                                    # valida que si es bulto (0) o paquete (1)
+                                    if ($tara['unidad'] == 0) {
+                                        $peso += ($tara['tara'] * $tara['cantidad']);
+                                    } else {
+                                        $peso += (($tara['tara'] / $tara['paquetes']) * $tara['cantidad']);
+                                    }
+                                    $cubicaje += $tara['cubicaje'];
                                 }
-                                $cubicaje += $tara['cubicaje'];
-                            }
 
-                            # valida el peso y obtinene el porcentaje
-                            $response = DespachosHelpers::validateWeightAndCubicCapacity(
-                                array(
-                                    'peso'      => $peso,
-                                    'peso_acum' => $peso_acum,
-                                    'peso_max'  => $peso_max,
-                                    'cubicaje_acum' => $cubicaje_acum,
-                                    'cubicaje'      => $cubicaje,
-                                    'cubicaje_max'  => $cubicaje_max,
-                                )
-                            );
-                            $output = $response;
+                                # valida el peso y obtinene el porcentaje
+                                $response = DespachosHelpers::validateWeightAndCubicCapacity(
+                                    array(
+                                        'peso'      => $peso,
+                                        'peso_acum' => $peso_acum,
+                                        'peso_max'  => $peso_max,
+                                        'cubicaje_acum' => $cubicaje_acum,
+                                        'cubicaje'      => $cubicaje,
+                                        'cubicaje_max'  => $cubicaje_max,
+                                    )
+                                );
+                                $output = $response;
 
-                            # verifica si el peso esta dentro del rango
-                            if ($response['cond'] == true)
-                            {
-                                # responde con todos los datos necesarios
-                                $output['peso']     = $peso;
-                                $output['cubicaje'] = $cubicaje;
-                                $output['numerod']  = $numerod;
-                                $output['tipodoc']  = $datos[0]['tipofac'];
+                                # verifica si el peso esta dentro del rango
+                                if ($response['cond'] == true)
+                                {
+                                    # responde con todos los datos necesarios
+                                    $output['peso']     = $peso;
+                                    $output['cubicaje'] = $cubicaje;
+                                    $output['numerod']  = $numerod;
+                                    $output['tipodoc']  = $datos[0]['tipofac'];
+                                } else {
+                                    $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                                }
                             } else {
-                                $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                                $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
                             }
                         } else {
-                            $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
+                            $output["mensaje"] = ("El Número de Factura: $numerod Ya Fue Agregado en Otro Despacho");
                         }
                     } else {
-                        $output["mensaje"] = ("El Número de Factura: $numerod Ya Fue Agregado en Otro Despacho");
+                        $output["mensaje"] = "El Número de Factura: $numerod, Ya fue Agregado";
                     }
                 } else {
-                    $output["mensaje"] = "El Número de Factura: $numerod, Ya fue Agregado";
+                    $output["mensaje"] = "El Número de Factura $numerod No Existe en Sistema";
                 }
             } else {
-                $output["mensaje"] = "El Número de Factura $numerod No Existe en Sistema";
+                $output["mensaje"] = "El Número de Factura $numerod Está fuera de rango";
             }
         }
 
         # tipodoc 'n' es Nota de Entrega
-        elseif ($tipodoc == 'n') {
-            $datos = $despachos->getNotaDeEntrega($numerod);
-
-            # valida el documento exista
-            if (ArraysHelpers::validate($datos)) {
-
-                # si existe el documento
-                # validamos que no este en el formato antes de ingresar
-                if (DespachosHelpers::validateExistDocumentInString($registros_por_despachar, $numerod, 'C') == 0)
+        elseif ($tipodoc == 'n')
+        {
+            # obtenemos el parametros de la configJson para validar
+            $numerod_doc_json = ConfigJson::getParameterOfModule(Functions::getNameDirectory(), 'numerod_nota');
+            if ($numerod > $numerod_doc_json)
+            {
+                # valida el documento exista
+                $datos = $despachos->getNotaDeEntrega($numerod);
+                if (ArraysHelpers::validate($datos))
                 {
-                    # validamos si existe la nota de entrega (tipo C) en despacho
-                    $existe_fact = $despachos->getExisteDocumentoEnDespachos($numerod, 'C');
-                    if(!ArraysHelpers::validate($existe_fact))
+                    # si existe el documento
+                    # validamos que no este en el formato antes de ingresar
+                    if (DespachosHelpers::validateExistDocumentInString($registros_por_despachar, $numerod, 'C') == 0)
                     {
-                        # si no existe el numerod en despacho
-                        # validamos el peso (tara) de la nota de entrega
-                        $arr_tara = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($numerod);
-                        if (ArraysHelpers::validate($arr_tara)) {
-                            $peso = $cubicaje = 0;
-                            foreach ($arr_tara as $tara) {
-                                # valida que si es bulto (0) o paquete (1)
-                                if ($tara['unidad'] == 0) {
-                                    $peso += ($tara['tara'] * $tara['cantidad']);
-                                } else {
-                                    $peso += (($tara['tara'] / $tara['paquetes']) * $tara['cantidad']);
+                        # validamos si existe la nota de entrega (tipo C) en despacho
+                        $existe_fact = $despachos->getExisteDocumentoEnDespachos($numerod, 'C');
+                        if(!ArraysHelpers::validate($existe_fact))
+                        {
+                            # si no existe el numerod en despacho
+                            # validamos el peso (tara) de la nota de entrega
+                            $arr_tara = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($numerod);
+                            if (ArraysHelpers::validate($arr_tara)) {
+                                $peso = $cubicaje = 0;
+                                foreach ($arr_tara as $tara) {
+                                    # valida que si es bulto (0) o paquete (1)
+                                    if ($tara['unidad'] == 0) {
+                                        $peso += ($tara['tara'] * $tara['cantidad']);
+                                    } else {
+                                        $peso += (($tara['tara'] / $tara['paquetes']) * $tara['cantidad']);
+                                    }
+                                    $cubicaje += $tara['cubicaje'];
                                 }
-                                $cubicaje += $tara['cubicaje'];
-                            }
 
-                            # valida el peso y obtinene el porcentaje
-                            $response = DespachosHelpers::validateWeightAndCubicCapacity(
-                                array(
-                                    'peso'      => $peso,
-                                    'peso_acum' => $peso_acum,
-                                    'peso_max'  => $peso_max,
-                                    'cubicaje_acum' => $cubicaje_acum,
-                                    'cubicaje'      => $cubicaje,
-                                    'cubicaje_max'  => $cubicaje_max,
-                                )
-                            );
-                            $output = $response;
+                                # valida el peso y obtinene el porcentaje
+                                $response = DespachosHelpers::validateWeightAndCubicCapacity(
+                                    array(
+                                        'peso'      => $peso,
+                                        'peso_acum' => $peso_acum,
+                                        'peso_max'  => $peso_max,
+                                        'cubicaje_acum' => $cubicaje_acum,
+                                        'cubicaje'      => $cubicaje,
+                                        'cubicaje_max'  => $cubicaje_max,
+                                    )
+                                );
+                                $output = $response;
 
-                            # verifica si el peso esta dentro del rango
-                            if ($response['cond'] == true)
-                            {
-                                # responde con todos los datos necesarios
-                                $output['peso']     = $peso;
-                                $output['cubicaje'] = $cubicaje;
-                                $output['numerod']  = $numerod;
-                                $output['tipodoc']  = $datos[0]['tipofac'];
+                                # verifica si el peso esta dentro del rango
+                                if ($response['cond'] == true)
+                                {
+                                    # responde con todos los datos necesarios
+                                    $output['peso']     = $peso;
+                                    $output['cubicaje'] = $cubicaje;
+                                    $output['numerod']  = $numerod;
+                                    $output['tipodoc']  = $datos[0]['tipofac'];
+                                } else {
+                                    $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                                }
                             } else {
-                                $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                                $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
                             }
                         } else {
-                            $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
+                            $output["mensaje"] = ("El Número de Nota de Entrega: $numerod Ya Fue Agregado en Otro Despacho");
                         }
                     } else {
-                        $output["mensaje"] = ("El Número de Nota de Entrega: $numerod Ya Fue Agregado en Otro Despacho");
+                        $output["mensaje"] = "El Número de Nota de Entrega: $numerod, Ya fue Agregado";
                     }
                 } else {
-                    $output["mensaje"] = "El Número de Nota de Entrega: $numerod, Ya fue Agregado";
+                    $output["mensaje"] = "El Número de Nota de Entrega $numerod No Existe en Sistema";
                 }
             } else {
-                $output["mensaje"] = "El Número de Nota de Entrega $numerod No Existe en Sistema";
+                $output["mensaje"] = "El Número de Nota de Entrega $numerod Está fuera de rango";
             }
         }
 
@@ -464,33 +478,63 @@ switch ($_GET["op"]) {
         break;
 
     case "buscar_documentoEnDespachos_modal":
-
-        $datos = $despachos->getFacturaEnDespachos($_POST['nrfactb']);
-
+        $datos = array();
         $output = array();
-        //verificamos que exista datos de la consulta
-        if(is_array($datos) == true && count($datos) > 0) {
-            //creamos un array para almacenar los datos procesados
-            $data = Array();
-            $data['nrfactb'] = $_POST['nrfactb'];
-            $data['Correlativo'] = str_pad($datos[0]['Correlativo'], 8, 0, STR_PAD_LEFT);
-            $data['fechae'] = date(FORMAT_DATETIME2, strtotime($datos[0]['fechae']));
-            $data['Destino'] = $datos[0]["Destino"]." - ".$datos[0]["NomperChofer"];
 
-            //al terminar, se almacena en una variable de salida el array.
-            $output['factura_en_despacho'] = $data;
+        $numerod = $_POST["documento"];
+        $tipodoc = $_POST["tipodoc"];
 
-            //verificamos si la consulta tiene registro de pagos
-            if (isset($datos[0]['fecha_liqui']) AND isset($datos[0]['monto_cancelado'])) {
-                //creamos un array para almacenar los datos procesados
-                $data1 = array();
-                $data1['fecha_liqui'] = date(FORMAT_DATE, strtotime($datos[0]['fecha_liqui']));
-                $data1['monto_cancelado'] = Strings::rdecimal($datos[0]['monto_cancelado'], 1) . " BsS";
-
-                //al terminar, se almacena en una variable de salida el array.
-                $output['datos_pago'] = $data1;
+        # tipodoc 'f' es Factura
+        if ($tipodoc == 'f') {
+            # valida el documento exista
+            $datos = $despachos->getFactura($numerod);
+            if (ArraysHelpers::validate($datos)) {
+                $datos = $despachos->getDocumentoEnDespachos($numerod, 'A');
+            } else {
+                $output["mensaje"] = "El Número de Factura $numerod No Existe en Sistema";
             }
         }
+        # tipodoc 'n' es Nota de Entrega
+        elseif ($tipodoc == 'n') {
+            # valida el documento exista
+            $datos = $despachos->getNotaDeEntrega($numerod);
+            if (ArraysHelpers::validate($datos)) {
+                $datos = $despachos->getDocumentoEnDespachos($numerod, 'C');
+            } else {
+                $output["mensaje"] = "El Número de Nota de Entrega $numerod No Existe en Sistema";
+            }
+        }
+
+        if (!isset($output["mensaje"])) {
+            # verificamos que exista datos de la consulta
+            if(ArraysHelpers::validate($datos)) {
+
+                $datos = ArraysHelpers::validateWithPos($datos, 0);
+
+                # creamos un array para almacenar los datos procesados
+                $data = Array();
+                $data['numerod'] = $datos['numerod'];
+                $data['tipofac'] = ($datos['tipofac']=='A') ? "FACTURA" : "NOTA DE ENTREGA";
+                $data['correlativo'] = str_pad($datos['correlativo'], 8, 0, STR_PAD_LEFT);
+                $data['fechae'] = date(FORMAT_DATETIME2, strtotime($datos['fechae']));
+                $data['destino'] = $datos["destino"]." - ".$datos["NomperChofer"];
+
+                //al terminar, se almacena en una variable de salida el array.
+                $output['documento_en_despacho'] = $data;
+
+                //verificamos si la consulta tiene registro de pagos
+                if (isset($datos['fecha_liqui']) AND isset($datos['monto_cancelado'])) {
+                    //creamos un array para almacenar los datos procesados
+                    $data1 = array();
+                    $data1['fecha_liqui'] = date(FORMAT_DATE, strtotime($datos['fecha_liqui']));
+                    $data1['monto_cancelado'] = Strings::rdecimal($datos['monto_cancelado'], 1) . " BsS";
+
+                    //al terminar, se almacena en una variable de salida el array.
+                    $output['datos_pago'] = $data1;
+                }
+            }
+        }
+
         echo json_encode($output);
         break;
 

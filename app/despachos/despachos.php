@@ -83,7 +83,7 @@ if (!isset($_SESSION['cedula'])) {
 
                                     <button id="buscarxfact_button"
                                             class="btn btn-primary pull-left verFactura"
-                                            onclick="limpiar_campo_factura_modal()"
+                                            onclick="limpiar_campo_documento_modal()"
                                             data-toggle="modal"
                                             data-target="#buscarxfacturaModal"
                                             type="button"><?=Strings::titleFromJson('boton_buscardocumento')?>
