@@ -12,7 +12,8 @@ class Despachos extends Conectar {
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT numerod, tipofac, fechae, descrip, CONCAT(direc1, ' ', direc2) as direccion, codvend, COALESCE(MtoTotal/NULLIF(Tasa,0), 0) as total
+        $sql = "SELECT numerod, tipofac, fechae, descrip, codclie, codvend, CONCAT(direc1, ' ', direc2) as direccion,
+                     COALESCE(MtoTotal/NULLIF(Tasa,0), 0) as total
                 FROM SAFACT WHERE NumeroD = ? AND TipoFac = 'A'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
@@ -29,7 +30,7 @@ class Despachos extends Conectar {
         parent::set_names();
 
         //QUERY
-        $sql = "SELECT numerod, tipofac, fechae, rsocial as descrip, direccion, codvend, total
+        $sql = "SELECT numerod, tipofac, fechae, rsocial as descrip, direccion, codclie, codvend, total
                 FROM SANOTA WHERE numerod = ? AND TipoFac = 'C'";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
@@ -166,7 +167,6 @@ class Despachos extends Conectar {
 
 
     public function getCabeceraDespacho($correlativo) {
-
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();

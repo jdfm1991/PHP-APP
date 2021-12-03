@@ -25,7 +25,14 @@ if (!isset($_SESSION['cedula'])) {
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-body">
-                            <button class="btn btn-primary" id="buscarxfact_button" onclick="limpiar_campo_factura()" data-toggle="modal" data-target="#buscarxfacturaModal"><i class="fa fa-search" aria-hidden="true"></i> Buscar por Factura</button>
+                            <button id="buscarxfact_button"
+                                    class="btn btn-primary"
+                                    onclick="limpiar_campo_documento_modal()"
+                                    data-toggle="modal"
+                                    data-target="#buscarxfacturaModal">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                <?=Strings::titleFromJson('boton_buscardocumento')?>
+                            </button>
                             <hr>
                             <div class="card card-info">
                                 <div class="card-header">
@@ -67,7 +74,7 @@ if (!isset($_SESSION['cedula'])) {
             </section>
 
             <!-- Modal bucar factura -->
-            <?php include '../despachos/modales/buscar_factura_modal.html' ?>
+            <?php include '../despachos/modales/buscar_documento_modal.html' ?>
 
             <!-- Modal principal editar despachos -->
             <?php include 'modales/editar_principal_despachos_modal.html' ?>

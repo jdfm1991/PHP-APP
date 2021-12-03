@@ -16,66 +16,65 @@ $despachos = new Despachos();
 switch ($_GET["op"]) {
 
     case "listar_RelacionDespachos":
+        # DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = array();
 
-        //consulta a la base de datos para obtener todos los despachos creados
+        # consulta a la base de datos para obtener todos los despachos creados
         $datos = $relacion->getRelacionDespachos();
-
-        if(is_array($datos) == true and count($datos) > 0) {
-
-            //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-            $data = Array();
-
-            foreach ($datos as $row) {
-                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+        if (ArraysHelpers::validate($datos)) {
+            foreach ($datos as $key => $row) {
+                # DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalTipoReporte(\''.$row["Correlativo"].'\');" class="nav-link">
-                                <i class="far fa-file-pdf fa-2x" style="color:red"></i>
-                            </a></div>';
-                $sub_array[] = str_pad($row["Correlativo"], 8, 0, STR_PAD_LEFT)
-                                .'<br><span class="right badge badge-secondary mt-1">'.date(FORMAT_DATE,strtotime($row["fechae"])).'</span>';
-                $sub_array[] = $row["Nomper"];
-                $sub_array[] = $row["cantFact"];
-                $sub_array[] = $row["Destino"] . " - " . $row["NomperChofer"];
+                $sub_array[] = '<div class="col text-center"><a href="#" onclick="modalTipoReporte(\'' . $row["correlativo"] . '\');" class="nav-link">
+                                    <i class="far fa-file-pdf fa-2x" style="color:red"></i>
+                                </a></div>';
+                $sub_array[] = str_pad($row["correlativo"], 8, 0, STR_PAD_LEFT)
+                    . '<br><span class="right badge badge-secondary mt-1">' . date(FORMAT_DATE, strtotime($row["fechae"])) . '</span>';
+                $sub_array[] = $row["nomper"];
+                $sub_array[] = $row["cantDocumentos"];
+                $sub_array[] = $row["destino"] . " - " . $row["NomperChofer"];
                 $sub_array[] = '<div class="col text-center"><a href="#" onclick="" class="nav-link">
-                                <img src="../../public/build/images/bs.png" width="25" height="25" border="0" />
-                            </a></div>';
+                                    <img src="../../public/build/images/bs.png" width="25" height="25" border="0" />
+                                </a></div>';
                 $sub_array[] = '<div class="col text-center">
-                                    <button type="button" onClick="modalVerDetalleDespacho(\''.$row["Correlativo"].'\');" id="'.$row["Correlativo"].'" class="btn btn-info btn-sm ver_detalles">Detalle</button>'." ".'
-                                    <button type="button" onClick="modalEditarDespachos(\''.$row["Correlativo"].'\');"    id="'.$row["Correlativo"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'
-                                    <button type="button" onClick="EliminarUnDespacho(\''.$row["Correlativo"].'\');"      id="'.$row["Correlativo"] .'" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                    <button type="button" onClick="modalVerDetalleDespacho(\'' . $row["correlativo"] . '\');" id="' . $row["correlativo"] . '" class="btn btn-info btn-sm ver_detalles">Detalle</button>' . " " . '
+                                    <button type="button" onClick="modalEditarDespachos(\'' . $row["correlativo"] . '\');"    id="' . $row["correlativo"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                    <button type="button" onClick="EliminarUnDespacho(\'' . $row["correlativo"] . '\');"      id="' . $row["correlativo"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                                 </div>';
 
                 $data[] = $sub_array;
             }
-
-            //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
-            $results = array(
-                "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-                "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-                "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
-                "aaData" => $data);
-            echo json_encode($results);
         }
+
+        # RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        $output = array(
+            "sEcho" => 1, # INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), # ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), # ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "aaData" => $data);
+        echo json_encode($output);
         break;
 
     case "buscar_despacho_por_correlativo":
 
-        //obtenemos el valor enviado por ajax
+        # obtenemos el valor enviado por ajax
         $correlativo = $_POST['correlativo'];
 
-        //buscamos en la bd la cabecera del despacho
+        # buscamos en la bd la cabecera del despacho
         $cabecera_despacho = $relacion->get_despacho_por_correlativo($correlativo);
 
-        //validamos que la consulta de la cabecera tenga registro
-        if(is_array($cabecera_despacho) == true and count($cabecera_despacho) > 0) {
-            //si tiene se asignan a variables de salida
-            $output["correl"] = str_pad($correlativo, 8, 0, STR_PAD_LEFT);
-            $output["Destino"] = $cabecera_despacho[0]["Destino"]." - ".$cabecera_despacho[0]["NomperChofer"];
-            $output["fechad"] = date(FORMAT_DATE, strtotime($cabecera_despacho[0]['fechad']));
-            $output["vehiculo"] = $cabecera_despacho[0]['Placa']." ".$cabecera_despacho[0]['Modelo']." ".$cabecera_despacho[0]['Capacidad']." Kg";
-            $output["cantFacturas"] = $cabecera_despacho[0]['cantFacturas'];
+        # validamos que la consulta de la cabecera tenga registro
+        if (ArraysHelpers::validate($cabecera_despacho)) {
 
+            $cabecera_despacho = ArraysHelpers::validateWithPos($cabecera_despacho, 0);
+
+            # si tiene se asignan a variables de salida
+            $output["correl"] = str_pad($cabecera_despacho['correlativo'], 8, 0, STR_PAD_LEFT);
+            $output["destino"] = $cabecera_despacho["destino"] . " - " . $cabecera_despacho["NomperChofer"];
+            $output["fechad"] = date(FORMAT_DATE, strtotime($cabecera_despacho['fechad']));
+            $output["vehiculo"] = $cabecera_despacho['placa'] . " " . $cabecera_despacho['modelo'] . " " . $cabecera_despacho['capacidad'] . " Kg";
+            $output["cantDocumentos"] = $cabecera_despacho['cantDocumentos'];
         }
 
         echo json_encode($output);
@@ -83,63 +82,76 @@ switch ($_GET["op"]) {
 
     case "buscar_destalle_despacho_por_correlativo":
 
-        //obtenemos el valor enviado por ajax
+        # obtenemos el valor enviado por ajax
         $correlativo = $_POST['correlativo'];
 
-        //buscamos en la bd la el detalle
+        # DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        $data = array();
+
+        # buscamos en la bd la el detalle
         $detalle_despacho = $relacion->get_detalle_despacho_por_correlativo($correlativo);
+        if (ArraysHelpers::validate($detalle_despacho)) {
+            foreach ($detalle_despacho as $key => $row) {
 
-        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
-        $data = Array();
+                $documento = array();
+                switch ($row['tipofac']) {
+                    case 'A':
+                        $documento = $despachos->getFactura($row['numerod']);
+                        break;
+                    case 'C':
+                        $documento = $despachos->getNotaDeEntrega($row['numerod']);
+                        break;
+                }
+                $documento = ArraysHelpers::validateWithPos($documento, 0);
 
-        //validamos que la consulta del detalle de despacho tenga registros
-        if(is_array($detalle_despacho) == true and count($detalle_despacho) > 0) {
-
-            foreach ($detalle_despacho as $row) {
-                //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+                # DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
                 $sub_array = array();
 
-                $sub_array[] = $row["Numerod"];
-                $sub_array[] = $row["codclie"];
-                $sub_array[] = $row["descrip"];
-                $sub_array[]  = date(FORMAT_DATETIME2,strtotime($row["fechae"]));
-                $sub_array[]   = Strings::rdecimal($row["monto"], 2);
+                $tipoDocu = ($row['tipofac'] == 'A') ? 'Factura' : 'Nota de Entrega';
+                $tipoBadge = ($row['tipofac'] == 'A') ? 'badge-primary' : 'badge-secondary';
+
+                $sub_array[] = $row["numerod"] . '<br><span class="right badge ' . $tipoBadge . '">' . $tipoDocu . '</span>';
+                $sub_array[] = $documento["codclie"];
+                $sub_array[] = $documento["descrip"];
+                $sub_array[] = date(FORMAT_DATETIME2, strtotime($documento["fechae"]));
+                $sub_array[] = Strings::rdecimal($documento["total"], 2);
                 $sub_array[] = '<div class="col text-center">
-                                      <button type="button" onClick="modalMostrarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"   id="'.$row["Numerod"].'" class="btn btn-info btn-sm update">Editar</button>'." ".'
-                                      <button type="button" onClick="modalEliminarDocumentoEnDespacho(\''.$row["Numerod"].'\',\''.$correlativo.'\');"  id="'.$row["Numerod"].'" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                      <button type="button" onClick="modalMostrarDocumentoEnDespacho(\'' . $row["numerod"] . '\',\'' . $row["tipofac"] . '\',\'' . $correlativo . '\');"   id="' . $row["numerod"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                      <button type="button" onClick="modalEliminarDocumentoEnDespacho(\'' . $row["numerod"] . '\',\'' . $row["tipofac"] . '\',\'' . $correlativo . '\');"  id="' . $row["numerod"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                                 </div>';
 
                 $data[] = $sub_array;
             }
         }
 
-        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        # RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output = array(
-            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "sEcho" => 1, # INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), # ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), # ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data
         );
-
         echo json_encode($output);
         break;
 
     case "buscar_cabeceraDespacho_para_editar":
 
-        //obtenemos el correlativo enviado por ajax
+        # obtenemos el correlativo enviado por ajax
         $correlativo = $_POST['correlativo'];
 
-        //consultamos el despacho y la lista de choferes y vehiculos
+        # consultamos el despacho y la lista de choferes y vehiculos
         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
         $output["lista_choferes"] = Choferes::todos();
         $output["lista_vehiculos"] = Vehiculo::todos();
 
-        if(is_array($despacho) == true and count($despacho) > 0) {
-            //asignamos en una variable de salida los datos necesarios del despacho
-            $output["destino"] = $despacho[0]["Destino"];
-            $output["fecha"] = $despacho[0]['fechad'];
-            $output["chofer"] = $despacho[0]["ID_Chofer"];
-            $output["vehiculo"] = $despacho[0]['ID_Vehiculo'];
+        if (ArraysHelpers::validate($despacho)) {
+            $despacho = ArraysHelpers::validateWithPos($despacho, 0);
+
+            # asignamos en una variable de salida los datos necesarios del despacho
+            $output["destino"] = $despacho["destino"];
+            $output["fecha"] = $despacho['fechad'];
+            $output["chofer"] = $despacho["ID_Chofer"];
+            $output["vehiculo"] = $despacho['ID_Vehiculo'];
         }
 
         echo json_encode($output);
@@ -153,27 +165,26 @@ switch ($_GET["op"]) {
 
         $correlativo = $_POST["correlativo"];
         $id_vehiculo = $_POST["vehiculo"];
-        $destino   = $_POST["destino"];
+        $destino = $_POST["destino"];
         $id_chofer = $_POST["chofer"];
-        $fechad    = $_POST["fechad"];
+        $fechad = $_POST["fechad"];
 
         //consultamos si existe el despacho en la bd
         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
         //validamos si el despacho existe
-        if(ArraysHelpers::validate($despacho))
-        {
+        if (ArraysHelpers::validate($despacho)) {
             $despacho = ArraysHelpers::validateWithPos($despacho, 0);
             $id_vehiculo_ant = $despacho['ID_Vehiculo'];
-            $destino_ant   = $despacho['Destino'];
+            $destino_ant = $despacho['Destino'];
             $id_chofer_ant = $despacho['ID_Chofer'];
-            $fechad_ant    = $despacho['fechad'];
+            $fechad_ant = $despacho['fechad'];
 
             # datos anterior
             $vehiculo_ant = ArraysHelpers::validateWithPos(Vehiculo::getById($id_vehiculo_ant), 0);
-            $chofer_ant   = ArraysHelpers::validateWithPos(Choferes::getByDni($id_chofer_ant), 0);
+            $chofer_ant = ArraysHelpers::validateWithPos(Choferes::getByDni($id_chofer_ant), 0);
             # datos nuevo
             $vehiculo = ArraysHelpers::validateWithPos(Vehiculo::getById($id_vehiculo), 0);
-            $chofer   = ArraysHelpers::validateWithPos(Choferes::getByDni($id_chofer), 0);
+            $chofer = ArraysHelpers::validateWithPos(Choferes::getByDni($id_chofer), 0);
 
             # actualizar despacho
             $actualizar_despacho = $despachos->updateDespacho(
@@ -187,14 +198,14 @@ switch ($_GET["op"]) {
                     array(
                         'usuario' => $_SESSION['login'],
                         'correl_despacho' => $correlativo,
-                        'vehiculo_ant' => $vehiculo_ant['placa']." ".$vehiculo_ant['modelo']." ".$vehiculo_ant['capacidad']."Kg",
-                        'destino_ant'  => $destino_ant,
-                        'chofer_ant'   => $chofer_ant['Nomper'],
-                        'fechad_ant'   => $fechad_ant,
-                        'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".$vehiculo['capacidad']."Kg",
-                        'destino'  => $destino,
-                        'chofer'   => $chofer['Nomper'],
-                        'fechad'   => $fechad,
+                        'vehiculo_ant' => $vehiculo_ant['placa'] . " " . $vehiculo_ant['modelo'] . " " . $vehiculo_ant['capacidad'] . "Kg",
+                        'destino_ant' => $destino_ant,
+                        'chofer_ant' => $chofer_ant['Nomper'],
+                        'fechad_ant' => $fechad_ant,
+                        'vehiculo' => $vehiculo['placa'] . " " . $vehiculo['modelo'] . " " . $vehiculo['capacidad'] . "Kg",
+                        'destino' => $destino,
+                        'chofer' => $chofer['Nomper'],
+                        'fechad' => $fechad,
                     )
                 );
 
@@ -207,7 +218,7 @@ switch ($_GET["op"]) {
             }
         }
 
-        ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR") ;
+        ($actualizar_despacho) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR");
 
         echo json_encode($output);
         break;
@@ -221,24 +232,20 @@ switch ($_GET["op"]) {
         $documento_viejo = $_POST["documento_viejo"];
 
         //si no son iguales el documento ingresado al original
-        if( !hash_equals($documento_nuevo, $documento_viejo))
-        {
+        if (!hash_equals($documento_nuevo, $documento_viejo)) {
             //consultamos si la factura existe en la bd
             $existe_factura = $despachos->getFactura($documento_nuevo);
 
             //validamos si la factura existe
-            if (ArraysHelpers::validate($existe_factura))
-            {
+            if (ArraysHelpers::validate($existe_factura)) {
                 //consultamos si la factura existe en un despacho
                 $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($documento_nuevo);
 
                 //validamos si el documento ingresado no exista en otro despacho
-                if(count($existe_en_despacho) == 0)
-                {
+                if (count($existe_en_despacho) == 0) {
                     $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
 
-                    if(count($factura_estado_1) == 0)
-                    {
+                    if (count($factura_estado_1) == 0) {
                         //si cumple con todas las condiciones ACTUALIZA la factura en un despacho en especifico
                         $actualizar_documento = $despachos->updateDetalleDespacho($correlativo, $documento_nuevo, $documento_viejo);
 
@@ -270,14 +277,14 @@ switch ($_GET["op"]) {
                     }
 
                     //verificamos que se haya realizado la actualizacion correctamente y devolvemos el mensaje
-                    ($actualizar_documento) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL ACTUALIZAR") ;
+                    ($actualizar_documento) ? ($output["mensaje"] = "ACTUALIZADO CORRECTAMENTE") : ($output["mensaje"] = "ERROR AL ACTUALIZAR");
 
                 } else {
-                    ($output["mensaje"] = 'ATENCION! el numero de documento: '.$documento_nuevo.', ya fue despachado');
+                    ($output["mensaje"] = 'ATENCION! el numero de documento: ' . $documento_nuevo . ', ya fue despachado');
                 }
 
             } else {
-                ($output["mensaje"] = 'ATENCION! EL numero de documento: '.$documento_nuevo.', no existe en el sistema');
+                ($output["mensaje"] = 'ATENCION! EL numero de documento: ' . $documento_nuevo . ', no existe en el sistema');
             }
 
         } else {
@@ -298,13 +305,11 @@ switch ($_GET["op"]) {
         //consultamos si existe el despacho en la bd
         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
         //validamos si el despacho existe
-        if(ArraysHelpers::validate($despacho))
-        {
+        if (ArraysHelpers::validate($despacho)) {
             //consultamos si la factura existe en un despacho
             $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
 
-            if(ArraysHelpers::validate($existe_en_despacho))
-            {
+            if (ArraysHelpers::validate($existe_en_despacho)) {
                 //eliminamos de un despacho en especifico
                 $eliminar_documento = $despachos->deleteDetalleDespacho(
                     $correlativo, $nro_documento
@@ -349,18 +354,15 @@ switch ($_GET["op"]) {
         $existe_factura = $despachos->getFactura($nro_documento);
 
         //validamos si la factura existe
-        if(count($existe_factura) > 0)
-        {
+        if (count($existe_factura) > 0) {
             //consultamos si la factura existe en un despacho
             $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
 
             //validamos si el documento ingresado no exista en otro despacho
-            if (count($existe_en_despacho) == 0)
-            {
+            if (count($existe_en_despacho) == 0) {
                 $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
 
-                if(count($factura_estado_1) == 0)
-                {
+                if (count($factura_estado_1) == 0) {
                     //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
                     $insertar_documento = $despachos->insertarDetalleDespacho(
                         $correlativo, $nro_documento, 'A', '1'
@@ -394,14 +396,14 @@ switch ($_GET["op"]) {
                 //verificamos que se haya realizado la insercion correctamente y devolvemos el mensaje
                 ($insertar_documento)
                     ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE ")
-                    : ($output["mensaje"] = "ERROR AL INSERTAR") ;
+                    : ($output["mensaje"] = "ERROR AL INSERTAR");
 
             } else {
-                ($output["mensaje"] = 'ATENCION! el numero de documento: '.$documento_nuevo.', ya fue despachado');
+                ($output["mensaje"] = 'ATENCION! el numero de documento: ' . $documento_nuevo . ', ya fue despachado');
             }
 
         } else {
-            ($output["mensaje"] = 'ATENCION! EL numero de documento: '.$documento_nuevo.', no existe en el sistema');
+            ($output["mensaje"] = 'ATENCION! EL numero de documento: ' . $documento_nuevo . ', no existe en el sistema');
         }
 
         echo json_encode($output);
@@ -413,8 +415,7 @@ switch ($_GET["op"]) {
         $correlativo = $_POST["correlativo"];
 
         $existe_despacho = $despachos->get_despacho_por_id($correlativo);
-        if(ArraysHelpers::validate($existe_despacho))
-        {
+        if (ArraysHelpers::validate($existe_despacho)) {
             //eliminamos de un despacho en especifico
             $eliminar_despacho = $despachos->deleteDespacho($correlativo);
 
@@ -439,7 +440,7 @@ switch ($_GET["op"]) {
         }
 
         //verificamos que se haya realizado la eliminacion del documento correctamente y devolvemos el mensaje
-        if($eliminar_despacho) {
+        if ($eliminar_despacho) {
             $output["mensaje"] = 'ELIMINADO EXITOSAMENTE';
             $output["icono"] = "success";
         } else {
@@ -456,14 +457,32 @@ switch ($_GET["op"]) {
         $correlativo = $_POST["correlativo"];
 
         //obtenemos los registros de los productos en dichos documentos
-        $datos = $despachos->getProductosDespachoCreado($correlativo);
+        $productosDespacho = array();
+        $datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
+        $datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
+
+        foreach (array($datos_f, $datos_n) as $dato) {
+            foreach ($dato as $row) {
+                $arr = array_map(function ($arr) { return $arr['coditem']; }, $productosDespacho);
+
+                if (!in_array($row['coditem'], $arr)) {
+                    #no existe en el array
+                    $productosDespacho[] = $row;
+                } else {
+                    # si existe en el array
+                    $pos = array_search($row['coditem'], $arr);
+                    $productosDespacho[$pos]['bultos'] += intval($row['bultos']);
+                    $productosDespacho[$pos]['paquetes'] += intval($row['paquetes']);
+                }
+            }
+        }
 
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
         $total_bultos = 0;
         $total_paq = 0;
-        foreach ($datos as $row) {
+        foreach ($productosDespacho as $row) {
 
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
@@ -471,24 +490,24 @@ switch ($_GET["op"]) {
             //REALIZAMOS PROCESOS DE CALCULO
             $bultos = 0;
             $paq = 0;
-            if ($row["BULTOS"] > 0){
-                $bultos = $row["BULTOS"];
+            if ($row["bultos"] > 0){
+                $bultos = $row["bultos"];
             }
-            if ($row["PAQUETES"] > 0){
-                $paq = $row["PAQUETES"];
+            if ($row["paquetes"] > 0){
+                $paq = $row["paquetes"];
             }
 
-            if ($row["EsEmpaque"] != 0){
-                if ($row["PAQUETES"] > $row["CantEmpaq"]){
+            if ($row["esempaque"] != 0){
+                if ($row["paquetes"] > $row["cantempaq"]){
 
-                    if ($row["CantEmpaq"] != 0) {
-                        $bultos_total = $row["PAQUETES"] / $row["CantEmpaq"];
+                    if ($row["cantempaq"] != 0) {
+                        $bultos_total = $row["paquetes"] / $row["cantempaq"];
                     }else{
                         $bultos_total = 0;
                     }
                     $decimales = explode(".",$bultos_total);
                     $bultos_deci = $bultos_total - $decimales[0];
-                    $paq = $bultos_deci * $row["CantEmpaq"];
+                    $paq = $bultos_deci * $row["cantempaq"];
                     $bultos = $decimales[0] + $bultos;
                 }
             }
@@ -496,8 +515,8 @@ switch ($_GET["op"]) {
             $total_paq += $paq;
 
             //agregamos al sub array
-            $sub_array[] = $row["CodItem"];
-            $sub_array[] = $row["Descrip"];
+            $sub_array[] = $row["coditem"];
+            $sub_array[] = $row["descrip"];
             $sub_array[] = round($bultos);
             $sub_array[] = round($paq);
 
@@ -517,8 +536,6 @@ switch ($_GET["op"]) {
             "aaData" => $data);
 
         echo json_encode($output);
-
-
         break;
 
 }

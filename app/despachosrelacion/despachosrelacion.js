@@ -11,9 +11,10 @@ function init() {
 
 }
 
-function limpiar_campo_factura() {
+function limpiar_campo_documento_modal() {
     $("#nrodocumento").val("");
     $("#detalle_despacho").html("");
+    $("#detalle_despacho_liquidacion").html("");
 }
 
 function limpiar_modal_detalle_despacho() {
@@ -50,10 +51,10 @@ function modalEditarDespachos(correlativo) { //editar
                 //CABECERA DEL DESPACHO
                 $("#correlativo").val(correlativo);
                 $("#correl").text(data.correl);
-                $("#Destino").text(data.Destino);
+                $("#Destino").text(data.destino);
                 $("#fechad").text(data.fechad);
                 $("#vehiculo").text(data.vehiculo);
-                $("#cantFacturas").text(data.cantFacturas);
+                $("#cantDocumentos").text(data.cantDocumentos);
                 $('#modalMostrarEditarDespacho').show();
 
                 $('#relacion_despacho_editar').show();
@@ -180,7 +181,7 @@ function modalGuardarEditarDespacho() {
     }
 }
 
-function modalMostrarDocumentoEnDespacho(nro_documento, correlativo) {
+function modalMostrarDocumentoEnDespacho(nro_documento, tipofac, correlativo) {
     $('#alert_editar_documento').hide();
     $("#documento_editar").val(addZeros(nro_documento));
     $("#viejo_documento_editar").val(addZeros(nro_documento));
@@ -447,57 +448,75 @@ function listarRelacionDespachos() {
         "language": texto_español_datatables
     }).DataTable();
 }
-
-function buscarFacturaEnDespachos(nrofact){
-    if (nrofact !== "") {
-        nrofact = addZeros(nrofact);
+function buscarDocumentoEnDespachos(nro_documento, tipodoc) {
+    if (nro_documento !== "") {
+        nro_documento = addZeros(nro_documento);
         $("#detalle_despacho").html("");
+        $("#detalle_despacho_liquidacion").html("");
+        let isError = false;
         $.ajax({
-            url: "../despachos/despachos_controlador.php?op=buscar_facturaEnDespachos_modal",
-            method: "POST",
+            url: "../despachos/despachos_controlador.php?op=buscar_documentoEnDespachos_modal",
+            type: "POST",
             dataType: "json",
-            data: {nrfactb: nrofact},
+            data: {
+                documento: nro_documento,
+                tipodoc: tipodoc,
+            },
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
             error: function (e) {
-                SweetAlertError(e.responseText, "Error!")
+                isError = SweetAlertError(e.responseText, "Error!")
                 send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
-                if(!jQuery.isEmptyObject(data.factura_en_despacho)){
-                    $("#detalle_despacho").append(
-                        '<p>' +
-                        '<strong>Nro de Documento: </strong>  ' + nrofact + '  ' +
-                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Correlativo + '<br>' +
-                        '<strong>Fecha Emision: </strong>  ' + data.factura_en_despacho.fechae + '  ' +
-                        '<strong>Despacho Nro: </strong>  ' + data.factura_en_despacho.Destino +
-                        '</p>'
-                    );
-
-                    if(!jQuery.isEmptyObject(data.datos_pago)){
+                if( !jQuery.isEmptyObject(data.mensaje) ) {
+                    isError = true; // hubo un error
+                    SweetAlertError(data.mensaje);
+                } else {
+                    if(!jQuery.isEmptyObject(data.documento_en_despacho)) {
+                        let { numerod, tipofac, correlativo, fechae, destino } = data.documento_en_despacho;
                         $("#detalle_despacho").append(
                             '<p>' +
-                            '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
-                            '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                            '<strong>Nro de Documento: </strong>  ' + numerod + ' <br>' +
+                            '<strong>Tipo de Documento: </strong>  ' + tipofac + ' <br>' +
+                            '<strong>Despacho Nro: </strong>  ' + correlativo + '<br>' +
+                            '<strong>Fecha Emisión: </strong>  ' + fechae + '<br>' +
+                            '<strong>Destino: </strong>  ' + destino +
                             '</p>'
                         );
-                    }else{
-                        $("#detalle_despacho").append('<br>DOCUMENTO NO LIQUIDADO');
+
+                        if(!jQuery.isEmptyObject(data.datos_pago)){
+                            $("#detalle_despacho_liquidacion").append(
+                                '<p>' +
+                                '<strong>PAGO: </strong>  ' + data.datos_pago.fecha_liqui +  '  ' +
+                                '<strong>POR UN MONTO DE: </strong>  ' + data.datos_pago.monto_cancelado + ' BsS' +
+                                '</p>'
+                            );
+                        }else{
+                            $("#detalle_despacho_liquidacion").append('<br>DOCUMENTO NO LIQUIDADO');
+                        }
+                    } else {
+                        $("#detalle_despacho_liquidacion").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
                     }
-                } else {
-                    $("#detalle_despacho").append('<br>EL DOCUMENTO INGRESADO <strong>NO A SIDO DESPACHADO</strong>');
                 }
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
-
     } else {
         $("#detalle_despacho").html("");
+        $("#detalle_despacho_liquidacion").html("");
     }
 }
 
 //ACCION AL PRECIONAR EL BOTON BUSCAR.
-$(document).on("click", "#btnBuscarFactModal", function () {
-    var fact = $("#nrodocumento").val();
-    buscarFacturaEnDespachos(fact);
+$(document).on("click", "#btnBuscarDocModal", function () {
+    const documento = $("#nrodocumento").val();
+    const tipodoc = $('input:radio[name=tipo_doc_modal]:checked').val()
+    buscarDocumentoEnDespachos(documento, tipodoc);
 });
 
 //ACCION AL PRECIONAR EL BOTON EXPORTAR A PDF DE DETALLE PRODUCTOS EN UN DESPACHO.
