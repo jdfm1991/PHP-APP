@@ -100,11 +100,15 @@ class Despachos extends Conectar {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDocumentoEnDespachos($numerod, $tipodoc) {
+    public function getDocumentoEnDespachos($numerod, $tipodoc, $evaluate_active = false) {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
         parent::set_names();
+
+        $activo = ($evaluate_active)
+            ? " AND Activo = '1'"
+            : "";
 
         //QUERY
         $sql= "SELECT correlativo, numerod, tipofac, fechae, destino, fecha_liqui, 
@@ -112,7 +116,7 @@ class Despachos extends Conectar {
                 FROM Despachos
                     INNER JOIN Despachos_Det ON Despachos.Correlativo = Despachos_Det.ID_Correlativo
                     INNER JOIN Choferes ON Despachos.ID_Chofer = Choferes.Cedula
-                WHERE Despachos_Det.Numerod = ? AND Tipofac = ? ";
+                WHERE Despachos_Det.Numerod = ? AND Tipofac = ? $activo";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

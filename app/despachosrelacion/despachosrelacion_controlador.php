@@ -343,67 +343,113 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "agregar_factura_en_despacho":
+    case "agregar_documento_en_despacho":
 
         $insertar_documento = false;
 
         $correlativo = $_POST["correlativo"];
         $nro_documento = $_POST["documento_agregar"];
+        $tipodoc = $_POST["tipodoc"];
 
-        //consultamos si la factura existe en la bd
-        $existe_factura = $despachos->getFactura($nro_documento);
+        # tipodoc 'f' es Factura
+        if ($tipodoc == 'f')
+        {
+            # consultamos si la factura existe en la bd
+            $existe_factura = $despachos->getFactura($nro_documento);
+            if (ArraysHelpers::validate($existe_factura))
+            {
+                # validamos si existe la factura (tipo A) en despacho
+                $existe_fact_en_despachos = $despachos->getExisteDocumentoEnDespachos($nro_documento, 'A');
+                if(!ArraysHelpers::validate($existe_fact_en_despachos))
+                {
+                    # si no existe el numerod en despacho
+                    # validamos el peso (tara) de la factura
+                    $arr_tara = $despachos->getCubicajeYPesoTotalporFactura($nro_documento);
+                    if (ArraysHelpers::validate($arr_tara)) {
+                        $peso = $cubicaje = 0;
+                        foreach ($arr_tara as $tara) {
+                            # valida que si es bulto (0) o paquete (1)
+                            if ($tara['unidad'] == 0) {
+                                $peso += ($tara['tara'] * $tara['cantidad']);
+                            } else {
+                                $peso += (($tara['tara'] / $tara['paquetes']) * $tara['cantidad']);
+                            }
+                            $cubicaje += $tara['cubicaje'];
+                        }
 
-        //validamos si la factura existe
-        if (count($existe_factura) > 0) {
-            //consultamos si la factura existe en un despacho
-            $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
-
-            //validamos si el documento ingresado no exista en otro despacho
-            if (count($existe_en_despacho) == 0) {
-                $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
-
-                if (count($factura_estado_1) == 0) {
-                    //si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
-                    $insertar_documento = $despachos->insertarDetalleDespacho(
-                        $correlativo, $nro_documento, 'A', '1'
-                    );
-
-                    $despacho = $relacion->get_despacho_por_correlativo($correlativo);
-
-                    /**  enviar correo: despachos_edita_4 **/
-                    if ($insertar_documento) {
-                        # preparamos los datos a enviar
-                        $dataEmail = EmailData::DataDespachoAgregarDocumento(
+                        # valida el peso y obtinene el porcentaje
+                        $response = DespachosHelpers::validateWeightAndCubicCapacity(
                             array(
-                                'usuario' => $_SESSION['login'],
-                                'correl_despacho' => $correlativo,
-                                'nroplanilla' => '0', #PENDIENTE
-                                'destino' => $despacho[0]['Destino'],
-                                'chofer' => $despacho[0]['NomperChofer'],
-                                'doc' => $nro_documento,
+                                'peso'      => $peso,
+                                'peso_acum' => $peso_acum,
+                                'peso_max'  => $peso_max,
+                                'cubicaje_acum' => $cubicaje_acum,
+                                'cubicaje'      => $cubicaje,
+                                'cubicaje_max'  => $cubicaje_max,
                             )
                         );
+                        $output = $response;
 
-                        # enviar correo
-                        $status_send = Email::send_email(
-                            $dataEmail['title'],
-                            $dataEmail['body'],
-                            $dataEmail['recipients'],
-                        );
+                        # verifica si el peso esta dentro del rango
+                        if ($response['cond'] == true)
+                        {
+                            $factura_estado_1 = $relacion->get_documentos_por_correlativo($correlativo);
+                            if (count($factura_estado_1) == 0) {
+                                # si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
+                                $insertar_documento = $despachos->insertarDetalleDespacho(
+                                    $correlativo, $nro_documento, 'A', '1'
+                                );
+
+                                $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+
+                                /**  enviar correo: despachos_edita_4 **/
+                                if ($insertar_documento) {
+                                    # preparamos los datos a enviar
+                                    $dataEmail = EmailData::DataDespachoAgregarDocumento(
+                                        array(
+                                            'usuario' => $_SESSION['login'],
+                                            'correl_despacho' => $correlativo,
+                                            'nroplanilla' => '0', #PENDIENTE
+                                            'destino' => $despacho[0]['Destino'],
+                                            'chofer' => $despacho[0]['NomperChofer'],
+                                            'doc' => $nro_documento,
+                                        )
+                                    );
+
+                                    # enviar correo
+                                    $status_send = Email::send_email(
+                                        $dataEmail['title'],
+                                        $dataEmail['body'],
+                                        $dataEmail['recipients'],
+                                    );
+                                }
+                            }
+
+                            //verificamos que se haya realizado la insercion correctamente y devolvemos el mensaje
+                            ($insertar_documento)
+                                ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE ")
+                                : ($output["mensaje"] = "ERROR AL INSERTAR");
+
+
+
+
+
+                        } else {
+                            $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                        }
+                    } else {
+                        $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
                     }
+                } else {
+                    $output["mensaje"] = ("El Número de Factura: $documento_nuevo Ya Fue Despachado");
                 }
-
-                //verificamos que se haya realizado la insercion correctamente y devolvemos el mensaje
-                ($insertar_documento)
-                    ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE ")
-                    : ($output["mensaje"] = "ERROR AL INSERTAR");
-
             } else {
-                ($output["mensaje"] = 'ATENCION! el numero de documento: ' . $documento_nuevo . ', ya fue despachado');
+                $output["mensaje"] = "El Número de Factura $documento_nuevo No Existe en Sistema";
             }
+        }
+        # tipodoc 'n' es Nota de Entrega
+        elseif ($tipodoc == 'n') {
 
-        } else {
-            ($output["mensaje"] = 'ATENCION! EL numero de documento: ' . $documento_nuevo . ', no existe en el sistema');
         }
 
         echo json_encode($output);
@@ -453,10 +499,10 @@ switch ($_GET["op"]) {
 
     case "listar_productos_de_un_despacho":
 
-        //correlativo
+        # correlativo
         $correlativo = $_POST["correlativo"];
 
-        //obtenemos los registros de los productos en dichos documentos
+        # obtenemos los registros de los productos en dichos documentos
         $productosDespacho = array();
         $datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
         $datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
@@ -477,17 +523,17 @@ switch ($_GET["op"]) {
             }
         }
 
-        //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
+        # DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $data = Array();
 
         $total_bultos = 0;
         $total_paq = 0;
         foreach ($productosDespacho as $row) {
 
-            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            # DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
 
-            //REALIZAMOS PROCESOS DE CALCULO
+            # REALIZAMOS PROCESOS DE CALCULO
             $bultos = 0;
             $paq = 0;
             if ($row["bultos"] > 0){
@@ -514,25 +560,25 @@ switch ($_GET["op"]) {
             $total_bultos += $bultos;
             $total_paq += $paq;
 
-            //agregamos al sub array
+            # agregamos al sub array
             $sub_array[] = $row["coditem"];
             $sub_array[] = $row["descrip"];
             $sub_array[] = round($bultos);
             $sub_array[] = round($paq);
 
-            //agregamos un registro al array principal
+            # agregamos un registro al array principal
             $data[] = $sub_array;
         }
 
-        //totalizado que se imprimira en la parte inferior de la tabla
+        # totalizado que se imprimira en la parte inferior de la tabla
         $output["total_bultos"] = $total_bultos;
         $output["total_paq"] = $total_paq;
 
-        //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
+        # RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $output['tabla'] = array(
-            "sEcho" => 1, //INFORMACION PARA EL DATATABLE
-            "iTotalRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
-            "iTotalDisplayRecords" => count($data), //ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
+            "sEcho" => 1, # INFORMACION PARA EL DATATABLE
+            "iTotalRecords" => count($data), # ENVIAMOS EL TOTAL DE REGISTROS AL DATATABLE.
+            "iTotalDisplayRecords" => count($data), # ENVIAMOS EL TOTAL DE REGISTROS A VISUALIZAR.
             "aaData" => $data);
 
         echo json_encode($output);

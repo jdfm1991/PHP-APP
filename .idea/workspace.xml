@@ -19,9 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="avance de adecuacion de Despachos">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion Relacion de despachos">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
@@ -29,7 +30,8 @@
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/agregar_documento_despacho.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/agregar_documento_despacho.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_principal_despachos_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_principal_despachos_modal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +67,9 @@
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="dfbeafa6-6210-4dfc-83cb-effeb544480e" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration">
@@ -298,14 +303,9 @@
       <workItem from="1638361509886" duration="15743000" />
       <workItem from="1638446691239" duration="19556000" />
       <workItem from="1638532271569" duration="99000" />
-      <workItem from="1638532720836" duration="23974000" />
-    </task>
-    <task id="LOCAL-00028" summary="motivo no venta, falta excel y pdf">
-      <created>1626363000509</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1626363000509</updated>
+      <workItem from="1638532720836" duration="24157000" />
+      <workItem from="1638791564549" duration="875000" />
+      <workItem from="1638794010723" duration="9184000" />
     </task>
     <task id="LOCAL-00029" summary="motivo no venta">
       <created>1626807292395</created>
@@ -643,7 +643,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638555203228</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="adecuacion Relacion de despachos">
+      <created>1638563342454</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1638563342455</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,10 +676,8 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="revisar editar despacho" />
     <MESSAGE value="clientes:" />
     <MESSAGE value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
     <MESSAGE value="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion" />
@@ -697,7 +702,8 @@
     <MESSAGE value="gestion de parametros" />
     <MESSAGE value="avance de adecuacion de Despachos, eliminar un documento antes de generar" />
     <MESSAGE value="avance de adecuacion de Despachos" />
-    <option name="LAST_COMMIT_MESSAGE" value="avance de adecuacion de Despachos" />
+    <MESSAGE value="adecuacion Relacion de despachos" />
+    <option name="LAST_COMMIT_MESSAGE" value="adecuacion Relacion de despachos" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

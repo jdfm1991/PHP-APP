@@ -68,7 +68,7 @@ class DespachosRelacion extends Conectar{
     }
 
 
-    public function get_factura_por_correlativo($correlativo) {
+    public function get_documentos_por_correlativo($correlativo) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.

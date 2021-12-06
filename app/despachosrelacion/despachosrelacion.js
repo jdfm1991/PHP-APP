@@ -269,21 +269,37 @@ function modalAgregarDocumentoEnDespacho() {
 
 function modalGuardarNuevoDocumentoEnDespacho() {
 
-    var correlativo = $("#correlativo").val();
-    var documento_agregar = addZeros($("#documento_agregar").val());
+    const correlativo = $("#correlativo").val();
+    const documento_agregar = addZeros($("#documento_agregar").val());
+    const tipodoc = $('input:radio[name=tipo_doc_modal_1]:checked').val()
 
     if(correlativo.length > 0 && documento_agregar.length > 0){
+        let isError = false;
         $.ajax({
-            url: "despachosrelacion_controlador.php?op=agregar_factura_en_despacho",
+            url: "despachosrelacion_controlador.php?op=agregar_documento_en_despacho",
             method: "POST",
             dataType: "json",
-            data: {correlativo: correlativo, documento_agregar: documento_agregar},
+            data: {
+                correlativo: correlativo,
+                documento_agregar: documento_agregar,
+                tipodoc: tipodoc,
+            },
+            beforeSend: function () {
+                SweetAlertLoadingShow();
+            },
             error: function (e) {
-                SweetAlertError(e.responseText, "Error!")
+                isError = SweetAlertError(e.responseText, "Error!")
                 send_notification_error(e.responseText);
                 console.log(e.responseText);
             },
             success: function (data) {
+                if( !jQuery.isEmptyObject(data.mensaje) ) {
+                    isError = true; // hubo un error
+                    SweetAlertError(data.mensaje);
+                } else {
+
+                }
+
                 if(!data.mensaje.includes('ATENCION!') && !data.mensaje.includes('ERROR')){
                     $('#agregarFacturaEnDespachoModal').modal('hide');
                     $('#tabla_editar_despacho').DataTable().ajax.reload();
@@ -292,6 +308,9 @@ function modalGuardarNuevoDocumentoEnDespacho() {
                     $('#alert_agregar_documento').show();
                     $('#text_alert_agregar_documento').text(data.mensaje);
                 }
+            },
+            complete: function () {
+                if(!isError) SweetAlertLoadingClose();
             }
         });
     } else {
@@ -448,6 +467,7 @@ function listarRelacionDespachos() {
         "language": texto_español_datatables
     }).DataTable();
 }
+
 function buscarDocumentoEnDespachos(nro_documento, tipodoc) {
     if (nro_documento !== "") {
         nro_documento = addZeros(nro_documento);

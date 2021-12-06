@@ -33,6 +33,7 @@ if (!isset($_SESSION['cedula'])) {
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                 <?=Strings::titleFromJson('boton_buscardocumento')?>
                             </button>
+
                             <hr>
                             <div class="card card-info">
                                 <div class="card-header">
@@ -73,20 +74,21 @@ if (!isset($_SESSION['cedula'])) {
                 </div>
             </section>
 
-            <!-- Modal bucar factura -->
+
+            <!-- Modal bucar documento -->
             <?php include '../despachos/modales/buscar_documento_modal.html' ?>
 
             <!-- Modal principal editar despachos -->
             <?php include 'modales/editar_principal_despachos_modal.html' ?>
+
+            <!-- Modal agregar documento despachos -->
+            <?php include 'modales/agregar_documento_despacho.html' ?>
 
             <!-- Modal editar chofer, destino y vehiculo despachos -->
             <?php include 'modales/editar_chofer_destino_despacho.html' ?>
 
             <!-- Modal editar documento de un despachos -->
             <?php include 'modales/editar_documento_despacho.html' ?>
-
-            <!-- Modal agregar documento despachos -->
-            <?php include 'modales/agregar_documento_despacho.html' ?>
 
             <!-- Modal ver productos de un despcho -->
             <?php include 'modales/ver_productos_factura_modal.html' ?>
