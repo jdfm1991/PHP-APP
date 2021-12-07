@@ -299,20 +299,20 @@ class Despachos extends Conectar {
         return $sql->execute();
     }
 
-    public function deleteDetalleDespacho($correlativo, $documento) {
-
+    public function deleteDetalleDespacho($correlativo, $documento, $tipofac) {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "DELETE FROM Despachos_Det WHERE ID_Correlativo = ? and Numerod = ?";
+        $sql = "DELETE FROM Despachos_Det WHERE ID_Correlativo = ? AND Numerod = ? AND Tipofac = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo);
-        $sql->bindValue(2,$documento);
+        $sql->bindValue(1, $correlativo);
+        $sql->bindValue(2, $documento);
+        $sql->bindValue(3, $tipofac);
         return $sql->execute();
     }
 

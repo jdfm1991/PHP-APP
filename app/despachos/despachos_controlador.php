@@ -138,7 +138,8 @@ switch ($_GET["op"]) {
                             # validamos el peso (tara) de la nota de entrega
                             $arr_tara = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($numerod);
                             if (ArraysHelpers::validate($arr_tara)) {
-                                $peso = $cubicaje = 0;
+                                $peso = 0;
+                                $cubicaje = 0;
                                 foreach ($arr_tara as $tara) {
                                     # valida que si es bulto (0) o paquete (1)
                                     if ($tara['unidad'] == 0) {

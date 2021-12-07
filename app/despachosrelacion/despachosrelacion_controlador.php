@@ -223,26 +223,31 @@ switch ($_GET["op"]) {
         echo json_encode($output);
         break;
 
-    case "actualizar_factura_en_despacho":
+    case "actualizar_documento_en_despacho":
 
         $actualizar_documento = false;
 
         $correlativo = $_POST["correlativo"];
         $documento_nuevo = $_POST["documento_nuevo"];
         $documento_viejo = $_POST["documento_viejo"];
+        $tipodoc = $_POST["tipodoc"];
 
-        //si no son iguales el documento ingresado al original
+        $tipofac = ($tipodoc=='f') ? 'A' : 'C';
+
+        # evalua si no son iguales el documento ingresado al original
         if (!hash_equals($documento_nuevo, $documento_viejo)) {
-            //consultamos si la factura existe en la bd
-            $existe_factura = $despachos->getFactura($documento_nuevo);
+            # validamos si el documento existe en la bd
+            $existe_documento = array();
+            switch ($tipodoc) {
+                case 'f': $existe_documento = $despachos->getFactura($documento_nuevo); break;
+                case 'n': $existe_documento = $despachos->getNotaDeEntrega($documento_nuevo); break;
+            }
+            if (ArraysHelpers::validate($existe_documento)) {
+                # consultamos si el documento existe en un despacho
+                $existe_en_despacho = $despachos->getDocumentoEnDespachos($documento_nuevo, $tipofac);
 
-            //validamos si la factura existe
-            if (ArraysHelpers::validate($existe_factura)) {
-                //consultamos si la factura existe en un despacho
-                $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($documento_nuevo);
-
-                //validamos si el documento ingresado no exista en otro despacho
-                if (count($existe_en_despacho) == 0) {
+                # validamos si el documento ingresado no exista en otro despacho
+                if (!ArraysHelpers::validate($existe_en_despacho)) {
                     $factura_estado_1 = $relacion->get_factura_por_correlativo($correlativo);
 
                     if (count($factura_estado_1) == 0) {
@@ -295,25 +300,23 @@ switch ($_GET["op"]) {
 
         break;
 
-    case "eliminar_factura_en_despacho":
-
+    case "eliminar_documento_en_despacho":
         $eliminar_documento = false;
 
         $correlativo = $_POST["correlativo"];
         $nro_documento = $_POST["nro_documento"];
+        $tipofac = $_POST["tipodoc"];
 
-        //consultamos si existe el despacho en la bd
+        # validamos si el despacho existe en la bd
         $despacho = $relacion->get_despacho_por_correlativo($correlativo);
-        //validamos si el despacho existe
-        if (ArraysHelpers::validate($despacho)) {
-            //consultamos si la factura existe en un despacho
-            $existe_en_despacho = $despachos->getExisteFacturaEnDespachos($nro_documento);
-
-            if (ArraysHelpers::validate($existe_en_despacho)) {
-                //eliminamos de un despacho en especifico
-                $eliminar_documento = $despachos->deleteDetalleDespacho(
-                    $correlativo, $nro_documento
-                );
+        if (ArraysHelpers::validate($despacho))
+        {
+            # validamos si existe el documento en despacho
+            $existe_en_despachos = $despachos->getExisteDocumentoEnDespachos($nro_documento, $tipofac);
+            if (ArraysHelpers::validate($existe_en_despachos))
+            {
+                # eliminamos de un despacho en especifico
+                $eliminar_documento = $despachos->deleteDetalleDespacho($correlativo, $nro_documento, $tipofac);
 
                 /**  enviar correo: despachos_elimina_fact **/
                 if ($eliminar_documento) {
@@ -333,18 +336,20 @@ switch ($_GET["op"]) {
                         $dataEmail['body'],
                         $dataEmail['recipients'],
                     );
+                    $output["mensaje"] = 'ELIMINADO EXITOSAMENTE';
                 }
+            } else {
+                $output["mensaje"] = "El Número de Documento: $nro_documento No Existe en Despachos";
             }
+        } else {
+            $output["mensaje"] = "ERROR AL ELIMINAR";
         }
-
-        //verificamos que se haya realizado la eliminacion del documento correctamente y devolvemos el mensaje
-        ($eliminar_documento) ? $output["mensaje"] = 'ELIMINADO EXITOSAMENTE' : $output["mensaje"] = 'ERROR AL ELIMINAR';
 
         echo json_encode($output);
         break;
 
     case "agregar_documento_en_despacho":
-
+        $output = array("cond" => false);
         $insertar_documento = false;
 
         $correlativo = $_POST["correlativo"];
@@ -363,22 +368,52 @@ switch ($_GET["op"]) {
                 if(!ArraysHelpers::validate($existe_fact_en_despachos))
                 {
                     # si no existe el numerod en despacho
-                    # validamos el peso (tara) de la factura
+                    # validamos y obtenemos el peso (tara) y cubicaje del documento
                     $arr_tara = $despachos->getCubicajeYPesoTotalporFactura($nro_documento);
                     if (ArraysHelpers::validate($arr_tara)) {
-                        $peso = $cubicaje = 0;
-                        foreach ($arr_tara as $tara) {
-                            # valida que si es bulto (0) o paquete (1)
-                            if ($tara['unidad'] == 0) {
-                                $peso += ($tara['tara'] * $tara['cantidad']);
-                            } else {
-                                $peso += (($tara['tara'] / $tara['paquetes']) * $tara['cantidad']);
+                        $peso = 0;
+                        $cubicaje = 0;
+                        # obtenemos el peso y cubicaje del documento
+                        $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity($arr_tara);
+                        if (ArraysHelpers::validate($peso_cubicaje)) {
+                            $peso = $peso_cubicaje['tara'];
+                            $cubicaje = $peso_cubicaje['cubicaje'];
+                        }
+
+                        $peso_acum = 0;
+                        $cubicaje_acum = 0;
+                        # obtenemos los documentos del despacho
+                        # para obtener el peso acumulado y cubicaje acumulado
+                        $arr_documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
+                        if (ArraysHelpers::validate($arr_documentos)) {
+                            foreach ($arr_documentos as $documento) {
+                                $arr_tara = array();
+                                switch ($documento['tipofac']) {
+                                    case 'A': $arr_tara = $despachos->getCubicajeYPesoTotalporFactura($documento['numerod']); break;
+                                    case 'C': $arr_tara = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($documento['numerod']); break;
+                                }
+
+                                # obtenemos el peso y cubicaje del documento existente en despacho
+                                $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity($arr_tara);
+                                if (ArraysHelpers::validate($peso_cubicaje)) {
+                                    $peso_acum += $peso_cubicaje['tara'];
+                                    $cubicaje_acum += $peso_cubicaje['cubicaje'];
+                                }
                             }
-                            $cubicaje += $tara['cubicaje'];
+                        }
+
+                        $peso_max = 0;
+                        $cubicaje_max = 0;
+                        # obtenemos los datos del despacho para obtener los datos del vehiculo
+                        $data_despacho = $despachos->get_despacho_por_id($correlativo);
+                        if (ArraysHelpers::validate($data_despacho)) {
+                            $data_vehiculo = Vehiculo::getById($data_despacho[0]['ID_Vehiculo']);
+                            $peso_max = Numbers::avoidNull( ArraysHelpers::validateWithPos($data_vehiculo, 0)['capacidad'] );
+                            $cubicaje_max = Numbers::avoidNull( ArraysHelpers::validateWithPos($data_vehiculo, 0)['volumen'] );
                         }
 
                         # valida el peso y obtinene el porcentaje
-                        $response = DespachosHelpers::validateWeightAndCubicCapacity(
+                        $response = DespachosHelpers::validateWeightAndCubicCapacityInExistingDispatch(
                             array(
                                 'peso'      => $peso,
                                 'peso_acum' => $peso_acum,
@@ -400,7 +435,10 @@ switch ($_GET["op"]) {
                                     $correlativo, $nro_documento, 'A', '1'
                                 );
 
-                                $despacho = $relacion->get_despacho_por_correlativo($correlativo);
+                                $despacho = ArraysHelpers::validateWithPos(
+                                    $relacion->get_despacho_por_correlativo($correlativo),
+                                    0
+                                );
 
                                 /**  enviar correo: despachos_edita_4 **/
                                 if ($insertar_documento) {
@@ -410,8 +448,8 @@ switch ($_GET["op"]) {
                                             'usuario' => $_SESSION['login'],
                                             'correl_despacho' => $correlativo,
                                             'nroplanilla' => '0', #PENDIENTE
-                                            'destino' => $despacho[0]['Destino'],
-                                            'chofer' => $despacho[0]['NomperChofer'],
+                                            'destino' => $despacho['destino'],
+                                            'chofer' => $despacho['NomperChofer'],
                                             'doc' => $nro_documento,
                                         )
                                     );
@@ -425,13 +463,11 @@ switch ($_GET["op"]) {
                                 }
                             }
 
-                            //verificamos que se haya realizado la insercion correctamente y devolvemos el mensaje
+                            # verificamos que se haya realizado la insercion correctamente
+                            # y devolvemos el mensaje
                             ($insertar_documento)
-                                ? ($output["mensaje"] = "INSERTADO CORRECTAMENTE ")
-                                : ($output["mensaje"] = "ERROR AL INSERTAR");
-
-
-
+                                ? $output["mensaje"] = ("INSERTADO CORRECTAMENTE ")
+                                : $output["mensaje"] = ("ERROR AL INSERTAR");
 
 
                         } else {
@@ -441,15 +477,138 @@ switch ($_GET["op"]) {
                         $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
                     }
                 } else {
-                    $output["mensaje"] = ("El Número de Factura: $documento_nuevo Ya Fue Despachado");
+                    $output["mensaje"] = ("El Número de Factura: $nro_documento Ya Fue Despachado");
                 }
             } else {
-                $output["mensaje"] = "El Número de Factura $documento_nuevo No Existe en Sistema";
+                $output["mensaje"] = "El Número de Factura $nro_documento No Existe en Sistema";
             }
         }
         # tipodoc 'n' es Nota de Entrega
-        elseif ($tipodoc == 'n') {
+        elseif ($tipodoc == 'n')
+        {
+            # consultamos si la nota de entrega existe en la bd
+            $existe_nota_de_entrega = $despachos->getNotaDeEntrega($nro_documento);
+            if (ArraysHelpers::validate($existe_nota_de_entrega))
+            {
+                # validamos si existe la nota de entrega (tipo C) en despacho
+                $existe_notadeentrega_en_despachos = $despachos->getExisteDocumentoEnDespachos($nro_documento, 'C');
+                if(!ArraysHelpers::validate($existe_notadeentrega_en_despachos))
+                {
+                    # si no existe el numerod en despacho
+                    # validamos el peso (tara) de la nota de entrega
+                    $arr_tara = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($nro_documento);
+                    if (ArraysHelpers::validate($arr_tara)) {
+                        $peso = 0;
+                        $cubicaje = 0;
+                        # obtenemos el peso y cubicaje del documento
+                        $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity($arr_tara);
+                        if (ArraysHelpers::validate($peso_cubicaje)) {
+                            $peso = $peso_cubicaje['tara'];
+                            $cubicaje = $peso_cubicaje['cubicaje'];
+                        }
 
+                        $peso_acum = 0;
+                        $cubicaje_acum = 0;
+                        # obtenemos los documentos del despacho
+                        # para obtener el peso acumulado y cubicaje acumulado
+                        $arr_documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
+                        if (ArraysHelpers::validate($arr_documentos)) {
+                            foreach ($arr_documentos as $documento) {
+                                $arr_tara = array();
+                                switch ($documento['tipofac']) {
+                                    case 'A': $arr_tara = $despachos->getCubicajeYPesoTotalporFactura($documento['numerod']); break;
+                                    case 'C': $arr_tara = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($documento['numerod']); break;
+                                }
+
+                                # obtenemos el peso y cubicaje del documento existente en despacho
+                                $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity($arr_tara);
+                                if (ArraysHelpers::validate($peso_cubicaje)) {
+                                    $peso_acum += $peso_cubicaje['tara'];
+                                    $cubicaje_acum += $peso_cubicaje['cubicaje'];
+                                }
+                            }
+                        }
+
+                        $peso_max = 0;
+                        $cubicaje_max = 0;
+                        # obtenemos los datos del despacho para obtener los datos del vehiculo
+                        $data_despacho = $despachos->get_despacho_por_id($correlativo);
+                        if (ArraysHelpers::validate($data_despacho)) {
+                            $data_vehiculo = Vehiculo::getById($data_despacho[0]['ID_Vehiculo']);
+                            $peso_max = Numbers::avoidNull( ArraysHelpers::validateWithPos($data_vehiculo, 0)['capacidad'] );
+                            $cubicaje_max = Numbers::avoidNull( ArraysHelpers::validateWithPos($data_vehiculo, 0)['volumen'] );
+                        }
+
+                        # valida el peso y obtinene el porcentaje
+                        $response = DespachosHelpers::validateWeightAndCubicCapacityInExistingDispatch(
+                            array(
+                                'peso'      => $peso,
+                                'peso_acum' => $peso_acum,
+                                'peso_max'  => $peso_max,
+                                'cubicaje_acum' => $cubicaje_acum,
+                                'cubicaje'      => $cubicaje,
+                                'cubicaje_max'  => $cubicaje_max,
+                            )
+                        );
+                        $output = $response;
+
+                        # verifica si el peso esta dentro del rango
+                        if ($response['cond'] == true)
+                        {
+                            $notadeentrega_estado_1 = $relacion->get_documentos_por_correlativo($correlativo);
+                            if (count($notadeentrega_estado_1) == 0) {
+                                # si cumple con todas las condiciones INSERTA la factura en un despacho en especifico
+                                $insertar_documento = $despachos->insertarDetalleDespacho(
+                                    $correlativo, $nro_documento, 'C', '1'
+                                );
+
+                                $despacho = ArraysHelpers::validateWithPos(
+                                    $relacion->get_despacho_por_correlativo($correlativo),
+                                    0
+                                );
+
+                                /**  enviar correo: despachos_edita_4 **/
+                                if ($insertar_documento) {
+                                    # preparamos los datos a enviar
+                                    $dataEmail = EmailData::DataDespachoAgregarDocumento(
+                                        array(
+                                            'usuario' => $_SESSION['login'],
+                                            'correl_despacho' => $correlativo,
+                                            'nroplanilla' => '0', #PENDIENTE
+                                            'destino' => $despacho['destino'],
+                                            'chofer' => $despacho['NomperChofer'],
+                                            'doc' => $nro_documento,
+                                        )
+                                    );
+
+                                    # enviar correo
+                                    $status_send = Email::send_email(
+                                        $dataEmail['title'],
+                                        $dataEmail['body'],
+                                        $dataEmail['recipients'],
+                                    );
+                                }
+                            }
+
+                            # verificamos que se haya realizado la insercion correctamente
+                            # y devolvemos el mensaje
+                            ($insertar_documento)
+                                ? $output["mensaje"] = ("INSERTADO CORRECTAMENTE ")
+                                : $output["mensaje"] = ("ERROR AL INSERTAR");
+
+
+                        } else {
+                            $output["mensaje"] = ("El vehículo excede el límite de peso!");
+                        }
+                    } else {
+                        $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
+                    }
+                } else {
+                    $output["mensaje"] = ("El Número de Nota de Entrega: $nro_documento Ya Fue Despachado");
+                }
+            } else {
+                $output["mensaje"] = "El Número de Nota de Entrega $nro_documento No Existe en Sistema";
+            }
         }
 
         echo json_encode($output);

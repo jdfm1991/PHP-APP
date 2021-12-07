@@ -20,18 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion Relacion de despachos">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/agregar_documento_despacho.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/agregar_documento_despacho.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/php/EmailData.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/EmailData.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/php/DespachosHelpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/php/DespachosHelpers.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -306,6 +301,7 @@
       <workItem from="1638532720836" duration="24157000" />
       <workItem from="1638791564549" duration="875000" />
       <workItem from="1638794010723" duration="9184000" />
+      <workItem from="1638882419618" duration="11166000" />
     </task>
     <task id="LOCAL-00029" summary="motivo no venta">
       <created>1626807292395</created>

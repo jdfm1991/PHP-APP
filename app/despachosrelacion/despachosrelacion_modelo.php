@@ -82,7 +82,7 @@ class DespachosRelacion extends Conectar{
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1,$correlativo);
         $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function get_factura_en_despacho($correlativo, $nro_documento) {

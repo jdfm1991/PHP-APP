@@ -52,6 +52,26 @@ class DespachosHelpers
         return array();
     }
 
+    public static function getWeightAndCubicCapacity($arr_data) : array {
+        $peso = $cubicaje = 0;
+        if (ArraysHelpers::validate($arr_data)) {
+            foreach ($arr_data as $data) {
+                # valida que si es bulto (0) o paquete (1)
+                if ($data['unidad'] == 0) {
+                    $peso += ($data['tara'] * $data['cantidad']);
+                } else {
+                    $peso += (($data['tara'] / $data['paquetes']) * $data['cantidad']);
+                }
+                $cubicaje += $data['cubicaje'];
+            }
+        }
+
+        return array(
+            'tara' => $peso,
+            'cubicaje' => $cubicaje,
+        );
+    }
+
     public static function validateWeightAndCubicCapacity($data, $delete_document = false) {
         $output = array(
             'peso_max'     => $data['peso_max'],
@@ -73,7 +93,8 @@ class DespachosHelpers
             $output["cubicajeNuevoAcum"] = strval(floatval($data['cubicaje_acum']) - floatval($data['cubicaje']));
         }
         # sino, consulta si el peso nuevo + el peso acumulado es < que el peso total del camion
-        elseif( (floatval($data['peso']) + floatval($data['peso_acum']) ) < floatval($data['peso_max']) ){
+        elseif( (floatval($data['peso']) + floatval($data['peso_acum']) ) < floatval($data['peso_max'])
+            and (floatval($data['cubicaje']) + floatval($data['cubicaje_acum']) ) < floatval($data['cubicaje_max']) ) {
 
             # calcula el porcentaje del peso a agregar
             $porcentajePeso = ((floatval($data['peso_acum']) + floatval($data['peso'])) * 100) / floatval($data['peso_max']);
@@ -117,5 +138,18 @@ class DespachosHelpers
         return $output;
     }
 
+    public static function validateWeightAndCubicCapacityInExistingDispatch($data): array {
+        $output = array();
 
+        # valida si el peso nuevo + el peso acumulado es < que el peso total del camion
+        $result_peso = (floatval($data['peso']) + floatval($data['peso_acum']) ) < floatval($data['peso_max']);
+
+        # valida si el cubicaje nuevo + el cubicaje acumulado es < que el cubicaje total del camion
+        $result_cubic = (floatval($data['cubicaje']) + floatval($data['cubicaje_acum']) ) < floatval($data['cubicaje_max']);
+
+        # almacena el resultado de las validaciones
+        $output["cond"] = $result_peso && $result_cubic;
+
+        return $output;
+    }
 }
