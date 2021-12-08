@@ -85,44 +85,6 @@ class DespachosRelacion extends Conectar{
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function get_factura_en_despacho($correlativo, $nro_documento) {
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion();
-        parent::set_names();
-
-        //QUERY
-        $sql = "SELECT * FROM Despachos_Det where ID_Correlativo = ?  AND Numerod = ?";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo);
-        $sql->bindValue(2,$nro_documento);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function get_factura_de_un_despacho_por_correlativo($correlativo) {
-
-        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
-        //CUANDO ES APPWEB ES CONEXION.
-        $conectar= parent::conexion2();
-        parent::set_names();
-
-        //QUERY
-        $sql = "SELECT NumeroD, FechaE, CodVend, CodClie, Descrip, 
-                    (SELECT SUM(CASE WHEN EsUnid = 0 THEN (saprod.Tara*Cantidad) ELSE ((saprod.Tara/CantEmpaq)*Cantidad) END) FROM saitemfac INNER JOIN saprod ON saitemfac.coditem = saprod.codprod WHERE numerod = SAFACT.NumeroD AND TIPOFAC = 'A') 
-                    AS Peso
-                    FROM SAFACT WHERE (NumeroD IN ( SELECT Numerod FROM [APPWEBAJ].dbo.Despachos_Det WHERE ID_Correlativo = ? )) AND TipoFac = 'A' ORDER BY NumeroD";
-
-        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$correlativo);
-        $sql->execute();
-        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function get_productos_devueltos_de_un_despacho($correlativo) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2

@@ -185,6 +185,7 @@ function modalMostrarDocumentoEnDespacho(nro_documento, tipofac, correlativo) {
     $('#alert_editar_documento').hide();
     $("#documento_editar").val(addZeros(nro_documento));
     $("#viejo_documento_editar").val(addZeros(nro_documento));
+    $("#viejo_tipofac_editar").val(tipofac);
     if (tipofac==='A') {
         $('#tipo_fact_modal_2').prop( "checked", true);
     } else if (tipofac==='C') {
@@ -196,10 +197,12 @@ function modalMostrarDocumentoEnDespacho(nro_documento, tipofac, correlativo) {
 
 function modalGuardarDocumentoEnDespacho() {
     let isError = false;
-    const documento_nuevo = $("#documento_editar").val();
+    const documento_nuevo = addZeros($("#documento_editar").val());
+    const tipodoc_nuevo = $('input:radio[name=tipo_doc_modal_2]:checked').val()
     const documento_viejo = $("#viejo_documento_editar").val();
+    const tipodoc_viejo = $("#viejo_tipofac_editar").val();
     const correlativo = $("#correlativo_del_documento_editar").val();
-    const tipodoc = $('input:radio[name=tipo_doc_modal_2]:checked').val()
+
 
     if(documento_nuevo.length > 0 && documento_viejo.length > 0 && correlativo.length > 0){
         $.ajax({
@@ -210,7 +213,8 @@ function modalGuardarDocumentoEnDespacho() {
                 correlativo: correlativo,
                 documento_nuevo: documento_nuevo,
                 documento_viejo: documento_viejo,
-                tipodoc: tipodoc
+                tipodoc_nuevo: tipodoc_nuevo,
+                tipodoc_viejo: tipodoc_viejo,
             },
             beforeSend: function () {
                 SweetAlertLoadingShow();
@@ -411,7 +415,7 @@ function modalVerDetalleDespacho(correlativo) {
                     "responsive": true,
                     "bInfo": true,
                     "iDisplayLength": 10,//Por cada 10 registros hace una paginación
-                    "order": [[0, "desc"]],//Ordenar (columna,orden)
+                    "order": [[0, "asc"]],//Ordenar (columna,orden)
                     'columnDefs':[{
                         "targets": 3, // your case first column
                         "className": "text-center",

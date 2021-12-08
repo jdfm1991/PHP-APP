@@ -123,13 +123,6 @@ class PDF extends FPDF
 }
 
 
-function rdecimal($valor) {
-    //$float_redondeado=round($valor * 10) / 10;
-    $float_redondeado = Strings::rdecimal($valor, 2);
-    return $float_redondeado;
-}
-
-
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
@@ -159,37 +152,69 @@ $pdf->Ln();
     /*               TABLA DE FACTURAS DEL DESPACHO                  */
     /*****************************************************************/
 $pdf->SetFont ('Arial','',8);
-$pdf->Cell(62,7,'Listado de Facturas Seleccionadas',0,0,'C');
+$pdf->Cell(62,7,'Listado de Documentos Seleccionadas',0,0,'C');
 $pdf->Ln();
 $pdf->SetFillColor(200,220,255);
 // titulo de columnas
 $pdf->SetFont ('Arial','B',8);
-$pdf->Cell(20,7, utf8_decode(Strings::titleFromJson('numerod')),1,0,'C',true);
+$pdf->Cell(24,7, utf8_decode(Strings::titleFromJson('numerod')),1,0,'C',true);
 $pdf->Cell(23,7, utf8_decode(Strings::titleFromJson('fecha_emision')),1,0,'C',true);
 $pdf->Cell(15,7, utf8_decode(Strings::titleFromJson('ruta')),1,0,'C',true);
 $pdf->Cell(30,7, utf8_decode(Strings::titleFromJson('codclie')),1,0,'C',true);
-$pdf->Cell(77,7, utf8_decode(Strings::titleFromJson('razon_social')),1,0,'C',true);
+$pdf->Cell(73,7, utf8_decode(Strings::titleFromJson('razon_social')),1,0,'C',true);
 $pdf->Cell(20,7, utf8_decode(Strings::titleFromJson('peso')),1,0,'C',true);
 $pdf->SetFont ('Arial','',7);
 $pdf->Ln();
 
+$documentos_en_despacho = Array();
+$documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
+foreach ($documentos AS $item) {
+    switch ($item['tipofac']) {
+        case 'A':
+            $factura = ArraysHelpers::validateWithPos($despachos->getFactura($item['numerod']), 0);
+            $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity(
+                $despachos->getCubicajeYPesoTotalporFactura($item['numerod'])
+            );
+            $documentos_en_despacho[] = array(
+                "Tipofac" => 'FAC',
+                "NumeroD" => $factura['numerod'],
+                "FechaE"  => $factura['fechae'],
+                "CodVend" => $factura['codvend'],
+                "CodClie" => $factura['codclie'],
+                "Descrip" => $factura['descrip'],
+                "Peso"    => $peso_cubicaje['tara'] );
+            break;
+        case 'C':
+            $notadeentrega = ArraysHelpers::validateWithPos($despachos->getNotaDeEntrega($item['numerod']), 0);
+            $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity(
+                $despachos->getCubicajeYPesoTotalporNotaDeEntrega($item['numerod'])
+            );
+            $documentos_en_despacho[] = array(
+                "Tipofac" => 'N/E',
+                "NumeroD" => $notadeentrega['numerod'],
+                "FechaE"  => $notadeentrega['fechae'],
+                "CodVend" => $notadeentrega['codvend'],
+                "CodClie" => $notadeentrega['codclie'],
+                "Descrip" => $notadeentrega['descrip'],
+                "Peso"    => $peso_cubicaje['tara'] );
+            break;
+    }
+}
 
-$facturas_en_despacho = $relacion->get_factura_de_un_despacho_por_correlativo($correlativo);
-
-$pdf->SetWidths(array(20,23,15,30,77,20));
-foreach ($facturas_en_despacho AS $item){
+$pdf->SetWidths(array(24,23,15,30,73,20));
+foreach ($documentos_en_despacho AS $item){
     $pdf->Row(
         array(
-            $item["NumeroD"],
+            $item["NumeroD"] . " (".$item["Tipofac"].")",
             date(FORMAT_DATE, strtotime($item["FechaE"])),
             $item["CodVend"],
             $item["CodClie"],
             $item["Descrip"],
-            rdecimal($item["Peso"])
+            Strings::rdecimal($item["Peso"], 2)
         )
     );
 }
-$pdf->Cell(62,7,'Total de Facturas Emitidas: '.count($facturas_en_despacho),0,0,'C');
+$pdf->Cell(62,7,'Total de Documentos Emitidos: '.count($documentos_en_despacho),0,0,'C');
 $pdf->Ln();
 $pdf->Ln();
 
@@ -200,14 +225,14 @@ $pdf->Ln();
     /*****************************************************************/
 $lote = "";
 
-//obtener los productos por despacho creado
-$query = $despachos->getProductosDespachoCreado($correlativo);
 
 //facturas por correlativo
 $documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
 $num = count($documentos);
-foreach ($documentos AS $item)
-    $lote .= " ".$item['Numerod'].",";
+foreach ($documentos AS $item) {
+    $tipodoc = ($item['tipofac']=='A') ? "FAC" : "N/E";
+    $lote .= " ".$item['numerod']." ($tipodoc),";
+}
 //le quitamos 1 caracter para quitarle la ultima coma
 $lote = substr($lote, 0, -1);
 
@@ -230,39 +255,61 @@ $pdf->Cell(32,7, utf8_decode(Strings::titleFromJson('cantidad_paquetes')),1,0,'C
 $pdf->Cell(28,7, utf8_decode(Strings::titleFromJson('peso')),1,1,'C',true);
 $pdf->SetFont ('Arial','',8);
 
+
+//obtenemos los registros de los productos en dichos documentos
+$productosDespacho = Array();
+$datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
+$datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
+
+foreach (array($datos_f, $datos_n) as $dato) {
+    foreach ($dato as $row) {
+        $arr = array_map(function ($arr) { return $arr['coditem']; }, $productosDespacho);
+
+        if (!in_array($row['coditem'], $arr)) {
+            #no existe en el array
+            $productosDespacho[] = $row;
+        } else {
+            # si existe en el array
+            $pos = array_search($row['coditem'], $arr);
+            $productosDespacho[$pos]['bultos'] += intval($row['bultos']);
+            $productosDespacho[$pos]['paquetes'] += intval($row['paquetes']);
+        }
+    }
+}
+
 $pdf->SetWidths(array(25,70,30,32,28));
-foreach ($query as $i) {
+foreach ($productosDespacho as $i) {
 
     $bultos = 0;
     $paq = 0;
 
-    if ($i["BULTOS"] > 0){
-        $bultos = $i["BULTOS"];
+    if ($i["bultos"] > 0){
+        $bultos = $i["bultos"];
     }
-    if ($i["PAQUETES"] > 0){
-        $paq = $i["PAQUETES"];
+    if ($i["paquetes"] > 0){
+        $paq = $i["paquetes"];
     }
 
-    if ($i["EsEmpaque"] != 0){
-        if ($i["PAQUETES"] >= $i["CantEmpaq"]){
+    if ($i["esempaque"] != 0){
+        if ($i["paquetes"] >= $i["cantempaq"]){
 
-            if ($i["CantEmpaq"] != 0) {
-                $bultos_total = $i["PAQUETES"] / $i["CantEmpaq"];
+            if ($i["cantempaq"] != 0) {
+                $bultos_total = $i["paquetes"] / $i["cantempaq"];
             }else{
                 $bultos_total = 0;
             }
             $decimales = explode(".",$bultos_total);
             $bultos_deci = $bultos_total - $decimales[0];
-            $paq = $bultos_deci * $i["CantEmpaq"];
+            $paq = $bultos_deci * $i["cantempaq"];
             $bultos = $decimales[0] + $bultos;
         }
     }
     $peso = $bultos * $i['tara'];
-    if($i["CantEmpaq"] != 0) {
-        $peso += ($i['tara'] * $paq) / $i['CantEmpaq'];
+    if($i["cantempaq"] != 0) {
+        $peso += ($i['tara'] * $paq) / $i['cantempaq'];
     }
 
-    switch ($i["CodInst"]){
+    switch ($i["codinst"]){
         case "80":
             $total_peso_chocolote = $total_peso_chocolote + $peso;
             break;
@@ -280,11 +327,11 @@ foreach ($query as $i) {
 
     $pdf->Row(
         array(
-            $i["CodItem"],
-            strtoupper($i["Descrip"]),
+            $i["coditem"],
+            strtoupper($i["descrip"]),
             round($bultos),
             round($paq),
-            rdecimal($peso)
+            Strings::rdecimal($peso, 2)
         )
     );
 
@@ -294,7 +341,7 @@ $pdf->SetFont ('Arial','B',8);
 $pdf->Cell(95,7,'Total = ',1,0,'C');
 $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
 $pdf->Cell(32,7,$total_paq.' Paq',1,0,'C',true);
-$pdf->Cell(28,7,rdecimal($total_peso).'Kg'.' - '.rdecimal($total_peso/1000).'TN',1,0,'C',true);
+$pdf->Cell(28,7,Strings::rdecimal($total_peso,2).'Kg'.' - '.Strings::rdecimal($total_peso/1000, 2).'TN',1,0,'C',true);
 $pdf->Ln();
 $pdf->Cell(62,7,'FACTURAS DESPACHADAS '.$num,0,0,'C');
 $pdf->Ln();
@@ -311,7 +358,25 @@ $pdf->Ln();
     /*              TABLA DE PRODUCTOS DEVUELTOS DEL DESPACHO                  */
     /***************************************************************************/
 $devoluciones = $relacion->get_productos_devueltos_de_un_despacho($correlativo);
+/*$productosDevueltosDespacho = Array();
+$datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
+$datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
 
+foreach (array($datos_f, $datos_n) as $dato) {
+    foreach ($dato as $row) {
+        $arr = array_map(function ($arr) { return $arr['coditem']; }, $productosDespacho);
+
+        if (!in_array($row['coditem'], $arr)) {
+            #no existe en el array
+            $productosDespacho[] = $row;
+        } else {
+            # si existe en el array
+            $pos = array_search($row['coditem'], $arr);
+            $productosDespacho[$pos]['bultos'] += intval($row['bultos']);
+            $productosDespacho[$pos]['paquetes'] += intval($row['paquetes']);
+        }
+    }
+}*/
 if (count($devoluciones) != 0){
     $fact_devueltas = $relacion->get_facturas_devueltas_de_un_despacho($correlativo);
 
@@ -366,7 +431,7 @@ if (count($devoluciones) != 0){
                 strtoupper($i["Descrip"]),
                 round($bultos),
                 round($paq),
-                rdecimal($peso)
+                Strings::rdecimal($peso,2)
             )
         );
     }
@@ -376,7 +441,7 @@ if (count($devoluciones) != 0){
     $pdf->SetTextColor(255,255,255);
     $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
     $pdf->Cell(30,7,$total_paq.' Paq',1,0,'C',true);
-    $pdf->Cell(30,7,rdecimal($total_peso).'Kg'.' - '.rdecimal($total_peso/1000).'TN',1,0,'C',true);
+    $pdf->Cell(30,7,Strings::rdecimal($total_peso, 2).'Kg'.' - '.Strings::rdecimal($total_peso/1000, 2).'TN',1,0,'C',true);
     $pdf->Ln();
     $pdf->SetTextColor(0,0,0);
     $pdf->Cell(62,7,'FACTURAS AFECTADAS ('.count($fact_devueltas).') :',0,0,'C');

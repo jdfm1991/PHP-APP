@@ -281,21 +281,23 @@ class Despachos extends Conectar {
         return $sql->execute();
     }
 
-    public function updateDetalleDespacho($correlativo, $nuevo, $viejo) {
-
+    public function updateDetalleDespacho($correlativo, $numerod_nuevo, $numerod_viejo, $tipofac_nuevo, $tipofac_viejo) {
+        $i = 0;
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
         $conectar= parent::conexion();
         parent::set_names();
 
         //QUERY
-        $sql = "UPDATE Despachos_det SET Numerod = ? WHERE ID_Correlativo = ? AND Numerod = ?";
+        $sql = "UPDATE Despachos_det SET Numerod = ?, Tipofac = ? WHERE ID_Correlativo = ? AND Numerod = ? AND Tipofac = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1,$nuevo);
-        $sql->bindValue(2,$correlativo);
-        $sql->bindValue(3,$viejo);
+        $sql->bindValue($i+=1, $numerod_nuevo);
+        $sql->bindValue($i+=1, $tipofac_nuevo);
+        $sql->bindValue($i+=1, $correlativo);
+        $sql->bindValue($i+=1, $numerod_viejo);
+        $sql->bindValue($i+=1, $tipofac_viejo);
         return $sql->execute();
     }
 
