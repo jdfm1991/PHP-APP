@@ -65,7 +65,9 @@ require_once("../../config/conexion.php");
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
                         <dt class="col-sm-4 text-gray"><?=Strings::titleFromJson('marca_prod')?>:</dt>
-                        <input type="text" class="form-control-sm col-sm-8 text-center" id="marca" value="<?php echo $_GET['marca']; ?>" readonly>
+                        <input type="text" class="form-control-sm col-sm-8 text-center" id="marca1" value="<?php echo hash_equals('-', $_GET['marca']) ? 'TODAS' : $_GET['marca']; ?>" readonly>
+
+                        <input type="hidden" id="marca" value="<?php echo $_GET['marca']; ?>">
                     </div><!-- /.col -->
                 </div>
                 <!-- /.row -->

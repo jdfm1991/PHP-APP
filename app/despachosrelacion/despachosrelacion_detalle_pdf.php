@@ -358,25 +358,7 @@ $pdf->Ln();
     /*              TABLA DE PRODUCTOS DEVUELTOS DEL DESPACHO                  */
     /***************************************************************************/
 $devoluciones = $relacion->get_productos_devueltos_de_un_despacho($correlativo);
-/*$productosDevueltosDespacho = Array();
-$datos_f = $despachos->getProductosDespachoCreadoEnFacturas($correlativo);
-$datos_n = $despachos->getProductosDespachoCreadoEnNotaDeEntrega($correlativo);
 
-foreach (array($datos_f, $datos_n) as $dato) {
-    foreach ($dato as $row) {
-        $arr = array_map(function ($arr) { return $arr['coditem']; }, $productosDespacho);
-
-        if (!in_array($row['coditem'], $arr)) {
-            #no existe en el array
-            $productosDespacho[] = $row;
-        } else {
-            # si existe en el array
-            $pos = array_search($row['coditem'], $arr);
-            $productosDespacho[$pos]['bultos'] += intval($row['bultos']);
-            $productosDespacho[$pos]['paquetes'] += intval($row['paquetes']);
-        }
-    }
-}*/
 if (count($devoluciones) != 0){
     $fact_devueltas = $relacion->get_facturas_devueltas_de_un_despacho($correlativo);
 

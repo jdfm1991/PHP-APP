@@ -38,7 +38,8 @@ function listar_kpi(){
             SweetAlertLoadingShow("Procesando información, espere...");
         },
         error: function (e) {
-            SweetAlertError(e.responseText.substring(0, 400) + "...", "Error!")
+            SweetAlertError(e.responseText.substring(0, 400) + "...", "Error!");
+            send_notification_error(e.responseText);
             console.log(e.responseText);
         },
         success: function (datos) {

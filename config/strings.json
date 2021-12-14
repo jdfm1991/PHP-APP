@@ -158,6 +158,7 @@
   "precio_1"                    : {"title": "Precio 1",                           "description": ""},
   "precio_2"                    : {"title": "Precio 2",                           "description": ""},
   "precio_3"                    : {"title": "Precio 3",                           "description": ""},
+  "precio_unitario"             : {"title": "Precio Unitario",                    "description": ""},
   "iva"                         : {"title": "IVA (16%)",                          "description": ""},
   "iva_retenido"                : {"title": "I.V.A. Retenido",                    "description": ""},
   "cubicaje"                    : {"title": "Cubicaje",                           "description": ""},
@@ -177,6 +178,7 @@
   "motivo_devolucion"           : {"title": "Motivo Devolucion",                  "description": ""},
   "valoracion"                  : {"title": "Valorización",                       "description": ""},
   "categoria"                   : {"title": "Categoría",                          "description": ""},
+  "num_documento"               : {"title": "Nro. Documento",                     "description": ""},
 
   "botones_accion"        : {"title": "Acciónes",         "description": ""},
   "boton_consultar"       : {"title": " Consultar",       "description": ""},

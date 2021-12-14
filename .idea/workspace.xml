@@ -20,15 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion Relacion de despachos">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/sql/NotasDeEntrega.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachos/despachos_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_controlador.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_detalle_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/despachosrelacion_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/editar_documento_despacho.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/despachosrelacion/modales/ver_productos_factura_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/despachosrelacion/modales/ver_productos_factura_modal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/kpi/kpi_tabla.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/reportecompras/reportecompras_tabla.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/Empresa.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/Empresa.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/NotaDeEntrega.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/sql/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/sql/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,11 +127,11 @@
       <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app" />
       <recent name="C:\Apache24\htdocs\appweb\public\plugins\ionicons\2.0.1\css" />
       <recent name="C:\Apache24\htdocs\appweb\app\principal" />
       <recent name="C:\Apache24\htdocs\appweb\config" />
       <recent name="C:\Apache24\htdocs\appweb\public" />
-      <recent name="C:\Apache24\htdocs\appweb\app\auth\modales" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -305,14 +313,8 @@
       <workItem from="1638794010723" duration="9184000" />
       <workItem from="1638882419618" duration="11166000" />
       <workItem from="1638965420636" duration="8794000" />
-      <workItem from="1638986112453" duration="5416000" />
-    </task>
-    <task id="LOCAL-00029" summary="motivo no venta">
-      <created>1626807292395</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1626807292395</updated>
+      <workItem from="1638986112453" duration="5674000" />
+      <workItem from="1639483000439" duration="22359000" />
     </task>
     <task id="LOCAL-00030" summary="tabladinamica">
       <created>1627056399091</created>
@@ -650,7 +652,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638563342455</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="adecuacion Relacion de despachos">
+      <created>1638994915716</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1638994915717</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
