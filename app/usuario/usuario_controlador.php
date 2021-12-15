@@ -28,7 +28,7 @@ switch ($_GET["op"])
 
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
-        if (empty($id_usuario)) {
+        if ( !Strings::avoidNullOrEmpty($id_usuario) ) {
 
             /*verificamos si existe la cedula y correo en la base de datos, si ya existe un registro con la cedula o correo entonces no se registra el usuario*/
             $datos = $usuarios->get_cedula_correo_del_usuario($data["cedula"], $data["email"]);

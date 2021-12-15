@@ -90,8 +90,8 @@ class PDF extends FPDF
         $this->SetFont('Arial','B',8);
         $this->Cell(23,8, "Direccion Fiscal: ",0,0,'L');
         $this->SetFont('');
-        $this->Cell(80,8, mssql_result($cabeceranota,0,"direccion"),0,1,'L');
-        $this->Cell(80,8, mssql_result($cabeceranota,0,"direccion2"),0,1,'L');
+        $this->Cell(80,8, $cabecera["direccion"],0,1,'L');
+        $this->Cell(80,8, $cabecera["direccion2"],0,1,'L');
 
         //Nota de entrega
         $this->SetFont('Arial','B',14);
@@ -101,7 +101,7 @@ class PDF extends FPDF
         //numero de documento
         $this->SetFont('');
         $this->SetTextColor(255 , 0, 0);
-        $this->Cell(185,8,'# '.$numeront,0,1,'R');
+        $this->Cell(185,8,'# '.$numerod,0,1,'R');
         $this->SetTextColor(0 , 0, 0);
 
         //linea

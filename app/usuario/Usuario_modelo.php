@@ -20,8 +20,8 @@ class Usuario extends Conectar
         $sql->bindValue($i+=1, strtolower($data["email"]));
         $sql->bindValue($i+=1, md5($data["clave"]));
         $sql->bindValue($i+=1, $data["rol"]);
-        $sql->bindValue($i+=1, date(FORMAT_DATETIME));
-        $sql->bindValue($i+=1, date(FORMAT_DATETIME));
+        $sql->bindValue($i+=1, date(FORMAT_DATETIME_FOR_INSERT));
+        $sql->bindValue($i+=1, date(FORMAT_DATETIME_FOR_INSERT));
         $sql->bindValue($i+=1, $data["estado"]);
 
         return $sql->execute();
@@ -66,7 +66,6 @@ class Usuario extends Conectar
 
     public function get_cedula_correo_del_usuario($cedula, $email)
     {
-
         $conectar = parent::conexion();
         parent::set_names();
 
