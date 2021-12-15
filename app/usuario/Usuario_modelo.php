@@ -11,7 +11,8 @@ class Usuario extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "INSERT INTO usuarios VALUES(?,?,?,?,?,?,?,?,?);";
+        $sql = "INSERT INTO usuarios(Cedula, Login, Nomper, Email, Clave, ID_Rol, Fecha_Registro, Fecha_Ult_Ingreso, Estado) 
+                VALUES(?,?,?,?,?,?,?,?,?)";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["cedula"]);
