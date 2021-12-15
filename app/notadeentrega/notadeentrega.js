@@ -11,13 +11,6 @@ function limpiar() {
     $("#nrodocumento").val("");
 }
 
-function validarCantidadRegistrosTabla() {
-    (tabla.rows().count() === 0)
-        ? estado = true  : estado = false ;
-    $('#btn_excel').attr("disabled", estado);
-    $('#btn_pdf').attr("disabled", estado);
-}
-
 var no_puede_estar_vacio = function()
 {
     ($("#nrodocumento").val() !== "")
@@ -37,7 +30,7 @@ $(document).on("click", "#btn_consultar", function () {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if (documento !== "") {
+        if (documento !== "000000") {
             sessionStorage.setItem("nrodocumento", documento);
             let isError = false;
             //CARGAMOS LA TABLA Y ENVIARMOS AL CONTROLADOR POR AJAX.
@@ -48,6 +41,7 @@ $(document).on("click", "#btn_consultar", function () {
                 data: { nrodocumento: documento },
                 beforeSend: function () {
                     SweetAlertLoadingShow();
+                    $('#notadeentrega_data tbody').empty();
                 },
                 error: function (e) {
                     isError = SweetAlertError(e.responseText.substring(0, 400) + "...", "Error!")
@@ -69,6 +63,26 @@ $(document).on("click", "#btn_consultar", function () {
                         // cabecera de la nota de entrega
                         if(!jQuery.isEmptyObject(cabecera)) {
 
+                            if (parseFloat(cabecera.descuentoitem) === 0) {
+                                $('#tfoot_observacion').attr('colspan', 4);
+                                $('#tfoot_sinderecho').attr('colspan', 6);
+                                $('#header_subtotal').hide();
+                                $('#header_descuento').hide();
+                            } else {
+                                $('#tfoot_observacion').attr('colspan', 6);
+                                $('#tfoot_sinderecho').attr('colspan', 8);
+                                $('#header_subtotal').show();
+                                $('#header_descuento').show();
+                            }
+
+                            if (parseFloat(cabecera.descuentototal) === 0) {
+                                $('#footer_subtotal').hide();
+                                $('#footer_descuentototal').hide();
+                            } else {
+                                $('#footer_subtotal').show();
+                                $('#footer_descuentototal').show();
+                            }
+
                             $('#cabecera_codclie').text(cabecera.codclie);
                             $('#cabecera_rif').text(cabecera.rif);
                             $('#cabecera_codvend').text(cabecera.codvend);
@@ -82,32 +96,38 @@ $(document).on("click", "#btn_consultar", function () {
 
                             $('#tfoot_subtotal').text(cabecera.subtotal);
                             $('#tfoot_descuentototal').text(cabecera.descuento);
-                            $('#tfoot_observacion').text(cabecera.notas1);
+                            $('#tfoot_observacion_value').text(cabecera.notas1);
                             $('#tfoot_totalnota').text(cabecera.total);
                         }
 
                         if(!jQuery.isEmptyObject(detalle)) {
-                            $.each(tabla, function(idx, opt) {
-                                $('#notadeentrega_data').append(
-                                    '<tr>' +
-                                        '<td align="center" class="align-middle">' + opt.num + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.fechaemision + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.rifcliente + '</td>' +
-                                        '<td align="center" class="text-left">' + opt.nombre + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.tipodoc + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.numerodoc + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.nroctrol + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.tiporeg + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.factafectada + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.nroretencion + '</td>' +
-                                        '<td align="center" class="text-right">' + opt.totalventasconiva + '</td>' +
-                                        '<td align="center" class="text-right">' + opt.mtoexento + '</td>' +
-                                        '<td align="center" class="text-right">' + opt.base_imponible + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.alicuota_contribuyeiva+ '%</td>' +
-                                        '<td align="center" class="text-right">' + opt.montoiva_contribuyeiva + '</td>' +
-                                        '<td align="center" class="align-middle">' + opt.retencioniva + '</td>' +
-                                    '</tr>'
-                                );
+                            $.each(detalle, function(idx, opt) {
+                                if (parseFloat(cabecera.descuentoitem) > 0) {
+                                    $('#notadeentrega_data').append(
+                                        '<tr>' +
+                                        '<td align="center" class="align-middle">' + opt.coditem + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.descripcion + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.cantidad + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.unidad + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.precio + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.totalitem + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.descuento + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.total + '</td>' +
+                                        '</tr>'
+                                    );
+                                } else {
+                                    $('#notadeentrega_data').append(
+                                        '<tr>' +
+                                        '<td align="center" class="align-middle">' + opt.coditem + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.descripcion + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.cantidad + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.unidad + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.precio + '</td>' +
+                                        '<td align="center" class="align-middle">' + opt.total + '</td>' +
+                                        '</tr>'
+                                    );
+                                }
+
                             });
                         }
                     }
@@ -115,8 +135,6 @@ $(document).on("click", "#btn_consultar", function () {
                 complete: function () {
                     if (!isError) SweetAlertLoadingClose();
                     $("#tabla").show('');//MOSTRAMOS LA TABLA.
-                    validarCantidadRegistrosTabla();
-                    mostrar()
                     limpiar();//LIMPIAMOS EL SELECTOR.
                 }
             });
@@ -148,12 +166,5 @@ $(document).on("click","#btn_pdf", function(){
         window.open('motivonoventa_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
     }
 });
-
-function mostrar() {
-
-    var texto= 'Total de clientes: ';
-    var cuenta =(tabla.rows().count());
-    $("#cuenta").html(texto + cuenta);
-}
 
 init();

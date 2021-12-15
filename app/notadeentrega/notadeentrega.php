@@ -123,7 +123,7 @@ else { ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="75">
+                                <td colspan="25">
                                     <hr>
                                 </td>
                             </tr>
@@ -138,27 +138,28 @@ else { ?>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad')?>"><?=Strings::titleFromJson('cantidad')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('unidad')?>"><?=Strings::titleFromJson('unidad')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('precio_unitario')?>"><?=Strings::titleFromJson('precio_unitario')?></th>
+                            <th id="header_subtotal" class="text-center" title="<?=Strings::DescriptionFromJson('subtotal')?>"><?=Strings::titleFromJson('subtotal')?></th>
+                            <th id="header_descuento" class="text-center" title="<?=Strings::DescriptionFromJson('descuento')?>"><?=Strings::titleFromJson('descuento')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('total')?>"><?=Strings::titleFromJson('total')?></th>
                         </tr>
                         </thead>
                         <tfoot>
-                            <tr>
-                                <td height="21" colspan="8"><hr></td>
-                            </tr>
-                            <tr>
+                            <tr id="footer_subtotal">
                                 <th height="1" colspan="4"></th>
                                 <th height="21" colspan="2" style="text-align: right;"><strong>Sub Total: </strong> <span id="tfoot_subtotal"></span></th>
                             </tr>
-                            <tr>
+                            <tr id="footer_descuentototal">
                                 <th height="1" colspan="4"></th>
                                 <th height="21" colspan="2" style="text-align: right;"><strong>Descuento: </strong> <span id="tfoot_descuentototal"></span></th>
                             </tr>
                             <tr>
-                                <th height="1" colspan="4"><strong>Observaciones: </strong> <span id="tfoot_observacion"></span></th>
+                                <th id="tfoot_observacion" height="1" colspan="4" class="text-left">
+                                    <strong>Observaciones: </strong> <span id="tfoot_observacion_value"></span>
+                                </th>
                                 <th height="21" colspan="2" style="text-align: right;"><strong>Total: </strong> <span id="tfoot_totalnota"></span></th>
                             </tr>
                             <tr>
-                                <th height="21" colspan="6" style="text-align: center;">SIN DERECHO A CR&Eacute;DITO FISCAL. <br>VERIFIQUE SU MERCANCIA, NO SE ACEPTAN RECLAMOS DESPUES DE HABER FIRMADO Y SELLADO ESTA NOTA DE ENTREGA.</th>
+                                <th id="tfoot_sinderecho" height="21" colspan="6" style="text-align: center;">SIN DERECHO A CR&Eacute;DITO FISCAL. <br>VERIFIQUE SU MERCANCIA, NO SE ACEPTAN RECLAMOS DESPUES DE HABER FIRMADO Y SELLADO ESTA NOTA DE ENTREGA.</th>
                             </tr>
                         </tfoot>
 
@@ -166,7 +167,7 @@ else { ?>
                         <!-- TD TABLA LLEGAN POR AJAX -->
                         </tbody>
                     </table>
-
+                    <br><br><br><br>
                     <!-- BOX BOTONES DE REPORTES-->
                     <div align="center">
                         <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
