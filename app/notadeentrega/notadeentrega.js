@@ -149,21 +149,17 @@ $(document).on("click", "#btn_consultar", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-    var fechai = sessionStorage.getItem("fechai", fechai);
-    var fechaf = sessionStorage.getItem("fechaf", fechaf);
-    var vendedor = sessionStorage.getItem("vendedor", vendedor);
-    if (fechai !== "" && fechaf !== "" && vendedor !== "") {
-        window.location = "motivonoventa_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor;
+    const nrodocumento = sessionStorage.getItem("nrodocumento");
+    if (nrodocumento !== "") {
+        window.location = "notadeentrega_excel.php?&nrodocumento="+nrodocumento;
     }
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    var fechai = sessionStorage.getItem("fechai", fechai);
-    var fechaf = sessionStorage.getItem("fechaf", fechaf);
-    var vendedor = sessionStorage.getItem("vendedor", vendedor);
-    if (fechai !== "" && fechaf !== "" && vendedor !== "") {
-        window.open('motivonoventa_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
+    const nrodocumento = sessionStorage.getItem("nrodocumento");
+    if (nrodocumento !== "") {
+        window.open('notadeentrega_pdf.php?&nrodocumento='+nrodocumento, '_blank');
     }
 });
 

@@ -19,12 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="adecuacion Relacion de despachos">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="notas de entrega etapa 1">
+      <change afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_modelo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +94,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/despachos" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/notadeentrega" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -109,11 +108,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\notadeentrega" />
       <recent name="C:\Apache24\htdocs\appweb\app\despachos" />
       <recent name="C:\Apache24\htdocs\appweb\config" />
       <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
       <recent name="C:\Apache24\htdocs\appweb\app\gestionit" />
-      <recent name="C:\Apache24\htdocs\appweb\public\plugins" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\app" />
@@ -304,14 +303,7 @@
       <workItem from="1638965420636" duration="8794000" />
       <workItem from="1638986112453" duration="5674000" />
       <workItem from="1639483000439" duration="22359000" />
-      <workItem from="1639570152296" duration="8200000" />
-    </task>
-    <task id="LOCAL-00030" summary="tabladinamica">
-      <created>1627056399091</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1627056399091</updated>
+      <workItem from="1639570152296" duration="12130000" />
     </task>
     <task id="LOCAL-00031" summary="tabladinamica">
       <created>1627065551160</created>
@@ -649,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638994915717</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="notas de entrega etapa 1">
+      <created>1639578846160</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1639578846161</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -677,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clientes:" />
     <MESSAGE value="clientes:&#10;reemplazar la palabra factura por documento,&#10;impuesto undefined en detalle de factura" />
     <MESSAGE value="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion" />
     <MESSAGE value="clientes:&#10;validar la creacion de clientes para no duplicar" />
@@ -702,7 +700,8 @@
     <MESSAGE value="avance de adecuacion de Despachos, eliminar un documento antes de generar" />
     <MESSAGE value="avance de adecuacion de Despachos" />
     <MESSAGE value="adecuacion Relacion de despachos" />
-    <option name="LAST_COMMIT_MESSAGE" value="adecuacion Relacion de despachos" />
+    <MESSAGE value="notas de entrega etapa 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="notas de entrega etapa 1" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
