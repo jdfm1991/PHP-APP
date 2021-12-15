@@ -18,7 +18,7 @@ class Vehiculos extends Conectar
         $sql->bindValue($i += 1, $data["modelo"]);
         $sql->bindValue($i += 1, $data["capacidad"]);
         $sql->bindValue($i += 1, $data["volumen"]);
-        $sql->bindValue($i += 1, date("Y/m/d h:i:s"));
+        $sql->bindValue($i += 1, date(FORMAT_DATETIME_FOR_INSERT));
         $sql->bindValue($i += 1, $data["estado"]);
 
         return $sql->execute();

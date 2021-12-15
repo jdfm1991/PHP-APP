@@ -19,11 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="reportes">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="save">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuario/Usuario_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuario/Usuario_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/usuario/usuario_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/usuario/usuario_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -304,21 +302,7 @@
       <workItem from="1638965420636" duration="8794000" />
       <workItem from="1638986112453" duration="5674000" />
       <workItem from="1639483000439" duration="22359000" />
-      <workItem from="1639570152296" duration="15422000" />
-    </task>
-    <task id="LOCAL-00032" summary="tabladinamica">
-      <created>1627401168861</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1627401168861</updated>
-    </task>
-    <task id="LOCAL-00033" summary="reporte de pedidos sin facturar">
-      <created>1627656366915</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1627656366915</updated>
+      <workItem from="1639570152296" duration="16297000" />
     </task>
     <task id="LOCAL-00034" summary="avance de Devoluciones sin motivo">
       <created>1627933802366</created>
@@ -649,7 +633,21 @@
       <option name="project" value="LOCAL" />
       <updated>1639584562448</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="save">
+      <created>1639591453014</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1639591453015</updated>
+    </task>
+    <task id="LOCAL-00082" summary="save">
+      <created>1639591993172</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1639591993172</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -677,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clientes:&#10;concatenar cod nestle al crear cliente para que salga 00000-descripcion" />
     <MESSAGE value="clientes:&#10;validar la creacion de clientes para no duplicar" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;cantidad de clientes(naturales/juridicos),&#10;tasa dolar,&#10;devoluciones sin motivo" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes" />
@@ -702,7 +699,8 @@
     <MESSAGE value="adecuacion Relacion de despachos" />
     <MESSAGE value="notas de entrega etapa 1" />
     <MESSAGE value="reportes" />
-    <option name="LAST_COMMIT_MESSAGE" value="reportes" />
+    <MESSAGE value="save" />
+    <option name="LAST_COMMIT_MESSAGE" value="save" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
