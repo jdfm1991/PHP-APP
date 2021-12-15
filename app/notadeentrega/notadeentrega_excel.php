@@ -25,12 +25,19 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO
-require_once("maestroclientes_modelo.php");
+require_once("notadeentrega_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$maestro = new Maestroclientes();
+$nota = new NotaDeEntrega();
+$numerod = $_GET['nrodocumento'];
 
-$codvend = $_GET['vendedor'];
+$cabecera = NotasDeEntrega::getHeaderById($numerod);
+$descuentoitem  = Numbers::avoidNull( $nota->get_descuento($numerod, 'C')['descuento'] );
+
+$observacion = Strings::avoidNull($cabecera['notas1']);
+$subtotal = Strings::rdecimal($cabecera['subtotal']);
+$descuentototal = Strings::rdecimal($cabecera['descuento']);
+$totalnota = Strings::rdecimal($cabecera['total']);
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
@@ -53,9 +60,11 @@ $objDrawing->setCoordinates('F1');
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
-$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', 'REPORTE DE MAESTRO DE CLIENTES POR RUTA');
-
+$empresa = Empresa::getInfo();
+$sheet->setCellValue('E1', $empresa["descrip"])
+    ->setCellValue('E2', $empresa["rif"])
+    ->setCellValue('E3', $empresa["direc1"])
+    ->setCellValue('E4', $empresa["telef"]);
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 

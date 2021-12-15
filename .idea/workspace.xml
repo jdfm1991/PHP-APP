@@ -21,7 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="save">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/vehiculos/vehiculos_modelo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -302,14 +303,7 @@
       <workItem from="1638965420636" duration="8794000" />
       <workItem from="1638986112453" duration="5674000" />
       <workItem from="1639483000439" duration="22359000" />
-      <workItem from="1639570152296" duration="16297000" />
-    </task>
-    <task id="LOCAL-00034" summary="avance de Devoluciones sin motivo">
-      <created>1627933802366</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1627933802366</updated>
+      <workItem from="1639570152296" duration="21480000" />
     </task>
     <task id="LOCAL-00035" summary="avance de Devoluciones sin motivo">
       <created>1628170655587</created>
@@ -647,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639591993172</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="save">
+      <created>1639592263418</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1639592263418</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

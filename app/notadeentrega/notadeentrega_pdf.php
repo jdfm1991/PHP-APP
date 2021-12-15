@@ -11,6 +11,14 @@ require_once("notadeentrega_modelo.php");
 $nota = new NotaDeEntrega();
 $numerod = $_GET['nrodocumento'];
 
+$cabecera = NotasDeEntrega::getHeaderById($numerod);
+$descuentoitem  = Numbers::avoidNull( $nota->get_descuento($numerod, 'C')['descuento'] );
+
+$observacion = Strings::avoidNull($cabecera['notas1']);
+$subtotal = Strings::rdecimal($cabecera['subtotal']);
+$descuentototal = Strings::rdecimal($cabecera['descuento']);
+$totalnota = Strings::rdecimal($cabecera['total']);
+
 //array of space in cells
 $s = 0;
 $j = 0;
@@ -44,7 +52,6 @@ class PDF extends FPDF
         $this->Cell(75);
         // Título
         $empresa = Empresa::getInfo();
-//        $this->Cell(40, 10, 'REPORTE DE MAESTRO DE CLIENTES POR RUTA', 0, 0, 'C');
         $this->Cell(30,4, $empresa["descrip"],0,1,'L');
         $this->SetFont('');
         $this->Cell(38);
@@ -60,7 +67,7 @@ class PDF extends FPDF
 
         //datos del cliente
         $numerod = $_GET['nrodocumento'];
-        $cabecera = NotasDeEntrega::getHeaderById($numerod);
+        $cabecera = $GLOBALS['cabecera'];
         $this->SetFont('Arial','B',8);
         $this->Cell(19,8, "Cod. Cliente: ",0,0,'L');
         $this->SetFont('');
@@ -105,47 +112,110 @@ class PDF extends FPDF
         $this->SetTextColor(0 , 0, 0);
 
         //linea
-        $this->Line(8, 73, 200, 73);
+        $this->Line(8, 83, 200, 83);
         $this->Ln(3);
 
-        // Salto de línea
-        $this->Ln(15);
-        $this->SetFont('Arial', 'B', 8);
+        $descuentoitem  = $GLOBALS['descuentoitem'];
+
+        $anchoAdicional = 0;
+        if ($descuentoitem > 0) {
+            $anchoAdicional += 0;// +0
+        } else {
+            $anchoAdicional += (20+18);// +38
+        }
+
+        // titulo de la tabla
+        $this->Ln(5);
+        $this->SetFont('Arial','B',9);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(22), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(57), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(14), 6, utf8_decode(Strings::titleFromJson('estatus')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(22), 6, utf8_decode(Strings::titleFromJson('ruta_principal')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(27), 6, utf8_decode(Strings::titleFromJson('ruta_alternativa_1')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(27), 6, utf8_decode(Strings::titleFromJson('ruta_alternativa_2')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('dia_visita')), 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(15 + ($anchoAdicional*0.20)),6,'Codigo',1,0,'C',true);
+        $this->Cell(addWidthInArray(60 + ($anchoAdicional*0.40)),6,utf8_decode('Descripción'),1,0,'C',true);
+        $this->Cell(addWidthInArray(16 + ($anchoAdicional*0.16)),6,'Cantidad',1,0,'C',true);
+        $this->Cell(addWidthInArray(15 + ($anchoAdicional*0.12)),6,'Unidad',1,0,'C',true);
+        $this->Cell(addWidthInArray(26),6,'Precio Unitario',1,0,'C',true);
+        if ($descuentoitem > 0) {
+            $this->Cell(addWidthInArray(20),6,'Sub Total',1,0,'C',true);
+            $this->Cell(addWidthInArray(18),6,'Descuento',1,0,'C',true);
+        }
+        $this->Cell(addWidthInArray(20 + ($anchoAdicional*0.12)),6,'Total',1,1,'C',true);
     }
 }
 
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetFont('Arial', '', 7);
+$pdf->SetFont('Arial','',8);
 
-/*$pdf->SetWidths($width);
+$pdf->SetWidths($width);
 
-$query =  $maestro->getMaestro($codvend);
+$detalle = NotasDeEntrega::getDetailById($numerod);
 
-foreach ($query as $i) {
+$multiplicador_linea = 0;
+foreach ($detalle as $i) {
+    $j = 0;
+    $multiplicador_linea += 5;
 
-    $pdf->Row(
-        array(
-            $i['codclie'],
-            utf8_decode($i['descrip']),
-            ($i['activo'] == 1) ? "Activo" : "Inactivo",
-            $i['codvend'],
-            $i["Ruta_Alternativa"],
-            $i["Ruta_Alternativa_2"],
-            strtoupper($i["DiasVisita"]),
-        )
-    );
-}*/
+    addInfoInArray($i['coditem']);
+    addInfoInArray(utf8_decode($i['descripcion']));
+    addInfoInArray(number_format($i['cantidad']));
+    addInfoInArray(($i['esunidad'] == '1') ? "PAQ" : "BUL");
+    addInfoInArray(Strings::rdecimal($i['precio'], 2));
+    if($descuentoitem > 0)
+    {
+        addInfoInArray(Strings::rdecimal($i['totalitem'], 2));
+        addInfoInArray(Strings::rdecimal($i['descuento'], 2));
+    }
+    addInfoInArray(Strings::rdecimal($i['total'], 2));
+
+    $pdf->Row($info);
+}
+//linea
+$pdf->Line(8, $multiplicador_linea + 98, 200, $multiplicador_linea + 98);
+$pdf->Ln(10);
+
+
+$pdf->SetFont('Arial','B',8);
+if($descuentototal > 0) {
+    $pdf->Cell(155,8, "",0,0,'L');
+    $pdf->SetFont('Arial','B',8);
+    $pdf->Cell(15,8, "Sub Total: ",0,0,'L');
+    $pdf->SetFont('');
+    $pdf->Cell(33,8, $subtotal,0,1,'L');
+    $pdf->Cell(153,8, "",0,0,'L');
+    $pdf->SetFont('Arial','B',8);
+    $pdf->Cell(16,8, "Descuento: ",0,0,'L');
+    $pdf->SetFont('');
+    $pdf->Cell(33,8, $descuentototal,0,1,'L');
+}
+
+$pdf->Cell(23,8, "Observaciones: ",0,0,'L');
+$pdf->SetFont('');
+$pdf->Cell(130,8, $observacion,0,0,'L');
+$pdf->Cell(8,8, "",0,0,'L');
+$pdf->SetFont('Arial','B',8);
+$pdf->Cell(9,8, "Total: ",0,0,'L');
+$pdf->SetFont('');
+$pdf->Cell(33,8, Strings::rdecimal($totalnota, 2),0,1,'L');
+$pdf->Ln(5);
+$pdf->SetFont('Arial','',9);
+$pdf->Cell(77);
+$pdf->Cell(30,10,'SIN DERECHO A CREDITO FISCAL',0,1,'C');
+$pdf->Cell(0,10,'VERIFIQUE SU MERCANCIA, NO SE ACEPTAN RECLAMOS DESPUES DE HABER FIRMADO',0,1,'C');
+$pdf->Cell(0,10,'Y SELLADO ESTA NOTA DE ENTREGA.',0,1,'C');
+$pdf->Ln(30);
+
+// lineas de firma
+$pdf->Line(40, $multiplicador_linea + 173, 70, $multiplicador_linea + 173);
+$pdf->Line(135, $multiplicador_linea + 173, 165, $multiplicador_linea + 173);
+
+// texto de firmas
+$pdf->SetFont('Arial','',8);
+$pdf->Cell(33);
+$pdf->Cell(23,1, "Depachado por",0,0,'C');
+$pdf->Cell(73);
+$pdf->Cell(23,1, "Recibido por",0,0,'C');
+
 
 $pdf->Output();
 
