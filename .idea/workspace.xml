@@ -19,9 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="save">
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="nota de entrega excel">
+      <change afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_controlador.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_modelo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +97,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/notadeentrega" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/notadeentregaporrango" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -107,11 +111,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\notadeentregaporrango" />
       <recent name="C:\Apache24\htdocs\appweb\app\notadeentrega" />
       <recent name="C:\Apache24\htdocs\appweb\app\despachos" />
       <recent name="C:\Apache24\htdocs\appweb\config" />
       <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
-      <recent name="C:\Apache24\htdocs\appweb\app\gestionit" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\app" />
@@ -303,14 +307,7 @@
       <workItem from="1638986112453" duration="5674000" />
       <workItem from="1639483000439" duration="22359000" />
       <workItem from="1639570152296" duration="21480000" />
-      <workItem from="1639655810488" duration="4275000" />
-    </task>
-    <task id="LOCAL-00035" summary="avance de Devoluciones sin motivo">
-      <created>1628170655587</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1628170655587</updated>
+      <workItem from="1639655810488" duration="12509000" />
     </task>
     <task id="LOCAL-00036" summary="final de Devoluciones sin motivo">
       <created>1629992988553</created>
@@ -648,7 +645,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639592263418</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="nota de entrega excel">
+      <created>1639669313837</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1639669313838</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -676,7 +680,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clientes:&#10;validar la creacion de clientes para no duplicar" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;cantidad de clientes(naturales/juridicos),&#10;tasa dolar,&#10;devoluciones sin motivo" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;comportamiento de ventas por mes" />
     <MESSAGE value="dashboard:&#10;graficos:&#10;topten de clientes" />
@@ -701,7 +704,8 @@
     <MESSAGE value="notas de entrega etapa 1" />
     <MESSAGE value="reportes" />
     <MESSAGE value="save" />
-    <option name="LAST_COMMIT_MESSAGE" value="save" />
+    <MESSAGE value="nota de entrega excel" />
+    <option name="LAST_COMMIT_MESSAGE" value="nota de entrega excel" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
