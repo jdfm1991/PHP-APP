@@ -13,7 +13,8 @@ class Conectar {
 	protected $dbh;
 	protected function conexion() {
 		try {
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=".NAME_BD_1,"sa","merumbd4z");
+//			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=".NAME_BD_1,"sa","merumbd4z");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=".NAME_BD_1,"sa","Confisur1");
 			return $conectar;
 		} catch (Exception $e) {
 			print "¡Error!: " . $e->getMessage() . "<br/>";
@@ -23,8 +24,8 @@ class Conectar {
 
 	protected function conexion2() {
 		try {
-			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=".NAME_BD_2,"sa","merumbd4z");
-//			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=".NAME_BD_2,"sa","Confisur1");
+//			$conectar = $this->dbh = new PDO("sqlsrv:Server=localhost;Database=".NAME_BD_2,"sa","merumbd4z");
+			$conectar = $this->dbh = new PDO("sqlsrv:Server=192.168.7.31;Database=".NAME_BD_2,"sa","Confisur1");
 			return $conectar;
 		} catch (Exception $e) {
             print "¡Error!: " . $e->getMessage() . "<br/>";

@@ -22,7 +22,6 @@
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="save">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_excel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentrega/notadeentrega_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -304,6 +303,7 @@
       <workItem from="1638986112453" duration="5674000" />
       <workItem from="1639483000439" duration="22359000" />
       <workItem from="1639570152296" duration="21480000" />
+      <workItem from="1639655810488" duration="4275000" />
     </task>
     <task id="LOCAL-00035" summary="avance de Devoluciones sin motivo">
       <created>1628170655587</created>
