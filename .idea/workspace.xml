@@ -20,13 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="nota de entrega excel">
-      <change afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_pdf.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_controlador.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_excel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_modelo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_pdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_controlador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_controlador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_modelo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/notadeentregaporrango/notadeentregaporrango_modelo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/conexion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +97,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/notadeentregaporrango" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/listadepreciosdivisas" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -111,11 +111,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Apache24\htdocs\appweb\app\listadepreciosdivisas" />
       <recent name="C:\Apache24\htdocs\appweb\app\notadeentregaporrango" />
       <recent name="C:\Apache24\htdocs\appweb\app\notadeentrega" />
       <recent name="C:\Apache24\htdocs\appweb\app\despachos" />
       <recent name="C:\Apache24\htdocs\appweb\config" />
-      <recent name="C:\Apache24\htdocs\appweb\app\gestionsistema\modales" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Apache24\htdocs\appweb\app" />
@@ -308,6 +308,9 @@
       <workItem from="1639483000439" duration="22359000" />
       <workItem from="1639570152296" duration="21480000" />
       <workItem from="1639655810488" duration="12509000" />
+      <workItem from="1639742713111" duration="1897000" />
+      <workItem from="1640022230985" duration="575000" />
+      <workItem from="1640096482047" duration="5090000" />
     </task>
     <task id="LOCAL-00036" summary="final de Devoluciones sin motivo">
       <created>1629992988553</created>
