@@ -20,12 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="nota de entrega excel">
-      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_controlador.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_excel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_modelo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/listadepreciodivisas/listadepreciodivisas_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -311,6 +308,14 @@
       <workItem from="1639742713111" duration="1897000" />
       <workItem from="1640022230985" duration="575000" />
       <workItem from="1640096482047" duration="5090000" />
+      <workItem from="1641818186429" duration="1603000" />
+      <workItem from="1641823298628" duration="4250000" />
+      <workItem from="1641911198940" duration="413000" />
+      <workItem from="1641914746548" duration="551000" />
+      <workItem from="1641989672060" duration="3359000" />
+      <workItem from="1642010588236" duration="593000" />
+      <workItem from="1642076205478" duration="1852000" />
+      <workItem from="1642094371133" duration="1281000" />
     </task>
     <task id="LOCAL-00036" summary="final de Devoluciones sin motivo">
       <created>1629992988553</created>
