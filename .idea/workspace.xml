@@ -19,10 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="nota de entrega excel">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4b0c9c15-010d-42de-8607-26102b8deba2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/adb4ad80-027f-45e6-bc22-125fb9b6a6db.xml" afterDir="false" />
+    <list default="true" id="1b821182-0bac-4010-a0d1-a4e947d986d6" name="Default Changelist" comment="prueba de commit">
+      <change afterPath="$PROJECT_DIR$/config/conexion.php.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/const.php.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +94,7 @@
     <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/listadepreciosdivisas" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/config" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />

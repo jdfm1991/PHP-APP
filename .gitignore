@@ -1,5 +1,5 @@
 .phpintel
 .vscode
+.idea
 config/conexion.php
 config/const.php
-.idea
