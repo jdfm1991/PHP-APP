@@ -6,7 +6,7 @@ const NAME_BD_2 = "aj";
 
 
 # ROUTE
-const SERVER = ("localhost");
+const SERVER = ("192.168.7.34:8585/prueba");
 
 # Constantes de la APP
 const ALMACEN_PRINCIPAL = '01';

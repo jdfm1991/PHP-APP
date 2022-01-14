@@ -1,4 +1,5 @@
-config/conexion.php
-config/const.php
 .phpintel
 .vscode
+config/conexion.php
+config/const.php
+.idea
