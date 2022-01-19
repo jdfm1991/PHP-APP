@@ -15,6 +15,7 @@ include_once 'Modulos.php';
 include_once 'NotasDeEntrega.php';
 include_once 'Permisos.php';
 include_once 'RecoverUser.php';
+include_once 'Rol.php';
 include_once 'Usuarios.php';
 include_once 'Vehiculo.php';
 include_once 'Vendedores.php';

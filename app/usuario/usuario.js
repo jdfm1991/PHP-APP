@@ -127,7 +127,7 @@ function mostrar(id_usuario= -1) {
                 $('#rol').append('<option name="" value="">Seleccione un rol de usuario</option>');
                 $.each(data.lista_roles, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
-                    $('#rol').append('<option name="" value="' + opt.ID +'">' + opt.Descripcion.substr(0, 35) + '</option>');
+                    $('#rol').append('<option name="" value="' + opt.id +'">' + opt.descripcion.substr(0, 35) + '</option>');
                 });
 
             },
@@ -155,7 +155,7 @@ function mostrar(id_usuario= -1) {
                 $('#rol').append('<option name="" value="">Seleccione un rol de usuario</option>');
                 $.each(data.lista_roles, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
-                    $('#rol').append('<option name="" value="' + opt.ID +'">' + opt.Descripcion.substr(0, 35) + '</option>');
+                    $('#rol').append('<option name="" value="' + opt.id +'">' + opt.descripcion.substr(0, 35) + '</option>');
                 });
 
                 $('#cedula').val(data.cedula);

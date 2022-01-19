@@ -34,13 +34,16 @@ class Usuario extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
+        $sql = (hash_equals('', $data["clave"]))
+            ? "UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?"
+            : "UPDATE usuarios SET  Login=?,  Nomper=?,  Email=?,  Clave=?,  ID_Rol=?,  Estado=?  WHERE   Cedula=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["login"]);
         $sql->bindValue($i+=1, ucwords($data["nomper"]));
         $sql->bindValue($i+=1, strtolower($data["email"]));
-        $sql->bindValue($i+=1, md5($data["clave"]));
+        if (!hash_equals('', $data["clave"]))
+            $sql->bindValue($i+=1, md5($data["clave"]));
         $sql->bindValue($i+=1, $data["rol"]);
         $sql->bindValue($i+=1, $data["estado"]);
         $sql->bindValue($i+=1, $data["id_usuario"]);
@@ -83,20 +86,6 @@ class Usuario extends Conectar
 
     }
 
-    public function get_roles()
-    {
-
-        $conectar = parent::conexion();
-        parent::set_names();
-
-        $sql = "SELECT * FROM roles";
-
-        $sql = $conectar->prepare($sql);
-        $sql->execute();
-
-        return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function eliminar_usuario($dni) {
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -117,5 +106,4 @@ class Usuario extends Conectar
     }
 
 }
-
 ?>

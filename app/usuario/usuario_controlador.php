@@ -65,7 +65,7 @@ switch ($_GET["op"])
     case "mostrar":
         $output=array();
 
-        $output['lista_roles'] = $usuarios->get_roles();
+        $output['lista_roles'] = Rol::todos();
 
         if($_POST["id_usuario"] != -1){
             //el parametro id_usuario se envia por AJAX cuando se edita el usuario
@@ -91,11 +91,11 @@ switch ($_GET["op"])
         //los parametros id_usuario y est vienen por via ajax
         $datos = Usuarios::byDni($id);
         //valida el id del usuario
-        if (is_array($datos) == true and count($datos) > 0) {
+        if (ArraysHelpers::validate($datos)) {
             //si esta activo(1) lo situamos cero(0), y viceversa
             ($activo == "0") ? $activo = 1 : $activo = 0;
             //edita el estado
-            $usuarios->editar_estado($id, $activo);
+            $estado = $usuarios->editar_estado($id, $activo);
             //evalua que se realizara el query
             ($estado) ? $output["mensaje"] = "Actualizacion realizada Exitosamente" : $output["mensaje"] = "Error al Actualizar";
         }
@@ -124,56 +124,7 @@ switch ($_GET["op"])
                 }
             }
             //nivel del rol asignado
-
-            if ($row["id_rol"] == 1) {
-
-                $nivel = "SUPER ADMINISTRADOR";
-
-            } elseif ($row["id_rol"] == 2) {
-
-                $nivel = "ADMINISTRADOR";
-
-            } elseif ($row["id_rol"] == 3) {
-
-                $nivel = "DIRECTIVA";
-
-            } elseif ($row["id_rol"] == 4) {
-
-                $nivel = "GERENTE";
-
-            } elseif ($row["id_rol"] == 5) {
-
-                $nivel = "JEFE ADMINISTRATIVO";
-
-            } elseif ($row["id_rol"] == 6) {
-
-                $nivel = "SUPERVISOR";
-
-            } elseif ($row["id_rol"] == 7) {
-
-                $nivel = "ANALISTA";
-
-            } elseif ($row["id_rol"] == 8) {
-
-                $nivel = "COBRANZAS";
-
-            } elseif ($row["id_rol"] == 9) {
-
-                $nivel = "DESPACHOS";
-
-            } elseif ($row["id_rol"] == 10) {
-
-                $nivel = "REPORTES";
-
-            } elseif ($row["id_rol"] == 11) {
-
-                $nivel = "EDV";
-
-            } else {
-
-                $nivel = "IT";
-
-            }
+            $rol_data = Rol::getById($row["id_rol"]);
 
             $Fecha_Registro = date('d/m/Y', strtotime($row['fecha_registro']));
             $Fecha_Ult_Ingreso = date('d/m/Y', strtotime($row['fecha_ult_ingreso']));
@@ -182,7 +133,7 @@ switch ($_GET["op"])
             $sub_array[] = $row["login"];
             $sub_array[] = $row["nomper"];
             $sub_array[] = $row["email"];
-            $sub_array[] = $nivel;
+            $sub_array[] = $rol_data["descripcion"];
 
             # el parametro t es el tipo:
             #        0 el tipo es rol
