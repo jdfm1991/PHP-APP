@@ -1,5 +1,5 @@
 
-#APPWEB (Logistica y despacho)
+# APPWEB (Logistica y despacho)
 
 ***
 
@@ -15,7 +15,7 @@
 #### los archivos ` .dll ` son para la conexion con Sql Server (hay agregarlos al php 7.4)
 ***
 
-# importante !!
+## importante !!
 
 ### cuando recien descargue el proyecto abra el directorio config
 
