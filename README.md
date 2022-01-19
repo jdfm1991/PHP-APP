@@ -1,6 +1,21 @@
+
 #APPWEB (Logistica y despacho)
+
 ***
-## importante !!
+
+### Requisitos
+> Apache 2.4
+>
+> Php 7.4 (minimo)
+> 
+> MS SQL Server 2012
+
+***
+#### Los instaladores se encuentran en la carpeta ` instalers `
+#### los archivos ` .dll ` son para la conexion con Sql Server (hay agregarlos al php 7.4)
+***
+
+# importante !!
 
 ### cuando recien descargue el proyecto abra el directorio config
 
@@ -17,4 +32,8 @@
 ### ingrese al fichero ` const.php ` y cambie los parametros
 
 ![Image text](public/img/appweb_md_4.png)
+
+*** 
+
+Desarrollado por INTEC C.A.
 
