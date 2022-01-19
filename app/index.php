@@ -2,6 +2,7 @@
 session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
 require_once("../config/const.php");
+require_once("../config/route_system.php");
 include_once (PATH_HELPERS_PHP . "php/Url.php");
 
 if (isset($_SESSION['cedula'])) {
