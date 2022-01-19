@@ -46,8 +46,8 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-ios-copy"></i>
                             </div>
-                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                            <!--<a href="#" class="small-box-footer"><?/*=Strings::titleFromJson('boton_ver_reporte')*/?><i
+                                        class="fas fa-arrow-circle-right"></i></a>-->
                         </div>
                     </div>
 
@@ -67,8 +67,8 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                            <!--<a href="#" class="small-box-footer"><?/*=Strings::titleFromJson('boton_ver_reporte')*/?><i
+                                        class="fas fa-arrow-circle-right"></i></a>-->
                         </div>
                     </div>
 
@@ -92,8 +92,8 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-cash"></i>
                             </div>
-                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                            <!--<a href="#" class="small-box-footer"><?/*=Strings::titleFromJson('boton_ver_reporte')*/?><i
+                                        class="fas fa-arrow-circle-right"></i></a>-->
                         </div>
                     </div>
 
@@ -115,8 +115,8 @@ require_once("../config/conexion.php");
                             <div class="icon">
                                 <i class="ion ion-cash"></i>
                             </div>
-                            <a href="#" class="small-box-footer"><?=Strings::titleFromJson('boton_ver_reporte')?><i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                            <!--<a href="#" class="small-box-footer"><?/*=Strings::titleFromJson('boton_ver_reporte')*/?><i
+                                        class="fas fa-arrow-circle-right"></i></a>-->
                         </div>
                     </div>
 
