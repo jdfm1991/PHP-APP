@@ -92,6 +92,19 @@ class Permisos extends Conectar
         return $result->execute();
     }
 
+    public static function borrar_permiso_user($user_id)
+    {
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+
+        $sql= "DELETE FROM Permisos WHERE id_usuarios=?";
+
+        $result = (new Conectar)->conexion()->prepare($sql);
+        $result->bindValue(1, $user_id);
+
+        return $result->execute();
+    }
+
     public static function borrar_rolmod($data)
     {
         $i=0;

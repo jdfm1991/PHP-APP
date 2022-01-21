@@ -28,6 +28,24 @@ class PermisosHelpers
         return $permiso;
     }
 
+    public static function registrarPermisoUsuarioPorRol($data) {
+        $permiso = false;
+
+        $permisos_rolmod = Permisos::getRolesGrupoPorRolID($data['rol_id']);
+        if (ArraysHelpers::validate($permisos_rolmod)) {
+            foreach ($permisos_rolmod as $permiso) {
+                $data1 = array(
+                    'id' => $data['user_id'],
+                    'modulo_id' => $permiso['id_modulo'],
+                );
+                $permiso = Permisos::registrar_permiso($data1);
+                if (!$permiso) break;
+            }
+        }
+
+        return $permiso;
+    }
+
     public static function borrarPermisoPorRol($data) {
         $permiso = false;
 

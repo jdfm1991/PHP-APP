@@ -27,7 +27,7 @@ switch ($_GET["op"]) {
                 $output['descripcion'] = $roles->get_rol_por_id($id)[0]['descripcion'];
                 break;
             case 1:
-                $output['descripcion'] = Usuarios::byDni($id)[0]['nomper'];
+                $output['descripcion'] = Usuarios::byDni($id)['nomper'];
                 break;
         }
 

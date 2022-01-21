@@ -11,7 +11,7 @@ $usuarios = new Usuario();
 switch ($_GET["op"])
 {
     case "guardaryeditar":
-        $usuario = true;
+        $usuario = false;
 
         $id_usuario = $_POST['id_usuario'];
 
@@ -26,6 +26,7 @@ switch ($_GET["op"])
             'estado'    => $_POST['estado'],
         );
 
+        $rol_user_old = '';
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
         if ( !Strings::avoidNullOrEmpty($id_usuario) ) {
@@ -42,8 +43,27 @@ switch ($_GET["op"])
             }
 
         } else {
+            $rol_user_old = Usuarios::byDni($data['cedula'])['id_rol'];
+
             /*si ya existe entonces editamos el usuario*/
             $usuario = $usuarios->editar_usuario($data);
+        }
+
+        // si $usuario == true
+        // registrara los permisos del rol al usuario
+        if ($usuario) {
+            $user_id = $data['cedula'];
+            if (($rol_user_old != '') and ($data['rol'] != $rol_user_old)) {
+                // evaluamos si tiene permisos, de ser verdadero los elimina de la base de datos
+                $cantidad_permisos = count( Permisos::getPermisosPorUsuarioID($user_id) );
+                if ($cantidad_permisos > 0)
+                    Permisos::borrar_permiso_user($user_id);
+                // registramos los permisos del rol seleccionado al usuario
+                PermisosHelpers::registrarPermisoUsuarioPorRol([
+                    'user_id' => $user_id,
+                    'rol_id'  => $data['rol'],
+                ]);
+            }
         }
 
         //mensaje
@@ -71,14 +91,14 @@ switch ($_GET["op"])
             //el parametro id_usuario se envia por AJAX cuando se edita el usuario
             $datos = Usuarios::byDni($_POST["id_usuario"]);
 
-            foreach ($datos as $row) {
-                $output["cedula"] = $row["cedula"];
-                $output["login"] = $row["login"];
-                $output["nomper"] = $row["nomper"];
-                $output["email"] = $row["email"];
-//                $output["clave"] = $row["clave"];
-                $output["estado"] = $row["estado"];
-                $output["rol"] = $row["id_rol"];
+            if (ArraysHelpers::validate($datos)) {
+                $output["cedula"] = $datos["cedula"];
+                $output["login"] = $datos["login"];
+                $output["nomper"] = $datos["nomper"];
+                $output["email"] = $datos["email"];
+//                $output["clave"] = $datos["clave"];
+                $output["estado"] = $datos["estado"];
+                $output["rol"] = $datos["id_rol"];
             }
         }
 
