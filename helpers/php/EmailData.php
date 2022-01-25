@@ -24,8 +24,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'pdegenaro@gconfisur.com',
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ), // puede ser mas de un destinatario
         );
     }
@@ -54,7 +56,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ),
         );
     }
@@ -78,7 +83,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ),
         );
     }
@@ -105,7 +113,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ),
         );
     }
@@ -145,7 +156,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ),
         );
     }
@@ -157,7 +171,7 @@ class EmailData
         $documento = $data['doc'];
 
         return array(
-            'title'      => "SE HA ELIMINADO UNA FACTURA DEL DESPACHO NRO: $correl_despacho",
+            'title'      => "SE HA ELIMINADO UNA DOCUMENTO DEL DESPACHO NRO: $correl_despacho",
             'body'       => "<strong>$usuario</strong>, HA ELIMINADO LA FACTURA NRO: <strong>$documento</strong>, PERTENECIENTE AL DESPACHO NRO: <strong>$correl_despacho</strong></p> <br>
                              ESTE DESPACHO YA SE ENCONTRABA RELACIONADO, POR ENDE ES NECESARIO QUE SE REIMPRIMA LA PLANILLA DE RELACION DE CHOFERES NRO: $correl_numero_pla.  
                              YA QUE ESTA PLANILLA HA SIDO AFECTADA POR LA ELIMINACION DE DICHA FACTURA</p>",
@@ -167,7 +181,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ), // puede ser mas de un destinatario
         );
     }
@@ -187,7 +204,10 @@ class EmailData
                 'jcaraballo@gconfisur.com',
                 'cjimenez@gconfisur.com',
                 'ctrujillo@gconfisur.com',*/
-                'llopez@gconfisur.com'
+                'llopez@gconfisur.com',
+                'jfranco@gconfisur.com',
+                'ycenteno@gconfisur.com',
+                'it@gconfisur.com'
             ), // puede ser mas de un destinatario
         );
     }
