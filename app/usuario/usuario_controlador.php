@@ -27,6 +27,7 @@ switch ($_GET["op"])
         );
 
         $rol_user_old = '';
+        $is_new_user = false;
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
         if ( !Strings::avoidNullOrEmpty($id_usuario) ) {
@@ -37,7 +38,7 @@ switch ($_GET["op"])
             if (is_array($datos) == true and count($datos) == 0) {
                 //no existe el usuario por lo tanto hacemos el registros
                 $usuario = $usuarios->registrar_usuario($data);
-
+                if ($usuario) { $is_new_user = true; }
             } else {
                 /*   $errors[]="La cédula o el correo ya existe";*/
             }
@@ -53,7 +54,7 @@ switch ($_GET["op"])
         // registrara los permisos del rol al usuario
         if ($usuario) {
             $user_id = $data['cedula'];
-            if (($rol_user_old != '') and ($data['rol'] != $rol_user_old)) {
+            if ($is_new_user or (($rol_user_old != '') and ($data['rol'] != $rol_user_old))) {
                 // evaluamos si tiene permisos, de ser verdadero los elimina de la base de datos
                 $cantidad_permisos = count( Permisos::getPermisosPorUsuarioID($user_id) );
                 if ($cantidad_permisos > 0)
