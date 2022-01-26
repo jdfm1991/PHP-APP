@@ -179,6 +179,11 @@
   "valoracion"                  : {"title": "Valorización",                       "description": ""},
   "categoria"                   : {"title": "Categoría",                          "description": ""},
   "num_documento"               : {"title": "Nro. Documento",                     "description": ""},
+  "campo_mod"                   : {"title": "Campo Modificado",                   "description": ""},
+  "antes"                       : {"title": "Antes",                              "description": ""},
+  "despues"                     : {"title": "Despues",                            "description": ""},
+  "diferencia"                  : {"title": "Diferencias",                        "description": ""},
+  "fecha_hora"                  : {"title": "Fecha y Hora",                      "description": ""},
 
   "botones_accion"        : {"title": "Acciónes",         "description": ""},
   "boton_consultar"       : {"title": " Consultar",       "description": ""},
