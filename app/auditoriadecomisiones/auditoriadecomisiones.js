@@ -85,7 +85,7 @@ $(document).on("click", "#btn_consultar", function () {
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    url: "auditoriadecomisiones_controlador.php?op=buscar_clientesnoactivos",
+                    url: "auditoriadecomisiones_controlador.php?op=buscar_auditoriadecomisiones",
                     type: "post",
                     dataType: "json",
                     data: {fechai: fechai, fechaf: fechaf, vendedor: vendedor},
@@ -101,7 +101,6 @@ $(document).on("click", "#btn_consultar", function () {
                         if(!isError) SweetAlertLoadingClose();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         validarCantidadRegistrosTabla();
-                        mostrar()
                         limpiar();//LIMPIAMOS EL SELECTOR.
                     }
                 },//TRADUCCION DEL DATATABLE.
@@ -140,12 +139,5 @@ $(document).on("click","#btn_pdf", function(){
         window.open('clientesnoactivos_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
     }
 });
-
-function mostrar() {
-
-    var texto= 'Clientes No Activados: ';
-    var cuenta =(tabla.rows().count());
-    $("#cuenta").html(texto + cuenta);
-}
 
 init();
