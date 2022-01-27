@@ -58,7 +58,7 @@ switch ($_GET["op"]) {
             $sub_array[] = Strings::rdecimal($row["antes"]);
             $sub_array[] = Strings::rdecimal($row["despu"]);
             $sub_array[] = Strings::rdecimal($row["despu"]-$row["antes"], 2);
-            $sub_array[] = utf8_encode($row["descrip"]);
+            $sub_array[] = utf8_encode($row["nomper"]);
             $sub_array[] = date(FORMAT_DATETIME2, strtotime($row["fechah"]));
 
             $data[] = $sub_array;

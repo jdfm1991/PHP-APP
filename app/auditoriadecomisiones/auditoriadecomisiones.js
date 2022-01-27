@@ -46,6 +46,7 @@ function listar_vendedores() {
             if(!jQuery.isEmptyObject(data.lista_vendedores)){
                 //lista de seleccion de vendedores
                 $('#vendedor').append('<option name="" value="">Seleccione</option>');
+                $('#vendedor').append('<option name="" value="-">TODOS</option>');
                 $.each(data.lista_vendedores, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
                     $('#vendedor').append('<option name="" value="' + opt.CodVend +'">' + opt.CodVend + ': ' + opt.Descrip.substr(0, 35) + '</option>');
@@ -126,7 +127,7 @@ $(document).on("click","#btn_excel", function(){
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
    var vendedor = sessionStorage.getItem("vendedor", vendedor);
    if (fechai !== "" && fechaf !== "" && vendedor !== "") {
-    window.location = "clientesnoactivos_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor;
+    window.location = "auditoriadecomisiones_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&vendedor="+vendedor;
 }
 });
 
@@ -136,7 +137,7 @@ $(document).on("click","#btn_pdf", function(){
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     var vendedor = sessionStorage.getItem("vendedor", vendedor);
     if (fechai !== "" && fechaf !== "" && vendedor !== "") {
-        window.open('clientesnoactivos_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
+        window.open('auditoriadecomisiones_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&vendedor='+vendedor, '_blank');
     }
 });
 

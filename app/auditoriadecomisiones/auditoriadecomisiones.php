@@ -86,8 +86,8 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('campo_mod')?>"><?=Strings::titleFromJson('campo_mod')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('antes')?>"><?=Strings::titleFromJson('antes')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('despues')?>"><?=Strings::titleFromJson('despues')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('direccion')?>"><?=Strings::titleFromJson('direccion')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('diferencia')?>"><?=Strings::titleFromJson('diferencia')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('usuario')?>"><?=Strings::titleFromJson('usuario')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_hora')?>"><?=Strings::titleFromJson('fecha_hora')?></th>
 								</tr>
 							</thead>
