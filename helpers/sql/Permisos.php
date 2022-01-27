@@ -37,7 +37,7 @@ class Permisos extends Conectar
 
         $sql= "SELECT p.id, id_usuarios, id_modulo, m.ruta
                 FROM Permisos p
-                INNER JOIN Modulos1 m ON m.id = p.ID_Modulo
+                INNER JOIN Modulos m ON m.id = p.ID_Modulo
                 WHERE id_usuarios=? AND m.ruta=?";
 
         $result = (new Conectar)->conexion()->prepare($sql);

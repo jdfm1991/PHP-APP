@@ -12,7 +12,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "INSERT INTO Modulos1 (nombre, icono, ruta, menu_id, estatus) VALUES(?,?,?,?,?);";
+        $sql = "INSERT INTO Modulos (nombre, icono, ruta, menu_id, estatus) VALUES(?,?,?,?,?);";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["nombre"]);
@@ -32,7 +32,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "UPDATE Modulos1 SET nombre=?, icono=?, ruta=?, menu_id=?, estatus=?  WHERE id=?";
+        $sql = "UPDATE Modulos SET nombre=?, icono=?, ruta=?, menu_id=?, estatus=?  WHERE id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["nombre"]);
@@ -52,7 +52,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "update Modulos1 set estatus=? where id=?";
+        $sql = "update Modulos set estatus=? where id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $estado);
@@ -69,7 +69,7 @@ class Gestionsistema extends Conectar
         parent::set_names();
 
         //QUERY
-        $sql = "DELETE FROM Modulos1 WHERE id = ?";
+        $sql = "DELETE FROM Modulos WHERE id = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -85,7 +85,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "update Modulos1 set menu_id=? where id=?";
+        $sql = "update Modulos set menu_id=? where id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $menu_id);
@@ -102,7 +102,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "INSERT INTO Menu1 (nombre, menu_orden, menu_padre, menu_hijo, icono, estatus) VALUES(?,?,?,?,?,?);";
+        $sql = "INSERT INTO Menu (nombre, menu_orden, menu_padre, menu_hijo, icono, estatus) VALUES(?,?,?,?,?,?);";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["nombre"]);
@@ -123,7 +123,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "UPDATE Menu1 SET nombre=?, menu_orden=?, menu_padre=?, menu_hijo=?, icono=?, estatus=?  WHERE id=?";
+        $sql = "UPDATE Menu SET nombre=?, menu_orden=?, menu_padre=?, menu_hijo=?, icono=?, estatus=?  WHERE id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i+=1, $data["nombre"]);
@@ -144,7 +144,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "update Menu1 set estatus=? where id=?";
+        $sql = "update Menu set estatus=? where id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $estado);
@@ -161,7 +161,7 @@ class Gestionsistema extends Conectar
         parent::set_names();
 
         //QUERY
-        $sql = "DELETE FROM Menu1 WHERE id = ?";
+        $sql = "DELETE FROM Menu WHERE id = ?";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -177,7 +177,7 @@ class Gestionsistema extends Conectar
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "update Menu1 set $tipo=? where id=?";
+        $sql = "update Menu set $tipo=? where id=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $menu_id);

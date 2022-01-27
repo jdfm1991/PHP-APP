@@ -27,6 +27,7 @@ switch ($_GET["op"])
         );
 
         $rol_user_old = '';
+        $is_new_user = false;
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
         if ( !Strings::avoidNullOrEmpty($id_usuario) ) {
@@ -37,7 +38,7 @@ switch ($_GET["op"])
             if (is_array($datos) == true and count($datos) == 0) {
                 //no existe el usuario por lo tanto hacemos el registros
                 $usuario = $usuarios->registrar_usuario($data);
-
+                if ($usuario) { $is_new_user = true; }
             } else {
                 /*   $errors[]="La cédula o el correo ya existe";*/
             }
@@ -53,7 +54,7 @@ switch ($_GET["op"])
         // registrara los permisos del rol al usuario
         if ($usuario) {
             $user_id = $data['cedula'];
-            if (($rol_user_old != '') and ($data['rol'] != $rol_user_old)) {
+            if ($is_new_user or (($rol_user_old != '') and ($data['rol'] != $rol_user_old))) {
                 // evaluamos si tiene permisos, de ser verdadero los elimina de la base de datos
                 $cantidad_permisos = count( Permisos::getPermisosPorUsuarioID($user_id) );
                 if ($cantidad_permisos > 0)
@@ -146,8 +147,8 @@ switch ($_GET["op"])
             //nivel del rol asignado
             $rol_data = Rol::getById($row["id_rol"]);
 
-            $Fecha_Registro = date('d/m/Y', strtotime($row['fecha_registro']));
-            $Fecha_Ult_Ingreso = date('d/m/Y', strtotime($row['fecha_ult_ingreso']));
+            $Fecha_Registro = date(FORMAT_DATE, strtotime($row['fecha_registro']));
+            $Fecha_Ult_Ingreso = date(FORMAT_DATE, strtotime($row['fecha_ult_ingreso']));
 
             $sub_array[] = $row["cedula"];
             $sub_array[] = $row["login"];
@@ -158,15 +159,29 @@ switch ($_GET["op"])
             # el parametro t es el tipo:
             #        0 el tipo es rol
             #        1 el tipo es usuario (este caso)
-            $sub_array[] = '<div align="center form-check-inline p-t-30">
-								<a href="../permiso/permiso.php?&t='. 1 .'&i='. $row["cedula"] .'">Ver Permisos</a>
-							</div>';
+            if (hash_equals("1", $row["cedula"])) {
+                $sub_array[] = 'Permisos No Editables';
+            } else {
+                $sub_array[] = '<div align="center form-check-inline p-t-30">
+                                    <a href="../permiso/permiso.php?&t='. 1 .'&i='. $row["cedula"] .'">Ver Permisos</a>
+                                </div>';
+            }
             $sub_array[] = $Fecha_Ult_Ingreso;
-            $sub_array[] = '<div class="col text-center">
+            if (hash_equals("1", $row["cedula"])) {
+                $sub_array[] = '<div class="col text-center">
+                                    <button type="button" onClick="mostrar(\'' . $row["cedula"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                </div>';
+            } else {
+                $sub_array[] = '<div class="col text-center">
+                                    <button type="button" onClick="cambiarEstado(\'' . $row["cedula"] . '\',\'' . $row["estado"] . '\');" name="estado" id="' . $row["cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
+                                    <button type="button" onClick="mostrar(\'' . $row["cedula"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                </div>';
+                /*$sub_array[] = '<div class="col text-center">
                                 <button type="button" onClick="cambiarEstado(\'' . $row["cedula"] . '\',\'' . $row["estado"] . '\');" name="estado" id="' . $row["cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
                                 <button type="button" onClick="mostrar(\'' . $row["cedula"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
                                 <button type="button" onClick="eliminar(\'' . $row["cedula"] . '\',\''. $row["login"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
-                            </div>';
+                            </div>';*/
+            }
 
             $data[] = $sub_array;
         }

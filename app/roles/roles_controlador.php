@@ -86,10 +86,14 @@ switch ($_GET["op"]) {
             $sub_array[] = '<div align="center form-check-inline p-t-30">
 								<a href="../permiso/permiso.php?&t='. 0 .'&i='. $row["id"] .'">Ver Permisos</a>
 							</div>';
-            $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="mostrar(\'' . $row["id"] . '\');"  id="' . $row["id"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
-                                <button type="button" onClick="eliminar(\'' . $row["id"] . '\',\'' . $row["descripcion"] . '\');"  id="' . $row["id"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
-                            </div>';
+            if (hash_equals("1", $row["id"])) {
+                $sub_array[] = 'No Editable';
+            } else {
+                $sub_array[] = '<div class="col text-center">
+                                    <button type="button" onClick="mostrar(\'' . $row["id"] . '\');"  id="' . $row["id"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                    <button type="button" onClick="eliminar(\'' . $row["id"] . '\',\'' . $row["descripcion"] . '\');"  id="' . $row["id"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                </div>';
+            }
 
             $data[] = $sub_array;
         }
