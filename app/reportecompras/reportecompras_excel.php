@@ -43,8 +43,8 @@ $dia = $separa[2];
 $mes = $separa[1];
 $anio = $separa[0];
 
-$fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, date('Y')));
-$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, date('Y'))-1);
+$fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, $anio));
+$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);
 
 
 $spreadsheet = new Spreadsheet();
