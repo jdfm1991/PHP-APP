@@ -19,7 +19,7 @@ class Auditoriacomisioneskpi extends Conectar{
 						FROM auaj.dbo.cambio_hist_kpi AS A
 							INNER JOIN auaj.dbo.hist_cambio_kpi AS B ON codigo = codig
 							INNER JOIN aj.dbo.appusuarios AS C ON C.id_usu = B.usuario
-						WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) BETWEEN ? AND ? AND A.antes != A.despu AND descrip = ?
+						WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) BETWEEN ? AND ? AND A.antes != A.despu AND ruta = ?
 						ORDER BY fechah";
         }else{
           $sql = "SELECT A.campo, A.antes, A.despu, B.usuario, B.fechah, C.descrip 
