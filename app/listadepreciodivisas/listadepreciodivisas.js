@@ -31,17 +31,39 @@ function validarCantidadRegistrosTabla() {
 var no_puede_estar_vacio = function () {
     ($("#depo").val() !== "" && $("#marca").val() !== "" && $("#orden").val() !== "") ? estado_minimizado = true : estado_minimizado = false;
 };
-
+/*
 $(document).ready(function () {
     $("#depo").change(() => no_puede_estar_vacio());
     $("#marca").change(() => no_puede_estar_vacio());
     $("#orden").change(() => no_puede_estar_vacio());
 });
-
+*/
 
 //ACCION AL PRECIONAR EL BOTON.
-$(document).on("click", "#btn_listadeprecio", function () {
+$(document).on("click", "#btn_listadeprecio2", function () {
 
+        var depos = document.getElementById('depo').value;
+		var marcas = document.getElementById('marca').value;
+		var ord = document.getElementById('orden').value;
+
+		var check = 0;
+		if (document.getElementById('exis').checked == true){
+			check = 1;
+		}
+		var precio1 = 0;
+		if (document.getElementById('p1').checked == true){
+			precio1 = 1;
+		}
+		var precio2 = 0;
+		if (document.getElementById('p2').checked == true){
+			precio2 = 1;
+		}
+		var precio3 = 0;
+		if (document.getElementById('p3').checked == true){
+			precio3 = 1;
+		}
+
+    /*
     var depos = $('#depo').val();
     var marcas = $('#marca').val();
     var orden = $('#orden').val();
@@ -58,7 +80,7 @@ $(document).on("click", "#btn_listadeprecio", function () {
     if (document.getElementById('iva').checked) { iva = 1.16; }
     if (document.getElementById('cubi').checked) { cubi = 1; }
     if (document.getElementById('exis').checked) { exis = 1; }
-
+*/
     if (estado_minimizado) {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
