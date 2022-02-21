@@ -19,4 +19,5 @@ include_once 'Rol.php';
 include_once 'Usuarios.php';
 include_once 'Vehiculo.php';
 include_once 'Vendedores.php';
+include_once 'Proveedores.php';
 include_once 'VentasKg.php';

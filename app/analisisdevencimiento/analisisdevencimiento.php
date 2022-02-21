@@ -24,12 +24,12 @@ if (!isset($_SESSION['cedula'])) {
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Auditoría de Cambios en Comisiones</h2>
+						<h2>Analsis de Vencimiento</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-							<li class="breadcrumb-item active">Auditoría de Cambios en Comisiones</li>
+							<li class="breadcrumb-item active">Analsis de Vencimiento</li>
 						</ol>
 					</div>
 				</div>
@@ -60,9 +60,9 @@ if (!isset($_SESSION['cedula'])) {
 									<input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
 								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 								<div class="form-check form-check-inline">
-								<label for="edv"><?=Strings::titleFromJson('descrip_vend')?></label>
-									<select class="form-control custom-select" name="vendedor" id="vendedor" style="width: 100%;" required>
-										<!-- la lista de vendedores se carga por ajax -->
+                                <label for="orden">Proveedores</label>
+									<select class="form-control custom-select" name="proveedor" id="proveedor" style="width: 100%;" required>
+										<!-- la lista de proveedores se carga por ajax -->
                                     </select>
 									</div>
 								</div>
@@ -71,35 +71,37 @@ if (!isset($_SESSION['cedula'])) {
 					</div>
 					<!-- BOX BOTON DE PROCESO -->
 					<div class="card-footer">
-						<button type="submit" class="btn btn-success" id="btn_consultar"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
+						<button type="submit" class="btn btn-success" id="btn_consultar" name="btn_consultar"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
 					</div>
 				</div>
 
 				<!-- BOX TABLA -->
 				<div class="card card-info" id="tabla">
 					<div class="card-header">
-						<h3 class="card-title">Relación de Auditoria de Comisiones</h3>
+						<h3 class="card-title">Relación de Analsis de Vencimiento</h3>
 					</div>
 					<div class="card-body" style="width:auto;">
-						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="tabla_data">
+						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="vencimiento_data">
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('campo_mod')?>"><?=Strings::titleFromJson('campo_mod')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('antes')?>"><?=Strings::titleFromJson('antes')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('despues')?>"><?=Strings::titleFromJson('despues')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('diferencia')?>"><?=Strings::titleFromJson('diferencia')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('usuario')?>"><?=Strings::titleFromJson('usuario')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_hora')?>"><?=Strings::titleFromJson('fecha_hora')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codprov')?>"><?=Strings::titleFromJson('codprov')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_documento')?>"><?=Strings::titleFromJson('fecha_documento')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_vencimiento')?>"><?=Strings::titleFromJson('fecha_vencimiento')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos')?>"><?=Strings::titleFromJson('dias_transcurridos')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('monto')?>"><?=Strings::titleFromJson('monto')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
-									<th class="text-center"><?=Strings::titleFromJson('campo_mod')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('antes')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('despues')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('diferencia')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('usuario')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('fecha_hora')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('codprov')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('fecha_documento')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('fecha_vencimiento')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('dias_transcurridos')?></th>
+                                    <th class="text-center"><?=Strings::titleFromJson('monto')?></th>
 								</tr>
 							</tfoot>
 							<tbody>
@@ -112,15 +114,15 @@ if (!isset($_SESSION['cedula'])) {
 							<br>
 						</div>
 						<!-- BOX BOTONES DE REPORTES-->
-                            <div align="center">
-						    <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
+						<div align="center">
+							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
 							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
 						</div>
 					</div>
 				</section>
 			</div>
         <?php require_once("../footer.php");?>
-        <script type="text/javascript" src="auditoriadecomisiones.js"></script><?php
+        <script type="text/javascript" src="analisisdevencimiento.js"></script><?php
     }
     ?>
 </body>

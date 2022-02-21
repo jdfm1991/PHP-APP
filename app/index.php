@@ -1,9 +1,8 @@
 <?php
 session_name('S1sTem@@PpWebGruP0C0nF1SuR');
 session_start();
-require_once("../config/const.php");
-require_once("../config/route_system.php");
-include_once (PATH_HELPERS_PHP . "php/Url.php");
+include_once("../config/const.php");
+include_once("../config/route_system.php");
 
 if (isset($_SESSION['cedula'])) {
     Url::redirect(URL_APP . 'principal.php');

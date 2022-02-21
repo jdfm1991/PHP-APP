@@ -85,6 +85,14 @@ if (!isset($_SESSION['cedula'])) {
                                     <input class="custom-control-input" type="checkbox" id="p3" value="checkbox" name="checkbox">
                                     <label for="p3" class="custom-control-label"><?=Strings::titleFromJson('precio_3')?></label>
                                 </div>
+                                <div class="custom-control custom-checkbox col-sm-1" style="display:none">
+                                    <input class="custom-control-input" type="checkbox" id="iva" value="checkbox" name="checkbox">
+                                    <label for="iva" class="custom-control-label"><?=Strings::titleFromJson('iva')?></label>
+                                </div>
+                                <div class="custom-control custom-checkbox col-sm-1" style="display:none">
+                                    <input class="custom-control-input" type="checkbox" id="cubi" value="checkbox" name="checkbox" >
+                                    <label for="cubi" class="custom-control-label"><?=Strings::titleFromJson('cubicaje')?></label>
+                                </div>
                                 <div class="custom-control custom-checkbox col-sm-1">
                                     <input class="custom-control-input" type="checkbox" id="exis" value="checkbox" name="checkbox" checked="checked">
                                     <label for="exis" class="custom-control-label">Con Existencia</label>
@@ -129,8 +137,9 @@ if (!isset($_SESSION['cedula'])) {
                         </table>
                         <!-- BOX BOTONES DE REPORTES-->
                         <div align="center">
-                            <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
-                            <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
+
+                            <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
+                            <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>
                         </div>
                     </div>
                 </div>
