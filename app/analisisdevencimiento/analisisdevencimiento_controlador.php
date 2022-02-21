@@ -24,14 +24,18 @@ switch ($_GET["op"]) {
     foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
         $sub_array = array();
+
+        $fecha_E = date('d/m/Y', strtotime($row["FechaE"]));
+        $fecha_V = date('d/m/Y', strtotime($row["FechaV"]));
+        $Montonew = number_format($row["Monto"], 2, ',', '.');
         
         $sub_array[] = $row["CodProv"];
         $sub_array[] = $row["Descrip"];
-        $sub_array[] = $row["NuimeroD"];
-        $sub_array[] = $row["FechaE"];
-        $sub_array[] = $row["FechaV"];
+        $sub_array[] = $row["NumeroD"];
+        $sub_array[] = $fecha_E;
+        $sub_array[] = $fecha_V;
         $sub_array[] = $dias;
-        $sub_array[] = $row["Monto"];
+        $sub_array[] = $Montonew;
 
         $data[] = $sub_array;
 

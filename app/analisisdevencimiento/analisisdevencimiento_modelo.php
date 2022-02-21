@@ -5,21 +5,25 @@ require_once("../../config/conexion.php");
 class analisisdevencimiento extends Conectar{
 
 
-	public function getanalisisdevencimiento(){
+	public function getanalisisdevencimiento($fechai, $fechaf, $codprov){
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-       $conectar= parent::conexion2($fechai, $fechaf, $codprov);
+       $conectar= parent::conexion2();
        parent::set_names();
 
         //QUERY
 
-        if ($codprov != ""){
-          $sql = "SELECT * from [AJ].[dbo].[SAACXP] inner join [AJ].[dbo].[SAPROV] on [SAACXP].codprov
-           = [SAPROV].codprov where  [SAACXP].fechae between '$fechai' and '$fechaf' and [SAACXP].tipocxp='10' and [SAACXP].saldo>0 and [SAACXP].codprov = '$codprov' order by [SAACXP].fechae desc";
-          }else{
+        if ($codprov == "Todos"){
+
           $sql = "SELECT * from [AJ].[dbo].[SAACXP] inner join [AJ].[dbo].[SAPROV] on saacxp.codprov
            = [SAPROV].codprov where [SAACXP].fechae between '$fechai' and '$fechaf' and [SAACXP].tipocxp='10' and [SAACXP].saldo>0 order by [SAACXP].fechae desc" ;
+
+          }else{
+
+            $sql = "SELECT * from [AJ].[dbo].[SAACXP] inner join [AJ].[dbo].[SAPROV] on [SAACXP].codprov
+           = [SAPROV].codprov where  [SAACXP].fechae between '$fechai' and '$fechaf' and [SAACXP].tipocxp='10' and [SAACXP].saldo>0 and [SAACXP].codprov = '$codprov' order by [SAACXP].fechae desc";
+          
           } 
 
 

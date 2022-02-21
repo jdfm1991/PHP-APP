@@ -8,7 +8,7 @@ class Proveedores extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT * FROM [AJ].[dbo].[SAPROV] WHERE activo = '1' ORDER BY [SAPROV].[Descrip] ASC";
+        $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] FROM [AJ].[dbo].[SAPROV] WHERE activo = '1' ORDER BY [SAPROV].[Descrip] ASC";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->execute();

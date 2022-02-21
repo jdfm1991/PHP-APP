@@ -5,10 +5,10 @@ require_once("../../config/conexion.php");
 require(PATH_LIBRARY.'fpdf/fpdf.php');
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("listadeprecio_modelo.php");
+require_once("listadepreciodivisas_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$precios = new Listadeprecio();
+$precios = new Listadepreciodivisas();
 
 $depos = $_GET['depos'];
 $marcas = $_GET['marcas'];
@@ -164,19 +164,19 @@ $num = count($query);
 foreach ($query as $x) {
     $j = 0;
     if ($x['esexento']) {
-        $precio1 = $x['precio1'] * $iva;
-        $precio2 = $x['precio2'] * $iva;
-        $precio3 = $x['precio3'] * $iva;
-        $preciou1 = $x['preciou1'] * $iva;
-        $preciou2 = $x['preciou2'] * $iva;
-        $preciou3 = $x['preciou3'] * $iva;
+        $precio1 = $x['preciou1'] * $iva;
+        $precio2 = $x['preciou2'] * $iva;
+        $precio3 = $x['preciou3'] * $iva;
+        $preciou1 = $x['precio1'] * $iva;
+        $preciou2 = $x['precio2'] * $iva;
+        $preciou3 = $x['precio3'] * $iva;
     } else {
-        $precio1 = $x['precio1'];
-        $precio2 = $x['precio2'];
-        $precio3 = $x['precio3'];
-        $preciou1 = $x['preciou1'];
-        $preciou2 = $x['preciou2'];
-        $preciou3 = $x['preciou3'];
+        $precio1 = $x['preciou1'];
+        $precio2 = $x['preciou2'];
+        $precio3 = $x['preciou3'];
+        $preciou1 = $x['precio1'];
+        $preciou2 = $x['precio2'];
+        $preciou3 = $x['precio3'];
     }
 
     addInfoInArray($x['codprod']);

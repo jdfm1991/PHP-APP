@@ -24,7 +24,7 @@ function validarCantidadRegistrosTabla() {
 
 var no_puede_estar_vacio = function()
 {
-    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" && $("#proveedor").val() !== "")
+    ($("#fechai").val() !== "" && $("#fechaf").val() !== "" )
         ? estado_minimizado = true : estado_minimizado = false ;
 };
 
@@ -45,10 +45,10 @@ function listar_proveedores() {
         success: function (data) {
             if(!jQuery.isEmptyObject(data.lista_proveedores)){
                 //lista de seleccion de proveedor
-                $('#proveedor').append('<option name="" value="">Todos</option>');
+                $('#proveedor').append('<option name="" value="Todos">Todos</option>');
                 $.each(data.lista_proveedores, function(idx, opt) {
                     //se itera con each para llenar el select en la vista
-                    $('#proveedor').append('<option name="" value="' + opt.Codprov +'">'+ opt.Descrip+ '</option>');
+                    $('#proveedor').append('<option name="" value="' + opt.CodProv +'">'+ opt.Descrip+ '</option>');
                 });
             }
         },
@@ -61,12 +61,10 @@ function listar_proveedores() {
 $(document).ready(function(){
     $("#fechai").change( () => no_puede_estar_vacio() );
     $("#fechaf").change( () => no_puede_estar_vacio() );
-    $("#proveedor").change( () => no_puede_estar_vacio() );
 });
 
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click", "#btn_consultar", function () {
-    console.log("si entra");
     var fechai = $("#fechai").val();
     var fechaf = $("#fechaf").val();
     var proveedor = $("#proveedor").val();
@@ -75,7 +73,7 @@ $(document).on("click", "#btn_consultar", function () {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if (fechai !== "" && fechaf !== "" && proveedor !== "") {
+        if (fechai !== "" && fechaf !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
             sessionStorage.setItem("proveedor", proveedor);
@@ -115,7 +113,7 @@ $(document).on("click", "#btn_consultar", function () {
             estado_minimizado = true;
         }
     } else {
-        SweetAlertError('Debe seleccionar un rango de fecha y un Proveedor.');
+        SweetAlertError('Debe seleccionar un rango de fecha.');
         return (false);
 
     }
@@ -126,8 +124,8 @@ $(document).on("click","#btn_excel", function(){
    var fechai = sessionStorage.getItem("fechai", fechai);
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
    var proveedor = sessionStorage.getItem("proveedor", proveedor);
-   if (fechai !== "" && fechaf !== "" && proveedor !== "") {
-    window.location = "clientesnoactivos_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&proveedor="+proveedor;
+   if (fechai !== "" && fechaf !== "") {
+    window.location = "analisisdevencimiento_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&proveedor="+proveedor;
 }
 });
 
@@ -136,8 +134,8 @@ $(document).on("click","#btn_pdf", function(){
     var fechai = sessionStorage.getItem("fechai", fechai);
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     var proveedor = sessionStorage.getItem("proveedor", proveedor);
-    if (fechai !== "" && fechaf !== "" && proveedor !== "") {
-        window.open('clientesnoactivos_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&proveedor='+proveedor, '_blank');
+    if (fechai !== "" && fechaf !== "") {
+        window.open('analisisdevencimiento_pdf.php?&fechai='+fechai+'&fechaf='+fechaf+'&proveedor='+proveedor, '_blank');
     }
 });
 

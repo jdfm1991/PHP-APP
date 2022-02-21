@@ -28,7 +28,7 @@ use PhpOffice\PhpSpreadsheet\Chart\Layout;
 require_once("listadepreciodivisas_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$precios = new Listadeprecio();
+$precios = new Listadepreciodivisas();
 
 $i = 0;
 //funcion recursiva creada para reporte Excel que evalua los numeros > 0
@@ -153,19 +153,19 @@ $row = 8;
 foreach ($datos as $x) {
     $i = 0;
     if ($x['esexento']) {
-        $precio1 = $x['precio1'] * $iva;
-        $precio2 = $x['precio2'] * $iva;
-        $precio3 = $x['precio3'] * $iva;
-        $preciou1 = $x['preciou1'] * $iva;
-        $preciou2 = $x['preciou2'] * $iva;
-        $preciou3 = $x['preciou3'] * $iva;
+        $precio1 = $x['preciou1'] * $iva;
+        $precio2 = $x['preciou2'] * $iva;
+        $precio3 = $x['preciou3'] * $iva;
+        $preciou1 = $x['precio1'] * $iva;
+        $preciou2 = $x['precio2'] * $iva;
+        $preciou3 = $x['precio3'] * $iva;
     } else {
-        $precio1 = $x['precio1'];
-        $precio2 = $x['precio2'];
-        $precio3 = $x['precio3'];
-        $preciou1 = $x['preciou1'];
-        $preciou2 = $x['preciou2'];
-        $preciou3 = $x['preciou3'];
+        $precio1 = $x['preciou1'];
+        $precio2 = $x['preciou2'];
+        $precio3 = $x['preciou3'];
+        $preciou1 = $x['precio1'];
+        $preciou2 = $x['precio2'];
+        $preciou3 = $x['precio3'];
     }
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue(getExcelCol($i, true) . $row, $x['codprod']);
