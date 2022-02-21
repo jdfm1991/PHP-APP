@@ -17,6 +17,8 @@ switch ($_GET["op"]) {
         $marcas = $_POST['marca'];
         $orden = $_POST['orden'];
         $exis = $_POST['exis'];
+        $iva = $_POST['iva'];
+        $cubi = $_POST['cubi'];
         $p1 = str_replace("1","1",$_POST['p1']);
         $p2 = str_replace("1","2",$_POST['p2']);
         $p3 = str_replace("1","3",$_POST['p3']);
@@ -109,36 +111,6 @@ switch ($_GET["op"]) {
                 case 2:
                     if ($p1 == 1)
                     {
-                        $sub_array[] = Strings::rdecimal($precio1, 2);
-                    } else {
-                        $sub_array[] = Strings::rdecimal($precio2, 2);
-                    }
-                    if ($p3 == 3)
-                    {
-                        $sub_array[] = Strings::rdecimal($precio3, 2);
-                    } else {
-                        $sub_array[] = Strings::rdecimal($precio2, 2);
-                    }
-                    break;
-                default: /** 0 || 3**/
-                    $sub_array[] = Strings::rdecimal($precio1, 2);
-                    $sub_array[] = Strings::rdecimal($precio2, 2);
-                    $sub_array[] = Strings::rdecimal($precio3, 2);
-            }
-            // <!--PAQUETES-->
-            $sub_array[] = round($row['exunidad']);
-            switch ($sumap) {
-                case 1:
-                    if ($row['esexento'] == 0)
-                    {
-                        $sub_array[] = Strings::rdecimal($row['preciou'. $sumap2 ]* $iva, 2);
-                    } else {
-                        $sub_array[] = Strings::rdecimal($row['preciou'. $sumap2 ], 2);
-                    }
-                    break;
-                case 2:
-                    if ($p1 == 1)
-                    {
                         $sub_array[] = Strings::rdecimal($preciou1, 2);
                     } else {
                         $sub_array[] = Strings::rdecimal($preciou2, 2);
@@ -154,6 +126,36 @@ switch ($_GET["op"]) {
                     $sub_array[] = Strings::rdecimal($preciou1, 2);
                     $sub_array[] = Strings::rdecimal($preciou2, 2);
                     $sub_array[] = Strings::rdecimal($preciou3, 2);
+            }
+            // <!--PAQUETES-->
+            $sub_array[] = round($row['exunidad']);
+            switch ($sumap) {
+                case 1:
+                    if ($row['esexento'] == 0)
+                    {
+                        $sub_array[] = Strings::rdecimal($row['preciou'. $sumap2 ]* $iva, 2);
+                    } else {
+                        $sub_array[] = Strings::rdecimal($row['preciou'. $sumap2 ], 2);
+                    }
+                    break;
+                case 2:
+                    if ($p1 == 1)
+                    {
+                        $sub_array[] = Strings::rdecimal($precio1, 2);
+                    } else {
+                        $sub_array[] = Strings::rdecimal($precio2, 2);
+                    }
+                    if ($p3 == 3)
+                    {
+                        $sub_array[] = Strings::rdecimal($precio3, 2);
+                    } else {
+                        $sub_array[] = Strings::rdecimal($precio2, 2);
+                    }
+                    break;
+                default: /** 0 || 3**/
+                    $sub_array[] = Strings::rdecimal($precio1, 2);
+                    $sub_array[] = Strings::rdecimal($precio2, 2);
+                    $sub_array[] = Strings::rdecimal($precio3, 2);
                 }
             if ($cubi == 1) {
                 $sub_array[] = $row['cubicaje'];

@@ -1,0 +1,58 @@
+<?php
+ //LLAMAMOS A LA CONEXION.
+require_once("../../config/conexion.php");
+
+class listarProveedores extends Conectar{
+
+
+	public function getlistaproveedores($total){
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+       $conectar= parent::conexion2();
+       parent::set_names();
+
+        //QUERY
+     if(hash_equals("Todos", $total)) { //todos los proveedores
+            $opc = 1;
+       }else{
+        if(hash_equals("Activos", $total)) { // proveedores Activos
+            $opc = 2;
+            }else{
+                if(hash_equals("Inactivos", $total)) { // proveedores inactivos
+                    $opc = 3;
+                }
+            }
+       }
+
+       switch ($opc) {
+           case 1:
+
+                $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] , [SAPROV].[ID3] , [SAPROV].[Activo] , [SAPROV].[Direc1] , [SAPROV].[Direc2] , [SAESTADO].[Descrip] , [SAPROV].[Telef] , [SAPROV].[Movil] , [SAPROV].[Email]
+                FROM [AJ].[dbo].[SAPROV] inner join [AJ].[dbo].[SAESTADO] ON [SAPROV].[Estado] = [SAESTADO].Estado ";
+
+           break;
+           case 2:
+           
+                $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] , [SAPROV].[ID3] , [SAPROV].[Activo] , [SAPROV].[Direc1] , [SAPROV].[Direc2] , [SAESTADO].[Descrip] , [SAPROV].[Telef] , [SAPROV].[Movil] , [SAPROV].[Email]
+                FROM [AJ].[dbo].[SAPROV] inner join [AJ].[dbo].[SAESTADO] ON [SAPROV].[Estado] = [SAESTADO].Estado where Activo='1'";
+
+           break;
+           case 3:
+           
+            $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] , [SAPROV].[ID3] , [SAPROV].[Activo] ,  [SAPROV].[Direc1] , [SAPROV].[Direc2] , [SAESTADO].[Descrip] , [SAPROV].[Telef] , [SAPROV].[Movil] , [SAPROV].[Email]
+            FROM [AJ].[dbo].[SAPROV] inner join [AJ].[dbo].[SAESTADO] ON [SAPROV].[Estado] = [SAESTADO].Estado where Activo='0' ";
+            
+       break;
+       }
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+       $sql = $conectar->prepare($sql);
+       $sql->execute();
+       $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+      
+       return $result ;
+   }
+
+
+}

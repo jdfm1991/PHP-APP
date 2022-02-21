@@ -16,7 +16,7 @@ function limpiar() {
     $("#p1").prop("checked", false);
     $("#p2").prop("checked", false);
     $("#p3").prop("checked", false);
-    $("#iva").prop("checked", true);
+    $("#iva").prop("checked", false);
     $("#cubi").prop("checked", false);
     $("#exis").prop("checked", true);
 }
@@ -204,7 +204,7 @@ $(document).on("click","#btn_excel", function(){
     var iva = sessionStorage.getItem("iva");
     var cubi = sessionStorage.getItem("cubi");
     var exis = sessionStorage.getItem("exis");
-    window.location = "listadeprecio_excel.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis;
+    window.location = "listadepreciodivisas_excel.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis;
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
@@ -218,7 +218,7 @@ $(document).on("click","#btn_pdf", function(){
     var iva = sessionStorage.getItem("iva");
     var cubi = sessionStorage.getItem("cubi");
     var exis = sessionStorage.getItem("exis");
-    window.open("listadeprecio_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
+    window.open("listadepreciodivisas_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
 });
 
 init();

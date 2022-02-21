@@ -86,6 +86,7 @@
   "fecha_ultima_compra"         : {"title": "Fecha última compra",                "description": ""},
   "fecha_ultimo_ingreso"        : {"title": "Fecha Ultimo Ingreso",               "description": ""},
   "fecha_documento"             : {"title": "Fecha Documento",                    "description": ""},
+  "fecha_vencimiento"           : {"title": "Fecha Vencimiento",                  "description": ""},
   "fecha_comprobante"           : {"title": "Fecha Comprobante",                  "description": ""},
   "fecha_comprobante_retencion" : {"title": "Fecha del comprobante de Retención", "description": ""},
   "fecha_documento_afectado"    : {"title": "Fecha Documento Afectado",           "description": ""},
@@ -184,9 +185,19 @@
   "despues"                     : {"title": "Despues",                            "description": ""},
   "diferencia"                  : {"title": "Diferencias",                        "description": ""},
   "fecha_hora"                  : {"title": "Fecha y Hora",                      "description": ""},
+  "proveedores"                 : {"title": "Proveedores",                       "description": ""},
+  "codprov"                     : {"title": "Código proveedor",                  "description": ""},
+  "direc1"                      : {"title": "Direccion",                       "description": ""},
+  "direc2"                      : {"title": "direccion 2",                       "description": ""},
+  "estado"                      : {"title": "Estado",                            "description": ""},
+  "tlf"                         : {"title": "Telefono",                          "description": ""},
+  "tlf_movil"                   : {"title": "Telefono movil",                    "description": ""},
+  "activo"                      : {"title": "Estatus",                            "description": ""},
+
 
   "botones_accion"        : {"title": "Acciónes",         "description": ""},
   "boton_consultar"       : {"title": " Consultar",       "description": ""},
+  "boton_consultar2"       : {"title": " Consultar",       "description": ""},
   "boton_verfactura"      : {"title": "Ver Factura",      "description": ""},
   "boton_buscardocumento" : {"title": "Buscar Documento", "description": ""},
   "boton_pordespachar"    : {"title": "Por Despachar",    "description": ""},
@@ -197,5 +208,7 @@
   "boton_actualizar"      : {"title": " Actualizar",      "description": ""},
   "boton_ver_reporte"     : {"title": "ver reporte ",     "description": ""},
   "boton_excel"           : {"title": "Exportar a Excel", "description": ""},
-  "boton_pdf"             : {"title": "Exportar a PDF",   "description": ""}
+  "boton_pdf"             : {"title": "Exportar a PDF",   "description": ""},
+  "boton_excel2"           : {"title": "Exportar a Excel", "description": ""},
+  "boton_pdf2"             : {"title": "Exportar a PDF",   "description": ""}
 }
