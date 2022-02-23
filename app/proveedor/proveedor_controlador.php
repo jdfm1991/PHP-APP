@@ -4,7 +4,7 @@
 require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("proveedores_modelo.php");
+require_once("proveedor_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $proveedores = new listarProveedores();

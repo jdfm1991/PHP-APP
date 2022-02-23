@@ -50,7 +50,7 @@ class PDF extends FPDF
 		$this->Cell(addWidthInArray(35),7,utf8_decode(Strings::titleFromJson('rif')),1,0,'C',true);
 		$this->Cell(addWidthInArray(45),7,utf8_decode(Strings::titleFromJson('fecha_apertura')),1,0,'C',true);
 		$this->Cell(addWidthInArray(40),7,utf8_decode(Strings::titleFromJson('dia_visita')),1,0,'C',true);
-		$this->Cell(addWidthInArray(46),7,utf8_decode(Strings::titleFromJson('codnestle')),1,1,'C',true);
+		$this->Cell(addWidthInArray(46),7,utf8_decode(Strings::titleFromJson('clasificacion')),1,1,'C',true);
 	}
 
 	function CheckPageBreak($h)
@@ -79,7 +79,7 @@ foreach ($query as $i) {
 			$i['rif'],
 			date('d/m/Y',strtotime($i['fecha'])),
 			$i['dvisita'],
-			$i['codnestle'],
+			$i['clasificacion'],
 		)
 	);
 

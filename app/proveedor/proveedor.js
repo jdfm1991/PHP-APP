@@ -37,13 +37,14 @@ $(document).on("click", "#btn_listadeproveedores", function () {
         estado_minimizado = false;
         if (orden !== "") {
             sessionStorage.setItem('orden',String);
+           // sesionStorageItems(orden);
             let isError = false;
 
             tabla = $('#tablaproveedores').DataTable({
                 "aProcessing": true,//ACTIVAMOS EL PROCESAMIENTO DEL DATATABLE.
                 "aServerSide": true,//PAGINACION Y FILTROS REALIZADOS POR EL SERVIDOR.
                 "ajax": {
-                    url: "proveedores_controlador.php?op=listar",
+                    url: "proveedor_controlador.php?op=listar",
                     type: "post",
                     dataType: "json",
                     data: {'orden': orden},
@@ -53,7 +54,7 @@ $(document).on("click", "#btn_listadeproveedores", function () {
                     error: function (e) {
                         isError = SweetAlertError(e.responseText, "Error!")
                         send_notification_error(e.responseText);
-                        console.log(e);
+                        console.log("Error!");
                     },
                     complete: function () {
                         if(!isError) SweetAlertLoadingClose();
@@ -76,7 +77,7 @@ $(document).on("click", "#btn_listadeproveedores", function () {
     } else {
 
         if (orden === "") {
-            SweetAlertError(' Seleccione como desea realizar la consulta!');
+            SweetAlertError('Seleccione como desea realizar la consulta!');
             return (false);
         }
     }
@@ -90,7 +91,7 @@ $(document).on("click", "#btn_listadeproveedores", function () {
 $(document).on("click","#btn_excel", function(){
     var orden = sessionStorage.getItem("orden", orden);
     if (orden !== "") {
-        window.location = "proveedores_excel.php?&orden="+orden;
+        window.open ('proveedor_excel.php?&orden='+orden);
     }
  });
  
@@ -98,7 +99,7 @@ $(document).on("click","#btn_excel", function(){
  $(document).on("click","#btn_pdf", function(){
      var orden = sessionStorage.getItem("orden", orden);
      if (orden !== "") {
-         window.open('proveedores_pdf.php?&orden='+orden, '_blank');
+         window.open('proveedor_pdf.php?&orden='+orden, '_blank');
      }
  });
 

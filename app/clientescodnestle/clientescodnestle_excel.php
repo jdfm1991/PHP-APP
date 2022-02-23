@@ -70,7 +70,7 @@ $sheet->setCellValue('A7', Strings::titleFromJson('ruta'))
     ->setCellValue('D7', Strings::titleFromJson('rif'))
     ->setCellValue('E7', Strings::titleFromJson('fecha_apertura'))
     ->setCellValue('F7', Strings::titleFromJson('dia_visita'))
-    ->setCellValue('G7', Strings::titleFromJson('codnestle'));
+    ->setCellValue('G7', Strings::titleFromJson('clasificacion'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -91,7 +91,7 @@ foreach ($query as $i) {
     $sheet->setCellValue('D'.$row, $i['rif']);
     $sheet->setCellValue('E'.$row, date('d/m/Y',strtotime($i['fecha'])));
     $sheet->setCellValue('F'.$row, $i['dvisita']);
-    $sheet->setCellValue('G'.$row, $i['codnestle']);
+    $sheet->setCellValue('G'.$row, $i['clasificacion']);
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -105,7 +105,7 @@ foreach ($query as $i) {
     $row++;
 }
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Clientes_con_Cod_Nestle.xlsx"');
+header('Content-Disposition: attachment;filename="Clientes_con_Codificacion.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);

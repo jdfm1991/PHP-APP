@@ -121,7 +121,7 @@ if (!isset($_SESSION['cedula'])) {
 
                 </div>
         <?php require_once("../footer.php"); ?>
-        <script type="text/javascript" src="proveedores.js"></script><?php
+        <script type="text/javascript" src="proveedor.js"></script><?php
     }
     ?>
 </body>

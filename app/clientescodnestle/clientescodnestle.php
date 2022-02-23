@@ -24,12 +24,12 @@ if (!isset($_SESSION['cedula'])) {
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Clientes COD Nestle</h2>
+						<h2>Clientes Codificados</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-							<li class="breadcrumb-item active">Clientes COD Nestle</li>
+							<li class="breadcrumb-item active">Clientes Codificados</li>
 						</ol>
 					</div>
 				</div>
@@ -51,24 +51,25 @@ if (!isset($_SESSION['cedula'])) {
 					<form class="form-horizontal" >
 						<div class="form-group row">
                             <div class="col-sm-2">
-                                <div class="custom-control custom-radio pt-2">
-                                    <input class="custom-control-input" type="radio" name="opc" id="todos" value="1">
+                                <div class="custom-control custom-radio pt-2" style="display:none">
+                                    <input class="custom-control-input" type="radio" name="opc" id="todos" value="1" checked="checked">
                                     <label class="custom-control-label" for="todos">Ver Todos</label>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="display:none">
                                 <div class="custom-control custom-radio pt-2">
                                     <input class="custom-control-input" type="radio" name="opc" id="concode" value="2">
                                     <label class="custom-control-label" for="concode">Con Código Nestle</label>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="display:none">
                                 <div class="custom-control custom-radio pt-2">
                                     <input class="custom-control-input" type="radio" name="opc" id="sincode" value="3">
                                     <label class="custom-control-label" for="sincode">Sin Código Nestle</label>
                                 </div>
                             </div>
 							<div class="col-sm-3">
+								<label class="custom-control-label" for="vendedorlb">Vendedor</label>
                                 <select class="form-control custom-select" name="vendedor" id="vendedor" style="width: 100%;" required>
                                     <!-- lista de vendedores se carga por ajax -->
                                 </select>
@@ -85,7 +86,7 @@ if (!isset($_SESSION['cedula'])) {
 				<!-- BOX TABLA -->
 				<div class="card card-info" id="tabla">
 					<div class="card-header">
-						<h3 class="card-title">Relación de Clientes COD Nestle</h3>
+						<h3 class="card-title">Relación de Clientes Codificados</h3>
 					</div>
 					<div class="card-body" style="width:auto;">
 						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="clientescodnestle_data">
@@ -97,7 +98,7 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('rif')?>"><?=Strings::titleFromJson('rif')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_apertura')?>"><?=Strings::titleFromJson('fecha_apertura')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('dia_visita')?>"><?=Strings::titleFromJson('dia_visita')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('codnestle')?>"><?=Strings::titleFromJson('codnestle')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('clasificacion')?>"><?=Strings::titleFromJson('clasificacion')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
@@ -108,7 +109,7 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center"><?=Strings::titleFromJson('rif')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('fecha_apertura')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('dia_visita')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('codnestle')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('clasificacion')?></th>
 								</tr>
 							</tfoot>
 							<tbody>

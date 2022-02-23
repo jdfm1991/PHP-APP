@@ -25,12 +25,14 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("activacionclientes_modelo.php");
+require_once("relacionNE_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$actclientes = new Activacionclientes();
+$notaentrega = new relacionNE();
 
-$fechaf = $_GET['fecha_final'];
+$fechai = $_GET['fechai'];
+$fechaf = $_GET['fechaf'];
+$ruta = $_GET['ruta'];
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
@@ -53,19 +55,21 @@ $objDrawing->setCoordinates('E1');
 $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
-$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', 'REPORTE DE CLIENTES NO ACTIVOS');
+$spreadsheet->getActiveSheet()->getStyle('A1:H1')->getFont()->setSize(25);
+$sheet->setCellValue('A1', 'Relacion de Notas de Entrega por EDV');
 $sheet->setCellValue('A5', 'fecha tope:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('fecha_ult_venta')))
-    ->setCellValue('B7', Strings::titleFromJson('codclie'))
-    ->setCellValue('C7', Strings::titleFromJson('razon_social'))
-    ->setCellValue('D7', Strings::titleFromJson('rif'))
-    ->setCellValue('E7', Strings::titleFromJson('ruta'))
-    ->setCellValue('F7', Strings::titleFromJson('saldo_pendiente'));
+$sheet->setCellValue('A7', Strings::titleFromJson('tipo_transaccion'))
+    ->setCellValue('B7', Strings::titleFromJson('numerod'))
+    ->setCellValue('C7', Strings::titleFromJson('codprov'))
+    ->setCellValue('D7', Strings::titleFromJson('razon_social'))
+    ->setCellValue('E7', Strings::titleFromJson('fecha_documento'))
+    ->setCellValue('F7', Strings::titleFromJson('codvend'))
+    ->setCellValue('G7', Strings::titleFromJson('subtotal'))
+    ->setCellValue('H7', Strings::titleFromJson('total'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -73,19 +77,30 @@ $style_title->applyFromArray(
 );
 
 //estableceer el estilo de la cabecera de la tabla
-$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:F7');
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:H7');
 
 
-$query = $actclientes->lista_busca_activacionclientes($fechaf);
+$query = $notaentrega->getdevolucionnotaentrega( $fechai, $fechaf,$ruta);
 $row = 8;
 foreach ($query as $i) {
     $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue('A' . $row, date(FORMAT_DATE, strtotime($i['fechauv'])));
-    $sheet->setCellValue('B' . $row, $i['codclie']);
-    $sheet->setCellValue('C' . $row, utf8_encode($i['descrip']));
-    $sheet->setCellValue('D' . $row, $i['id3']);
-    $sheet->setCellValue('E' . $row, $i['codvend']);
-    $sheet->setCellValue('F' . $row, Strings::rdecimal($i['total'],2));
+
+    if($i["tipofac"]=='C'){
+        $tipo='N/E';
+    }
+
+    $fecha_E = date('d/m/Y', strtotime($i["fechae"]));
+    $subtotal = number_format($i["subtotal"], 2, ',', '.');
+    $total = number_format($i["total"], 2, ',', '.');
+
+    $sheet->setCellValue('A' . $row, $tipo);
+    $sheet->setCellValue('B' . $row, $i['numerod']);
+    $sheet->setCellValue('C' . $row, $i['rif']);
+    $sheet->setCellValue('D' . $row, utf8_encode($i['rsocial']));
+    $sheet->setCellValue('E' . $row, $fecha_E);
+    $sheet->setCellValue('F' . $row, $i['codvend']);
+    $sheet->setCellValue('G' . $row, $subtotal);
+    $sheet->setCellValue('H' . $row, $total);
 
     /** centrar las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -94,12 +109,15 @@ foreach ($query as $i) {
     $spreadsheet->getActiveSheet()->getStyle('D'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('E'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('F'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('G'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('H'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
 
     $row++;
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="ActivacionClientes_'.$fechaf.'.xlsx"');
+header('Content-Disposition: attachment;filename="Relacion_de_Notas_de_Entrega_por_EDV.xlsx"');
 header('Cache-Control: max-age=0');
 
 

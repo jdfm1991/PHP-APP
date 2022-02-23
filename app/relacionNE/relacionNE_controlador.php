@@ -1,34 +1,43 @@
 <?php
+
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("clientescodnestle_modelo.php");
+require_once("relacionNE_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$clientescodnestle  = new ClientesCodNestle();
-
+$notaentrega = new relacionNE();
+$clientes = new relacionNE();
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
 
-    case "buscar_clientescodnestle":
+    case "buscar_notaentrega":
 
-    $datos = $clientescodnestle ->getClientes_cnestle($_POST["opc"], $_POST["vendedor"]);
+    $datos = $notaentrega->getdevolucionnotaentrega( $_POST["fechai"], $_POST["fechaf"],$_POST["ruta"]);
 
     //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
     $data = Array();
 
     foreach ($datos as $row) {
-        //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
+            //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
         $sub_array = array();
+        if($row["tipofac"]=='C'){
+            $tipo='N/E';
+        }
 
-        $sub_array[] = $row["codvend"];
-        $sub_array[] = $row["codclie"];
-        $sub_array[] = $row["descrip"];
-        $sub_array[] = date(FORMAT_DATE,strtotime($row["fecha"]));
+        $fecha_E = date('d/m/Y', strtotime($row["fechae"]));
+        $subtotal = number_format($row["subtotal"], 2, ',', '.');
+        $total = number_format($row["total"], 2, ',', '.');
+        $sub_array[] = $tipo;
+        $sub_array[] = $row["numerod"];
         $sub_array[] = $row["rif"];
-        $sub_array[] = $row["dvisita"];
-        $sub_array[] = $row["clasificacion"];
+        $sub_array[] = $row["rsocial"];
+        $sub_array[] = $fecha_E;
+        $sub_array[] = $row["codvend"];
+        $sub_array[] = $subtotal;
+        $sub_array[] = $total;
+
         $data[] = $sub_array;
 
     }
@@ -45,8 +54,10 @@ switch ($_GET["op"]) {
 
     case "listar_vendedores":
 
-        $output['lista_vendedores'] = Vendedores::todos();
+        $output['lista_vendedores'] = vendedores::todos();
 
         echo json_encode($output);
         break;
+
+    
 }

@@ -18,13 +18,13 @@ class ClientesCodNestle extends Conectar{
 		if(hash_equals("-", $vendedor)){
 			switch ($opc){
 				case "1":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie ORDER BY a.codvend, a.codclie";
+				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle, b.Clasificacion as clasificacion FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie ORDER BY a.codvend, a.codclie";
 				break;
 				case "2":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) > 3) AND codnestle IS NOT NULL ORDER BY a.codvend, a.codclie";
+				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle, b.Clasificacion as clasificacion FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) > 3) AND codnestle IS NOT NULL ORDER BY a.codvend, a.codclie";
 				break;
 				case "3":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) <= 3) ORDER BY a.codvend, a.codclie";
+				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle, b.Clasificacion as clasificacion FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) <= 3) ORDER BY a.codvend, a.codclie";
 				break;
 				default:
 				echo "error";
@@ -32,13 +32,13 @@ class ClientesCodNestle extends Conectar{
 		} else {
 			switch ($opc){
 				case "1":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE a.codvend = ? ORDER BY a.codvend, a.codclie";
+				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle, b.Clasificacion as clasificacion FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE a.codvend = ? ORDER BY a.codvend, a.codclie";
 				break;
 				case "2":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) > 3) AND b.codnestle IS NOT NULL AND a.codvend = ? ORDER BY a.codvend, a.codclie";
+				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle, b.Clasificacion as clasificacion FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) > 3) AND b.codnestle IS NOT NULL AND a.codvend = ? ORDER BY a.codvend, a.codclie";
 				break;
 				case "3":
-				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) <= 3)  AND a.codvend = ? ORDER BY a.codvend, a.codclie";
+				$sql = "SELECT a.CodVend as codvend, a.CodClie as codclie, a.Descrip as descrip, a.FechaE as fecha, a.ID3 as rif, b.DiasVisita as dvisita, b.CodNestle as codnestle, b.Clasificacion as clasificacion FROM saclie as a INNER JOIN saclie_01 as b ON a.codclie = b.codclie WHERE (LEN(b.codnestle) <= 3)  AND a.codvend = ? ORDER BY a.codvend, a.codclie";
 				break;
 				default:
 				echo "error";

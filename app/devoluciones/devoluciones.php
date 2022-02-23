@@ -24,12 +24,12 @@ if (!isset($_SESSION['cedula'])) {
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Analsis de Vencimiento</h2>
+						<h2>Relacion de Devoluciones</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-							<li class="breadcrumb-item active">Analsis de Vencimiento</li>
+							<li class="breadcrumb-item active">Devoluciones</li>
 						</ol>
 					</div>
 				</div>
@@ -60,9 +60,17 @@ if (!isset($_SESSION['cedula'])) {
 									<input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
 								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 								<div class="form-check form-check-inline">
-                                <label for="orden">Proveedores</label>
-									<select class="form-control custom-select" name="proveedor" id="proveedor" style="width: 100%;" required>
-										<!-- la lista de proveedores se carga por ajax -->
+                                <label for="orden">Vendedores</label>
+									<select class="form-control custom-select" name="ruta" id="ruta" style="width: 100%;" required>
+										<!-- la lista de rutas se carga por ajax -->
+                                    </select>
+									</div>
+                                    <div class="form-check form-check-inline">
+                                <label for="orden">Tipo de Transacción</label>
+									<select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;" required>
+                                    <option name="" value="Todos">Todos</option>
+                                    <option name="" value="B">Facturas</option>
+                                    <option name="" value="D">Notas de Entrega</option>
                                     </select>
 									</div>
 								</div>
@@ -78,29 +86,32 @@ if (!isset($_SESSION['cedula'])) {
 				<!-- BOX TABLA -->
 				<div class="card card-info" id="tabla">
 					<div class="card-header">
-						<h3 class="card-title">Relación de Analsis de Vencimiento</h3>
+						<h3 class="card-title">Relacion de Devoluciones</h3>
 					</div>
 					<div class="card-body" style="width:auto;">
-						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="vencimiento_data">
+						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="devoluciones_data">
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('codprov')?>"><?=Strings::titleFromJson('codprov')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
+								
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_transaccion')?>"><?=Strings::titleFromJson('tipo_transaccion')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>	
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_documento')?>"><?=Strings::titleFromJson('fecha_documento')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_vencimiento')?>"><?=Strings::titleFromJson('fecha_vencimiento')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos')?>"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('monto')?>"><?=Strings::titleFromJson('monto')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_devolucion')?>"><?=Strings::titleFromJson('fecha_devolucion')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('cliente')?>"><?=Strings::titleFromJson('cliente')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('chofer')?>"><?=Strings::titleFromJson('chofer')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('monto')?>"><?=Strings::titleFromJson('monto')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
-									<th class="text-center"><?=Strings::titleFromJson('codprov')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('tipo_transaccion')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('descrip_vend')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('fecha_documento')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('fecha_vencimiento')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('dias_transcurridos')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('fecha_devolucion')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('cliente')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('chofer')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('monto')?></th>
 								</tr>
 							</tfoot>
@@ -115,14 +126,16 @@ if (!isset($_SESSION['cedula'])) {
 						</div>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
-							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
-							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
+							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
+							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>
 						</div>
 					</div>
 				</section>
 			</div>
         <?php require_once("../footer.php");?>
-        <script type="text/javascript" src="analisisdevencimiento.js"></script><?php
+		<!-- InputMask -->
+        <script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+        <script type="text/javascript" src="devoluciones.js"></script><?php
     }
     ?>
 </body>
