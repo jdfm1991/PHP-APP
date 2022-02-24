@@ -26,6 +26,7 @@ class EmailData
                 'ctrujillo@gconfisur.com',*/
                 'llopez@gconfisur.com',
                 'jfranco@gconfisur.com',
+                'ajcastillo@gconfisur.com',
                 'ycenteno@gconfisur.com',
                 'it@gconfisur.com'
             ), // puede ser mas de un destinatario
