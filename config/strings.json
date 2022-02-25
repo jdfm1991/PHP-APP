@@ -9,6 +9,7 @@
   "dni"                         : {"title": "Cédula de Identidad",                "description": ""},
   "rif"                         : {"title": "Rif",                                "description": ""},
   "numerod"                     : {"title": "Documento",                          "description": ""},
+  "supervisor"                  : {"title": "Supervisor",                         "description": ""},
   "numerod_afectado"            : {"title": "Nro. Documento Afectado",            "description": ""},
   "cantidad_numerod"            : {"title": "Cantidad de Documentos",             "description": ""},
   "numero_operacion"            : {"title": "Nro. Operación",                     "description": ""},
@@ -25,6 +26,7 @@
   "codclie"                     : {"title": "Código cliente",                     "description": ""},
   "codvend"                     : {"title": "Código EDV",                         "description": ""},
   "codnestle"                   : {"title": "Codificación Nestle",                "description": ""},
+  "codificacion"                : {"title": "Codificación",                       "description": ""},
   "razon_social"                : {"title": "Razón social",                       "description": ""},
   "descrip_vend"                : {"title": "Vendedor",                           "description": ""},
   "descrip_prod"                : {"title": "Producto",                           "description": "Descripción del Producto"},
@@ -187,13 +189,18 @@
   "fecha_hora"                  : {"title": "Fecha y Hora",                      "description": ""},
   "proveedores"                 : {"title": "Proveedores",                       "description": ""},
   "codprov"                     : {"title": "Código proveedor",                  "description": ""},
-  "direc1"                      : {"title": "Direccion",                       "description": ""},
+  "direc1"                      : {"title": "Direccion",                         "description": ""},
   "direc2"                      : {"title": "direccion 2",                       "description": ""},
   "estado"                      : {"title": "Estado",                            "description": ""},
   "tlf"                         : {"title": "Telefono",                          "description": ""},
   "tlf_movil"                   : {"title": "Telefono movil",                    "description": ""},
-  "activo"                      : {"title": "Estatus",                            "description": ""},
-
+  "activo"                      : {"title": "Estatus",                           "description": ""},
+  "imprimir"                    : {"title": "Imprimir",                          "description": ""},
+  "0_a_7"                       : {"title": "De 0 a 7 Dias",                     "description": ""},
+  "8_a_14"                      : {"title": "De 8 a 14 Dias",                    "description": ""},
+  "15_a_21"                     : {"title": "De 15 a 21 Dias",                   "description": ""},
+  "22_a_31"                     : {"title": "De 22 a 31 Dias",                   "description": ""},
+  "31_dias"                     : {"title": "Mas 31 Dias",                       "description": ""},
 
   "botones_accion"        : {"title": "Acciónes",         "description": ""},
   "boton_consultar"       : {"title": " Consultar",       "description": ""},
@@ -209,6 +216,7 @@
   "boton_ver_reporte"     : {"title": "ver reporte ",     "description": ""},
   "boton_excel"           : {"title": "Exportar a Excel", "description": ""},
   "boton_pdf"             : {"title": "Exportar a PDF",   "description": ""},
-  "boton_excel2"           : {"title": "Exportar a Excel", "description": ""},
-  "boton_pdf2"             : {"title": "Exportar a PDF",   "description": ""}
+  "boton_excel2"          : {"title": "Exportar a Excel", "description": ""},
+  "boton_pdf2"            : {"title": "Exportar a PDF",   "description": ""},
+  "botones_imprimir"      : {"title": "Imprimir",         "description": ""}
 }

@@ -8,8 +8,9 @@ class Choferes extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-                $sql = "SELECT Cedula, Nomper, Fecha_Registro, Estado FROM choferes WHERE deleted_at IS NULL";
-//        $sql= "SELECT id_chofer, cedula as Cedula, descripcion as Nomper, estatus as Estado FROM appChofer";
+              //  $sql = "SELECT Cedula, Nomper, Fecha_Registro, Estado FROM choferes WHERE deleted_at IS NULL";
+        //$sql= "SELECT id_chofer, cedula as Cedula, descripcion as Nomper, estatus as Estado FROM appChofer";
+        $sql= "SELECT * from [AJ].[dbo].appchofer order by descripcion";
 
         $result = (new Conectar)->conexion()->prepare($sql);
         $result->execute();
