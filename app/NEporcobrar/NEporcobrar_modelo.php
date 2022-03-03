@@ -18,9 +18,9 @@ class NEporcobrar extends Conectar{
 
           $sql = "SELECT (case when saacxc.tipocxc = 10 then 'N/E' else 'N/D' end) as TipoOpe, saacxc.numerod as NroDoc, saclie.CodClie as CodClie, saclie.Descrip as Cliente, 
           CONVERT( date , saacxc.fechae ) as FechaEmi, 
-          (case when saacxc.tipocxc = 10 then (select CONVERT( VARCHAR ,fechad,103) from [AJ].[dbo].appfacturas inner join [AJ].[dbo].appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
+          (case when saacxc.tipocxc = 10 then (select CONVERT( VARCHAR ,fechad,103) from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
               appfacturas_det.numeros = saacxc.numerod) else 'N/A' end) as FechaDesp,
-              DATEDIFF(DD, saacxc.fechae, (case when saacxc.tipocxc = 10 then (select CONVERT( date ,GETDATE()) from [AJ].[dbo].appfacturas inner join [AJ].[dbo].appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
+              DATEDIFF(DD, saacxc.fechae, (case when saacxc.tipocxc = 10 then (select CONVERT( date ,GETDATE()) from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
               appfacturas_det.numeros = saacxc.numerod) else saacxc.fechae end))as DiasTrans,
           DATEDIFF(DD, saacxc.fechae, CONVERT( date ,GETDATE()))as DiasTransHoy,(case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=0 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=7) then SAACXC.Saldo else 0 end) as De_0_a_7_Dias,
         (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=8 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=14) then SAACXC.Saldo else 0 end) as De_8_a_14_Dias ,
@@ -28,9 +28,9 @@ class NEporcobrar extends Conectar{
         (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=22 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=31) then SAACXC.Saldo else 0 end) as De_22_a_31_Dias ,
         (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=32 ) then SAACXC.Saldo else 0 end) as Mas_31_Dias ,
         saacxc.saldo as SaldoPend, UPPER(saacxc.codvend) as Ruta,
-		(select tasa from [AJ].[dbo].[SAFACT] where TipoFac = 'C' and  [SAFACT].numeroD= saacxc.numeroD) as tasa,
-           (select Coordinador from [AJ].[dbo].SAVEND_02 where SAVEND_02.CodVend = saacxc.CodVend) as Supervisor
-           from [AJ_D].[dbo].saacxc inner join [AJ].[dbo].saclie on saacxc.codclie = saclie.codclie 
+		(select tasa from SAFACT where TipoFac = 'C' and  SAFACT.numeroD= saacxc.numeroD) as tasa,
+           (select Coordinador from SAVEND_02 where SAVEND_02.CodVend = saacxc.CodVend) as Supervisor
+           from [AJ_D].[dbo].saacxc inner join saclie on saacxc.codclie = saclie.codclie 
            where saacxc.saldo>0 AND (saacxc.tipocxc='10' OR saacxc.tipocxc='20') 
            order by saacxc.FechaE asc" ;
 
@@ -38,9 +38,9 @@ class NEporcobrar extends Conectar{
 
             $sql = "SELECT (case when saacxc.tipocxc = 10 then 'N/E' else 'N/D' end) as TipoOpe, saacxc.numerod as NroDoc, saclie.CodClie as CodClie, saclie.Descrip as Cliente, 
             CONVERT( date , saacxc.fechae ) as FechaEmi, 
-            (case when saacxc.tipocxc = 10 then (select CONVERT( VARCHAR ,fechad,103) from [AJ].[dbo].appfacturas inner join [AJ].[dbo].appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
+            (case when saacxc.tipocxc = 10 then (select CONVERT( VARCHAR ,fechad,103) from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
                 appfacturas_det.numeros = saacxc.numerod) else 'N/A' end) as FechaDesp,
-                DATEDIFF(DD, saacxc.fechae, (case when saacxc.tipocxc = 10 then (select CONVERT( date ,GETDATE()) from [AJ].[dbo].appfacturas inner join [AJ].[dbo].appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
+                DATEDIFF(DD, saacxc.fechae, (case when saacxc.tipocxc = 10 then (select CONVERT( date ,GETDATE()) from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
                 appfacturas_det.numeros = saacxc.numerod) else saacxc.fechae end))as DiasTrans,
             DATEDIFF(DD, saacxc.fechae, CONVERT( date ,GETDATE()))as DiasTransHoy,(case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=0 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=7) then SAACXC.Saldo else 0 end) as De_0_a_7_Dias,
           (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=8 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=14) then SAACXC.Saldo else 0 end) as De_8_a_14_Dias ,
@@ -48,9 +48,9 @@ class NEporcobrar extends Conectar{
           (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=22 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=31) then SAACXC.Saldo else 0 end) as De_22_a_31_Dias ,
           (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=32 ) then SAACXC.Saldo else 0 end) as Mas_31_Dias ,
           saacxc.saldo as SaldoPend, UPPER(saacxc.codvend) as Ruta,
-          (select tasa from [AJ].[dbo].[SAFACT] where TipoFac = 'C' and  [SAFACT].numeroD= saacxc.numeroD) as tasa,
-             (select Coordinador from [AJ].[dbo].SAVEND_02 where SAVEND_02.CodVend = saacxc.CodVend) as Supervisor
-             from [AJ_D].[dbo].saacxc inner join [AJ].[dbo].saclie on saacxc.codclie = saclie.codclie 
+          (select tasa from SAFACT where TipoFac = 'C' and  SAFACT.numeroD= saacxc.numeroD) as tasa,
+             (select Coordinador from SAVEND_02 where SAVEND_02.CodVend = saacxc.CodVend) as Supervisor
+             from [AJ_D].[dbo].saacxc inner join saclie on saacxc.codclie = saclie.codclie 
              where saacxc.saldo>0 AND (saacxc.tipocxc='10' OR saacxc.tipocxc='20')  and saacxc.FechaE between '$fechai' and '$fechaf'
              order by saacxc.FechaE asc";
           

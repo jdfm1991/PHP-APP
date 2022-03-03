@@ -28,20 +28,20 @@ class listarProveedores extends Conectar{
        switch ($opc) {
            case 1:
 
-                $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] , [SAPROV].[ID3] , [SAPROV].[Activo] , [SAPROV].[Direc1] , [SAPROV].[Direc2] , [SAESTADO].[Descrip] , [SAPROV].[Telef] , [SAPROV].[Movil] , [SAPROV].[Email]
-                FROM [AJ].[dbo].[SAPROV] inner join [AJ].[dbo].[SAESTADO] ON [SAPROV].[Estado] = [SAESTADO].Estado ";
+                $sql= "select CodProv , saprov.Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
+                FROM saprov inner join saestado ON saprov.Estado = saestado.Estado ";
 
            break;
            case 2:
            
-                $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] , [SAPROV].[ID3] , [SAPROV].[Activo] , [SAPROV].[Direc1] , [SAPROV].[Direc2] , [SAESTADO].[Descrip] , [SAPROV].[Telef] , [SAPROV].[Movil] , [SAPROV].[Email]
-                FROM [AJ].[dbo].[SAPROV] inner join [AJ].[dbo].[SAESTADO] ON [SAPROV].[Estado] = [SAESTADO].Estado where Activo='1'";
+                $sql= "select CodProv , saprov.Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
+                FROM SAPROV inner join SAESTADO ON SAPROV.Estado = SAESTADO.Estado where Activo='1'";
 
            break;
            case 3:
            
-            $sql= "SELECT [SAPROV].[CodProv] , [SAPROV].[Descrip] , [SAPROV].[ID3] , [SAPROV].[Activo] ,  [SAPROV].[Direc1] , [SAPROV].[Direc2] , [SAESTADO].[Descrip] , [SAPROV].[Telef] , [SAPROV].[Movil] , [SAPROV].[Email]
-            FROM [AJ].[dbo].[SAPROV] inner join [AJ].[dbo].[SAESTADO] ON [SAPROV].[Estado] = [SAESTADO].Estado where Activo='0' ";
+            $sql= "select  CodProv ,saprov. Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
+            FROM SAPROV inner join SAESTADO ON SAPROV.Estado = SAESTADO.Estado where Activo='0' ";
             
        break;
        }

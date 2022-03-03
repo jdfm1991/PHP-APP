@@ -32,7 +32,7 @@ switch ($_GET["op"]) {
                 }
         
                 $sub_array[] = $row["CodProv"];
-                $sub_array[] = $row["Descrip"];
+                $sub_array[] = $row["proveedor"];
                 $sub_array[] = $row["ID3"];
                 $sub_array[] = $estado;
                 $sub_array[] = $row["Direc1"];

@@ -16,13 +16,13 @@ class analisisdevencimiento extends Conectar{
 
         if ($codprov == "Todos"){
 
-          $sql = "SELECT * from [AJ].[dbo].[SAACXP] inner join [AJ].[dbo].[SAPROV] on saacxp.codprov
-           = [SAPROV].codprov where [SAACXP].fechae between '$fechai' and '$fechaf' and [SAACXP].tipocxp='10' and [SAACXP].saldo>0 order by [SAACXP].fechae desc" ;
+          $sql = "SELECT * from SAACXP inner join SAPROV on saacxp.codprov
+           = [SAPROV].codprov where [SAACXP].fechae between '$fechai' and '$fechaf' and SAACXP.tipocxp='10' and SAACXP.saldo>0 order by SAACXP.fechae desc" ;
 
           }else{
 
-            $sql = "SELECT * from [AJ].[dbo].[SAACXP] inner join [AJ].[dbo].[SAPROV] on [SAACXP].codprov
-           = [SAPROV].codprov where  [SAACXP].fechae between '$fechai' and '$fechaf' and [SAACXP].tipocxp='10' and [SAACXP].saldo>0 and [SAACXP].codprov = '$codprov' order by [SAACXP].fechae desc";
+            $sql = "SELECT * from SAACXP inner join SAPROV on SAACXP.codprov
+           = SAPROV.codprov where  SAACXP.fechae between '$fechai' and '$fechaf' and SAACXP.tipocxp='10' and SAACXP.saldo>0 and SAACXP.codprov = '$codprov' order by SAACXP.fechae desc";
           
           } 
 
