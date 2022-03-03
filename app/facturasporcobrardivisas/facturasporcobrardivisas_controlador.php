@@ -25,13 +25,15 @@ switch ($_GET["op"]) {
         $fecha_E = date('d/m/Y', strtotime($row["FechaEmi"]));
         $fecha_D = date('d/m/Y', strtotime($row["FechaDesp"]));
 
-        $Montonew = number_format($row["SaldoPend"], 2, ',', '.');
+        $tasa=$row["tasa"];
+
+        $De_0_a_7_Dias = $row["De_0_a_7_Dias"];
+        $De_8_a_14_Dias = $row["De_8_a_14_Dias"];
+        $De_15_a_21_Dias = $row["De_15_a_21_Dias"];
+        $De_22_a_31_Dias = $row["De_22_a_31_Dias"];
+        $Mas_31_Dias = $row["Mas_31_Dias"];
         
-        $De_0_a_7_Dias = number_format($row["De_0_a_7_Dias"], 2, ',', '.');
-        $De_8_a_14_Dias = number_format($row["De_8_a_14_Dias"], 2, ',', '.');
-        $De_15_a_21_Dias = number_format($row["De_15_a_21_Dias"], 2, ',', '.');
-        $De_22_a_31_Dias = number_format($row["De_22_a_31_Dias"], 2, ',', '.');
-        $Mas_31_Dias = number_format($row["Mas_31_Dias"], 2, ',', '.');
+        
 
         $sub_array[] = $row["TipoOpe"];
         $sub_array[] = $row["NroDoc"];
@@ -41,12 +43,23 @@ switch ($_GET["op"]) {
         $sub_array[] = $row["FechaDesp"];
         $sub_array[] = $row["DiasTrans"];
         $sub_array[] = $row["DiasTransHoy"];
-        $sub_array[] = $De_0_a_7_Dias;
-        $sub_array[] = $De_8_a_14_Dias;
-        $sub_array[] = $De_15_a_21_Dias;
-        $sub_array[] = $De_22_a_31_Dias;
-        $sub_array[] = $Mas_31_Dias;
-        $sub_array[] = $Montonew;
+        if($tasa>=1){
+            $sub_array[] = number_format(($De_0_a_7_Dias / $tasa), 2, ',', '.');
+            $sub_array[] = number_format(($De_8_a_14_Dias / $tasa), 2, ',', '.');
+            $sub_array[] = number_format(($De_15_a_21_Dias / $tasa), 2, ',', '.');
+            $sub_array[] = number_format(($De_22_a_31_Dias / $tasa), 2, ',', '.');
+            $sub_array[] = number_format(($Mas_31_Dias / $tasa), 2, ',', '.');
+            $Montonew = ($De_0_a_7_Dias / $tasa) + ($De_8_a_14_Dias / $tasa) + ($De_15_a_21_Dias / $tasa) + ($De_22_a_31_Dias / $tasa) + ($Mas_31_Dias / $tasa);
+            $sub_array[] = number_format( $Montonew, 2, ',', '.') ;
+        }else{
+             $sub_array[] = 0;
+             $sub_array[] = 0;
+             $sub_array[] = 0;
+             $sub_array[] = 0;
+             $sub_array[] = 0;
+             $sub_array[] = 0;
+        }
+        
         $sub_array[] = $row["Ruta"];
         $sub_array[] = $row["Supervisor"];
 

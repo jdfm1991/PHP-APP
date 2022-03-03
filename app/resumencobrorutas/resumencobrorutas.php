@@ -24,12 +24,12 @@ if (!isset($_SESSION['cedula'])) {
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Facturas Pendientes por Cobrar Divisas</h2>
+						<h2>Resumen de Cobros por ruta por dias</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-							<li class="breadcrumb-item active">Facturas por Cobrar Divisas</li>
+							<li class="breadcrumb-item active">Cobros por ruta por dias</li>
 						</ol>
 					</div>
 				</div>
@@ -58,7 +58,21 @@ if (!isset($_SESSION['cedula'])) {
 								<div class="form-check form-check-inline">
 									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_f')?></label>
 									<input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
-								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</div>
+								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+								<div class="form-check form-check-inline">
+                                <label for="orden">Vendedores</label>
+									<select class="form-control custom-select" name="ruta" id="ruta" style="width: 100%;" required>
+										<!-- la lista de rutas se carga por ajax -->
+                                    </select>
+									</div>
+                                    <div class="form-check form-check-inline">
+                                <label for="orden">Tipo de Transacción</label>
+									<select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;" required>
+                                    <option name="" value="B">Facturas</option>
+                                    <option name="" value="D">Notas de Entrega</option>
+                                    </select>
+									</div>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -71,49 +85,31 @@ if (!isset($_SESSION['cedula'])) {
 				<!-- BOX TABLA -->
 				<div class="card card-info" id="tabla">
 					<div class="card-header">
-						<h3 class="card-title">Relación de Facturas por Cobrar Divisas</h3>
+						<h3 class="card-title">Relación de Cobros por ruta por dias</h3>
 					</div>
-					<div class="card-body table-responsive mt-2 p-0" style="width:100%; height:400px;">
-						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="cobrar_data">
+					<div class="card-body" style="width:auto;">
+						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="comisiones_data">
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_transaccion')?>"><?=Strings::titleFromJson('tipo_transaccion')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cliente')?>"><?=Strings::titleFromJson('cliente')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_emision')?>"><?=Strings::titleFromJson('fecha_emision')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_despacho')?>"><?=Strings::titleFromJson('fecha_despacho')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos')?>"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos_hoy')?>"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('0_a_7')?>"><?=Strings::titleFromJson('0_a_7')?></th>
+								
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?=Strings::titleFromJson('codvend')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('0_a_7')?>"><?=Strings::titleFromJson('0_a_7')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('8_a_14')?>"><?=Strings::titleFromJson('8_a_14')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('15_a_21')?>"><?=Strings::titleFromJson('15_a_21')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('22_a_31')?>"><?=Strings::titleFromJson('22_a_31')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('31_dias')?>"><?=Strings::titleFromJson('31_dias')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente_$')?>"><?=Strings::titleFromJson('saldo_pendiente_$')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('supervisor')?>"><?=Strings::titleFromJson('supervisor')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('total')?>"><?=Strings::titleFromJson('total')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
-									
-								    <th class="text-center"><?=Strings::titleFromJson('tipo_transaccion')?></th>	
-                                    <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('cliente')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('fecha_emision')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('fecha_despacho')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('0_a_7')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('codvend')?></th>
+                                    <th class="text-center"><?=Strings::titleFromJson('0_a_7')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('8_a_14')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('15_a_21')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('22_a_31')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('31_dias')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente_$')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('supervisor')?></th>
+                                    <th class="text-center"><?=Strings::titleFromJson('total')?></th>
 								</tr>
 							</tfoot>
 							<tbody>
@@ -134,7 +130,9 @@ if (!isset($_SESSION['cedula'])) {
 				</section>
 			</div>
         <?php require_once("../footer.php");?>
-        <script type="text/javascript" src="facturasporcobrardivisas.js"></script><?php
+		<!-- InputMask -->
+        <script src="<?php echo URL_LIBRARY; ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+        <script type="text/javascript" src="resumencobrorutas.js"></script><?php
     }
     ?>
 </body>

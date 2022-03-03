@@ -16,7 +16,7 @@
                     <br />
                     <img src="build/images/Logo-Confisur.png" class="img-responsive" />
                     <h1>Acceso Invalido</h1>
-                    <p>Usuario o clave incorrecta, intentelo nuevamente o comuniquese con el administrador.</p>
+                    <p>Usuario o clave incorrecta, intentelo nuevamente o comuniquese con el .</p>
                     <p>
 <!--  <h1>EN MANTENIMIENTO</h1>
 <p>Estimado usuario nos encontramos actualizando la plataforma tecnologia de capital humano.</p>

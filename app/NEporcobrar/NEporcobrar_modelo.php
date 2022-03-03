@@ -2,10 +2,10 @@
  //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
 
-class facturasporcobrardivisas extends Conectar{
+class NEporcobrar extends Conectar{
 
 
-	public function getfacturasporcobrardivisas($fechai, $fechaf){
+	public function getNEporcobrar($fechai, $fechaf){
 
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
@@ -16,7 +16,7 @@ class facturasporcobrardivisas extends Conectar{
 
         if ($fechai == "" and $fechaf == ""){
 
-          $sql = "SELECT (case when saacxc.tipocxc = 10 then 'FACT' else 'N/D' end) as TipoOpe, saacxc.numerod as NroDoc, saclie.CodClie as CodClie, saclie.Descrip as Cliente, 
+          $sql = "SELECT (case when saacxc.tipocxc = 10 then 'N/E' else 'N/D' end) as TipoOpe, saacxc.numerod as NroDoc, saclie.CodClie as CodClie, saclie.Descrip as Cliente, 
           CONVERT( date , saacxc.fechae ) as FechaEmi, 
           (case when saacxc.tipocxc = 10 then (select CONVERT( VARCHAR ,fechad,103) from [AJ].[dbo].appfacturas inner join [AJ].[dbo].appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
               appfacturas_det.numeros = saacxc.numerod) else 'N/A' end) as FechaDesp,
@@ -28,15 +28,15 @@ class facturasporcobrardivisas extends Conectar{
         (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=22 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=31) then SAACXC.Saldo else 0 end) as De_22_a_31_Dias ,
         (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=32 ) then SAACXC.Saldo else 0 end) as Mas_31_Dias ,
         saacxc.saldo as SaldoPend, UPPER(saacxc.codvend) as Ruta,
-		(select tasa from [AJ].[dbo].[SAFACT] where TipoFac = 'A' and  [SAFACT].numeroD= saacxc.numeroD) as tasa,
+		(select tasa from [AJ].[dbo].[SAFACT] where TipoFac = 'C' and  [SAFACT].numeroD= saacxc.numeroD) as tasa,
            (select Coordinador from [AJ].[dbo].SAVEND_02 where SAVEND_02.CodVend = saacxc.CodVend) as Supervisor
-           from [AJ].[dbo].saacxc inner join [AJ].[dbo].saclie on saacxc.codclie = saclie.codclie 
+           from [AJ_D].[dbo].saacxc inner join [AJ].[dbo].saclie on saacxc.codclie = saclie.codclie 
            where saacxc.saldo>0 AND (saacxc.tipocxc='10' OR saacxc.tipocxc='20') 
            order by saacxc.FechaE asc" ;
 
           }else{
 
-            $sql = "SELECT (case when saacxc.tipocxc = 10 then 'FACT' else 'N/D' end) as TipoOpe, saacxc.numerod as NroDoc, saclie.CodClie as CodClie, saclie.Descrip as Cliente, 
+            $sql = "SELECT (case when saacxc.tipocxc = 10 then 'N/E' else 'N/D' end) as TipoOpe, saacxc.numerod as NroDoc, saclie.CodClie as CodClie, saclie.Descrip as Cliente, 
             CONVERT( date , saacxc.fechae ) as FechaEmi, 
             (case when saacxc.tipocxc = 10 then (select CONVERT( VARCHAR ,fechad,103) from [AJ].[dbo].appfacturas inner join [AJ].[dbo].appfacturas_det on appfacturas.correl = appfacturas_det.correl where 
                 appfacturas_det.numeros = saacxc.numerod) else 'N/A' end) as FechaDesp,
@@ -48,10 +48,10 @@ class facturasporcobrardivisas extends Conectar{
           (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=22 and DATEDIFF(DD, SAACXC.FechaE, GETDATE())<=31) then SAACXC.Saldo else 0 end) as De_22_a_31_Dias ,
           (case when (DATEDIFF(DD, SAACXC.FechaE, GETDATE())>=32 ) then SAACXC.Saldo else 0 end) as Mas_31_Dias ,
           saacxc.saldo as SaldoPend, UPPER(saacxc.codvend) as Ruta,
-      (select tasa from [AJ].[dbo].[SAFACT] where TipoFac = 'A' and  [SAFACT].numeroD= saacxc.numeroD) as tasa,
+          (select tasa from [AJ].[dbo].[SAFACT] where TipoFac = 'C' and  [SAFACT].numeroD= saacxc.numeroD) as tasa,
              (select Coordinador from [AJ].[dbo].SAVEND_02 where SAVEND_02.CodVend = saacxc.CodVend) as Supervisor
-             from [AJ].[dbo].saacxc inner join [AJ].[dbo].saclie on saacxc.codclie = saclie.codclie 
-             where saacxc.saldo>0 AND (saacxc.tipocxc='10' OR saacxc.tipocxc='20') and saacxc.FechaE between '$fechai' and '$fechaf'
+             from [AJ_D].[dbo].saacxc inner join [AJ].[dbo].saclie on saacxc.codclie = saclie.codclie 
+             where saacxc.saldo>0 AND (saacxc.tipocxc='10' OR saacxc.tipocxc='20')  and saacxc.FechaE between '$fechai' and '$fechaf'
              order by saacxc.FechaE asc";
           
           } 

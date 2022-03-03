@@ -24,12 +24,12 @@ if (!isset($_SESSION['cedula'])) {
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h2>Facturas Pendientes por Cobrar Divisas</h2>
+						<h2>Notas de Entregas Pendientes por Cobrar</h2>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-							<li class="breadcrumb-item active">Facturas por Cobrar Divisas</li>
+							<li class="breadcrumb-item active">Notas de Entregas por Cobrar</li>
 						</ol>
 					</div>
 				</div>
@@ -71,7 +71,7 @@ if (!isset($_SESSION['cedula'])) {
 				<!-- BOX TABLA -->
 				<div class="card card-info" id="tabla">
 					<div class="card-header">
-						<h3 class="card-title">Relación de Facturas por Cobrar Divisas</h3>
+						<h3 class="card-title">Relación de Notas de Entregas por Cobrar</h3>
 					</div>
 					<div class="card-body table-responsive mt-2 p-0" style="width:100%; height:400px;">
 						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="cobrar_data">
@@ -82,15 +82,13 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('cliente')?>"><?=Strings::titleFromJson('cliente')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_emision')?>"><?=Strings::titleFromJson('fecha_emision')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_despacho')?>"><?=Strings::titleFromJson('fecha_despacho')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos')?>"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos_hoy')?>"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('0_a_7')?>"><?=Strings::titleFromJson('0_a_7')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('8_a_14')?>"><?=Strings::titleFromJson('8_a_14')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('15_a_21')?>"><?=Strings::titleFromJson('15_a_21')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('22_a_31')?>"><?=Strings::titleFromJson('22_a_31')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('31_dias')?>"><?=Strings::titleFromJson('31_dias')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente_$')?>"><?=Strings::titleFromJson('saldo_pendiente_$')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente')?>"><?=Strings::titleFromJson('saldo_pendiente')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('supervisor')?>"><?=Strings::titleFromJson('supervisor')?></th>
 								</tr>
@@ -103,15 +101,13 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('cliente')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('fecha_emision')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('fecha_despacho')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('0_a_7')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('8_a_14')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('15_a_21')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('22_a_31')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('31_dias')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente_$')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('supervisor')?></th>
 								</tr>
@@ -134,7 +130,7 @@ if (!isset($_SESSION['cedula'])) {
 				</section>
 			</div>
         <?php require_once("../footer.php");?>
-        <script type="text/javascript" src="facturasporcobrardivisas.js"></script><?php
+        <script type="text/javascript" src="NEporcobrar.js"></script><?php
     }
     ?>
 </body>
