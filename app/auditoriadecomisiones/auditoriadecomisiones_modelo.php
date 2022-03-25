@@ -13,14 +13,14 @@ class Auditoriadecomisiones extends Conectar{
 		
 		//QUERY
 		$sql = "";
-		if (!hash_equals("-", $vendedor)) {
+		if ($vendedor !== "") {
 			$sql = "SELECT A.campo, A.antes, A.despu, B.usuario, B.fechah, E.nomper 
 					FROM auaj.dbo.cambio_hist_comisiones AS A
 						INNER JOIN auaj.dbo.hist_cambio_comisiones AS B ON codigo = codig
 						INNER JOIN coaj.dbo.periodo AS C ON B.cod_per = C.cod_per
 						INNER JOIN coaj.dbo.datos_edv AS D ON C.ci = D.ci
 						INNER JOIN APPWEBAJ.dbo.Usuarios AS E ON CAST(E.cedula AS BIGINT) = B.usuario
-					WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) BETWEEN ? AND ? AND A.antes != A.despu AND ruta = ?";
+					WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah))  between '$fechai' and '$fechaf' AND A.antes != A.despu AND ruta = '$vendedor'";
 		} else {
 			$sql = "SELECT A.campo, A.antes, A.despu, B.usuario, B.fechah, E.nomper 
 					FROM auaj.dbo.cambio_hist_comisiones AS A
@@ -28,7 +28,7 @@ class Auditoriadecomisiones extends Conectar{
 						INNER JOIN coaj.dbo.periodo AS C ON B.cod_per = C.cod_per
 						INNER JOIN coaj.dbo.datos_edv AS D ON C.ci = D.ci
 						INNER JOIN APPWEBAJ.dbo.Usuarios AS E ON CAST(E.cedula AS BIGINT) = B.usuario
-					WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) BETWEEN ? AND ? AND A.antes != A.despu";
+					WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah))  between '$fechai' and '$fechaf' AND A.antes != A.despu";
 		}
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

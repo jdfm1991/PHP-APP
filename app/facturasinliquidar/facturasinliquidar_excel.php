@@ -26,12 +26,15 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("disponiblealmacen_modelo.php");
+require_once("facturasinliquidar_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$disponible = new disponiblealmacen();
+$factura = new facturasinliquidar();
 
-$marcas = $_GET['marcas'];
+$fechai = $_GET['fechai'];
+$fechaf = $_GET['fechaf'];
+$chofer = $_GET['chofer'];
+$tipo = $_GET['tipo'];
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
@@ -56,24 +59,45 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->setSize(25);
 
+if($tipo === '0' and $chofer === 'Todos'){
 
- $sheet->setCellValue('A1', 'Disponibilidad en Almacenes');
+    $sheet->setCellValue('A1', 'FACTURAS SIN LIQUIDAR PENDIENTE DE TODOS LOS CHOFERES');
+}else{
 
+    if($tipo === '1' and $chofer === 'Todos'){
+        
+        $sheet->setCellValue('A1', 'FACTURAS COBRADAS DE TODOS LOS CHOFERES');
 
-$sheet->setCellValue('A5', 'fecha tope:  '. date('d-m-Y'));
+    }else{
+
+        if($tipo === '0' and $chofer != 'Todos'){
+            
+            $sheet->setCellValue('A1', 'FACTURAS SIN LIQUIDAR PENDIENTE DEL CHOFER ');
+        }else{
+            if($tipo === '1' and $chofer != 'Todos'){
+                
+                $sheet->setCellValue('A1', 'FACTURAS COBRADAS DEL CHOFER ');
+
+            }
+        }
+    }
+
+}
+
+$sheet->setCellValue('A5', 'fecha tope:  '. date(FORMAT_DATE, strtotime($fechaf)));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('codigo_prod')))
-    ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
-    ->setCellValue('C7', Strings::titleFromJson('marca_prod'))
-    ->setCellValue('D7', Strings::titleFromJson('bulto_01'))
-    ->setCellValue('E7', Strings::titleFromJson('paquete_01'))
-    ->setCellValue('F7', Strings::titleFromJson('bulto_03'))
-    ->setCellValue('G7', Strings::titleFromJson('paquete_03'))
-    ->setCellValue('H7', Strings::titleFromJson('bulto_13'))
-    ->setCellValue('I7', Strings::titleFromJson('paquete_13'));
+$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('ruta_modulo')))
+    ->setCellValue('B7', Strings::titleFromJson('codclie'))
+    ->setCellValue('C7', Strings::titleFromJson('cliente'))
+    ->setCellValue('D7', Strings::titleFromJson('chofer'))
+    ->setCellValue('E7', Strings::titleFromJson('factura'))
+    ->setCellValue('F7', Strings::titleFromJson('fecha_emision'))
+    ->setCellValue('G7', Strings::titleFromJson('fecha_despacho'))
+    ->setCellValue('H7', Strings::titleFromJson('monto'))
+    ->setCellValue('I7', Strings::titleFromJson('estatus'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -84,51 +108,28 @@ $style_title->applyFromArray(
 //estableceer el estilo de la cabecera de la tabla
 $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:I7');
 
-$query = $disponible->getdisponiblealmacen( $marcas);
+$query = $factura->getfacturasinliquidar( $fechai, $fechaf,$chofer,$tipo);
 
 $row = 8;
 foreach ($query as $i) {
 
-    $sheet = $spreadsheet->getActiveSheet();
-
-    if( $i["CodUbic"]==='01'){
-
-        $sheet->setCellValue('A' . $row, $i['codprod']);
-        $sheet->setCellValue('B' . $row, $i['Descrip']);
-        $sheet->setCellValue('C' . $row, $i['marca']);
-        $sheet->setCellValue('D' . $row, number_format($i["Bultos"], 2, ',', '.'));
-        $sheet->setCellValue('E' . $row, number_format($i["Paquetes"], 2, ',', '.'));
-        $sheet->setCellValue('F' . $row, number_format(0, 2, ',', '.'));
-        $sheet->setCellValue('G' . $row, number_format(0, 2, ',', '.'));
-        $sheet->setCellValue('H' . $row, number_format(0, 2, ',', '.'));
-        $sheet->setCellValue('I' . $row, number_format(0, 2, ',', '.'));
-
+    if($tipo=='0'){
+        $tipoac='PENDIENTE';
     }else{
-        if($row["CodUbic"]==='03'){
-
-            $sheet->setCellValue('A' . $row, $i['codprod']);
-            $sheet->setCellValue('B' . $row, $i['Descrip']);
-            $sheet->setCellValue('C' . $row, $i['marca']);
-            $sheet->setCellValue('D' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('E' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('F' . $row, number_format($i["Bultos"], 2, ',', '.'));
-            $sheet->setCellValue('G' . $row, number_format($i["Paquetes"], 2, ',', '.'));
-            $sheet->setCellValue('H' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('I' . $row, number_format(0, 2, ',', '.'));
-
-        }else{
-
-            $sheet->setCellValue('A' . $row, $i['codprod']);
-            $sheet->setCellValue('B' . $row, $i['Descrip']);
-            $sheet->setCellValue('C' . $row, $i['marca']);
-            $sheet->setCellValue('D' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('E' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('F' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('G' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('H' . $row, number_format($i["Bultos"], 2, ',', '.'));
-            $sheet->setCellValue('I' . $row, number_format($i["Paquetes"], 2, ',', '.'));
-        }
+        $tipoac='COBRADA';
     }
+
+    $Montonew = number_format($i["MtoTotal"], 2, ',', '.');
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A' . $row, $i['Ruta']);
+    $sheet->setCellValue('B' . $row, utf8_encode($i['CodClie']));
+    $sheet->setCellValue('C' . $row, $i['Cliente']);
+    $sheet->setCellValue('D' . $row, $i['Chofer']);
+    $sheet->setCellValue('E' . $row, $i['Factura']);
+    $sheet->setCellValue('F' . $row, date(FORMAT_DATE, strtotime($i['FechaEmi'])));
+    $sheet->setCellValue('G' . $row, date(FORMAT_DATE, strtotime($i['FechaDespacho'])));
+    $sheet->setCellValue('H' . $row, $Montonew);
+    $sheet->setCellValue('I' . $row, $tipoac);
 
     /** centrar las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -140,13 +141,12 @@ foreach ($query as $i) {
     $spreadsheet->getActiveSheet()->getStyle('G'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('H'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('I'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
     $row++;
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
-header('Content-Disposition: attachment;filename="Disponibilidad en Almacenes del '.$fechai.' hasta '.$fechaf.'.xlsx"');
-
+header('Content-Disposition: attachment;filename="Facturas sin Liquidar del '.$fechai.' hasta '.$fechaf.'.xlsx"');
 header('Cache-Control: max-age=0');
 
 

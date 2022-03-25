@@ -38,7 +38,7 @@ if (!isset($_SESSION['cedula'])) {
                                             <tr>
                                                 <td class="text-center" title="<?=Strings::DescriptionFromJson('dni')?>"><?=Strings::titleFromJson('dni')?></td>
                                                 <td class="text-center" title="<?=Strings::DescriptionFromJson('nombre_apellido')?>"><?=Strings::titleFromJson('nombre_apellido')?></td>
-                                                <td class="text-center" title="<?=Strings::DescriptionFromJson('fecha_registro')?>"><?=Strings::titleFromJson('fecha_registro')?></td>
+                                                <!--<td class="text-center" title="<?=Strings::DescriptionFromJson('fecha_registro')?>"><?=Strings::titleFromJson('fecha_registro')?></td>-->
                                                 <td class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </thead>
@@ -46,7 +46,7 @@ if (!isset($_SESSION['cedula'])) {
                                             <tr>
                                                 <td class="text-center"><?=Strings::titleFromJson('dni')?></td>
                                                 <td class="text-center"><?=Strings::titleFromJson('nombre_apellido')?></td>
-                                                <td class="text-center"><?=Strings::titleFromJson('fecha_registro')?></td>
+                                               <!-- <td class="text-center"><?=Strings::titleFromJson('fecha_registro')?></td>-->
                                                 <td class="text-center"><?=Strings::titleFromJson('botones_accion')?></td>
                                             </tr>
                                         </tfoot>

@@ -108,11 +108,10 @@ function mostrar(id_chofer = -1) {
 			success: function (data) {
 				$('#cedula').val(data.cedula);
 				$("#cedula").prop("disabled", true);
-				$('#nomper').val(data.nomper);
+				$('#nomper').val(data.desccripcion);
 				$("#nomper").prop("disabled", false);
-				$('#estado').val(data.estado);
+				$('#estado').val(data.estatus);
 				$('.modal-title').text("Editar Chofer");
-				$('#id_chofer').val(id_chofer);
 			},
 			complete: function () {
 				if(!isError) SweetAlertLoadingClose();

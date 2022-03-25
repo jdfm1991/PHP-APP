@@ -123,8 +123,9 @@ $(document).on("click", "#btn_consultar", function () {
 $(document).on("click","#btn_excel", function(){
    var fechai = sessionStorage.getItem("fechai", fechai);
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
-   if (fechai !== "" && fechaf !== "") {
-    window.location = "relacionNE_excel.php?&fechai="+fechai+"&fechaf="+fechaf;
+   var ruta = sessionStorage.getItem("ruta", fechrutaaf);
+   if (fechai !== "" && fechaf !== "" && ruta !== "") {
+    window.location = "relacionNE_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&ruta="+ruta;
 }
 });
 

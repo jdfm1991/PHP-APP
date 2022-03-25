@@ -13,7 +13,6 @@ function limpiar() {
     $("#fechai").val("");
     $("#fechaf").val("");
     $("#chofer").val("Todos");
-    $("#tipo").val("Todos");
 }
 
 function validarCantidadRegistrosTabla() {
@@ -76,7 +75,7 @@ $(document).on("click", "#btn_consultar", function () {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
         estado_minimizado = false;
-        if (fechai !== "" && fechaf !== "") {
+        if (fechai !== "" && fechaf !== "" && tipo !== "") {
             sessionStorage.setItem("fechai", fechai);
             sessionStorage.setItem("fechaf", fechaf);
             sessionStorage.setItem("chofer", chofer);
@@ -117,7 +116,7 @@ $(document).on("click", "#btn_consultar", function () {
             estado_minimizado = true;
         }
     } else {
-        SweetAlertError('Debe seleccionar un rango de fecha.');
+        SweetAlertError('Debe seleccionar un rango de fecha y el Tipo de transacción.');
         return (false);
 
     }
@@ -127,8 +126,10 @@ $(document).on("click", "#btn_consultar", function () {
 $(document).on("click","#btn_excel", function(){
    var fechai = sessionStorage.getItem("fechai", fechai);
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
+   var chofer = sessionStorage.getItem("chofer", chofer);
+   var tipo = sessionStorage.getItem("tipo", tipo);
    if (fechai !== "" && fechaf !== "") {
-    window.location = "relacionNE_excel.php?&fechai="+fechai+"&fechaf="+fechaf;
+    window.location = "facturasinliquidar_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&chofer="+chofer+"&tipo="+tipo;
 }
 });
 
@@ -141,11 +142,6 @@ $(document).on("click","#btn_pdf", function(){
     }
 });
 
-function mostrar() {
 
-    var texto= 'Clientes No Activados: ';
-    var cuenta =(tabla.rows().count());
-    $("#cuenta").html(texto + cuenta);
-}
 
 init();

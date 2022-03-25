@@ -12,8 +12,8 @@ function init() {
 function limpiar() {
     $("#fechai").val("");
     $("#fechaf").val("");
-    $("#ruta").val("");
-    $("#tipo").val("");
+    $("#ruta").val("Todos");
+    $("#tipo").val("B");
 }
 
 function validarCantidadRegistrosTabla() {
@@ -126,8 +126,10 @@ $(document).on("click", "#btn_consultar", function () {
 $(document).on("click","#btn_excel", function(){
    var fechai = sessionStorage.getItem("fechai", fechai);
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
-   if (fechai !== "" && fechaf !== "") {
-    window.location = "resumencobrorutas_excel.php?&fechai="+fechai+"&fechaf="+fechaf;
+   var ruta = sessionStorage.getItem("ruta", ruta);
+   var tipo = sessionStorage.getItem("tipo", tipo);
+   if (fechai !== "" && fechaf !== "" && ruta !== "" && tipo !== "") {
+    window.location = "resumencobrorutas_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&ruta="+ruta+"&tipo="+tipo;
 }
 });
 

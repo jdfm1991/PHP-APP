@@ -48,26 +48,25 @@ if (!isset($_SESSION['cedula'])) {
 				</div>
 				<!-- BOX CARD QUE CONTIENE EL FORMULARIO QUE SE CIERRA -->
 				<div  class="card-body" id="minimizar">
-					<form class="form-horizontal" >
-						<div class="form-group row">
-							<div class="col-sm-12">
-								<div class="form-check form-check-inline">
-									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_i')?></label>
-									<input type="date" class="form-control col-sm-9"  id="fechai" name="fechai" required>
-								</div>&nbsp;&nbsp;&nbsp;&nbsp;
-								<div class="form-check form-check-inline">
-									<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('fecha_f')?></label>
-									<input type="date" class="form-control col-sm-9"  id="fechaf" name="fechaf" required>
-								</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-								<div class="form-check form-check-inline">
-									<select class="form-control custom-select" name="marca" id="marca" style="width: 100%;" required>
+                        <form class="form-horizontal" id="frmCompras">
+                            <div class="form-group row">
+                                <div class="form-group col-2">
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha_i')?></label>
+                                    <input type="date" class="form-control" id="fechai" name="fechai" required>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha_f')?></label>
+                                    <input type="date" class="form-control" id="fechaf" name="fechaf" required>
+                                </div>
+                                <div class="form-group col-3 col-sm-3">
+                                    <label for="marca"><?=Strings::titleFromJson('marca_prod')?></label>
+                                    <select class="custom-select" name="marca" id="marca" style="width: 100%;" required>
                                         <!-- la lista de marcas se carga por ajax -->
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
 					<!-- BOX BOTON DE PROCESO -->
 					<div class="card-footer">
 						<button type="submit" class="btn btn-success" id="btn_sellin"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>

@@ -120,17 +120,17 @@ $(document).on("click", "#btn_consultar", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-    var datos = sessionStorage.getItem("datos");
-    if (datos !== "") {
-        window.location = 'inventarioglobal_excel.php?&'+datos;
+    var marcas = sessionStorage.getItem("marcas");
+    if (marcas !== "") {
+        window.location = 'disponiblealmacen_excel.php?&marcas='+marcas;
     }
 });
 
 //ACCION AL PRECIONAR EL BOTON PDF.
 $(document).on("click","#btn_pdf", function(){
-    var datos = sessionStorage.getItem("datos");
-    if (datos !== "") {
-        window.open('inventarioglobal_pdf.php?&'+datos, '_blank');
+    var marcas = sessionStorage.getItem("marcas");
+    if (marcas !== "") {
+        window.open('disponiblealmacen_pdf.php?&'+marcas, '_blank');
     }
 });
 

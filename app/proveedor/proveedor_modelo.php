@@ -25,25 +25,27 @@ class listarProveedores extends Conectar{
             }
        }
 
-       switch ($opc) {
-           case 1:
+       switch ($total) {
 
-                $sql= "select CodProv , saprov.Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
+           case "Todos":
+
+                $sql= "SELECT CodProv , saprov.Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
                 FROM saprov inner join saestado ON saprov.Estado = saestado.Estado ";
 
            break;
-           case 2:
+
+           case "Activos":
            
-                $sql= "select CodProv , saprov.Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
+                $sql= "SELECT CodProv , saprov.Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
                 FROM SAPROV inner join SAESTADO ON SAPROV.Estado = SAESTADO.Estado where Activo='1'";
 
            break;
-           case 3:
+
+           case "Inactivos":
            
-            $sql= "select  CodProv ,saprov. Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
+            $sql= "SELECT  CodProv ,saprov. Descrip as proveedor , ID3 , Activo , Direc1 , Direc2 , saestado.Descrip , Telef , Movil , Email
             FROM SAPROV inner join SAESTADO ON SAPROV.Estado = SAESTADO.Estado where Activo='0' ";
-            
-       break;
+             break;
        }
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.

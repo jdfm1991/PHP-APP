@@ -10,17 +10,17 @@ class Chofer extends Conectar
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar = parent::conexion();
+        $conectar = parent::conexion2();
         parent::set_names();
 
 
-        $sql = "INSERT INTO choferes(Cedula, Nomper, Fecha_Registro, Estado) VALUES(?,?,?,?);";
+        $sql = "INSERT INTO appchofer (cedula, descripcion , estatus) VALUES(?,?,?);";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $data["cedula"]);
-        $sql->bindValue(2, $data["nomper"]);
-        $sql->bindValue(3, $data["fecha_ingreso"]);
-        $sql->bindValue(4, $data["estado"]);
+        $sql->bindValue(2, $data["descripcion"]);
+        //$sql->bindValue(3, $data["fecha_ingreso"]);
+        $sql->bindValue(3, $data["estatus"]);
 
         return $sql->execute();
     }
@@ -29,14 +29,14 @@ class Chofer extends Conectar
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar = parent::conexion();
+        $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "UPDATE choferes SET Nomper=?, Estado=?  WHERE Cedula=?";
+        $sql = "UPDATE [AJ].[dbo].appchofer SET descripcion=?, estatus=?  WHERE cedula=?";
 
         $sql = $conectar->prepare($sql);
-        $sql->bindValue(1, $data["nomper"]);
-        $sql->bindValue(2, $data["estado"]);
+        $sql->bindValue(1, $data["descripcion"]);
+        $sql->bindValue(2, $data["estatus"]);
         $sql->bindValue(3, $data["cedula"]);
 
         return $sql->execute();
@@ -46,10 +46,10 @@ class Chofer extends Conectar
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar = parent::conexion();
+        $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "UPDATE choferes SET estado=? WHERE cedula=?";
+        $sql = "UPDATE [AJ].[dbo].appchofer SET estado=? WHERE cedula=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $estado);
@@ -61,12 +61,12 @@ class Chofer extends Conectar
     {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
-        $conectar = parent::conexion();
+        $conectar = parent::conexion2();
         parent::set_names();
 
         //QUERY
 //    $sql = "DELETE FROM choferes WHERE id = ?";
-        $sql = "UPDATE choferes SET deleted_at=? WHERE Cedula=?";
+        $sql = "UPDATE [AJ].[dbo].appchofer SET deleted_at=? WHERE Cedula=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, date("Y/m/d h:i:s"));

@@ -127,7 +127,7 @@ foreach ($query as $i) {
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Reporte de proveedore : '.$aroden.'.xlsx"');
+header('Content-Disposition: attachment;filename="Reporte de proveedoreS : '.$orden.'.xlsx"');
 header('Cache-Control: max-age=0');
 
 

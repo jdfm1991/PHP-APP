@@ -193,7 +193,7 @@ function listar_choferes(){
             $('#chofer').append('<option name="" value="">Seleccione</option>');
             $.each(data.lista_choferes, function(idx, opt) {
                 //se itera con each para llenar el select en la vista
-                $('#chofer').append('<option name="" value="' + opt.Cedula +'">' + opt.Nomper + '</option>');
+                $('#chofer').append('<option name="" value="' + opt.cedula +'">' + opt.descripcion + '</option>');
             });
         }
     });

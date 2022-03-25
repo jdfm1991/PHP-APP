@@ -26,12 +26,15 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Chart\Layout;
 
 //LLAMAMOS AL MODELO DE ACTIVACIONCLIENTES
-require_once("disponiblealmacen_modelo.php");
+require_once("resumencobrorutas_modelo.php");
 
 //INSTANCIAMOS EL MODELO
-$disponible = new disponiblealmacen();
+$cobros = new resumencobrorutas();
 
-$marcas = $_GET['marcas'];
+$fechai = $_GET['fechai'];
+$fechaf = $_GET['fechaf'];
+$ruta = $_GET['ruta'];
+$tipo = $_GET['tipo'];
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
@@ -57,23 +60,26 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->setSize(25);
 
 
- $sheet->setCellValue('A1', 'Disponibilidad en Almacenes');
-
+if($tipo == 'D'){
+    $sheet->setCellValue('A1', 'Resumen de Cobros por Ruta por dias - NOTAS DE ENTREGAS');
+}else{
+    if($tipo == 'B'){
+        $sheet->setCellValue('A1', 'Resumen de Cobros por Ruta por dias - FACTURAS');
+    }
+}
 
 $sheet->setCellValue('A5', 'fecha tope:  '. date('d-m-Y'));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('codigo_prod')))
-    ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
-    ->setCellValue('C7', Strings::titleFromJson('marca_prod'))
-    ->setCellValue('D7', Strings::titleFromJson('bulto_01'))
-    ->setCellValue('E7', Strings::titleFromJson('paquete_01'))
-    ->setCellValue('F7', Strings::titleFromJson('bulto_03'))
-    ->setCellValue('G7', Strings::titleFromJson('paquete_03'))
-    ->setCellValue('H7', Strings::titleFromJson('bulto_13'))
-    ->setCellValue('I7', Strings::titleFromJson('paquete_13'));
+$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('codvend')))
+    ->setCellValue('B7', Strings::titleFromJson('0_a_7'))
+    ->setCellValue('C7', Strings::titleFromJson('8_a_14'))
+    ->setCellValue('D7', Strings::titleFromJson('15_a_21'))
+    ->setCellValue('E7', Strings::titleFromJson('22_a_31'))
+    ->setCellValue('F7', Strings::titleFromJson('31_dias'))
+    ->setCellValue('G7', Strings::titleFromJson('total'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -82,53 +88,30 @@ $style_title->applyFromArray(
 
 
 //estableceer el estilo de la cabecera de la tabla
-$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:I7');
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:G7');
 
-$query = $disponible->getdisponiblealmacen( $marcas);
+$query = $cobros->getcobros( $fechai, $fechaf,$ruta,$tipo);
 
 $row = 8;
 foreach ($query as $i) {
 
+
+        $De_0_a_7_Dias = number_format($i["De_0_a_7_Dias"], 2, ',', '.');
+        $De_8_a_14_Dias = number_format($i["De_8_a_14_Dias"], 2, ',', '.');
+        $De_15_a_21_Dias = number_format($i["De_15_a_21_Dias"], 2, ',', '.');
+        $De_22_a_31_Dias = number_format($i["De_22_a_31_Dias"], 2, ',', '.');
+        $Mas_31_Dias = number_format($i["Mas_31_Dias"], 2, ',', '.');
+
+        $total = number_format($i["Total"], 2, ',', '.');
+
     $sheet = $spreadsheet->getActiveSheet();
-
-    if( $i["CodUbic"]==='01'){
-
-        $sheet->setCellValue('A' . $row, $i['codprod']);
-        $sheet->setCellValue('B' . $row, $i['Descrip']);
-        $sheet->setCellValue('C' . $row, $i['marca']);
-        $sheet->setCellValue('D' . $row, number_format($i["Bultos"], 2, ',', '.'));
-        $sheet->setCellValue('E' . $row, number_format($i["Paquetes"], 2, ',', '.'));
-        $sheet->setCellValue('F' . $row, number_format(0, 2, ',', '.'));
-        $sheet->setCellValue('G' . $row, number_format(0, 2, ',', '.'));
-        $sheet->setCellValue('H' . $row, number_format(0, 2, ',', '.'));
-        $sheet->setCellValue('I' . $row, number_format(0, 2, ',', '.'));
-
-    }else{
-        if($row["CodUbic"]==='03'){
-
-            $sheet->setCellValue('A' . $row, $i['codprod']);
-            $sheet->setCellValue('B' . $row, $i['Descrip']);
-            $sheet->setCellValue('C' . $row, $i['marca']);
-            $sheet->setCellValue('D' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('E' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('F' . $row, number_format($i["Bultos"], 2, ',', '.'));
-            $sheet->setCellValue('G' . $row, number_format($i["Paquetes"], 2, ',', '.'));
-            $sheet->setCellValue('H' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('I' . $row, number_format(0, 2, ',', '.'));
-
-        }else{
-
-            $sheet->setCellValue('A' . $row, $i['codprod']);
-            $sheet->setCellValue('B' . $row, $i['Descrip']);
-            $sheet->setCellValue('C' . $row, $i['marca']);
-            $sheet->setCellValue('D' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('E' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('F' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('G' . $row, number_format(0, 2, ',', '.'));
-            $sheet->setCellValue('H' . $row, number_format($i["Bultos"], 2, ',', '.'));
-            $sheet->setCellValue('I' . $row, number_format($i["Paquetes"], 2, ',', '.'));
-        }
-    }
+    $sheet->setCellValue('A' . $row, $i['EDV']);
+    $sheet->setCellValue('B' . $row, $De_0_a_7_Dias);
+    $sheet->setCellValue('C' . $row, $De_8_a_14_Dias);
+    $sheet->setCellValue('D' . $row, $De_15_a_21_Dias);
+    $sheet->setCellValue('E' . $row, $De_22_a_31_Dias);
+    $sheet->setCellValue('F' . $row, $Mas_31_Dias); 
+    $sheet->setCellValue('G' . $row, $total);
 
     /** centrar las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -138,14 +121,19 @@ foreach ($query as $i) {
     $spreadsheet->getActiveSheet()->getStyle('E'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('F'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('G'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle('H'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-    $spreadsheet->getActiveSheet()->getStyle('I'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $row++;
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-header('Content-Disposition: attachment;filename="Disponibilidad en Almacenes del '.$fechai.' hasta '.$fechaf.'.xlsx"');
+if($tipo == 'D'){
+
+    header('Content-Disposition: attachment;filename="Resumen de Cobros por Ruta por dias - NOTAS DE ENTREGAS del '.$fechai.' hasta '.$fechaf.'.xlsx"');
+}else{
+    if($tipo == 'B'){
+        header('Content-Disposition: attachment;filename="Resumen de Cobros por Ruta por dias - FACTURAS del '.$fechai.' hasta '.$fechaf.'.xlsx"');
+    }
+}
 
 header('Cache-Control: max-age=0');
 

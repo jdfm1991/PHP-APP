@@ -50,7 +50,7 @@ class resumencobrorutas extends Conectar{
               inner join [AJ].[dbo].SAACXC as c on p.NroPpal = c.NroUnico 
               inner join [AJ].[dbo].SACLIE as cl on c.CodClie = cl.CodClie
               left join [AJ].[dbo].SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
-              where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '2022/02/01' and '2022/03/02' and p.TipoCxc not in ('31','41')) AS TOTAL 
+              where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and p.TipoCxc not in ('31','41')) AS TOTAL 
               GROUP BY EDV order by EDV asc";
             }else{
 

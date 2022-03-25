@@ -57,7 +57,7 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:H1')->getFont()->setSize(25);
 $sheet->setCellValue('A1', 'Relacion de Notas de Entrega por EDV');
-$sheet->setCellValue('A5', 'fecha tope:  '. date(FORMAT_DATE, strtotime($fechaf)));
+$sheet->setCellValue('A5', 'fecha tope:  '. date('d-m-Y'));
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
@@ -83,7 +83,7 @@ $spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:H7');
 $query = $notaentrega->getdevolucionnotaentrega( $fechai, $fechaf,$ruta);
 $row = 8;
 foreach ($query as $i) {
-    $sheet = $spreadsheet->getActiveSheet();
+    
 
     if($i["tipofac"]=='C'){
         $tipo='N/E';
@@ -92,7 +92,8 @@ foreach ($query as $i) {
     $fecha_E = date('d/m/Y', strtotime($i["fechae"]));
     $subtotal = number_format($i["subtotal"], 2, ',', '.');
     $total = number_format($i["total"], 2, ',', '.');
-
+    
+    $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue('A' . $row, $tipo);
     $sheet->setCellValue('B' . $row, $i['numerod']);
     $sheet->setCellValue('C' . $row, $i['rif']);

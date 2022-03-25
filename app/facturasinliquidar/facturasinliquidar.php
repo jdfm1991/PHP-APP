@@ -67,8 +67,7 @@ if (!isset($_SESSION['cedula'])) {
 									</div>
                                     <div class="form-check form-check-inline">
                                 <label for="orden">Tipo de Transacción</label>
-									<select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;" required>
-                                    <option name="" value="">Seleccionar</option>
+									<select class="form-control custom-select" name="tipo" id="tipo" style="width: 100%;" required >
                                     <option name="" value="0">Pendientes</option>
                                     <option name="" value="1">Cobradas</option>
                                     </select>
@@ -129,7 +128,7 @@ if (!isset($_SESSION['cedula'])) {
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
 							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
-							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>
+							<!--<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>-->
 						</div>
 					</div>
 				</section>

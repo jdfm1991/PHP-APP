@@ -30,7 +30,6 @@ $(document).ready(function () {
 //ACCION AL PRECIONAR EL BOTON.
 $(document).on("click", "#btn_listadeproveedores", function () {
     var orden = $('#orden').val();
-
     if (estado_minimizado) {
         $("#tabla").hide();
         $("#minimizar").slideToggle();///MINIMIZAMOS LA TARJETA.
@@ -61,7 +60,7 @@ $(document).on("click", "#btn_listadeproveedores", function () {
                         validarCantidadRegistrosTabla();
                         $("#tabla").show('');//MOSTRAMOS LA TABLA.
                         //mostrar();
-                        limpiar();//LIMPIAMOS EL SELECTOR.
+                        //limpiar();//LIMPIAMOS EL SELECTOR.
                     }
                 },//TRADUCCION DEL DATATABLE.
                 "bDestroy": true,
@@ -89,16 +88,19 @@ $(document).on("click", "#btn_listadeproveedores", function () {
 
 //ACCION AL PRECIONAR EL BOTON EXCEL.
 $(document).on("click","#btn_excel", function(){
-    var orden = sessionStorage.getItem("orden", orden);
+    var orden = $('#orden').val();
     if (orden !== "") {
+        sessionStorage.getItem("orden", orden);
         window.open ('proveedor_excel.php?&orden='+orden);
     }
  });
  
  //ACCION AL PRECIONAR EL BOTON PDF.
  $(document).on("click","#btn_pdf", function(){
-     var orden = sessionStorage.getItem("orden", orden);
+    var orden = $('#orden').val();
+        sessionStorage.getItem("orden", orden);
      if (orden !== "") {
+        sessionStorage.getItem("orden", orden);
          window.open('proveedor_pdf.php?&orden='+orden, '_blank');
      }
  });

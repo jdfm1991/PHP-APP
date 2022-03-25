@@ -13,20 +13,18 @@ switch ($_GET["op"]) {
     case "guardaryeditar":
         $est_vehiculo = false;
 
-        $id_vehiculo = $_POST["id_vehiculo"];
+        $id_vehiculo = $_POST["placa"];
 
         $data = array(
-            'id_vehiculo'   => $id_vehiculo,
             'placa'         => strtoupper($_POST['placa']),
             'modelo'        =>strtoupper($_POST['modelo']),
             'capacidad'     => str_replace(".","", str_replace(",","", $_POST['capacidad'])),
             'volumen'       => $_POST["volumen"],
-            'estado'        => $_POST["estado"],
         );
 
         /*si el id no existe entonces lo registra
         importante: se debe poner el $_POST sino no funciona*/
-        if (empty($id_vehiculo)) {
+        if (!empty($id_vehiculo)) {
 
             /*verificamos si existe la placa y correo en la base de datos, si ya existe un registro con la placa o correo entonces no se registra el usuario*/
             $datos = Vehiculo::getByRegistration($data["placa"]);
@@ -106,7 +104,7 @@ switch ($_GET["op"]) {
             $sub_array = array();
 
             //ESTADO
-            $est = '';
+           /* $est = '';
             $atrib = "btn btn-success btn-sm estado";
             if ($row["estado"] == 0) {
                 $est = 'INACTIVO';
@@ -115,20 +113,19 @@ switch ($_GET["op"]) {
                 if ($row["estado"] == 1) {
                     $est = 'ACTIVO';
                 }
-            }
+            }*/
 
 
-            $Fecha_Registro = date('d/m/Y', strtotime($row['fecha_registro']));
+           // $Fecha_Registro = date('d/m/Y', strtotime($row['fecha_registro']));
 
             $sub_array[] = $row["placa"];
             $sub_array[] = $row["modelo"];
             $sub_array[] = $row["capacidad"];
             $sub_array[] = $row["volumen"];
-            $sub_array[] = $Fecha_Registro;
+           // $sub_array[] = $Fecha_Registro;
             $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="cambiarEstado(\'' . $row["id"] . '\',\'' . $row["estado"] . '\');" name="estado" id="' . $row["id"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
-                                <button type="button" onClick="mostrar(\'' . $row["id"] . '\');"  id="' . $row["id"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
-                                <button type="button" onClick="eliminar(\'' . $row["id"] . '\',\'' . $row["modelo"] . '\');"  id="' . $row["id"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                <button type="button" onClick="mostrar(\'' . $row["placa"] . '\');"  id="' . $row["placa"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                <button type="button" onClick="eliminar(\'' . $row["placa"] . '\',\'' . $row["modelo"] . '\');"  id="' . $row["placa"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                             </div>';
 
             $data[] = $sub_array;

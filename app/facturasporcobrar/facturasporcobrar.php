@@ -128,7 +128,7 @@ if (!isset($_SESSION['cedula'])) {
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
 							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
-							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>
+						<!--	<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>-->
 						</div>
 					</div>
 				</section>

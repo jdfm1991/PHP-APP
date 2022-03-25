@@ -95,7 +95,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(140);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE LISTADO DE PRECIOS E INVENTARIO', 0, 0, 'C');
+        $this->Cell(40, 10, 'REPORTE DE LISTADO DE PRECIOS EN DIVISAS E INVENTARIO', 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         $this->SetFont('Arial', 'B', 8.5);

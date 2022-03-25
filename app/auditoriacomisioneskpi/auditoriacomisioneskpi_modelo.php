@@ -14,19 +14,19 @@ class Auditoriacomisioneskpi extends Conectar{
 		//QUERY
 		$sql = "";
 
-        if (hash_equals("-", $vendedor)){
+        if ($vendedor !== ""){
             $sql = "SELECT A.campo, A.antes, A.despu, B.usuario, B.fechah, C.descrip 
 						FROM auaj.dbo.cambio_hist_kpi AS A
 							INNER JOIN auaj.dbo.hist_cambio_kpi AS B ON codigo = codig
 							INNER JOIN aj.dbo.appusuarios AS C ON C.id_usu = B.usuario
-						WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) BETWEEN ? AND ? AND A.antes != A.despu AND ruta = ?
+						WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) between '$fechai' and '$fechaf' AND A.antes != A.despu AND ruta = '$vendedor'
 						ORDER BY fechah";
         }else{
           $sql = "SELECT A.campo, A.antes, A.despu, B.usuario, B.fechah, C.descrip 
 					FROM auaj.dbo.cambio_hist_kpi AS A
 						INNER JOIN auaj.dbo.hist_cambio_kpi AS B ON codigo = codig
 						INNER JOIN aj.dbo.appusuarios AS C ON C.id_usu = B.usuario
-					WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) BETWEEN ? AND ? and A.antes != A.despu
+					WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, B.fechah)) between '$fechai' and '$fechaf' and A.antes != A.despu
 					ORDER BY fechah";
         }
 

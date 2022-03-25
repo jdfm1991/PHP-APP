@@ -8,18 +8,16 @@ class Vehiculos extends Conectar
     public function registrar_vehiculo($data)
     {
         $i = 0;
-        $conectar = parent::conexion();
+        $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "INSERT INTO vehiculos(Placa, Modelo, Capacidad, Volumen, Fecha_Registro, Estado) VALUES(?,?,?,?,?,?);";
+        $sql = "INSERT INTO [AJ].[dbo].[appVehiculo] (placa, modelo, capacidad, volumen) VALUES(?,?,?,?);";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue($i += 1, $data["placa"]);
         $sql->bindValue($i += 1, $data["modelo"]);
         $sql->bindValue($i += 1, $data["capacidad"]);
         $sql->bindValue($i += 1, $data["volumen"]);
-        $sql->bindValue($i += 1, date(FORMAT_DATETIME_FOR_INSERT));
-        $sql->bindValue($i += 1, $data["estado"]);
 
         return $sql->execute();
     }
@@ -27,7 +25,7 @@ class Vehiculos extends Conectar
     public function editar_vehiculo($data)
     {
         $i = 0;
-        $conectar = parent::conexion();
+        $conectar = parent::conexion2();
         parent::set_names();
 
         $sql = "UPDATE vehiculos SET  Modelo=?,  Capacidad=?,  Volumen=?,  Estado=?  WHERE   ID=?";

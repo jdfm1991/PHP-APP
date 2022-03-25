@@ -40,7 +40,7 @@ switch ($_GET["op"]) {
             //ESTADO
             $est = '';
             $atrib = "btn btn-success btn-sm estado";
-            switch ($row["Estado"]){
+            switch ($row["estatus"]){
                 case 0:
                     $est = 'INACTIVO';
                     $atrib = "btn btn-warning btn-sm estado";
@@ -50,15 +50,15 @@ switch ($_GET["op"]) {
                     break;
             }
 
-            $Fecha_Registro = date('d/m/Y', strtotime($row['Fecha_Registro']));
+           // $Fecha_Registro = date('d/m/Y', strtotime($row['Fecha_Registro']));
 
-            $sub_array[] = $row["Cedula"];
-            $sub_array[] = $row["Nomper"];
-            $sub_array[] = $Fecha_Registro;
+            $sub_array[] = $row["cedula"];
+            $sub_array[] = $row["descripcion"];
+            //$sub_array[] = $Fecha_Registro;
             $sub_array[] = '<div class="col text-center">
-                                <button type="button" onClick="cambiarEstado(\'' . $row["Cedula"] . '\',\'' . $row["Estado"] . '\');" name="estado" id="' . $row["Cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
-                                <button type="button" onClick="mostrar(\'' . $row["Cedula"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
-                                <button type="button" onClick="eliminar(\'' . $row["Cedula"] . '\',\'' . $row["Nomper"] . '\');"  id="' . $row["Cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
+                                <button type="button" onClick="cambiarEstado(\'' . $row["cedula"] . '\',\'' . $row["estatus"] . '\');" name="estado" id="' . $row["cedula"] . '" class="' . $atrib . '">' . $est . '</button>' . " " . '
+                                <button type="button" onClick="mostrar(\'' . $row["cedula"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-info btn-sm update">Editar</button>' . " " . '
+                                <button type="button" onClick="eliminar(\'' . $row["cedula"] . '\',\'' . $row["descripcion"] . '\');"  id="' . $row["cedula"] . '" class="btn btn-danger btn-sm eliminar">Eliminar</button>
                             </div>';
 
             $data[] = $sub_array;
@@ -75,21 +75,19 @@ switch ($_GET["op"]) {
     case "guardaryeditar":
         $chofer_estatus = false;
 
-        $id_chofer = $_POST["id_chofer"];
+        $id_chofer = $_POST["cedula"];
 
         $data = array(
-            'cedula'        => $id_chofer,
-            'nomper'        => $_POST['nomper'],
-            'fecha_ingreso' => date('Y-m-d H:i:s'),
-            'estado'        => $_POST['estado'],
+            'cedula'        => $_POST["cedula"],
+            'descripcion'        => $_POST['nomper'],
+           // 'fecha_ingreso' => date('Y-m-d H:i:s'),
+            'estatus'        => $_POST['estado'],
         );
-
         /* consulta si la variable id_chofer llego vacia para realizar
            operaciones de creacion o actualizacion  */
-        if (empty($id_chofer)) {
+        if (!empty($id_chofer)) {
             /*verificamos si existe un registro en la base de datos, si ya existe un registro entonces no se registra*/
             $datos = Choferes::getByDni($id_chofer);
-
             if (is_array($datos) == true and count($datos) == 0) {
                 //no existe, por lo tanto hacemos el registro
                 $chofer_estatus = $chofer->registrar_chofer($data);
@@ -118,15 +116,15 @@ switch ($_GET["op"]) {
 
     case "mostrar":
         $output = array();
-        $id_chofer = $_POST["id_chofer"];
+        $id_chofer = $_POST["cedula"];
 
         $datos = Choferes::getByDni($id_chofer);
 
         if (is_array($datos) == true and count($datos) > 0) {
             $output["cedula"] = $datos[0]["Cedula"];
-            $output["nomper"] = $datos[0]["Nomper"];
-            $output["fecha_ingreso"] = $datos[0]["Fecha_Registro"];
-            $output["estado"] = $datos[0]["Estado"];
+            $output["descripcion"] = $datos[0]["descripcion"];
+           // $output["fecha_ingreso"] = $datos[0]["Fecha_Registro"];
+            $output["estatus"] = $datos[0]["estatus"];
         }
 
         echo json_encode($output);
@@ -134,7 +132,7 @@ switch ($_GET["op"]) {
 
     case "eliminar":
         $eliminar = false;
-        $id = $_POST["id"];
+        $id = $_POST["cedula"];
 
         $datos = Choferes::getByDni($id);
         if(is_array($datos) == true and count($datos) > 0) {

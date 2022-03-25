@@ -12,8 +12,6 @@ function init() {
 function limpiar() {
     $("#fechai").val("");
     $("#fechaf").val("");
-    $("#ruta").val("Todos");
-    $("#tipo").val("Todos");
 }
 
 function validarCantidadRegistrosTabla() {
@@ -126,8 +124,10 @@ $(document).on("click", "#btn_consultar", function () {
 $(document).on("click","#btn_excel", function(){
    var fechai = sessionStorage.getItem("fechai", fechai);
    var fechaf = sessionStorage.getItem("fechaf", fechaf);
+   var ruta = sessionStorage.getItem("ruta", ruta);
+   var tipo = sessionStorage.getItem("tipo", tipo);
    if (fechai !== "" && fechaf !== "") {
-    window.location = "relacionNE_excel.php?&fechai="+fechai+"&fechaf="+fechaf;
+    window.location = "devoluciones_excel.php?&fechai="+fechai+"&fechaf="+fechaf+"&ruta="+ruta+"&tipo="+tipo;
 }
 });
 
@@ -136,7 +136,7 @@ $(document).on("click","#btn_pdf", function(){
     var fechai = sessionStorage.getItem("fechai", fechai);
     var fechaf = sessionStorage.getItem("fechaf", fechaf);
     if (fechai !== "" && fechaf !== "") {
-        window.open('relacionNE_pdf.php?&fechai='+fechai+'&fechaf='+fechaf, '_blank');
+        window.open('devolucionesE_pdf.php?&fechai='+fechai+'&fechaf='+fechaf, '_blank');
     }
 });
 
