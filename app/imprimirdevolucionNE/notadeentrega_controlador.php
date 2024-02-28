@@ -29,9 +29,9 @@ switch ($_GET["op"]) {
             $cabecera['fechae']    = Date(FORMAT_DATE, strtotime($cabecera['fechae']));
             $cabecera['telefono']  = Strings::avoidNull($cabecera['telefono']);
             $cabecera['notas1']    = Strings::avoidNull($cabecera['notas1']);
-            $cabecera['subtotal']  = Strings::rdecimal($cabecera['subtotal']);
-            $cabecera['descuento'] = Strings::rdecimal($cabecera['descuento']);
-            $cabecera['total']     = Strings::rdecimal($cabecera['total']);
+            $cabecera['subtotal']  = Strings::rdecimal($cabecera['subtotal'], 2);
+            $cabecera['descuento'] = Strings::rdecimal($cabecera['descuento'], 2);
+            $cabecera['total']     = Strings::rdecimal($cabecera['total'], 2);
         }
 
         # darle formatos y validar datos del detalle
@@ -44,7 +44,7 @@ switch ($_GET["op"]) {
                 $sub_array['coditem']     = $row["coditem"];
                 $sub_array['descripcion'] = utf8_encode($row["descripcion"]);
                 $sub_array['cantidad']    = Strings::rdecimal($row["cantidad"], 0);
-                $sub_array['unidad']      = ($row['esunidad'] == '1') ? 'PAQ' : 'BUL';
+                $sub_array['unidad']      = ($row['esunidad'] == '1') ? 'UNI' : 'PAQ';
                 $sub_array['precio']      = Strings::rdecimal($row['precio']);
                 $sub_array['totalitem']   = Strings::rdecimal($row["totalitem"], 2);
                 $sub_array['descuento']   = Strings::rdecimal($row["descuento"], 2);

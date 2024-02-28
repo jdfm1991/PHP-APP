@@ -7,6 +7,10 @@ function init() {
     $("#tabla").hide();
     estado_minimizado = false;
     listar_depositos_marcas();
+    
+    $('#orden').val('codprod');
+    $('#marca').val('TODAS');
+    $('#depo').val('01');
 }
 
 function limpiar() {
@@ -48,6 +52,8 @@ $(document).on("click", "#btn_listadeprecio", function () {
     var p1 = 0;
     var p2 = 0;
     var p3 = 0;
+    var bulto=0;
+    var paquete=0;
     var iva = 1;
     var cubi = 0;
     var exis = 0;
@@ -58,6 +64,8 @@ $(document).on("click", "#btn_listadeprecio", function () {
     if (document.getElementById('iva').checked) { iva = 1.16; }
     if (document.getElementById('cubi').checked) { cubi = 1; }
     if (document.getElementById('exis').checked) { exis = 1; }
+    if (document.getElementById('bulto').checked) { bulto = 1; }
+    if (document.getElementById('paquete').checked) { paquete = 1; }
 
     if (estado_minimizado) {
         $("#tabla").hide();
@@ -72,7 +80,7 @@ $(document).on("click", "#btn_listadeprecio", function () {
                 url: "listadeprecio_controlador.php?op=listar",
                 method: "POST",
                 dataType: "json",
-                data: {'depo': depos,'marca': marcas,'orden': orden,'p1': p1, 'p2': p2, 'p3': p3, 'iva': iva, 'cubi': cubi, 'exis':exis,},
+                data: {'depo': depos,'marca': marcas,'orden': orden,'p1': p1, 'p2': p2, 'p3': p3, 'iva': iva, 'cubi': cubi, 'exis':exis, 'bulto':bulto, 'paquete':paquete,},
                 beforeSend: function () {
                     SweetAlertLoadingShow();
                     if(tabla instanceof $.fn.dataTable.Api){
@@ -182,7 +190,7 @@ function listar_depositos_marcas(){
                 $('#depo').append('<option name="" value="' + opt.codubi +'">'+ opt.codubi +': '+ opt.descrip.substr(0, 35) + '</option>');
             });
 
-            $('#marca').append('<option name="" value="">Seleccione una Marca</option>').append('<option name="" value="-">TODAS</option>');
+            $('#marca').append('<option name="" value="">Seleccione una Marca</option>').append('<option name="" value="TODAS">TODAS</option>');
             $.each(data.lista_marcas, function(idx, opt) {
                 $('#marca').append('<option name="" value="' + opt.marca +'">' + opt.marca + '</option>');
             });

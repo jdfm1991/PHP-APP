@@ -29,12 +29,12 @@ class cierredecajacomisiones extends Conectar{
               DATEDIFF(day, cxc.FechaE, p.FechaE) DiasTrans,
               cl.CodClie Codclie,
               cl.Descrip,
-              p.Monto - isnull((select dev.Monto from SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('31')),0) Monto
+              p.Monto - isnull((select dev.Monto from SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('10','20')),0) Monto
               from SAPAGCXC as p 
               inner join SAACXC as c on p.NroPpal = c.NroUnico 
               inner join SACLIE as cl on c.CodClie = cl.CodClie
               left join SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
-              where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf'and p.TipoCxc not in ('31','41')
+              where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf'and p.TipoCxc in ('10','20') and c.TipoCxc in ('41')
               order by p.FechaE DESC";
             }else{
 
@@ -54,12 +54,12 @@ class cierredecajacomisiones extends Conectar{
                     DATEDIFF(day, cxc.FechaE, p.FechaE) DiasTrans,
                     cl.CodClie Codclie,
                     cl.Descrip,
-                    p.Monto - isnull((select dev.Monto from [AJ_D].[dbo].SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('31')),0) Monto
-                    from [AJ_D].[dbo].SAPAGCXC as p 
-                    inner join [AJ_D].[dbo].SAACXC as c on p.NroPpal = c.NroUnico 
-                    inner join [AJ_D].[dbo].SACLIE as cl on c.CodClie = cl.CodClie
-                    left join [AJ_D].[dbo].SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
-                    where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and p.TipoCxc not in ('31','41')
+                    p.Monto - isnull((select dev.Monto from CONFIMANIA_D.[dbo].SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('10','20')),0) Monto
+                    from CONFIMANIA_D.[dbo].SAPAGCXC as p 
+                    inner join CONFIMANIA_D.[dbo].SAACXC as c on p.NroPpal = c.NroUnico 
+                    inner join CONFIMANIA_D.[dbo].SACLIE as cl on c.CodClie = cl.CodClie
+                    left join CONFIMANIA_D.[dbo].SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
+                    where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and p.TipoCxc in ('10','20') and c.TipoCxc in ('41')
                     order by p.FechaE DESC";
                 }else{
 
@@ -79,12 +79,12 @@ class cierredecajacomisiones extends Conectar{
                         DATEDIFF(day, cxc.FechaE, p.FechaE) DiasTrans,
                         cl.CodClie Codclie,
                         cl.Descrip,
-                        p.Monto - isnull((select dev.Monto from SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('31')),0) Monto
+                        p.Monto - isnull((select dev.Monto from SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('10','20')),0) Monto
                         from SAPAGCXC as p 
                         inner join SAACXC as c on p.NroPpal = c.NroUnico 
                         inner join SACLIE as cl on c.CodClie = cl.CodClie
                         left join SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
-                        where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and  c.CodVend = '$ruta' and p.TipoCxc not in ('31','41')
+                        where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and  c.CodVend = '$ruta' and p.TipoCxc in ('10','20') and c.TipoCxc in ('41')
                         order by p.FechaE DESC";
                     }else{
 
@@ -104,12 +104,12 @@ class cierredecajacomisiones extends Conectar{
                             DATEDIFF(day, cxc.FechaE, p.FechaE) DiasTrans,
                             cl.CodClie Codclie,
                             cl.Descrip,
-                            p.Monto - isnull((select dev.Monto from [AJ_D].[dbo].SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('31')),0) Monto
-                            from [AJ_D].[dbo].SAPAGCXC as p 
-                            inner join [AJ_D].[dbo].SAACXC as c on p.NroPpal = c.NroUnico 
-                            inner join [AJ_D].[dbo].SACLIE as cl on c.CodClie = cl.CodClie
-                            left join [AJ_D].[dbo].SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
-                            where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and  c.CodVend = '$ruta' and p.TipoCxc not in ('31','41')
+                            p.Monto - isnull((select dev.Monto from CONFIMANIA_D.[dbo].SAACXC as dev where dev.NroUnico = p.NroPpal and dev.TipoCxc in ('10','20')),0) Monto
+                            from CONFIMANIA_D.[dbo].SAPAGCXC as p 
+                            inner join CONFIMANIA_D.[dbo].SAACXC as c on p.NroPpal = c.NroUnico 
+                            inner join CONFIMANIA_D.[dbo].SACLIE as cl on c.CodClie = cl.CodClie
+                            left join CONFIMANIA_D.[dbo].SAACXC as cxc on cxc.NumeroD = p.NumeroD and cxc.TipoCxc in ('10','20')
+                            where DATEADD(dd, 0, DATEDIFF(dd, 0, p.FechaE)) between '$fechai' and '$fechaf' and  c.CodVend = '$ruta' and p.TipoCxc in ('10','20') and c.TipoCxc in ('41')
                             order by p.FechaE DESC";
                         }
                     }

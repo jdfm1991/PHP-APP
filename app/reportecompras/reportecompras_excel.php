@@ -32,19 +32,43 @@ require_once("reportecompras_modelo.php");
 //INSTANCIAMOS EL MODELO
 $reporte = new ReporteCompras();
 
-$fechai = $_GET['fechai'];
+$fechai = $_GET['fechaf'];
 $fechaf = $_GET['fechaf'];
 $marca = $_GET['marca'];
-$n = $_GET['n'];
+/*$n = $_GET['n'];
 $v = $_GET['v'];
-
+*/
 $separa = explode("-", $fechai);
 $dia = $separa[2];
-$mes = $separa[1];
+$mesAux = $mes = $separa[1];
 $anio = $separa[0];
 
+if($dia=='01'){
+
+    if($mes != "01"){
+        $mesAux = "0" .($mes -1);
+    }else{
+        $mesAux = "12";
+        $anio = ($anio -1);
+    }
+    
+}
+        
+    $fechai2 = $anio . "-" .$mesAux. "-01";
+    $fechaf2 = $_GET['fechaf'];
+
+
+/*
 $fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, $anio));
-$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);
+$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);*/
+
+ $diaA=$dia;
+        if($diaA==31){
+            $diaA=$diaA-1;
+        }
+
+         $fechaiA = $anio.'-'.($mes-1).'-'.$diaA;
+         $fechafA = $fechaf/* $anio.'-'.$mes.'-'.$dia*/;
 
 
 $spreadsheet = new Spreadsheet();
@@ -85,7 +109,7 @@ $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
 $spreadsheet->getActiveSheet()->getStyle('A3:F3')->getFont()->setSize(18);
 $spreadsheet->getActiveSheet()->getStyle('A5:F5')->getFont()->setSize(18);
 $sheet->setCellValue('A1', 'REPORTE DE COMPRAS');
-$sheet->setCellValue('A3', "Desde: " . date(FORMAT_DATE, strtotime($_GET['fechai'])) ." Hasta: " . date(FORMAT_DATE, strtotime($_GET['fechaf'])));
+$sheet->setCellValue('A3', "Del: " . date(FORMAT_DATE, strtotime($_GET['fechaf'])));
 $sheet->setCellValue('A5', 'Proveedor: '. $marca);
 
 /** TITULO DE LA TABLA **/
@@ -101,24 +125,24 @@ $spreadsheet->getActiveSheet()
 $sheet->setCellValue('A7', Strings::titleFromJson('#'))
     ->setCellValue('B7', Strings::titleFromJson('codigo_prod'))
     ->setCellValue('C7', Strings::titleFromJson('descrip_prod'))
-    ->setCellValue('D7', Strings::titleFromJson('display_por_bulto'))
+    ->setCellValue('D7', Strings::titleFromJson('display_por_paquete'))
     ->setCellValue('E7', Strings::titleFromJson('ultimo_precio_compra'))
     ->setCellValue('E8', Strings::titleFromJson('display'))
-    ->setCellValue('F8', Strings::titleFromJson('bulto'))
+    ->setCellValue('F8', Strings::titleFromJson('paquete'))
     ->setCellValue('G7', Strings::titleFromJson('porcentaje_rentabilidad'))
     ->setCellValue('H7', Strings::titleFromJson('fecha_penultima_compra'))
     ->setCellValue('H8', Strings::titleFromJson('fecha'))
-    ->setCellValue('I8', Strings::titleFromJson('bultos'))
+    ->setCellValue('I8', Strings::titleFromJson('paquete'))
     ->setCellValue('J7', Strings::titleFromJson('fecha_ultima_compra'))
     ->setCellValue('J8', Strings::titleFromJson('fecha'))
-    ->setCellValue('K8', Strings::titleFromJson('bultos'))
+    ->setCellValue('K8', Strings::titleFromJson('paquete'))
     ->setCellValue('L7', Strings::titleFromJson('ventas_mes_anterior'))
     ->setCellValue('L8', '1')
     ->setCellValue('M8', '2')
     ->setCellValue('N8', '3')
     ->setCellValue('O8', '4')
     ->setCellValue('P7', Strings::titleFromJson('ventas_total_ult_mes'))
-    ->setCellValue('Q7', Strings::titleFromJson('existencia_actual_bultos'))
+    ->setCellValue('Q7', Strings::titleFromJson('existencia_actual_paquete'))
     ->setCellValue('R7', Strings::titleFromJson('prod_no_vendidos'))
     ->setCellValue('S7', Strings::titleFromJson('dias_inventario'))
     ->setCellValue('T7', Strings::titleFromJson('sugerido'))
@@ -144,7 +168,7 @@ foreach ($codidos_producto as $key => $coditem) {
     $ult_compras = $reporte->get_ultimas_compras($coditem["codprod"]);
     $ventas      = $reporte->get_ventas_mes_anterior($coditem["codprod"], $fechaiA, $fechafA);
     $bultosExis  = $reporte->get_bultos_existentes(ALMACEN_PRINCIPAL, $coditem["codprod"]);
-    $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechai, $fechaf);
+    $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechai2, $fechaf2);
 
     #Calculos
     $rentabilidad = ReporteComprasHelpers::rentabilidad($producto[0]["precio1"], $producto[0]["costoactual"]);
@@ -163,24 +187,121 @@ foreach ($codidos_producto as $key => $coditem) {
     $sheet->setCellValue('A' . $i, $key+1);
     $sheet->setCellValue('B' . $i, $producto[0]["codprod"]);
     $sheet->setCellValue('C' . $i, $producto[0]["descrip"]);
-    $sheet->setCellValue('D' . $i, Strings::rdecimal($producto[0]["displaybultos"], 0));
-    $sheet->setCellValue('E' . $i, Strings::rdecimal((count($costos) > 0) ? (floatval($costos[0]["costodisplay"])) : 0, 2));
-    $sheet->setCellValue('F' . $i, Strings::rdecimal((count($costos) > 0) ? (floatval($costos[0]["costobultos"])) : 0, 2));
+
+     if($producto[0]["displaybultos"]>=1000){
+
+            $sheet->setCellValue('D' . $i, ($producto[0]["displaybultos"]));
+
+        }else{
+    
+            $sheet->setCellValue('D' . $i, number_format($producto[0]["displaybultos"], 0));
+        }
+
+    if($costos>=1000){
+
+            $sheet->setCellValue('E' . $i, ((count($costos) > 0) ? (floatval($costos[0]["costodisplay"])) : 0));
+            $sheet->setCellValue('F' . $i, ((count($costos) > 0) ? (floatval($costos[0]["costobultos"])) : 0));
+
+        }else{
+    
+            $sheet->setCellValue('E' . $i, number_format((count($costos) > 0) ? (floatval($costos[0]["costodisplay"])) : 0, 2));
+            $sheet->setCellValue('F' . $i, number_format((count($costos) > 0) ? (floatval($costos[0]["costobultos"])) : 0, 2));
+        }
+
+        
     $sheet->setCellValue('G' . $i, Strings::rdecimal($rentabilidad, 2) . "%");
     $sheet->setCellValue('H' . $i, $fechapenultimacompra);
     $sheet->setCellValue('I' . $i, $bultospenultimacompra);
     $sheet->setCellValue('J' . $i, $fechaultimacompra);
     $sheet->setCellValue('K' . $i, $bultosultimacompra);
-    $sheet->setCellValue('L' . $i, Strings::rdecimal($ventas_mes_anterior["semana1"], 2));
-    $sheet->setCellValue('M' . $i, Strings::rdecimal($ventas_mes_anterior["semana2"], 2));
-    $sheet->setCellValue('N' . $i, Strings::rdecimal($ventas_mes_anterior["semana3"], 2));
-    $sheet->setCellValue('O' . $i, Strings::rdecimal($ventas_mes_anterior["semana4"], 2));
-    $sheet->setCellValue('P' . $i, Strings::rdecimal($totalventasmesanterior, 2));
-    $sheet->setCellValue('Q' . $i, Strings::rdecimal(floatval($bultosExis[0]["bultosexis"]), 2));
-    $sheet->setCellValue('R' . $i, Strings::rdecimal(floatval($no_vendidos[0]["cantidadBult"]), 2));
-    $sheet->setCellValue('S' . $i, Strings::rdecimal($diasinventario, 2));
-    $sheet->setCellValue('T' . $i, Strings::rdecimal($sugerido, 2));
-    $sheet->setCellValue('U' . $i, array_key_exists($key, $n) ? $n[$key] : '');
+
+
+      if($ventas_mes_anterior["semana1"]>=1000){
+
+           $sheet->setCellValue('L' . $i, ($ventas_mes_anterior["semana1"]));
+
+        }else{
+
+            $sheet->setCellValue('L' . $i, number_format($ventas_mes_anterior["semana1"], 2));
+        }
+
+        if($ventas_mes_anterior["semana2"]>=1000){
+
+           $sheet->setCellValue('M' . $i, ($ventas_mes_anterior["semana2"]));
+
+        }else{
+            
+            $sheet->setCellValue('M' . $i, number_format($ventas_mes_anterior["semana2"], 2));
+        }
+
+        if($ventas_mes_anterior["semana3"]>=1000){
+
+           $sheet->setCellValue('N' . $i, ($ventas_mes_anterior["semana3"]));
+
+        }else{
+            
+            $sheet->setCellValue('N' . $i, number_format($ventas_mes_anterior["semana3"], 2));
+        }
+
+        if($ventas_mes_anterior["semana4"]>=1000){
+
+           $sheet->setCellValue('O' . $i, ($ventas_mes_anterior["semana4"]));
+
+        }else{
+            
+            $sheet->setCellValue('O' . $i, number_format($ventas_mes_anterior["semana4"], 2));
+        }
+
+        if($totalventasmesanterior>=1000){
+
+           $sheet->setCellValue('P' . $i, ($totalventasmesanterior));
+
+        }else{
+            
+            $sheet->setCellValue('P' . $i, number_format($totalventasmesanterior, 2));
+        }
+
+         if(floatval($bultosExis[0]["bultosexis"])>=1000){
+
+           $sheet->setCellValue('Q' . $i, (floatval($bultosExis[0]["bultosexis"])));
+
+        }else{
+            
+            $sheet->setCellValue('Q' . $i, number_format(floatval($bultosExis[0]["bultosexis"])), 2);
+        }
+        
+
+          if(floatval($no_vendidos[0]["cantidadBult"])>=1000){
+
+           $sheet->setCellValue('R' . $i, (floatval($no_vendidos[0]["cantidadBult"])));
+
+        }else{
+            
+            $sheet->setCellValue('R' . $i, number_format(floatval($no_vendidos[0]["cantidadBult"])), 2);
+        }
+
+
+        if($diasinventario>=1000){
+
+           $sheet->setCellValue('S' . $i, ($diasinventario));
+
+        }else{
+            
+            $sheet->setCellValue('S' . $i, number_format($diasinventario), 2);
+        }
+
+
+        if($sugerido>=1000){
+
+           $sheet->setCellValue('T' . $i, ($sugerido));
+
+        }else{
+            
+            $sheet->setCellValue('T' . $i, number_format($sugerido), 2);
+        }
+        
+    //$sheet->setCellValue('U' . $i, $key);
+    $sheet->setCellValue('U' . $i, '');
 
 
     /** centrarlas las celdas **/

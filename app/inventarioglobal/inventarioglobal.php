@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -79,23 +79,23 @@ if (!isset($_SESSION['cedula'])) {
                                 <tr>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_bultos_despachar')?>"><?=Strings::titleFromJson('cantidad_bultos_despachar')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquetes_despachar')?>"><?=Strings::titleFromJson('cantidad_paquetes_despachar')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_bultos_sistema')?>"><?=Strings::titleFromJson('cantidad_bultos_sistema')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquetes_sistema')?>"><?=Strings::titleFromJson('cantidad_paquetes_sistema')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('total_inv_bultos')?>"><?=Strings::titleFromJson('total_inv_bultos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('total_inv_paquetes')?>"><?=Strings::titleFromJson('total_inv_paquetes')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquete_despachar')?>"><?=Strings::titleFromJson('cantidad_paquete_despachar')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_unidades_despachar')?>"><?=Strings::titleFromJson('cantidad_unidades_despachar')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquete_sistema')?>"><?=Strings::titleFromJson('cantidad_paquete_sistema')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_unidades_sistema')?>"><?=Strings::titleFromJson('cantidad_unidades_sistema')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('total_inv_paquete')?>"><?=Strings::titleFromJson('total_inv_paquete')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('total_inv_unidades')?>"><?=Strings::titleFromJson('total_inv_unidades')?></th>
                                 </tr>
                                 </thead>
                                 <tfoot style="background-color: #ccc;color: white;">
                                 <tr>
                                     <th colspan="2" class="text-right">Total=</th>
-                                    <th class="text-center" id="tfoot_cantbul_x_des"><?=Strings::titleFromJson('cantidad_bultos_despachar')?></th>
-                                    <th class="text-center" id="tfoot_cantpaq_x_des"><?=Strings::titleFromJson('cantidad_paquetes_despachar')?></th>
-                                    <th class="text-center" id="tfoot_cantbul_sistema"><?=Strings::titleFromJson('cantidad_bultos_sistema')?></th>
-                                    <th class="text-center" id="tfoot_cantpaq_sistema"><?=Strings::titleFromJson('cantidad_paquetes_sistema')?></th>
-                                    <th class="text-center" id="tfoot_totalbul_inv"><?=Strings::titleFromJson('total_inv_bultos')?></th>
-                                    <th class="text-center" id="tfoot_totalpaq_inv"><?=Strings::titleFromJson('total_inv_paquetes')?></th>
+                                    <th class="text-center" id="tfoot_cantbul_x_des"><?=Strings::titleFromJson('cantidad_paquete_despachar')?></th>
+                                    <th class="text-center" id="tfoot_cantpaq_x_des"><?=Strings::titleFromJson('cantidad_unidades_despachar')?></th>
+                                    <th class="text-center" id="tfoot_cantbul_sistema"><?=Strings::titleFromJson('cantidad_paquete_sistema')?></th>
+                                    <th class="text-center" id="tfoot_cantpaq_sistema"><?=Strings::titleFromJson('cantidad_unidades_sistema')?></th>
+                                    <th class="text-center" id="tfoot_totalbul_inv"><?=Strings::titleFromJson('total_inv_paquete')?></th>
+                                    <th class="text-center" id="tfoot_totalpaq_inv"><?=Strings::titleFromJson('total_inv_unidades')?></th>
                                 </tr>
                                 </tfoot>
                                 <tbody>

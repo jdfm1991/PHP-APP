@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -80,19 +80,25 @@ if (!isset($_SESSION['cedula'])) {
 					<div class="card-header">
 						<h3 class="card-title">Relacion de Notas de Entrega por EDV</h3>
 					</div>
-					<div class="card-body" style="width:auto;">
+					<div class="card-body table-responsive mt-2 p-0" style="width:100%; height:400px;">
 						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="relacionNE_data">
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
 								
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_transaccion')?>"><?=Strings::titleFromJson('tipo_transaccion')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>	
+									<th class="text-center" title="Número de Factura">Número de Factura</th>
+									<th class="text-center" title="Número de Devolución">Número de Devolución</th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('codprov')?>"><?=Strings::titleFromJson('codprov')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_documento')?>"><?=Strings::titleFromJson('fecha_documento')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?=Strings::titleFromJson('codvend')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('subtotal')?>"><?=Strings::titleFromJson('subtotal')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?="Código EDV"?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('total')?>"><?=Strings::titleFromJson('total')?></th>
+									<th class="text-center" title="Monto DEV">Monto DEV</th>
+									<th class="text-center" title="Abono">Abono</th>
+									<th class="text-center" title="Saldo">Saldo</th>
+									<th class="text-center" title="Descuento">Descuento</th>
+									<th class="text-center" title="Estatus">Estatus</th>
 									
 								</tr>
 							</thead>
@@ -100,12 +106,18 @@ if (!isset($_SESSION['cedula'])) {
 								<tr>
 									<th class="text-center"><?=Strings::titleFromJson('tipo_transaccion')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
+									<th class="text-center" >Número de Factura</th>
+									<th class="text-center" >Número de Devolución</th>
 									<th class="text-center"><?=Strings::titleFromJson('codprov')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('fecha_documento')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('codvend')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('subtotal')?></th>
+									<th class="text-center"><?="Código EDV"?></th>
 									<th class="text-center"><?=Strings::titleFromJson('total')?></th>
+									<th class="text-center" >Monto DEV</th>
+									<th class="text-center" >Abono</th>
+									<th class="text-center" >Saldo</th>
+									<th class="text-center" >Descuento</th>
+									<th class="text-center" >Estatus</th>
 								</tr>
 							</tfoot>
 							<tbody>
@@ -119,6 +131,7 @@ if (!isset($_SESSION['cedula'])) {
 						</div>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
+						<br<p><span id="total_registros"></span></p><br>
 							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
 						<!--	<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button> -->
 						</div>

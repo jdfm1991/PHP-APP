@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -56,11 +56,11 @@ require_once("../../config/conexion.php");
                     <div class="col-sm-1 mt-4 form-check-inline">
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
-                        <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha_i')?>:</dt>
-                        <input type="text" class="form-control-sm col-8 text-center" id="fechai" value="<?php echo $_GET['fechai']; ?>" readonly>
+                       <!-- <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha_i')?>:</dt>-->
+                       <!-- <input type="text" class="form-control-sm col-8 text-center" id="fechai" value="<?php echo $_GET['fechai']; ?>" readonly>-->
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
-                        <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha_f')?>:</dt>
+                        <dt class="col-sm-3 text-gray"><?=Strings::titleFromJson('fecha')?>:</dt>
                         <input type="text" class="form-control-sm col-8 text-center" id="fechaf" value="<?php echo $_GET['fechaf']; ?>" readonly>
                     </div><!-- /.col -->
                     <div class="col-sm-3 mt-4 form-check-inline">
@@ -85,14 +85,14 @@ require_once("../../config/conexion.php");
                         <th style="width: 10px" rowspan="2"><?=Strings::titleFromJson('#')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('codigo_prod')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('descrip_prod')?></th>
-                        <th rowspan="2"><?=Strings::titleFromJson('display_por_bulto')?></th>
+                        <th rowspan="2"><?=Strings::titleFromJson('display_por_paquete')?></th>
                         <th colspan="2"><?=Strings::titleFromJson('ultimo_precio_compra')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('porcentaje_rentabilidad')?></th>
                         <th colspan="2"><?=Strings::titleFromJson('fecha_penultima_compra')?></th>
                         <th colspan="2"><?=Strings::titleFromJson('fecha_ultima_compra')?></th>
                         <th colspan="4"><?=Strings::titleFromJson('ventas_mes_anterior')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('ventas_total_ult_mes')?></th>
-                        <th rowspan="2"><?=Strings::titleFromJson('existencia_actual_bultos')?></th>
+                        <th rowspan="2"><?=Strings::titleFromJson('existencia_actual_paquete')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('prod_no_vendidos')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('dias_inventario')?></th>
                         <th rowspan="2"><?=Strings::titleFromJson('sugerido')?></th>
@@ -100,11 +100,11 @@ require_once("../../config/conexion.php");
                     </tr>
                     <tr>
                         <th><?=Strings::titleFromJson('display')?></th>
-                        <th><?=Strings::titleFromJson('bulto')?></th>
+                        <th><?=Strings::titleFromJson('paquete')?></th>
                         <th><?=Strings::titleFromJson('fecha')?></th>
-                        <th><?=Strings::titleFromJson('bultos')?></th>
+                        <th><?=Strings::titleFromJson('paquete')?></th>
                         <th><?=Strings::titleFromJson('fecha')?></th>
-                        <th><?=Strings::titleFromJson('bultos')?></th>
+                        <th><?=Strings::titleFromJson('paquete')?></th>
                         <th>1</th>
                         <th>2</th>
                         <th>3</th>

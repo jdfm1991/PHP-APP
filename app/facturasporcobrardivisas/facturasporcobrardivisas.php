@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -76,44 +76,24 @@ if (!isset($_SESSION['cedula'])) {
 					<div class="card-body table-responsive mt-2 p-0" style="width:100%; height:400px;">
 						<table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="cobrar_data">
 							<thead style="background-color: #17A2B8;color: white;">
-								<tr>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_transaccion')?>"><?=Strings::titleFromJson('tipo_transaccion')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cliente')?>"><?=Strings::titleFromJson('cliente')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_emision')?>"><?=Strings::titleFromJson('fecha_emision')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_despacho')?>"><?=Strings::titleFromJson('fecha_despacho')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos')?>"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos_hoy')?>"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('0_a_7')?>"><?=Strings::titleFromJson('0_a_7')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('8_a_14')?>"><?=Strings::titleFromJson('8_a_14')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('15_a_21')?>"><?=Strings::titleFromJson('15_a_21')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('22_a_31')?>"><?=Strings::titleFromJson('22_a_31')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('31_dias')?>"><?=Strings::titleFromJson('31_dias')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente_$')?>"><?=Strings::titleFromJson('saldo_pendiente_$')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('supervisor')?>"><?=Strings::titleFromJson('supervisor')?></th>
+							<tr>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('company')?>"><?=Strings::titleFromJson('company')?></th>
+									<th class="text-center" title="Total 0 a 7 Dias">Total 0 a 7 Dias</th>
+									<th class="text-center" title="Total 8 a 15 Dias">Total 8 a 15 Dias</th>
+                                    <th class="text-center" title="Total 16 a 40 Dias">Total 16 a 40 Dias</th>
+									<th class="text-center" title="Total Mayor a 40 Dias">Total Mayor a 40 Dias</th>
+                                    <th class="text-center" title="SubTotal">SubTotal</th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
 									
-								    <th class="text-center"><?=Strings::titleFromJson('tipo_transaccion')?></th>	
-                                    <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('cliente')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('fecha_emision')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('fecha_despacho')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('dias_transcurridos')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('0_a_7')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('8_a_14')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('15_a_21')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('22_a_31')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('31_dias')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente_$')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('supervisor')?></th>
+								    <th class="text-center"><?=Strings::titleFromJson('company')?></th>	
+                                    <th class="text-center">Total 0 a 7 Dias</th>
+									<th class="text-center">Total 8 a 15 Dias</th>
+                                    <th class="text-center">Total 16 a 40 Dias</th>
+									<th class="text-center">Total Mayor a 40 Dias</th>
+                                    <th class="text-center">SubTotal</th>
 								</tr>
 							</tfoot>
 							<tbody>

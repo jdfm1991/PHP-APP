@@ -15,7 +15,7 @@ class LibroVenta extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT totalventas, montoiva_contribuyeiva, mtoexento, fechaemision, rifcliente, nombre, tipodoc, numerodoc, nroctrol, tiporeg, factafectada, alicuota_contribuyeiva
+        $sql= "SELECT totalventas,TOTALVENTASCONIVA, montoiva_contribuyeiva, mtoexento, fechaemision, rifcliente, nombre, tipodoc, numerodoc, nroctrol, tiporeg, factafectada, alicuota_contribuyeiva
                 FROM DBO.VW_ADM_LIBROIVAVENTAS
                 WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND ((FECHARETENCION IS NULL)
                     OR (( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND TIPODOC != 'RET'
@@ -41,11 +41,11 @@ class LibroVenta extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT retencioniva, fechaemision, rifcliente, nombre, tipodoc, numerodoc, tiporeg, factafectada, fecharetencion, totalgravable_contribuye, totalivacontribuye
-                FROM DBO.VW_ADM_LIBROIVAVENTAS
+        $sql= "SELECT retencioniva, fechaemision, rifcliente, nombre, tipodoc, numerodoc, tiporeg, factafectada, fecharetencion, Monto as totalgravable_contribuye, totalivacontribuye
+                FROM DBO.VW_ADM_LIBROIVAVENTAS inner join SAFACT on SAFACT.NumeroD= DBO.VW_ADM_LIBROIVAVENTAS.factafectada
                 WHERE ( ? <=FECHAEMISION) AND (FECHAEMISION<= ? ) AND (NOT(FECHARETENCION IS NULL)
                     AND NOT(( ? <=FECHARETENCION) AND (FECHARETENCION<= ? ))) AND TIPO='81'
-                ORDER BY FECHAT";
+                    ORDER BY DBO.VW_ADM_LIBROIVAVENTAS.FECHAT";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

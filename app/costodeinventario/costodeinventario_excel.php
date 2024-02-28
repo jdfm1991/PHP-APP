@@ -84,14 +84,18 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 $sheet->setCellValue('A7', Strings::titleFromJson('codigo_prod'))
     ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
     ->setCellValue('C7', Strings::titleFromJson('marca_prod'))
-    ->setCellValue('D7', Strings::titleFromJson('costo_bultos'))
-    ->setCellValue('E7', Strings::titleFromJson('costo_paquete'))
-    ->setCellValue('F7', Strings::titleFromJson('precio'))
-    ->setCellValue('G7', Strings::titleFromJson('bultos'))
-    ->setCellValue('H7', Strings::titleFromJson('paquetes'))
-    ->setCellValue('I7', Strings::titleFromJson('totalcosto_bultos'))
-    ->setCellValue('J7', Strings::titleFromJson('totalcosto_paquetes'))
-    ->setCellValue('K7', Strings::titleFromJson('tara'));
+    ->setCellValue('D7', Strings::titleFromJson('costo_paquete'))
+    ->setCellValue('E7', Strings::titleFromJson('costo_unidad'))
+    ->setCellValue('F7', Strings::titleFromJson('costo_paqueted'))
+    ->setCellValue('G7', Strings::titleFromJson('costo_unidadd'))
+    ->setCellValue('H7', Strings::titleFromJson('precio'))
+    ->setCellValue('I7', Strings::titleFromJson('paquete'))
+    ->setCellValue('J7', Strings::titleFromJson('unidad'))
+    ->setCellValue('K7', Strings::titleFromJson('totalcosto_paquete'))
+    ->setCellValue('L7', Strings::titleFromJson('totalcosto_unidad'))
+    ->setCellValue('M7', Strings::titleFromJson('totalcosto_paqueted'))
+    ->setCellValue('N7', Strings::titleFromJson('totalcosto_unidadesd'))
+    ->setCellValue('O7', Strings::titleFromJson('tara'));
 
 $style_title = new Style();
 $style_title->applyFromArray(
@@ -99,21 +103,26 @@ $style_title->applyFromArray(
 );
 
 //estableceer el estilo de la cabecera de la tabla
-$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:K7');
+$spreadsheet->getActiveSheet()->duplicateStyle($style_title, 'A7:O7');
 
 
 //realiza la consulta con marca y almacenes
 $query = $costo->getCostosdEinventario($edv, $marca);
 
 //inicializamos los acumuladores
-$costos = 0;
-$costos_p = 0;
-$precios = 0;
-$bultos = 0;
-$paquetes = 0;
-$total_costo_bultos = 0;
-$total_costo_paquetes = 0;
-$total_tara = 0;
+        $factor=0;
+        $costosd = 0;
+        $costos_pd = 0;
+        $costos = 0;
+        $costos_p = 0;
+        $precios = 0;
+        $bultos = 0;
+        $paquetes = 0;
+        $total_costo_bultos = 0;
+        $total_costo_paquetes = 0;
+        $total_costo_bultosd = 0;
+        $total_costo_paquetesd = 0;
+        $total_tara = 0;
 
 $row = 8;
 foreach ($query as $i) {
@@ -124,18 +133,28 @@ foreach ($query as $i) {
         $cdisplay = $i['costo'] / $i['display'];
     }
 
+     $factor=$i['factor'];
+
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue('A' . $row, $i['codprod']);
     $sheet->setCellValue('B' . $row, $i['descrip']);
     $sheet->setCellValue('C' . $row, $i['marca']);
-    $sheet->setCellValue('D' . $row, Strings::rdecimal($i['costo'],2));
-    $sheet->setCellValue('E' . $row, Strings::rdecimal($cdisplay,2));
-    $sheet->setCellValue('F' . $row, Strings::rdecimal($i['precio'],2));
-    $sheet->setCellValue('G' . $row, Strings::rdecimal($i['bultos'],2));
-    $sheet->setCellValue('H' . $row, Strings::rdecimal($i['paquetes'],2));
-    $sheet->setCellValue('I' . $row, Strings::rdecimal($i['costo'] * $i['bultos'],2));
-    $sheet->setCellValue('J' . $row, Strings::rdecimal($cdisplay * $i['paquetes'],2));
-    $sheet->setCellValue('K' . $row, Strings::rdecimal($i['tara'],2));
+    $sheet->setCellValue('D' . $row, number_format($i['costo'],2));
+    $sheet->setCellValue('E' . $row, number_format($cdisplay,2));
+
+    $sheet->setCellValue('F' . $row, number_format($i['costo']/$factor,2));
+    $sheet->setCellValue('G' . $row, number_format($cdisplay/$factor,2));
+    
+    $sheet->setCellValue('H' . $row, number_format($i['precio'],2));
+    $sheet->setCellValue('I' . $row, number_format($i['bultos'],2));
+    $sheet->setCellValue('J' . $row, number_format($i['paquetes'],2));
+    $sheet->setCellValue('K' . $row, number_format($i['costo'] * $i['bultos'],2));
+    $sheet->setCellValue('L' . $row, number_format($cdisplay * $i['paquetes'],2));
+
+    $sheet->setCellValue('M' . $row, number_format(($i['costo'] /$factor )* $i['bultos'],2));
+    $sheet->setCellValue('N' . $row, number_format(($cdisplay /$factor)* $i['paquetes'],2));
+
+    $sheet->setCellValue('O' . $row, number_format($i['tara'],2));
 
     /** centrarlas las celdas **/
     $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -149,30 +168,46 @@ foreach ($query as $i) {
     $spreadsheet->getActiveSheet()->getStyle('I'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('J'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     $spreadsheet->getActiveSheet()->getStyle('K'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('L'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('M'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('N'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+    $spreadsheet->getActiveSheet()->getStyle('O'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
 
     //ACUMULAMOS LOS TOTALES
     $costos += $i['costo'];
     $costos_p += $cdisplay;
+
+    $costosd += $i['costo']/$factor;
+    $costos_pd += $cdisplay/$factor;
+
     $precios += $i['precio'];
     $bultos += $i['bultos'];
     $paquetes += $i['paquetes'];
     $total_costo_bultos += ($i['costo'] * $i['bultos']);
     $total_costo_paquetes += ($cdisplay * $i['paquetes']);
+
+    $total_costo_bultosd += (($i['costo'] /$factor )* $i['bultos']);
+    $total_costo_paquetesd += (($cdisplay /$factor)* $i['paquetes']);
+
     $total_tara += $i['tara'];
     $row++;
 }
-$spreadsheet->getActiveSheet()->getStyle('A'.$row.':K'.$row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('17a2b8');
+$spreadsheet->getActiveSheet()->getStyle('A'.$row.':O'.$row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('17a2b8');
 $sheet = $spreadsheet->getActiveSheet()->mergeCells('A'.$row.':C'.$row);
 $sheet->setCellValue('A' . $row, 'Totales: ');
-$sheet->setCellValue('D' . $row, Strings::rdecimal($costos,2));
-$sheet->setCellValue('E' . $row, Strings::rdecimal($costos_p,2));
-$sheet->setCellValue('F' . $row, Strings::rdecimal($precios,2));
-$sheet->setCellValue('G' . $row, Strings::rdecimal($bultos,2));
-$sheet->setCellValue('H' . $row, Strings::rdecimal($paquetes,2));
-$sheet->setCellValue('I' . $row, Strings::rdecimal($total_costo_bultos,2));
-$sheet->setCellValue('J' . $row, Strings::rdecimal($total_costo_paquetes,2));
-$sheet->setCellValue('K' . $row, Strings::rdecimal($total_tara,2));
+$sheet->setCellValue('D' . $row, number_format($costos,2));
+$sheet->setCellValue('E' . $row, number_format($costos_p,2));
+$sheet->setCellValue('F' . $row, number_format($costosd,2));
+$sheet->setCellValue('G' . $row, number_format($costos_pd,2));
+$sheet->setCellValue('H' . $row, number_format($precios,2));
+$sheet->setCellValue('I' . $row, number_format($bultos,2));
+$sheet->setCellValue('J' . $row, number_format($paquetes,2));
+$sheet->setCellValue('K' . $row, number_format($total_costo_bultos,2));
+$sheet->setCellValue('L' . $row, number_format($total_costo_paquetes,2));
+$sheet->setCellValue('M' . $row, number_format($total_costo_bultosd,2));
+$sheet->setCellValue('N' . $row, number_format($total_costo_paquetesd,2));
+$sheet->setCellValue('O' . $row, number_format($total_tara,2));
 /** centrarlas las celdas **/
 $spreadsheet->getActiveSheet()->getStyle('A'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle('B'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -185,6 +220,10 @@ $spreadsheet->getActiveSheet()->getStyle('H'.$row)->applyFromArray(array('alignm
 $spreadsheet->getActiveSheet()->getStyle('I'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle('J'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle('K'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('L'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('M'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('N'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle('O'.$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

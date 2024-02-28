@@ -92,26 +92,9 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('codigo_prod'));
 $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('descrip_prod'));
 $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('marca_prod'));
-//BULTOS
-$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('bultos'));
-switch ($sumap) {
-    case 1:
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Bulto');
-        break;
-    case 2:
-        if($p1 == 1){ $pAux = $p1; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Bulto');
-        if ($p3 == 3){ $pAux = $p3; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Bulto');
-        $pAux = '';
-        break;
-    default: /** 0 || 3**/
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_bulto'));
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_bulto'));
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_bulto'));
-}
-//PAQUETES
-$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('paquetes'));
+//$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('paquete'));
+
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('paquete'));
 switch ($sumap) {
     case 1:
         $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Paquete');
@@ -127,6 +110,26 @@ switch ($sumap) {
         $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_paquete'));
         $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_paquete'));
         $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_paquete'));
+}
+
+$sheet->setCellValue(getExcelCol($i).'7', utf8_decode('Precio Bulto $'));
+//unidad
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('unidad'));
+switch ($sumap) {
+    case 1:
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Unidad');
+        break;
+    case 2:
+        if($p1 == 1){ $pAux = $p1; }else{ $pAux = $p2;}
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Unidad');
+        if ($p3 == 3){ $pAux = $p3; }else{ $pAux = $p2;}
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Unidad');
+        $pAux = '';
+        break;
+    default: /** 0 || 3**/
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_unidad'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_unidad'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_unidad'));
 }
 if ($cubi == 1) {
     $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('cubicaje'));
@@ -152,7 +155,7 @@ $num = count($datos);
 $row = 8;
 foreach ($datos as $x) {
     $i = 0;
-    if ($x['esexento']) {
+    if (!$x['esexento']) {
         $precio1 = $x['precio1'] * $iva;
         $precio2 = $x['precio2'] * $iva;
         $precio3 = $x['precio3'] * $iva;
@@ -167,6 +170,9 @@ foreach ($datos as $x) {
         $preciou2 = $x['preciou2'];
         $preciou3 = $x['preciou3'];
     }
+
+    $precio_unitario=$x['preciou3_B'] * $x['Cantidad_por_Bultos'];
+
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue(getExcelCol($i, true) . $row, $x['codprod']);
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -218,6 +224,9 @@ foreach ($datos as $x) {
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     }
     $pAux = '';
+
+    $sheet->setCellValue(getExcelCol($i, true) . $row, $precio_unitario);
+    $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     //PAQUETES
     $sheet->setCellValue(getExcelCol($i, true) . $row, round($x['exunidad']));
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));

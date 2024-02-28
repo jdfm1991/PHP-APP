@@ -178,13 +178,13 @@ function mostrar(edv) {
             $('#obj_ventas_kg').val(data.obj_ventas_kg);
             $('#nombre').val(data.nombre);
             $('#obj_ventas_bul').val(data.obj_ventas_bul);
-            $('#cedula').val(data.cedula);
+            //$('#cedula').val(data.cedula);
             $('#obj_ventas_und').val(data.obj_ventas_und);
             $('#ubicacion').val(data.ubicacion);
             $('#drop_size').val(data.obj_dropsize);
             $("#drop_size").prop("readonly", true);
             $('#clase').val(data.clase);
-            $('#obj_clientes_captar').val(data.obj_captar_clientes);
+            //$('#obj_clientes_captar').val(data.obj_captar_clientes);
             $('#obj_especial').val(data.obj_especial);
             $('#deposito').val(data.deposito);
             $("#deposito").prop("readonly", true);
@@ -280,11 +280,6 @@ function validaciones() {
                 number: true,
                 min: 0,
             },
-            cedula: {
-                required: true,
-                number: true,
-                min: 0,
-            },
             obj_ventas_und: {
                 required: true,
                 number: true,
@@ -296,11 +291,6 @@ function validaciones() {
             },
             clase: {
                 required: true,
-            },
-            obj_clientes_captar: {
-                required: true,
-                number: true,
-                min: 0,
             },
             obj_especial: {
                 required: true,
@@ -344,11 +334,6 @@ function validaciones() {
                 number: "Ingrese sólo valores numéricos",
                 min: "valor mínimo aceptable es 0"
             },
-            cedula: {
-                required: "Campo requerido",
-                number: "Ingrese sólo valores numéricos",
-                min: "valor mínimo aceptable es 0"
-            },
             obj_ventas_und: {
                 required: "Campo requerido",
                 number: "Ingrese sólo valores numéricos",
@@ -360,11 +345,6 @@ function validaciones() {
             },
             clase: {
                 required: "Campo requerido",
-            },
-            obj_clientes_captar: {
-                required: "Campo requerido",
-                number: "Ingrese sólo valores numéricos",
-                min: "valor mínimo aceptable es 0"
             },
             obj_especial: {
                 required: "Campo requerido",

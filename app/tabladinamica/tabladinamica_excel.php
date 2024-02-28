@@ -78,7 +78,7 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', Empresa::getName());
+$sheet->setCellValue('A1', 'LA CONFIMANIA.COM, C.A' /*Empresa::getName()*/);
 $spreadsheet->getActiveSheet()->mergeCells('A1:G1');
 $spreadsheet->getActiveSheet()->getStyle('A1')->applyFromArray(array('font' => array('bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_JUSTIFY, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
@@ -135,15 +135,15 @@ $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('tipo_transacc
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('numero_operacion'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('codclie'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('razon_social'));
-$sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('codnestle'));
+$sheet->setCellValue(getExcelCol($i).$row, "Tipo de Cliente");
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('clasificacion'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('codigo_prod'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('descrip_prod'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('marca_prod'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('cantidad'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('unidad'));
-$sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('bultos'));
-$sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('paquetes'));
+$sheet->setCellValue(getExcelCol($i).$row, "Paquetes"/* Strings::titleFromJson('paquetes')*/);
+$sheet->setCellValue(getExcelCol($i).$row, "Unidades"/*Strings::titleFromJson('bultos')*/);
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('peso'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('instancia'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('monto_dolars'));
@@ -223,16 +223,80 @@ if (is_array($datos)==true and count($datos)>0)
         $sub_array['coditem']       = $row["coditem"];
         $sub_array['descripcion']   = utf8_encode($row["descripcion"]);
         $sub_array['marca']         = $row["marca"];
-        $sub_array['cantidad']      = $row["cantidad"] * $multiplicador;
-        $sub_array['unid']          = $row["unid"];
-        $sub_array['paq']           = Strings::rdecimal($row["paq"] * $multiplicador, 1);
-        $sub_array['bul']           = Strings::rdecimal($row["bul"] * $multiplicador, 1);
-        $sub_array['kg']            = Strings::rdecimal($row["kg"] * $multiplicador, 1);
+        
+        if($row["cantidad"]>=1000){
+
+            $sub_array['cantidad']        =  ($row["cantidad"]  * $multiplicador);
+
+        }else{
+            $sub_array['cantidad']        =  number_format($row["cantidad"]  * $multiplicador, 2);
+        }
+
+        if($row['unid']=='BULT'){
+            $unid = 'PAQ';
+        }else{
+            $unid = 'UNI';
+        }
+
+        $sub_array['unid']          = $unid;
+
+        if($row["paq"]>=1000){
+
+            $sub_array['paq']        =  ($row["paq"]  * $multiplicador);
+
+        }else{
+            $sub_array['paq']        =  number_format($row["paq"]  * $multiplicador, 2);
+        }
+
+
+        if($row["bul"]>=1000){
+
+            $sub_array['bul']        =  ($row["bul"]  * $multiplicador);
+
+        }else{
+            $sub_array['bul']        =  number_format($row["bul"]  * $multiplicador, 2);
+        }
+
+
+
+        if($row["kg"]>=1000){
+
+            $sub_array['kg']        =  ($row["kg"]  * $multiplicador);
+
+        }else{
+            $sub_array['kg']        =  number_format($row["kg"]  * $multiplicador, 2);
+        }
+
         $sub_array['instancia']     = $row["instancia"];
-        $sub_array['montod']        =  Strings::rdecimal($montod  * $multiplicador, 2);
-        $sub_array['descuento']     =  Strings::rdecimal($descuento  * $multiplicador, 2);
-        $sub_array['factor']        =  Strings::rdecimal($row['factor'], 2);
-        $sub_array['montobs']       =  Strings::rdecimal($montobs * $multiplicador, 2);
+
+        if($montod>=1000){
+
+            $sub_array['montod']        =  ($montod  * $multiplicador);
+
+        }else{
+            $sub_array['montod']        =  number_format($montod  * $multiplicador, 2);
+        }
+
+
+        
+        if($descuento>=1000){
+
+            $sub_array['descuento']        =  ($descuento  * $multiplicador);
+
+        }else{
+            $sub_array['descuento']        =  number_format($descuento  * $multiplicador, 2);
+        }
+
+        $sub_array['factor']        =  number_format($row['factor'], 2);
+
+        if($montobs>=1000){
+
+            $sub_array['montobs']        =  ($montobs  * $multiplicador);
+
+        }else{
+            $sub_array['montobs']        =  number_format($montobs  * $multiplicador, 2);
+        }
+
         $sub_array['fechae']        = date(FORMAT_DATE, strtotime($row["fechae"]));
         $sub_array['mes']           =  utf8_encode($row['MES']);
 
@@ -245,15 +309,15 @@ if (is_array($datos)==true and count($datos)>0)
     }
 }
 
-$total = (hash_equals('n', $_GET['t']))
+/*$total = (hash_equals('n', $_GET['t']))
     ? Numbers::avoidNull($tabladinamica->getTotalNotaDeEntrega($data,'C')[0]['montod']) - Numbers::avoidNull($tabladinamica->getTotalNotaDeEntrega($data, 'D')[0]['montod'])
-    : $total;
+    : $total;*/
 
 $totales_tabladinamica = array(
-    "paqt"  => Strings::rdecimal($paqt, 2),
-    "bult"  => Strings::rdecimal($bult, 2),
-    "kilo"  => Strings::rdecimal($kilo, 2),
-    "total" => Strings::rdecimal($total, 2),
+    "paqt"  =>number_format($paqt, 2),
+    "bult"  => number_format($bult, 2),
+    "kilo"  => number_format($kilo, 2),
+    "total" => number_format($total, 2),
 );
 
 switch ($_GET['t']) {
@@ -294,9 +358,9 @@ if (is_array($resumen)==true and count($resumen)>0)
         $sub_array['codvend']          = $row["codvend"];
         $sub_array['codclie']          = $row["codclie"];
         $sub_array['descrip']          = $row["descrip"];
-        $sub_array['descuentototal']   = Strings::rdecimal($descuentototal, 2);
-        $sub_array['tasa']             = Strings::rdecimal($row["tasa"], 2);
-        $sub_array['descuentototalbs'] = Strings::rdecimal($descuentototalbs, 2);
+        $sub_array['descuentototal']   =number_format($descuentototal, 2);
+        $sub_array['tasa']             = number_format($row["tasa"], 2);
+        $sub_array['descuentototalbs'] = number_format($descuentototalbs, 2);
         $sub_array['numerod']          = utf8_decode($row["numerod"]);
         $sub_array['tipofac']          = $row["tipofac"];
         $sub_array['fechae']           = date(FORMAT_DATE, strtotime($row["fechae"]));
@@ -406,7 +470,7 @@ $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('razon_social'
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('descuento_dolars'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('tasa'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('monto_bs'));
-$sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('descuento'));
+$sheet->setCellValue(getExcelCol($i).$row, "Documento");
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('tipo'));
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('fecha'));
 
@@ -416,7 +480,7 @@ $aux = $i-1;
 for($n=0; $n <= $aux; $n++)
     $spreadsheet->getActiveSheet()->getStyle(getExcelCol($n, true).$row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE),'borders' => array('top' => ['borderStyle' => Border::BORDER_THIN], 'bottom' => ['borderStyle' => Border::BORDER_THIN], 'left' => ['borderStyle' => Border::BORDER_MEDIUM], 'right' => ['borderStyle' => Border::BORDER_MEDIUM],),));
 $spreadsheet->getActiveSheet()->getStyle( 'A'.$row.':'.getExcelCol($aux, true).$row)->applyFromArray(array('fill' => array('fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'c8dcff'],), 'font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')),));
-
+$total_descuento = $total_descuentobs = 0;
 $row += 1;
 if (is_array($arr_data1)==true and count($arr_data1)>0) {
     foreach ($arr_data1 as $x) {
@@ -431,6 +495,9 @@ if (is_array($arr_data1)==true and count($arr_data1)>0) {
         $sheet->setCellValue(getExcelCol($i) . $row, $x['numerod']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['tipofac']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['fechae']);
+
+        $total_descuento += floatval($x['descuentototal']);
+        $total_descuentobs += floatval($x['descuentototalbs']);
 
         $i = 0;
         /** centrarlas las celdas **/
@@ -447,6 +514,31 @@ if (is_array($arr_data1)==true and count($arr_data1)>0) {
         $row++;
     }
 }
+
+$i = 0;
+$sheet = $spreadsheet->getActiveSheet();
+$sheet->setCellValue(getExcelCol($i) . $row,'Totales');
+$sheet->setCellValue(getExcelCol($i+=2) . $row, $total_descuento);
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$sheet->setCellValue(getExcelCol($i) . $row, $total_descuentobs);
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$sheet->setCellValue(getExcelCol($i) . $row, '');
+$spreadsheet->getActiveSheet()->mergeCells('A'.$row.':C'.$row);
+
+$i = 0;
+/** centrarlas las celdas **/
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i+=2) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+
 
 $spreadsheet->getActiveSheet()->getSheetView()->setZoomScale(80);
 

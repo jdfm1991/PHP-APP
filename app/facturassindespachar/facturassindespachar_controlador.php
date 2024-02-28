@@ -26,11 +26,22 @@ switch ($_GET["op"]) {
         $fechai = $_POST['fechai'];
         $fechaf = $_POST['fechaf'];
         $convend = $_POST['vendedores'];
-        $tipo = $_POST['tipo'];
+        $tipo_aux = $_POST['tipo'];
         $check = hash_equals("true", $_POST['check']);
         $hoy = date(FORMAT_DATE);
+        $tipo ='';
+
+        if($tipo_aux =='DTS'){
+            $tipo ='0';
+        }else{
+            if($tipo_aux =='MAYOR'){
+                $tipo ='1';
+            }
+        }
 
         $datos = $factsindes->getFacturas($tipo, $fechai, $fechaf, $convend, $check);
+       
+
         $num = count($datos);
         $suma_bulto = 0;
         $suma_paq = 0;
@@ -48,8 +59,8 @@ switch ($_GET["op"]) {
         $thead[] = Strings::titleFromJson('codigo');
         $thead[] = Strings::titleFromJson('cliente');
         $thead[] = Strings::titleFromJson('dias_transcurridos_hoy');
-        $thead[] = Strings::titleFromJson('cantidad_bultos');
-        $thead[] = Strings::titleFromJson('cantidad_paquetes');
+        $thead[] = Strings::titleFromJson('cantidad_paquete');
+        $thead[] = Strings::titleFromJson('cantidad_unidades');
         $thead[] = Strings::titleFromJson('monto');
         $thead[] = Strings::titleFromJson('descrip_vend');
         if($check) {
@@ -64,6 +75,16 @@ switch ($_GET["op"]) {
         foreach ($datos as $row) {
             //DECLARAMOS UN SUB ARRAY Y LO LLENAMOS POR CADA REGISTRO EXISTENTE.
             $sub_array = array();
+
+            $dias = $factsindes->dias_transcurridos( $row["FechaE"], $fechaf);
+
+            $dias=$dias+1;
+
+          /*  if($dias != 0){
+                $dias=$dias+1;
+            }else{
+                
+            }*/
 
             if($check) {
                 $calcula = 0;
@@ -85,7 +106,8 @@ switch ($_GET["op"]) {
             }
             $sub_array[] = $row["CodClie"];
             $sub_array[] = $row["Descrip"];
-            $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])), $hoy));
+           // $sub_array[] = round(Dates::daysEnterDates(date(FORMAT_DATE, strtotime($row["FechaE"])), $hoy));
+            $sub_array[] =  $dias;
             $sub_array[] = round($row['Bult']);
             $sub_array[] = round($row['Paq']);
             $sub_array[] = Strings::rdecimal($row["Monto"], 1); $suma_monto += $row["Monto"];

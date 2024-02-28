@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
@@ -9,6 +9,8 @@ require_once("despachos_modelo.php");
 
 //INSTANCIAMOS EL MODELO
 $despachos  = new Despachos();
+
+$usuario = $_SESSION["cedula"];
 
 //VALIDAMOS LOS CASOS QUE VIENEN POR GET DEL CONTROLADOR.
 switch ($_GET["op"]) {
@@ -31,14 +33,34 @@ switch ($_GET["op"]) {
     case "validar_documento_para_anadir":
         $datos = array();
         $output = array("cond" => false);
-
+        $tipodoc ='';
+        $aux ='';
         $numerod = $_POST["documento"];
-        $tipodoc = $_POST["tipodoc"];
         $registros_por_despachar = $_POST["registros_por_despachar"];
         $peso_acum = str_replace(",", ".", $_POST["peso_acum_documentos"]);
         $peso_max  = str_replace(",", ".", $_POST["peso_max_vehiculo"]);
         $cubicaje_acum  = str_replace(",", ".", $_POST["cubicaje_acum_documentos"]);
         $cubicaje_max   = str_replace(",", ".", $_POST["cubicaje_max_vehiculo"]);
+
+        /*echo "<script>console.log('registros_por_despachar: " . $registros_por_despachar . "' );</script>";
+        echo "<script>console.log('peso_acum: " . $peso_acum . "' );</script>";*/
+
+         $traerTipoDoc = $despachos->DocumentosporDespachar( $numerod);
+
+          foreach ($traerTipoDoc as $row) {
+
+            $aux = $row["TipoFac"];
+          }
+
+          if($aux == 'A' ){
+                $tipodoc ='f';
+          }else{
+            if($aux == 'C'){
+                $tipodoc ='n';
+            }
+          }
+
+
 
         # tipodoc 'f' es Factura
         if ($tipodoc == 'f')
@@ -78,26 +100,26 @@ switch ($_GET["op"]) {
                                 $response = DespachosHelpers::validateWeightAndCubicCapacity(
                                     array(
                                         'peso'      => $peso,
-                                        'peso_acum' => $peso_acum,
-                                        'peso_max'  => $peso_max,
-                                        'cubicaje_acum' => $cubicaje_acum,
+                                        'peso_acum' => $peso,//$peso_acum,
+                                        'peso_max'  => $peso,//$peso_max,
+                                        'cubicaje_acum' => $cubicaje,//$cubicaje_acum,
                                         'cubicaje'      => $cubicaje,
-                                        'cubicaje_max'  => $cubicaje_max,
+                                        'cubicaje_max'  => $cubicaje,//$cubicaje_max,
                                     )
                                 );
                                 $output = $response;
 
                                 # verifica si el peso esta dentro del rango
-                                if ($response['cond'] == true)
-                                {
+                              /*  if ($response['cond'] == true)
+                                {*/
                                     # responde con todos los datos necesarios
                                     $output['peso']     = $peso;
                                     $output['cubicaje'] = $cubicaje;
                                     $output['numerod']  = $numerod;
                                     $output['tipodoc']  = $datos[0]['tipofac'];
-                                } else {
+                                /*  } else {
                                     $output["mensaje"] = ("El vehículo excede el límite de peso!");
-                                }
+                                }*/
                             } else {
                                 $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
                             }
@@ -154,26 +176,26 @@ switch ($_GET["op"]) {
                                 $response = DespachosHelpers::validateWeightAndCubicCapacity(
                                     array(
                                         'peso'      => $peso,
-                                        'peso_acum' => $peso_acum,
-                                        'peso_max'  => $peso_max,
-                                        'cubicaje_acum' => $cubicaje_acum,
+                                        'peso_acum' => $peso,//$peso_acum,
+                                        'peso_max'  => $peso,//$peso_max,
+                                        'cubicaje_acum' => $cubicaje,//$cubicaje_acum,
                                         'cubicaje'      => $cubicaje,
-                                        'cubicaje_max'  => $cubicaje_max,
+                                        'cubicaje_max'  => $cubicaje,//$cubicaje_max,
                                     )
                                 );
-                                $output = $response;
+                               $output = $response;
 
                                 # verifica si el peso esta dentro del rango
-                                if ($response['cond'] == true)
-                                {
+                               /* if ($response['cond'] == true)
+                                {*/
                                     # responde con todos los datos necesarios
                                     $output['peso']     = $peso;
                                     $output['cubicaje'] = $cubicaje;
                                     $output['numerod']  = $numerod;
                                     $output['tipodoc']  = $datos[0]['tipofac'];
-                                } else {
+                                /* } else {
                                     $output["mensaje"] = ("El vehículo excede el límite de peso!");
-                                }
+                                }*/
                             } else {
                                 $output["mensaje"] = ("Error al evaluar el peso y cubicaje");
                             }
@@ -224,12 +246,12 @@ switch ($_GET["op"]) {
                 # valida el peso y obtinene el porcentaje
                 $response = DespachosHelpers::validateWeightAndCubicCapacity(
                     array(
-                        'peso'      => $peso,
-                        'peso_acum' => $peso_acum,
-                        'peso_max'  => $peso_max,
-                        'cubicaje_acum' => $cubicaje_acum,
-                        'cubicaje'      => $cubicaje,
-                        'cubicaje_max'  => $cubicaje_max,
+                        'peso'      => 1,
+                        'peso_acum' => 1,
+                        'peso_max'  => 1,
+                        'cubicaje_acum' => 1,
+                        'cubicaje'      => 1,
+                        'cubicaje_max'  => 1,
                     ),
                     $deleteDocument
                 );
@@ -318,22 +340,31 @@ switch ($_GET["op"]) {
 
     case "registrar_despacho":
 
-        $creacionDespacho = false;
+       $insertDet = $creacionDespacho = false;
         $creacionDetalleDespacho = true;
+        $MaximoCorrel = "";
+        $correl=0;
+
+        $MaximoCorrel = $despachos->MaxCorrelativo();
+
+        $correl = intval($MaximoCorrel[0]["correlativo"]) + 1;
 
         $values = array(
             'fechad'   => $_POST["fechad"],
             'chofer'   => $_POST["chofer"],
             'vehiculo' => $_POST["vehiculo"],
             'destino'  => $_POST["destino"],
-            'usuario'  => $_POST["usuario"],
+            'usuario'  => $usuario,
+            'correlativo'  => ($correl),
         );
 
         if(isset($_POST["registros_por_despachar"])) {
             $array = explode(";", substr($_POST["registros_por_despachar"], 0, -1));
+                       // $array = explode("-", $_POST["registros_por_despachar"]);
+          //  echo "<script>console.log('correl: " . $correl.' '. $array[0].'  '.$array[1] . "' );</script>";
 
             $creacionDespacho = $despachos->insertarDespacho($values);
-            if ($creacionDespacho != -1) {
+           // if ($creacionDespacho != -1) {
                 foreach ($array AS $item) {
                     # separa por cada "-" quedando el formato anterior mencionado
                     # [0] -> numerod
@@ -341,12 +372,13 @@ switch ($_GET["op"]) {
                     # [2] -> peso (tara)
                     # [3] -> cubicaje
                     $data = explode("-", $item);
-                    $insertDet = $despachos->insertarDetalleDespacho($creacionDespacho, $data[0], $data[1]);
+                    //echo "<script>console.log('correl: " . intval($correl).' '. strval($data[0]). "' );</script>";
+                    $insertDet = $despachos->insertarDetalleDespacho(intval($correl), strval($data[0]));
                     if (!$insertDet) {
                         $creacionDetalleDespacho = false;
                     }
                 }
-            }
+           // }
         }
 
         # datos
@@ -357,13 +389,13 @@ switch ($_GET["op"]) {
         {
             /**  enviar correo: despachos_visual **/
             # preparamos los datos a enviar
-            $dataEmail = EmailData::DataCreacionDeDespacho(
+           /* $dataEmail = EmailData::DataCreacionDeDespacho(
                 array(
                     'usuario' => $_SESSION['login'],
                     'correl_despacho' => $creacionDespacho,
                     'vehiculo' => $vehiculo['placa']." ".$vehiculo['modelo']." ".Strings::rdecimal($vehiculo['capacidad'],0)."Kg",
                     'destino'  => $values['destino'],
-                    'chofer'   => $chofer['Nomper'],
+                    'chofer'   => $chofer['descripcion'],
                     'fechad'   => $values['fechad'],
                 )
             );
@@ -373,9 +405,9 @@ switch ($_GET["op"]) {
                 $dataEmail['title'],
                 $dataEmail['body'],
                 $dataEmail['recipients'],
-            );
+            );*/
 
-            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . (str_pad($creacionDespacho, 8, 0, STR_PAD_LEFT));
+            $output["mensaje"] = "SE HA CREADO UN NUEVO DESPACHO NRO: " . (str_pad($correl, 8, 0, STR_PAD_LEFT));
             $output["icono"] = "success";
             $output["correl"] = $creacionDespacho;
         } else {
@@ -390,7 +422,9 @@ switch ($_GET["op"]) {
     case "listar_productos_despacho":
 
         //correlativo
+        $correlativo = '';
         $correlativo = $_POST["correlativo"];
+        echo "<script>console.log('correlativo: " . $correlativo. "' );</script>";
 
         //obtenemos los registros de los productos en dichos documentos
         $productosDespacho = Array();
@@ -514,11 +548,27 @@ switch ($_GET["op"]) {
 
                 # creamos un array para almacenar los datos procesados
                 $data = Array();
-                $data['numerod'] = $datos['numerod'];
-                $data['tipofac'] = ($datos['tipofac']=='A') ? "FACTURA" : "NOTA DE ENTREGA";
-                $data['correlativo'] = str_pad($datos['correlativo'], 8, 0, STR_PAD_LEFT);
-                $data['fechae'] = date(FORMAT_DATETIME2, strtotime($datos['fechae']));
-                $data['destino'] = $datos["destino"]." - ".$datos["NomperChofer"];
+
+                $datos11 = $despachos->getDetallesnDespacho($datos['correl']);
+
+                foreach ($datos11 as $row11) {
+                    $correl = $row11["correl"];
+                    $fechae = $row11["fechae"];
+                    $nota = $row11["nota"];
+                    $cedula_chofer = $row11["cedula_chofer"];
+                }
+
+                $datos22 = $despachos->getChoferEnDespacho($cedula_chofer);
+
+                foreach ($datos22 as $row22) {
+                    $chofer = $row22["descripcion"];
+                }
+
+                $data['numerod'] = $numerod;
+                $data['tipofac'] = ($tipodoc == 'f') ? "FACTURA" : "NOTA DE ENTREGA";
+                $data['correlativo'] = str_pad($correl, 8, 0, STR_PAD_LEFT);
+                $data['fechae'] = date(FORMAT_DATETIME2, strtotime($fechae));
+                $data['destino'] = $nota." - ".$chofer;
 
                 //al terminar, se almacena en una variable de salida el array.
                 $output['documento_en_despacho'] = $data;
@@ -672,6 +722,18 @@ switch ($_GET["op"]) {
     case "listar_vehiculo":
 
         $output["lista_vehiculos"] = Vehiculo::todos();
+        echo json_encode($output);
+        break;
+
+   case "listar_documentos":
+
+         $fechaf = date('Y-m-d');
+        $dato = explode("-", $fechaf); //Hasta
+        $aniod = $dato[0]; //año
+        $mesd = $dato[1]; //mes
+        $fechai = $aniod . "-" ."01". "-01";
+
+            $output["lista_documentos"] = Choferes::DocumentosporDespachar($fechai,$fechaf);
         echo json_encode($output);
         break;
 

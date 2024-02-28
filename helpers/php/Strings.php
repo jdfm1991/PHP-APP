@@ -35,6 +35,21 @@ class Strings {
         return $response;
     }
 
+    public static function rdecimal2($number, $precision = 2, $separator = '.', $separatorDecimal = ',')
+{
+	$numberParts = explode($separator, $number);
+	$response = number_format($numberParts[0], 0, ",", ".");
+	if (count($numberParts) > 1) {
+		$response .= $separatorDecimal;
+		$response .= substr(
+			$numberParts[1],
+			0,
+			$precision
+		);
+	}
+	return $response;
+}
+
     public static function titleFromJson($name = '') : string {
         $string = file_get_contents(PATH_CONFIG."strings.json");
         $json = json_decode($string, true);

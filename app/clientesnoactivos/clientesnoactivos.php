@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -91,7 +91,7 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('dia_visita')?>"><?=Strings::titleFromJson('dia_visita')?></th>
 								</tr>
 							</thead>
-							<tfoot style="background-color: #ccc;color: white;">
+							<!--<tfoot style="background-color: #ccc;color: white;">
 								<tr>
 									<th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
@@ -100,7 +100,7 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center"><?=Strings::titleFromJson('estatus')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('dia_visita')?></th>
 								</tr>
-							</tfoot>
+							</tfoot>-->
 							<tbody>
 								<!-- TD TABLA LLEGAN POR AJAX -->
 							</tbody>

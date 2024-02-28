@@ -72,7 +72,7 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 
 /** TITULO DE LA TABLA **/
 $sheet->setCellValue('A7', Strings::titleFromJson('categoria'))
-    ->setCellValue('B7', Strings::titleFromJson('und_bultos'))
+    ->setCellValue('B7', Strings::titleFromJson('und_paquete'))
     ->setCellValue('C7', Strings::titleFromJson('und_kg'))
     ->setCellValue('D7', Strings::titleFromJson('monto_bs'));
 

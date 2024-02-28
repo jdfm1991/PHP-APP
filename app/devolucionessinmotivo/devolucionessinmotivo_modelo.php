@@ -1,6 +1,6 @@
 
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -19,11 +19,11 @@ class Devolucionessinmotivo extends Conectar{
             : '';
 
         $relation = hash_equals('1', $data['tipodespacho'])
-            ? ' inner join APPWEBAJ.dbo.Despachos_Det desp on desp.numerod = NumeroR '
+            ? ' inner join APPWEB_DCONFISUR.dbo.Despachos_Det desp on desp.numerod = NumeroR '
             : '';
 
         $condition = hash_equals('0', $data['tipodespacho'])
-            ? " AND (numerod NOT IN (SELECT numerod FROM APPWEBAJ.dbo.Despachos_Det) AND NumeroR NOT IN (SELECT numerod FROM APPWEBAJ.dbo.Despachos_Det)) "
+            ? " AND (numerod NOT IN (SELECT numerod FROM APPWEB_DCONFISUR.dbo.Despachos_Det) AND NumeroR NOT IN (SELECT numerod FROM APPWEB_DCONFISUR.dbo.Despachos_Det)) "
             : " AND (observacion IS NULL OR observacion = '') ";
 
         //QUERY
@@ -57,11 +57,11 @@ class Devolucionessinmotivo extends Conectar{
             : '';
 
         $relation = hash_equals('1', $data['tipodespacho'])
-            ? ' INNER JOIN APPWEBAJ.dbo.Despachos_Det AS desp ON desp.numerod = numerof'
+            ? ' INNER JOIN APPWEB_DCONFISUR.dbo.Despachos_Det AS desp ON desp.numerod = numerof'
             : '';
 
         $condition = hash_equals('0', $data['tipodespacho'])
-            ? " AND (numerod NOT IN (SELECT numerod FROM APPWEBAJ.dbo.Despachos_Det) AND numerof NOT IN (select numerod FROM APPWEBAJ.dbo.Despachos_Det))"
+            ? " AND (numerod NOT IN (SELECT numerod FROM APPWEB_DCONFISUR.dbo.Despachos_Det) AND numerof NOT IN (select numerod FROM APPWEB_DCONFISUR.dbo.Despachos_Det))"
             : " AND (nt.observacion IS NULL or nt.observacion = '')";
 
         //QUERY

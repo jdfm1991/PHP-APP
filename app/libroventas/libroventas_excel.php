@@ -48,8 +48,8 @@ function getExcelCol($num, $letra_temp = false) {
     }
 }
 
-$fechai = Dates::normalize_date($_GET['fechai']).' 00:00:00';
-$fechaf = Dates::normalize_date($_GET['fechaf']).' 23:59:59';
+$fechai = $_GET['fechai'].' 00:00:00.000';
+$fechaf = $_GET['fechaf'].' 23:59:59.000';
 
 # creamos la cabecera de la tabla
 $spreadsheet = new Spreadsheet();
@@ -74,12 +74,12 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', Empresa::getName());
+$sheet->setCellValue('A1', 'LA CONFIMANIA.COM, C.A' /*Empresa::getName()*/);
 $spreadsheet->getActiveSheet()->mergeCells('A1:G1');
 $spreadsheet->getActiveSheet()->getStyle('A1')->applyFromArray(array('font' => array('bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_JUSTIFY, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
 $spreadsheet->getActiveSheet()->getStyle('A2:F2')->getFont()->setSize(18);
-$sheet->setCellValue('A2', 'Libro de Ventas');
+$sheet->setCellValue('A3', 'Libro de Ventas');
 $spreadsheet->getActiveSheet()->mergeCells('A2:K2');
 
 $style_title = new Style();
@@ -149,12 +149,13 @@ if (is_array($datos)==true and count($datos)>0)
         $sub_array = array();
 
         $base_imponible = $row["totalventas"] - $row['mtoexento'];
-        $totalventasconiva = $base_imponible + $row['mtoexento'] + $row['montoiva_contribuyeiva'];
+       // $totalventasconiva = $base_imponible + $row['mtoexento'] + $row['montoiva_contribuyeiva'];
+        $totalventasconiva = $row['TOTALVENTASCONIVA'];
 
         $tvii += $totalventasconiva;
         $ve += $row['mtoexento'];
         $magbi16c += $base_imponible;
-        $mag16c += $row['montoiva_contribuyeiva'];
+        $mag16c += $base_imponible*0.16;
         $ivare += count($retencion_dato)>0 ? Numbers::avoidNull($retencion_dato[0]['retencioniva']) : 0;
 
         $sub_array['num']  = $key+1;
@@ -167,23 +168,68 @@ if (is_array($datos)==true and count($datos)>0)
         $sub_array['tiporeg']       = $row["tiporeg"];
         $sub_array['factafectada']  = Strings::avoidNull($row["factafectada"]);
         $sub_array['nroretencion']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["nroretencion"]) : '';
-        $sub_array['totalventasconiva'] = Strings::rdecimal($totalventasconiva, 2);
-        $sub_array['mtoexento']      = Strings::rdecimal($row["mtoexento"], 2);
-        $sub_array['base_imponible'] = Strings::rdecimal($base_imponible, 2);
-        $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal($row["alicuota_contribuyeiva"], 0);
-        $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal($row["montoiva_contribuyeiva"], 2);
-        $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
+
+
+        if($totalventasconiva>=1000){
+            $sub_array['totalventasconiva'] = ($totalventasconiva);
+        }else{
+            $sub_array['totalventasconiva'] = ($totalventasconiva);
+        }
+
+
+        if($row["mtoexento"]>=1000){
+            $sub_array['mtoexento'] = ($row["mtoexento"]);
+        }else{
+            $sub_array['mtoexento'] = ($row["mtoexento"]);
+        }
+
+
+        if($base_imponible>=1000){
+            $sub_array['base_imponible'] = ($base_imponible);
+        }else{
+            $sub_array['base_imponible'] = ($base_imponible);
+        }
+
+
+        if($row["alicuota_contribuyeiva"]==0){
+            $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal(16, 0);
+            $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal((($base_imponible/1.16)*0.16), 2);
+        }else{
+            $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal($row["alicuota_contribuyeiva"], 0);
+            $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal($row["montoiva_contribuyeiva"], 2);
+        }
+
+
+        /*if($row["alicuota_contribuyeiva"]>=1000){
+            $sub_array['alicuota_contribuyeiva'] = ($row["alicuota_contribuyeiva"]);
+        }else{
+            $sub_array['alicuota_contribuyeiva'] = ($row["alicuota_contribuyeiva"]);
+        }
+
+
+        if($row["montoiva_contribuyeiva"]>=1000){
+            $sub_array['montoiva_contribuyeiva'] =($row["montoiva_contribuyeiva"]);
+        }else{
+            $sub_array['montoiva_contribuyeiva'] = ($row["montoiva_contribuyeiva"]);
+        }*/
+
+
+        if($retencion_dato>=1000){
+            $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
+        }else{
+            $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
+        }
 
         $data[] = $sub_array;
     }
 }
 
 $totales_libro = array(
-    "tvii"     => Strings::rdecimal($tvii, 2),
-    "ve"       => Strings::rdecimal($ve, 2),
-    "magbi16c" => Strings::rdecimal($magbi16c, 2),
-    "mag16c"   => Strings::rdecimal($mag16c, 2),
-    "ivare"    => Strings::rdecimal($ivare, 2)
+    "tvii"     => number_format($tvii, 2),
+    "ve"       => number_format($ve, 2),
+    "magbi16c" => number_format($magbi16c, 2),
+    "mag16c"   => number_format($mag16c, 2),
+    "ivare"    => number_format($ivare, 2)
 );
 
 if (is_array($retenciones_otros_periodos)==true and count($retenciones_otros_periodos)>0)
@@ -204,72 +250,72 @@ if (is_array($retenciones_otros_periodos)==true and count($retenciones_otros_per
         $sub_array['tiporeg']       = $row["tiporeg"];
         $sub_array['factafectada']  = Strings::avoidNull($row["factafectada"]);
         $sub_array['fecharetencion'] = !is_null($row["fecharetencion"]) ? date(FORMAT_DATE, strtotime($row["fecharetencion"])) : '';
-        $sub_array['totalgravable_contribuye'] = Strings::rdecimal($row["totalgravable_contribuye"], 2);
-        $sub_array['totalivacontribuye'] = Strings::rdecimal($row["totalivacontribuye"], 2);
-        $sub_array['retencioniva']  = Strings::rdecimal($row["retencioniva"], 2);
+        $sub_array['totalgravable_contribuye'] = number_format($row["totalgravable_contribuye"], 2);
+        $sub_array['totalivacontribuye'] = number_format($row["totalivacontribuye"], 2);
+        $sub_array['retencioniva']  = number_format($row["retencioniva"], 2);
 
         $otros_periodos[] = $sub_array;
     }
 }
 
 $totales_otros_periodos = array(
-    "ivare" => Strings::rdecimal($ivare2, 2)
+    "ivare" => number_format($ivare2, 2)
 );
 
 $resumen = array(
     array(
         "descripcion"    => 'Total ventas internas no gravadas',
-        "base_imponible" => Strings::rdecimal($ve, 2),
-        "credito_fiscal" => Strings::rdecimal(0, 2),
+        "base_imponible" => number_format($ve, 2),
+        "credito_fiscal" => number_format(0, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
         "descripcion"    => 'Total ventas de Exportación',
-        "base_imponible" => Strings::rdecimal(0, 2),
-        "credito_fiscal" => Strings::rdecimal(0, 2),
+        "base_imponible" => number_format(0, 2),
+        "credito_fiscal" => number_format(0, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
         "descripcion"    => 'Total ventas internas Gravadas por Alicuota General (16%)',
-        "base_imponible" => Strings::rdecimal($magbi16c, 2),
-        "credito_fiscal" => Strings::rdecimal($mag16c, 2),
+        "base_imponible" => number_format($magbi16c, 2),
+        "credito_fiscal" => number_format($mag16c, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
         "descripcion"    => 'Total ventas internas Gravadas por Alicuota General',
-        "base_imponible" => Strings::rdecimal(0, 2),
-        "credito_fiscal" => Strings::rdecimal(0, 2),
+        "base_imponible" => number_format(0, 2),
+        "credito_fiscal" => number_format(0, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
         "descripcion"    => 'Total ventas Gravadas por Alicuota reducida',
-        "base_imponible" => Strings::rdecimal(0, 2),
-        "credito_fiscal" => Strings::rdecimal(0, 2),
+        "base_imponible" => number_format(0, 2),
+        "credito_fiscal" => number_format(0, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
 
         "descripcion"    => 'Total Ventas y Débitos Fiscales para efectos de determinación',
-        "base_imponible" => Strings::rdecimal(($ve+$magbi16c), 2),
-        "credito_fiscal" => Strings::rdecimal($mag16c, 2),
+        "base_imponible" => number_format(($ve+$magbi16c), 2),
+        "credito_fiscal" => number_format($mag16c, 2),
         "isBold" => true, "isColored" => true,
     ),
     array(
         "descripcion"    => 'Iva Retenidos periodos anteriores',
-        "base_imponible" => Strings::rdecimal(0, 2),
-        "credito_fiscal" => Strings::rdecimal($ivare2, 2),
+        "base_imponible" => number_format(0, 2),
+        "credito_fiscal" => number_format($ivare2, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
         "descripcion"    => 'Iva Retenidos en este periodo',
-        "base_imponible" => Strings::rdecimal(0, 2),
-        "credito_fiscal" => Strings::rdecimal($ivare, 2),
+        "base_imponible" => number_format(0, 2),
+        "credito_fiscal" => number_format($ivare, 2),
         "isBold" => false, "isColored" => false,
     ),
     array(
         "descripcion"    => 'Total IVA Retenido',
-        "base_imponible" => Strings::rdecimal(0, 2),
-        "credito_fiscal" => Strings::rdecimal(($ivare2+$ivare), 2),
+        "base_imponible" => number_format(0, 2),
+        "credito_fiscal" => number_format(($ivare2+$ivare), 2),
         "isBold" => true, "isColored" => true,
     ),
 );
@@ -288,13 +334,14 @@ if (is_array($data)==true and count($data)>0) {
         $sheet->setCellValue(getExcelCol($i) . $row, $x['nombre']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['tipodoc']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['numerodoc']);
+        $sheet->setCellValue(getExcelCol($i) . $row, $x['nroctrol']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['tiporeg']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['factafectada']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['nroretencion']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['totalventasconiva']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['mtoexento']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['base_imponible']);
-        $sheet->setCellValue(getExcelCol($i) . $row, $x['alicuota_contribuyeiva'] . '%');
+        $sheet->setCellValue(getExcelCol($i) . $row, $x['alicuota_contribuyeiva']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['montoiva_contribuyeiva']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['retencioniva']);
 
@@ -315,6 +362,7 @@ if (is_array($data)==true and count($data)>0) {
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
         $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+        $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
         $row++;
     }
@@ -323,17 +371,17 @@ if (is_array($data)==true and count($data)>0) {
 $i = 0;
 $sheet = $spreadsheet->getActiveSheet();
 $sheet->setCellValue(getExcelCol($i) . $row,'Totales');
-$sheet->setCellValue(getExcelCol($i+=8) . $row, $totales_libro['tvii']);
+$sheet->setCellValue(getExcelCol($i+=9) . $row, $totales_libro['tvii']);
 $sheet->setCellValue(getExcelCol($i) . $row, $totales_libro['ve']);
 $sheet->setCellValue(getExcelCol($i) . $row, $totales_libro['magbi16c']);
 $sheet->setCellValue(getExcelCol($i) . $row, '');
 $sheet->setCellValue(getExcelCol($i) . $row, $totales_libro['mag16c']);
 $sheet->setCellValue(getExcelCol($i) . $row, $totales_libro['ivare']);
-$spreadsheet->getActiveSheet()->mergeCells('A'.$row.':I'.$row);
+$spreadsheet->getActiveSheet()->mergeCells('A'.$row.':J'.$row);
 $i = 0;
 /** centrarlas las celdas **/
 $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
-$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i+=8) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
+$spreadsheet->getActiveSheet()->getStyle(getExcelCol($i+=9) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_RIGHT, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i) . $row)->applyFromArray(array('font' => array('name' => 'Arial', 'bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_CENTER, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
@@ -381,7 +429,7 @@ if (is_array($otros_periodos)==true and count($otros_periodos)>0) {
         $sheet->setCellValue(getExcelCol($i) . $row, $x['factafectada']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['fecharetencion']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['totalgravable_contribuye']);
-        $sheet->setCellValue(getExcelCol($i) . $row, $x['totalivacontribuye'].'%');
+        $sheet->setCellValue(getExcelCol($i) . $row, $x['totalivacontribuye']);
         $sheet->setCellValue(getExcelCol($i) . $row, $x['retencioniva']);
 
         $i = 0;

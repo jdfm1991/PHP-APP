@@ -48,8 +48,8 @@ function getExcelCol($num, $letra_temp = false) {
     }
 }
 
-$fechai = Dates::normalize_date($_GET['fechai']).' 00:00:00';
-$fechaf = Dates::normalize_date($_GET['fechaf']).' 23:59:59';
+$fechai = $_GET['fechai'];
+$fechaf = $_GET['fechaf'];
 
 # creamos la cabecera de la tabla
 $spreadsheet = new Spreadsheet();
@@ -74,7 +74,7 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', Empresa::getName());
+$sheet->setCellValue('A1', 'LA CONFIMANIA.COM, C.A');
 $spreadsheet->getActiveSheet()->mergeCells('A1:G1');
 $spreadsheet->getActiveSheet()->getStyle('A1')->applyFromArray(array('font' => array('bold'  => true, 'color' => array('rgb' => '000000')), 'alignment' => array('horizontal'=> Alignment::HORIZONTAL_JUSTIFY, 'vertical'  => Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
@@ -147,7 +147,7 @@ if (is_array($datos)==true and count($datos)>0)
         $mtoex += $x['mtoexento'];
         $totcom += $x['totalcompra'];
         $mtoiva += $x['monto_iva'];
-        $retiva += $x['retencioniva'];
+        $retiva += 0;
 
         $sub_array['num']  = $key+1;
         $sub_array['fechacompra']  = date(FORMAT_DATE, strtotime($x["fechacompra"]));
@@ -157,16 +157,16 @@ if (is_array($datos)==true and count($datos)>0)
         $sub_array['nroretencion'] = Strings::avoidNull($x["nroretencion"]);
         $sub_array['numerodoc']    = $x["numerodoc"];
         $sub_array['nroctrol']     = Strings::avoidNull($x["nroctrol"]);
-        $sub_array['tiporeg']      = $x["tiporeg"];
-        $sub_array['docafectado']  = Strings::avoidNull($x["docafectado"]);
+        $sub_array['tiporeg']      = '';
+        $sub_array['docafectado']  = '';
         $sub_array['totalcompraconiva'] = Strings::rdecimal($x["totalcompraconiva"], 2);
         $sub_array['mtoexento']    = Strings::rdecimal($x["mtoexento"], 2);
         $sub_array['totalcompra']  = Strings::rdecimal($x["totalcompra"], 2);
-        $sub_array['alicuota_iva'] = Strings::rdecimal($x["alicuota_iva"], 0);
+        $sub_array['alicuota_iva'] = '';
         $sub_array['monto_iva']    = Strings::rdecimal($x["monto_iva"], 2);
-        $sub_array['retencioniva'] = Strings::rdecimal($x["retencioniva"], 2);
-        $sub_array['porctreten']   = Strings::rdecimal($x["porctreten"], 0);
-        $sub_array['fecharetencion'] = Strings::avoidNull($x["fecharetencion"]);
+        $sub_array['retencioniva'] = '';
+        $sub_array['porctreten']   = '';
+        $sub_array['fecharetencion'] = '';
 
         $data[] = $sub_array;
     }
@@ -372,7 +372,7 @@ if (is_array($resumen)==true and count($resumen)>0) {
 $spreadsheet->getActiveSheet()->getSheetView()->setZoomScale(80);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="librocompras_de_'.date(FORMAT_DATE, $fechai).'_al_'.date(FORMAT_DATE, $fechaf).'.xlsx"');
+header('Content-Disposition: attachment;filename="librocompras_de_'.($fechai).'_al_'.($fechaf).'.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);

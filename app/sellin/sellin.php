@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -64,6 +64,14 @@ if (!isset($_SESSION['cedula'])) {
                                         <!-- la lista de marcas se carga por ajax -->
                                     </select>
                                 </div>
+								<div class="form-group col-3 col-sm-3">
+                                    <label for="marca">Tipo de Transacción</label>
+                                    <select class="custom-select" name="tipo" id="tipo" style="width: 100%;" required>
+                                        <option name="" value="Todos">Todos</option>
+										<option name="" value="f">Factura</option>
+										<option name="" value="n">Nota de Entrega</option>
+                                    </select>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -85,8 +93,11 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('compra')?>"><?=Strings::titleFromJson('compra')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('devolucion_compra')?>"><?=Strings::titleFromJson('devolucion_compra')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('fecha_compra')?>"><?=Strings::titleFromJson('fecha_compra')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('bulto')?>">Compra de Factura</th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('devolucion_compra')?>">Devolución de Factura</th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('bulto')?>">Compra de Nota de Entrega</th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('devolucion_compra')?>">Devolución de Nota de Entrega</th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('total')?>"><?=Strings::titleFromJson('total')?></th>
 								</tr>
 							</thead>
@@ -95,8 +106,11 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('compra')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('devolucion_compra')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('fecha_compra')?></th>
+									<th class="text-center">Compra de Factura</th>
+									<th class="text-center">Devolución de Factura</th>
+									<th class="text-center">Compra de Nota de Entrega</th>
+									<th class="text-center">Devolución de Nota de Entrega</th>
 									<th class="text-center"><?=Strings::titleFromJson('total')?></th>
 
 								</tr>
@@ -112,10 +126,11 @@ if (!isset($_SESSION['cedula'])) {
 						</div>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
+						<br<p><span id="total_registros"></span></p><br>
 							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
 							<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
 						</div>
-					</div>
+				</div>
 				</section>
 			</div>
         <?php require_once("../footer.php");?>

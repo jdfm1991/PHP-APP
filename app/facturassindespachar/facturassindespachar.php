@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -103,8 +103,8 @@ if (!isset($_SESSION['cedula'])) {
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo')?>"><?=Strings::titleFromJson('codigo')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('cliente')?>"><?=Strings::titleFromJson('cliente')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('dias_transcurridos_hoy')?>"><?=Strings::titleFromJson('dias_transcurridos_hoy')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_bultos')?>"><?=Strings::titleFromJson('cantidad_bultos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquetes')?>"><?=Strings::titleFromJson('cantidad_paquetes')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquete')?>"><?=Strings::titleFromJson('cantidad_paquete')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_unidades')?>"><?=Strings::titleFromJson('cantidad_unidades')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('monto')?>"><?=Strings::titleFromJson('monto')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>
 

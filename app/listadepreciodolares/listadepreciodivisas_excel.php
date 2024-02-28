@@ -81,9 +81,7 @@ $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
 
 /** DATOS DEL REPORTE **/
 $spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setSize(25);
-$sheet->setCellValue('A1', 'REPORTE DE LISTADO DE PRECIOS E INVENTARIO');
-//$sheet->setCellValue('A3', 'del: '. date(FORMAT_DATE, strtotime($fechai)));
-//$sheet->setCellValue('A5', 'al:  '. date(FORMAT_DATE, strtotime($fechaf)));
+$sheet->setCellValue('A1', 'REPORTE DE LISTADO DE PRECIOS DIVISAS E INVENTARIO');
 
 
 $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
@@ -92,41 +90,41 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
 $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('codigo_prod'));
 $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('descrip_prod'));
 $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('marca_prod'));
-//BULTOS
-$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('bultos'));
+//paquetes
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('paquete'));
 switch ($sumap) {
     case 1:
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Bulto');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Paquete $');
         break;
     case 2:
         if($p1 == 1){ $pAux = $p1; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Bulto');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Paquete $');
         if ($p3 == 3){ $pAux = $p3; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Bulto');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Paquete $');
         $pAux = '';
         break;
     default: /** 0 || 3**/
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_bulto'));
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_bulto'));
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_bulto'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1d_paquete'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2d_paquete'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3d_paquete'));
 }
-//PAQUETES
-$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('paquetes'));
+//unidad
+$sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('unidad'));
 switch ($sumap) {
     case 1:
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Paquete');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$sumap2.' Unidad $');
         break;
     case 2:
         if($p1 == 1){ $pAux = $p1; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Paquete');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Unidad $');
         if ($p3 == 3){ $pAux = $p3; }else{ $pAux = $p2;}
-        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Paquete');
+        $sheet->setCellValue(getExcelCol($i).'7', 'Precio '.$pAux.' Unidad $');
         $pAux = '';
         break;
     default: /** 0 || 3**/
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1_paquete'));
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2_paquete'));
-        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3_paquete'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio1d_unidad'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio2d_unidad'));
+        $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('precio3d_unidad'));
 }
 if ($cubi == 1) {
     $sheet->setCellValue(getExcelCol($i).'7', Strings::titleFromJson('cubicaje'));
@@ -183,38 +181,38 @@ foreach ($datos as $x) {
     switch ($sumap) {
         case 1:
             if ($x['esexento'] == 0) {
-                $pAux = Strings::rdecimal($x['precio' . $sumap2] * $iva, 2);
+                $pAux = ($x['preciou' . $sumap2] * $iva);
             } else {
-                $pAux = Strings::rdecimal($x['precio' . $sumap2], 2);
+                $pAux = ($x['preciou' . $sumap2]);
             }
             $sheet->setCellValue(getExcelCol($i, true) . $row, $pAux);
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
             break;
         case 2:
             if ($p1 == 1) {
-                $pAux = Strings::rdecimal($precio1, 2);
+                $pAux = ($precio1);
             } else {
-                $pAux = Strings::rdecimal($precio2, 2);
+                $pAux = ($precio2);
             }
             $sheet->setCellValue(getExcelCol($i, true) . $row, $pAux);
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
             if ($p3 == 3) {
-                $pAux = Strings::rdecimal($precio3, 2);
+                $pAux = ($precio3);
             } else {
-                $pAux = Strings::rdecimal($precio2, 2);
+                $pAux = ($precio2);
             }
             $sheet->setCellValue(getExcelCol($i, true) . $row, $pAux);
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
             break;
         default:
             /** 0 || 3**/
-            $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($precio1, 2));
+            $sheet->setCellValue(getExcelCol($i, true) . $row, ($precio1));
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-            $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($precio2, 2));
+            $sheet->setCellValue(getExcelCol($i, true) . $row, ($precio2));
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-            $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($precio3, 2));
+            $sheet->setCellValue(getExcelCol($i, true) . $row, ($precio3));
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     }
     $pAux = '';
@@ -224,38 +222,38 @@ foreach ($datos as $x) {
     switch ($sumap) {
         case 1:
             if ($x['esexento'] == 0) {
-                $pAux = Strings::rdecimal($x['preciou' . $sumap2] * $iva, 2);
+                $pAux = ($x['precio' . $sumap2] * $iva);
             } else {
-                $pAux = Strings::rdecimal($x['preciou' . $sumap2], 2);
+                $pAux = ($x['precio' . $sumap2]);
             }
             $sheet->setCellValue(getExcelCol($i, true) . $row, $pAux);
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
             break;
         case 2:
             if ($p1 == 1) {
-                $pAux = Strings::rdecimal($preciou1, 2);
+                $pAux = ($preciou1);
             } else {
-                $pAux = Strings::rdecimal($preciou2, 2);
+                $pAux = ($preciou2);
             }
             $sheet->setCellValue(getExcelCol($i, true) . $row, $pAux);
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
             if ($p3 == 3) {
-                $pAux = Strings::rdecimal($preciou3, 2);
+                $pAux = ($preciou3);
             } else {
-                $pAux = Strings::rdecimal($preciou2, 2);
+                $pAux = ($preciou2);
             }
             $sheet->setCellValue(getExcelCol($i, true) . $row, $pAux);
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
             break;
         default:
             /** 0 || 3**/
-            $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($preciou1, 2));
+            $sheet->setCellValue(getExcelCol($i, true) . $row, ($preciou1));
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-            $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($preciou2, 2));
+            $sheet->setCellValue(getExcelCol($i, true) . $row, ($preciou2));
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
 
-            $sheet->setCellValue(getExcelCol($i, true) . $row, Strings::rdecimal($preciou3, 2));
+            $sheet->setCellValue(getExcelCol($i, true) . $row, ($preciou3));
             $spreadsheet->getActiveSheet()->getStyle(getExcelCol($i).$row)->applyFromArray(array('alignment' => array('horizontal'=> \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, 'vertical'  => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER, 'wrap' => TRUE)));
     }
     $pAux = '';
@@ -270,7 +268,7 @@ $sheet->setCellValue('B' . ($row + 3), 'Total de Productos:  ' . $num);
 
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Listado_de_precios_e_inventario_' . date('d/m/Y') . '.xlsx"');
+header('Content-Disposition: attachment;filename="Listado_de_precios_divisas_e_inventario_' . date('d/m/Y') . '.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);

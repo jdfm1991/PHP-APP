@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -64,12 +64,24 @@ else { ?>
                                     <!-- la lista se carga por ajax -->
                                 </select>
                             </div>
+                            <?php if ($_SESSION['rol'] != '5') { ?>
                             <div class="form-group col-sm-3">
                                 <label for="marca"><?=Strings::titleFromJson('instancia')?></label>
                                 <select class="form-control custom-select" name="instancia" id="instancia" style="width: 100%;" required>
                                     <!-- la lista se carga por ajax -->
                                 </select>
                             </div>
+                            <?php }else{ ?>
+
+                                <div class="form-group col-sm-3">
+                                <label for="instanciad"><?=Strings::titleFromJson('instancia')?></label>
+                                <select class="form-control custom-select" name="instanciad" id="instanciad" style="width: 100%;" required>
+                                    <option name="" value="">Seleccione</option>
+									<option name="" value="4097">PARMALAT</option>
+                                </select>
+                               </div>
+
+                            <?php } ?>
                         </div>
                     </form>
                 </div>
@@ -89,7 +101,7 @@ else { ?>
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('categoria')?>"><?=Strings::titleFromJson('categoria')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('und_bultos')?>"><?=Strings::titleFromJson('und_bultos')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('und_paquete')?>"><?=Strings::titleFromJson('und_paquete')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('und_kg')?>"><?=Strings::titleFromJson('und_kg')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('monto_bs')?>"><?=Strings::titleFromJson('monto_bs')?></th>
                         </tr>
@@ -97,7 +109,7 @@ else { ?>
                         <tfoot style="background-color: #ccc;color: white;">
                         <tr>
                             <th class="text-center"><?=Strings::titleFromJson('categoria')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('und_bultos')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('und_paquete')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('und_kg')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('monto_bs')?></th>
                         </tr>
@@ -108,6 +120,7 @@ else { ?>
                     </table>
                     <!-- BOX BOTONES DE REPORTES-->
                     <div align="center">
+                    <br<p><span id="total_registros"></span></p><br>
                         <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel')?></button>
                         <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf')?></button>
                     </div>

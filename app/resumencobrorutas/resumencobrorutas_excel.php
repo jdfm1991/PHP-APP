@@ -73,7 +73,7 @@ $sheet->setCellValue('A5', 'fecha tope:  '. date('d-m-Y'));
 $spreadsheet->getActiveSheet()->mergeCells('A1:C1');
 
 /** TITULO DE LA TABLA **/
-$sheet->setCellValue('A7', utf8_decode(Strings::titleFromJson('codvend')))
+$sheet->setCellValue('A7', utf8_decode("Código EDV"))
     ->setCellValue('B7', Strings::titleFromJson('0_a_7'))
     ->setCellValue('C7', Strings::titleFromJson('8_a_14'))
     ->setCellValue('D7', Strings::titleFromJson('15_a_21'))
@@ -96,13 +96,13 @@ $row = 8;
 foreach ($query as $i) {
 
 
-        $De_0_a_7_Dias = number_format($i["De_0_a_7_Dias"], 2, ',', '.');
-        $De_8_a_14_Dias = number_format($i["De_8_a_14_Dias"], 2, ',', '.');
-        $De_15_a_21_Dias = number_format($i["De_15_a_21_Dias"], 2, ',', '.');
-        $De_22_a_31_Dias = number_format($i["De_22_a_31_Dias"], 2, ',', '.');
-        $Mas_31_Dias = number_format($i["Mas_31_Dias"], 2, ',', '.');
+        $De_0_a_7_Dias = ($i["De_0_a_7_Dias"]);
+        $De_8_a_14_Dias = ($i["De_8_a_14_Dias"]);
+        $De_15_a_21_Dias = ($i["De_15_a_21_Dias"]);
+        $De_22_a_31_Dias = ($i["De_22_a_31_Dias"]);
+        $Mas_31_Dias = ($i["Mas_31_Dias"]);
 
-        $total = number_format($i["Total"], 2, ',', '.');
+        $total = ($i["Total"]);
 
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue('A' . $row, $i['EDV']);

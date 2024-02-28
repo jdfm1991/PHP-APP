@@ -32,7 +32,7 @@ class Chofer extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "UPDATE [AJ].[dbo].appchofer SET descripcion=?, estatus=?  WHERE cedula=?";
+        $sql = "UPDATE appchofer SET descripcion=?, estatus=?  WHERE cedula=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $data["descripcion"]);
@@ -49,7 +49,7 @@ class Chofer extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "UPDATE [AJ].[dbo].appchofer SET estado=? WHERE cedula=?";
+        $sql = "UPDATE appchofer SET estado=? WHERE cedula=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $estado);
@@ -66,7 +66,7 @@ class Chofer extends Conectar
 
         //QUERY
 //    $sql = "DELETE FROM choferes WHERE id = ?";
-        $sql = "UPDATE [AJ].[dbo].appchofer SET deleted_at=? WHERE Cedula=?";
+        $sql = "UPDATE appchofer SET deleted_at=? WHERE Cedula=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, date("Y/m/d h:i:s"));

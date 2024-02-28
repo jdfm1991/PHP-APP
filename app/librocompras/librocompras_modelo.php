@@ -15,14 +15,12 @@ class LibroCompra extends Conectar{
         parent::set_names();
 
         //QUERY
-        $sql= "SELECT fechacompra, id3ex, descripex, tipodoc, nroretencion, numerodoc, nroctrol, tiporeg, docafectado, totalcompraconiva, mtoexento, totalcompra, alicuota_iva, monto_iva, retencioniva, porctreten, fecharetencion 
-                FROM DBO.VW_ADM_LIBROIVACOMPRAS WHERE ( ? <=FECHATRAN) AND (FECHATRAN<= ? ) 
-                ORDER BY (YEAR(FechaCompra)*10000)+(MONTH(FechaCompra)*100)+DAY(FechaCompra),FECHAT";
+        $sql= "SELECT FechaE as fechacompra, CodProv as id3ex, Descrip as descripex, TipoCom as tipodoc, NumeroR as nroretencion, NumeroD as numerodoc, NroCtrol as nroctrol, MtoTotal as totalcompraconiva, TExento as mtoexento, TGravable as totalcompra,MtoTax as monto_iva from SACOMP  where DATEADD(dd, 0, DATEDIFF(dd, 0, SACOMP.FechaE)) between '$fechai' AND '$fechaf'  AND (SACOMP.TipoCom = 'J' OR SACOMP.TipoCom = 'K') ORDER BY SACOMP.fechae asc";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1,$fechai);
-        $sql->bindValue($i+=1,$fechaf);
+        /*$sql->bindValue($i+=1,$fechai);
+        $sql->bindValue($i+=1,$fechaf);*/
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 

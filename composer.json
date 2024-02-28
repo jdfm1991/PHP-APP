@@ -4,6 +4,7 @@
     "phpmailer/phpmailer": "^6.1",
     "ext-json": "*",
     "ext-gd": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "fabpot/goutte": "^4.0"
   }
 }

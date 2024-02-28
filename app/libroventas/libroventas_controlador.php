@@ -14,8 +14,8 @@ switch ($_GET["op"]) {
 
     case "listar_libroventas":
 
-        $fechai = Dates::normalize_date($_POST['fechai']).' 00:00:00';
-        $fechaf = Dates::normalize_date($_POST['fechaf']).' 23:59:59';
+        $fechai = $_POST['fechai'].' 00:00:00.000';
+        $fechaf = $_POST['fechaf'].' 23:59:59.000';
 
         $datos = $libroventa->getLibroPorFecha($fechai, $fechaf);
         $retenciones_otros_periodos = $libroventa->getRetencionesOtrosPeriodos($fechai, $fechaf);
@@ -36,12 +36,13 @@ switch ($_GET["op"]) {
                 $sub_array = array();
 
                 $base_imponible = $row["totalventas"] - $row['mtoexento'];
-                $totalventasconiva = $base_imponible + $row['mtoexento'] + $row['montoiva_contribuyeiva'];
+                //$totalventasconiva = $base_imponible + $row['mtoexento'] + $row['montoiva_contribuyeiva'];
+                $totalventasconiva = $row['TOTALVENTASCONIVA'];
 
                 $tvii += $totalventasconiva;
                 $ve += $row['mtoexento'];
                 $magbi16c += $base_imponible;
-                $mag16c += $row['montoiva_contribuyeiva'];
+                $mag16c += $base_imponible*0.16;
                 $ivare += count($retencion_dato)>0 ? Numbers::avoidNull($retencion_dato[0]['retencioniva']) : 0;
 
                 $sub_array['num']  = $key+1;
@@ -57,8 +58,17 @@ switch ($_GET["op"]) {
                 $sub_array['totalventasconiva'] = Strings::rdecimal($totalventasconiva, 2);
                 $sub_array['mtoexento']      = Strings::rdecimal($row["mtoexento"], 2);
                 $sub_array['base_imponible'] = Strings::rdecimal($base_imponible, 2);
-                $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal($row["alicuota_contribuyeiva"], 0);
-                $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal($row["montoiva_contribuyeiva"], 2);
+
+                if($row["alicuota_contribuyeiva"]==0){
+                    $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal(16, 0);
+                    $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal((($base_imponible/1.16)*0.16), 2);
+                }else{
+                    $sub_array['alicuota_contribuyeiva'] = Strings::rdecimal($row["alicuota_contribuyeiva"], 0);
+                    $sub_array['montoiva_contribuyeiva'] = Strings::rdecimal($row["montoiva_contribuyeiva"], 2);
+                }
+
+            
+                
                 $sub_array['retencioniva']  = count($retencion_dato)>0 ? Strings::avoidNull($retencion_dato[0]["retencioniva"]) : '';
 
                 $data[] = $sub_array;

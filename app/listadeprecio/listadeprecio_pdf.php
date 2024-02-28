@@ -101,42 +101,60 @@ class PDF extends FPDF
         $this->SetFont('Arial', 'B', 8.5);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(20 + ($anchoAdicional*0.20)), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(65 + ($anchoAdicional*0.40)), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(30 + ($anchoAdicional*0.20)), 6, utf8_decode(Strings::titleFromJson('marca_prod')), 1, 0, 'C', true);
-        //BULTOS
-        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
-        switch ($GLOBALS['sumap']) {
-            case 1:
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Bul', 1, 0, 'C', true);
-                break;
-            case 2:
-                if($GLOBALS['p1'] == 1){ $pAux = $GLOBALS['p1']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', true);
-                if ($GLOBALS['p3'] == 3){ $pAux = $GLOBALS['p3']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Bul', 1, 0, 'C', true);
-                break;
-            default: /** 0 || 3**/
-                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio1_bulto')), 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio2_bulto')), 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio3_bulto')), 1, 0, 'C', true);
-        }
+    $this->Cell(addWidthInArray(10 + ($anchoAdicional*0.20)), 6, utf8_decode('Código'/*Strings::titleFromJson('codigo_prod')*/), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(45 + ($anchoAdicional*0.40)), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18 + ($anchoAdicional*0.20)), 6, utf8_decode(Strings::titleFromJson('marca_prod')), 1, 0, 'C', true);
         //PAQUETES
-        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('paquetes')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('paquete')), 1, 0, 'C', true);
         switch ($GLOBALS['sumap']) {
             case 1:
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$GLOBALS['sumap2'].' Paq', 1, $aux, 'C', true);
+                $this->Cell(addWidthInArray(16), 6, 'Pre '.$GLOBALS['sumap2'].' Paq', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, 'Pre '.$GLOBALS['sumap2'].' Paq $', 1, 0, 'C', true);
                 break;
             case 2:
                 if($GLOBALS['p1'] == 1){ $pAux = $GLOBALS['p1']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(16), 6, 'Pre '.$pAux.' Paq', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, 'Pre '.$pAux.' Paq $', 1, 0, 'C', true);
                 if ($GLOBALS['p3'] == 3){ $pAux = $GLOBALS['p3']; }else{ $pAux = $GLOBALS['p2'];}
-                $this->Cell(addWidthInArray(25), 6, 'Pre '.$pAux.' Paq', 1, $aux, 'C', true);
+                $this->Cell(addWidthInArray(16), 6, 'Pre '.$pAux.' Paq', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, 'Pre '.$pAux.' Paq $', 1, 0, 'C', true);
                 break;
             default: /** 0 || 3**/
-                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio1_paquete')), 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio2_paquete')), 1, 0, 'C', true);
-                $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('precio3_paquete')), 1, $aux, 'C', true);
+                $this->Cell(addWidthInArray(16), 6, utf8_decode(Strings::titleFromJson('precio1_paquete')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('precio1d_paquete')), 1, 0, 'C', true);
+
+                $this->Cell(addWidthInArray(16), 6, utf8_decode(Strings::titleFromJson('precio2_paquete')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(19), 6, utf8_decode(Strings::titleFromJson('precio2d_paquete')), 1, 0, 'C', true);
+
+                $this->Cell(addWidthInArray(16), 6, utf8_decode(Strings::titleFromJson('precio3_paquete')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('precio3d_paquete')), 1, 0, 'C', true);
+        }
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode('Precio Bulto $'), 1, 0, 'C', true);
+        //unidad
+        $this->Cell(addWidthInArray(18  + ($anchoAdicional*0.10)), 6, utf8_decode(Strings::titleFromJson('unidad')), 1, 0, 'C', true);
+        switch ($GLOBALS['sumap']) {
+            case 1:
+                $this->Cell(addWidthInArray(16), 6, 'Pre '.$GLOBALS['sumap2'].' Uni', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, 'Pre '.$GLOBALS['sumap2'].' Uni $', 1, $aux, 'C', true);
+                break;
+            case 2:
+                if($GLOBALS['p1'] == 1){ $pAux = $GLOBALS['p1']; }else{ $pAux = $GLOBALS['p2'];}
+                $this->Cell(addWidthInArray(16), 6, 'Pre '.$pAux.' Uni', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, 'Pre '.$pAux.' Uni $', 1, 0, 'C', true);
+                if ($GLOBALS['p3'] == 3){ $pAux = $GLOBALS['p3']; }else{ $pAux = $GLOBALS['p2'];}
+                $this->Cell(addWidthInArray(16), 6, 'Pre '.$pAux.' Uni', 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, 'Pre '.$pAux.' Uni $', 1, $aux, 'C', true);
+                break;
+            default: /** 0 || 3**/
+                $this->Cell(addWidthInArray(16), 6, utf8_decode(Strings::titleFromJson('precio1_unidad')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('precio1d_unidad')), 1, 0, 'C', true);
+
+                $this->Cell(addWidthInArray(16), 6, utf8_decode(Strings::titleFromJson('precio2_unidad')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('precio2d_unidad')), 1, 0, 'C', true);
+
+                $this->Cell(addWidthInArray(16), 6, utf8_decode(Strings::titleFromJson('precio3_unidad')), 1, 0, 'C', true);
+                $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('precio3d_unidad')), 1, $aux, 'C', true);
+
         }
         if ($GLOBALS['cubi'] == 1) {
             $this->Cell(addWidthInArray(24), 6, utf8_decode(Strings::titleFromJson('cubicaje')), 1, 1, 'C', true);
@@ -163,13 +181,20 @@ $num = count($query);
 
 foreach ($query as $x) {
     $j = 0;
-    if ($x['esexento']) {
+    if (!$x['esexento']) {
         $precio1 = $x['precio1'] * $iva;
         $precio2 = $x['precio2'] * $iva;
         $precio3 = $x['precio3'] * $iva;
         $preciou1 = $x['preciou1'] * $iva;
         $preciou2 = $x['preciou2'] * $iva;
         $preciou3 = $x['preciou3'] * $iva;
+
+        $precio1_P = $x['precio1_P'] ;
+        $precio2_P = $x['precio2_P'] ;
+        $precio3_P = $x['precio3_P'] ;
+        $preciou1_B = $x['preciou1_B'] ;
+        $preciou2_B = $x['preciou2_B'] ;
+        $preciou3_B = $x['preciou3_B'] ;
     } else {
         $precio1 = $x['precio1'];
         $precio2 = $x['precio2'];
@@ -177,7 +202,16 @@ foreach ($query as $x) {
         $preciou1 = $x['preciou1'];
         $preciou2 = $x['preciou2'];
         $preciou3 = $x['preciou3'];
+
+        $precio1_P = $x['precio1_P'] ;
+        $precio2_P = $x['precio2_P'] ;
+        $precio3_P = $x['precio3_P'] ;
+        $preciou1_B = $x['preciou1_B'] ;
+        $preciou2_B = $x['preciou2_B'] ;
+        $preciou3_B = $x['preciou3_B'] ;
     }
+
+    $precio_unitario=$x['preciou3_B'] * $x['Cantidad_por_Bultos'];
 
     addInfoInArray($x['codprod']);
     addInfoInArray(utf8_decode($x['descrip']));
@@ -186,30 +220,79 @@ foreach ($query as $x) {
     addInfoInArray(round($x['existen']));
     switch ($sumap) {
         case 1:
-            if ($x['esexento'] == 0) { addInfoInArray( Strings::rdecimal($x['precio'. $sumap2 ]* $iva, 2) ); } else { addInfoInArray( Strings::rdecimal($x['precio'. $sumap2 ], 2) ); }
+            if ($x['esexento'] == 0) { 
+                addInfoInArray( Strings::rdecimal($x['precio'. $sumap2 ]* $iva, 2) ); 
+                addInfoInArray(Strings::rdecimal($x['preciou'. $sumap2.'_B' ] , 2));
+            } else { 
+                addInfoInArray( Strings::rdecimal($x['precio'. $sumap2 ], 2) ); 
+                addInfoInArray(Strings::rdecimal($x['preciou'. $sumap2.'_B' ] , 2));
+            }
             break;
         case 2:
-            if ($p1 == 1) { addInfoInArray( Strings::rdecimal($precio1, 2) ); } else { addInfoInArray( Strings::rdecimal($precio2, 2) ); }
-            if ($p3 == 3) { addInfoInArray( Strings::rdecimal($precio3, 2) ); } else { addInfoInArray( Strings::rdecimal($precio2, 2) ); }
+            if ($p1 == 1) { 
+                addInfoInArray( Strings::rdecimal($precio1, 2) ); 
+                addInfoInArray( Strings::rdecimal($preciou1_B, 2) ); 
+            } else { 
+                addInfoInArray( Strings::rdecimal($precio2, 2) );
+                addInfoInArray( Strings::rdecimal($preciou2_B, 2) );  
+            }
+            if ($p3 == 3) { 
+                addInfoInArray( Strings::rdecimal($precio3, 2) ); 
+                addInfoInArray( Strings::rdecimal($preciou3_B, 2) ); 
+            } else { 
+                addInfoInArray( Strings::rdecimal($precio2, 2) ); 
+                addInfoInArray( Strings::rdecimal($preciou2_B, 2) ); 
+            }
             break;
         default: /** 0 || 3**/
             addInfoInArray(Strings::rdecimal($precio1, 2));
+            addInfoInArray(Strings::rdecimal($preciou1_B, 2));
+
             addInfoInArray(Strings::rdecimal($precio2, 2));
+            addInfoInArray(Strings::rdecimal($preciou2_B, 2));
+
             addInfoInArray(Strings::rdecimal($precio3, 2));
+            addInfoInArray(Strings::rdecimal($preciou3_B, 2));
     }
+
+    addInfoInArray($precio_unitario);
+
     addInfoInArray(round($x['exunidad']));
     switch ($sumap) {
         case 1:
-            if ($x['esexento'] == 0) { addInfoInArray( Strings::rdecimal($x['preciou'. $sumap2 ]* $iva, 2) ); } else { addInfoInArray( Strings::rdecimal($x['preciou'. $sumap2 ], 2 ) ); }
+            if ($x['esexento'] == 0) { 
+                addInfoInArray( Strings::rdecimal($x['preciou'. $sumap2 ]* $iva, 2) ); 
+                addInfoInArray(Strings::rdecimal($x['precio'. $sumap2.'_P' ] , 2));
+            } else { 
+                addInfoInArray( Strings::rdecimal($x['preciou'. $sumap2 ], 2 ) );
+                addInfoInArray(Strings::rdecimal($x['precio'. $sumap2.'_P' ] , 2)); 
+            }
             break;
         case 2:
-            if ($p1 == 1) { addInfoInArray( Strings::rdecimal($preciou1, 2) ); } else { addInfoInArray( Strings::rdecimal($preciou2, 2) ); }
-            if ($p3 == 3) { addInfoInArray( Strings::rdecimal($preciou3, 2) ); } else { addInfoInArray( Strings::rdecimal($preciou2, 2) ); }
+            if ($p1 == 1) { 
+                addInfoInArray( Strings::rdecimal($preciou1, 2) ); 
+                addInfoInArray( Strings::rdecimal($precio1_P, 2) ); 
+            } else { 
+                addInfoInArray( Strings::rdecimal($preciou2, 2) ); 
+                addInfoInArray( Strings::rdecimal($precio2_P, 2) ); 
+            }
+            if ($p3 == 3) { 
+                addInfoInArray( Strings::rdecimal($preciou3, 2) ); 
+                addInfoInArray( Strings::rdecimal($precio3_P, 2) ); 
+            } else { 
+                addInfoInArray( Strings::rdecimal($preciou2, 2) );
+                addInfoInArray( Strings::rdecimal($precio2_P, 2) );  
+            }
             break;
         default: /** 0 || 3**/
             addInfoInArray(Strings::rdecimal($preciou1, 2));
+            addInfoInArray(Strings::rdecimal($precio1_P, 2));
+
             addInfoInArray(Strings::rdecimal($preciou2, 2));
+            addInfoInArray(Strings::rdecimal($precio2_P, 2));
+
             addInfoInArray(Strings::rdecimal($preciou3, 2));
+            addInfoInArray(Strings::rdecimal($precio3_P, 2));
     }
     if ($cubi == 1) {
         addInfoInArray($x['cubicaje']);

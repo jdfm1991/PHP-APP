@@ -1,9 +1,13 @@
 <?php
 
 
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 require_once("../config/conexion.php");
+
+if (!isset($_SESSION['cedula'])) {
+    session_destroy(); Url::redirect(URL_APP);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,10 +21,11 @@ require_once("../config/conexion.php");
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">DISTRIBUCIONES AJ, C.A</h1>
+                        <h1 class="m-0 text-dark">LA CONFIMANIA, C.A</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><button id="syncrate" class="btn btn-outline-primary" type="button">Sincronizar tasa del Dia</button></li>
                             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
@@ -53,7 +58,7 @@ require_once("../config/conexion.php");
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
+                    <div class="col-lg-2 col-6">
                         <div class="small-box bg-success">
                             <!-- Loading (remove the following to stop the loading)-->
                             <div id="loader_pedPorFacturar" class="overlay dark">
@@ -64,7 +69,7 @@ require_once("../config/conexion.php");
                                 <h3>
                                     <span id="pedsPorFacturar">0</span>
                                 </h3>
-                                <p>Pedidos por facturar</p>
+                                <p>Productos por facturar</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
@@ -73,8 +78,8 @@ require_once("../config/conexion.php");
                                         class="fas fa-arrow-circle-right"></i></a>-->
                         </div>
                     </div>
-
-                    <div class="col-lg-3 col-6">
+<?php if ($_SESSION['rol'] != '5') { ?>
+                    <div class="col-lg-2 col-6">
                         <div class="small-box bg-warning">
                             <!-- Loading (remove the following to stop the loading)-->
                             <div id="loader_cxc" class="overlay dark">
@@ -83,9 +88,9 @@ require_once("../config/conexion.php");
 
                             <div class="inner">
                                 <h5 style="font-weight: 700">
-                                    <span id="cxc_in_bs">0,0</span><sup style="font-size: 16px">BS</sup>
+                                    <a class="" style="color:#343433" href="Fact_cobrar/Fact_cobrar.php"><span id="cxc_in_bs">0,0</span><sup style="font-size: 16px">BS</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class="" style="color:#343433" href="Fact_cobrar/Fact_cobrar.php"><span id="cxc_in_bs_dolar">0,0</span><sup style="font-size: 16px">$</sup></a>
                                     <br>
-                                    <span id="cxc_in_dolar">0,0</span><sup style="font-size: 16px">$</sup>
+                                     <a class="" style="color:#343433" href="NEcobros/NEcobros.php"><span id="cxc_in_dolar">0,0</span><sup style="font-size: 16px">$</sup></a>
 
                                 </h5>
 
@@ -99,7 +104,7 @@ require_once("../config/conexion.php");
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
+                    <div class="col-lg-2 col-6">
                         <div class="small-box bg-danger">
                             <!-- Loading (remove the following to stop the loading)-->
                             <div id="loader_cxp" class="overlay dark">
@@ -108,9 +113,10 @@ require_once("../config/conexion.php");
 
                             <div class="inner">
                                 <h5 style="font-weight: 700">
-                                    <span id="cxp_in_bs">0,0</span><sup style="font-size: 16px">BS</sup>
-                                    <br>
-                                    <span id="cxp_in_dolar">0,0</span><sup style="font-size: 16px">$</sup>
+                                   <!--  <span id="cxp_in_bs">0,0</span><sup style="font-size: 16px">BS</sup>
+                                  -->  <br>
+                                  <a class="" style="color:#FFFFFF" href="cuentasporpagar/cuentasporpagar.php"><span id="cxp_in_dolar">0,0</span><sup style="font-size: 16px">$</sup></a>
+                                    
                                 </h5>
                                 <p>Cuentas por Pagar</p>
                             </div>
@@ -122,9 +128,38 @@ require_once("../config/conexion.php");
                         </div>
                     </div>
 
+                
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-primary">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_ingresoxdia" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <div class="inner">
+                                <h5 style="font-weight: 700">
+                                    <span id="ingreso_in_bs">0,0</span><sup style="font-size: 16px">BS</sup>
+                                    <br>
+                                    <span id="ingreso_in_dolar">0,0</span><sup style="font-size: 16px">$</sup>
+                                </h5>
+                                <p>Ventas del Dia</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-cash"></i>
+                            </div>
+                            <!--<a href="#" class="small-box-footer"><?/*=Strings::titleFromJson('boton_ver_reporte')*/?><i
+                                        class="fas fa-arrow-circle-right"></i></a>-->
+                        </div>
+                    </div>
+
+
+<?php } ?>
                 </div>
 
-                <div class="row">
+              
+            <!-- ///////////////////// PRIMERA FILA //////////////////////////////////////////////////////////// -->
+
+            <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <!-- Loading (remove the following to stop the loading)-->
@@ -142,25 +177,7 @@ require_once("../config/conexion.php");
                         </div>
                         <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-
-                            <!-- Loading (remove the following to stop the loading)-->
-                            <div id="loader_total_ventas_mes_encurso" class="overlay dark">
-                                <i class="fas fa-3x fa-sync-alt"></i>
-                            </div>
-
-                            <span class="info-box-icon bg-primary"><i class="fa fa-money-check-alt"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Ventas mes <span id="ventas_mes_text"></span></span>
-                                <span id="ventas_mes_encurso" class="info-box-number">0</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
+                    
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
@@ -173,7 +190,8 @@ require_once("../config/conexion.php");
 
                             <div class="info-box-content inner">
                                 <span class="info-box-text">Tasa dolar</span>
-                                <span id="tasa_dolar" class="info-box-number">0,0<sup style="font-size: 16px">$</sup></span>
+                                <a class="" style="color:#343433" href="factorcambiario/factorcambiario.php"><span id="tasa_dolar" class="info-box-number">0,0<sup style="font-size: 16px">$</sup></span></a>
+                               
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -198,11 +216,131 @@ require_once("../config/conexion.php");
                         <!-- /.info-box -->
                     </div>
                     <!-- /.col -->
+
+
+                     <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_documentos" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-primary"><i class="far fa-file"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text  text-center">Facturas / N. Entregas</span>
+                                <span id="documentos" class="info-box-number text-center">0 / 0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+
+
+
                 </div>
+
+ <!-- ///////////////////// FIN PRIMERA FILA //////////////////////////////////////////////////////////// -->
+
+
+
+
+ <!-- ///////////////////// SEGUNDA FILA //////////////////////////////////////////////////////////// -->
+
+
+            <div class="row">
+
+
+                <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_total_ventas_mes_encurso" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-primary"><i class="fa fa-money-check-alt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Ventas del mes <span id="ventas_mes_text"></span></span>
+                                <span id="ventas_mes_encurso" class="info-box-number">0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_total_dev_mes_encurso" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-primary"><i class="fa fa-sort-amount-down-alt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Dev. del mes <span id="dev_mes_text"></span></span>
+                                <span id="dev_mes_encurso" class="info-box-number">0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                   
+                    <!-- /.col -->
+                   <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_total_descuento_mes_encurso" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-primary">$</span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Descuentos del mes <span id="descuento_mes_text"></span></span>
+                                <span id="descuento_mes_encurso" class="info-box-number">0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                     <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_total_real_mes_encurso" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <span class="info-box-icon bg-primary"><i class="fa fa-money-check-alt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Venta Real del mes <span id="real_mes_text"></span></span>
+                                <span id="real_mes_encurso" class="info-box-number">0</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+
+
+ <!-- ///////////////////// FIN SEGUNDA FILA //////////////////////////////////////////////////////////// -->
+
+
 
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="card">
+                    <div class="card">
                             <!-- Loading (remove the following to stop the loading)-->
                             <div id="loader_ventas_por_mes" class="overlay dark">
                                 <i class="fas fa-3x fa-sync-alt"></i>
@@ -211,8 +349,20 @@ require_once("../config/conexion.php");
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="card-title">Ventas <span id="title_ventas"></span></h3>
-                                    <a href="javascript:void(0);">Ver Reporte</a>
+                                    <a  style="color:#007bff" id='reporte_ventas_anno'>Ver Reporte</a>
                                 </div>
+                                <div align="center">
+                                    <select class="form-control custom-select" name="anno_graph" id="anno_graph" style="width: 20%;" required>
+                                    
+                                    <?php  for ($i = 2021; $i <=date("Y"); $i++) { ?>
+
+                                        <option value="<?php echo $i ?>" selected="selected"><?php echo $i ?></option>
+
+                             <?php } ?>
+
+                                </select>
+					        	</div>
+                                 
                             </div>
                             <div class="card-body">
                                 <div class="d-flex">
@@ -240,6 +390,76 @@ require_once("../config/conexion.php");
                             </div>
                         </div>
                     </div>
+
+
+
+                     <!-- SEGUNDA GRAFICA -->
+                    <div class="col-lg-6">
+                    <div class="card">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_ventas_por_mes_dos" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <div class="card-header border-0">
+                                <div class="d-flex justify-content-between">
+                                    <h3 class="card-title">Paquetes Vendidos <span id="title_ventas_dos"></span></h3>
+                                   <!--  <a href="javascript:void(0);">Ver Reporte</a>-->
+                                </div>
+
+
+                                 <div align="center">
+                                    <select class="form-control custom-select" name="anno_bulto_graph" id="anno_bulto_graph" style="width: 20%;" required>
+                                    
+                                    <?php  for ($i = 2021; $i <=date("Y"); $i++) { ?>
+
+                                        <option value="<?php echo $i ?>" selected="selected"><?php echo $i ?></option>
+
+                             <?php } ?>
+
+                                </select>
+					        	</div>
+
+
+
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex">
+
+                                    <p class="d-flex flex-column">
+                                        <span id="acum_ventas_anio_actual_dos" class="text-bold text-lg">Paquetes 0</span>
+                                        <span>Ventas a lo largo del tiempo</span>
+                                    </p>
+                                    <p class="ml-auto d-flex flex-column text-right">
+                                        <span class="text-success incremento_ventas_dos">
+                                            <i class="fas fa-arrow-up"></i> 0.0 %
+                                        </span>
+                                        <span class="text-muted">Desde el mes pasado</span>
+                                    </p>
+                                </div>
+                                <div class="position-relative mb-4">
+                                    <canvas id="sales-chart_dos" height="200"></canvas>
+                                </div>
+
+                                <div class="d-flex flex-row justify-content-end">
+                                    <span class="mr-2"><i class="fas fa-square text-primary"></i> Paquetes Este Año</span>
+                                    <span><i class="fas fa-square text-gray"></i> Paquetes del Año Pasado</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                     <!-- FIN SEGUNDA GRAFICA -->
+
+
+
+                </div>
+<?php if ($_SESSION['rol'] != '5') { ?>
+                <div class="row">
+
+
+
+
                     <div class="col-lg-6">
                         <div class="card">
                             <!-- Loading (remove the following to stop the loading)-->
@@ -266,9 +486,11 @@ require_once("../config/conexion.php");
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
+
+
+
+
                     <div class="col-lg-6">
                         <div class="card">
                             <!-- Loading (remove the following to stop the loading)-->
@@ -319,13 +541,47 @@ require_once("../config/conexion.php");
                             </div>
                         </div>
                     </div>
-                </div>
 
+
+
+
+                     <div class="col-lg-6">
+                        <div class="card">
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div id="loader_ventas_por_productos" class="overlay dark">
+                                <i class="fas fa-3x fa-sync-alt"></i>
+                            </div>
+
+                            <div class="card-header border-0">
+                                <h3 class="card-title">TOP 10 - Productos <span id="title_ventas_productos"></span></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0" style="height: 360px;">
+                                <table id="ventas_por_productos" class="table table-striped table-valign-middle table-head-fixed text-nowrap text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>Descripción</th>
+                                        <th><?=Strings::titleFromJson('valoracion')?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--el contenido llega por ajax-->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+<?php } ?>
             </div>
         </section>
     </div>
 
     <?php require_once("footer.php"); ?>
+     <?php include 'principal/modales/ver_productos_almacen_modal.html' ?>
+     <?php include 'principal/modales/detalles_ventas_dolares.php' ?>
 </div>
 
 <!-- ChartJS -->

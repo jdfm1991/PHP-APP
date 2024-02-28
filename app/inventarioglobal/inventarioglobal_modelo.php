@@ -14,7 +14,7 @@ class InventarioGlobal extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        if (count($alm) > 0) {
+       /* if (count($alm) > 0) {
             $aux = "";
             //se contruye un string para listar los depositvos seleccionados
             //en caso que no haya ninguno, sera vacio
@@ -27,28 +27,43 @@ class InventarioGlobal extends Conectar
             $cond = ($depo != "()")
                 ? ("AND ".$depo)
                 : "";
+        }*/
+
+                $calm=count($alm);
+        if ($calm=='1'){
+            $cond="and CodUbic='$alm[0]'";
+            $cond1="CodUbic='$alm[0]'";
+        }else if ($calm=='2'){
+            $cond="and (CodUbic='$alm[0]' or CodUbic='$alm[1]')";
+            $cond1="(CodUbic='$alm[0]' or CodUbic='$alm[1]')";
+        }else if ($calm=='3'){
+            $cond="and (CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]')";
+            $cond1="(CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]')";
+        }else if ($calm=='4'){
+            $cond="and (CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]' or CodUbic='$alm[3]')";
+            $cond1="(CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]' or CodUbic='$alm[3]')";
         }
 
-        $sql = "SELECT CodProd, Descrip, CantEmpaq,
-                    (SELECT isnull(SUM(cantidad),0)+isnull(0,0) FROM SAITEMFAC WHERE esunid= '0' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac= 'A' AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT)<CAST(fa.Monto AS INT))) AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det))) AS bultosxdesp, 
-                    (SELECT isnull(SUM(cantidad),0)+isnull(0,0) FROM SAITEMFAC WHERE esunid= '1' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac= 'A' AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT)<CAST(fa.Monto as INT))) AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det))) AS paqxdesp,
-                    
-                    (SELECT isnull(SUM(exunidad),0)+isnull(0,0) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.") AS exunid, 
-                    (SELECT isnull(SUM(existen),0)+isnull(0,0) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.") AS exis, 
-                     
-                    ((SELECT isnull(SUM(exunidad),0)+isnull(0,0) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.")+
-                     (SELECT isnull(SUM(existen),0)+isnull(0,0) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.")+
-                     (SELECT isnull(SUM(cantidad),0)+isnull(0,0) FROM SAITEMFAC WHERE esunid= '0' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac= 'A' AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT)<CAST(fa.Monto AS INT))) AND NumeroD NOT IN 
-                    (SELECT numeros FROM appfacturas_det))) + 
-                     (SELECT isnull(SUM(cantidad),0)+isnull(0,0) FROM SAITEMFAC WHERE esunid= '1' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac= 'A' AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT)<CAST(fa.Monto AS INT))) AND NumeroD NOT IN 
-                     (SELECT numeros FROM appfacturas_det)))) AS tt
-                     
-                      FROM SAPROD
-                     WHERE CantEmpaq>0 GROUP BY CodProd, Descrip, CantEmpaq HAVING  
-                     ((SELECT isnull(SUM(exunidad),0)+isnull(0,0) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.")+
-                     (SELECT isnull(SUM(existen),0)+isnull(0,0) FROM SAEXIS WHERE CodProd=SAPROD.CodProd ".$cond.")+
-                     (SELECT isnull(SUM(cantidad),0)+isnull(0,0) FROM SAITEMFAC WHERE esunid= '0' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac= 'A' AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT)<CAST(fa.Monto AS INT))) AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det))) + 
-                     (SELECT isnull(SUM(cantidad),0)+isnull(0,0) FROM SAITEMFAC WHERE esunid= '1' AND CodProd=CodItem ".$cond." AND numerod IN (SELECT fa.numerod FROM SAFACT AS fa WHERE TipoFac= 'A' AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? AND (NumeroR IS NULL OR NumeroD IN (SELECT x.NumeroR FROM SAFACT AS x WHERE x.TipoFac = 'B' AND x.NumeroR=fa.NumeroD AND DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ? GROUP BY x.NumeroR HAVING CAST(SUM(x.Monto) AS INT)<CAST(fa.Monto AS INT))) AND NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det)))) > 0  ORDER BY CodProd";
+        $sql = "select CodProd, Descrip, CantEmpaq,
+    (SELECT isnull(sum(cantidad),0)+isnull(0,0) FROM SAITEMFAC where esunid='0' and CodProd=CodItem ".$cond." and CodVend not in ('01') and numerod in (select fa.numerod from SAFACT as fa where TipoFac in ('A','C') and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int))) and NumeroD not in (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota))) as bultosxdesp,
+    (SELECT isnull(sum(cantidad),0)+isnull(0,0) FROM SAITEMFAC where esunid='1' and CodProd=CodItem ".$cond." and CodVend not in ('01') and numerod in (select fa.numerod from SAFACT as fa where TipoFac in ('A','C') and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int))) and NumeroD not in (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota))) as paqxdesp,
+
+    (select isnull(sum(exunidad),0)+isnull(0,0) from SAEXIS where CodProd=SAPROD.CodProd ".$cond.") as exunid,
+    (select isnull(sum(existen),0)+isnull(0,0) from SAEXIS where CodProd=SAPROD.CodProd ".$cond.") as exis,
+
+    ((select isnull(sum(exunidad),0)+isnull(0,0) from SAEXIS where CodProd=SAPROD.CodProd ".$cond.")+
+    (select isnull(sum(existen),0)+isnull(0,0) from SAEXIS where CodProd=SAPROD.CodProd ".$cond.")+
+    (SELECT isnull(sum(cantidad),0)+isnull(0,0) FROM SAITEMFAC where esunid='0' and CodProd=CodItem ".$cond." and numerod in (select fa.numerod from SAFACT as fa where TipoFac in ('A','C') and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int))) and NumeroD not in
+    (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota))) +
+    (SELECT isnull(sum(cantidad),0)+isnull(0,0) FROM SAITEMFAC where esunid='1' and CodProd=CodItem ".$cond." and numerod in (select fa.numerod from SAFACT as fa where TipoFac in ('A','C') and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int))) and NumeroD not in
+    (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota)))) as tt
+
+    from SAPROD
+    where CantEmpaq>0 group by CodProd, Descrip, CantEmpaq having
+    ((select isnull(sum(exunidad),0)+isnull(0,0) from SAEXIS where CodProd=SAPROD.CodProd ".$cond.")+
+    (select isnull(sum(existen),0)+isnull(0,0) from SAEXIS where CodProd=SAPROD.CodProd ".$cond.")+
+    (SELECT isnull(sum(cantidad),0)+isnull(0,0) FROM SAITEMFAC where esunid='0' and CodProd=CodItem ".$cond." and numerod in (select fa.numerod from SAFACT as fa where TipoFac in ('A','C') and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int))) and NumeroD not in (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota))) +
+    (SELECT isnull(sum(cantidad),0)+isnull(0,0) FROM SAITEMFAC where esunid='1' and CodProd=CodItem ".$cond." and numerod in (select fa.numerod from SAFACT as fa where TipoFac in ('A','C') and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int))) and NumeroD not in (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota)))) >0  order by CodProd";
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
         if ($depo != "()") {
@@ -122,4 +137,39 @@ class InventarioGlobal extends Conectar
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    public function facturasindespachar($fechai, $fechaf, $alm=array())
+    {
+
+        $conectar = parent::conexion2();
+        parent::set_names();
+
+
+        $calm=count($alm);
+        if ($calm=='1'){
+            $cond="and CodUbic='$alm[0]'";
+            $cond1="CodUbic='$alm[0]'";
+        }else if ($calm=='2'){
+            $cond="and (CodUbic='$alm[0]' or CodUbic='$alm[1]')";
+            $cond1="(CodUbic='$alm[0]' or CodUbic='$alm[1]')";
+        }else if ($calm=='3'){
+            $cond="and (CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]')";
+            $cond1="(CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]')";
+        }else if ($calm=='4'){
+            $cond="and (CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]' or CodUbic='$alm[3]')";
+            $cond1="(CodUbic='$alm[0]' or CodUbic='$alm[1]' or CodUbic='$alm[2]' or CodUbic='$alm[3]')";
+        }
+
+
+    $sql=("select fa.descrip, fa.numerod, fa.NumeroR, fa.CodVend from SAFACT as fa where TipoFac in ('A','C') ".$cond." and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf'
+        and (NumeroR is null or NumeroD in (select x.NumeroR from SAFACT as x where x.TipoFac = 'B' and x.NumeroR=fa.NumeroD and DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) between '$fechai' and '$fechaf' group by x.NumeroR having cast(sum(x.Monto) as int)<cast(fa.Monto as int)))
+        and CodVend not in ('01') and NumeroD not in (select numeros from appfacturas_det) and NumeroD not in (select numerof from sanota) order by FechaE asc");
+
+    $sql = $conectar->prepare($sql);
+    $sql->execute();
+        return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
 }

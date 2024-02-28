@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -75,7 +75,7 @@ if (!isset($_SESSION['cedula'])) {
 								<th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
 								<th class="text-center" title="<?=Strings::DescriptionFromJson('rif')?>"><?=Strings::titleFromJson('rif')?></th>
 								<th class="text-center" title="<?=Strings::DescriptionFromJson('ruta')?>"><?=Strings::titleFromJson('ruta')?></th>
-								<th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente')?>"><?=Strings::titleFromJson('saldo_pendiente')?></th>
+								<th class="text-center" title="<?=Strings::DescriptionFromJson('saldo_pendiente_bs')?>"><?=Strings::titleFromJson('saldo_pendiente_bs')?></th>
 							</tr>
 						</thead>
 						<tfoot style="background-color: #ccc;color: white;">
@@ -85,7 +85,7 @@ if (!isset($_SESSION['cedula'])) {
 								<th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
 								<th class="text-center"><?=Strings::titleFromJson('rif')?></th>
 								<th class="text-center"><?=Strings::titleFromJson('ruta')?></th>
-								<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente')?></th>
+								<th class="text-center"><?=Strings::titleFromJson('saldo_pendiente_bs')?></th>
 							</tr>
 						</tfoot>
 						<tbody>

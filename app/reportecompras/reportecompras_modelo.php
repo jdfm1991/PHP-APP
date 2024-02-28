@@ -145,7 +145,7 @@ class ReporteCompras extends Conectar
         $conectar = parent::conexion2();
         parent::set_names();
 
-        $sql = "SELECT COALESCE(SUM((CASE WHEN EsUnid=1 THEN item.Cantidad/CantEmpaq ELSE Cantidad END)), 0) AS cantidadBult
+        $sql = "SELECT COALESCE(SUM((CASE WHEN EsUnid=1 THEN item.Cantidad/nullif(CantEmpaq,0)  ELSE Cantidad END)), 0) AS cantidadBult
                 FROM SAFACT as fact
                     INNER JOIN SAITEMFAC item ON fact.NumeroD = item.NumeroD
                     INNER JOIN SAPROD prod ON prod.CodProd = item.CodItem

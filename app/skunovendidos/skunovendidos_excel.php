@@ -78,7 +78,7 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:F1');
 $row=7;
 /** TITULO DE LA TABLA **/
 $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('numerod'))
-    ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('codvend'))
+    ->setCellValue(getExcelCol($i).$row, "Código EDV")
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('descrip_vend'))
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('codclie'))
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('razon_social'))
@@ -88,8 +88,8 @@ $sheet->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('numerod'))
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('tipo_empaque'))
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('cantidad'))
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('subtotal'))
-    ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('inv_bultos'))
-    ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('inv_paquetes'))
+    ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('inv_paquete'))
+    ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('inv_unidades'))
     ->setCellValue(getExcelCol($i).$row, Strings::titleFromJson('fecha'));
 
 $style_title = new Style();
@@ -128,9 +128,33 @@ foreach ($query as $x) {
     $sheet->setCellValue(getExcelCol($i) . $row, $x['marca']);
     $sheet->setCellValue(getExcelCol($i) . $row, $esunid);
     $sheet->setCellValue(getExcelCol($i) . $row, $x['cantidad']);
-    $sheet->setCellValue(getExcelCol($i) . $row, Strings::rdecimal($x['totalitem'], 2));
-    $sheet->setCellValue(getExcelCol($i) . $row, Strings::rdecimal($x['bultos'], 2));
-    $sheet->setCellValue(getExcelCol($i) . $row, Strings::rdecimal($x['paquetes'],2));
+
+    if($x["totalitem"]>=1000){
+
+            $sheet->setCellValue(getExcelCol($i) . $row, ($x['totalitem']));
+
+    }else{
+           $sheet->setCellValue(getExcelCol($i) . $row, number_format($x['totalitem'], 2));
+    }
+
+
+    if($x["bultos"]>=1000){
+
+            $sheet->setCellValue(getExcelCol($i) . $row, ($x['bultos']));
+
+    }else{
+           $sheet->setCellValue(getExcelCol($i) . $row, number_format($x['bultos'], 2));
+    }
+
+
+    if($x["paquetes"]>=1000){
+
+            $sheet->setCellValue(getExcelCol($i) . $row, ($x['paquetes']));
+
+    }else{
+           $sheet->setCellValue(getExcelCol($i) . $row, number_format($x['paquetes'], 2));
+    }
+
     $sheet->setCellValue(getExcelCol($i) . $row, date(FORMAT_DATE, strtotime($x['fechae'])));
 
     $i = 0;

@@ -10,6 +10,7 @@ class Session {
             "nomper"  => $data["Nomper"],
             "email"   => $data["Email"],
             "rol"     => $data["ID_Rol"],
+            "foto"    => $data["foto"],
             "empresa" => Empresa::getName()
         );
     }

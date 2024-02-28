@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -81,7 +81,7 @@ if (!isset($_SESSION['cedula'])) {
                                     <input type="text" class="form-control input-sm" maxlength="120" id="destino" name="destino" >
                                     <br />
 
-                                    <button id="buscarxfact_button"
+                                    <!-- <button id="buscarxfact_button"
                                             class="btn btn-primary pull-left verFactura"
                                             onclick="limpiar_campo_documento_modal()"
                                             data-toggle="modal"
@@ -95,7 +95,7 @@ if (!isset($_SESSION['cedula'])) {
                                             data-toggle="modal"
                                             data-target="#buscarpordespacharModal"
                                             type="button"><?=Strings::titleFromJson('boton_pordespachar')?>
-                                    </button>
+                                    </button>-->
 
                                     <button class="btn btn-success nextBtn  float-right" type="button"><?=Strings::titleFromJson('boton_siguiente')?></button>
                                 </div>
@@ -106,9 +106,12 @@ if (!isset($_SESSION['cedula'])) {
                                     <h3> Inclusión de Documentos</h3>
                                     <div class="form-group">
                                         <label for="factura" class="control-label">Ingrese Número de Documento a Despachar</label>
-                                        <input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="numero_d" name="numero_d" />
+                                        <!-- <input maxlength="10" type="text" class="form-control" placeholder="Numero de Factura" id="numero_d" name="numero_d" />-->
+                                        <select class="form-control custom-select" name="numero_d" id="numero_d" style="width: 100%;" required>
+										<!-- la lista de Documentos se carga por ajax -->
+                                       </select>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" id="tipo_fact" name="tipo" value="f" checked>
                                             <label for="tipo_fact" class="custom-control-label"><?=Strings::titleFromJson('factura')?></label>
@@ -117,10 +120,10 @@ if (!isset($_SESSION['cedula'])) {
                                             <input class="custom-control-input" type="radio" id="tipo_not" name="tipo" value="n">
                                             <label for="tipo_not" class="custom-control-label"><?=Strings::titleFromJson('nota_de_entrega')?></label>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="col-3">
-                                    <button class="btn btn-primary pull-left anadir" type="button"><?=Strings::titleFromJson('boton_anadir')?></button>
+                                    <button class="btn btn-primary pull-left" id='anadir' type="button"><?=Strings::titleFromJson('boton_anadir')?></button>
                                 </div>
                                 <div class="col-6">
                                     <div class="container text-center  justify-content-center align-items-center" id="containerProgress">
@@ -205,16 +208,16 @@ if (!isset($_SESSION['cedula'])) {
                             <tr>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_bultos')?>"><?=Strings::titleFromJson('cantidad_bultos')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquetes')?>"><?=Strings::titleFromJson('cantidad_paquetes')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_paquete')?>"><?=Strings::titleFromJson('cantidad_paquete')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_unidades')?>"><?=Strings::titleFromJson('cantidad_unidades')?></th>
                             </tr>
                             </thead>
                             <tfoot style="background-color: #aaa;color: white;">
                             <tr>
                                 <th class="text-center"></th>
                                 <th class="text-center">TOTAL = </th>
-                                <th id="cantBul_tfoot" class="text-center"><?=Strings::titleFromJson('cantidad_bultos')?></th>
-                                <th id="cantPaq_tfoot" class="text-center"><?=Strings::titleFromJson('cantidad_paquetes')?></th>
+                                <th id="cantBul_tfoot" class="text-center"><?=Strings::titleFromJson('cantidad_paquete')?></th>
+                                <th id="cantPaq_tfoot" class="text-center"><?=Strings::titleFromJson('cantidad_unidades')?></th>
                             </tr>
                             </tfoot>
                             <tbody>

@@ -46,7 +46,7 @@ class PDF extends FPDF
         $this->SetFillColor(200, 220, 255);
         // titulo de columnas
         $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('numerod')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('codvend')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(20), 6, utf8_decode("Código EDV"), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('descrip_vend')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(23), 6, utf8_decode(Strings::titleFromJson('codclie')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(38), 6, utf8_decode(Strings::titleFromJson('razon_social')), 1, 0, 'C', true);
@@ -56,8 +56,8 @@ class PDF extends FPDF
         $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('tipo_empaque')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(18), 6, utf8_decode(Strings::titleFromJson('cantidad')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(20), 6, utf8_decode(Strings::titleFromJson('subtotal')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('inv_bultos')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('inv_paquetes')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('inv_paquete')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(21), 6, utf8_decode(Strings::titleFromJson('inv_unidades')), 1, 0, 'C', true);
         $this->Cell(addWidthInArray(25), 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 1, 'C', true);
     }
 

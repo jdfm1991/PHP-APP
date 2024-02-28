@@ -124,7 +124,7 @@ function tablaliretencionesotrosperiodos(data) {
                 '<td align="center" class="small align-middle">' + opt.factafectada + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.fecharetencion + '</td>' +
                 '<td align="center" class="small align-middle">' + opt.totalgravable_contribuye + '</td>' +
-                '<td align="center" class="small text-right">' + opt.totalivacontribuye + '%</td>' +
+                '<td align="center" class="small text-right">' + opt.totalivacontribuye +'</td>' +
                 '<td align="center" class="small text-right">' + opt.retencioniva + '</td>' +
                 '</tr>'
             );

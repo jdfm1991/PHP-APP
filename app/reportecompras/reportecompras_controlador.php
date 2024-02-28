@@ -12,17 +12,48 @@ $reporte = new ReporteCompras();
 switch ($_GET["op"]) {
 
     case "listar":
-        $fechai = $_POST['fechai'];
+        $fechai = $_POST['fechaf'];
         $fechaf = $_POST['fechaf'];
+
         $marca = $_POST['marca'];
 
         $separa = explode("-",$fechai);
         $dia = $separa[2];
-        $mes = $separa[1];
+        $mesAux = $mes = $separa[1];
         $anio = $separa[0];
 
-        $fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, $anio));
-        $fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);
+        if($dia=='01'){
+
+            if($mes != "01"){
+                $mesAux = "0" .($mes -1);
+            }else{
+                $mesAux = "12";
+                $anio = ($anio -1);
+            }
+            
+        }
+
+        /*echo "<script>console.log('dia: " . $dia . "' );</script>";
+        echo "<script>console.log('mes: " . $mes . "' );</script>";
+        echo "<script>console.log('anio: " . $anio . "' );</script>";*/
+
+        $fechai2 = $anio . "-" .$mesAux. "-01";
+        $fechaf2 = $_POST['fechaf'];
+
+
+        /*$fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, $anio));
+        $fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);*/
+
+        $diaA=$dia;
+        if($diaA==31){
+            $diaA=$diaA-1;
+        }
+
+         $fechaiA = $anio.'-'.($mes-1).'-'.$diaA;
+         $fechafA = $fechaf/* $anio.'-'.$mes.'-'.$dia*/;
+
+        /*echo "<script>console.log('fechaiA: " . $fechaiA . "' );</script>";
+        echo "<script>console.log('fechafA: " . $fechafA . "' );</script>";*/
 
         $codidos_producto = $reporte->get_codprod_por_marca(ALMACEN_PRINCIPAL, $marca);
 
@@ -36,7 +67,7 @@ switch ($_GET["op"]) {
             $ult_compras = $reporte->get_ultimas_compras($coditem["codprod"]);
             $ventas      = $reporte->get_ventas_mes_anterior($coditem["codprod"], $fechaiA, $fechafA);
             $bultosExis  = $reporte->get_bultos_existentes(ALMACEN_PRINCIPAL, $coditem["codprod"]);
-            $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechai, $fechaf);
+            $no_vendidos = $reporte->get_productos_no_vendidos($coditem["codprod"], $fechai2, $fechaf2);
 
             #Calculos
             $rentabilidad = ReporteComprasHelpers::rentabilidad($producto[0]["precio1"], $producto[0]["costoactual"]);

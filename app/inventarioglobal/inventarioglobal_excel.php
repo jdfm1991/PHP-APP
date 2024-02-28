@@ -76,12 +76,12 @@ $spreadsheet->getActiveSheet()->mergeCells('A1:F1');
 /** TITULO DE LA TABLA **/
 $sheet->setCellValue('A7', Strings::titleFromJson('codigo_prod'))
     ->setCellValue('B7', Strings::titleFromJson('descrip_prod'))
-    ->setCellValue('C7', Strings::titleFromJson('cantidad_bultos_despachar'))
-    ->setCellValue('D7', Strings::titleFromJson('cantidad_paquetes_despachar'))
-    ->setCellValue('E7', Strings::titleFromJson('cantidad_bultos_sistema'))
-    ->setCellValue('F7', Strings::titleFromJson('cantidad_paquetes_sistema'))
-    ->setCellValue('G7', Strings::titleFromJson('total_inv_bultos'))
-    ->setCellValue('H7', Strings::titleFromJson('total_inv_paquetes'));
+    ->setCellValue('C7', Strings::titleFromJson('cantidad_paquete_despachar'))
+    ->setCellValue('D7', Strings::titleFromJson('cantidad_unidades_despachar'))
+    ->setCellValue('E7', Strings::titleFromJson('cantidad_paquete_sistema'))
+    ->setCellValue('F7', Strings::titleFromJson('cantidad_unidades_sistema'))
+    ->setCellValue('G7', Strings::titleFromJson('total_inv_paquete'))
+    ->setCellValue('H7', Strings::titleFromJson('total_inv_unidades'));
 
 $style_title = new Style();
 $style_title->applyFromArray(

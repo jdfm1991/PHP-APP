@@ -32,4 +32,7 @@
     <link rel="stylesheet" href="<?php echo URL_LIBRARY;?>plugins/jquery-orgchart/css/style.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>dist/css/adminlte.min.css">
+    <!-- Style of the plugin -->
+    <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugin/components/Font Awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo URL_LIBRARY; ?>plugin/whatsapp-chat-support.css">
 </head>

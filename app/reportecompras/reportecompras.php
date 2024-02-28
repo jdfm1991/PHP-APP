@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -50,10 +50,10 @@ if (!isset($_SESSION['cedula'])) {
                     <div  class="card-body" id="minimizar">
                         <form class="form-horizontal" id="frmCompras">
                             <div class="form-group row">
-                                <div class="form-group col-2">
-                                    <label for="fechai"><?=Strings::titleFromJson('fecha_i')?></label>
+                               <!-- <div class="form-group col-2">
+                                    <label for="fechai"><?=Strings::titleFromJson('fecha')?></label>
                                     <input type="date" class="form-control" id="fechai" name="fechai" required>
-                                </div>
+                                </div>-->
                                 <div class="form-group col-2">
                                     <label for="fechai"><?=Strings::titleFromJson('fecha_f')?></label>
                                     <input type="date" class="form-control" id="fechaf" name="fechaf" required>

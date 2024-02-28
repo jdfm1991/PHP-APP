@@ -13,20 +13,44 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- LOGO SUPERIOR MENU -->
     <a href="<?php echo URL_APP; ?>principal.php" class="brand-link">
-        <img src="<?php echo URL_LIBRARY; ?>dist/img/AdminLTELogo.png " alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light"><?=Strings::titleFromJson('nombre_app')?></span>
+
+    
+    <center>
+	  <img src="<?php echo URL_LIBRARY; ?>dist/img/logo_empresa.png" class="center-block" alt="Logo de Empresa" width="200" height="160" style="opacity: .99">
+    </center>
+ 
+
+    
+       
     </a>
+    <br>
     <!-- PERFIL DE USUARIO -->
     <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="<?php echo URL_LIBRARY; ?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <div class="">
+            <div class="">
+            <center>
+            <?php if ($_SESSION['rol'] != '5') { ?>
+
+                      <?php if ($_SESSION['foto']) { ?>
+                         <img src="<?php echo URL_LIBRARY; ?>dist/img/<?php echo $_SESSION["foto"]; ?>" class="img-circle elevation-2" alt="User Image" width="80" height="80">
+                      <?php }else{ ?>  
+                         <img src="<?php echo URL_LIBRARY; ?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" width="80" height="80">
+                     <?php } ?>
+
+               
+                <?php }else{ ?>
+                    <img src="<?php echo URL_LIBRARY; ?>dist/img/logo_proveedor.png" class="rounded-circle" alt="User Image" width="80" height="80">
+                <?php } ?>
+                </center>
             </div>
-            <div class="info">
+            <div class="">
+            <center>
                 <a href="#" class="d-block"><?php echo $_SESSION["nomper"]; ?></a>
                 <input id="id" type="hidden" value="<?php echo $_SESSION['cedula']; ?>"/>
+                </center>
             </div>
         </div>
+        <hr style="background-color: #AFAFAF;">
         <!-- MENU LATERAL -->
         <nav id="content_menu" class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -38,6 +62,23 @@
                         <p>Inicio</p>
                     </a>
                 </li>
+
+                <!-- ACCESO DIRECTO LISTA PRECIO -->
+                <li class="nav-item">
+                    <a href="<?php echo URL_APP; ?>listadeprecio/listadeprecio.php" class="nav-link">
+                        <i class="fas fa-list nav-icon"></i>
+                        <p>Lista de Precio</p>
+                    </a>
+                </li>
+
+                <!-- ACCESO DIRECTO AL CATALOGO
+                <li class="nav-item">
+                    <a href="<?php echo URL_APP; ?>catalogue/catalogue.php" class="nav-link">
+                        <i class="fas fa-list nav-icon"></i>
+                        <p>Catologo de Productos</p>
+                    </a>
+                </li>
+                 -->
 
                 <!-- CERRAR SESION -->
                 <li class="nav-item">

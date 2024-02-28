@@ -1,6 +1,7 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
+session_destroy();
 include_once("../config/const.php");
 include_once("../config/route_system.php");
 
@@ -54,7 +55,7 @@ if (isset($_SESSION['cedula'])) {
 <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center">
 
-        <h1 class="logo mr-auto"><a href="index.php">Logística y Despacho</a></h1>
+        <h1 class="logo mr-auto"><a href="index.php">CONFIMANIA</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo mr-auto"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -77,7 +78,7 @@ if (isset($_SESSION['cedula'])) {
                 </div> -->
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-                <img src="<?php echo URL_LANDINGPAGE; ?>img/hero-img.png" class="img-fluid animated" alt="">
+                <img src="<?php echo URL_LIBRARY; ?>dist/img/logo_empresa.png" class="img-fluid animated" alt="">
             </div>
         </div>
     </div>

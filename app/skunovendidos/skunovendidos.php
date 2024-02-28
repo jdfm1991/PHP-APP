@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -24,12 +24,12 @@ else { ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h2>Relación de Productos no Vendidos</h2>
+                        <h2>Relación de Productos Pendientes por Facturar</h2>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="../principal.php">Inicio</a></li>
-                            <li class="breadcrumb-item active">Relación de Productos no Vendidos</li>
+                            <li class="breadcrumb-item active">Relación de Productos por Facturar</li>
                         </ol>
                     </div>
                 </div>
@@ -72,15 +72,15 @@ else { ?>
             <!-- BOX TABLA -->
             <div class="card card-info" id="tabla">
                 <div class="card-header">
-                    <h3 class="card-title">Productos no Vendidos</h3>
+                    <h3 class="card-title">Productos por Facturar</h3>
                 </div>
-                <div class="card-body" style="width:auto;">
+                <div class="card-body table-responsive mt-2 p-0" style="width:100%; height:400px;">
                     <table class="table table-sm table-hover table-condensed table-bordered table-striped table-responsive text-center" style="width:100%;" id="skunovendidos_data">
                         <thead style="background-color: #17A2B8;color: white;">
                         <tr>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('#')?>"><?=Strings::titleFromJson('#')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('numerod')?>"><?=Strings::titleFromJson('numerod')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?=Strings::titleFromJson('codvend')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?="Código EDV"?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_vend')?>"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('codclie')?>"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('razon_social')?>"><?=Strings::titleFromJson('razon_social')?></th>
@@ -90,8 +90,8 @@ else { ?>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('tipo_empaque')?>"><?=Strings::titleFromJson('tipo_empaque')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad')?>"><?=Strings::titleFromJson('cantidad')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('subtotal')?>"><?=Strings::titleFromJson('subtotal')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('inv_bultos')?>"><?=Strings::titleFromJson('inv_bultos')?></th>
-                            <th class="text-center" title="<?=Strings::DescriptionFromJson('inv_paquetes')?>"><?=Strings::titleFromJson('inv_paquetes')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('inv_paquete')?>"><?=Strings::titleFromJson('inv_paquete')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('inv_unidades')?>"><?=Strings::titleFromJson('inv_unidades')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('fecha')?>"><?=Strings::titleFromJson('fecha')?></th>
                         </tr>
                         </thead>
@@ -99,7 +99,7 @@ else { ?>
                         <tr>
                             <th class="text-center"><?=Strings::titleFromJson('#')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('numerod')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('codvend')?></th>
+                            <th class="text-center"><?="Código EDV"?></th>
                             <th class="text-center"><?=Strings::titleFromJson('descrip_vend')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('codclie')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('razon_social')?></th>
@@ -109,8 +109,8 @@ else { ?>
                             <th class="text-center"><?=Strings::titleFromJson('tipo_empaque')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('cantidad')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('subtotal')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('inv_bultos')?></th>
-                            <th class="text-center"><?=Strings::titleFromJson('inv_paquetes')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('inv_paquete')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('inv_unidades')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('fecha')?></th>
                         </tr>
                         </tfoot>

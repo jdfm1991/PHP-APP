@@ -1,12 +1,11 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 require_once("../../config/conexion.php");
 
 if (!isset($_SESSION['cedula'])) {
     session_destroy(); Url::redirect(URL_APP);
 }
-?>
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,24 +42,28 @@ if (!isset($_SESSION['cedula'])) {
                                     <table class="table table-hover table-condensed table-bordered table-striped text-center" style="width:100%;" id="relacion_data">
                                         <thead style="background-color: #17A2B8;color: white;">
                                         <tr>
-                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('pdf')?>"><?=Strings::titleFromJson('pdf')?></th>
+                                            
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('despacho')?>"><?=Strings::titleFromJson('despacho')?></th>
+                                             <th class="text-center" title="Fecha">Fecha</th>
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('usuario')?>"><?=Strings::titleFromJson('usuario')?></th>
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('cantidad_numerod')?>"><?=Strings::titleFromJson('cantidad_numerod')?></th>
                                             <th class="text-center" title="<?=Strings::DescriptionFromJson('destino')?>"><?=Strings::titleFromJson('destino')?></th>
-                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('cobros')?>"><?=Strings::titleFromJson('cobros')?></th>
-                                            <th class="text-center" title="<?=Strings::DescriptionFromJson('botones_accion')?>"><?=Strings::titleFromJson('botones_accion')?></th>
-                                        </tr>
+                                            <th class="text-center" title="Acciones">Acciones</th>
+                                           <!-- <th class="text-center" title="Borrar">Borrar</th>
+                                            <th class="text-center" title="Ver">Ver</th>-->
+                                            
+                                             </tr>
                                         </thead>
                                         <tfoot style="background-color: #ccc;color: white;">
                                         <tr>
-                                            <th class="text-center"><?=Strings::titleFromJson('pdf')?></th>
                                             <th class="text-center"><?=Strings::titleFromJson('despacho')?></th>
+                                             <th class="text-center">Fecha</th>
                                             <th class="text-center"><?=Strings::titleFromJson('usuario')?></th>
                                             <th class="text-center"><?=Strings::titleFromJson('cantidad_numerod')?></th>
                                             <th class="text-center"><?=Strings::titleFromJson('destino')?></th>
-                                            <th class="text-center"><?=Strings::titleFromJson('cobros')?></th>
-                                            <th class="text-center"><?=Strings::titleFromJson('botones_accion')?></th>
+                                            <th class="text-center" >Acciones</th>
+                                           <!-- <th class="text-center" >Borrar</th>
+                                            <th class="text-center" >Ver</th>-->
                                         </tr>
                                         </tfoot>
                                         <tbody>

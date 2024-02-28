@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -46,6 +46,7 @@ if (!isset($_SESSION['cedula'])) {
 						<button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove"><i class="fas fa-times"></i></button>
 					</div>
 				</div>
+<?php if ($_SESSION['rol'] != '5') { ?>
 				<!-- BOX CARD QUE CONTIENE EL FORMULARIO QUE SE CIERRA -->
 				<div  class="card-body" id="minimizar">
 					<form class="form-horizontal" >
@@ -61,6 +62,27 @@ if (!isset($_SESSION['cedula'])) {
 							</div>
 						</form>
 					</div>
+<?php }else{ ?>
+
+	<!-- BOX CARD QUE CONTIENE EL FORMULARIO QUE SE CIERRA -->
+				<div  class="card-body" id="minimizar">
+					<form class="form-horizontal" >
+						<div class="form-group row">
+							<div class="col-sm-12">
+                                    <div class="form-check form-check-inline">
+                                	<label for="marcasd">Mascas</label>
+									<select class="form-control custom-select" name="marcasd" id="marcasd" style="width: 100%;" required>
+                                    <option name="" value="">Seleccione</option>
+									<option name="" value="PARMALAT">PARMALAT</option>
+                                    </select>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+
+
+<?php } ?>
 					<!-- BOX BOTON DE PROCESO -->
 					<div class="card-footer">
 						<button type="submit" class="btn btn-success" id="btn_consultar" name="btn_consultar"><i class="fa fa-search" aria-hidden="true"></i><?=Strings::titleFromJson('boton_consultar')?></button>
@@ -80,12 +102,12 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>	
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('bulto_01')?>"><?=Strings::titleFromJson('bulto_01')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('paquete_01')?>"><?=Strings::titleFromJson('paquete_01')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('bulto_03')?>"><?=Strings::titleFromJson('bulto_03')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('unidad_01')?>"><?=Strings::titleFromJson('unidad_01')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('paquete_03')?>"><?=Strings::titleFromJson('paquete_03')?></th>
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('bulto_13')?>"><?=Strings::titleFromJson('bulto_13')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('paquete_13')?>"><?=Strings::titleFromJson('paquete_13')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('unidad_03')?>"><?=Strings::titleFromJson('unidad_03')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('paquete_13')?>"><?=Strings::titleFromJson('paquete_13')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('unidad_13')?>"><?=Strings::titleFromJson('unidad_13')?></th>
 								</tr>
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
@@ -93,12 +115,12 @@ if (!isset($_SESSION['cedula'])) {
 									<th class="text-center"><?=Strings::titleFromJson('codigo_prod')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('descrip_prod')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('marca_prod')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('bulto_01')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('paquete_01')?></th>
-									<th class="text-center"><?=Strings::titleFromJson('bulto_03')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('unidad_01')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('paquete_03')?></th>
-                                    <th class="text-center"><?=Strings::titleFromJson('bulto_13')?></th>
+									<th class="text-center"><?=Strings::titleFromJson('unidad_03')?></th>
                                     <th class="text-center"><?=Strings::titleFromJson('paquete_13')?></th>
+                                    <th class="text-center"><?=Strings::titleFromJson('unidad_13')?></th>
 								</tr>
 							</tfoot>
 							<tbody>

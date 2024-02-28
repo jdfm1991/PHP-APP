@@ -26,6 +26,7 @@ function validarCantidadRegistrosTabla() {
         ? estado = true : estado = false;
     $('#btn_excel').attr("disabled", estado);
     $('#btn_pdf').attr("disabled", estado);
+    $('#btn_pdf_etiquetas').attr("disabled", estado);
 }
 
 var no_puede_estar_vacio = function () {
@@ -241,6 +242,30 @@ $(document).on("click","#btn_pdf", function(){
     var cubi = sessionStorage.getItem("cubi");
     var exis = sessionStorage.getItem("exis");
     window.open("listadepreciodivisas_pdf.php?&depos="+depos+"&marcas="+marcas+""+"&orden="+orden+"&p1="+p1+"&p2="+p2+"&p3="+p3+"&iva="+iva+"&cubi="+cubi+"&exis="+exis, '_blank');
+});
+
+
+//ACCION AL PRECIONAR EL BOTON PDF.
+$(document).on("click", "#btn_pdf_etiquetas", function () {
+
+    var check = 0;
+
+	if (document.getElementById('promo').checked == true){
+		check = 1;
+	}
+
+    var depos = sessionStorage.getItem("depos");
+    var marcas = sessionStorage.getItem("marcas");
+    var orden = sessionStorage.getItem("orden");
+    var exis = sessionStorage.getItem("exis");
+
+    if(check == 1){
+        window.open("etiquetas_precios2_pdf.php?&depos=" + depos + "&marcas=" + marcas + "" + "&orden=" + orden + "&exis=" + exis, '_blank');
+    }else{
+        window.open("etiquetas_precios_pdf.php?&depos=" + depos + "&marcas=" + marcas + "" + "&orden=" + orden + "&exis=" + exis, '_blank');
+    }
+
+    
 });
 
 init();

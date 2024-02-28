@@ -15,9 +15,9 @@ $cabecera = NotasDeEntrega::getHeaderById2($numerod);
 $descuentoitem  = Numbers::avoidNull( $nota->get_descuento($numerod, 'D')['descuento'] );
 
 $observacion = Strings::avoidNull($cabecera['notas1']);
-$subtotal = Strings::rdecimal($cabecera['subtotal']);
-$descuentototal = Strings::rdecimal($cabecera['descuento']);
-$totalnota = Strings::rdecimal($cabecera['total']);
+$subtotal = Strings::rdecimal($cabecera['subtotal'],2);
+$descuentototal = Strings::rdecimal($cabecera['descuento'],2);
+$totalnota = Strings::rdecimal($cabecera['total'],2);
 
 //array of space in cells
 $s = 0;
@@ -159,7 +159,7 @@ foreach ($detalle as $i) {
     addInfoInArray($i['coditem']);
     addInfoInArray(utf8_decode($i['descripcion']));
     addInfoInArray(number_format($i['cantidad']));
-    addInfoInArray(($i['esunidad'] == '1') ? "PAQ" : "BUL");
+    addInfoInArray(($i['esunidad'] == '1') ? "UNI" : "PAQ");
     addInfoInArray(Strings::rdecimal($i['precio'], 2));
     if($descuentoitem > 0)
     {
@@ -196,7 +196,7 @@ $pdf->Cell(8,8, "",0,0,'L');
 $pdf->SetFont('Arial','B',8);
 $pdf->Cell(9,8, "Total: ",0,0,'L');
 $pdf->SetFont('');
-$pdf->Cell(33,8, Strings::rdecimal($totalnota, 2),0,1,'L');
+$pdf->Cell(33,8, $totalnota,0,1,'L');
 $pdf->Ln(5);
 $pdf->SetFont('Arial','',9);
 $pdf->Cell(77);

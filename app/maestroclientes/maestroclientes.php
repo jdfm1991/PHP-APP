@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -82,6 +82,8 @@ else { ?>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta_alternativa_1')?>"><?=Strings::titleFromJson('ruta_alternativa_1')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('ruta_alternativa_2')?>"><?=Strings::titleFromJson('ruta_alternativa_2')?></th>
                             <th class="text-center" title="<?=Strings::DescriptionFromJson('dia_visita')?>"><?=Strings::titleFromJson('dia_visita')?></th>
+                            <th class="text-center" title="<?=Strings::DescriptionFromJson('direccion')?>"><?=Strings::titleFromJson('direccion')?></th>
+                            <th class="text-center" title="Tipo de Cliente">Tipo de Cliente</th>
                         </tr>
                         </thead>
                         <tfoot style="background-color: #ccc;color: white;">
@@ -93,6 +95,8 @@ else { ?>
                             <th class="text-center"><?=Strings::titleFromJson('ruta_alternativa_1')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('ruta_alternativa_2')?></th>
                             <th class="text-center"><?=Strings::titleFromJson('dia_visita')?></th>
+                            <th class="text-center"><?=Strings::titleFromJson('direccion')?></th>
+                            <th class="text-center">Tipo de Cliente</th>
                         </tr>
                         </tfoot>
                         <tbody>

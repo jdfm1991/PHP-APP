@@ -14,14 +14,10 @@ class relacionNE extends Conectar{
 
         //QUERY
             if($ruta != 'Todos'){
-              $sql = "SELECT a.numerod, a.tipofac, a.codclie, a.rif, a.rsocial, a.direccion, b.direc2 as direccion2, a.codvend, a.total, a.fechae, a.subtotal FROM sanota as a inner join saclie as b on a.codclie=b.codclie  WHERE a.TipoFac='C' AND a.fechae between '$fechai' and '$fechaf' and a.codvend='$ruta' ";
+              $sql = "SELECT numerod, codclie as rif, codvend, rsocial, fechae, total, estatus, numerof, numerodv, descuento, subtotal, abono, tipofac FROM sanota where tipofac in ('C') AND fechae between '$fechai' and '$fechaf' and codvend='$ruta' ";
             }else{
-              $sql = "SELECT a.numerod, a.tipofac, a.codclie, a.rif, a.rsocial, a.direccion, b.direc2 as direccion2, a.codvend, a.total, a.fechae, a.subtotal FROM sanota as a inner join saclie as b on a.codclie=b.codclie  WHERE a.TipoFac='C' AND a.fechae between '$fechai' and '$fechaf'";
+              $sql = "SELECT numerod, codclie as rif, codvend, rsocial, fechae, total, estatus, numerof, numerodv, descuento, subtotal, abono, tipofac FROM sanota where tipofac in ('C') AND fechae between '$fechai' and '$fechaf'";
             }
-
-         /*   $sql = "SELECT * from [AJ].[dbo].[SAACXP] inner join [AJ].[dbo].[SAPROV] on [SAACXP].codprov
-           = [SAPROV].codprov where  [SAACXP].fechae between '$fechai' and '$fechaf' and [SAACXP].tipocxp='10' and [SAACXP].saldo>0 and [SAACXP].codprov = '$codprov' order by [SAACXP].fechae desc";
-          */
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
        $sql = $conectar->prepare($sql);
@@ -37,6 +33,69 @@ class relacionNE extends Conectar{
 	$dias 	= abs($dias); $dias = floor($dias);		
 	return $dias;
 }
+
+
+public function getmontoDEV($numerodv){
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+       $conectar= parent::conexion2();
+       parent::set_names();
+
+        //QUERY
+           
+              $sql = "SELECT total as total from SANOTA where numerod = '$numerodv' and tipofac = 'D'";
+            
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+       $sql = $conectar->prepare($sql);
+       $sql->execute();
+       $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+      
+       return $result ;
+   }
+
+
+   public function get_descuentosanota($numerod){
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+       $conectar= parent::conexion2();
+       parent::set_names();
+
+        //QUERY
+           
+              $sql = "SELECT descuento as descuento from SANOTA where numerod = '$numerod' and tipofac = 'C'";
+            
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+       $sql = $conectar->prepare($sql);
+       $sql->execute();
+       $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+      
+       return $result ;
+   }
+
+
+   public function get_descuentosaitemnota($numerod){
+
+        //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+        //CUANDO ES APPWEB ES CONEXION.
+       $conectar= parent::conexion2();
+       parent::set_names();
+
+        //QUERY
+           
+              $sql = "SELECT descuento as descuento from SAITEMNOTA where numerod = '$numerod' and tipofac = 'C'";
+            
+
+        //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+       $sql = $conectar->prepare($sql);
+       $sql->execute();
+       $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+      
+       return $result ;
+   }
 
 
 

@@ -111,10 +111,10 @@ class DespachosHelpers
         else {
 
             # calcula el porcentaje del peso anterior
-            $porcentajePeso = (floatval($data['peso_acum']) * 100) / floatval($data['peso_max']);
+            $porcentajePeso = (floatval($data['peso_acum']) * 100) / 1/*floatval($data['peso_max'])*/;
 
             # calcula el porcentaje de cubicaje anterior
-            $porcentajeCubicaje = (floatval($data['cubicaje_acum']) * 100) / floatval($data['cubicaje_max']);
+        $porcentajeCubicaje = (floatval($data['cubicaje_acum']) * 100) / 1/*floatval($data['cubicaje_max'])*/;
 
             # asigna el peso y cubicaje anterior
             $output["pesoNuevoAcum"] = floatval($data['peso_acum']);
@@ -142,10 +142,10 @@ class DespachosHelpers
         $output = array();
 
         # valida si el peso nuevo + el peso acumulado es < que el peso total del camion
-        $result_peso = (floatval($data['peso']) + floatval($data['peso_acum']) ) < floatval($data['peso_max']);
+        $result_peso = (floatval($data['peso']) + floatval($data['peso_acum']) ) <= floatval($data['peso_max']);
 
         # valida si el cubicaje nuevo + el cubicaje acumulado es < que el cubicaje total del camion
-        $result_cubic = (floatval($data['cubicaje']) + floatval($data['cubicaje_acum']) ) < floatval($data['cubicaje_max']);
+        $result_cubic = (floatval($data['cubicaje']) + floatval($data['cubicaje_acum']) ) <= floatval($data['cubicaje_max']);
 
         # almacena el resultado de las validaciones
         $output["cond"] = $result_peso && $result_cubic;

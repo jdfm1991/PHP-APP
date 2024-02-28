@@ -14,37 +14,58 @@ class Tabladinamica extends Conectar{
         $conectar= parent::conexion2();
         parent::set_names();
 
-        $marca = (!hash_equals('-', $data['marca'])) ? " AND  SAITEMFAC.codvend LIKE ?" : "";
-        $edv = (!hash_equals('-', $data['edv'])) ? " AND saprod.marca LIKE ?" : "";
+          $marca = (!hash_equals('-', $data['marca'])) ? " AND saprod.marca LIKE ?" : "";
+        $edv = (!hash_equals('-', $data['edv'])) ? " AND  sanota.codvend LIKE ?" : "";
+
+         $condicion1="";
+         $condicion2="";
+
+        if($data['edv']=='-'){
+            $condicion1=" AND saprod.marca LIKE ?";
+         }
+
+         if($data['marca']=='-'){
+            $condicion2=" AND  SAITEMFAC.codvend LIKE ?";
+         }
+
+       /* echo "<script>console.log('fechai: " . $data['fechai'] . "' );</script>";
+        echo "<script>console.log('fechaf: " . $data['fechaf'] . "' );</script>";
+        echo "<script>console.log('marca: " . $data['marca'] . "' );</script>";
+        echo "<script>console.log('edv: " . $data['edv'] . "' );</script>";*/
 
         //QUERY
         $sql= "SELECT
                 (SELECT codvend FROM savend WHERE savend.codvend = SAITEMFAC.codvend) AS codvend,
                 (SELECT descrip FROM savend WHERE savend.codvend = SAITEMFAC.codvend) AS vendedor,
                 (SELECT clase FROM savend WHERE savend.codvend = SAITEMFAC.codvend) AS clasevend,
-                SAITEMFAC.tipofac AS tipo,
+                SAITEMFAC.TipoFac AS tipo,
                 SAITEMFAC.numerod AS numerod,
                 (SELECT codclie FROM SAFACT WHERE SAFACT.numerod = SAITEMFAC.numerod AND SAFACT.tipofac = SAITEMFAC.tipofac) AS codclie,
-                (SELECT Descrip FROM SAFACT WHERE SAFACT.numerod = SAITEMFAC.numerod AND SAFACT.tipofac = SAITEMFAC.tipofac) AS cliente,
+                (SELECT Descrip as ID3 FROM SAFACT WHERE SAFACT.numerod = SAITEMFAC.numerod AND SAFACT.tipofac = SAITEMFAC.tipofac) AS cliente,
                 (SELECT saclie_01.codnestle FROM SAFACT INNER JOIN saclie_01 ON SAFACT.codclie = saclie_01.codclie WHERE SAFACT.numerod = SAITEMFAC.numerod AND SAFACT.tipofac = SAITEMFAC.tipofac) AS codnestle,
                 (SELECT saclie_01.clasificacion FROM SAFACT INNER JOIN saclie_01 ON SAFACT.codclie = saclie_01.codclie WHERE SAFACT.numerod = SAITEMFAC.numerod AND SAFACT.tipofac = SAITEMFAC.tipofac) AS clasificacion,
                 SAITEMFAC.coditem,
-                SAITEMFAC.Descrip1 AS descripcion,
+                SAITEMFAC.Descrip1 as descripcion,
                 (SELECT marca FROM SAPROD WHERE SAITEMFAC.coditem = SAPROD.CodProd) AS marca,
                 SAITEMFAC.cantidad,
                 (CASE SAITEMFAC.EsUnid WHEN 1 then 'PAQ' ELSE 'BULT' END) AS unid,
                 (CASE SAITEMFAC.EsUnid WHEN 1 then cantidad ELSE cantidad*cantempaq END) AS paq,
-                (CASE SAITEMFAC.EsUnid WHEN 1 then cantidad/cantempaq ELSE cantidad END) AS bul,
+                (CASE SAITEMFAC.EsUnid WHEN 1 then cantidad/nullif(cantempaq, 0) ELSE cantidad END) AS bul,
                 (SELECT descrip FROM sainsta WHERE sainsta.codinst = saprod.codinst) AS instancia,
-                SAITEMFAC.TotalItem AS montod,
-                SAITEMFAC.Descto AS descuento,
+                --(CASE SAITEMFAC.esexento WHEN 1  then SAITEMFAC.TotalItem ELSE SAITEMFAC.TotalItem / 1.16 END) AS montod,
+                --SAITEMNOTA.total AS montod,
+                --(CASE SAITEMFAC.esexento WHEN 1  then SAITEMFAC.Descto ELSE SAITEMFAC.Descto / 1.16 END) AS descuento,
+                --SAITEMNOTA.descuento AS descuento,
+                SAITEMFAC.TotalItem as montod,
+                SAITEMFAC.Descto as descuento,
                 (SELECT tasa FROM SAFACT WHERE SAFACT.numerod = SAITEMFAC.numerod AND SAFACT.tipofac = SAITEMFAC.tipofac) AS factor,
                 SAITEMFAC.fechae,
-                SAITEMFAC.EsExento,
-                (CASE SAITEMFAC.EsUnid WHEN 1  then (cantidad/cantempaq)*saprod.tara ELSE cantidad*saprod.tara END) AS kg,
+                SAITEMFAC.esexento,
+                (CASE SAITEMFAC.EsUnid WHEN 1  then (cantidad/nullif(cantempaq, 0))*saprod.tara ELSE cantidad*saprod.tara END) AS kg,
                 CONCAT('(',MONTH(SAITEMFAC.fechae),')','-',UPPER(DATENAME(MONTH,SAITEMFAC.fechae)),'-(',YEAR(SAITEMFAC.fechae),')') MES
-                FROM SAITEMFAC INNER JOIN saprod ON SAITEMFAC.coditem = saprod.codprod WHERE
-                DATEADD(dd, 0, DATEDIFF(dd, 0, SAITEMFAC.FechaE)) between ? AND ? $marca $edv AND (SAITEMFAC.tipofac = 'A' OR SAITEMFAC.Tipofac = 'B')  ORDER BY SAITEMFAC.fechae";
+                 FROM SAITEMFAC INNER JOIN saprod ON SAITEMFAC.coditem = saprod.codprod
+                 INNER JOIN SAFACT ON SAITEMFAC.numerod = SAFACT.numerod AND SAITEMFAC.tipofac = SAFACT.tipofac WHERE
+                 DATEADD(dd, 0, DATEDIFF(dd, 0, SAITEMFAC.FechaE)) between ? AND ?  $marca $edv AND (SAITEMFAC.tipofac = 'A' OR SAITEMFAC.Tipofac = 'B') ORDER BY SAITEMFAC.fechae asc";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);
@@ -86,7 +107,7 @@ class Tabladinamica extends Conectar{
                 SAITEMNOTA.cantidad,
                 (CASE SAITEMNOTA.esunidad WHEN 1 then 'PAQ' ELSE 'BULT' END) AS unid,
                 (CASE SAITEMNOTA.esunidad WHEN 1 then cantidad ELSE cantidad*cantempaq END) AS paq,
-                (CASE SAITEMNOTA.esunidad WHEN 1 then cantidad/cantempaq ELSE cantidad END) AS bul,
+                (CASE SAITEMNOTA.esunidad WHEN 1 then cantidad/nullif(cantempaq, 0) ELSE cantidad END) AS bul,
                 (SELECT descrip FROM sainsta WHERE sainsta.codinst = saprod.codinst) AS instancia,
                 (CASE SAITEMNOTA.esexento WHEN 1  then SAITEMNOTA.total ELSE SAITEMNOTA.total / 1.16 END) AS montod,
                 --SAITEMNOTA.total AS montod,
@@ -95,7 +116,7 @@ class Tabladinamica extends Conectar{
                 (SELECT tasa FROM SAFACT WHERE SAFACT.numerod = SAITEMNOTA.numerod AND SAFACT.tipofac = SAITEMNOTA.tipofac) AS factor,
                 SAITEMNOTA.fechae,
                 SAITEMNOTA.esexento,
-                (CASE SAITEMNOTA.esunidad WHEN 1  then (cantidad/cantempaq)*saprod.tara ELSE cantidad*saprod.tara END) AS kg,
+                (CASE SAITEMNOTA.esunidad WHEN 1  then (cantidad/nullif(cantempaq, 0))*saprod.tara ELSE cantidad*saprod.tara END) AS kg,
                 CONCAT('(',MONTH(saitemnota.fechae),')','-',UPPER(DATENAME(MONTH,saitemnota.fechae)),'-(',YEAR(saitemnota.fechae),')') MES
                  FROM SAITEMNOTA INNER JOIN saprod ON SAITEMNOTA.coditem = saprod.codprod
                  INNER JOIN sanota ON saitemnota.numerod = sanota.numerod AND saitemnota.tipofac = sanota.tipofac WHERE
@@ -154,7 +175,7 @@ class Tabladinamica extends Conectar{
         $edv = (!hash_equals('-', $data['edv'])) ? " AND codvend LIKE ?" : "";
 
         //QUERY
-        $sql= "SELECT codvend, descto1, descto2, tasa, numerod, tipofac, fechae, codclie, descrip
+        $sql= "SELECT DISTINCT codvend, descto1, descto2, tasa, numerod, tipofac, fechae, codclie, descrip
                 FROM SAFACT WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
                 AND (tipofac = 'A' OR Tipofac = 'B')
                 AND (Descto1 > 0 OR Descto2 > 0) $edv";
@@ -177,10 +198,19 @@ class Tabladinamica extends Conectar{
         $conectar= parent::conexion2();
         parent::set_names();
 
-        $edv = (!hash_equals('-', $data['edv'])) ? " AND sanota.codvend LIKE ?" : "";
+        $edv = (!hash_equals('-', $data['edv'])) ? " AND SANOTA.codvend LIKE ?" : "";
 
         //QUERY
-        $sql= "SELECT 
+
+
+      /*  $sql= "SELECT DISTINCT codvend, descto1, descto2, (descto1+descto2) as descuento, tasa, numerod, tipofac, fechae, codclie, descrip
+                FROM SAFACT WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, FechaE)) BETWEEN ? AND ?
+                AND (tipofac = 'C' OR Tipofac = 'D') and NumeroR is NULL
+                AND (Descto1 > 0 OR Descto2 > 0) $edv";*/
+
+
+
+       /* $sql= "SELECT DISTINCT
                 sanota.codvend, 
                 sanota.descuento,
                 (SELECT tasa FROM SAFACT WHERE SAFACT.numerod = sanota.numerod AND SAFACT.tipofac = sanota.tipofac AND (sanota.tipofac = 'C' OR sanota.Tipofac = 'D')) 
@@ -191,9 +221,27 @@ class Tabladinamica extends Conectar{
                 sanota.codclie,
                 sanota.rsocial AS descrip
                 FROM sanota INNER JOIN SAFACT ON safact.numerod = sanota.numerod WHERE
-                DATEADD(dd, 0, DATEDIFF(dd, 0, sanota.FechaE)) BETWEEN ? AND ? $edv
-                AND (sanota.tipofac = 'C' OR sanota.Tipofac = 'D')
-                AND sanota.descuento > 0";
+                DATEADD(dd, 0, DATEDIFF(dd, 0, sanota.FechaE)) BETWEEN ? AND ? $edv 
+                AND ( sanota.tipofac = 'C' OR sanota.Tipofac = 'D' ) and  sanota.numerodv is NULL
+                AND sanota.descuento > 0";*/
+
+
+               $sql= " select numerod,
+					codvend, 
+					(SELECT tasa FROM SAFACT WHERE SAFACT.numerod = sanota.numerod AND SAFACT.tipofac = sanota.tipofac AND (sanota.tipofac = 'C' OR sanota.Tipofac = 'D')) 
+					AS tasa,
+					tipofac,
+					fechae,
+					codclie,
+					rsocial AS descrip,
+                    CONVERT(varchar, (sum(case when TipoFac = 'C' then total end)), 1) Vendido,
+                    CONVERT(varchar, (sum(case when TipoFac = 'D' then total when TipoFac = 'C' then 0 end) ), 1) Devoluciones,
+                    CONVERT(varchar, (sum(case when TipoFac = 'C' then ISNULL(descuento,0)  when TipoFac = 'D' then ISNULL(descuento,0) *-1  end) ), 1) descuento,
+                    CONVERT(varchar, (sum(case when TipoFac = 'C' then total when TipoFac = 'D' then total * -1 end) -
+                    sum(case when TipoFac = 'C' then ISNULL(descuento,0)  when TipoFac = 'D' then ISNULL(descuento,0) *-1  end)), 1) Total
+                    from
+                    SANOTA where TipoFac in ('C','D') and DATEADD(dd, 0, DATEDIFF(dd, 0, SANOTA.fechae)) BETWEEN ? and ? AND sanota.descuento > 0 $edv 
+					GROUP BY numerod,codvend,TipoFac,fechae,codclie,rsocial";
 
         //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
         $sql = $conectar->prepare($sql);

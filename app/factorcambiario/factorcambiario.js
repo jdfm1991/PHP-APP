@@ -1,3 +1,22 @@
+$(document).ready(function () {
+    rate = $("#factor_nuevo").val();
+    //console.log(rate)
+    if (rate == '0,00' ) {
+        $('#btn_guardar').attr('disabled', true);
+    }
+
+    $('#factor_nuevo').keyup(function (e) { 
+        rate = $(this).val(); 
+        console.log(rate)
+        if (rate != '0,00' ) {
+            $('#btn_guardar').attr('disabled', false);
+        }else{
+            $('#btn_guardar').attr('disabled', true);
+        }
+        
+    });
+    
+});
 
 //FUNCION QUE SE EJECUTA AL INICIO.
 function init() {
@@ -29,6 +48,7 @@ function getFactorActual(){
             console.log(e.responseText);
         },
         success: function (data) {
+            console.log(data)
             if(!jQuery.isEmptyObject(data)) {
                 let { factor } = data;
 
@@ -70,5 +90,34 @@ $(document).on("click", "#btn_guardar", function () {
         }
     });
 });
+
+$(document).on("click", "#syncrate", function () {
+    //$('#Detalles_ventas_d').modal('show');
+    $.ajax({
+        cache: true,
+        url: "factorcambiario_controlador.php?op=guardaryeditar",
+         method: "POST",
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        error: function (e) {
+            SweetAlertError(e.responseText, "Error!")
+            send_notification_error(e.responseText);
+            console.log(e.responseText);
+        },
+        success: function (data) {
+            if(!jQuery.isEmptyObject(data)) {
+                let { icono, mensaje } = data
+                ToastSweetMenssage(icono, mensaje);
+
+                if (icono !=='error') {
+                    limpiar();
+                    getFactorActual();
+                }
+            }
+
+        }
+    });
+ });
 
 init();

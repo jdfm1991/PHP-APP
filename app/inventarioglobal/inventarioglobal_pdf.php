@@ -47,7 +47,7 @@ class PDF extends FPDF
         // Arial bold 15
         $this->SetFont('Arial', '', 11);
         // Movernos a la derecha
-        $this->Cell(140);
+        $this->Cell(100);
         // Título
         $this->Cell(40, 10, 'REPORTE DE INVENTARIO GLOBAL DEL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechai'])) . ' AL ' . date(FORMAT_DATE, strtotime($GLOBALS['fechaf'])), 0, 0, 'C');
         // Salto de línea
@@ -55,14 +55,16 @@ class PDF extends FPDF
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200,220,255);
         // titulo de columnas
-        $this->Cell(addWidthInArray(24), 6, utf8_decode(Strings::titleFromJson('codigo_prod')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(68), 6, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(47), 6, utf8_decode(Strings::titleFromJson('cantidad_bultos_despachar')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(52), 6, utf8_decode(Strings::titleFromJson('cantidad_paquetes_despachar')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(38), 6, utf8_decode(Strings::titleFromJson('cantidad_bultos_sistema')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(42), 6, utf8_decode(Strings::titleFromJson('cantidad_paquetes_sistema')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(32), 6, utf8_decode(Strings::titleFromJson('total_inv_bultos')), 1, 0, 'C', true);
-        $this->Cell(addWidthInArray(35), 6, utf8_decode(Strings::titleFromJson('total_inv_paquetes')), 1, 1, 'C', true);
+        $this->Cell(addWidthInArray(18), 6, utf8_decode(('Codigo')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(50), 6, utf8_decode(('Descripcion')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(22), 6, utf8_decode(('P. x Despachar')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(22), 6, utf8_decode(('U. x Despachar')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18), 6, utf8_decode(('P. Sistema')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(18), 6, utf8_decode(('U. Sistema')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(12), 6, utf8_decode(('Total P.')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(12), 6, utf8_decode(('Total U.')), 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(13), 6, 'P. Fisico', 1, 0, 'C', true);
+        $this->Cell(addWidthInArray(13), 6, 'U. Fisico', 1, 1, 'C', true);
     }
 
     function CheckPageBreak($h)
@@ -75,7 +77,7 @@ class PDF extends FPDF
 
 $pdf = new PDF();
 $pdf->AliasNbPages();
-$pdf->AddPage('L', $documentsize);
+$pdf->AddPage('P', $documentsize);
 $pdf->SetFont('Arial', '', 8);
 
 $pdf->SetWidths($width);
@@ -86,7 +88,10 @@ if(count($devolucionesDeFactura) > 0) {
         $coditem[] = $devol['coditem'];
         $cantidad[] = $devol['cantidad'];
         $tipo[] = $devol['esunid'];
-        $t += 1;
+        if($devol['CodVend']!='01'){
+            $t += 1;
+        }
+        
     }
 }
 
@@ -152,7 +157,9 @@ foreach ($relacion_inventarioglobal as $i) {
             Strings::rdecimal($invbut,0),
             Strings::rdecimal($invpaq,0),
             Strings::rdecimal($tinvbult,0),
-            Strings::rdecimal($tinvpaq,0)
+            Strings::rdecimal($tinvpaq,0),
+            utf8_decode(''),
+            utf8_decode('')
         )
     );
 
@@ -173,7 +180,9 @@ $pdf->Row(
         Strings::rdecimal($tbultsaint,0),
         Strings::rdecimal($tpaqsaint,0),
         Strings::rdecimal($tbultoinv,0),
-        Strings::rdecimal($tpaqinv,0)
+        Strings::rdecimal($tpaqinv,0),
+        utf8_decode(''),
+        utf8_decode('')
     )
 );
 $pdf->Ln(10);

@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -66,12 +66,24 @@ else { ?>
                                     <!-- la lista de tipo se carga por ajax -->
                                 </select>
                             </div>
+                <?php if ($_SESSION['rol'] != '5') { ?>
                             <div class="form-group col-sm-3">
                                 <label for="marca"><?=Strings::titleFromJson('marca_prod')?></label>
                                 <select class="form-control custom-select" name="marca" id="marca" style="width: 100%;" required>
                                     <!-- la lista de tipo se carga por ajax -->
                                 </select>
                             </div>
+                <?php }else{ ?>
+
+                    <div class="form-group col-sm-3">
+                                <label for="marcad"><?=Strings::titleFromJson('marca_prod')?></label>
+                                <select class="form-control custom-select" name="marcad" id="marcad" style="width: 100%;" required>
+                                    <option name="" value="">Seleccione</option>
+									<option name="" value="PARMALAT">PARMALAT</option>
+                                </select>
+                    </div>
+                
+                <?php } ?>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-3">

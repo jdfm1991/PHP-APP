@@ -1,3 +1,84 @@
+<?php
+/*
+
+require (PATH_VENDOR.'autoload.php');
+use Goutte\Client;
+
+function is_connected()
+{
+    $connected = @fsockopen("es.stackoverflow.com", 80); 
+    if ($connected){
+        $is_conn = true; //Conectado
+        fclose($connected);
+    }else{
+        $is_conn = false; //No conectado
+    }
+    
+    return $is_conn;
+
+}
+
+
+$conectado = is_connected();
+
+if ($conectado) {
+
+?>
+<div class="whatsapp_chat_support wcs_fixed_right" id="button-w">
+    <div class="wcs_button_label">
+       <strong>Tasa del Dia</strong>
+    </div>  
+    <div class="wcs_button wcs_button_circle">
+        <span class="fa fa fa-usd"></span>
+    </div>  
+ 
+    <div class="wcs_popup">
+        <div class="wcs_popup_close">
+            <span class="fa fa-close"></span>
+        </div>
+        <div class="wcs_popup_header">
+            <span class="fa fa-usd"></span>
+            <?php
+            
+            $client = new Client();
+
+            $url = "https://www.bcv.org.ve/";
+            $crawler = $client->request('GET', $url);
+
+            $dato = $crawler->filter("#dolar")->text();
+            $tcr = $crawler->filter("#tcr")->text();
+            $date = $crawler->filter(".dinpro")->text();
+
+            $data = explode(" ", $dato);
+
+            $valor = $data[1];
+
+            $dolar = str_replace(",", ".", $valor);
+
+            $tasa = number_format($dolar, 4, '.', '');
+
+            ?>
+            <strong><?php echo $tcr; ?></strong>
+            
+            <div class="wcs_popup_header_description">
+
+            <label for="basic-url" class="form-label"><?php echo $data[0]; ?><span class="input-group-text" id="basic-addon1"><?php echo $tasa; ?></span></label>
+            
+            <span class="input-group-text" id="basic-addon1"><?php echo $date; ?></span>
+            </div>
+
+            <div class="wcs_popup_avatar">
+                <img src="https://i0.wp.com/dhqr.me/wp-content/uploads/2014/06/logo-bcv.jpeg?ssl=1" alt="">
+            </div>
+
+        </div>  
+    </div>
+</div>
+
+<?php } */?>
+
+
+
 <!-- Main Footer -->
 <footer class="main-footer">
 	<strong>Copyright &copy; 2019-2020 <a href="http://www.intecca.com.ve">Innovación Tecnológica INTEC C.A</a>.</strong>
@@ -45,6 +126,15 @@
 <script src="<?php echo URL_HELPERS_JS; ?>SweetAlerts.js" type="text/javascript"></script>
 <script src="<?php echo URL_HELPERS_JS; ?>Permissions.js" type="text/javascript"></script>
 <script src="<?php echo URL_HELPERS_JS; ?>SendNotifications.js" type="text/javascript"></script>
+<!-- Plugin JS file -->
+<script src="<?php echo URL_LIBRARY; ?>plugin/components/moment/moment.min.js"></script>
+<script src="<?php echo URL_LIBRARY; ?>plugin/components/moment/moment-timezone-with-data.min.js"></script> <!-- spanish language (es) -->
+<script src="<?php echo URL_LIBRARY; ?>plugin/whatsapp-chat-support.js"></script><!--
+<script>
+   $('#button-w').whatsappChatSupport({
+        defaultMsg : '',
+    });
+</script>-->
 <script>
     const url = '<?php echo URL_APP; ?>';
 
@@ -86,7 +176,7 @@
         "sInfo": "Mostrando un total de _TOTAL_ registros",
         "sInfoEmpty": "Mostrando un total de 0 registros",
         "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
+        //"sInfoPostFix": "       Monto total de _TOTAL_ $",
         "sSearch": "Buscar:",
         "sUrl": "",
         "sInfoThousands": ",",

@@ -157,7 +157,7 @@ $l = 18;
 $detalle = NotasDeEntrega::getDetailById2($numerod);
 foreach ($detalle as $i) {
 
-    ($i['esunidad'] == '1') ? $esunidad = "PAQ" : $esunidad = "BUL";
+    ($i['esunidad'] == '1') ? $esunidad = "UNI" : $esunidad = "PAQ";
 
     if ($descuentoitem > 0) {
         $spreadsheet->getActiveSheet()

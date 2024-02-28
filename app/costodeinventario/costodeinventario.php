@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -84,14 +84,20 @@ if (!isset($_SESSION['cedula'])) {
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('codigo_prod')?>"><?=Strings::titleFromJson('codigo_prod')?></th>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costo_bultos')?>"><?=Strings::titleFromJson('costo_bultos')?></th>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('costo_paquete')?>"><?=Strings::titleFromJson('costo_paquete')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costo_unidad')?>"><?=Strings::titleFromJson('costo_unidad')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costo_paqueted')?>"><?=Strings::titleFromJson('costo_paqueted')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costo_unidadd')?>"><?=Strings::titleFromJson('costo_unidadd')?></th>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('precio')?>"><?=Strings::titleFromJson('precio')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('bultos')?>"><?=Strings::titleFromJson('bultos')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('paquetes')?>"><?=Strings::titleFromJson('paquetes')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('totalcosto_bultos')?>"><?=Strings::titleFromJson('totalcosto_bultos')?></th>
-                                <th class="text-center" title="<?=Strings::DescriptionFromJson('totalcosto_paquetes')?>"><?=Strings::titleFromJson('totalcosto_paquetes')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('paquete')?>"><?=Strings::titleFromJson('paquete')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('unidad')?>"><?=Strings::titleFromJson('unidad')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('totalcosto_paquete')?>"><?=Strings::titleFromJson('totalcosto_paquete')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('totalcosto_unidad')?>"><?=Strings::titleFromJson('totalcosto_unidad')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('totalcosto_paqueted')?>"><?=Strings::titleFromJson('totalcosto_paqueted')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('totalcosto_unidadesd')?>"><?=Strings::titleFromJson('totalcosto_unidadesd')?></th>
                                 <th class="text-center" title="<?=Strings::DescriptionFromJson('peso')?>"><?=Strings::titleFromJson('tara')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costototalbs')?>"><?=Strings::titleFromJson('costototalbs')?></th>
+                                <th class="text-center" title="<?=Strings::DescriptionFromJson('costototal')?>"><?=Strings::titleFromJson('costototal')?></th>
                             </tr>
                             </thead>
                             <tbody>

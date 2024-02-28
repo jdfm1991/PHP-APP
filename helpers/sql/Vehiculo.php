@@ -8,7 +8,7 @@ class Vehiculo extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql = "SELECT *  FROM [AJ].[dbo].appvehiculo ";
+        $sql = "SELECT *  FROM appvehiculo";
 
         $result = (new Conectar)->conexion2()->prepare($sql);
         $result->execute();
@@ -20,10 +20,10 @@ class Vehiculo extends Conectar
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql="SELECT id_vehiculo, placa, modelo, capacidad, volumen 
-                FROM [AJ].[dbo].appvehiculo WHERE deleted_at IS NULL AND id_vehiculo=?";
+        $sql="SELECT id_vehiculos, placa, modelo, capacidad, volumen 
+                FROM appvehiculo WHERE  placa=?";
 
-        $result = (new Conectar)->conexion()->prepare($sql);
+        $result = (new Conectar)->conexion2()->prepare($sql);
         $result->bindValue(1,$key);
         $result->execute();
         return $result->fetchAll(PDO::FETCH_ASSOC);

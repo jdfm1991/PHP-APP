@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -92,7 +92,7 @@ if (!isset($_SESSION['cedula'])) {
 							<thead style="background-color: #17A2B8;color: white;">
 								<tr>
 								
-									<th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?=Strings::titleFromJson('codvend')?></th>
+									<th class="text-center" title="<?=Strings::DescriptionFromJson('codvend')?>"><?="Código EDV"?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('numero_unico')?>"><?=Strings::titleFromJson('numero_unico')?></th>	
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('cod_operacion')?>"><?=Strings::titleFromJson('cod_operacion')?></th>
 									<th class="text-center" title="<?=Strings::DescriptionFromJson('factura')?>"><?=Strings::titleFromJson('factura')?></th>
@@ -106,7 +106,7 @@ if (!isset($_SESSION['cedula'])) {
 							</thead>
 							<tfoot style="background-color: #ccc;color: white;">
 								<tr>
-									<th class="text-center"><?=Strings::titleFromJson('codvend')?></th>
+									<th class="text-center"><?="Código EDV"?></th>
 									<th class="text-center"><?=Strings::titleFromJson('numero_unico')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('cod_operacion')?></th>
 									<th class="text-center"><?=Strings::titleFromJson('factura')?></th>
@@ -129,6 +129,7 @@ if (!isset($_SESSION['cedula'])) {
 						</div>
 						<!-- BOX BOTONES DE REPORTES-->
 						<div align="center">
+							<br<p><span id="total_registros"></span></p><br>
 							<button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
 							<!--<button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>-->
 						</div>

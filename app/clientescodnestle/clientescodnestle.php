@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -69,7 +69,7 @@ if (!isset($_SESSION['cedula'])) {
                                 </div>
                             </div>
 							<div class="col-sm-3">
-								<label class="custom-control-label" for="vendedorlb">Vendedor</label>
+							<label for="vutil" class="col-form-label col-sm-4"><?=Strings::titleFromJson('descrip_vend')?></label>
                                 <select class="form-control custom-select" name="vendedor" id="vendedor" style="width: 100%;" required>
                                     <!-- lista de vendedores se carga por ajax -->
                                 </select>

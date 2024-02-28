@@ -8,7 +8,7 @@ class NotasDeEntrega extends Conectar {
         //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
         //CUANDO ES APPWEB ES CONEXION.
 
-        $sql= "SELECT a.numerod, a.tipofac, a.codclie, a.rif, a.rsocial, a.direccion, b.direc2 AS direccion2, a.telefono, 
+        $sql= "SELECT a.numerod, a.tipofac, a.codclie, a.rif, a.rsocial, a.direccion, b.direc2 AS direccion2, b.Telef as telefono, b.Movil Movil, b.Represent,
                        CONCAT(a.codvend,' ', c.Descrip) AS codvend, a.total, a.fechae, a.notas1, a.descuento, a.subtotal 
                 FROM sanota AS a 
                     INNER JOIN saclie AS b ON a.codclie = b.codclie 

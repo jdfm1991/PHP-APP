@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -102,15 +102,15 @@ require_once("../../config/conexion.php");
                     <th class="small align-middle"><?=Strings::titleFromJson('numero_operacion')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('codclie')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('razon_social')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('codnestle')?></th>
+                    <th class="small align-middle">Tipo de Cliente</th>
                     <th class="small align-middle"><?=Strings::titleFromJson('clasificacion')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('codigo_prod')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('descrip_prod')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('marca_prod')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('cantidad')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('unidad')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('bultos')?></th>
-                    <th class="small align-middle"><?=Strings::titleFromJson('paquetes')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('paquete')?></th>
+                    <th class="small align-middle"><?=Strings::titleFromJson('unidades')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('peso')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('instancia')?></th>
                     <th class="small align-middle"><?=Strings::titleFromJson('monto_dolars')?></th>
@@ -137,9 +137,10 @@ require_once("../../config/conexion.php");
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('descuento_dolars') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('tasa') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('monto_bs') )?></th>
-                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('descuento') )?></th>
+                    <th class="small align-middle">Documento</th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('tipo') )?></th>
                     <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('fecha') )?></th>
+                    <th class="small align-middle"><?=strtoupper( Strings::titleFromJson('mes') )?></th>
                 </tr>
                 </thead>
                 <tbody style="background-color: aliceblue">

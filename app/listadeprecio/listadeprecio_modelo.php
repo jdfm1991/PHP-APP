@@ -13,7 +13,7 @@ class Listadeprecio extends Conectar{
 		parent::set_names();
 
  		//QUERY
-		 if(hash_equals("-", $marca)) { //todas las marcas
+		 if(hash_equals("TODAS", $marca)) { //todas las marcas
 		 	if(hash_equals("-", $depos)) {
 		 		$opc = 1;
 		 		if(hash_equals("0", $exis)) {
@@ -49,19 +49,21 @@ class Listadeprecio extends Conectar{
 
         switch ($opc) {
         	case 1:
-        	$sql = "SELECT saprod.CodProd AS codprod, marca, Descrip AS descrip, Cubicaje AS cubicaje, SUM(saexis.Existen) AS existen, Precio1 AS precio1, Precio2 AS precio2, Precio3 AS precio3, SUM(saexis.ExUnidad) AS exunidad, PrecioU AS preciou1, PrecioU2 AS preciou2, PrecioU3 AS preciou3 
+        	$sql = "SELECT Cantidad_por_Bultos,saprod.CodProd AS codprod, marca, Descrip AS descrip, (Precio1/nullif(CantEmpaq,0))as precio_unitario,CantEmpaq, EsExento AS esexento, Cubicaje AS cubicaje, SUM(saexis.Existen) AS existen, Precio1_B AS preciou1_B, Precio2_B AS preciou2_B, Precio3_B AS preciou3_B , Precio1_P AS precio1_P, Precio2_P AS precio2_P, Precio3_P AS precio3_P, Precio1 AS precio1, Precio2 AS precio2, Precio3 AS precio3, SUM(saexis.ExUnidad) AS exunidad, PrecioU AS preciou1, PrecioU2 AS preciou2, PrecioU3 AS preciou3 
                         FROM saexis 
                             INNER JOIN saprod ON saexis.codprod = saprod.codprod 
                             LEFT JOIN saprod_01 ON saprod.codprod = saprod_01.codprod 
+							LEFT JOIN saprod_02 ON saprod.codprod = saprod_02.codprod 
                     WHERE (saexis.codubic = '01' OR saexis.codubic = '20' OR saexis.codubic = '30') $condicion 
-                    GROUP BY SAPROD.CodProd, Precio1, Precio2, Precio3, PrecioU, PrecioU2, PrecioU3, marca, Descrip 
+                    GROUP BY SAPROD.CodProd,EsExento,Precio1_P, Precio2_P, Precio3_P, Precio1_B, Precio2_B, Precio3_B, Precio1, Precio2, Precio3, PrecioU, PrecioU2, PrecioU3, marca, Descrip ,Cubicaje ,CantEmpaq
                     ORDER BY saprod.$orden";
         	break;
         	case 2:
-        	$sql = "SELECT Saexis.CodProd AS codprod, Saexis.Existen AS existen, EsExento AS esexento, Descrip AS descrip, Marca AS marca, Saexis.ExUnidad AS exunidad, Precio1 AS precio1, Precio2 AS precio2, Precio3 AS precio3, PrecioU2 AS preciou2, PrecioU3 AS preciou3, preciou AS preciou1, Cubicaje AS cubicaje 
+        	$sql = "SELECT Cantidad_por_Bultos,Saexis.CodProd AS codprod, Saexis.Existen AS existen, (Precio1/nullif(CantEmpaq,0))as precio_unitario,CantEmpaq, EsExento AS esexento, Descrip AS descrip, Marca AS marca, Saexis.ExUnidad AS exunidad, Precio1 AS precio1, Precio2 AS precio2, Precio3 AS precio3, PrecioU2 AS preciou2, PrecioU3 AS preciou3, preciou AS preciou1, Cubicaje AS cubicaje , Precio1_B AS preciou1_B, Precio2_B AS preciou2_B, Precio3_B AS preciou3_B , Precio1_P AS precio1_P, Precio2_P AS precio2_P, Precio3_P AS precio3_P
                         FROM saexis 
                             INNER JOIN saprod ON saexis.codprod = saprod.codprod 
                             LEFT JOIN saprod_01 ON saprod.codprod = saprod_01.codprod 
+							LEFT JOIN saprod_02 ON saprod.codprod = saprod_02.codprod 
                     WHERE (saexis.codubic = '$depos') $condicion 
                     ORDER BY saprod.$orden";
         	break;

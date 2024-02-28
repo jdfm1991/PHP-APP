@@ -14,8 +14,11 @@ switch ($_GET["op"]) {
 
     case "listar_librocompras":
 
-        $fechai = Dates::normalize_date($_POST['fechai']).' 00:00:00';
-        $fechaf = Dates::normalize_date($_POST['fechaf']).' 23:59:59';
+        /*$fechai = Dates::normalize_date($_POST['fechai']);
+        $fechaf = Dates::normalize_date($_POST['fechaf']);*/
+
+         $fechai = ($_POST['fechai']);
+        $fechaf = ($_POST['fechaf']);
 
         $datos = $librocompra->getLibroPorFecha($fechai, $fechaf);
 
@@ -35,7 +38,7 @@ switch ($_GET["op"]) {
                 $mtoex += $row['mtoexento'];
                 $totcom += $row['totalcompra'];
                 $mtoiva += $row['monto_iva'];
-                $retiva += $row['retencioniva'];
+                $retiva += 0;
 
                 $sub_array['num']  = $key+1;
                 $sub_array['fechacompra']  = date(FORMAT_DATE, strtotime($row["fechacompra"]));
@@ -45,16 +48,16 @@ switch ($_GET["op"]) {
                 $sub_array['nroretencion'] = Strings::avoidNull($row["nroretencion"]);
                 $sub_array['numerodoc']    = $row["numerodoc"];
                 $sub_array['nroctrol']     = Strings::avoidNull($row["nroctrol"]);
-                $sub_array['tiporeg']      = $row["tiporeg"];
-                $sub_array['docafectado']  = Strings::avoidNull($row["docafectado"]);
+                $sub_array['tiporeg']      = '';
+                $sub_array['docafectado']  = '';
                 $sub_array['totalcompraconiva'] = Strings::rdecimal($row["totalcompraconiva"], 2);
                 $sub_array['mtoexento']    = Strings::rdecimal($row["mtoexento"], 2);
                 $sub_array['totalcompra']  = Strings::rdecimal($row["totalcompra"], 2);
-                $sub_array['alicuota_iva'] = Strings::rdecimal($row["alicuota_iva"], 0);
+                $sub_array['alicuota_iva'] = '';
                 $sub_array['monto_iva']    = Strings::rdecimal($row["monto_iva"], 2);
-                $sub_array['retencioniva'] = Strings::rdecimal($row["retencioniva"], 2);
-                $sub_array['porctreten']   = Strings::rdecimal($row["porctreten"], 0);
-                $sub_array['fecharetencion'] = Strings::avoidNull($row["fecharetencion"]);
+                $sub_array['retencioniva'] = '';
+                $sub_array['porctreten']   = '';
+                $sub_array['fecharetencion'] = '';
 
                 $data[] = $sub_array;
             }

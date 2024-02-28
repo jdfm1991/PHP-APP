@@ -10,7 +10,7 @@ require_once("reportecompras_modelo.php");
 //INSTANCIAMOS EL MODELO
 $reporte = new ReporteCompras();
 
-$fechai = $_GET['fechai'];
+$fechai = $_GET['fechaf'];
 $fechaf = $_GET['fechaf'];
 $marca = $_GET['marca'];
 $n = $_GET['n'];
@@ -40,8 +40,20 @@ $dia = $separa[2];
 $mes = $separa[1];
 $anio = $separa[0];
 
-$fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, $anio));
-$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);
+ if($dia==1){
+    $mes = "0" .($mes -1);
+}
+
+/*$fechaiA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,($mes)-1,1, $anio));
+$fechafA = date(FORMAT_DATE_TO_EVALUATE, mktime(0,0,0,$mes,1, $anio)-1);*/
+
+ $diaA=$dia;
+        if($diaA==31){
+            $diaA=$diaA-1;
+        }
+
+         $fechaiA = $anio.'-'.($mes-1).'-'.$diaA;
+         $fechafA = $fechaf/* $anio.'-'.$mes.'-'.$dia*/;
 
 
 class PDF extends FPDF
@@ -59,7 +71,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(140);
         // Título
-        $this->Cell(40, 10, 'REPORTE DE COMPRAS DE ' . date(FORMAT_DATE, strtotime($_GET['fechai'])) ." AL " . date(FORMAT_DATE, strtotime($_GET['fechaf'])), 0, 0, 'C');
+        $this->Cell(40, 10, 'REPORTE DE COMPRAS DEL' . date(FORMAT_DATE, strtotime($_GET['fechaf'])), 0, 0, 'C');
         // Salto de línea
         $this->Ln(20);
         $this->SetFont('Arial', 'B', 10);
@@ -69,7 +81,7 @@ class PDF extends FPDF
         $this->Cell(6, 18, utf8_decode(Strings::titleFromJson('#')), 1, 0, 'C', true);
         $this->Cell(20, 18, substr(utf8_decode(Strings::titleFromJson('codigo_prod')), 0, 7), 1, 0, 'C', true);
         $this->Cell(30, 18, utf8_decode(Strings::titleFromJson('descrip_prod')), 1, 0, 'C', true);
-        $this->MultiCell2(16, 9, utf8_decode(Strings::titleFromJson('display_por_bulto')), 1, 0, 'C', true);
+        $this->MultiCell2(16, 9, utf8_decode(Strings::titleFromJson('display_por_paquete')), 1, 0, 'C', true);
         $this->Ln(-9);
         $this->Cell($acumulador_espaciado += 72);
         $this->MultiCell2(44, 12, utf8_decode(Strings::titleFromJson('ultimo_precio_compra')), 1, 0, 'C', true);
@@ -88,7 +100,7 @@ class PDF extends FPDF
         $this->MultiCell2(13, 4.5, utf8_decode(Strings::titleFromJson('ventas_total_ult_mes')), 1, 0, 'C', true);
         $this->Ln(-13.5);
         $this->Cell($acumulador_espaciado += 13);
-        $this->MultiCell2(20, 6, utf8_decode(Strings::titleFromJson('existencia_actual_bultos')), 1, 0, 'C', true);
+        $this->MultiCell2(20, 6, utf8_decode(Strings::titleFromJson('existencia_actual_paquete')), 1, 0, 'C', true);
         $this->Ln(-12);
         $this->Cell($acumulador_espaciado += 20);
         $this->MultiCell2(20, 9, utf8_decode(Strings::titleFromJson('dias_inventario')), 1, 0, 'C', true);
@@ -103,12 +115,12 @@ class PDF extends FPDF
         $this->Ln(-6);
         $this->Cell(72);
         $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('display')), 1, 0, 'C', true);
-        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('bulto')), 1, 0, 'C', true);
+        $this->Cell(22, 6, utf8_decode(Strings::titleFromJson('paquete')), 1, 0, 'C', true);
         $this->Cell(13);
         $this->Cell(19, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
-        $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
+        $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('paquete')), 1, 0, 'C', true);
         $this->Cell(19, 6, utf8_decode(Strings::titleFromJson('fecha')), 1, 0, 'C', true);
-        $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('bultos')), 1, 0, 'C', true);
+        $this->Cell(12, 6, utf8_decode(Strings::titleFromJson('paquete')), 1, 0, 'C', true);
         $this->Cell(7.5, 6, '1', 1, 0, 'C', true);
         $this->Cell(7.5, 6, '2', 1, 0, 'C', true);
         $this->Cell(7.5, 6, '3', 1, 0, 'C', true);

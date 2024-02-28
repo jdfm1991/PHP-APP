@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION BASE DE DATOS.
 require_once("../../config/conexion.php");
@@ -25,7 +25,7 @@ switch ($_GET["op"]) {
             {
                 include_once (PATH_HELPERS_PHP . "php/Session.php");
                 Session::create($resultado);
-
+  
                 /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
                 $output = array(
                     'status'  => true,

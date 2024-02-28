@@ -13,42 +13,174 @@ class FacturaSinDes extends Conectar{
         $conectar = parent::conexion2();
         parent::set_names();
 
-        if($verDespachadas) { //ver las facturas despachadas
-            $valores_adicionales = '
-                (SELECT fechad FROM APPWEBAJ.dbo.Despachos INNER JOIN APPWEBAJ.dbo.Despachos_Det ON Despachos.Correlativo = Despachos_Det.ID_Correlativo 
-                    WHERE Despachos_Det.Numerod = sa.numerod) AS fechad,
-                (SELECT Tiempo_Estimado_Despacho FROM savend_02 WHERE savend_02.codvend = sa.codvend) AS testimado,';
-            $condicion_1 = '
-                SA.NumeroD IN (SELECT Numerod FROM APPWEBAJ.dbo.Despachos_Det INNER JOIN APPWEBAJ.dbo.Despachos ON Despachos.Correlativo = Despachos_Det.ID_Correlativo
-                WHERE DATEADD(dd, 0, DATEDIFF(dd, 0, fechad)) BETWEEN ? AND ?)';
-            $condicion_2 = "";
-        } else { //sino, NO ver las facturas despachadas
-            $valores_adicionales = "";
-            $condicion_1 = '
-                SA.NumeroD NOT IN (SELECT Despachos_Det.Numerod FROM APPWEBAJ.dbo.Despachos_Det)
-                AND DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE)) BETWEEN ? AND ?';
-            $condicion_2 = ' AND SA.NumeroD NOT IN (SELECT numerof FROM sanota)';
-        }
-        $codven = (!hash_equals("-", $convend)) ? "AND SA.codvend = ?": "";
-        $clase = (!hash_equals("-", $tipo)) ? "AND VEND.Clase = ?": "";
+        if ($verDespachadas == 0){ /*sin despachar*/
+            if ($convend != "-"){
+                if ($tipo == "-"){ /*busqueda con rango de fecha y numero de vendedor*/
+                   
+                   $sql = "SELECT *,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.codvend = '$convend' and SA.CodVend not in ('01') and
+                        SA.NumeroD not in (SELECT numeros FROM appfacturas_det) and SA.NumeroD not in (SELECT numerof FROM sanota) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) order by SA.NumeroD";
+                
+            }if ($tipo == "0"){ /*busqueda con rango de fecha con EDV y detal por despachar*/
+                    
+                    $sql = "SELECT *,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.codvend like '%n%' and SA.CodVend not in ('01') and
+                        SA.NumeroD not in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR))  and SA.NumeroD not in (SELECT numerof FROM sanota) order by SA.NumeroD";
+                }if ($tipo == "1"){/*busqueda con rango de fecha con EDV y mayor por despachar*/
+                   
+                   $sql = "SELECT *,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.codvend not like '%n%' and SA.CodVend not in ('01') and
+                        SA.NumeroD not in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) and SA.NumeroD not in (SELECT numerof FROM sanota) order by SA.NumeroD";
+                }
+            }else{
+                if ($tipo == "-"){/*buscar todos por despachar*/
+                   
+                   $sql = "SELECT *,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.CodVend not in ('01') and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) and SA.NumeroD not in (SELECT numeros FROM appfacturas_det) and SA.NumeroD not in (SELECT numerof FROM sanota) order by SA.NumeroD";
+                
+            }if ($tipo == "0"){ /*busqueda rango de fecha todos los EDV tipo detal*/
+                    
+                    $sql = "SELECT *,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and codvend like '%n%' and SA.TipoFac in ('A','C') and SA.CodVend not in ('01') and
+                        SA.NumeroD not in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) and SA.NumeroD not in (SELECT numerof FROM sanota) order by SA.NumeroD";
+                }if ($tipo == "1"){ /*busqueda rango de fecha todos los EDV tipo mayor*/
+                   
+                   $sql = "SELECT *,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac  in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac  in ('A','C') and EsUnid = '1') as Paq from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and codvend not like '%n%' and SA.TipoFac  in ('A','C') and SA.CodVend not in ('01') and
+                        SA.NumeroD not in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR))  and SA.NumeroD not in (SELECT numerof FROM sanota) order by SA.NumeroD";
+                }
+            }
+        }else{
+            if ($convend != "-"){
+                if ($tipo == "-"){
+                    $sql = "SELECT *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+        
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+        
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.codvend = '$convend' and SA.CodVend not in ('01') and
+                        SA.NumeroD in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) order by SA.NumeroD";
 
-        $sql = "SELECT *, $valores_adicionales
-                (SELECT sum(cantidad) FROM saitemfac WHERE saitemfac.numerod = SA.numerod AND saitemfac.tipofac = 'A' AND EsUnid = '0') AS Bult,
-                (SELECT sum(cantidad) FROM saitemfac WHERE saitemfac.numerod = SA.numerod AND saitemfac.tipofac = 'A' AND EsUnid = '1') AS Paq
-                FROM safact AS SA INNER JOIN SAVEND AS VEND ON VEND.CodVend = SA.CodVend
-                WHERE $condicion_1
-                AND SA.TipoFac = 'A' $codven $clase
-                AND (SA.NumeroR IS NULL OR SA.NumeroR IN (SELECT x.NumeroD FROM SAFACT AS x WHERE cast(x.Monto AS INT)<cast(SA.Monto AS INT) AND X.TipoFac = 'B'
-                AND x.NumeroD=SA.NumeroR)) $condicion_2 ORDER BY SA.NumeroD";
-        $sql = $conectar->prepare($sql);
-        $sql->bindValue($i+=1, $fechai);
-        $sql->bindValue($i+=1, $fechaf);
-        if(!hash_equals("-", $convend)) {
-            $sql->bindValue($i+=1, $convend);
-        }
-        if(!hash_equals("-", $tipo)) {
-            $sql->bindValue($i += 1, $tipo);
-        }
+                }if ($tipo == "0"){
+
+                    $sql = "SELECT *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.codvend like '%n%' and SA.CodVend not in ('01') and
+                        SA.NumeroD in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) order by SA.NumeroD";
+                }if ($tipo == "1"){
+
+                    $sql = "SELECT *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and SA.TipoFac in ('A','C') and SA.codvend not like '%n%' and SA.CodVend not in ('01') and
+                        SA.NumeroD in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) order by SA.NumeroD";
+                }
+            }else{
+                if ($tipo == "-"){
+                   
+                    $sql = "SELECT *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where SA.TipoFac in ('A','C') and SA.CodVend not in ('01') and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) and SA.NumeroD in
+                        (SELECT appfacturas_det.numeros FROM appfacturas_det inner join appfacturas on appfacturas_det.correl = appfacturas.correl where DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
+                        between '$fechai' and '$fechaf') order by SA.NumeroD";
+
+                }if ($tipo == "0"){
+                   
+                    $sql = "SELECT *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where SA.TipoFac in ('A','C') and codvend like '%n%' and SA.CodVend not in ('01') and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) and SA.NumeroD in
+                        (SELECT appfacturas_det.numeros FROM appfacturas_det inner join appfacturas on appfacturas_det.correl = appfacturas.correl where DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
+                        between '$fechai' and '$fechaf') order by SA.NumeroD";
+
+                }if ($tipo == "1"){
+                    
+                    $sql = "SELECT *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where DATEADD(dd, 0, DATEDIFF(dd, 0, SA.FechaE))
+                        between '$fechai' and '$fechaf' and codvend not like '%n%' and SA.TipoFac in ('A','C') and SA.CodVend not in ('01') and
+                        SA.NumeroD in (SELECT numeros FROM appfacturas_det) and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) order by SA.NumeroD";
+                    
+                      
+                       /* $sql = mssql_query("select *,
+                        (select fechad from appfacturas inner join appfacturas_det on appfacturas.correl = appfacturas_det.correl where
+                        appfacturas_det.numeros = sa.numerod) as fechad,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '0') as Bult,
+                        (select sum(cantidad) from saitemfac where saitemfac.numerod = SA.numerod and saitemfac.tipofac in ('A','C') and EsUnid = '1') as Paq,
+                        (select Tiempo_Estimado_Despacho from savend_02 where savend_02.codvend = sa.codvend) as testimado
+                        from safact AS SA where SA.TipoFac in ('A','C') and codvend not like '%n%' and
+                        (SA.NumeroR is null or SA.NumeroR in (select x.NumeroD from SAFACT as x where cast(x.Monto as int)<cast(SA.Monto as int) and X.TipoFac  in ('d','b')
+                        and x.NumeroD=SA.NumeroR)) and SA.NumeroD in
+                        (SELECT appfacturas_det.numeros FROM appfacturas_det inner join appfacturas on appfacturas_det.correl = appfacturas.correl where DATEADD(dd, 0, DATEDIFF(dd, 0, fechad))
+                        between '$fechai' and '$fechaf') order by SA.NumeroD");*/
+                }
+            }
+        } 
+       
+       $sql = $conectar->prepare($sql); 
         $sql->execute();
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -81,5 +213,13 @@ class FacturaSinDes extends Conectar{
         $sql->bindValue(2, $tipofac);
         $sql->execute();
         return $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    function dias_transcurridos($fecha_i,$fecha_f)
+    {
+        $dias	= (strtotime($fecha_i)-strtotime($fecha_f))/86400;
+        $dias 	= abs($dias); $dias = floor($dias);		
+        return $dias;
     }
 }

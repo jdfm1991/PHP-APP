@@ -30,7 +30,7 @@ switch ($_GET["op"]) {
         //DECLARAMOS UN ARRAY PARA EL RESULTADO DEL MODELO.
         $arr_data = Array();
 
-        $paqt = $bult = $kilo = $total = 0;
+        $total_descuento = $total_descuentobs = $paqt = $bult = $kilo = $total = 0;
 
         if (is_array($datos)==true and count($datos)>0)
         {
@@ -41,9 +41,15 @@ switch ($_GET["op"]) {
 
                 $montod = $montobs = $descuento = 0;
 
-                $multiplicador = in_array($row['tipo'], array('A','C'))
+              /*  $multiplicador = in_array($row['tipo'], array('A','C'))
                     ? 1
-                    : -1;
+                    : -1;*/
+
+                    if($row['tipo']=='B' or $row['tipo']=='D'){
+                            $multiplicador = -1;
+                        }else{
+                            $multiplicador = 1;
+                        }
 
                 switch ($_POST['tipo']) {
                     case 'f':
@@ -68,6 +74,14 @@ switch ($_GET["op"]) {
                         break;
                 }
 
+                $unid = '';
+
+                if($row['unid']=='BULT'){
+                    $unid = 'PAQ';
+                }else{
+                    $unid = 'UNI';
+                }
+
                 $sub_array['num']  = $key+1;
                 $sub_array['codvend']       = $row["codvend"];
                 $sub_array['vendedor']      = $row["vendedor"];
@@ -82,9 +96,9 @@ switch ($_GET["op"]) {
                 $sub_array['descripcion']   = utf8_encode($row["descripcion"]);
                 $sub_array['marca']         = $row["marca"];
                 $sub_array['cantidad']      = $row["cantidad"] * $multiplicador;
-                $sub_array['unid']          = $row["unid"];
+                $sub_array['unid']          = $unid;
                 $sub_array['paq']           = Strings::rdecimal($row["paq"] * $multiplicador, 1);
-                $sub_array['bul']           = Strings::rdecimal($row["bul"] * $multiplicador, 1);
+                $sub_array['bul']           = number_format($row["bul"] * $multiplicador, 2);
                 $sub_array['kg']            = Strings::rdecimal($row["kg"] * $multiplicador, 1);
                 $sub_array['instancia']     = $row["instancia"];
                 $sub_array['montod']        =  Strings::rdecimal($montod  * $multiplicador, 2);
@@ -97,15 +111,15 @@ switch ($_GET["op"]) {
                 $paqt  += $row["paq"] * $multiplicador;
                 $bult  += $row["bul"] * $multiplicador;
                 $kilo  += $row["kg"]  * $multiplicador;
-                $total += $montod * $multiplicador;
+                $total += ($montod * $multiplicador);
 
                 $arr_data[] = $sub_array;
             }
         }
 
-        $total = (hash_equals('n', $_POST['tipo']))
+        /*$total = (hash_equals('n', $_POST['tipo']))
             ? Numbers::avoidNull($tabladinamica->getTotalNotaDeEntrega($data,'C')[0]['montod']) - Numbers::avoidNull($tabladinamica->getTotalNotaDeEntrega($data, 'D')[0]['montod'])
-            : $total;
+            : $total;*/
 
         $totales_tabladinamica = array(
             "paqt"  => Strings::rdecimal($paqt, 2),
@@ -161,15 +175,104 @@ switch ($_GET["op"]) {
                 $sub_array['tipofac']          = $row["tipofac"];
                 $sub_array['fechae']           = date(FORMAT_DATE, strtotime($row["fechae"]));
 
+                $total_descuento += $descuentototal;
+                $total_descuentobs += $descuentototalbs;
+
+                 $i = explode("/", date(FORMAT_DATE, strtotime($row["fechae"])));
+
+
+                        if($i[1]==1){
+
+                                    $string='ENERO';
+
+                                }else{
+
+                                        if($i[1]==2){
+                                            $string='FEBRERO';
+                                        }else{
+
+                                            if($i[1]==3){
+                                                $string='MARZO';      
+                                            }else{
+
+                                                if($i[1]==4){
+                                                    $string='ABRIL';
+                                                }else{
+
+                                                    if($i[1]==5){
+                                                        $string='MAYO';
+                                                    }else{
+
+                                                        if($i[1]==6){
+                                                            $string='JUNIO';
+                                                        }else{
+
+                                                            if($i[1]==7){
+                                                                $string='JULIO';
+                                                            }else{
+
+                                                                if($i[1]==8){
+                                                                    $string='AGOSTO';
+                                                                }else{
+
+                                                                    if($i[1]==9){
+                                                                        $string='SEPTIEMBRE';
+                                                                    }else{
+
+                                                                        if($i[1]==10){
+                                                                            $string='OCTUBRE';
+                                                                        }else{
+
+                                                                            if($i[1]==11){
+                                                                                $string='NOVIEMBRE';
+                                                                            }else{
+
+                                                                                if($i[1]==12){
+                                                                                    $string='DICIEMBRE';
+                                                                                }else{
+                                                                                        $string='';
+                                                                                }   
+                                                                                    
+                                                                            }
+                                                                            
+                                                                        }
+                                                                        
+                                                                    }
+                                                                    
+                                                                }
+                                                                
+                                                            }
+                                                            
+                                                        }
+                                                            
+                                                    }
+                                                                            
+                                                }
+                                                
+                                            }      
+                                            
+                                        }
+
+                                }
+
+
+
+
+                $sub_array['mes']           = $string;
+
                 $arr_data1[] = $sub_array;
             }
         }
+
+       
 
         //RETORNAMOS EL JSON CON EL RESULTADO DEL MODELO.
         $results = array(
             "tabla"   => $arr_data,
             "totales" => $totales_tabladinamica,
-            "resumen" => $arr_data1
+            "resumen" => $arr_data1,
+            "total_descuento" => Strings::rdecimal($total_descuento, 2),
+            "total_descuentobs" => Strings::rdecimal($total_descuentobs, 2),
         );
 
         echo json_encode($results);

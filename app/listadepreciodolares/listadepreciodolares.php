@@ -1,5 +1,5 @@
 <?php
-session_name('S1sTem@@PpWebGruP0C0nF1SuR');
+session_name('S1sTem@@PpWebGruP0C0nF1SuR_C0NF1M4N14');
 session_start();
 //LLAMAMOS A LA CONEXION.
 require_once("../../config/conexion.php");
@@ -97,6 +97,10 @@ if (!isset($_SESSION['cedula'])) {
                                     <input class="custom-control-input" type="checkbox" id="exis" value="checkbox" name="checkbox" checked="checked">
                                     <label for="exis" class="custom-control-label">Con Existencia</label>
                                 </div>
+                                <div class="custom-control custom-checkbox col-sm-1">
+                                    <input class="custom-control-input" type="checkbox" id="promo" value="checkbox" name="promo" >
+                                    <label for="promo" class="custom-control-label">6 UNIDADES</label>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -119,15 +123,15 @@ if (!isset($_SESSION['cedula'])) {
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('descrip_prod')?>"><?=Strings::titleFromJson('descrip_prod')?></th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('marca_prod')?>"><?=Strings::titleFromJson('marca_prod')?></th>
 
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('bultos')?>"><?=Strings::titleFromJson('bultos')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio1_bulto')?>"><?=Strings::titleFromJson('precio1_bulto')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio2_bulto')?>"><?=Strings::titleFromJson('precio2_bulto')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio3_bulto')?>"><?=Strings::titleFromJson('precio3_bulto')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('paquete')?>"><?=Strings::titleFromJson('paquete')?></th>
+                                    <th class="text-center" title="Precio 1 Paquete $">Precio 1 Paquete $</th>
+                                    <th class="text-center" title="Precio 2 Paquete $">Precio 2 Paquete $</th>
+                                    <th class="text-center" title="Precio 3 Paquete $">Precio 3 Paquete $</th>
 
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('paquetes')?>"><?=Strings::titleFromJson('paquetes')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio1_paquete')?>"><?=Strings::titleFromJson('precio1_paquete')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio2_paquete')?>"><?=Strings::titleFromJson('precio2_paquete')?></th>
-                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('precio3_paquete')?>"><?=Strings::titleFromJson('precio3_paquete')?></th>
+                                    <th class="text-center" title="<?=Strings::DescriptionFromJson('unidad')?>"><?=Strings::titleFromJson('unidad')?></th>
+                                    <th class="text-center" title="Precio 1 Unidad $">Precio 1 Unidad $</th>
+                                    <th class="text-center" title="Precio 2 Unidad $">Precio 2 Unidad $</th>
+                                    <th class="text-center" title="Precio 3 Unidad $">Precio 3 Unidad $</th>
                                     <th class="text-center" title="<?=Strings::DescriptionFromJson('cubicaje')?>"><?=Strings::titleFromJson('cubicaje')?></th>
                                 </tr>
                             </thead>
@@ -140,13 +144,14 @@ if (!isset($_SESSION['cedula'])) {
 
                             <button type="button" class="btn btn-info" id="btn_excel"><?=Strings::titleFromJson('boton_excel2')?></button>
                             <button type="button" class="btn btn-info" id="btn_pdf"><?=Strings::titleFromJson('boton_pdf2')?></button>
+                            <button type="button" class="btn btn-info" id="btn_pdf_etiquetas">Etiquetas de Precios</button>
                         </div>
                     </div>
                 </div>
 
                 </div>
-        <?php require_once("../footer.php"); ?>
-        <script type="text/javascript" src="listadepreciodivisas.js"></script><?php
+                <?php require_once("../footer.php"); ?>
+            <script type="text/javascript" src="listadepreciodivisas.js"></script><?php
     }
     ?>
 </body>

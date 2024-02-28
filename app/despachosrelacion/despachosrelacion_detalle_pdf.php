@@ -26,7 +26,7 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(80);
         // Título
-        $this->Cell(30, 10, Empresa::getName(), 0, 0, 'C');
+        $this->Cell(30, 10, /*Empresa::getName()*/'LA CONFIMANIA.COM, C.A', 0, 0, 'C');
         $this->Ln();
 
     }
@@ -131,22 +131,53 @@ $pdf->SetFont('Arial', '', 8);
     /*******************************************/
     /*              CABECERA                   */
     /*******************************************/
-$cabeceraDespacho = $despachos->getCabeceraDespacho($correlativo);
-$chofer = Choferes::getByDni($cabeceraDespacho[0]['ID_Chofer']);
-$vehiculo = Vehiculo::getById($cabeceraDespacho[0]['ID_Vehiculo']);
+
+    $despa =$_GET['correlativo'];
+    
+  $modelo= $capacidad =$descripcion= $cedula_chofer=  $placa=  $fechad =  $nota = '';
+
+
+        $cabeceraDespacho =  Choferes::getCabeceraDespacho($despa);
+
+         foreach ($cabeceraDespacho as $row_cabe) {
+
+            $cedula_chofer=$row_cabe['cedula_chofer'];
+            $placa=$row_cabe['placa'];
+            $fechad = date('d/m/Y', strtotime($row_cabe["fechad"]));
+            $nota = $row_cabe['nota'];
+
+      
+         }
+
+        $chofer = Choferes::getByDni( $cedula_chofer);
+
+        foreach ($chofer as $row2) {
+            $descripcion = $row2['descripcion'];
+         }
+
+
+
+        $vehiculo = Vehiculo::getById($placa);
+
+        foreach ($vehiculo as $row1) {
+
+            $modelo = $row1['modelo'];
+            $capacidad = $row1['capacidad'];
+      
+         }
+
+
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(90,7,'Nro de Despacho: '.str_pad($correlativo, 8, 0, STR_PAD_LEFT),0,0,'C');
 $pdf->Ln();
 $pdf->SetFont ('Arial','',7);
-$pdf->Cell(90,7,'Fecha Despacho: '.date(FORMAT_DATE, strtotime($cabeceraDespacho[0]['fechad'])),0,0,'L');
-$pdf->Cell(90,7,'Vehiculo de Carga: : '.$vehiculo[0]['placa'].'  '.$vehiculo[0]['modelo'].'  '.$vehiculo[0]['capacidad'].'Kg',0,0,'L');
+$pdf->Cell(90,7,'Fecha Despacho: '.$fechad,0,0,'L');
+$pdf->Cell(90,7,'Vehiculo de Carga: : '.$placa.'  '.$modelo.'  '.$capacidad.'Kg',0,0,'L');
 $pdf->Ln();
 
-$pdf->Cell(150,7,'Destino : '.$cabeceraDespacho[0]['Destino']." - ".$chofer[0]['Nomper'],0,0,'L');
+$pdf->Cell(150,7,'Destino : '.$nota." - ".$descripcion,0,0,'L');
 $pdf->Ln();
-
-
 
     /*****************************************************************/
     /*               TABLA DE FACTURAS DEL DESPACHO                  */
@@ -169,34 +200,68 @@ $pdf->Ln();
 $documentos_en_despacho = Array();
 $documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
 foreach ($documentos AS $item) {
-    switch ($item['tipofac']) {
+    switch ($item['TipoFac']) {
         case 'A':
-            $factura = ArraysHelpers::validateWithPos($despachos->getFactura($item['numerod']), 0);
-            $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity(
-                $despachos->getCubicajeYPesoTotalporFactura($item['numerod'])
-            );
+            $peso_cubicaje_nota = $peso_cubicaje =0;
+            $factura =$despachos->getFactura($item['numeros']);
+
+            foreach ($factura as $fact) {
+
+             $numerod = $fact['numerod'];
+             $fechae = $fact['fechae'];
+             $codvend = $fact['codvend'];
+             $codclie = $fact['codclie'];
+             $descrip = $fact['descrip'];
+      
+            }
+
+             $peso = $despachos->getCubicajeYPesoTotalporFactura($item['numeros']);
+             foreach ($peso as $p) {
+
+             $peso_cubicaje += $p['tara'];
+      
+            }
+            
             $documentos_en_despacho[] = array(
                 "Tipofac" => 'FAC',
-                "NumeroD" => $factura['numerod'],
-                "FechaE"  => $factura['fechae'],
-                "CodVend" => $factura['codvend'],
-                "CodClie" => $factura['codclie'],
-                "Descrip" => $factura['descrip'],
-                "Peso"    => $peso_cubicaje['tara'] );
+                "NumeroD" => $numerod,
+                "FechaE"  => $fechae,
+                "CodVend" => $codvend,
+                "CodClie" => $codclie,
+                "Descrip" => $descrip,
+                "Peso"    => $peso_cubicaje);
             break;
         case 'C':
-            $notadeentrega = ArraysHelpers::validateWithPos($despachos->getNotaDeEntrega($item['numerod']), 0);
-            $peso_cubicaje = DespachosHelpers::getWeightAndCubicCapacity(
-                $despachos->getCubicajeYPesoTotalporNotaDeEntrega($item['numerod'])
-            );
+            $peso_cubicaje_nota = $peso_cubicaje =0;
+            $notadeentrega = $despachos->getNotaDeEntrega($item['numeros']);
+
+
+            foreach ($notadeentrega as $notas) {
+
+             $numerod = $notas['numerod'];
+             $fechae = $notas['fechae'];
+             $codvend = $notas['codvend'];
+             $codclie = $notas['codclie'];
+             $descrip = $notas['descrip'];
+      
+            }
+
+
+            $peso_nota = $despachos->getCubicajeYPesoTotalporNotaDeEntrega($item['numeros']);
+             foreach ($peso_nota as $pnota) {
+
+             $peso_cubicaje_nota += $pnota['tara'];
+      
+            }
+
             $documentos_en_despacho[] = array(
                 "Tipofac" => 'N/E',
-                "NumeroD" => $notadeentrega['numerod'],
-                "FechaE"  => $notadeentrega['fechae'],
-                "CodVend" => $notadeentrega['codvend'],
-                "CodClie" => $notadeentrega['codclie'],
-                "Descrip" => $notadeentrega['descrip'],
-                "Peso"    => $peso_cubicaje['tara'] );
+                "NumeroD" => $numerod,
+                "FechaE"  => $fechae,
+                "CodVend" => $codvend,
+                "CodClie" => $codclie,
+                "Descrip" => $descrip,
+                "Peso"    => $peso_cubicaje_nota);
             break;
     }
 }
@@ -230,8 +295,8 @@ $lote = "";
 $documentos = $despachos->getDocumentosPorCorrelativo($correlativo);
 $num = count($documentos);
 foreach ($documentos AS $item) {
-    $tipodoc = ($item['tipofac']=='A') ? "FAC" : "N/E";
-    $lote .= " ".$item['numerod']." ($tipodoc),";
+    $tipodoc = ($item['TipoFac']=='A') ? "FAC" : "N/E";
+    $lote .= " ".$item['numeros']." ($tipodoc),";
 }
 //le quitamos 1 caracter para quitarle la ultima coma
 $lote = substr($lote, 0, -1);
@@ -250,8 +315,8 @@ $pdf->SetFillColor(200,220,255);
 $pdf->SetFont ('Arial','B',8);
 $pdf->Cell(25,7, utf8_decode(Strings::titleFromJson('codigo_prod')),1,0,'C',true);
 $pdf->Cell(70,7, utf8_decode(Strings::titleFromJson('descrip_prod')),1,0,'C',true);
-$pdf->Cell(30,7, utf8_decode(Strings::titleFromJson('cantidad_bultos')),1,0,'C',true);
-$pdf->Cell(32,7, utf8_decode(Strings::titleFromJson('cantidad_paquetes')),1,0,'C',true);
+$pdf->Cell(30,7, utf8_decode(Strings::titleFromJson('cantidad_paquete')),1,0,'C',true);
+$pdf->Cell(32,7, utf8_decode(Strings::titleFromJson('cantidad_unidades')),1,0,'C',true);
 $pdf->Cell(28,7, utf8_decode(Strings::titleFromJson('peso')),1,1,'C',true);
 $pdf->SetFont ('Arial','',8);
 
@@ -421,8 +486,8 @@ if (count($devoluciones) != 0){
     $pdf->SetFont ('Arial','B',8);
     $pdf->Cell(95,7,'Total Devuelto = ',1,0,'C');
     $pdf->SetTextColor(255,255,255);
-    $pdf->Cell(30,7,$total_bultos.' Bult',1,0,'C',true);
-    $pdf->Cell(30,7,$total_paq.' Paq',1,0,'C',true);
+    $pdf->Cell(30,7,$total_bultos.' Paquetes',1,0,'C',true);
+    $pdf->Cell(30,7,$total_paq.' Unidades',1,0,'C',true);
     $pdf->Cell(30,7,Strings::rdecimal($total_peso, 2).'Kg'.' - '.Strings::rdecimal($total_peso/1000, 2).'TN',1,0,'C',true);
     $pdf->Ln();
     $pdf->SetTextColor(0,0,0);
